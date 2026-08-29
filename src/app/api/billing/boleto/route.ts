@@ -1,9 +1,16 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+export const dynamic = 'force-dynamic';
+
+function getSupabaseClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+  const supabaseServiceKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    'placeholder-key';
+  return createClient(supabaseUrl, supabaseServiceKey);
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -28,6 +35,8 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+
+    const supabase = getSupabaseClient();
 
     // 1. Obter credenciais do Asaas do tenant
     const { data: tenant, error: tErr } = await supabase

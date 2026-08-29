@@ -1,9 +1,16 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+export const dynamic = 'force-dynamic';
+
+function getSupabaseClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+  const supabaseServiceKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    'placeholder-key';
+  return createClient(supabaseUrl, supabaseServiceKey);
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -26,6 +33,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const supabase = getSupabaseClient();
+
     const { data, error } = await supabase
       .from('dispatch_audit_logs')
       .insert([
@@ -45,7 +54,6 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (error) {
-      // Se a tabela ainda não existir no schema, não quebramos a execução do plantão
       console.warn('Aviso ao registrar log de auditoria:', error.message);
       return NextResponse.json({ success: false, warning: error.message }, { status: 200 });
     }
@@ -65,6 +73,8 @@ export async function GET(req: NextRequest) {
     if (!dispatchId && !tenantId) {
       return NextResponse.json({ error: 'Informe dispatch_id ou tenant_id' }, { status: 400 });
     }
+
+    const supabase = getSupabaseClient();
 
     let query = supabase
       .from('dispatch_audit_logs')
