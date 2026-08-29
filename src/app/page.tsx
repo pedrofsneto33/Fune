@@ -788,7 +788,7 @@ export default function Dashboard() {
         `ÃƒÂ°Ã…Â¸ââ‚¬Å“ÂÂ *Local do Óbito:* ${deathLocation}\n` +
         `ÃƒÂ°Ã…Â¸ÂÂÂÂ  *Endereço/Retirada:* ${address || 'A confirmar'}\n` +
         `ÃƒÂ¢Ã…Â¡ÂÂ°ÃƒÂ¯ÂÂ¸ÂÂ *Urna Requisitada:* ${urnModel}\n` +
-        `ÃƒÂ°Ã…Â¸Ã…Â¡ââ‚¬â€ *VeÃƒÆ’ÂÂ­culo Escalado:* ${vehicleDesc}\n` +
+        `ÃƒÂ°Ã…Â¸Ã…Â¡ââ‚¬â€ *Veículo Escalado:* ${vehicleDesc}\n` +
         `ÃƒÂ°Ã…Â¸ââ‚¬Å“Ã…Â¾ *Contato Familiar:* ${familyContactName} (${familyContactPhone})\n` +
         `---------------------------------\n` +
         `*Status:* ACIONAMENTO IMEDIATO`;
@@ -974,7 +974,7 @@ export default function Dashboard() {
           </nav>
         </div>
 
-        {/* Ferramentas do RodapÃƒÆ’ÂÂ© da Sidebar */}
+        {/* Ferramentas do Rodapé da Sidebar */}
         <div className="pt-4 border-t border-zinc-800/60 space-y-2">
           <button
             onClick={() => setIsPixSimModalOpen(true)}
@@ -997,7 +997,7 @@ export default function Dashboard() {
             className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10 transition cursor-pointer"
           >
             <LogOut className="w-3.5 h-3.5" />
-            Encerrar SessÃƒÆ’ÂÂ£o
+            Encerrar Sessão
           </button>
         </div>
       </aside>
@@ -1144,7 +1144,7 @@ export default function Dashboard() {
                       <th className="px-5 py-3">Vencimento</th>
                       <th className="px-5 py-3">Valor</th>
                       <th className="px-5 py-3">Status</th>
-                      <th className="px-5 py-3 text-right">AÃƒÆ’ÂÂ§ÃƒÆ’ÂÂµes</th>
+                      <th className="px-5 py-3 text-right">AçÃƒÆ’ÂÂµes</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-zinc-800/60">
@@ -1210,14 +1210,14 @@ export default function Dashboard() {
 
                               <button
   onClick={() => handleOpenPixModal(item)}
-  title="Gerar CobranÃƒÆ’ÂÂ§a Pix (QR Code)"
+  title="Gerar Cobrança Pix (QR Code)"
   className="p-1 text-emerald-400 hover:text-emerald-300 rounded hover:bg-zinc-800 transition cursor-pointer"
 >
   <QrCode className="w-4 h-4" />
 </button>
 <button
                                 onClick={() => handleSendWhatsApp(item)}
-                                title="CobranÃƒÆ’ÂÂ§a WhatsApp"
+                                title="Cobrança WhatsApp"
                                 className="p-1 text-zinc-400 hover:text-white rounded hover:bg-zinc-800 transition cursor-pointer"
                               >
                                 <MessageSquare className="w-4 h-4 text-blue-400" />
@@ -1239,7 +1239,7 @@ export default function Dashboard() {
               <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
                 <div>
                   <h2 className="text-base font-bold text-white">PLANTÃO 24h & Atendimentos de Óbitos</h2>
-                  <p className="text-xs text-zinc-400">{filteredDispatches.length} ocorrÃƒÆ’ÂÂªncias encontradas</p>
+                  <p className="text-xs text-zinc-400">{filteredDispatches.length} ocorrências encontradas</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   <button
@@ -1285,13 +1285,13 @@ export default function Dashboard() {
                       onClick={() => setDispatchStatusFilter('em_andamento')}
                       className={`px-2.5 py-1 rounded-md transition text-[11px] ${dispatchStatusFilter === 'em_andamento' ? 'bg-amber-500/20 text-amber-400 font-semibold' : 'text-zinc-400 hover:text-white'}`}
                     >
-                      Em MissÃƒÆ’ÂÂ£o ({activeDispatchesCount})
+                      Em Missão ({activeDispatchesCount})
                     </button>
                     <button
                       onClick={() => setDispatchStatusFilter('concluido')}
                       className={`px-2.5 py-1 rounded-md transition text-[11px] ${dispatchStatusFilter === 'concluido' ? 'bg-emerald-500/20 text-emerald-400 font-semibold' : 'text-zinc-400 hover:text-white'}`}
                     >
-                      ConcluÃƒÆ’ÂÂ­dos ({dispatches.length - activeDispatchesCount})
+                      Concluídos ({dispatches.length - activeDispatchesCount})
                     </button>
                   </div>
                 </div>
@@ -1314,13 +1314,13 @@ export default function Dashboard() {
                               ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                               : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                           }`}>
-                            {d.status === 'em_andamento' ? 'Em MissÃƒÆ’ÂÂ£o' : 'ConcluÃƒÆ’ÂÂ­do'}
+                            {d.status === 'em_andamento' ? 'Em Missão' : 'Concluído'}
                           </span>
                           <span className="text-[10px] text-zinc-500">{new Date(d.created_at).toLocaleString('pt-BR')}</span>
                         </div>
                         <p className="text-sm font-bold text-white">Falecido: {d.deceased_name}</p>
-                        <p className="text-xs text-zinc-400">Titular: {d.holder_name} ({d.plan_name}) ÃƒÂ¢ââ€šÂ¬ÂÂ¢ Urna: {d.urn_model}</p>
-                        <p className="text-xs text-zinc-400">Local: {d.death_location} ÃƒÂ¢ââ€šÂ¬ÂÂ¢ VeÃƒÆ’ÂÂ­culo: {d.vehicle_desc} ÃƒÂ¢ââ€šÂ¬ÂÂ¢ Agente: {d.driver_agent}</p>
+                        <p className="text-xs text-zinc-400">Titular: {d.holder_name} ({d.plan_name}) • Urna: {d.urn_model}</p>
+                        <p className="text-xs text-zinc-400">Local: {d.death_location} • Veículo: {d.vehicle_desc} • Agente: {d.driver_agent}</p>
                       </div>
 
                       <div className="flex items-center gap-2 shrink-0">
@@ -1338,7 +1338,7 @@ export default function Dashboard() {
                             className="flex items-center gap-1 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer"
                           >
                             <CheckCircle className="w-3.5 h-3.5" />
-                            Finalizar MissÃƒÆ’ÂÂ£o
+                            Finalizar Missão
                           </button>
                         )}
                       </div>
@@ -1355,7 +1355,7 @@ export default function Dashboard() {
               <div className="flex justify-between items-center">
                 <div>
                   <h2 className="text-base font-bold text-white">GESTÃO da Frota & Despesas</h2>
-                  <p className="text-xs text-zinc-400">{vehicles.length} veículos cadastrados ÃƒÂ¢ââ€šÂ¬ÂÂ¢ Custo do mÃƒÆ’ÂÂªs: R$ {totalFleetCost.toFixed(2).replace('.', ',')}</p>
+                  <p className="text-xs text-zinc-400">{vehicles.length} veículos cadastrados • Custo do mês: R$ {totalFleetCost.toFixed(2).replace('.', ',')}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
@@ -1363,14 +1363,14 @@ export default function Dashboard() {
                     className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-amber-400 border border-zinc-700 px-3 py-2 rounded-lg text-xs font-semibold transition cursor-pointer"
                   >
                     <Fuel className="w-3.5 h-3.5" />
-                    LanÃƒÆ’ÂÂ§ar Despesa
+                    Lançar Despesa
                   </button>
                   <button
                     onClick={() => setIsNewVehicleModalOpen(true)}
                     className="flex items-center gap-1.5 bg-[#0F62FE] hover:bg-blue-600 text-white px-3.5 py-2 rounded-lg text-xs font-semibold transition cursor-pointer"
                   >
                     <Plus className="w-3.5 h-3.5" />
-                    Novo VeÃƒÆ’ÂÂ­culo
+                    Novo Veículo
                   </button>
                 </div>
               </div>
@@ -1382,7 +1382,7 @@ export default function Dashboard() {
                     <div className="flex justify-between items-start">
                       <div>
                         <h3 className="text-sm font-bold text-white">{v.model}</h3>
-                        <p className="text-xs text-zinc-400 font-mono mt-0.5">{v.plate} ÃƒÂ¢ââ€šÂ¬ÂÂ¢ {v.vehicle_type}</p>
+                        <p className="text-xs text-zinc-400 font-mono mt-0.5">{v.plate} • {v.vehicle_type}</p>
                       </div>
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
                         v.status === 'disponivel'
@@ -1391,12 +1391,12 @@ export default function Dashboard() {
                           ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
                           : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                       }`}>
-                        {v.status === 'disponivel' ? 'Pronto' : v.status === 'em_atendimento' ? 'Em MissÃƒÆ’ÂÂ£o' : 'ManutenÃƒÆ’ÂÂ§ÃƒÆ’ÂÂ£o'}
+                        {v.status === 'disponivel' ? 'Pronto' : v.status === 'em_atendimento' ? 'Em Missão' : 'Manutenção'}
                       </span>
                     </div>
 
                     <div className="pt-2 border-t border-zinc-800/80 flex items-center justify-between text-xs">
-                      <span className="text-zinc-400">OdÃƒÆ’ÂÂ´metro:</span>
+                      <span className="text-zinc-400">Odômetro:</span>
                       <span className="font-mono text-white font-bold">{v.current_km.toLocaleString('pt-BR')} km</span>
                     </div>
 
@@ -1404,7 +1404,7 @@ export default function Dashboard() {
                       onClick={() => handleToggleVehicleStatus(v.id, v.status)}
                       className="w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs py-1.5 rounded-lg font-medium transition cursor-pointer"
                     >
-                      Alternar p/ {v.status === 'disponivel' ? 'ManutenÃƒÆ’ÂÂ§ÃƒÆ’ÂÂ£o' : 'DisponÃƒÆ’ÂÂ­vel'}
+                      Alternar p/ {v.status === 'disponivel' ? 'Manutenção' : 'Disponível'}
                     </button>
                   </div>
                 ))}
@@ -1415,7 +1415,7 @@ export default function Dashboard() {
                 <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">ÃƒÆ’Ã…Â¡ltimas Despesas & Abastecimentos</h3>
                 <div className="space-y-2 max-h-56 overflow-y-auto">
                   {expenses.length === 0 ? (
-                    <p className="text-xs text-zinc-500 py-3">Nenhuma despesa de frota lanÃƒÆ’ÂÂ§ada.</p>
+                    <p className="text-xs text-zinc-500 py-3">Nenhuma despesa de frota lançada.</p>
                   ) : (
                     expenses.map((e) => {
                       const veh = vehicles.find(v => v.id === e.vehicle_id);
@@ -1423,8 +1423,8 @@ export default function Dashboard() {
                         <div key={e.id} className="p-3 bg-zinc-800/40 border border-zinc-800 rounded-lg flex justify-between items-center text-xs">
                           <div>
                             <span className="font-semibold text-white">{e.expense_type}</span>
-                            <span className="text-zinc-400 ml-2">({veh?.model || 'VeÃƒÆ’ÂÂ­culo'} ÃƒÂ¢ââ€šÂ¬ÂÂ¢ {veh?.plate})</span>
-                            <p className="text-[11px] text-zinc-500 mt-0.5">{e.establishment || 'Local nÃƒÆ’ÂÂ£o informado'} ÃƒÂ¢ââ€šÂ¬ÂÂ¢ {e.expense_date}</p>
+                            <span className="text-zinc-400 ml-2">({veh?.model || 'Veículo'} • {veh?.plate})</span>
+                            <p className="text-[11px] text-zinc-500 mt-0.5">{e.establishment || 'Local não informado'} • {e.expense_date}</p>
                           </div>
                           <span className="font-bold text-amber-400 text-sm">
                             R$ {Number(e.amount).toFixed(2).replace('.', ',')}
@@ -1443,7 +1443,7 @@ export default function Dashboard() {
             <div className="space-y-4">
               <div>
                 <h2 className="text-base font-bold text-white">Controle de Estoque de Urnas & Insumos</h2>
-                <p className="text-xs text-zinc-400">Monitoramento de saldo crÃƒÆ’ÂÂ­tico para pronto atendimento</p>
+                <p className="text-xs text-zinc-400">Monitoramento de saldo crítico para pronto atendimento</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1453,7 +1453,7 @@ export default function Dashboard() {
                     <div key={item.id} className="p-5 bg-zinc-900/40 border border-zinc-800 rounded-xl flex justify-between items-center">
                       <div>
                         <h3 className="text-sm font-bold text-white">{item.name}</h3>
-                        <p className="text-xs text-zinc-400 mt-0.5">{item.category} ÃƒÂ¢ââ€šÂ¬ÂÂ¢ MÃƒÆ’ÂÂ­nimo exigido: {item.min_quantity} un</p>
+                        <p className="text-xs text-zinc-400 mt-0.5">{item.category} • Mínimo exigido: {item.min_quantity} un</p>
                       </div>
                       <div className="text-right">
                         <span className={`text-base font-bold px-3 py-1 rounded-lg ${
@@ -1463,7 +1463,7 @@ export default function Dashboard() {
                         }`}>
                           {item.quantity} un
                         </span>
-                        <p className="text-[10px] text-zinc-500 mt-1">{isLow ? 'ReposiÃƒÆ’ÂÂ§ÃƒÆ’ÂÂ£o NecessÃƒÆ’ÂÂ¡ria' : 'Estoque Regular'}</p>
+                        <p className="text-[10px] text-zinc-500 mt-1">{isLow ? 'Reposição Necessária' : 'Estoque Regular'}</p>
                       </div>
                     </div>
                   );
@@ -1537,7 +1537,7 @@ export default function Dashboard() {
                   <label className="block text-xs font-medium text-zinc-400 mb-1">Local do Óbito</label>
                   <input 
                     type="text"
-                    placeholder="Hospital / ResidÃƒÆ’ÂÂªncia"
+                    placeholder="Hospital / Residência"
                     value={deathLocation}
                     onChange={(e) => setDeathLocation(e.target.value)}
                     className="w-full bg-zinc-800/80 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-red-500"
@@ -1571,7 +1571,7 @@ export default function Dashboard() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">VeÃƒÆ’ÂÂ­culo Escalado</label>
+                  <label className="block text-xs font-medium text-zinc-400 mb-1">Veículo Escalado</label>
                   <select 
                     value={selectedVehicleId}
                     onChange={(e) => setSelectedVehicleId(e.target.value)}
@@ -1738,7 +1738,7 @@ export default function Dashboard() {
           <div className="bg-zinc-900 border border-zinc-800 w-full max-w-lg rounded-2xl p-6 shadow-2xl">
             <div className="flex justify-between items-center pb-4 border-b border-zinc-800">
               <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <Fuel className="w-4 h-4 text-amber-400" /> LanÃƒÆ’ÂÂ§ar Despesa da Frota
+                <Fuel className="w-4 h-4 text-amber-400" /> Lançar Despesa da Frota
               </h3>
               <button onClick={() => setIsExpenseModalOpen(false)} className="text-zinc-400 hover:text-white">
                 <X className="w-5 h-5" />
@@ -1747,7 +1747,7 @@ export default function Dashboard() {
 
             <form onSubmit={handleCreateExpense} className="space-y-4 mt-4">
               <div>
-                <label className="block text-xs font-medium text-zinc-300 mb-1">VeÃƒÆ’ÂÂ­culo</label>
+                <label className="block text-xs font-medium text-zinc-300 mb-1">Veículo</label>
                 <select
                   required
                   value={expVehicleId}
@@ -1771,7 +1771,7 @@ export default function Dashboard() {
                     <option value="Abastecimento (Gasolina)">Abastecimento (Gasolina)</option>
                     <option value="Abastecimento (Diesel)">Abastecimento (Diesel)</option>
                     <option value="Troca de ÃƒÆ’ââ‚¬Å“leo / Filtro">Troca de ÃƒÆ’ââ‚¬Å“leo / Filtro</option>
-                    <option value="Pneus / ManutenÃƒÆ’ÂÂ§ÃƒÆ’ÂÂ£o">Pneus / ManutenÃƒÆ’ÂÂ§ÃƒÆ’ÂÂ£o</option>
+                    <option value="Pneus / Manutenção">Pneus / Manutenção</option>
                     <option value="ReVisão Geral">ReVisão Geral</option>
                   </select>
                 </div>
@@ -1836,7 +1836,7 @@ export default function Dashboard() {
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-zinc-900 border border-zinc-800 w-full max-w-md rounded-2xl p-6 shadow-2xl">
             <div className="flex justify-between items-center pb-4 border-b border-zinc-800">
-              <h3 className="text-base font-bold text-white">Cadastrar Novo VeÃƒÆ’ÂÂ­culo</h3>
+              <h3 className="text-base font-bold text-white">Cadastrar Novo Veículo</h3>
               <button onClick={() => setIsNewVehicleModalOpen(false)} className="text-zinc-400 hover:text-white">
                 <X className="w-5 h-5" />
               </button>
@@ -1848,7 +1848,7 @@ export default function Dashboard() {
                 <input
                   type="text"
                   required
-                  placeholder="Ex: Fiat Fiorino RemoÃƒÆ’ÂÂ§ÃƒÆ’ÂÂ£o"
+                  placeholder="Ex: Fiat Fiorino Remoção"
                   value={newModel}
                   onChange={(e) => setNewModel(e.target.value)}
                   className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00D1FF]"
@@ -1874,7 +1874,7 @@ export default function Dashboard() {
                     onChange={(e) => setNewType(e.target.value)}
                     className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00D1FF]"
                   >
-                    <option value="RemoÃƒÆ’ÂÂ§ÃƒÆ’ÂÂ£o">RemoÃƒÆ’ÂÂ§ÃƒÆ’ÂÂ£o</option>
+                    <option value="Remoção">Remoção</option>
                     <option value="Cortejo Especial">Cortejo Especial</option>
                     <option value="Apoio Familiar">Apoio Familiar</option>
                   </select>
@@ -1904,7 +1904,7 @@ export default function Dashboard() {
                   type="submit"
                   className="bg-[#0F62FE] hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg text-xs transition cursor-pointer"
                 >
-                  Salvar VeÃƒÆ’ÂÂ­culo
+                  Salvar Veículo
                 </button>
               </div>
             </form>
@@ -1936,7 +1936,7 @@ export default function Dashboard() {
                   <div key={dep.id} className="p-2.5 bg-zinc-800/60 border border-zinc-700/60 rounded-lg flex justify-between items-center text-xs">
                     <div>
                       <p className="font-semibold text-white">{dep.full_name}</p>
-                      <span className="text-zinc-400">{dep.kinship} {dep.birth_date ? `ÃƒÂ¢ââ€šÂ¬ÂÂ¢ Nasc: ${dep.birth_date}` : ''}</span>
+                      <span className="text-zinc-400">{dep.kinship} {dep.birth_date ? `• Nasc: ${dep.birth_date}` : ''}</span>
                     </div>
                     <span className="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 text-[10px]">
                       Coberto
@@ -1964,9 +1964,9 @@ export default function Dashboard() {
                   onChange={(e) => setDepKinship(e.target.value)}
                   className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00D1FF]"
                 >
-                  <option value="CÃƒÆ’ÂÂ´njuge">CÃƒÆ’ÂÂ´njuge</option>
+                  <option value="Cônjuge">Cônjuge</option>
                   <option value="Filho(a)">Filho(a)</option>
-                  <option value="Pai/MÃƒÆ’ÂÂ£e">Pai/MÃƒÆ’ÂÂ£e</option>
+                  <option value="Pai/Mãe">Pai/Mãe</option>
                   <option value="Sogro(a)">Sogro(a)</option>
                   <option value="Outro Familiar">Outro Familiar</option>
                 </select>
@@ -1994,7 +1994,7 @@ export default function Dashboard() {
           <div className="bg-zinc-900 border border-emerald-500/40 w-full max-w-lg rounded-2xl p-6 shadow-2xl">
             <div className="flex justify-between items-center pb-4 border-b border-zinc-800">
               <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <Zap className="w-4 h-4 text-emerald-400" /> Simulador Webhook BancÃƒÆ’ÂÂ¡rio (PIX)
+                <Zap className="w-4 h-4 text-emerald-400" /> Simulador Webhook Bancário (PIX)
               </h3>
               <button onClick={() => setIsPixSimModalOpen(false)} className="text-zinc-400 hover:text-white">
                 <X className="w-5 h-5" />
@@ -2003,7 +2003,7 @@ export default function Dashboard() {
 
             <form onSubmit={handleTriggerWebhookSim} className="space-y-4 mt-4">
               <p className="text-xs text-zinc-400 leading-relaxed">
-                Este simulador dispara uma notificaÃƒÆ’ÂÂ§ÃƒÆ’ÂÂ£o HTTP idÃƒÆ’ÂÂªntica ÃƒÆ’ÂÂ  enviada por gateways para o endpoint <code className="text-[#00D1FF] bg-zinc-800 px-1 py-0.5 rounded">/api/webhooks/pix</code>.
+                Este simulador dispara uma notificação HTTP idêntica ÃƒÆ’ÂÂ  enviada por gateways para o endpoint <code className="text-[#00D1FF] bg-zinc-800 px-1 py-0.5 rounded">/api/webhooks/pix</code>.
               </p>
 
               <div>
@@ -2051,7 +2051,7 @@ export default function Dashboard() {
           <div className="bg-zinc-900 border border-emerald-500/40 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4">
             <div className="flex justify-between items-center pb-3 border-b border-zinc-800">
               <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <QrCode className="w-5 h-5 text-emerald-400" /> CobranÃƒÆ’ÂÂ§a Pix Imediata
+                <QrCode className="w-5 h-5 text-emerald-400" /> Cobrança Pix Imediata
               </h3>
               <button onClick={() => setIsPixModalOpen(false)} className="text-zinc-400 hover:text-white">
                 <X className="w-5 h-5" />
@@ -2086,7 +2086,7 @@ export default function Dashboard() {
                       <button 
                         onClick={() => {
                           navigator.clipboard.writeText(pixPayload.copyPaste);
-                          alert('CÃƒÆ’ÂÂ³digo Pix copiado!');
+                          alert('Código Pix copiado!');
                         }}
                         className="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1 rounded text-xs font-bold cursor-pointer"
                       >
@@ -2100,10 +2100,10 @@ export default function Dashboard() {
                   <div className="flex flex-col items-center space-y-2">
   <img 
     src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(`00020126580014BR.GOV.BCB.PIX0136pix@eternitysos.com.br520400005303986540${Number(selectedPixRow.amount || 0).toFixed(2)}5802BR5913ETERNITY SOS6008TERESINA62070503***6304`)}`} 
-    alt="QR Code Pix PadrÃƒÆ’ÂÂ£o" 
+    alt="QR Code Pix Padrão" 
     className="w-48 h-48 rounded-lg bg-white p-2 shadow-md mb-2" 
   />
-  <p className="text-xs text-zinc-400">QR Code dinÃƒÆ’ÂÂ¢mico e chave padrÃƒÆ’ÂÂ£o prontos para leitura.</p>
+  <p className="text-xs text-zinc-400">QR Code dinÃƒÆ’ÂÂ¢mico e chave padrão prontos para leitura.</p>
 </div>
                   <button 
                     onClick={() => {
@@ -2113,7 +2113,7 @@ export default function Dashboard() {
                     }}
                     className="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-xs font-bold cursor-pointer"
                   >
-                    Copiar Linha DigitÃƒÆ’ÂÂ¡vel
+                    Copiar Linha Digitável
                   </button>
                 </div>
               )}
