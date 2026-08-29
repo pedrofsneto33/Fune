@@ -50,12 +50,14 @@ import { ModalNewHolder } from '@/components/modals/ModalNewHolder';
 import { ModalExpense } from '@/components/modals/ModalExpense';
 import { ModalPix } from '@/components/modals/ModalPix';
 import { ModalBoletoBatch } from '@/components/modals/ModalBoletoBatch';
+import { ModalWhatsAppBatchBilling } from '@/components/modals/ModalWhatsAppBatchBilling';
 import { ModalDependent } from '@/components/modals/ModalDependent';
 import { ModalPixSim } from '@/components/modals/ModalPixSim';
 import { TenantSettingsTab } from '@/components/tabs/TenantSettingsTab';
 import { useTenant } from '@/contexts/TenantContext';
 import { AssociatesTab } from '@/components/dashboard/AssociatesTab';
 import { DispatchesTab } from '@/components/dashboard/DispatchesTab';
+import { ConvalescenceTab } from '@/components/dashboard/ConvalescenceTab';
 import { FleetTab } from '@/components/dashboard/FleetTab';
 import { InventoryTab } from '@/components/dashboard/InventoryTab';
 import { TenantSwitcher } from '@/components/dashboard/TenantSwitcher';
@@ -183,6 +185,7 @@ export default function Dashboard() {
   const [isPixSimModalOpen, setIsPixSimModalOpen] = useState(false);
   const [isPixModalOpen, setIsPixModalOpen] = useState(false);
   const [isBoletoModalOpen, setIsBoletoModalOpen] = useState(false);
+  const [isWhatsAppBatchOpen, setIsWhatsAppBatchOpen] = useState(false);
   const [selectedHolderForBoleto, setSelectedHolderForBoleto] = useState<string | null>(null);
   const [selectedPixRow, setSelectedPixRow] = useState<any | null>(null);
   const [pixPayload, setPixPayload] = useState<{ qrCode: string; copyPaste: string; txid: string } | null>(null);
@@ -1712,6 +1715,12 @@ export default function Dashboard() {
         holders={payments}
         initialHolderId={selectedHolderForBoleto}
         onSuccess={() => fetchSupabaseData()}
+      />
+
+            <ModalWhatsAppBatchBilling
+        isOpen={isWhatsAppBatchOpen}
+        onClose={() => setIsWhatsAppBatchOpen(false)}
+        payments={payments}
       />
 
       <ModalPix
