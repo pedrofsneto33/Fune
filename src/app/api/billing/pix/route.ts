@@ -1,121 +1,110 @@
-import { NextRequest, NextResponse } from 'next/server';
-
-function isValidCPF(cpf: string): boolean {
-  if (cpf.length !== 11 || !!cpf.match(/(\d)\1{10}/)) return false;
-  const digits = cpf.split('').map(Number);
-  const calc = (slice: number[]) =>
-    slice.reduce((acc, digit, idx) => acc + digit * (slice.length + 1 - idx), 0);
-  const d1 = (calc(digits.slice(0, 9)) * 10) % 11 % 10;
-  const d2 = (calc(digits.slice(0, 10)) * 10) % 11 % 10;
-  return digits[9] === d1 && digits[10] === d2;
-}
-
-function generateValidCPF(): string {
-  const rnd = (n: number) => Math.round(Math.random() * n);
-  const n = Array.from({ length: 9 }, () => rnd(9));
-  const calc = (arr: number[]) => {
-    const sum = arr.reduce((acc, val, idx) => acc + val * (arr.length + 1 - idx), 0);
-    const rest = sum % 11;
-    return rest < 2 ? 0 : 11 - rest;
-  };
-  const d1 = calc(n);
-  const d2 = calc([...n, d1]);
-  return [...n, d1, d2].join('');
-}
+﻿import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const { contractId, customerName, cpf, amount, description } = await req.json();
+    const body = await req.json();
+    const { contractId, amount, customerName, customerCpf, customerPhone } = body;
 
-    if (!contractId || !amount) {
-      return NextResponse.json({ error: 'Parâmetros inválidos: contractId e amount são obrigatórios.' }, { status: 400 });
+    const apiKey = process.env.ASAAS_API_KEY;
+    const isSandbox = process.env.ASAAS_ENV !== 'production';
+    const baseUrl = isSandbox 
+      ? 'https://sandbox.asaas.com/api/v3' 
+      : 'https://api.asaas.com/v3';
+
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: 'Chave de API do Asaas não configurada no servidor.' },
+        { status: 500 }
+      );
     }
 
-    const asaasKey = process.env.ASAAS_API_KEY || '$aact_hmlg_000MzkwODA2MWY2OGM3MWRlMDU2NWM3MzJlNzZmNGZhZGY6OjI4YTRlM2EwLTljNTAtNDk1NC1hYzQ2LWIxOWM4YzI5Y2ZhMjo6JGFhY2hfYmZjODQ4OTYtNmNhZi00OTQ0LTgxNjMtZDIzMWRkNzI4MGRj';
-    const asaasBaseUrl = 'https://api-sandbox.asaas.com/v3';
-
-    let cleanCpf = (cpf || '').replace(/\D/g, '');
-    if (!cleanCpf || !isValidCPF(cleanCpf)) {
-      cleanCpf = generateValidCPF();
+    const cleanCpf = (customerCpf || '').replace(/\D/g, '');
+    if (!cleanCpf || cleanCpf.length !== 11) {
+      return NextResponse.json(
+        { error: 'CPF inválido ou não informado. O Asaas exige CPF regular para emissão de PIX.' },
+        { status: 400 }
+      );
     }
 
-    const headers = {
-      'Content-Type': 'application/json',
-      'access_token': asaasKey,
-      'User-Agent': 'EternitySOS-App'
-    };
-
-    // 1. Buscar ou Criar Cliente
-    let customerId = '';
-    const searchRes = await fetch(`${asaasBaseUrl}/customers?cpfCnpj=${cleanCpf}`, { headers });
+    // 1. Localizar ou Criar Cliente no Asaas por CPF
+    const searchRes = await fetch(`${baseUrl}/customers?cpfCnpj=${cleanCpf}`, {
+      headers: { 'access_token': apiKey }
+    });
     const searchData = await searchRes.json();
 
-    if (searchData.data && searchData.data.length > 0) {
-      customerId = searchData.data[0].id;
-    } else {
-      const createCustRes = await fetch(`${asaasBaseUrl}/customers`, {
+    let customerId = searchData?.data?.[0]?.id;
+
+    if (!customerId) {
+      const createRes = await fetch(`${baseUrl}/customers`, {
         method: 'POST',
-        headers,
+        headers: {
+          'Content-Type': 'application/json',
+          'access_token': apiKey
+        },
         body: JSON.stringify({
-          name: customerName || 'Associado EternitySOS',
-          cpfCnpj: cleanCpf
+          name: customerName || 'Associado Saad Fune',
+          cpfCnpj: cleanCpf,
+          mobilePhone: customerPhone ? customerPhone.replace(/\D/g, '') : undefined
         })
       });
-      const createData = await createCustRes.json();
-      if (createData.id) {
-        customerId = createData.id;
+      const createData = await createRes.json();
+      
+      if (createData.errors) {
+        return NextResponse.json(
+          { error: 'Erro ao cadastrar cliente no Asaas', details: createData.errors },
+          { status: 400 }
+        );
       }
+      customerId = createData.id;
     }
 
-    // 2. Criar Cobrança Pix no Asaas
-    const dueDate = new Date();
-    dueDate.setDate(dueDate.getDate() + 2);
-    const dueDateStr = dueDate.toISOString().split('T')[0];
-
-    const paymentRes = await fetch(`${asaasBaseUrl}/payments`, {
+    // 2. Criar Cobrança PIX
+    const today = new Date().toISOString().split('T')[0];
+    const paymentRes = await fetch(`${baseUrl}/payments`, {
       method: 'POST',
-      headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': apiKey
+      },
       body: JSON.stringify({
         customer: customerId,
         billingType: 'PIX',
-        value: Number(amount),
-        dueDate: dueDateStr,
-        description: description || `Mensalidade Contrato #${contractId}`,
-        externalReference: String(contractId)
+        value: Number(amount) || 89.90,
+        dueDate: today,
+        description: `Mensalidade Plano Funeral - Contrato ${contractId || 'Geral'}`,
+        externalReference: contractId || undefined
       })
     });
+
     const paymentData = await paymentRes.json();
 
-    // 3. Obter QR Code Oficial
-    let qrBase64 = '';
-    let copyPaste = '';
-
-    if (paymentData.id) {
-      const qrRes = await fetch(`${asaasBaseUrl}/payments/${paymentData.id}/pixQrCode`, { headers });
-      const qrData = await qrRes.json();
-      if (qrData.encodedImage) qrBase64 = `data:image/png;base64,${qrData.encodedImage}`;
-      if (qrData.payload) copyPaste = qrData.payload;
+    if (paymentData.errors) {
+      return NextResponse.json(
+        { error: 'Erro ao gerar cobrança no Asaas', details: paymentData.errors },
+        { status: 400 }
+      );
     }
 
-    // Se a Sandbox do Asaas não retornou a chave Pix imediata, gera payload dinâmico garantido
-    if (!copyPaste) {
-      const cleanAmount = Number(amount).toFixed(2);
-      copyPaste = `00020126580014BR.GOV.BCB.PIX0136pix@eternitysos.com.br520400005303986540${cleanAmount}5802BR5913ETERNITY SOS6008TERESINA62070503***6304`;
-      qrBase64 = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(copyPaste)}`;
-    }
+    // 3. Obter QR Code PIX Real do Gateway
+    const qrRes = await fetch(`${baseUrl}/payments/${paymentData.id}/pixQrCode`, {
+      headers: { 'access_token': apiKey }
+    });
+    const qrData = await qrRes.json();
 
     return NextResponse.json({
       success: true,
-      gateway: 'asaas',
-      txid: paymentData.id || `ETR${Date.now()}`,
-      qrCodeBase64: qrBase64,
-      copyPasteCode: copyPaste,
-      amount: Number(amount),
-      dueDate: dueDateStr,
-      asaasStatus: paymentData.status || 'PENDING'
+      paymentId: paymentData.id,
+      netValue: paymentData.netValue,
+      payload: qrData.payload,
+      encodedImage: qrData.encodedImage,
+      expirationDate: qrData.expirationDate
     });
 
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message || 'Erro interno' }, { status: 500 });
+  } catch (err: any) {
+    console.error('Erro na rota PIX:', err);
+    return NextResponse.json(
+      { error: 'Erro interno ao processar cobrança PIX.', details: err.message },
+      { status: 500 }
+    );
   }
 }

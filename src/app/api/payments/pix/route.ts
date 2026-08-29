@@ -1,84 +1,110 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const { contractId, customerName, cpf, amount, description } = await req.json();
+    const body = await req.json();
+    const { contractId, amount, customerName, customerCpf, customerPhone } = body;
 
-    if (!amount || !customerName) {
-      return NextResponse.json({ error: 'Dados insuficientes para cobrança.' }, { status: 400 });
+    const apiKey = process.env.ASAAS_API_KEY;
+    const isSandbox = process.env.ASAAS_ENV !== 'production';
+    const baseUrl = isSandbox 
+      ? 'https://sandbox.asaas.com/api/v3' 
+      : 'https://api.asaas.com/v3';
+
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: 'Chave de API do Asaas não configurada no servidor.' },
+        { status: 500 }
+      );
     }
 
-    const asaasApiKey = process.env.ASAAS_API_KEY;
-    const asaasEnv = process.env.ASAAS_ENV || 'sandbox'; // sandbox ou production
-    const asaasBaseUrl = asaasEnv === 'production' 
-      ? 'https://api.asaas.com/v3' 
-      : 'https://sandbox.asaas.com/v3';
+    const cleanCpf = (customerCpf || '').replace(/\D/g, '');
+    if (!cleanCpf || cleanCpf.length !== 11) {
+      return NextResponse.json(
+        { error: 'CPF inválido ou não informado. O Asaas exige CPF regular para emissão de PIX.' },
+        { status: 400 }
+      );
+    }
 
-    // Se houver chave Asaas configurada
-    if (asaasApiKey) {
-      // 1. Criar ou obter cliente
-      const customerRes = await fetch(`${asaasBaseUrl}/customers`, {
+    // 1. Localizar ou Criar Cliente no Asaas por CPF
+    const searchRes = await fetch(`${baseUrl}/customers?cpfCnpj=${cleanCpf}`, {
+      headers: { 'access_token': apiKey }
+    });
+    const searchData = await searchRes.json();
+
+    let customerId = searchData?.data?.[0]?.id;
+
+    if (!customerId) {
+      const createRes = await fetch(`${baseUrl}/customers`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'access_token': asaasApiKey
+          'access_token': apiKey
         },
         body: JSON.stringify({
-          name: customerName,
-          cpfCnpj: cpf ? cpf.replace(/\D/g, '') : undefined,
-          externalReference: contractId
+          name: customerName || 'Associado Saad Fune',
+          cpfCnpj: cleanCpf,
+          mobilePhone: customerPhone ? customerPhone.replace(/\D/g, '') : undefined
         })
       });
-      const customerData = await customerRes.json();
-      const customerId = customerData.id;
-
-      // 2. Criar Cobrança Pix
-      const today = new Date().toISOString().split('T')[0];
-      const paymentRes = await fetch(`${asaasBaseUrl}/payments`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'access_token': asaasApiKey
-        },
-        body: JSON.stringify({
-          customer: customerId,
-          billingType: 'PIX',
-          value: parseFloat(amount),
-          dueDate: today,
-          description: description || 'Mensalidade Plano Funeral SAAD FUNE',
-          externalReference: contractId
-        })
-      });
-      const paymentData = await paymentRes.json();
-
-      // 3. Obter QR Code e Payload Pix
-      const qrRes = await fetch(`${asaasBaseUrl}/payments/${paymentData.id}/pixQrCode`, {
-        headers: { 'access_token': asaasApiKey }
-      });
-      const qrData = await qrRes.json();
-
-      return NextResponse.json({
-        success: true,
-        paymentId: paymentData.id,
-        pixCode: qrData.payload,
-        qrCodeBase64: qrData.encodedImage,
-        gateway: 'asaas'
-      });
+      const createData = await createRes.json();
+      
+      if (createData.errors) {
+        return NextResponse.json(
+          { error: 'Erro ao cadastrar cliente no Asaas', details: createData.errors },
+          { status: 400 }
+        );
+      }
+      customerId = createData.id;
     }
 
-    // Modo Standalone / Simulação (sem API Key cadastrada ainda)
-    const simulatedPixPayload = `00020101021226830014br.gov.bcb.pix2561saadfune.com.br/pix/qr/${contractId || 'mock'}${Date.now()}5204000053039865405${parseFloat(amount).toFixed(2)}5802BR5920SAAD FUNE ASSISTENCIA6008TERESINA62070503***6304ABCD`;
+    // 2. Criar Cobrança PIX
+    const today = new Date().toISOString().split('T')[0];
+    const paymentRes = await fetch(`${baseUrl}/payments`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': apiKey
+      },
+      body: JSON.stringify({
+        customer: customerId,
+        billingType: 'PIX',
+        value: Number(amount) || 89.90,
+        dueDate: today,
+        description: `Mensalidade Plano Funeral - Contrato ${contractId || 'Geral'}`,
+        externalReference: contractId || undefined
+      })
+    });
+
+    const paymentData = await paymentRes.json();
+
+    if (paymentData.errors) {
+      return NextResponse.json(
+        { error: 'Erro ao gerar cobrança no Asaas', details: paymentData.errors },
+        { status: 400 }
+      );
+    }
+
+    // 3. Obter QR Code PIX Real do Gateway
+    const qrRes = await fetch(`${baseUrl}/payments/${paymentData.id}/pixQrCode`, {
+      headers: { 'access_token': apiKey }
+    });
+    const qrData = await qrRes.json();
 
     return NextResponse.json({
       success: true,
-      paymentId: `sim_${Date.now()}`,
-      pixCode: simulatedPixPayload,
-      qrCodeBase64: null,
-      gateway: 'simulation'
+      paymentId: paymentData.id,
+      netValue: paymentData.netValue,
+      payload: qrData.payload,
+      encodedImage: qrData.encodedImage,
+      expirationDate: qrData.expirationDate
     });
 
-  } catch (error: any) {
-    console.error('Erro ao gerar cobrança Pix:', error);
-    return NextResponse.json({ error: error.message || 'Erro interno no gateway' }, { status: 500 });
+  } catch (err: any) {
+    console.error('Erro na rota PIX:', err);
+    return NextResponse.json(
+      { error: 'Erro interno ao processar cobrança PIX.', details: err.message },
+      { status: 500 }
+    );
   }
 }
