@@ -3,6 +3,8 @@ import { ModalPlantao } from '@/components/modals/ModalPlantao';
 import { ModalNewHolder } from '@/components/modals/ModalNewHolder';
 import { ModalExpense } from '@/components/modals/ModalExpense';
 import { ModalPix } from '@/components/modals/ModalPix';
+import { ModalDependent } from '@/components/modals/ModalDependent';
+import { ModalPixSim } from '@/components/modals/ModalPixSim';
 import { TenantSettingsTab } from '@/components/tabs/TenantSettingsTab';
 import { useTenant } from '@/contexts/TenantContext';
 import { AssociatesTab } from '@/components/dashboard/AssociatesTab';
