@@ -1,22 +1,24 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+﻿import type { Metadata } from 'next';
+import './globals.css';
+import { TenantProvider } from '@/contexts/TenantContext';
 
 export const metadata: Metadata = {
-  title: "SAAD FUNE • Gestão Funerária & Assistência 24h",
-  description: "Plataforma Operacional Integrada de Planos Assistenciais, Plantão 24h e Controle de Frota",
+  title: 'Eternity SOS - Gestão Funerária & Planos',
+  description: 'Sistema Integrado de Gestão Funerária, Frotas, Plantão 24h e Planos de Assistência Familiar',
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="pt-BR">
-      <body className={inter.className}>{children}</body>
+    <html lang="pt-BR" className="dark">
+      <body className="bg-slate-950 text-slate-100 min-h-screen antialiased">
+        <TenantProvider>
+          {children}
+        </TenantProvider>
+      </body>
     </html>
   );
 }

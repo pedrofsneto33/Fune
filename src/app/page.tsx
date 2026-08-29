@@ -1,4 +1,5 @@
 ﻿'use client';
+import { TenantSwitcher } from '@/components/dashboard/TenantSwitcher';
 import { printServiceOrder, printFinancialReport, printCommissionReceipt } from '@/lib/printReports';
 type UserRole = 'admin' | 'atendente' | 'motorista';
 
@@ -1299,6 +1300,7 @@ export default function Dashboard() {
 
               {/* Lista de Atendimentos */}
               <div className="space-y-3">
+          <TenantSwitcher />
                 {filteredDispatches.length === 0 ? (
                   <div className="bg-zinc-900/40 border border-zinc-800 rounded-xl p-8 text-center text-xs text-zinc-500">
                     Nenhum atendimento corresponde aos filtros selecionados.
