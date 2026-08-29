@@ -1,66 +1,61 @@
-﻿export function formatWhatsAppMessage(params: {
-  holderName: string;
+﻿export interface WhatsAppMessageParams {
+  // Novos campos estruturados
+  holderName?: string;
+  customerName?: string; // Retrocompatibilidade
   planName?: string;
   phone?: string;
   amount?: string | number;
   dueDate?: string;
+  month?: string; // Retrocompatibilidade
   bankSlipUrl?: string;
+  link?: string; // Retrocompatibilidade
   identificationField?: string;
+  pixCode?: string; // Retrocompatibilidade
   installmentCount?: number;
   tenantName?: string;
-}) {
-  const {
-    holderName,
-    planName = 'Plano Funerário',
-    amount,
-    dueDate,
-    bankSlipUrl,
-    identificationField,
-    installmentCount = 1,
-    tenantName = 'Eternity SOS'
-  } = params;
+}
 
-  let message = `Olá, *${holderName}*! 👋\n\n`;
-  message += `Aqui é do atendimento *${tenantName}* referente ao seu contrato (*${planName}*).\n\n`;
+export function formatWhatsAppMessage(params: WhatsAppMessageParams): string {
+  const name = params.holderName || params.customerName || 'Associado(a)';
+  const plan = params.planName || 'Plano Funerário';
+  const tenant = params.tenantName || 'Eternity SOS';
+  const slipUrl = params.bankSlipUrl || params.link;
+  const installments = params.installmentCount || 1;
 
-  if (installmentCount > 1) {
-    message += `📄 Segue o seu *Carnê Anual/Parcelado* (${installmentCount} parcelas).\n`;
-  } else {
-    message += `📄 Segue o seu *Boleto de Mensalidade* no valor de *R$ ${amount}*.\n`;
+  let message = `Olá, *${name}*! 👋\n\n`;
+  message += `Aqui é do atendimento *${tenant}* referente ao seu contrato (*${plan}*).\n\n`;
+
+  if (installments > 1) {
+    message += `📄 Segue o seu *Carnê Anual/Parcelado* (${installments} parcelas).\n`;
+  } else if (params.amount) {
+    message += `📄 Segue a sua mensalidade ${params.month ? `de *${params.month}* ` : ''}no valor de *R$ ${params.amount}*.\n`;
   }
 
-  if (dueDate) {
-    message += `🗓️ *Vencimento:* ${dueDate}\n`;
+  if (params.dueDate) {
+    message += `🗓️ *Vencimento:* ${params.dueDate}\n`;
   }
 
-  if (identificationField) {
-    message += `\n🔢 *Linha Digitável (Copie e Cole no seu banco):*\n\`${identificationField}\`\n`;
+  if (params.identificationField) {
+    message += `\n🔢 *Linha Digitável (Boleto):*\n\`${params.identificationField}\`\n`;
   }
 
-  if (bankSlipUrl) {
-    message += `\n🔗 *Link para Visualizar / Baixar o Carnê em PDF:*\n${bankSlipUrl}\n`;
+  if (params.pixCode) {
+    message += `\n📱 *Código PIX Copia e Cola:*\n\`${params.pixCode}\`\n`;
   }
 
-  message += `\nQualquer dúvida, estamos à sua inteira disposição 24h!\n*${tenantName}*`;
+  if (slipUrl) {
+    message += `\n🔗 *Link para Visualizar / Baixar Boleto ou Carnê em PDF:*\n${slipUrl}\n`;
+  }
+
+  message += `\nQualquer dúvida, estamos à sua inteira disposição 24h!\n*${tenant}*`;
 
   return encodeURIComponent(message);
 }
 
-export function openWhatsAppBilling(params: {
-  phone?: string;
-  holderName: string;
-  planName?: string;
-  amount?: string | number;
-  dueDate?: string;
-  bankSlipUrl?: string;
-  identificationField?: string;
-  installmentCount?: number;
-  tenantName?: string;
-}) {
+export function openWhatsAppBilling(params: WhatsAppMessageParams) {
   const cleanPhone = (params.phone || '').replace(/\D/g, '');
   const encodedText = formatWhatsAppMessage(params);
 
-  // Se tiver DDD mas não tiver código do país 55, adiciona
   let fullPhone = cleanPhone;
   if (fullPhone.length === 10 || fullPhone.length === 11) {
     fullPhone = `55${fullPhone}`;
@@ -70,5 +65,7 @@ export function openWhatsAppBilling(params: {
     ? `https://api.whatsapp.com/send?phone=${fullPhone}&text=${encodedText}`
     : `https://api.whatsapp.com/send?text=${encodedText}`;
 
-  window.open(url, '_blank');
+  if (typeof window !== 'undefined') {
+    window.open(url, '_blank');
+  }
 }
