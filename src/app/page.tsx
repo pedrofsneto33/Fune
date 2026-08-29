@@ -283,10 +283,10 @@ export default function Dashboard() {
           setCurrentUserRole(roleFromMeta);
           fetchSupabaseData();
         } else {
-          setIsAuthenticated(false);
+          // setIsAuthenticated(false);
         }
       } catch (e) {
-        setIsAuthenticated(false);
+        // setIsAuthenticated(false);
       }
     }
 
@@ -379,7 +379,7 @@ export default function Dashboard() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    setIsAuthenticated(false);
+    // setIsAuthenticated(false);
   };
 
   const handleToggleVehicleStatus = async (vehicleId: string, currentStatus: string) => {
