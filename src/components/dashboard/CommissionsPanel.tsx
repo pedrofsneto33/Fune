@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Award, DollarSign, UserCheck, Clock, CheckCircle2 } from 'lucide-react';
+import { useTenant } from '@/contexts/TenantContext';
 
 interface Commission {
   id: string;
@@ -18,18 +19,21 @@ interface Commission {
 }
 
 export function CommissionsPanel() {
+  const { currentTenant } = useTenant();
   const [commissions, setCommissions] = useState<Commission[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/sales/commission')
+    if (!currentTenant?.id) return;
+    setLoading(true);
+    fetch(`/api/sales/commission?tenant_id=${currentTenant.id}`)
       .then(res => res.json())
       .then(res => {
         if (res.success) setCommissions(res.commissions || []);
       })
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, []);
+  }, [currentTenant?.id]);
 
   const totalCommissions = commissions.reduce((acc, curr) => acc + Number(curr.amount || 0), 0);
   const totalPaid = commissions.filter(c => c.status === 'paid').reduce((acc, curr) => acc + Number(curr.amount || 0), 0);
@@ -38,14 +42,13 @@ export function CommissionsPanel() {
   if (loading) {
     return (
       <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 text-slate-400 text-sm animate-pulse">
-        Carregando painel de comissões de corretores e vendedores...
+        Carregando comissões da unidade {currentTenant?.trade_name || ''}...
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      {/* Cards de Métricas */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800">
           <div className="flex items-center justify-between text-slate-400 mb-2">
@@ -78,19 +81,18 @@ export function CommissionsPanel() {
         </div>
       </div>
 
-      {/* Listagem de Lançamentos */}
       <div className="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
         <div className="p-5 border-b border-slate-800 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Award className="w-5 h-5 text-emerald-400" />
-            <h3 className="text-sm font-bold text-white">Extrato de Comissões por Venda</h3>
+            <h3 className="text-sm font-bold text-white">Extrato de Comissões - {currentTenant?.trade_name}</h3>
           </div>
           <span className="text-xs text-slate-400">{commissions.length} registros</span>
         </div>
 
         {commissions.length === 0 ? (
           <div className="p-8 text-center text-slate-500 text-sm">
-            Nenhuma comissão registrada até o momento.
+            Nenhuma comissão registrada para esta unidade até o momento.
           </div>
         ) : (
           <div className="divide-y divide-slate-800/60 overflow-x-auto">

@@ -1,7 +1,8 @@
 ﻿'use client';
 
 import React, { useEffect, useState } from 'react';
-import { ShieldCheck, Scale, TrendingUp, AlertTriangle, FileText, CheckCircle } from 'lucide-react';
+import { ShieldCheck, Scale, CheckCircle, AlertTriangle, FileText } from 'lucide-react';
+import { useTenant } from '@/contexts/TenantContext';
 
 interface ReserveData {
   referenceMonth: string;
@@ -16,23 +17,26 @@ interface ReserveData {
 }
 
 export function RegulatoryReservesPanel() {
+  const { currentTenant } = useTenant();
   const [data, setData] = useState<ReserveData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/financial/regulatory-reserves')
+    if (!currentTenant?.id) return;
+    setLoading(true);
+    fetch(`/api/financial/regulatory-reserves?tenant_id=${currentTenant.id}`)
       .then(res => res.json())
       .then(res => {
         if (res.success) setData(res.data);
       })
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, []);
+  }, [currentTenant?.id]);
 
   if (loading) {
     return (
       <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 text-slate-400 text-sm animate-pulse">
-        Carregando cálculos atuariais e provisões legais...
+        Calculando provisões legais da unidade ativa ({currentTenant?.trade_name || '...'})
       </div>
     );
   }
@@ -43,7 +47,6 @@ export function RegulatoryReservesPanel() {
 
   return (
     <div className="rounded-2xl bg-slate-900 border border-slate-800 p-6 space-y-6">
-      {/* Cabeçalho do Dossiê */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-800">
         <div>
           <div className="flex items-center gap-2">
@@ -51,7 +54,7 @@ export function RegulatoryReservesPanel() {
             <h3 className="text-base font-bold text-white">Provisões e Reservas Regulatórias</h3>
           </div>
           <p className="text-xs text-slate-400 mt-1">
-            Conformidade obrigatória com a <strong>Lei Federal 13.261/2016 (Art. 8º)</strong>
+            Unidade: <strong className="text-slate-200">{currentTenant?.trade_name}</strong> • <strong>Lei Federal 13.261/2016 (Art. 8º)</strong>
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -69,7 +72,6 @@ export function RegulatoryReservesPanel() {
         </div>
       </div>
 
-      {/* Grid de Métricas Legais */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/80">
           <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Faturamento Bruto</span>
@@ -104,7 +106,6 @@ export function RegulatoryReservesPanel() {
         </div>
       </div>
 
-      {/* Resumo Consolidado e Blindagem Fiscal */}
       <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-xs text-slate-400">Total Obrigatório a Segregar no Mês:</span>
@@ -118,7 +119,7 @@ export function RegulatoryReservesPanel() {
           className="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 transition-colors shrink-0"
         >
           <FileText className="w-4 h-4 text-emerald-400" />
-          <span>Exportar Dossiê de Conformidade (PDF)</span>
+          <span>Exportar Dossiê da Unidade (PDF)</span>
         </button>
       </div>
     </div>

@@ -1,4 +1,5 @@
 ﻿'use client';
+import { useTenant } from '@/contexts/TenantContext';
 import { AssociatesTab } from '@/components/dashboard/AssociatesTab';
 import { DispatchesTab } from '@/components/dashboard/DispatchesTab';
 import { FleetTab } from '@/components/dashboard/FleetTab';
@@ -179,6 +180,7 @@ interface DependentItem {
 type TabType = 'overview' | 'associates' | 'dispatches' | 'fleet' | 'inventory' | 'commissions';
 
 export default function Dashboard() {
+  const { currentTenant } = useTenant();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -656,7 +658,7 @@ export default function Dashboard() {
     try {
       const { data: holderData, error: holderError } = await supabase
         .from('holders')
-        .insert([{ full_name: fullName, cpf, phone }])
+        .insert([{ full_name: fullName, cpf, phone, tenant_id: currentTenant?.id || 'a0000000-0000-0000-0000-000000000001' }])
         .select()
         .single();
 
@@ -676,7 +678,7 @@ export default function Dashboard() {
 
       const { data: contractData, error: contractError } = await supabase
         .from('contracts')
-        .insert([{ holder_id: holderData.id, plan_id: plan.id, status: 'active' }])
+        .insert([{ holder_id: holderData.id, plan_id: plan.id, status: 'active', tenant_id: currentTenant?.id || 'a0000000-0000-0000-0000-000000000001' }])
         .select()
         .single();
 
