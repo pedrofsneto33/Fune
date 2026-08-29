@@ -1,4 +1,8 @@
 ﻿'use client';
+import { AssociatesTab } from '@/components/dashboard/AssociatesTab';
+import { DispatchesTab } from '@/components/dashboard/DispatchesTab';
+import { FleetTab } from '@/components/dashboard/FleetTab';
+import { InventoryTab } from '@/components/dashboard/InventoryTab';
 import { TenantSwitcher } from '@/components/dashboard/TenantSwitcher';
 import { printServiceOrder, printFinancialReport, printCommissionReceipt } from '@/lib/printReports';
 type UserRole = 'admin' | 'atendente' | 'motorista';
