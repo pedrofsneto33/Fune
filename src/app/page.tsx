@@ -1071,7 +1071,7 @@ export default function Dashboard() {
                     <span className="text-xs font-medium uppercase tracking-wider">PLANTÕES ATIVOS</span>
                     <Siren className="w-4 h-4 text-red-500" />
                   </div>
-                  <p className="text-2xl font-bold mt-2 text-white">{activeDispatchesCount} em missÃƒÆ’ÂÂ£o</p>
+                  <p className="text-2xl font-bold mt-2 text-white">{activeDispatchesCount} em missão</p>
                   <span className="text-[11px] text-zinc-400 mt-1 block">Total histórico: {dispatches.length}</span>
                 </div>
 
