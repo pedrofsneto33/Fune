@@ -1,4 +1,49 @@
 ﻿'use client';
+
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import {
+  LayoutDashboard,
+  Settings,
+  DollarSign,
+  Users,
+  Siren,
+  Truck,
+  Boxes,
+  Fuel,
+  History,
+  Search,
+  Plus,
+  X,
+  FileText,
+  RefreshCw,
+  CheckCircle2,
+  ShieldCheck,
+  Printer,
+  UserPlus,
+  CreditCard,
+  LogOut,
+  Lock,
+  Zap,
+  CheckCircle,
+  MessageSquare,
+  TrendingUp,
+  AlertCircle,
+  Filter,
+  Download,
+  QrCode
+} from 'lucide-react';
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer
+} from 'recharts';
+
+import { UserRole, hasPermission, isTabAllowed, ROLE_PERMISSIONS } from '@/config/permissions';
 import { ModalPlantao } from '@/components/modals/ModalPlantao';
 import { ModalNewHolder } from '@/components/modals/ModalNewHolder';
 import { ModalExpense } from '@/components/modals/ModalExpense';
@@ -13,99 +58,11 @@ import { FleetTab } from '@/components/dashboard/FleetTab';
 import { InventoryTab } from '@/components/dashboard/InventoryTab';
 import { TenantSwitcher } from '@/components/dashboard/TenantSwitcher';
 import { printServiceOrder, printFinancialReport, printCommissionReceipt } from '@/lib/printReports';
-type UserRole = 'admin' | 'atendente' | 'motorista';
-
-interface UserSessionProfile {
-  id: string;
-  email: string;
-  role: UserRole;
-  name: string;
-}
-
-const ROLE_PERMISSIONS = {
-  admin: {
-    canViewFinancialMetrics: true,
-    canManageContracts: true,
-    canManageFleet: true,
-    canManageInventory: true,
-    canManageDispatches: true,
-    canManageCommissions: true,
-    canDeleteRecords: true,
-    allowedTabs: ['overview', 'associates', 'dispatches', 'fleet', 'inventory', 'commissions']
-  },
-  atendente: {
-    canViewFinancialMetrics: true,
-    canManageContracts: true,
-    canManageFleet: false,
-    canManageInventory: false,
-    canManageDispatches: true,
-    canManageCommissions: true,
-    canDeleteRecords: false,
-    allowedTabs: ['overview', 'associates', 'dispatches', 'commissions']
-  },
-  motorista: {
-    canViewFinancialMetrics: false,
-    canManageContracts: false,
-    canManageFleet: true,
-    canManageInventory: false,
-    canManageDispatches: true,
-    canManageCommissions: false,
-    canDeleteRecords: false,
-    allowedTabs: ['dispatches', 'fleet']
-  }
-};
-
-function hasPermission(role: UserRole, permission: keyof typeof ROLE_PERMISSIONS['admin']): boolean {
-  const config = ROLE_PERMISSIONS[role] || ROLE_PERMISSIONS['atendente'];
-  return !!config[permission];
-}
-
-export const dynamic = 'force-dynamic';
-
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { QrCode } from 'lucide-react';
-import { 
-  LayoutDashboard,
-  Users, 
-  Siren, 
-  Truck, 
-  Boxes, 
-  Fuel, 
-  History, 
-  Search, 
-  Plus, 
-  X, 
-  FileText, 
-  RefreshCw, 
-  CheckCircle2, 
-  ShieldCheck, 
-  Printer, 
-  UserPlus,
-  CreditCard,
-  LogOut,
-  Lock,
-  Zap,
-  CheckCircle,
-  MessageSquare,
-  DollarSign,
-  TrendingUp,
-  AlertCircle,
-  Filter,
-  Download
-} from 'lucide-react';
-import { 
-  AreaChart, 
-  Area, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer 
-} from 'recharts';
 import { formatWhatsAppMessage } from '@/lib/whatsapp';
 import { generateExecutiveReport, generateEmergencyOS, generatePlantaoReportPDF, EmergencyDispatch } from '@/lib/pdf-report';
 import { supabase } from '@/lib/supabaseClient';
+
+export const dynamic = 'force-dynamic';
 
 const revenueData = [
   { month: 'Jan', recebido: 42000, previsto: 45000 },
@@ -192,6 +149,15 @@ export default function Dashboard() {
   const [mounted, setMounted] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [currentTab, setCurrentTab] = useState<TabType>('overview');
+  const [currentUserRole, setCurrentUserRole] = useState<UserRole>('admin');
+
+  // Ajuste automático caso o role mude e a aba não seja permitida
+  useEffect(() => {
+    if (!isTabAllowed(currentUserRole, currentTab)) {
+      const allowed = ROLE_PERMISSIONS[currentUserRole]?.allowedTabs || ['overview'];
+      setCurrentTab(allowed[0] as TabType);
+    }
+  }, [currentUserRole, currentTab]);
 
   // Estados de Dados
   const [payments, setPayments] = useState<PaymentRow[]>([]);
@@ -302,6 +268,8 @@ export default function Dashboard() {
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
           setIsAuthenticated(true);
+          const roleFromMeta = (session.user.user_metadata?.role as UserRole) || 'admin';
+          setCurrentUserRole(roleFromMeta);
           fetchSupabaseData();
         } else {
           setIsAuthenticated(false);
@@ -906,85 +874,125 @@ export default function Dashboard() {
             <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50" title="Sistema Online" />
           </div>
 
-          {/* Navegacao de Modulos */}
+                    {/* Navegacao de Modulos */}
           <nav className="space-y-1">
-            <button
-              onClick={() => setCurrentTab('overview')}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
-                currentTab === 'overview'
-                  ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
-                  : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
-              }`}
-            >
-              <LayoutDashboard className="w-4 h-4 text-[#00D1FF]" />
-              Visão Geral
-            </button>
+            {isTabAllowed(currentUserRole, 'overview') && (
+              <button
+                onClick={() => setCurrentTab('overview')}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
+                  currentTab === 'overview'
+                    ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
+                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
+                }`}
+              >
+                <LayoutDashboard className="w-4 h-4 text-[#00D1FF]" />
+                <span>Visão Geral</span>
+              </button>
+            )}
 
-            <button
-              onClick={() => setCurrentTab('associates')}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
-                currentTab === 'associates'
-                  ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
-                  : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <Users className="w-4 h-4 text-blue-400" />
-                Associados
-              </div>
-              <span className="text-[10px] bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-400">{payments.length}</span>
-            </button>
+            {isTabAllowed(currentUserRole, 'associates') && (
+              <button
+                onClick={() => setCurrentTab('associates')}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
+                  currentTab === 'associates'
+                    ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
+                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <Users className="w-4 h-4 text-blue-400" />
+                  <span>Associados</span>
+                </div>
+                <span className="text-[10px] bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-400">{payments.length}</span>
+              </button>
+            )}
 
-            <button
-              onClick={() => setCurrentTab('dispatches')}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
-                currentTab === 'dispatches'
-                  ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
-                  : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <Siren className="w-4 h-4 text-red-500" />
-                PLANTÁO & Óbitos
-              </div>
-              {activeDispatchesCount > 0 && (
-                <span className="text-[10px] bg-red-500/20 text-red-400 border border-red-500/30 px-1.5 py-0.5 rounded font-bold">
-                  {activeDispatchesCount}
-                </span>
-              )}
-            </button>
+            {isTabAllowed(currentUserRole, 'dispatches') && (
+              <button
+                onClick={() => setCurrentTab('dispatches')}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
+                  currentTab === 'dispatches'
+                    ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
+                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <Siren className="w-4 h-4 text-red-500" />
+                  <span>PLANTÃO & Óbitos</span>
+                </div>
+                {activeDispatchesCount > 0 && (
+                  <span className="text-[10px] bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded font-bold">
+                    {activeDispatchesCount}
+                  </span>
+                )}
+              </button>
+            )}
 
-            <button
-              onClick={() => setCurrentTab('fleet')}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
-                currentTab === 'fleet'
-                  ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
-                  : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <Truck className="w-4 h-4 text-amber-400" />
-                Frota & Logística
-              </div>
-              <span className="text-[10px] bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-400">
-                {availableVehiclesCount}/{vehicles.length}
-              </span>
-            </button>
+            {isTabAllowed(currentUserRole, 'fleet') && (
+              <button
+                onClick={() => setCurrentTab('fleet')}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
+                  currentTab === 'fleet'
+                    ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
+                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <Truck className="w-4 h-4 text-emerald-400" />
+                  <span>Frota & Odômetro</span>
+                </div>
+                <span className="text-[10px] bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-400">{vehicles.length}</span>
+              </button>
+            )}
 
-            <button
-              onClick={() => setCurrentTab('inventory')}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
-                currentTab === 'inventory'
-                  ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
-                  : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <Boxes className="w-4 h-4 text-purple-400" />
-                Estoque de Urnas
-              </div>
-              <span className="text-[10px] bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-400">{inventory.length}</span>
-            </button>
+            {isTabAllowed(currentUserRole, 'inventory') && (
+              <button
+                onClick={() => setCurrentTab('inventory')}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
+                  currentTab === 'inventory'
+                    ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
+                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <Boxes className="w-4 h-4 text-amber-400" />
+                  <span>Estoque & Urnas</span>
+                </div>
+                {inventory.filter(i => i.quantity <= i.min_quantity).length > 0 && (
+                  <span className="text-[10px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded font-bold">
+                    {inventory.filter(i => i.quantity <= i.min_quantity).length}
+                  </span>
+                )}
+              </button>
+            )}
+
+            {isTabAllowed(currentUserRole, 'commissions') && (
+              <button
+                onClick={() => setCurrentTab('commissions')}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
+                  currentTab === 'commissions'
+                    ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
+                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
+                }`}
+              >
+                <DollarSign className="w-4 h-4 text-purple-400" />
+                <span>Comissões</span>
+              </button>
+            )}
+
+            {isTabAllowed(currentUserRole, 'settings') && (
+              <button
+                onClick={() => setCurrentTab('settings')}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
+                  currentTab === 'settings'
+                    ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
+                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
+                }`}
+              >
+                <Settings className="w-4 h-4 text-blue-400" />
+                <span>Configurações</span>
+              </button>
+            )}
           </nav>
         </div>
 
