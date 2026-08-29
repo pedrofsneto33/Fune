@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { printServiceOrder, printFinancialReport, printCommissionReceipt } from '@/lib/printReports';
 type UserRole = 'admin' | 'atendente' | 'motorista';
 
