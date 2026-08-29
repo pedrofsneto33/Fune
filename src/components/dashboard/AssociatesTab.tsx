@@ -1,7 +1,7 @@
 ﻿'use client';
 
 import React from 'react';
-import { Search, Plus, Filter, FileText, QrCode, Users, Layers, ExternalLink } from 'lucide-react';
+import { Search, Plus, Filter, FileText, QrCode, Users, Layers, ExternalLink, MessageSquare } from 'lucide-react';
 
 interface AssociatesTabProps {
   payments: any[];
@@ -15,6 +15,7 @@ interface AssociatesTabProps {
   onOpenPixModal: (payment: any) => void;
   onOpenDependentsModal: (payment: any) => void;
   onOpenBoletoModal: (payment?: any) => void;
+  onOpenWhatsAppBatch?: () => void;
   onGenerateReport: () => void;
 }
 
@@ -30,6 +31,7 @@ export function AssociatesTab({
   onOpenPixModal,
   onOpenDependentsModal,
   onOpenBoletoModal,
+  onOpenWhatsAppBatch,
   onGenerateReport
 }: AssociatesTabProps) {
   const filtered = payments.filter((p) => {
@@ -57,6 +59,15 @@ export function AssociatesTab({
             <FileText className="w-3.5 h-3.5 text-zinc-400" />
             Relatório Geral
           </button>
+          {onOpenWhatsAppBatch && (
+            <button
+              onClick={onOpenWhatsAppBatch}
+              className="flex items-center gap-2 px-3.5 py-2 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 rounded-xl text-xs font-semibold transition shadow-sm"
+            >
+              <MessageSquare className="w-3.5 h-3.5" />
+              Régua WhatsApp
+            </button>
+          )}
           <button
             onClick={() => onOpenBoletoModal()}
             className="flex items-center gap-2 px-3.5 py-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 rounded-xl text-xs font-semibold transition"
