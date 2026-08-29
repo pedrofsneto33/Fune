@@ -1,4 +1,8 @@
 ﻿'use client';
+import { ModalPlantao } from '@/components/modals/ModalPlantao';
+import { ModalNewHolder } from '@/components/modals/ModalNewHolder';
+import { ModalExpense } from '@/components/modals/ModalExpense';
+import { ModalPix } from '@/components/modals/ModalPix';
 import { useTenant } from '@/contexts/TenantContext';
 import { AssociatesTab } from '@/components/dashboard/AssociatesTab';
 import { DispatchesTab } from '@/components/dashboard/DispatchesTab';
@@ -1484,443 +1488,72 @@ export default function Dashboard() {
       </div>
 
       {/* MODAL: PLANTÁO 24H */}
-      {isPlantaopen && (
-        <div className="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50 overflow-y-auto">
-          <div className="bg-zinc-900 border border-red-500/40 w-full max-w-2xl rounded-2xl p-6 shadow-2xl my-8">
-            <div className="flex justify-between items-center pb-4 border-b border-zinc-800">
-              <div className="flex items-center gap-2.5">
-                <div className="w-3 h-3 rounded-full bg-red-500 animate-ping" />
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  <Siren className="w-5 h-5 text-red-500" /> Acionamento PLANTÁO 24h
-                </h3>
-              </div>
-              <button onClick={() => setIsPlantaopen(false)} className="text-zinc-400 hover:text-white">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
+            <ModalPlantao
+        isOpen={isPlantaopen}
+        onClose={() => setIsPlantaopen(false)}
+        payments={payments}
+        selectedContract={selectedContractForPlantao}
+        onSelectContract={setSelectedContractForPlantao}
+        deceasedName={deceasedName}
+        setDeceasedName={setDeceasedName}
+        deathLocation={deathLocation}
+        setDeathLocation={setDeathLocation}
+        address={address}
+        setAddress={setAddress}
+        driverAgent={driverAgent}
+        setDriverAgent={setDriverAgent}
+        driverPhone={driverPhone}
+        setDriverPhone={setDriverPhone}
+        familyContactName={familyContactName}
+        setFamilyContactName={setFamilyContactName}
+        familyContactPhone={familyContactPhone}
+        setFamilyContactPhone={setFamilyContactPhone}
+        selectedVehicleId={selectedVehicleId}
+        setSelectedVehicleId={setSelectedVehicleId}
+        vehicles={vehicles}
+        urnModel={urnModel}
+        setUrnModel={setUrnModel}
+        saving={saving}
+        onConfirm={handleDispatchWhatsAppDriver}
+      />
 
-            <div className="space-y-4 mt-5">
-              <div>
-                <label className="block text-xs font-semibold text-zinc-300 mb-1">Vincular Contrato / Associado</label>
-                <select 
-                  onChange={(e) => {
-                    const found = payments.find(p => p.id === e.target.value);
-                    setSelectedContractForPlantao(found || null);
-                  }}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-red-500"
-                >
-                  <option value="">-- Selecione o Associado ou Atendimento Particular --</option>
-                  {payments.map(p => (
-                    <option key={p.id} value={p.id}>{p.holder} ({p.plan}) - Status: {p.status}</option>
-                  ))}
-                </select>
+            <ModalNewHolder
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        fullName={fullName}
+        setFullName={setFullName}
+        cpf={cpf}
+        setCpf={setCpf}
+        phone={phone}
+        setPhone={setPhone}
+        selectedPlan={selectedPlan}
+        setSelectedPlan={setSelectedPlan}
+        saving={saving}
+        onSave={handleCreateContract}
+      />
 
-                {selectedContractForPlantao && (
-                  <div className={`mt-2 p-2.5 rounded-lg border text-xs flex items-center justify-between ${
-                    selectedContractForPlantao.status === 'Pago'
-                      ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
-                      : 'bg-amber-500/10 border-amber-500/30 text-amber-400'
-                  }`}>
-                    <div className="flex items-center gap-2">
-                      <ShieldCheck className="w-4 h-4" />
-                      <span><strong>Elegibilidade:</strong> {selectedContractForPlantao.status === 'Pago' ? 'Carência Ok - Cobertura Liberada' : 'Fatura em Aberto - Averiguar Acordo'}</span>
-                    </div>
-                    <span className="font-bold">{selectedContractForPlantao.plan}</span>
-                  </div>
-                )}
-              </div>
+            <ModalExpense
+        isOpen={isExpenseModalOpen}
+        onClose={() => setIsExpenseModalOpen(false)}
+        vehicles={vehicles}
+        expVehicleId={expVehicleId}
+        setExpVehicleId={setExpVehicleId}
+        expType={expType}
+        setExpType={setExpType}
+        expAmount={expAmount}
+        setExpAmount={setExpAmount}
+        expKm={expKm}
+        setExpKm={setExpKm}
+        expLiters={expLiters}
+        setExpLiters={setExpLiters}
+        expEstablishment={expEstablishment}
+        setExpEstablishment={setExpEstablishment}
+        expDate={expDate}
+        setExpDate={setExpDate}
+        saving={saving}
+        onSave={handleCreateExpense}
+      />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">Nome do Falecido</label>
-                  <input 
-                    type="text"
-                    placeholder="Nome completo"
-                    value={deceasedName}
-                    onChange={(e) => setDeceasedName(e.target.value)}
-                    className="w-full bg-zinc-800/80 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-red-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">Local do Óbito</label>
-                  <input 
-                    type="text"
-                    placeholder="Hospital / Residência"
-                    value={deathLocation}
-                    onChange={(e) => setDeathLocation(e.target.value)}
-                    className="w-full bg-zinc-800/80 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-red-500"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Endereço Exato</label>
-                <input 
-                  type="text"
-                  placeholder="Rua, Número, Bairro e Cidade..."
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  className="w-full bg-zinc-800/80 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-red-500"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">Urna Coberta</label>
-                  <select 
-                    value={urnModel}
-                    onChange={(e) => setUrnModel(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-red-500"
-                  >
-                    <option value="Sextavada Luxo Ouro (Ref. 102)">Sextavada Luxo Ouro (Ref. 102)</option>
-                    <option value="Standard Prata com Visor (Ref. 80)">Standard Prata com Visor (Ref. 80)</option>
-                    <option value="Master Premium Entalhada (Ref. 204)">Master Premium Entalhada (Ref. 204)</option>
-                    <option value="Urna Infantil / Especial">Urna Infantil / Especial</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">Veículo Escalado</label>
-                  <select 
-                    value={selectedVehicleId}
-                    onChange={(e) => setSelectedVehicleId(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-red-500"
-                  >
-                    {vehicles.map(v => (
-                      <option key={v.id} value={v.id}>
-                        {v.model} ({v.plate}) - {v.status === 'disponivel' ? 'Pronto' : 'Em uso/Manut.'}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">Familiar no Local</label>
-                  <input 
-                    type="text"
-                    placeholder="Nome do parente"
-                    value={familyContactName}
-                    onChange={(e) => setFamilyContactName(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-red-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">WhatsApp Familiar</label>
-                  <input 
-                    type="text"
-                    placeholder="86999990000"
-                    value={familyContactPhone}
-                    onChange={(e) => setFamilyContactPhone(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-red-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">WhatsApp Motorista</label>
-                  <input 
-                    type="text"
-                    placeholder="86999990000"
-                    value={driverPhone}
-                    onChange={(e) => setDriverPhone(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-red-500"
-                  />
-                </div>
-              </div>
-
-              <div className="flex justify-end gap-3 pt-4 border-t border-zinc-800">
-                <button 
-                  type="button" 
-                  onClick={() => setIsPlantaopen(false)}
-                  className="px-4 py-2 text-xs text-zinc-400 hover:text-white"
-                >
-                  Fechar
-                </button>
-                <button 
-                  type="button" 
-                  onClick={handlePrintOS}
-                  className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 px-3.5 py-2 rounded-lg text-xs font-medium transition cursor-pointer"
-                >
-                  <Printer className="w-3.5 h-3.5 text-[#00D1FF]" />
-                  Imprimir O.S. (PDF)
-                </button>
-                <button 
-                  type="button" 
-                  onClick={handleDispatchWhatsAppDriver}
-                  className="flex items-center gap-1.5 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white px-4 py-2 rounded-lg text-xs font-bold transition cursor-pointer"
-                >
-                  <MessageSquare className="w-3.5 h-3.5" />
-                  Gravar & Despachar
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL: NOVO CONTRATO */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-zinc-900 border border-zinc-800 w-full max-w-lg rounded-2xl p-6 shadow-2xl">
-            <div className="flex justify-between items-center pb-4 border-b border-zinc-800">
-              <h3 className="text-base font-bold text-white">Cadastrar Novo Contrato</h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-zinc-400 hover:text-white">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handleCreateContract} className="space-y-4 mt-4">
-              <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Nome Completo do Titular</label>
-                <input 
-                  type="text" 
-                  required
-                  placeholder="Ex: Raimundo Nonato Soares"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00D1FF]"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">CPF</label>
-                  <input 
-                    type="text" 
-                    required
-                    placeholder="000.000.000-00"
-                    value={cpf}
-                    onChange={(e) => setCpf(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00D1FF]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">WhatsApp</label>
-                  <input 
-                    type="text" 
-                    required
-                    placeholder="86999990000"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00D1FF]"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Selecione o Plano</label>
-                <select 
-                  value={selectedPlan}
-                  onChange={(e) => setSelectedPlan(e.target.value)}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00D1FF]"
-                >
-                  <option value="Individual Prata">Individual Prata (R$ 49,90)</option>
-                  <option value="Familiar Ouro">Familiar Ouro (R$ 89,90)</option>
-                  <option value="Master Premium">Master Premium (R$ 129,90)</option>
-                </select>
-              </div>
-
-              <div className="flex justify-end gap-3 pt-4 border-t border-zinc-800">
-                <button 
-                  type="button" 
-                  onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 text-xs text-zinc-400 hover:text-white"
-                >
-                  Cancelar
-                </button>
-                <button 
-                  type="submit" 
-                  disabled={saving}
-                  className="bg-[#0F62FE] hover:bg-blue-600 disabled:opacity-50 text-white px-4 py-2 rounded-lg text-xs font-medium transition cursor-pointer"
-                >
-                  {saving ? 'Salvando...' : 'Salvar no Supabase'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL: LANCAR DESPESA */}
-      {isExpenseModalOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-zinc-900 border border-zinc-800 w-full max-w-lg rounded-2xl p-6 shadow-2xl">
-            <div className="flex justify-between items-center pb-4 border-b border-zinc-800">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <Fuel className="w-4 h-4 text-amber-400" /> Lançar Despesa da Frota
-              </h3>
-              <button onClick={() => setIsExpenseModalOpen(false)} className="text-zinc-400 hover:text-white">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handleCreateExpense} className="space-y-4 mt-4">
-              <div>
-                <label className="block text-xs font-medium text-zinc-300 mb-1">Veículo</label>
-                <select
-                  required
-                  value={expVehicleId}
-                  onChange={(e) => setExpVehicleId(e.target.value)}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
-                >
-                  {vehicles.map(v => (
-                    <option key={v.id} value={v.id}>{v.model} ({v.plate})</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1">Tipo</label>
-                  <select
-                    value={expType}
-                    onChange={(e) => setExpType(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
-                  >
-                    <option value="Abastecimento (Gasolina)">Abastecimento (Gasolina)</option>
-                    <option value="Abastecimento (Diesel)">Abastecimento (Diesel)</option>
-                    <option value="Troca de ÁƒÆ’ââ‚¬Å“leo / Filtro">Troca de ÁƒÆ’ââ‚¬Å“leo / Filtro</option>
-                    <option value="Pneus / Manutenção">Pneus / Manutenção</option>
-                    <option value="ReVisão Geral">ReVisão Geral</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1">Valor Total (R$)</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Ex: 250,00"
-                    value={expAmount}
-                    onChange={(e) => setExpAmount(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1">Km Atual</label>
-                  <input
-                    type="number"
-                    placeholder="Ex: 88550"
-                    value={expKm}
-                    onChange={(e) => setExpKm(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1">Estabelecimento</label>
-                  <input
-                    type="text"
-                    placeholder="Ex: Posto Central"
-                    value={expEstablishment}
-                    onChange={(e) => setExpEstablishment(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-              </div>
-
-              <div className="flex justify-end gap-3 pt-4 border-t border-zinc-800">
-                <button
-                  type="button"
-                  onClick={() => setIsExpenseModalOpen(false)}
-                  className="px-4 py-2 text-xs text-zinc-400 hover:text-white"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="bg-amber-600 hover:bg-amber-500 text-white font-semibold px-4 py-2 rounded-lg text-xs transition cursor-pointer"
-                >
-                  Salvar Despesa
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL: NOVO VEICULO */}
-      {isNewVehicleModalOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-zinc-900 border border-zinc-800 w-full max-w-md rounded-2xl p-6 shadow-2xl">
-            <div className="flex justify-between items-center pb-4 border-b border-zinc-800">
-              <h3 className="text-base font-bold text-white">Cadastrar Novo Veículo</h3>
-              <button onClick={() => setIsNewVehicleModalOpen(false)} className="text-zinc-400 hover:text-white">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handleCreateVehicle} className="space-y-4 mt-4">
-              <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Modelo</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Ex: Fiat Fiorino Remoção"
-                  value={newModel}
-                  onChange={(e) => setNewModel(e.target.value)}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00D1FF]"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">Placa</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="ABC-1234"
-                    value={newPlate}
-                    onChange={(e) => setNewPlate(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00D1FF]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">Tipo</label>
-                  <select
-                    value={newType}
-                    onChange={(e) => setNewType(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00D1FF]"
-                  >
-                    <option value="Remoção">Remoção</option>
-                    <option value="Cortejo Especial">Cortejo Especial</option>
-                    <option value="Apoio Familiar">Apoio Familiar</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Km Inicial</label>
-                <input
-                  type="number"
-                  placeholder="0"
-                  value={newKm || ''}
-                  onChange={(e) => setNewKm(Number(e.target.value))}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00D1FF]"
-                />
-              </div>
-
-              <div className="flex justify-end gap-3 pt-4 border-t border-zinc-800">
-                <button
-                  type="button"
-                  onClick={() => setIsNewVehicleModalOpen(false)}
-                  className="px-4 py-2 text-xs text-zinc-400 hover:text-white"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="bg-[#0F62FE] hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg text-xs transition cursor-pointer"
-                >
-                  Salvar Veículo
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL: DEPENDENTES */}
       {isDependentModalOpen && selectedHolderForDep && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-zinc-900 border border-zinc-800 w-full max-w-lg rounded-2xl p-6 shadow-2xl">
@@ -2054,91 +1687,13 @@ export default function Dashboard() {
 
     
       {/* MODAL_COBRANCA_PIX_ASSOCIADO */}
-      {isPixModalOpen && selectedPixRow && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-zinc-900 border border-emerald-500/40 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4">
-            <div className="flex justify-between items-center pb-3 border-b border-zinc-800">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <QrCode className="w-5 h-5 text-emerald-400" /> Cobrança Pix Imediata
-              </h3>
-              <button onClick={() => setIsPixModalOpen(false)} className="text-zinc-400 hover:text-white">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="text-sm text-zinc-300 space-y-1">
-              <p><strong className="text-zinc-400">Titular:</strong> {selectedPixRow.holder}</p>
-              <p><strong className="text-zinc-400">Plano:</strong> {selectedPixRow.plan} - R$ {Number(selectedPixRow.amount || 0).toFixed(2)}</p>
-              <p><strong className="text-zinc-400">Vencimento:</strong> {selectedPixRow.dueDate}</p>
-            </div>
-
-            <div className="flex flex-col items-center justify-center p-4 bg-zinc-950 rounded-xl border border-zinc-800">
-              {pixLoading ? (
-                <p className="text-xs text-zinc-400 animate-pulse">Gerando QR Code e chave Pix...</p>
-              ) : pixPayload?.qrCode ? (
-                <div className="space-y-3 flex flex-col items-center w-full">
-                  <img 
-  src={pixPayload.qrCode && pixPayload.qrCode.startsWith('data:image') ? pixPayload.qrCode : `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(pixPayload.copyPaste)}`} 
-  alt="QR Code Pix" 
-  className="w-48 h-48 rounded-lg bg-white p-2 shadow-md" 
-/>
-                  <div className="w-full">
-                    <label className="block text-[10px] text-zinc-400 uppercase tracking-wider mb-1 text-center">Pix Copia e Cola</label>
-                    <div className="flex gap-2">
-                      <input 
-                        type="text" 
-                        readOnly 
-                        value={pixPayload.copyPaste} 
-                        className="w-full bg-zinc-900 border border-zinc-700 rounded px-2 py-1 text-xs text-zinc-300 font-mono select-all"
-                      />
-                      <button 
-                        onClick={() => {
-                          navigator.clipboard.writeText(pixPayload.copyPaste);
-                          alert('Código Pix copiado!');
-                        }}
-                        className="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1 rounded text-xs font-bold cursor-pointer"
-                      >
-                        Copiar
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-center space-y-2">
-                  <div className="flex flex-col items-center space-y-2">
-  <img 
-    src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(`00020126580014BR.GOV.BCB.PIX0136pix@eternitysos.com.br520400005303986540${Number(selectedPixRow.amount || 0).toFixed(2)}5802BR5913ETERNITY SOS6008TERESINA62070503***6304`)}`} 
-    alt="QR Code Pix Padrão" 
-    className="w-48 h-48 rounded-lg bg-white p-2 shadow-md mb-2" 
-  />
-  <p className="text-xs text-zinc-400">QR Code dinÁƒÆ’ÂÂ¢mico e chave padrão prontos para leitura.</p>
-</div>
-                  <button 
-                    onClick={() => {
-                      const payload = "00020126580014BR.GOV.BCB.PIX0136pix@eternitysos.com.br520400005303986540" + Number(selectedPixRow.amount).toFixed(2) + "5802BR5913ETERNITY SOS6008TERESINA62070503***6304";
-                      navigator.clipboard.writeText(payload);
-                      alert('Chave Copia e Cola copiada!');
-                    }}
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-xs font-bold cursor-pointer"
-                  >
-                    Copiar Linha Digitável
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <div className="flex justify-end gap-2 pt-3 border-t border-zinc-800">
-              <button
-                type="button"
-                onClick={() => setIsPixModalOpen(false)}
-                className="px-4 py-2 text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg transition cursor-pointer"
-              >
-                Fechar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-</div>
+            <ModalPix
+        isOpen={isPixModalOpen}
+        onClose={() => setIsPixModalOpen(false)}
+        selectedPixRow={selectedPixRow}
+        pixPayload={pixPayload}
+        pixLoading={pixLoading}
+      />
+    </div>
   );
 }
