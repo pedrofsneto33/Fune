@@ -44,6 +44,7 @@ import {
 } from 'recharts';
 
 import { UserRole, hasPermission, isTabAllowed, ROLE_PERMISSIONS } from '@/config/permissions';
+import { logDispatchAction } from '@/lib/auditLogger';
 import { ModalPlantao } from '@/components/modals/ModalPlantao';
 import { ModalNewHolder } from '@/components/modals/ModalNewHolder';
 import { ModalExpense } from '@/components/modals/ModalExpense';
