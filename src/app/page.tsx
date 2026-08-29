@@ -58,6 +58,7 @@ import { useTenant } from '@/contexts/TenantContext';
 import { AssociatesTab } from '@/components/dashboard/AssociatesTab';
 import { DispatchesTab } from '@/components/dashboard/DispatchesTab';
 import { ConvalescenceTab } from '@/components/dashboard/ConvalescenceTab';
+import { ThanatopraxyTab } from '@/components/dashboard/ThanatopraxyTab';
 import { FleetTab } from '@/components/dashboard/FleetTab';
 import { InventoryTab } from '@/components/dashboard/InventoryTab';
 import { TenantSwitcher } from '@/components/dashboard/TenantSwitcher';
