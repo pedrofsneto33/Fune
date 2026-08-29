@@ -190,7 +190,7 @@ export default function Dashboard() {
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Filtros da aba PLANTÃO
+  // Filtros da aba PLANTÁO
   const [dispatchStatusFilter, setDispatchStatusFilter] = useState<'all' | 'em_andamento' | 'concluido'>('all');
   const [dispatchSearchText, setDispatchSearchText] = useState('');
   
@@ -270,7 +270,7 @@ export default function Dashboard() {
   const [deceasedName, setDeceasedName] = useState('');
   const [deathLocation, setDeathLocation] = useState('Hospital Regional');
   const [address, setAddress] = useState('');
-  const [driverAgent, setDriverAgent] = useState('Agente Marcos (PLANTÃO)');
+  const [driverAgent, setDriverAgent] = useState('Agente Marcos (PLANTÁO)');
   const [selectedVehicleId, setSelectedVehicleId] = useState('');
   const [urnModel, setUrnModel] = useState('Sextavada Luxo Ouro (Ref. 102)');
   const [familyContactName, setFamilyContactName] = useState('');
@@ -747,7 +747,7 @@ export default function Dashboard() {
 
   const handleDispatchWhatsAppDriver = async () => {
     const activeVehicle = vehicles.find(v => v.id === selectedVehicleId);
-    const vehicleDesc = activeVehicle ? `${activeVehicle.model} (${activeVehicle.plate})` : 'Veiculo de PLANTÃO';
+    const vehicleDesc = activeVehicle ? `${activeVehicle.model} (${activeVehicle.plate})` : 'Veiculo de PLANTÁO';
     const protocol = `PLT-${Math.floor(100000 + Math.random() * 900000)}`;
 
     try {
@@ -780,16 +780,16 @@ export default function Dashboard() {
       await fetchSupabaseData();
       setIsPlantaopen(false);
 
-      const msg = `ÃƒÂ°Ã…Â¸Ã…Â¡ÂÂ¨ *ORDEM DE SERVI¡O - PLANTÃO 24H*\n` +
+      const msg = `ÁƒÂ°Á…Â¸Á…Â¡ÂÂ¨ *ORDEM DE SERVI¡O - PLANTÁO 24H*\n` +
         `*Protocolo:* ${protocol}\n` +
         `---------------------------------\n` +
-        `ÃƒÂ°Ã…Â¸ââ‚¬ËœÂÂ¤ *Falecido:* ${deceasedName || 'A informar'}\n` +
-        `ÃƒÂ°Ã…Â¸ââ‚¬Å“ââ‚¬Â¹ *Titular/Plano:* ${selectedContractForPlantao?.holder || 'Particular'} (${selectedContractForPlantao?.plan || 'Padrao'})\n` +
-        `ÃƒÂ°Ã…Â¸ââ‚¬Å“ÂÂ *Local do Óbito:* ${deathLocation}\n` +
-        `ÃƒÂ°Ã…Â¸ÂÂÂÂ  *Endereço/Retirada:* ${address || 'A confirmar'}\n` +
-        `ÃƒÂ¢Ã…Â¡ÂÂ°ÃƒÂ¯ÂÂ¸ÂÂ *Urna Requisitada:* ${urnModel}\n` +
-        `ÃƒÂ°Ã…Â¸Ã…Â¡ââ‚¬â€ *Veículo Escalado:* ${vehicleDesc}\n` +
-        `ÃƒÂ°Ã…Â¸ââ‚¬Å“Ã…Â¾ *Contato Familiar:* ${familyContactName} (${familyContactPhone})\n` +
+        `ÁƒÂ°Á…Â¸ââ‚¬ËœÂÂ¤ *Falecido:* ${deceasedName || 'A informar'}\n` +
+        `ÁƒÂ°Á…Â¸ââ‚¬Å“ââ‚¬Â¹ *Titular/Plano:* ${selectedContractForPlantao?.holder || 'Particular'} (${selectedContractForPlantao?.plan || 'Padrao'})\n` +
+        `ÁƒÂ°Á…Â¸ââ‚¬Å“ÂÂ *Local do Óbito:* ${deathLocation}\n` +
+        `ÁƒÂ°Á…Â¸ÂÂÂÂ  *Endereço/Retirada:* ${address || 'A confirmar'}\n` +
+        `ÁƒÂ¢Á…Â¡ÂÂ°ÁƒÂ¯ÂÂ¸ÂÂ *Urna Requisitada:* ${urnModel}\n` +
+        `ÁƒÂ°Á…Â¸Á…Â¡ââ‚¬â€ *Veículo Escalado:* ${vehicleDesc}\n` +
+        `ÁƒÂ°Á…Â¸ââ‚¬Å“Á…Â¾ *Contato Familiar:* ${familyContactName} (${familyContactPhone})\n` +
         `---------------------------------\n` +
         `*Status:* ACIONAMENTO IMEDIATO`;
 
@@ -803,7 +803,7 @@ export default function Dashboard() {
 
   const handlePrintOS = () => {
     const activeVehicle = vehicles.find(v => v.id === selectedVehicleId);
-    const vehicleDesc = activeVehicle ? `${activeVehicle.model} (${activeVehicle.plate})` : 'Veiculo de PLANTÃO';
+    const vehicleDesc = activeVehicle ? `${activeVehicle.model} (${activeVehicle.plate})` : 'Veiculo de PLANTÁO';
     const protocol = `PLT-${Math.floor(100000 + Math.random() * 900000)}`;
 
     const dispatch: EmergencyDispatch = {
@@ -818,7 +818,7 @@ export default function Dashboard() {
       vehicle: vehicleDesc,
       familyContactName: familyContactName || 'Familiar Responsavel',
       familyContactPhone: familyContactPhone || 'Nao informado',
-      observations: `Acionamento via PLANTÃO 24h. Elegibilidade: ${selectedContractForPlantao?.status === 'Pago' ? 'Cobertura 100% Ativa' : 'Averiguar Óbitos'}`
+      observations: `Acionamento via PLANTÁO 24h. Elegibilidade: ${selectedContractForPlantao?.status === 'Pago' ? 'Cobertura 100% Ativa' : 'Averiguar Óbitos'}`
     };
     generateEmergencyOS(dispatch);
   };
@@ -859,7 +859,7 @@ export default function Dashboard() {
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-white">SAAD<span className="text-[#00D1FF]"> FUNE</span></h1>
           <p className="text-xs text-zinc-400 mt-2 mb-6">
-            Ambiente operacional restrito para GESTÃOres e agentes autorizados.
+            Ambiente operacional restrito para GESTÁOres e agentes autorizados.
           </p>
           
           <button
@@ -887,7 +887,7 @@ export default function Dashboard() {
           <div className="flex items-center justify-between pb-6 border-b border-zinc-800/60 mb-6">
             <div>
               <h1 className="text-xl font-bold tracking-tight text-white">SAAD<span className="text-[#00D1FF]"> FUNE</span></h1>
-              <p className="text-[10px] text-zinc-500 uppercase tracking-widest mt-0.5">ASSISTÊNCIA & GESTÃO</p>
+              <p className="text-[10px] text-zinc-500 uppercase tracking-widest mt-0.5">ASSISTÊNCIA & GESTÁO</p>
             </div>
             <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50" title="Sistema Online" />
           </div>
@@ -931,7 +931,7 @@ export default function Dashboard() {
             >
               <div className="flex items-center gap-3">
                 <Siren className="w-4 h-4 text-red-500" />
-                PLANTÃO & Óbitos
+                PLANTÁO & Óbitos
               </div>
               {activeDispatchesCount > 0 && (
                 <span className="text-[10px] bg-red-500/20 text-red-400 border border-red-500/30 px-1.5 py-0.5 rounded font-bold">
@@ -1122,7 +1122,7 @@ export default function Dashboard() {
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <div>
-                  <h2 className="text-base font-bold text-white">GESTÃO de Associados & Faturas</h2>
+                  <h2 className="text-base font-bold text-white">GESTÁO de Associados & Faturas</h2>
                   <p className="text-xs text-zinc-400">Total de {filteredPayments.length} titulares cadastrados</p>
                 </div>
                 <button
@@ -1144,7 +1144,7 @@ export default function Dashboard() {
                       <th className="px-5 py-3">Vencimento</th>
                       <th className="px-5 py-3">Valor</th>
                       <th className="px-5 py-3">Status</th>
-                      <th className="px-5 py-3 text-right">AçÃƒÆ’ÂÂµes</th>
+                      <th className="px-5 py-3 text-right">AçÁƒÆ’ÂÂµes</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-zinc-800/60">
@@ -1233,12 +1233,12 @@ export default function Dashboard() {
             </div>
           )}
 
-          {/* 3. PLANTÃO 24H & HISTORICO DE MISSOES */}
+          {/* 3. PLANTÁO 24H & HISTORICO DE MISSOES */}
           {currentTab === 'dispatches' && (
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
                 <div>
-                  <h2 className="text-base font-bold text-white">PLANTÃO 24h & Atendimentos de Óbitos</h2>
+                  <h2 className="text-base font-bold text-white">PLANTÁO 24h & Atendimentos de Óbitos</h2>
                   <p className="text-xs text-zinc-400">{filteredDispatches.length} ocorrências encontradas</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -1259,7 +1259,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              {/* Barra de Filtros do PLANTÃO */}
+              {/* Barra de Filtros do PLANTÁO */}
               <div className="bg-zinc-900/60 border border-zinc-800 p-3 rounded-xl flex flex-col sm:flex-row gap-3 items-center justify-between">
                 <div className="relative w-full sm:max-w-xs">
                   <Search className="w-3.5 h-3.5 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -1354,7 +1354,7 @@ export default function Dashboard() {
             <div className="space-y-6">
               <div className="flex justify-between items-center">
                 <div>
-                  <h2 className="text-base font-bold text-white">GESTÃO da Frota & Despesas</h2>
+                  <h2 className="text-base font-bold text-white">GESTÁO da Frota & Despesas</h2>
                   <p className="text-xs text-zinc-400">{vehicles.length} veículos cadastrados • Custo do mês: R$ {totalFleetCost.toFixed(2).replace('.', ',')}</p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -1412,7 +1412,7 @@ export default function Dashboard() {
 
               {/* Historico de Despesas */}
               <div className="bg-zinc-900/40 border border-zinc-800 rounded-xl p-5 space-y-3">
-                <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">ÃƒÆ’Ã…Â¡ltimas Despesas & Abastecimentos</h3>
+                <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">ÁƒÆ’Á…Â¡ltimas Despesas & Abastecimentos</h3>
                 <div className="space-y-2 max-h-56 overflow-y-auto">
                   {expenses.length === 0 ? (
                     <p className="text-xs text-zinc-500 py-3">Nenhuma despesa de frota lançada.</p>
@@ -1475,7 +1475,7 @@ export default function Dashboard() {
         </main>
       </div>
 
-      {/* MODAL: PLANTÃO 24H */}
+      {/* MODAL: PLANTÁO 24H */}
       {isPlantaopen && (
         <div className="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50 overflow-y-auto">
           <div className="bg-zinc-900 border border-red-500/40 w-full max-w-2xl rounded-2xl p-6 shadow-2xl my-8">
@@ -1483,7 +1483,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-2.5">
                 <div className="w-3 h-3 rounded-full bg-red-500 animate-ping" />
                 <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  <Siren className="w-5 h-5 text-red-500" /> Acionamento PLANTÃO 24h
+                  <Siren className="w-5 h-5 text-red-500" /> Acionamento PLANTÁO 24h
                 </h3>
               </div>
               <button onClick={() => setIsPlantaopen(false)} className="text-zinc-400 hover:text-white">
@@ -1770,7 +1770,7 @@ export default function Dashboard() {
                   >
                     <option value="Abastecimento (Gasolina)">Abastecimento (Gasolina)</option>
                     <option value="Abastecimento (Diesel)">Abastecimento (Diesel)</option>
-                    <option value="Troca de ÃƒÆ’ââ‚¬Å“leo / Filtro">Troca de ÃƒÆ’ââ‚¬Å“leo / Filtro</option>
+                    <option value="Troca de ÁƒÆ’ââ‚¬Å“leo / Filtro">Troca de ÁƒÆ’ââ‚¬Å“leo / Filtro</option>
                     <option value="Pneus / Manutenção">Pneus / Manutenção</option>
                     <option value="ReVisão Geral">ReVisão Geral</option>
                   </select>
@@ -2003,7 +2003,7 @@ export default function Dashboard() {
 
             <form onSubmit={handleTriggerWebhookSim} className="space-y-4 mt-4">
               <p className="text-xs text-zinc-400 leading-relaxed">
-                Este simulador dispara uma notificação HTTP idêntica ÃƒÆ’ÂÂ  enviada por gateways para o endpoint <code className="text-[#00D1FF] bg-zinc-800 px-1 py-0.5 rounded">/api/webhooks/pix</code>.
+                Este simulador dispara uma notificação HTTP idêntica ÁƒÆ’ÂÂ  enviada por gateways para o endpoint <code className="text-[#00D1FF] bg-zinc-800 px-1 py-0.5 rounded">/api/webhooks/pix</code>.
               </p>
 
               <div>
@@ -2103,7 +2103,7 @@ export default function Dashboard() {
     alt="QR Code Pix Padrão" 
     className="w-48 h-48 rounded-lg bg-white p-2 shadow-md mb-2" 
   />
-  <p className="text-xs text-zinc-400">QR Code dinÃƒÆ’ÂÂ¢mico e chave padrão prontos para leitura.</p>
+  <p className="text-xs text-zinc-400">QR Code dinÁƒÆ’ÂÂ¢mico e chave padrão prontos para leitura.</p>
 </div>
                   <button 
                     onClick={() => {

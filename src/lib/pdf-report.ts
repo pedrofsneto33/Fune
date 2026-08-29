@@ -136,7 +136,7 @@ export function generatePlantaoReportPDF(...args: any[]) {
     </head>
     <body>
       <div class="header">
-        <div class="title">ETERNITY SOS - ESCALA E RELATÓRIO DE PLANTÃO</div>
+        <div class="title">ETERNITY SOS - ESCALA E RELATÓRIO DE PLANTÁO</div>
         <div style="font-size: 12px; color: #555;">Data: ${new Date().toLocaleDateString('pt-BR')}</div>
       </div>
       <p>Relatório das ocorrências registradas pela equipe técnica de plantão funerário.</p>

@@ -192,7 +192,7 @@ export function printCommissionReceipt(data: {
     <body>
       <div class="header">
         <div>
-          <div class="title">ETERNITY SOS - RECIBO DE REPASSE DE COMISSÃO</div>
+          <div class="title">ETERNITY SOS - RECIBO DE REPASSE DE COMISSÁO</div>
           <div style="font-size: 12px; color: #555;">Controle Interno de Vendas e Produção</div>
         </div>
         <div style="text-align: right; font-size: 12px;">Data: ${new Date().toLocaleDateString('pt-BR')}</div>
