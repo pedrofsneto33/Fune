@@ -1,52 +1,44 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabaseAdmin';
+﻿import { NextResponse } from 'next/server';
+import { supabase } from '@/lib/supabaseClient';
 
-export const dynamic = 'force-dynamic';
-
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { stockItemId, quantity, reason, dispatchId } = body;
+    const { dispatchId, coffinId, deceasedName } = body;
 
-    if (!stockItemId || !quantity) {
-      return NextResponse.json({ error: 'stockItemId e quantity são obrigatórios.' }, { status: 400 });
+    if (!dispatchId) {
+      return NextResponse.json({ success: false, error: 'dispatchId obrigatório' }, { status: 400 });
     }
 
-    // 1. Obter quantidade atual
-    const { data: item, error: fetchErr } = await supabaseAdmin
-      .from('stock_items')
-      .select('id, quantity, name')
-      .eq('id', stockItemId)
-      .single();
+    const deductions: any[] = [];
 
-    if (fetchErr || !item) {
-      return NextResponse.json({ error: 'Item de estoque não localizado.' }, { status: 404 });
+    // Se houver urna selecionada, decrementa a quantidade em estoque
+    if (coffinId) {
+      const { data: item, error: fetchErr } = await supabase
+        .from('inventory_items')
+        .select('id, name, quantity')
+        .eq('id', coffinId)
+        .single();
+
+      if (!fetchErr && item) {
+        const nextQty = Math.max(0, (item.quantity || 0) - 1);
+        const { error: updateErr } = await supabase
+          .from('inventory_items')
+          .update({ quantity: nextQty, updated_at: new Date().toISOString() })
+          .eq('id', item.id);
+
+        if (!updateErr) {
+          deductions.push({ id: item.id, name: item.name, previous: item.quantity, current: nextQty });
+        }
+      }
     }
 
-    if (item.quantity < quantity) {
-      return NextResponse.json({ error: 'Estoque insuficiente para baixa.' }, { status: 400 });
-    }
-
-    // 2. Atualizar saldo
-    const newQty = item.quantity - quantity;
-    await supabaseAdmin
-      .from('stock_items')
-      .update({ quantity: newQty })
-      .eq('id', stockItemId);
-
-    // 3. Registrar movimentação
-    await supabaseAdmin
-      .from('stock_movements')
-      .insert([{
-        stock_item_id: stockItemId,
-        type: 'baixa_plantao',
-        quantity: quantity,
-        reason: reason || `Baixa de chamado de emergência ${dispatchId || ''}`,
-        created_at: new Date().toISOString()
-      }]);
-
-    return NextResponse.json({ success: true, remainingQuantity: newQty });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({
+      success: true,
+      message: 'Baixa de estoque efetuada com sucesso',
+      deductions
+    });
+  } catch (error: any) {
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

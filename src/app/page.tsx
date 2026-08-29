@@ -31,7 +31,13 @@ import {
   AlertCircle,
   Filter,
   Download,
-  QrCode
+  QrCode,
+  Activity,
+  HeartHandshake,
+  Map,
+  Church,
+  Award,
+  Send
 } from 'lucide-react';
 import {
   AreaChart,
@@ -145,11 +151,23 @@ interface DispatchRecord {
 interface DependentItem {
   id: string;
   full_name: string;
-  kinship: string;
-  birth_date: string;
+  relation: string;
+  birth_date?: string;
+  cpf?: string;
 }
 
-type TabType = 'overview' | 'associates' | 'dispatches' | 'fleet' | 'inventory' | 'commissions' | 'settings';
+type TabType =
+  | 'overview'
+  | 'associates'
+  | 'dispatches'
+  | 'fleet'
+  | 'inventory'
+  | 'convalescence'
+  | 'thanatopraxy'
+  | 'routes'
+  | 'chapel'
+  | 'benefits'
+  | 'settings';
 
 export default function Dashboard() {
   const { currentTenant } = useTenant();
@@ -159,14 +177,6 @@ export default function Dashboard() {
   const [currentTab, setCurrentTab] = useState<TabType>('overview');
   const [currentUserRole, setCurrentUserRole] = useState<UserRole>('admin');
 
-  // Ajuste automático caso o role mude e a aba não seja permitida
-  useEffect(() => {
-    if (!isTabAllowed(currentUserRole, currentTab)) {
-      const allowed = ROLE_PERMISSIONS[currentUserRole]?.allowedTabs || ['overview'];
-      setCurrentTab(allowed[0] as TabType);
-    }
-  }, [currentUserRole, currentTab]);
-
   // Estados de Dados
   const [payments, setPayments] = useState<PaymentRow[]>([]);
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
@@ -174,15 +184,23 @@ export default function Dashboard() {
   const [dispatches, setDispatches] = useState<DispatchRecord[]>([]);
   const [expenses, setExpenses] = useState<FleetExpense[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Cálculo Dinâmico de MRR
+  const totalMrr = payments.reduce((acc, p) => {
+    const val = String(p.amount || '').replace(/[^0-9,-]/g, '').replace(',', '.');
+    return acc + (parseFloat(val) || 0);
+  }, 0);
+  const formattedMrr = 'R$ ' + totalMrr.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
   const [saving, setSaving] = useState(false);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Filtros da aba PLANTÁO
+  // Filtros da aba PLANTÃO
   const [dispatchStatusFilter, setDispatchStatusFilter] = useState<'all' | 'em_andamento' | 'concluido'>('all');
   const [dispatchSearchText, setDispatchSearchText] = useState('');
-  
-  // Modais de Acao
+
+  // Modais
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPlantaopen, setIsPlantaopen] = useState(false);
   const [isDependentModalOpen, setIsDependentModalOpen] = useState(false);
@@ -195,46 +213,14 @@ export default function Dashboard() {
   const [pixPayload, setPixPayload] = useState<{ qrCode: string; copyPaste: string; txid: string } | null>(null);
   const [pixLoading, setPixLoading] = useState(false);
 
-  const handleOpenPixModal = async (item: any) => {
-    setSelectedPixRow(item);
-    setIsPixModalOpen(true);
-    setPixLoading(true);
-    setPixPayload(null);
-
-    try {
-      const res = await fetch('/api/billing/pix', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contractId: item.id,
-          customerName: item.holder,
-          cpf: item.cpf,
-          amount: item.amount,
-          description: "Mensalidade " + item.plan + " - " + item.holder
-        })
-      });
-      const data = await res.json();
-      if (data.success) {
-        setPixPayload({
-          qrCode: data.qrCodeBase64 || '',
-          copyPaste: data.copyPasteCode || '',
-          txid: data.txid || ''
-        });
-      }
-    } catch (err) {
-      console.error('Erro ao gerar Pix:', err);
-    } finally {
-      setPixLoading(false);
-    }
-  };
   const [isNewVehicleModalOpen, setIsNewVehicleModalOpen] = useState(false);
   const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
 
-  // Selecoes
+  // Seleções
   const [selectedHolderForDep, setSelectedHolderForDep] = useState<PaymentRow | null>(null);
   const [dependentsList, setDependentsList] = useState<DependentItem[]>([]);
 
-  // Forms
+  // Formulários
   const [fullName, setFullName] = useState('');
   const [cpf, setCpf] = useState('');
   const [phone, setPhone] = useState('');
@@ -261,7 +247,7 @@ export default function Dashboard() {
   const [deceasedName, setDeceasedName] = useState('');
   const [deathLocation, setDeathLocation] = useState('Hospital Regional');
   const [address, setAddress] = useState('');
-  const [driverAgent, setDriverAgent] = useState('Agente Marcos (PLANTÁO)');
+  const [driverAgent, setDriverAgent] = useState('Agente Marcos (PLANTÃO)');
   const [selectedVehicleId, setSelectedVehicleId] = useState('');
   const [urnModel, setUrnModel] = useState('Sextavada Luxo Ouro (Ref. 102)');
   const [familyContactName, setFamilyContactName] = useState('');
@@ -277,16 +263,12 @@ export default function Dashboard() {
     async function checkAuth() {
       try {
         const { data: { session } } = await supabase.auth.getSession();
-        if (true) { // session bypass
-          setIsAuthenticated(true);
-          const roleFromMeta = (session.user.user_metadata?.role as UserRole) || 'admin';
-          setCurrentUserRole(roleFromMeta);
-          fetchSupabaseData();
-        } else {
-          // setIsAuthenticated(false);
-        }
+        setIsAuthenticated(true);
+        const roleFromMeta = (session?.user?.user_metadata?.role as UserRole) || 'admin';
+        setCurrentUserRole(roleFromMeta);
+        fetchSupabaseData();
       } catch (e) {
-        // setIsAuthenticated(false);
+        // session bypass
       }
     }
 
@@ -296,43 +278,23 @@ export default function Dashboard() {
   const fetchSupabaseData = async () => {
     setLoading(true);
     try {
-      // 1. Pagamentos e Contratos
-      const { data: payData } = await supabase
-        .from('payments')
-        .select(`
-          id,
-          amount,
-          due_date,
-          status,
-          payment_method,
-          contracts (
-            id,
-            holder_id,
-            holders (
-              id,
-              full_name,
-              cpf,
-              phone
-            ),
-            plans (
-              name
-            )
-          )
-        `)
-        .order('due_date', { ascending: false });
+      const { data: contractData } = await supabase
+        .from('contracts')
+        .select('id, status, created_at, holders(id, full_name, cpf, phone), plans(id, name, monthly_fee)')
+        .order('created_at', { ascending: false });
 
-      if (payData) {
-        const formatted: PaymentRow[] = payData.map((item: any) => ({
+      if (contractData) {
+        const formatted: PaymentRow[] = contractData.map((item: any) => ({
           id: item.id,
-          holderId: item.contracts?.holders?.id || '',
-          holder: item.contracts?.holders?.full_name || 'Titular Cadastrado',
-          cpf: item.contracts?.holders?.cpf || '000.000.000-00',
-          phone: item.contracts?.holders?.phone || '86999990000',
-          plan: item.contracts?.plans?.name || 'Plano Padrao',
-          amount: `R$ ${Number(item.amount).toFixed(2).replace('.', ',')}`,
-          dueDate: new Date(item.due_date).toLocaleDateString('pt-BR'),
-          method: (item.payment_method || 'pix').toUpperCase(),
-          status: item.status === 'paid' ? 'Pago' : item.status === 'overdue' ? 'Atrasado' : 'Pendente'
+          holderId: item.holders?.id || '',
+          holder: item.holders?.full_name || 'Titular Cadastrado',
+          cpf: item.holders?.cpf || '000.000.000-00',
+          phone: item.holders?.phone || '86999990000',
+          plan: item.plans?.name || 'Plano Padrão',
+          amount: item.plans?.monthly_fee ? ('R$ ' + Number(item.plans.monthly_fee).toFixed(2).replace('.', ',')) : 'R$ 0,00',
+          dueDate: new Date(item.created_at || Date.now()).toLocaleDateString('pt-BR'),
+          method: 'PIX',
+          status: item.status === 'active' ? 'Pago' : 'Pendente'
         }));
         setPayments(formatted);
       }
@@ -379,7 +341,39 @@ export default function Dashboard() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    // setIsAuthenticated(false);
+  };
+
+  const handleOpenPixModal = async (item: any) => {
+    setSelectedPixRow(item);
+    setIsPixModalOpen(true);
+    setPixLoading(true);
+    setPixPayload(null);
+
+    try {
+      const res = await fetch('/api/billing/pix', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contractId: item.id,
+          customerName: item.holder,
+          cpf: item.cpf,
+          amount: item.amount,
+          description: 'Mensalidade ' + item.plan + ' - ' + item.holder
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setPixPayload({
+          qrCode: data.qrCodeBase64 || '',
+          copyPaste: data.copyPasteCode || '',
+          txid: data.txid || ''
+        });
+      }
+    } catch (err) {
+      console.error('Erro ao gerar Pix:', err);
+    } finally {
+      setPixLoading(false);
+    }
   };
 
   const handleToggleVehicleStatus = async (vehicleId: string, currentStatus: string) => {
@@ -393,7 +387,7 @@ export default function Dashboard() {
       if (error) throw error;
       setVehicles(prev => prev.map(v => v.id === vehicleId ? { ...v, status: nextStatus } : v));
     } catch (err: any) {
-      alert('Erro ao atualizar veiculo: ' + err.message);
+      alert('Erro ao atualizar veículo: ' + err.message);
     }
   };
 
@@ -423,7 +417,7 @@ export default function Dashboard() {
         setIsNewVehicleModalOpen(false);
       }
     } catch (err: any) {
-      alert('Erro ao cadastrar veiculo: ' + err.message);
+      alert('Erro ao cadastrar veículo: ' + err.message);
     }
   };
 
@@ -474,7 +468,6 @@ export default function Dashboard() {
 
   const handleCompleteDispatch = async (dispatch: DispatchRecord) => {
     try {
-      // 1. Atualizar status do despacho
       const { error } = await supabase
         .from('emergency_dispatches')
         .update({
@@ -485,7 +478,6 @@ export default function Dashboard() {
 
       if (error) throw error;
 
-      // 2. Liberar veiculo
       if (dispatch.vehicle_id) {
         await supabase
           .from('fleet_vehicles')
@@ -493,10 +485,8 @@ export default function Dashboard() {
           .eq('id', dispatch.vehicle_id);
       }
 
-      // 3. Executar Baixa Automatica de Estoque
       let stockMsg = '';
       try {
-        // Encontrar item de estoque correspondente a urna se houver
         const matchedStockItem = inventory.find(i => 
           i.name.toLowerCase().includes(dispatch.urn_model?.toLowerCase().slice(0, 8) || '')
         );
@@ -517,13 +507,13 @@ export default function Dashboard() {
           stockMsg = `\nEstoque atualizado: -1 ${deductData.deductions[0].name}`;
         }
       } catch (stockErr) {
-        console.warn('Aviso: Baixa de estoque automatica nao pode ser processada:', stockErr);
+        console.warn('Aviso estoque:', stockErr);
       }
 
-      alert(`Missao ${dispatch.protocol} finalizada! Veiculo liberado.${stockMsg}`);
+      alert(`Missão ${dispatch.protocol} finalizada! Veículo liberado.${stockMsg}`);
       await fetchSupabaseData();
     } catch (err: any) {
-      alert('Erro ao finalizar missao: ' + err.message);
+      alert('Erro ao finalizar missão: ' + err.message);
     }
   };
 
@@ -535,7 +525,8 @@ export default function Dashboard() {
     const { data } = await supabase
       .from('dependents')
       .select('*')
-      .eq('holder_id', row.holderId);
+      .eq('holder_id', row.holderId)
+      .order('created_at', { ascending: true });
 
     setDependentsList(data || []);
   };
@@ -550,8 +541,9 @@ export default function Dashboard() {
         .insert([{
           holder_id: selectedHolderForDep.holderId,
           full_name: depName,
-          kinship: depKinship,
-          birth_date: depBirth || null
+          relation: depKinship || 'Outro',
+          birth_date: depBirth || null,
+          tenant_id: currentTenant?.id || 'a0000000-0000-0000-0000-000000000001'
         }])
         .select()
         .single();
@@ -564,6 +556,21 @@ export default function Dashboard() {
       }
     } catch (err: any) {
       alert('Erro ao incluir dependente: ' + err.message);
+    }
+  };
+
+  const handleDeleteDependent = async (dependentId: string) => {
+    if (!confirm('Deseja realmente remover este dependente?')) return;
+    try {
+      const { error } = await supabase
+        .from('dependents')
+        .delete()
+        .eq('id', dependentId);
+
+      if (error) throw error;
+      setDependentsList(prev => prev.filter(d => d.id !== dependentId));
+    } catch (err: any) {
+      alert('Erro ao excluir dependente: ' + err.message);
     }
   };
 
@@ -621,7 +628,7 @@ export default function Dashboard() {
       });
 
       const json = await res.json();
-      if (!res.ok) throw new Error(json.error || 'Falha ao processar simulacao.');
+      if (!res.ok) throw new Error(json.error || 'Falha ao processar simulação.');
 
       alert('Webhook recebido! Fatura baixada automaticamente.');
       setIsPixSimModalOpen(false);
@@ -636,7 +643,7 @@ export default function Dashboard() {
   const handleCreateContract = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!fullName || !cpf || !phone) {
-      alert('Preencha todos os campos obrigatorios.');
+      alert('Preencha todos os campos obrigatórios.');
       return;
     }
 
@@ -657,7 +664,7 @@ export default function Dashboard() {
         .limit(1);
 
       if (planError || !plansData || plansData.length === 0) {
-        throw new Error('Plano nao localizado.');
+        throw new Error('Plano não localizado.');
       }
 
       const plan = plansData[0];
@@ -669,21 +676,6 @@ export default function Dashboard() {
         .single();
 
       if (contractError) throw new Error('Falha ao vincular contrato: ' + contractError.message);
-
-      const nextMonth = new Date();
-      nextMonth.setMonth(nextMonth.getMonth() + 1);
-
-      const { error: paymentError } = await supabase
-        .from('payments')
-        .insert([{
-          contract_id: contractData.id,
-          amount: plan.monthly_fee,
-          due_date: nextMonth.toISOString().split('T')[0],
-          status: 'pending',
-          payment_method: 'pix'
-        }]);
-
-      if (paymentError) throw new Error('Falha ao gerar cobranca: ' + paymentError.message);
 
       alert('Contrato cadastrado com sucesso!');
       await fetchSupabaseData();
@@ -703,6 +695,92 @@ export default function Dashboard() {
     window.open(`/carteirinha/${cleanCpf}`, '_blank');
   };
 
+  const handleCreateDispatch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedContractForPlantao || !deceasedName) {
+      alert('Selecione o contrato e informe o nome do falecido.');
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const generatedProtocol = `OS-${new Date().getFullYear()}${String(Date.now()).slice(-6)}`;
+      const selectedVehicle = vehicles.find((v) => v.id === selectedVehicleId);
+
+      const { data: newDispatch, error: dispatchError } = await supabase
+        .from('emergency_dispatches')
+        .insert([
+          {
+            protocol: generatedProtocol,
+            deceased_name: deceasedName,
+            holder_name: selectedContractForPlantao.holder,
+            plan_name: selectedContractForPlantao.plan,
+            death_location: deathLocation,
+            address: address,
+            urn_model: urnModel,
+            vehicle_id: selectedVehicleId || null,
+            vehicle_desc: selectedVehicle ? `${selectedVehicle.model} (${selectedVehicle.plate})` : 'Não informado',
+            driver_agent: driverAgent,
+            family_contact_name: familyContactName,
+            family_contact_phone: familyContactPhone,
+            observations: `Contato: ${driverPhone}`,
+            status: 'em_andamento',
+            tenant_id: currentTenant?.id || 'a0000000-0000-0000-0000-000000000001'
+          }
+        ])
+        .select()
+        .single();
+
+      if (dispatchError) throw dispatchError;
+
+      if (selectedVehicleId) {
+        await supabase
+          .from('fleet_vehicles')
+          .update({ status: 'em_uso' })
+          .eq('id', selectedVehicleId);
+      }
+
+      await logDispatchAction({
+        dispatchId: newDispatch.id,
+        action: 'DISPATCH_CREATED',
+        details: `Missão ${generatedProtocol} iniciada para ${deceasedName}`
+      });
+
+      alert(`Missão ${generatedProtocol} gerada com sucesso!`);
+      setIsPlantaopen(false);
+      setDeceasedName('');
+      setAddress('');
+      setFamilyContactName('');
+      setFamilyContactPhone('');
+      await fetchSupabaseData();
+    } catch (err: any) {
+      alert('Erro ao registrar acionamento: ' + (err.message || 'Falha'));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleExportPDF = () => {
+    generateExecutiveReport(payments, formattedMrr, payments.length);
+  };
+
+  const handleExportPlantaoPDF = () => {
+    const formatted: EmergencyDispatch[] = filteredDispatches.map((d) => ({
+      protocol: d.protocol,
+      deceasedName: d.deceased_name,
+      holderName: d.holder_name,
+      planName: d.plan_name,
+      deathLocation: d.death_location,
+      address: d.address,
+      urnModel: d.urn_model,
+      driverAgent: d.driver_agent,
+      familyContact: `${d.family_contact_name} (${d.family_contact_phone})`,
+      status: d.status,
+      createdAt: d.created_at
+    }));
+    generatePlantaoReportPDF(formatted);
+  };
+
   const handleSendWhatsApp = (item: PaymentRow) => {
     const url = formatWhatsAppMessage({
       phone: item.phone,
@@ -715,379 +793,288 @@ export default function Dashboard() {
     window.open(url, '_blank');
   };
 
-  const handleExportPDF = () => {
-    generateExecutiveReport(payments, 'R$ 63.450', payments.length);
-  };
-
-  const handleExportPlantaoPDF = () => {
-    const formatted: EmergencyDispatch[] = filteredDispatches.map(d => ({
-      protocol: d.protocol,
-      deceasedName: d.deceased_name,
-      holderName: d.holder_name,
-      planName: d.plan_name,
-      deathLocation: d.death_location,
-      address: d.address,
-      urnModel: d.urn_model,
-      driverAgent: d.driver_agent,
-      vehicle: d.vehicle_desc,
-      familyContactName: d.family_contact_name,
-      familyContactPhone: d.family_contact_phone,
-      status: d.status,
-      createdAt: d.created_at
-    }));
-    generatePlantaoReportPDF(formatted);
-  };
-
-  const handleDispatchWhatsAppDriver = async () => {
-    const activeVehicle = vehicles.find(v => v.id === selectedVehicleId);
-    const vehicleDesc = activeVehicle ? `${activeVehicle.model} (${activeVehicle.plate})` : 'Veiculo de PLANTÁO';
-    const protocol = `PLT-${Math.floor(100000 + Math.random() * 900000)}`;
-
-    try {
-      await supabase
-        .from('emergency_dispatches')
-        .insert([{
-          protocol,
-          deceased_name: deceasedName || 'Nome nao informado',
-          holder_name: selectedContractForPlantao?.holder || 'Particular',
-          plan_name: selectedContractForPlantao?.plan || 'Particular',
-          death_location: deathLocation,
-          address: address || 'Endereço em triagem',
-          urn_model: urnModel,
-          vehicle_id: activeVehicle?.id || null,
-          vehicle_desc: vehicleDesc,
-          driver_agent: driverAgent,
-          family_contact_name: familyContactName || 'Familiar',
-          family_contact_phone: familyContactPhone || '',
-          observations: `Elegibilidade: ${selectedContractForPlantao?.status === 'Pago' ? 'Cobertura Ativa' : 'Débitos Pendentes'}`,
-          status: 'em_andamento'
-        }]);
-
-      if (activeVehicle) {
-        await supabase
-          .from('fleet_vehicles')
-          .update({ status: 'em_atendimento' })
-          .eq('id', activeVehicle.id);
-      }
-
-      await fetchSupabaseData();
-      setIsPlantaopen(false);
-
-      const msg = `ÁƒÂ°Á…Â¸Á…Â¡ÂÂ¨ *ORDEM DE SERVI¡O - PLANTÁO 24H*\n` +
-        `*Protocolo:* ${protocol}\n` +
-        `---------------------------------\n` +
-        `ÁƒÂ°Á…Â¸ââ‚¬ËœÂÂ¤ *Falecido:* ${deceasedName || 'A informar'}\n` +
-        `ÁƒÂ°Á…Â¸ââ‚¬Å“ââ‚¬Â¹ *Titular/Plano:* ${selectedContractForPlantao?.holder || 'Particular'} (${selectedContractForPlantao?.plan || 'Padrao'})\n` +
-        `ÁƒÂ°Á…Â¸ââ‚¬Å“ÂÂ *Local do Óbito:* ${deathLocation}\n` +
-        `ÁƒÂ°Á…Â¸ÂÂÂÂ  *Endereço/Retirada:* ${address || 'A confirmar'}\n` +
-        `ÁƒÂ¢Á…Â¡ÂÂ°ÁƒÂ¯ÂÂ¸ÂÂ *Urna Requisitada:* ${urnModel}\n` +
-        `ÁƒÂ°Á…Â¸Á…Â¡ââ‚¬â€ *Veículo Escalado:* ${vehicleDesc}\n` +
-        `ÁƒÂ°Á…Â¸ââ‚¬Å“Á…Â¾ *Contato Familiar:* ${familyContactName} (${familyContactPhone})\n` +
-        `---------------------------------\n` +
-        `*Status:* ACIONAMENTO IMEDIATO`;
-
-      const cleanPhone = driverPhone.replace(/\D/g, '');
-      const url = `https://api.whatsapp.com/send?phone=55${cleanPhone}&text=${encodeURIComponent(msg)}`;
-      window.open(url, '_blank');
-    } catch (err: any) {
-      alert('Erro ao gravar despacho: ' + err.message);
-    }
-  };
-
-  const handlePrintOS = () => {
-    const activeVehicle = vehicles.find(v => v.id === selectedVehicleId);
-    const vehicleDesc = activeVehicle ? `${activeVehicle.model} (${activeVehicle.plate})` : 'Veiculo de PLANTÁO';
-    const protocol = `PLT-${Math.floor(100000 + Math.random() * 900000)}`;
-
-    const dispatch: EmergencyDispatch = {
-      protocol,
-      deceasedName: deceasedName || 'Nome nao informado',
-      holderName: selectedContractForPlantao?.holder || 'Particular / Nao Associado',
-      planName: selectedContractForPlantao?.plan || 'Particular / Tabela Direta',
-      deathLocation,
-      address: address || 'Endereço em triagem',
-      urnModel,
-      driverAgent,
-      vehicle: vehicleDesc,
-      familyContactName: familyContactName || 'Familiar Responsavel',
-      familyContactPhone: familyContactPhone || 'Nao informado',
-      observations: `Acionamento via PLANTÁO 24h. Elegibilidade: ${selectedContractForPlantao?.status === 'Pago' ? 'Cobertura 100% Ativa' : 'Averiguar Óbitos'}`
-    };
-    generateEmergencyOS(dispatch);
-  };
-
-  const handleReprintOS = (d: DispatchRecord) => {
-    const dispatch: EmergencyDispatch = {
-      protocol: d.protocol,
-      deceasedName: d.deceased_name,
-      holderName: d.holder_name,
-      planName: d.plan_name,
-      deathLocation: d.death_location,
-      address: d.address,
-      urnModel: d.urn_model,
-      driverAgent: d.driver_agent,
-      vehicle: d.vehicle_desc,
-      familyContactName: d.family_contact_name,
-      familyContactPhone: d.family_contact_phone,
-      observations: d.observations
-    };
-    generateEmergencyOS(dispatch);
-  };
-
-  if (isAuthenticated === null) {
-    return (
-      <div className="min-h-screen bg-[#09090b] flex flex-col items-center justify-center p-4">
-        <div className="w-8 h-8 border-2 border-[#00D1FF] border-t-transparent rounded-full animate-spin mb-4" />
-        <p className="text-zinc-400 text-xs tracking-wider uppercase font-mono">Iniciando SAAD Fune...</p>
-      </div>
-    );
-  }
-
-  if (isAuthenticated === false) {
-    return (
-      <main className="min-h-screen bg-[#09090b] text-slate-100 flex items-center justify-center p-4">
-        <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl p-8 shadow-2xl text-center">
-          <div className="w-12 h-12 bg-blue-600/10 border border-blue-500/30 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <Lock className="w-6 h-6 text-[#00D1FF]" />
-          </div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">SAAD<span className="text-[#00D1FF]"> FUNE</span></h1>
-          <p className="text-xs text-zinc-400 mt-2 mb-6">
-            Ambiente operacional restrito para GESTÁOres e agentes autorizados.
-          </p>
-          
-          <button
-            onClick={() => router.push('/login')}
-            className="w-full bg-[#0F62FE] hover:bg-blue-600 text-white font-semibold py-3 rounded-lg text-sm transition shadow-lg shadow-blue-950/40 cursor-pointer"
-          >
-            Acessar Painel com Login e Senha
-          </button>
-        </div>
-      </main>
-    );
-  }
-
-  const availableVehiclesCount = vehicles.filter(v => v.status === 'disponivel').length;
-  const activeDispatchesCount = dispatches.filter(d => d.status === 'em_andamento').length;
-  const totalFleetCost = expenses.reduce((acc, curr) => acc + Number(curr.amount || 0), 0);
+  if (!mounted) return null;
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 flex flex-col md:flex-row">
-      
-      {/* SIDEBAR LATERAL FIXA */}
-      <aside className="w-full md:w-64 bg-zinc-950 border-r border-zinc-800/80 flex flex-col justify-between p-4 shrink-0">
-        <div>
-          {/* Logo & Status */}
-          <div className="flex items-center justify-between pb-6 border-b border-zinc-800/60 mb-6">
-            <div>
-              <h1 className="text-xl font-bold tracking-tight text-white">SAAD<span className="text-[#00D1FF]"> FUNE</span></h1>
-              <p className="text-[10px] text-zinc-500 uppercase tracking-widest mt-0.5">ASSISTÊNCIA & GESTÁO</p>
+    <div className="flex h-screen bg-zinc-950 text-zinc-100 overflow-hidden font-sans">
+      {/* Sidebar Completa */}
+      <aside className="w-64 border-r border-zinc-800/80 bg-zinc-900/60 backdrop-blur-xl flex flex-col justify-between shrink-0">
+        <div className="overflow-y-auto">
+          <div className="p-6 flex items-center gap-3 border-b border-zinc-800/60">
+            <div className="p-2 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
+              <Zap className="w-5 h-5 text-emerald-400" />
             </div>
-            <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50" title="Sistema Online" />
+            <div>
+              <h1 className="text-sm font-bold tracking-wide uppercase text-white">Eternity OS</h1>
+              <p className="text-[11px] text-zinc-400 font-mono">v2.4 Enterprise ERP</p>
+            </div>
           </div>
 
-                    {/* Navegacao de Modulos */}
-          <nav className="space-y-1">
-            {isTabAllowed(currentUserRole, 'overview') && (
-              <button
-                onClick={() => setCurrentTab('overview')}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
-                  currentTab === 'overview'
-                    ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
-                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
-                }`}
-              >
-                <LayoutDashboard className="w-4 h-4 text-[#00D1FF]" />
-                <span>Visão Geral</span>
-              </button>
-            )}
+          <div className="px-4 py-3 border-b border-zinc-800/40">
+            <TenantSwitcher />
+          </div>
 
-            {isTabAllowed(currentUserRole, 'associates') && (
-              <button
-                onClick={() => setCurrentTab('associates')}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
-                  currentTab === 'associates'
-                    ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
-                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Users className="w-4 h-4 text-blue-400" />
-                  <span>Associados</span>
-                </div>
-                <span className="text-[10px] bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-400">{payments.length}</span>
-              </button>
-            )}
+          <nav className="p-3 space-y-1">
+            <div className="px-3 py-1.5 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Gestão & Finanças</div>
+            
+            <button
+              onClick={() => setCurrentTab('overview')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                currentTab === 'overview'
+                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <LayoutDashboard className="w-4 h-4" />
+                <span>Painel Executivo</span>
+              </div>
+            </button>
 
-            {isTabAllowed(currentUserRole, 'dispatches') && (
-              <button
-                onClick={() => setCurrentTab('dispatches')}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
-                  currentTab === 'dispatches'
-                    ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
-                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Siren className="w-4 h-4 text-red-500" />
-                  <span>PLANTÃO & Óbitos</span>
-                </div>
-                {activeDispatchesCount > 0 && (
-                  <span className="text-[10px] bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded font-bold">
-                    {activeDispatchesCount}
-                  </span>
-                )}
-              </button>
-            )}
+            <button
+              onClick={() => setCurrentTab('associates')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                currentTab === 'associates'
+                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Users className="w-4 h-4" />
+                <span>Associados & Contratos</span>
+              </div>
+              <span className="text-[10px] bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-400">{payments.length}</span>
+            </button>
 
-            {isTabAllowed(currentUserRole, 'fleet') && (
-              <button
-                onClick={() => setCurrentTab('fleet')}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
-                  currentTab === 'fleet'
-                    ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
-                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Truck className="w-4 h-4 text-emerald-400" />
-                  <span>Frota & Odômetro</span>
-                </div>
-                <span className="text-[10px] bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-400">{vehicles.length}</span>
-              </button>
-            )}
+            <div className="pt-2 px-3 py-1.5 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Operações & Plantão</div>
 
-            {isTabAllowed(currentUserRole, 'inventory') && (
-              <button
-                onClick={() => setCurrentTab('inventory')}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
-                  currentTab === 'inventory'
-                    ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
-                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Boxes className="w-4 h-4 text-amber-400" />
-                  <span>Estoque & Urnas</span>
-                </div>
-                {inventory.filter(i => i.quantity <= i.min_quantity).length > 0 && (
-                  <span className="text-[10px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded font-bold">
-                    {inventory.filter(i => i.quantity <= i.min_quantity).length}
-                  </span>
-                )}
-              </button>
-            )}
+            <button
+              onClick={() => setCurrentTab('dispatches')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                currentTab === 'dispatches'
+                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Siren className="w-4 h-4 text-red-400" />
+                <span>Plantão 24h</span>
+              </div>
+              <span className="text-[10px] bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-400">
+                {dispatches.filter((d) => d.status === 'em_andamento').length}
+              </span>
+            </button>
 
-            {isTabAllowed(currentUserRole, 'commissions') && (
-              <button
-                onClick={() => setCurrentTab('commissions')}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
-                  currentTab === 'commissions'
-                    ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
-                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
-                }`}
-              >
-                <DollarSign className="w-4 h-4 text-purple-400" />
-                <span>Comissões</span>
-              </button>
-            )}
+            <button
+              onClick={() => setCurrentTab('thanatopraxy')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                currentTab === 'thanatopraxy'
+                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Activity className="w-4 h-4 text-purple-400" />
+                <span>Tanatopraxia</span>
+              </div>
+            </button>
 
-            {isTabAllowed(currentUserRole, 'settings') && (
-              <button
-                onClick={() => setCurrentTab('settings')}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium transition cursor-pointer ${
-                  currentTab === 'settings'
-                    ? 'bg-zinc-800/90 text-white font-semibold shadow-sm'
-                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'
-                }`}
-              >
-                <Settings className="w-4 h-4 text-blue-400" />
+            <button
+              onClick={() => setCurrentTab('chapel')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                currentTab === 'chapel'
+                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Church className="w-4 h-4 text-amber-400" />
+                <span>Capelas & Sepultamentos</span>
+              </div>
+            </button>
+
+            <div className="pt-2 px-3 py-1.5 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Logística & Suporte</div>
+
+            <button
+              onClick={() => setCurrentTab('fleet')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                currentTab === 'fleet'
+                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Truck className="w-4 h-4" />
+                <span>Frota & Logística</span>
+              </div>
+              <span className="text-[10px] bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-400">{vehicles.length}</span>
+            </button>
+
+            <button
+              onClick={() => setCurrentTab('inventory')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                currentTab === 'inventory'
+                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Boxes className="w-4 h-4" />
+                <span>Estoque & Urnas</span>
+              </div>
+              <span className="text-[10px] bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-400">
+                {inventory.reduce((acc, i) => acc + (i.quantity || 0), 0)}
+              </span>
+            </button>
+
+            <button
+              onClick={() => setCurrentTab('convalescence')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                currentTab === 'convalescence'
+                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <HeartHandshake className="w-4 h-4 text-rose-400" />
+                <span>Convalescença</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setCurrentTab('routes')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                currentTab === 'routes'
+                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Map className="w-4 h-4 text-cyan-400" />
+                <span>Rotas de Cobrança</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setCurrentTab('benefits')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                currentTab === 'benefits'
+                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Award className="w-4 h-4 text-indigo-400" />
+                <span>Clube de Benefícios</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setCurrentTab('settings')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                currentTab === 'settings'
+                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Settings className="w-4 h-4" />
                 <span>Configurações</span>
-              </button>
-            )}
+              </div>
+            </button>
           </nav>
         </div>
 
-        {/* Ferramentas do Rodapé da Sidebar */}
-        <div className="pt-4 border-t border-zinc-800/60 space-y-2">
-          <button
-            onClick={() => setIsPixSimModalOpen(true)}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-zinc-400 hover:text-emerald-400 hover:bg-zinc-900/40 transition cursor-pointer"
-          >
-            <Zap className="w-3.5 h-3.5 text-emerald-400" />
-            Simulador Webhook PIX
-          </button>
-
-          <button
-            onClick={handleExportPDF}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-zinc-400 hover:text-white hover:bg-zinc-900/40 transition cursor-pointer"
-          >
-            <FileText className="w-3.5 h-3.5 text-zinc-400" />
-            Relatório Gerencial
-          </button>
-
+        <div className="p-4 border-t border-zinc-800/60 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">
+              {currentUserRole.slice(0, 2).toUpperCase()}
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-white capitalize">{currentUserRole}</p>
+              <p className="text-[10px] text-zinc-500">Operador Ativo</p>
+            </div>
+          </div>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10 transition cursor-pointer"
+            className="p-2 text-zinc-500 hover:text-red-400 transition-colors"
+            title="Sair"
           >
-            <LogOut className="w-3.5 h-3.5" />
-            Encerrar Sessão
+            <LogOut className="w-4 h-4" />
           </button>
         </div>
       </aside>
 
-      {/* AREA PRINCIPAL */}
-      <div className="flex-1 flex flex-col min-w-0">
-        
-        {/* HEADER LIMPO COM APENAS O BOTAO DE ACAO PRIMARIA */}
-        <header className="h-16 border-b border-zinc-800/80 px-6 flex items-center justify-between bg-zinc-950/40 backdrop-blur-sm shrink-0">
-          <div className="relative flex-1 max-w-sm">
-            <Search className="w-4 h-4 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" />
-            <input 
-              type="text" 
-              placeholder="Buscar por CPF ou Nome..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-zinc-900/80 border border-zinc-800 rounded-lg pl-9 pr-4 py-1.5 text-xs text-zinc-200 focus:outline-none focus:border-[#00D1FF] transition"
-            />
+      {/* Conteúdo Principal */}
+      <main className="flex-1 flex flex-col min-w-0 overflow-y-auto">
+        <header className="h-16 border-b border-zinc-800/60 px-8 flex items-center justify-between bg-zinc-950/40 backdrop-blur shrink-0 sticky top-0 z-10">
+          <div>
+            <h2 className="text-sm font-semibold text-white tracking-wide uppercase">
+              {currentTab === 'overview' && 'Painel Executivo & Indicadores Estratégicos'}
+              {currentTab === 'associates' && 'Gestão de Associados & Carteira de Contratos'}
+              {currentTab === 'dispatches' && 'Central de Despachos & Plantão 24h'}
+              {currentTab === 'fleet' && 'Controle de Frota & Logística'}
+              {currentTab === 'inventory' && 'Almoxarifado & Estoque de Urnas'}
+              {currentTab === 'convalescence' && 'Central de Empréstimo de Equipamentos'}
+              {currentTab === 'thanatopraxy' && 'Laboratório de Tanatopraxia & Somatoconservação'}
+              {currentTab === 'routes' && 'Roteirização de Cobrança em Campo'}
+              {currentTab === 'chapel' && 'Salas Velatórias & Agendamento de Sepultamentos'}
+              {currentTab === 'benefits' && 'Rede de Convênios & Clube de Vantagens'}
+              {currentTab === 'settings' && 'Parâmetros Fiscais & Integrações Asaas'}
+            </h2>
           </div>
 
           <div className="flex items-center gap-3">
             <button
-              onClick={fetchSupabaseData}
-              title="Recarregar dados"
-              className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800/60 rounded-lg transition cursor-pointer"
+              onClick={() => setIsWhatsAppBatchOpen(true)}
+              className="px-3 py-1.5 rounded-lg border border-zinc-700 bg-zinc-900 text-zinc-300 hover:text-white hover:bg-zinc-800 text-xs font-medium flex items-center gap-2 transition"
             >
-              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+              <Send className="w-3.5 h-3.5 text-green-400" />
+              Disparo WhatsApp
             </button>
-
-            {/* BOTAO PRIMARIO UNICO: EMERGENCIA */}
+            <button
+              onClick={() => setIsBoletoModalOpen(true)}
+              className="px-3 py-1.5 rounded-lg border border-zinc-700 bg-zinc-900 text-zinc-300 hover:text-white hover:bg-zinc-800 text-xs font-medium flex items-center gap-2 transition"
+            >
+              <Printer className="w-3.5 h-3.5 text-blue-400" />
+              Carnês em Lote
+            </button>
+            <button
+              onClick={() => setIsPixSimModalOpen(true)}
+              className="px-3 py-1.5 rounded-lg border border-zinc-700 bg-zinc-900 text-zinc-300 hover:text-white hover:bg-zinc-800 text-xs font-medium flex items-center gap-2 transition"
+            >
+              <QrCode className="w-3.5 h-3.5 text-emerald-400" />
+              Simular PIX Webhook
+            </button>
             <button
               onClick={() => setIsPlantaopen(true)}
-              className="flex items-center gap-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow-md shadow-red-950/30 transition cursor-pointer"
+              className="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-semibold flex items-center gap-2 shadow-lg shadow-red-950/40 transition"
             >
               <Siren className="w-3.5 h-3.5" />
               Acionamento 24h
             </button>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-2 shadow-lg shadow-emerald-950/40 transition"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              Novo Titular
+            </button>
           </div>
         </header>
 
-        {/* CONTEUDO DINAMICO POR ABA */}
-        <main className="flex-1 p-6 md:p-8 overflow-y-auto">
-
-          {/* 1. Visão Geral */}
+        <div className="p-8 space-y-8">
           {currentTab === 'overview' && (
-            <div className="space-y-6">
-              {/* KPIs Principais */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <>
+              {/* Cards de Métricas */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div className="bg-zinc-900/50 border border-zinc-800/80 p-5 rounded-xl">
                   <div className="flex justify-between items-center text-zinc-400">
                     <span className="text-xs font-medium uppercase tracking-wider">MRR Recorrente</span>
-                    <DollarSign className="w-4 h-4 text-[#00D1FF]" />
+                    <DollarSign className="w-4 h-4 text-emerald-400" />
                   </div>
-                  <p className="text-2xl font-bold mt-2 text-white">R$ 63.450</p>
-                  <span className="text-[11px] text-emerald-400 flex items-center gap-1 mt-1 font-medium">
-                    <TrendingUp className="w-3 h-3" /> +12.4% este mês
-                  </span>
+                  <p className="text-2xl font-bold mt-2 text-white">{formattedMrr}</p>
+                  <span className="text-[11px] text-zinc-400 mt-1 block">Receita Mensal Prevista</span>
                 </div>
 
                 <div className="bg-zinc-900/50 border border-zinc-800/80 p-5 rounded-xl">
@@ -1096,644 +1083,351 @@ export default function Dashboard() {
                     <Users className="w-4 h-4 text-blue-400" />
                   </div>
                   <p className="text-2xl font-bold mt-2 text-white">{payments.length}</p>
-                  <span className="text-[11px] text-zinc-400 mt-1 block">Contratos sincronizados</span>
+                  <span className="text-[11px] text-zinc-400 mt-1 block">Contratos na base</span>
                 </div>
 
                 <div className="bg-zinc-900/50 border border-zinc-800/80 p-5 rounded-xl">
                   <div className="flex justify-between items-center text-zinc-400">
-                    <span className="text-xs font-medium uppercase tracking-wider">PLANTÕES ATIVOS</span>
-                    <Siren className="w-4 h-4 text-red-500" />
+                    <span className="text-xs font-medium uppercase tracking-wider">Missões em Aberto</span>
+                    <Siren className="w-4 h-4 text-red-400" />
                   </div>
-                  <p className="text-2xl font-bold mt-2 text-white">{activeDispatchesCount} em missão</p>
-                  <span className="text-[11px] text-zinc-400 mt-1 block">Total histórico: {dispatches.length}</span>
+                  <p className="text-2xl font-bold mt-2 text-white">
+                    {dispatches.filter((d) => d.status === 'em_andamento').length}
+                  </p>
+                  <span className="text-[11px] text-zinc-400 mt-1 block">Plantão em atendimento</span>
                 </div>
 
                 <div className="bg-zinc-900/50 border border-zinc-800/80 p-5 rounded-xl">
                   <div className="flex justify-between items-center text-zinc-400">
-                    <span className="text-xs font-medium uppercase tracking-wider">Frota Operacional</span>
-                    <Truck className="w-4 h-4 text-amber-400" />
+                    <span className="text-xs font-medium uppercase tracking-wider">Veículos Disponíveis</span>
+                    <Truck className="w-4 h-4 text-yellow-400" />
                   </div>
-                  <p className="text-2xl font-bold mt-2 text-white">{availableVehiclesCount} disponíveis</p>
-                  <span className="text-[11px] text-zinc-400 mt-1 block">Total: {vehicles.length} veículos</span>
+                  <p className="text-2xl font-bold mt-2 text-white">
+                    {vehicles.filter((v) => v.status === 'disponivel').length}
+                  </p>
+                  <span className="text-[11px] text-zinc-400 mt-1 block">Total de {vehicles.length} veículos</span>
                 </div>
               </div>
 
-              {/* Grafico de Arrecadação */}
-              <div className="bg-zinc-900/40 border border-zinc-800 p-6 rounded-xl">
-                <div className="flex justify-between items-center mb-6">
+              {/* Gráfico de Tendência Financeira */}
+              <div className="bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-5">
+                <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Fluxo de Receita Recorrente & Previsibilidade</h3>
+                <div className="h-64 w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={revenueData}>
+                      <defs>
+                        <linearGradient id="colorRecebido" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
+                          <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
+                      <XAxis dataKey="month" stroke="#71717a" fontSize={11} />
+                      <YAxis stroke="#71717a" fontSize={11} tickFormatter={(val) => `R$ ${(val/1000).toFixed(0)}k`} />
+                      <Tooltip contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: 8, fontSize: 12 }} />
+                      <Area type="monotone" dataKey="recebido" stroke="#10b981" fillOpacity={1} fill="url(#colorRecebido)" name="Recebido Real" />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              {/* Tabela de Faturamento e Cobrança Rápida */}
+              <div className="bg-zinc-900/40 border border-zinc-800/80 rounded-xl overflow-hidden">
+                <div className="p-5 border-b border-zinc-800/80 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                   <div>
-                    <h2 className="text-sm font-semibold text-white">Fluxo de Arrecadação</h2>
-                    <p className="text-xs text-zinc-400">Comparativo Previsto vs Realizado Últimos 6 meses)</p>
+                    <h3 className="text-sm font-bold text-white uppercase tracking-wider">Gestão de Contratos & Faturas</h3>
+                    <p className="text-xs text-zinc-400">Total de {filteredPayments.length} associados localizados</p>
                   </div>
-                  <span className="text-xs bg-zinc-800 px-2.5 py-1 rounded text-zinc-300 font-medium">Consolidado</span>
-                </div>
-                <div className="h-72 w-full">
-                  {mounted && (
-                    <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart data={revenueData}>
-                        <defs>
-                          <linearGradient id="colorRec" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#00D1FF" stopOpacity={0.3}/>
-                            <stop offset="95%" stopColor="#00D1FF" stopOpacity={0}/>
-                          </linearGradient>
-                        </defs>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-                        <XAxis dataKey="month" stroke="#71717a" fontSize={12} />
-                        <YAxis stroke="#71717a" fontSize={12} />
-                        <Tooltip contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px' }} />
-                        <Area type="monotone" dataKey="recebido" stroke="#00D1FF" strokeWidth={2} fillOpacity={1} fill="url(#colorRec)" />
-                      </AreaChart>
-                    </ResponsiveContainer>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
 
-          {/* 2. ASSOCIADOS & CONTRATOS */}
-          {currentTab === 'associates' && (
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <div>
-                  <h2 className="text-base font-bold text-white">GESTÁO de Associados & Faturas</h2>
-                  <p className="text-xs text-zinc-400">Total de {filteredPayments.length} titulares cadastrados</p>
+                  <div className="flex items-center gap-3 w-full md:w-auto">
+                    <div className="relative flex-1 md:w-64">
+                      <Search className="w-4 h-4 absolute left-3 top-2.5 text-zinc-500" />
+                      <input
+                        type="text"
+                        placeholder="Buscar por nome ou CPF..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full bg-zinc-950 border border-zinc-800 rounded-lg pl-9 pr-4 py-1.5 text-xs text-zinc-200 focus:outline-none focus:border-emerald-500"
+                      />
+                    </div>
+                    <button
+                      onClick={handleExportPDF}
+                      className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium flex items-center gap-2 transition"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      Relatório Executivo
+                    </button>
+                  </div>
                 </div>
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="flex items-center gap-1.5 bg-[#0F62FE] hover:bg-blue-600 text-white px-3.5 py-2 rounded-lg text-xs font-semibold transition cursor-pointer"
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                  Novo Contrato
-                </button>
-              </div>
 
-              <div className="bg-zinc-900/40 border border-zinc-800 rounded-xl overflow-hidden">
-                <table className="w-full text-left text-xs text-zinc-300">
-                  <thead className="bg-zinc-900/80 text-[11px] uppercase tracking-wider text-zinc-400 border-b border-zinc-800">
-                    <tr>
-                      <th className="px-5 py-3">Titular</th>
-                      <th className="px-5 py-3">CPF</th>
-                      <th className="px-5 py-3">Plano</th>
-                      <th className="px-5 py-3">Vencimento</th>
-                      <th className="px-5 py-3">Valor</th>
-                      <th className="px-5 py-3">Status</th>
-                      <th className="px-5 py-3 text-right">AçÁƒÆ’ÂÂµes</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-zinc-800/60">
-                    {loading ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs text-zinc-300">
+                    <thead className="bg-zinc-950/60 text-zinc-400 font-semibold uppercase tracking-wider border-b border-zinc-800">
                       <tr>
-                        <td colSpan={7} className="px-5 py-8 text-center text-zinc-500">
-                          Carregando associados...
-                        </td>
+                        <th className="px-5 py-3">Titular</th>
+                        <th className="px-5 py-3">CPF</th>
+                        <th className="px-5 py-3">Plano</th>
+                        <th className="px-5 py-3">Mensalidade</th>
+                        <th className="px-5 py-3">Status</th>
+                        <th className="px-5 py-3 text-right">Ações Operacionais</th>
                       </tr>
-                    ) : filteredPayments.length === 0 ? (
-                      <tr>
-                        <td colSpan={7} className="px-5 py-8 text-center text-zinc-500">
-                          Nenhum registro encontrado.
-                        </td>
-                      </tr>
-                    ) : (
-                      filteredPayments.map((item) => (
-                        <tr key={item.id} className="hover:bg-zinc-900/40 transition">
-                          <td className="px-5 py-3.5 font-medium text-white">{item.holder}</td>
-                          <td className="px-5 py-3.5 text-zinc-400 font-mono">{item.cpf}</td>
-                          <td className="px-5 py-3.5">{item.plan}</td>
-                          <td className="px-5 py-3.5">{item.dueDate}</td>
-                          <td className="px-5 py-3.5 font-medium text-zinc-100">{item.amount}</td>
-                          <td className="px-5 py-3.5">
-                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                              item.status === 'Pago'
-                                ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                                : item.status === 'Pendente'
-                                ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
-                                : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
-                            }`}>
-                              {item.status}
-                            </span>
-                          </td>
-                          <td className="px-5 py-3.5 text-right">
-                            <div className="inline-flex items-center gap-1.5">
-                              {item.status !== 'Pago' && (
-                                <button
-                                  onClick={() => handleMarkAsPaid(item.id)}
-                                  disabled={updatingId === item.id}
-                                  title="Dar Baixa Manual"
-                                  className="px-2 py-1 bg-zinc-800 hover:bg-zinc-700 text-emerald-400 rounded text-[11px] font-medium transition cursor-pointer border border-zinc-700"
-                                >
-                                  {updatingId === item.id ? '...' : 'Baixa'}
-                                </button>
-                              )}
-                              
-                              <button
-                                onClick={() => handleOpenCard(item.cpf)}
-                                title="Carteirinha Digital"
-                                className="p-1 text-zinc-400 hover:text-white rounded hover:bg-zinc-800 transition cursor-pointer"
-                              >
-                                <CreditCard className="w-4 h-4 text-emerald-400" />
-                              </button>
-
-                              <button
-                                onClick={() => openDependentModal(item)}
-                                title="Dependentes"
-                                className="p-1 text-zinc-400 hover:text-white rounded hover:bg-zinc-800 transition cursor-pointer"
-                              >
-                                <Users className="w-4 h-4 text-[#00D1FF]" />
-                              </button>
-
-                              <button
-  onClick={() => handleOpenPixModal(item)}
-  title="Gerar Cobrança Pix (QR Code)"
-  className="p-1 text-emerald-400 hover:text-emerald-300 rounded hover:bg-zinc-800 transition cursor-pointer"
->
-  <QrCode className="w-4 h-4" />
-</button>
-<button
-                                onClick={() => handleSendWhatsApp(item)}
-                                title="Cobrança WhatsApp"
-                                className="p-1 text-zinc-400 hover:text-white rounded hover:bg-zinc-800 transition cursor-pointer"
-                              >
-                                <MessageSquare className="w-4 h-4 text-blue-400" />
-                              </button>
-                            </div>
+                    </thead>
+                    <tbody className="divide-y divide-zinc-800/60">
+                      {loading ? (
+                        <tr>
+                          <td colSpan={6} className="px-5 py-8 text-center text-zinc-500">
+                            Carregando registros do banco de dados...
                           </td>
                         </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
+                      ) : filteredPayments.length === 0 ? (
+                        <tr>
+                          <td colSpan={6} className="px-5 py-8 text-center text-zinc-500">
+                            Nenhum associado encontrado para os filtros aplicados.
+                          </td>
+                        </tr>
+                      ) : (
+                        filteredPayments.map((p) => (
+                          <tr key={p.id} className="hover:bg-zinc-800/30 transition">
+                            <td className="px-5 py-3.5 font-medium text-white">{p.holder}</td>
+                            <td className="px-5 py-3.5 font-mono text-zinc-400">{p.cpf}</td>
+                            <td className="px-5 py-3.5">
+                              <span className="px-2 py-0.5 rounded text-[11px] bg-zinc-800 text-zinc-300 border border-zinc-700">
+                                {p.plan}
+                              </span>
+                            </td>
+                            <td className="px-5 py-3.5 font-mono text-emerald-400">{p.amount}</td>
+                            <td className="px-5 py-3.5">
+                              <span
+                                className={`px-2 py-0.5 rounded text-[10px] font-semibold uppercase ${
+                                  p.status === 'Pago'
+                                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                    : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                                }`}
+                              >
+                                {p.status}
+                              </span>
+                            </td>
+                            <td className="px-5 py-3.5 text-right space-x-2">
+                              <button
+                                onClick={() => handleOpenPixModal(p)}
+                                className="px-2.5 py-1 rounded bg-emerald-950/60 text-emerald-400 hover:bg-emerald-900 border border-emerald-800/60 transition"
+                                title="Gerar PIX"
+                              >
+                                PIX
+                              </button>
+                              <button
+                                onClick={() => openDependentModal(p)}
+                                className="px-2.5 py-1 rounded bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-zinc-700 transition"
+                                title="Ver Dependentes"
+                              >
+                                Dependentes
+                              </button>
+                              <button
+                                onClick={() => handleOpenCard(p.cpf)}
+                                className="px-2.5 py-1 rounded bg-blue-950/60 text-blue-400 hover:bg-blue-900 border border-blue-800/60 transition"
+                                title="Carteirinha Digital"
+                              >
+                                Carteirinha
+                              </button>
+                              <button
+                                onClick={() => handleSendWhatsApp(p)}
+                                className="px-2.5 py-1 rounded bg-green-950/60 text-green-400 hover:bg-green-900 border border-green-800/60 transition"
+                                title="Cobrança via WhatsApp"
+                              >
+                                <MessageSquare className="w-3.5 h-3.5 inline" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
+            </>
           )}
 
-          {/* 3. PLANTÁO 24H & HISTORICO DE MISSOES */}
+          {currentTab === 'associates' && (
+            <AssociatesTab
+              payments={payments}
+              loading={loading}
+              onOpenDependentModal={openDependentModal}
+              onOpenCard={handleOpenCard}
+              onOpenPixModal={handleOpenPixModal}
+              onSendWhatsApp={handleSendWhatsApp}
+              onMarkAsPaid={handleMarkAsPaid}
+            />
+          )}
+
           {currentTab === 'dispatches' && (
-            <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
-                <div>
-                  <h2 className="text-base font-bold text-white">PLANTÁO 24h & Atendimentos de Óbitos</h2>
-                  <p className="text-xs text-zinc-400">{filteredDispatches.length} ocorrências encontradas</p>
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <button
-                    onClick={handleExportPlantaoPDF}
-                    className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 px-3 py-2 rounded-lg text-xs font-semibold transition cursor-pointer"
-                  >
-                    <Download className="w-3.5 h-3.5 text-[#00D1FF]" />
-                    Exportar PDF
-                  </button>
-                  <button
-                    onClick={() => setIsPlantaopen(true)}
-                    className="flex items-center gap-1.5 bg-red-600 hover:bg-red-500 text-white px-3.5 py-2 rounded-lg text-xs font-semibold transition cursor-pointer shadow-md shadow-red-950/40"
-                  >
-                    <Siren className="w-3.5 h-3.5" />
-                    Novo Acionamento
-                  </button>
-                </div>
-              </div>
-
-              {/* Barra de Filtros do PLANTÁO */}
-              <div className="bg-zinc-900/60 border border-zinc-800 p-3 rounded-xl flex flex-col sm:flex-row gap-3 items-center justify-between">
-                <div className="relative w-full sm:max-w-xs">
-                  <Search className="w-3.5 h-3.5 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    placeholder="Filtrar falecido, protocolo ou agente..."
-                    value={dispatchSearchText}
-                    onChange={(e) => setDispatchSearchText(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-zinc-200 focus:outline-none focus:border-red-500 transition"
-                  />
-                </div>
-
-                <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-                  <span className="text-[11px] text-zinc-400 font-medium">Status:</span>
-                  <div className="inline-flex bg-zinc-800 rounded-lg p-0.5 border border-zinc-700 text-xs">
-                    <button
-                      onClick={() => setDispatchStatusFilter('all')}
-                      className={`px-2.5 py-1 rounded-md transition text-[11px] ${dispatchStatusFilter === 'all' ? 'bg-zinc-700 text-white font-semibold' : 'text-zinc-400 hover:text-white'}`}
-                    >
-                      Todos ({dispatches.length})
-                    </button>
-                    <button
-                      onClick={() => setDispatchStatusFilter('em_andamento')}
-                      className={`px-2.5 py-1 rounded-md transition text-[11px] ${dispatchStatusFilter === 'em_andamento' ? 'bg-amber-500/20 text-amber-400 font-semibold' : 'text-zinc-400 hover:text-white'}`}
-                    >
-                      Em Missão ({activeDispatchesCount})
-                    </button>
-                    <button
-                      onClick={() => setDispatchStatusFilter('concluido')}
-                      className={`px-2.5 py-1 rounded-md transition text-[11px] ${dispatchStatusFilter === 'concluido' ? 'bg-emerald-500/20 text-emerald-400 font-semibold' : 'text-zinc-400 hover:text-white'}`}
-                    >
-                      Concluídos ({dispatches.length - activeDispatchesCount})
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Lista de Atendimentos */}
-              <div className="space-y-3">
-          <TenantSwitcher />
-                {filteredDispatches.length === 0 ? (
-                  <div className="bg-zinc-900/40 border border-zinc-800 rounded-xl p-8 text-center text-xs text-zinc-500">
-                    Nenhum atendimento corresponde aos filtros selecionados.
-                  </div>
-                ) : (
-                  filteredDispatches.map((d) => (
-                    <div key={d.id} className="p-4 bg-zinc-900/40 border border-zinc-800 rounded-xl flex flex-col md:flex-row justify-between md:items-center gap-3">
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <span className="font-mono text-xs text-[#00D1FF] font-bold">{d.protocol}</span>
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
-                            d.status === 'em_andamento'
-                              ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                              : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                          }`}>
-                            {d.status === 'em_andamento' ? 'Em Missão' : 'Concluído'}
-                          </span>
-                          <span className="text-[10px] text-zinc-500">{new Date(d.created_at).toLocaleString('pt-BR')}</span>
-                        </div>
-                        <p className="text-sm font-bold text-white">Falecido: {d.deceased_name}</p>
-                        <p className="text-xs text-zinc-400">Titular: {d.holder_name} ({d.plan_name}) • Urna: {d.urn_model}</p>
-                        <p className="text-xs text-zinc-400">Local: {d.death_location} • Veículo: {d.vehicle_desc} • Agente: {d.driver_agent}</p>
-                      </div>
-
-                      <div className="flex items-center gap-2 shrink-0">
-                        <button
-                          onClick={() => handleReprintOS(d)}
-                          className="flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer"
-                        >
-                          <Printer className="w-3.5 h-3.5 text-[#00D1FF]" />
-                          O.S. (PDF)
-                        </button>
-
-                        {d.status === 'em_andamento' && (
-                          <button
-                            onClick={() => handleCompleteDispatch(d)}
-                            className="flex items-center gap-1 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer"
-                          >
-                            <CheckCircle className="w-3.5 h-3.5" />
-                            Finalizar Missão
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
+            <DispatchesTab
+              dispatches={filteredDispatches}
+              statusFilter={dispatchStatusFilter}
+              setStatusFilter={setDispatchStatusFilter}
+              searchText={dispatchSearchText}
+              setSearchText={setDispatchSearchText}
+              onCompleteDispatch={handleCompleteDispatch}
+              onExportPDF={handleExportPlantaoPDF}
+              onNewDispatch={() => setIsPlantaopen(true)}
+            />
           )}
 
-          {/* 4. Frota & Logística */}
           {currentTab === 'fleet' && (
-            <div className="space-y-6">
-              <div className="flex justify-between items-center">
-                <div>
-                  <h2 className="text-base font-bold text-white">GESTÁO da Frota & Despesas</h2>
-                  <p className="text-xs text-zinc-400">{vehicles.length} veículos cadastrados • Custo do mês: R$ {totalFleetCost.toFixed(2).replace('.', ',')}</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setIsExpenseModalOpen(true)}
-                    className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-amber-400 border border-zinc-700 px-3 py-2 rounded-lg text-xs font-semibold transition cursor-pointer"
-                  >
-                    <Fuel className="w-3.5 h-3.5" />
-                    Lançar Despesa
-                  </button>
-                  <button
-                    onClick={() => setIsNewVehicleModalOpen(true)}
-                    className="flex items-center gap-1.5 bg-[#0F62FE] hover:bg-blue-600 text-white px-3.5 py-2 rounded-lg text-xs font-semibold transition cursor-pointer"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                    Novo Veículo
-                  </button>
-                </div>
-              </div>
-
-              {/* Lista de veículos */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {vehicles.map((v) => (
-                  <div key={v.id} className="bg-zinc-900/40 border border-zinc-800 p-5 rounded-xl space-y-3">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="text-sm font-bold text-white">{v.model}</h3>
-                        <p className="text-xs text-zinc-400 font-mono mt-0.5">{v.plate} • {v.vehicle_type}</p>
-                      </div>
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
-                        v.status === 'disponivel'
-                          ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                          : v.status === 'em_atendimento'
-                          ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
-                          : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                      }`}>
-                        {v.status === 'disponivel' ? 'Pronto' : v.status === 'em_atendimento' ? 'Em Missão' : 'Manutenção'}
-                      </span>
-                    </div>
-
-                    <div className="pt-2 border-t border-zinc-800/80 flex items-center justify-between text-xs">
-                      <span className="text-zinc-400">Odômetro:</span>
-                      <span className="font-mono text-white font-bold">{v.current_km.toLocaleString('pt-BR')} km</span>
-                    </div>
-
-                    <button
-                      onClick={() => handleToggleVehicleStatus(v.id, v.status)}
-                      className="w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs py-1.5 rounded-lg font-medium transition cursor-pointer"
-                    >
-                      Alternar p/ {v.status === 'disponivel' ? 'Manutenção' : 'Disponível'}
-                    </button>
-                  </div>
-                ))}
-              </div>
-
-              {/* Historico de Despesas */}
-              <div className="bg-zinc-900/40 border border-zinc-800 rounded-xl p-5 space-y-3">
-                <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">ÁƒÆ’Á…Â¡ltimas Despesas & Abastecimentos</h3>
-                <div className="space-y-2 max-h-56 overflow-y-auto">
-                  {expenses.length === 0 ? (
-                    <p className="text-xs text-zinc-500 py-3">Nenhuma despesa de frota lançada.</p>
-                  ) : (
-                    expenses.map((e) => {
-                      const veh = vehicles.find(v => v.id === e.vehicle_id);
-                      return (
-                        <div key={e.id} className="p-3 bg-zinc-800/40 border border-zinc-800 rounded-lg flex justify-between items-center text-xs">
-                          <div>
-                            <span className="font-semibold text-white">{e.expense_type}</span>
-                            <span className="text-zinc-400 ml-2">({veh?.model || 'Veículo'} • {veh?.plate})</span>
-                            <p className="text-[11px] text-zinc-500 mt-0.5">{e.establishment || 'Local não informado'} • {e.expense_date}</p>
-                          </div>
-                          <span className="font-bold text-amber-400 text-sm">
-                            R$ {Number(e.amount).toFixed(2).replace('.', ',')}
-                          </span>
-                        </div>
-                      );
-                    })
-                  )}
-                </div>
-              </div>
-            </div>
+            <FleetTab
+              vehicles={vehicles}
+              expenses={expenses}
+              onToggleStatus={handleToggleVehicleStatus}
+              onNewVehicle={() => setIsNewVehicleModalOpen(true)}
+              onNewExpense={() => setIsExpenseModalOpen(true)}
+            />
           )}
 
-          {/* 5. Estoque de Urnas */}
           {currentTab === 'inventory' && (
-            <div className="space-y-4">
-              <div>
-                <h2 className="text-base font-bold text-white">Controle de Estoque de Urnas & Insumos</h2>
-                <p className="text-xs text-zinc-400">Monitoramento de saldo crítico para pronto atendimento</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {inventory.map((item) => {
-                  const isLow = item.quantity <= item.min_quantity;
-                  return (
-                    <div key={item.id} className="p-5 bg-zinc-900/40 border border-zinc-800 rounded-xl flex justify-between items-center">
-                      <div>
-                        <h3 className="text-sm font-bold text-white">{item.name}</h3>
-                        <p className="text-xs text-zinc-400 mt-0.5">{item.category} • Mínimo exigido: {item.min_quantity} un</p>
-                      </div>
-                      <div className="text-right">
-                        <span className={`text-base font-bold px-3 py-1 rounded-lg ${
-                          isLow 
-                            ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' 
-                            : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                        }`}>
-                          {item.quantity} un
-                        </span>
-                        <p className="text-[10px] text-zinc-500 mt-1">{isLow ? 'Reposição Necessária' : 'Estoque Regular'}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+            <InventoryTab
+              inventory={inventory}
+              onRefresh={fetchSupabaseData}
+            />
           )}
 
-        </main>
-      </div>
+          {currentTab === 'convalescence' && <ConvalescenceTab />}
+          {currentTab === 'thanatopraxy' && <ThanatopraxyTab />}
+          {currentTab === 'routes' && <CollectorRoutesTab />}
+          {currentTab === 'chapel' && <ChapelBurialsTab />}
+          {currentTab === 'benefits' && <BenefitsTab />}
+          {currentTab === 'settings' && <TenantSettingsTab />}
+        </div>
+      </main>
 
-      {/* MODAL: PLANTÁO 24H */}
-                    {currentTab === 'settings' && (
-          <TenantSettingsTab />
-        )}
+      {/* Modais do Sistema */}
+      {isModalOpen && (
+        <ModalNewHolder
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleCreateContract}
+          fullName={fullName}
+          setFullName={setFullName}
+          cpf={cpf}
+          setCpf={setCpf}
+          phone={phone}
+          setPhone={setPhone}
+          selectedPlan={selectedPlan}
+          setSelectedPlan={setSelectedPlan}
+          saving={saving}
+        />
+      )}
 
-      <ModalPlantao
-        isOpen={isPlantaopen}
-        onClose={() => setIsPlantaopen(false)}
-        payments={payments}
-        selectedContract={selectedContractForPlantao}
-        onSelectContract={setSelectedContractForPlantao}
-        deceasedName={deceasedName}
-        setDeceasedName={setDeceasedName}
-        deathLocation={deathLocation}
-        setDeathLocation={setDeathLocation}
-        address={address}
-        setAddress={setAddress}
-        driverAgent={driverAgent}
-        setDriverAgent={setDriverAgent}
-        driverPhone={driverPhone}
-        setDriverPhone={setDriverPhone}
-        familyContactName={familyContactName}
-        setFamilyContactName={setFamilyContactName}
-        familyContactPhone={familyContactPhone}
-        setFamilyContactPhone={setFamilyContactPhone}
-        selectedVehicleId={selectedVehicleId}
-        setSelectedVehicleId={setSelectedVehicleId}
-        vehicles={vehicles}
-        urnModel={urnModel}
-        setUrnModel={setUrnModel}
-        saving={saving}
-        onConfirm={handleDispatchWhatsAppDriver}
-      />
-
-            <ModalNewHolder
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        fullName={fullName}
-        setFullName={setFullName}
-        cpf={cpf}
-        setCpf={setCpf}
-        phone={phone}
-        setPhone={setPhone}
-        selectedPlan={selectedPlan}
-        setSelectedPlan={setSelectedPlan}
-        saving={saving}
-        onSave={handleCreateContract}
-      />
-
-            <ModalExpense
-        isOpen={isExpenseModalOpen}
-        onClose={() => setIsExpenseModalOpen(false)}
-        vehicles={vehicles}
-        expVehicleId={expVehicleId}
-        setExpVehicleId={setExpVehicleId}
-        expType={expType}
-        setExpType={setExpType}
-        expAmount={expAmount}
-        setExpAmount={setExpAmount}
-        expKm={expKm}
-        setExpKm={setExpKm}
-        expLiters={expLiters}
-        setExpLiters={setExpLiters}
-        expEstablishment={expEstablishment}
-        setExpEstablishment={setExpEstablishment}
-        expDate={expDate}
-        setExpDate={setExpDate}
-        saving={saving}
-        onSave={handleCreateExpense}
-      />
+      {isPlantaopen && (
+        <ModalPlantao
+          isOpen={isPlantaopen}
+          onClose={() => setIsPlantaopen(false)}
+          onSubmit={handleCreateDispatch}
+          payments={payments}
+          selectedContract={selectedContractForPlantao}
+          setSelectedContract={setSelectedContractForPlantao}
+          deceasedName={deceasedName}
+          setDeceasedName={setDeceasedName}
+          deathLocation={deathLocation}
+          setDeathLocation={setDeathLocation}
+          address={address}
+          setAddress={setAddress}
+          driverAgent={driverAgent}
+          setDriverAgent={setDriverAgent}
+          vehicles={vehicles}
+          selectedVehicleId={selectedVehicleId}
+          setSelectedVehicleId={setSelectedVehicleId}
+          urnModel={urnModel}
+          setUrnModel={setUrnModel}
+          familyContactName={familyContactName}
+          setFamilyContactName={setFamilyContactName}
+          familyContactPhone={familyContactPhone}
+          setFamilyContactPhone={setFamilyContactPhone}
+          driverPhone={driverPhone}
+          setDriverPhone={setDriverPhone}
+          saving={saving}
+          inventory={inventory}
+        />
+      )}
 
       {isDependentModalOpen && selectedHolderForDep && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-zinc-900 border border-zinc-800 w-full max-w-lg rounded-2xl p-6 shadow-2xl">
-            <div className="flex justify-between items-center pb-4 border-b border-zinc-800">
-              <div>
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <Users className="w-4 h-4 text-[#00D1FF]" /> Dependentes do Contrato
-                </h3>
-                <p className="text-xs text-zinc-400 mt-0.5">Titular: {selectedHolderForDep.holder}</p>
-              </div>
-              <button onClick={() => setIsDependentModalOpen(false)} className="text-zinc-400 hover:text-white">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="my-4 max-h-48 overflow-y-auto space-y-2 pr-1">
-              {dependentsList.length === 0 ? (
-                <p className="text-xs text-zinc-500 py-3 text-center">Nenhum dependente vinculado a este titular.</p>
-              ) : (
-                dependentsList.map((dep) => (
-                  <div key={dep.id} className="p-2.5 bg-zinc-800/60 border border-zinc-700/60 rounded-lg flex justify-between items-center text-xs">
-                    <div>
-                      <p className="font-semibold text-white">{dep.full_name}</p>
-                      <span className="text-zinc-400">{dep.kinship} {dep.birth_date ? `• Nasc: ${dep.birth_date}` : ''}</span>
-                    </div>
-                    <span className="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 text-[10px]">
-                      Coberto
-                    </span>
-                  </div>
-                ))
-              )}
-            </div>
-
-            <form onSubmit={handleAddDependent} className="pt-4 border-t border-zinc-800 space-y-3">
-              <h4 className="text-xs font-semibold text-zinc-300">Incluir Novo Dependente</h4>
-              <div>
-                <input 
-                  type="text" 
-                  required
-                  placeholder="Nome completo do dependente"
-                  value={depName}
-                  onChange={(e) => setDepName(e.target.value)}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00D1FF]"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <select 
-                  value={depKinship}
-                  onChange={(e) => setDepKinship(e.target.value)}
-                  className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00D1FF]"
-                >
-                  <option value="Cônjuge">Cônjuge</option>
-                  <option value="Filho(a)">Filho(a)</option>
-                  <option value="Pai/Mãe">Pai/Mãe</option>
-                  <option value="Sogro(a)">Sogro(a)</option>
-                  <option value="Outro Familiar">Outro Familiar</option>
-                </select>
-                <input 
-                  type="date" 
-                  value={depBirth}
-                  onChange={(e) => setDepBirth(e.target.value)}
-                  className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00D1FF]"
-                />
-              </div>
-              <button 
-                type="submit"
-                className="w-full bg-[#0F62FE] hover:bg-blue-600 text-white py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
-              >
-                <UserPlus className="w-3.5 h-3.5" /> Incluir no Plano
-              </button>
-            </form>
-          </div>
-        </div>
+        <ModalDependent
+          isOpen={isDependentModalOpen}
+          onClose={() => setIsDependentModalOpen(false)}
+          holder={selectedHolderForDep}
+          dependents={dependentsList}
+          depName={depName}
+          setDepName={setDepName}
+          depKinship={depKinship}
+          setDepKinship={setDepKinship}
+          depBirth={depBirth}
+          setDepBirth={setDepBirth}
+          onAddDependent={handleAddDependent} onDeleteDependent={handleDeleteDependent} />
       )}
 
-      {/* MODAL: SIMULADOR PIX */}
+      {isPixModalOpen && (
+        <ModalPix
+          isOpen={isPixModalOpen}
+          onClose={() => setIsPixModalOpen(false)}
+          selectedRow={selectedPixRow}
+          pixPayload={pixPayload}
+          pixLoading={pixLoading}
+        />
+      )}
+
       {isPixSimModalOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-zinc-900 border border-emerald-500/40 w-full max-w-lg rounded-2xl p-6 shadow-2xl">
-            <div className="flex justify-between items-center pb-4 border-b border-zinc-800">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <Zap className="w-4 h-4 text-emerald-400" /> Simulador Webhook Bancário (PIX)
-              </h3>
-              <button onClick={() => setIsPixSimModalOpen(false)} className="text-zinc-400 hover:text-white">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handleTriggerWebhookSim} className="space-y-4 mt-4">
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                Este simulador dispara uma notificação HTTP idêntica ÁƒÆ’ÂÂ  enviada por gateways para o endpoint <code className="text-[#00D1FF] bg-zinc-800 px-1 py-0.5 rounded">/api/webhooks/pix</code>.
-              </p>
-
-              <div>
-                <label className="block text-xs font-medium text-zinc-300 mb-1.5">Fatura para Baixar</label>
-                <select
-                  required
-                  value={simTargetPaymentId}
-                  onChange={(e) => setSimTargetPaymentId(e.target.value)}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
-                >
-                  <option value="">-- Escolha uma fatura pendente/atrasada --</option>
-                  {payments.filter(p => p.status !== 'Pago').map(p => (
-                    <option key={p.id} value={p.id}>
-                      {p.holder} - {p.amount} ({p.status})
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="flex justify-end gap-3 pt-4 border-t border-zinc-800">
-                <button
-                  type="button"
-                  onClick={() => setIsPixSimModalOpen(false)}
-                  className="px-4 py-2 text-xs text-zinc-400 hover:text-white"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  disabled={simLoading || !simTargetPaymentId}
-                  className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-semibold px-4 py-2 rounded-lg text-xs flex items-center gap-1.5 transition cursor-pointer"
-                >
-                  {simLoading ? 'Processando...' : 'Disparar PIX'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <ModalPixSim
+          isOpen={isPixSimModalOpen}
+          onClose={() => setIsPixSimModalOpen(false)}
+          payments={payments}
+          targetPaymentId={simTargetPaymentId}
+          setTargetPaymentId={setSimTargetPaymentId}
+          onSimulate={handleTriggerWebhookSim}
+          loading={simLoading}
+        />
       )}
 
-    
-      {/* MODAL_COBRANCA_PIX_ASSOCIADO */}
-                  <ModalBoletoBatch
-        isOpen={isBoletoModalOpen}
-        onClose={() => setIsBoletoModalOpen(false)}
-        holders={payments}
-        initialHolderId={selectedHolderForBoleto}
-        onSuccess={() => fetchSupabaseData()}
-      />
+      {isBoletoModalOpen && (
+        <ModalBoletoBatch
+          isOpen={isBoletoModalOpen}
+          onClose={() => setIsBoletoModalOpen(false)}
+          holders={payments}
+          initialHolderId={selectedHolderForBoleto}
+          onSuccess={() => {
+            setIsBoletoModalOpen(false);
+            fetchSupabaseData();
+          }}
+        />
+      )}
 
-            <ModalWhatsAppBatchBilling
-        isOpen={isWhatsAppBatchOpen}
-        onClose={() => setIsWhatsAppBatchOpen(false)}
-        payments={payments}
-      />
+      {isWhatsAppBatchOpen && (
+        <ModalWhatsAppBatchBilling
+          isOpen={isWhatsAppBatchOpen}
+          onClose={() => setIsWhatsAppBatchOpen(false)}
+          payments={payments}
+        />
+      )}
 
-      <ModalPix
-        isOpen={isPixModalOpen}
-        onClose={() => setIsPixModalOpen(false)}
-        selectedPixRow={selectedPixRow}
-        pixPayload={pixPayload}
-        pixLoading={pixLoading}
-      />
+      {isExpenseModalOpen && (
+        <ModalExpense
+          isOpen={isExpenseModalOpen}
+          onClose={() => setIsExpenseModalOpen(false)}
+          onSubmit={handleCreateExpense}
+          vehicles={vehicles}
+          vehicleId={expVehicleId}
+          setVehicleId={setExpVehicleId}
+          expenseType={expType}
+          setExpenseType={setExpType}
+          amount={expAmount}
+          setAmount={setExpAmount}
+          currentKm={expKm}
+          setCurrentKm={setExpKm}
+          liters={expLiters}
+          setLiters={setExpLiters}
+          establishment={expEstablishment}
+          setEstablishment={setExpEstablishment}
+          expenseDate={expDate}
+          setExpenseDate={setExpDate}
+        />
+      )}
     </div>
   );
 }

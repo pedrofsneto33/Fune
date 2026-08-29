@@ -1,478 +1,276 @@
 ﻿'use client';
 
-import React, { useState, useEffect } from 'react';
-import {
-  PhoneCall,
-  X,
-  User,
-  MapPin,
-  Truck,
-  Package,
-  Calendar,
-  Clock,
-  FileText,
-  AlertCircle,
-  ShieldAlert,
-  ShieldCheck,
-  AlertOctagon,
-  HelpCircle
-} from 'lucide-react';
-import { useTenant } from '@/contexts/TenantContext';
+import React from 'react';
+import { X, Siren, UserCheck, MapPin, Truck, Box, Phone, User } from 'lucide-react';
 
-export interface ModalPlantaoProps {
+interface PaymentRow {
+  id: string;
+  holderId: string;
+  holder: string;
+  cpf: string;
+  phone: string;
+  plan: string;
+  amount: string;
+}
+
+interface FleetVehicle {
+  id: string;
+  model: string;
+  plate: string;
+  status: string;
+}
+
+interface InventoryItem {
+  id: string;
+  name: string;
+  category: string;
+  quantity: number;
+}
+
+interface ModalPlantaoProps {
   isOpen: boolean;
   onClose: () => void;
-  onSuccess?: () => void;
-  // Propriedades compatíveis com page.tsx
-  payments?: any[];
-  holders?: any[];
-  selectedContract?: any | null;
-  onSelectContract?: (contract: any) => void;
-  vehicles?: any[];
-  stockUrns?: any[];
-  onConfirm?: () => Promise<void> | void;
-  [key: string]: any;
+  onSubmit: (e: React.FormEvent) => void;
+  payments: PaymentRow[];
+  selectedContract: PaymentRow | null;
+  setSelectedContract: (c: PaymentRow | null) => void;
+  deceasedName: string;
+  setDeceasedName: (v: string) => void;
+  deathLocation: string;
+  setDeathLocation: (v: string) => void;
+  address: string;
+  setAddress: (v: string) => void;
+  driverAgent: string;
+  setDriverAgent: (v: string) => void;
+  vehicles: FleetVehicle[];
+  selectedVehicleId: string;
+  setSelectedVehicleId: (v: string) => void;
+  urnModel: string;
+  setUrnModel: (v: string) => void;
+  familyContactName: string;
+  setFamilyContactName: (v: string) => void;
+  familyContactPhone: string;
+  setFamilyContactPhone: (v: string) => void;
+  driverPhone: string;
+  setDriverPhone: (v: string) => void;
+  saving: boolean;
+  inventory?: InventoryItem[];
 }
 
 export function ModalPlantao({
   isOpen,
   onClose,
-  onSuccess,
-  payments = [],
-  holders = [],
+  onSubmit,
+  payments,
   selectedContract,
-  onSelectContract,
-  vehicles = [],
-  stockUrns = [],
-  onConfirm,
-  ...rest
+  setSelectedContract,
+  deceasedName,
+  setDeceasedName,
+  deathLocation,
+  setDeathLocation,
+  address,
+  setAddress,
+  driverAgent,
+  setDriverAgent,
+  vehicles,
+  selectedVehicleId,
+  setSelectedVehicleId,
+  urnModel,
+  setUrnModel,
+  familyContactName,
+  setFamilyContactName,
+  familyContactPhone,
+  setFamilyContactPhone,
+  driverPhone,
+  setDriverPhone,
+  saving,
+  inventory = []
 }: ModalPlantaoProps) {
-  const { currentTenant } = useTenant();
-
-  const contractList = holders.length > 0 ? holders : payments;
-
-  const [selectedContractId, setSelectedContractId] = useState('');
-  const [deceasedName, setDeceasedName] = useState('');
-  const [deathLocation, setDeathLocation] = useState('');
-  const [deathAddress, setDeathAddress] = useState('');
-  const [selectedVehicleId, setSelectedVehicleId] = useState('');
-  const [driverName, setDriverName] = useState('');
-  const [odometerStart, setOdometerStart] = useState<number | string>('');
-  const [selectedUrnId, setSelectedUrnId] = useState('');
-  const [contactName, setContactName] = useState('');
-  const [contactPhone, setContactPhone] = useState('');
-  const [notes, setNotes] = useState('');
-
-  // Estados do Motor de Carências e Elegibilidade (P0.1)
-  const [deathType, setDeathType] = useState<'natural' | 'acidental'>('natural');
-  const [eligibilityLoading, setEligibilityLoading] = useState(false);
-  const [eligibilityData, setEligibilityData] = useState<any | null>(null);
-
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (selectedContract) {
-      const id = selectedContract.id || selectedContract.contract_id || '';
-      setSelectedContractId(id);
-      setDeceasedName(selectedContract.holder || selectedContract.full_name || '');
-      setContactName(selectedContract.holder || selectedContract.full_name || '');
-      setContactPhone(selectedContract.phone || '');
-      if (id) checkEligibility(id, deathType);
-    }
-  }, [selectedContract]);
-
-  // Auto-preencher odômetro inicial ao selecionar veículo
-  useEffect(() => {
-    if (selectedVehicleId) {
-      const v = vehicles.find((item: any) => item.id === selectedVehicleId);
-      if (v && v.odometer !== undefined) {
-        setOdometerStart(v.odometer);
-      }
-    }
-  }, [selectedVehicleId, vehicles]);
-
-  // Checar Elegibilidade e Carência
-  const checkEligibility = async (contractIdOrHolderId: string, currentDeathType: 'natural' | 'acidental') => {
-    if (!contractIdOrHolderId) {
-      setEligibilityData(null);
-      return;
-    }
-    setEligibilityLoading(true);
-    try {
-      const res = await fetch('/api/contracts/eligibility', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contract_id: contractIdOrHolderId,
-          holder_id: contractIdOrHolderId,
-          death_type: currentDeathType
-        })
-      });
-      const data = await res.json();
-      if (res.ok && data.result) {
-        setEligibilityData(data.result);
-      } else {
-        setEligibilityData(null);
-      }
-    } catch {
-      setEligibilityData(null);
-    } finally {
-      setEligibilityLoading(false);
-    }
-  };
-
-  const handleContractChange = (val: string) => {
-    setSelectedContractId(val);
-    const selected = contractList.find((h: any) => h.id === val || h.contract_id === val);
-    if (selected) {
-      setDeceasedName(selected.holder || selected.full_name || '');
-      setContactName(selected.holder || selected.full_name || '');
-      setContactPhone(selected.phone || '');
-      if (onSelectContract) onSelectContract(selected);
-    }
-    checkEligibility(val, deathType);
-  };
-
-  const handleDeathTypeChange = (type: 'natural' | 'acidental') => {
-    setDeathType(type);
-    if (selectedContractId) {
-      checkEligibility(selectedContractId, type);
-    }
-  };
-
   if (!isOpen) return null;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-
-    try {
-      if (onConfirm) {
-        await onConfirm();
-        if (onSuccess) onSuccess();
-        onClose();
-        return;
-      }
-
-      const selectedVehicle = vehicles.find((v: any) => v.id === selectedVehicleId);
-      const selectedUrn = stockUrns.find((u: any) => u.id === selectedUrnId);
-
-      const payload = {
-        tenant_id: currentTenant?.id || 'matriz',
-        contract_id: selectedContractId || null,
-        deceased_name: deceasedName,
-        death_type: deathType,
-        death_location: deathLocation,
-        death_address: deathAddress,
-        vehicle_id: selectedVehicleId || null,
-        vehicle_plate: selectedVehicle?.plate || null,
-        driver_name: driverName,
-        odometer_start: Number(odometerStart) || 0,
-        urn_id: selectedUrnId || null,
-        urn_model: selectedUrn?.model || selectedUrn?.name || null,
-        contact_name: contactName,
-        contact_phone: contactPhone,
-        notes,
-        eligibility_status: eligibilityData?.status || 'NAO_VALIDADO',
-        exemption_fee: eligibilityData?.suggestedExemptionFee || 0
-      };
-
-      const res = await fetch('/api/stock/dispatch-deduct', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Falha ao registrar acionamento de plantão.');
-      }
-
-      if (onSuccess) onSuccess();
-      onClose();
-    } catch (err: any) {
-      setError(err.message || 'Erro inesperado ao abrir chamado de plantão.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const availableVehicles = vehicles.filter(v => v.status === 'disponivel');
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 overflow-y-auto">
-      <div className="bg-zinc-900 border border-zinc-800 w-full max-w-2xl rounded-2xl p-6 shadow-2xl space-y-4 my-8 max-h-[90vh] overflow-y-auto">
-        {/* Cabeçalho */}
-        <div className="flex justify-between items-center pb-3 border-b border-zinc-800">
-          <div className="flex items-center gap-2">
-            <PhoneCall className="w-5 h-5 text-red-400" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+      <div className="relative w-full max-w-2xl bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+        
+        {/* Header */}
+        <div className="p-5 border-b border-zinc-800 flex items-center justify-between bg-zinc-950/40">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400">
+              <Siren className="w-5 h-5" />
+            </div>
             <div>
-              <h3 className="text-base font-bold text-white">Acionamento de Plantão 24h & Óbito</h3>
-              <p className="text-xs text-zinc-400">Abertura de OS, validação de carências e despacho de frota.</p>
+              <h2 className="text-base font-bold text-white tracking-wide">Acionamento de Emergência 24h</h2>
+              <p className="text-xs text-zinc-400">Abertura de Ordem de Serviço e Despacho Funerário</p>
             </div>
           </div>
-          <button onClick={onClose} className="text-zinc-400 hover:text-white">
+          <button onClick={onClose} className="p-2 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 rounded-lg transition">
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {error && (
-          <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-xs text-red-400 flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 flex-shrink-0" />
-            <span>{error}</span>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-          {/* Seção 1: Contrato e Carência */}
-          <div className="space-y-3 p-3 bg-zinc-950/60 rounded-xl border border-zinc-800/80">
-            <div>
-              <label className="block text-zinc-300 font-semibold mb-1">
-                Vincular Contrato / Associado Titular
-              </label>
-              <select
-                value={selectedContractId}
-                onChange={(e) => handleContractChange(e.target.value)}
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500 text-xs"
-              >
-                <option value="">-- Atendimento Particular / Sem Contrato --</option>
-                {contractList.map((h: any, idx: number) => (
-                  <option key={idx} value={h.id || h.contract_id}>
-                    {h.holder || h.full_name} - CPF: {h.cpf || 'S/N'} ({h.plan || 'Plano Padrão'})
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Alternador de Tipo de Óbito */}
-            <div className="flex items-center justify-between pt-1">
-              <label className="text-zinc-400 font-medium text-[11px]">Tipo de Causa Mortis:</label>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleDeathTypeChange('natural')}
-                  className={`px-2.5 py-1 rounded-lg border text-[11px] font-semibold transition ${
-                    deathType === 'natural'
-                      ? 'bg-blue-600/20 text-blue-400 border-blue-500/40'
-                      : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-white'
-                  }`}
-                >
-                  Morte Natural (90d carência)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDeathTypeChange('acidental')}
-                  className={`px-2.5 py-1 rounded-lg border text-[11px] font-semibold transition ${
-                    deathType === 'acidental'
-                      ? 'bg-purple-600/20 text-purple-400 border-purple-500/40'
-                      : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-white'
-                  }`}
-                >
-                  Morte Acidental (Isenta)
-                </button>
-              </div>
-            </div>
-
-            {/* Card de Validação de Carência e Elegibilidade */}
-            {eligibilityLoading && (
-              <div className="p-3 bg-zinc-900 rounded-xl border border-zinc-800 text-xs text-zinc-400 flex items-center gap-2">
-                <div className="w-3.5 h-3.5 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
-                <span>Auditando carências regulamentares e adimplência...</span>
-              </div>
-            )}
-
-            {eligibilityData && !eligibilityLoading && (
-              <div
-                className={`p-3 rounded-xl border text-xs space-y-1.5 ${
-                  eligibilityData.status === 'COBERTO'
-                    ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
-                    : eligibilityData.status === 'INADIMPLENTE'
-                    ? 'bg-red-500/10 border-red-500/30 text-red-300'
-                    : 'bg-amber-500/10 border-amber-500/30 text-amber-300'
-                }`}
-              >
-                <div className="flex items-center justify-between font-bold">
-                  <div className="flex items-center gap-1.5">
-                    {eligibilityData.status === 'COBERTO' ? (
-                      <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                    ) : eligibilityData.status === 'INADIMPLENTE' ? (
-                      <AlertOctagon className="w-4 h-4 text-red-400" />
-                    ) : (
-                      <ShieldAlert className="w-4 h-4 text-amber-400" />
-                    )}
-                    <span>
-                      {eligibilityData.status === 'COBERTO'
-                        ? 'COBERTURA INTEGRAL APROVADA'
-                        : eligibilityData.status === 'INADIMPLENTE'
-                        ? 'BLOQUEIO POR INADIMPLÊNCIA'
-                        : 'CARÊNCIA CONTRATUAL PENDENTE'}
-                    </span>
-                  </div>
-                  <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-black/40">
-                    {eligibilityData.daysActive} dias vigentes
-                  </span>
-                </div>
-                <p className="text-[11px] opacity-90">{eligibilityData.reason}</p>
-                {eligibilityData.suggestedExemptionFee > 0 && (
-                  <div className="pt-1.5 border-t border-current/20 flex justify-between items-center text-[11px] font-semibold">
-                    <span>
-                      {eligibilityData.status === 'INADIMPLENTE'
-                        ? 'Valor Total em Atraso:'
-                        : 'Taxa Sugerida de Liberação / Coparticipação:'}
-                    </span>
-                    <span className="font-mono text-xs font-bold">
-                      R$ {eligibilityData.suggestedExemptionFee.toFixed(2)}
-                    </span>
-                  </div>
-                )}
-              </div>
-            )}
+        {/* Formulário */}
+        <form onSubmit={onSubmit} className="p-6 space-y-4 overflow-y-auto">
+          
+          {/* Titular e Contrato */}
+          <div>
+            <label className="text-[11px] font-semibold text-zinc-400 mb-1 block">Associado / Titular do Plano *</label>
+            <select
+              required
+              value={selectedContract?.id || ''}
+              onChange={(e) => {
+                const found = payments.find(p => p.id === e.target.value);
+                setSelectedContract(found || null);
+                if (found && !familyContactName) {
+                  setFamilyContactName(found.holder);
+                  setFamilyContactPhone(found.phone);
+                }
+              }}
+              className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+            >
+              <option value="">Selecione o titular...</option>
+              {payments.map(p => (
+                <option key={p.id} value={p.id}>
+                  {p.holder} ({p.cpf}) — {p.plan}
+                </option>
+              ))}
+            </select>
           </div>
 
-          {/* Seção 2: Dados do Falecido e Local */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-zinc-300 font-semibold mb-1">Nome do Falecido *</label>
+              <label className="text-[11px] font-semibold text-zinc-400 mb-1 block">Nome do Falecido *</label>
               <input
                 type="text"
                 required
+                placeholder="Nome completo do falecido"
                 value={deceasedName}
                 onChange={(e) => setDeceasedName(e.target.value)}
-                placeholder="Nome completo do falecido"
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500"
+                className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
               />
             </div>
+
             <div>
-              <label className="block text-zinc-300 font-semibold mb-1">Local do Óbito *</label>
+              <label className="text-[11px] font-semibold text-zinc-400 mb-1 block">Local do Óbito *</label>
               <input
                 type="text"
                 required
+                placeholder="Ex: Hospital Getúlio Vargas / Residência"
                 value={deathLocation}
                 onChange={(e) => setDeathLocation(e.target.value)}
-                placeholder="Ex: Hospital Getúlio Vargas / Residência"
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500"
-              />
-            </div>
-            <div className="sm:col-span-2">
-              <label className="block text-zinc-300 font-semibold mb-1">Endereço do Local do Óbito / Remoção</label>
-              <input
-                type="text"
-                value={deathAddress}
-                onChange={(e) => setDeathAddress(e.target.value)}
-                placeholder="Rua, número, bairro, cidade"
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500"
+                className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
               />
             </div>
           </div>
 
-          {/* Seção 3: Veículo, Motorista e Urna */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div>
-              <label className="block text-zinc-300 font-semibold mb-1">Veículo de Remoção</label>
-              <select
-                value={selectedVehicleId}
-                onChange={(e) => setSelectedVehicleId(e.target.value)}
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500"
-              >
-                <option value="">-- Selecionar Veículo --</option>
-                {vehicles.map((v: any, idx: number) => (
-                  <option key={idx} value={v.id}>
-                    {v.model || v.name} ({v.plate}) - {v.status || 'Disponível'}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-zinc-300 font-semibold mb-1">Motorista / Agente</label>
-              <input
-                type="text"
-                value={driverName}
-                onChange={(e) => setDriverName(e.target.value)}
-                placeholder="Nome do motorista"
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-zinc-300 font-semibold mb-1">Odômetro Inicial (KM)</label>
-              <input
-                type="number"
-                value={odometerStart}
-                onChange={(e) => setOdometerStart(e.target.value)}
-                placeholder="Ex: 45000"
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500 font-mono"
-              />
-            </div>
-          </div>
-
-          {/* Seção 4: Urna e Contato da Família */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div>
-              <label className="block text-zinc-300 font-semibold mb-1">Urna Funerária (Estoque)</label>
-              <select
-                value={selectedUrnId}
-                onChange={(e) => setSelectedUrnId(e.target.value)}
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500"
-              >
-                <option value="">-- Selecionar Urna --</option>
-                {stockUrns.map((u: any, idx: number) => (
-                  <option key={idx} value={u.id}>
-                    {u.model || u.name} (Qtd: {u.quantity || u.stock})
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-zinc-300 font-semibold mb-1">Familiar Responsável</label>
-              <input
-                type="text"
-                value={contactName}
-                onChange={(e) => setContactName(e.target.value)}
-                placeholder="Nome do solicitante"
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-zinc-300 font-semibold mb-1">Telefone do Familiar</label>
-              <input
-                type="text"
-                value={contactPhone}
-                onChange={(e) => setContactPhone(e.target.value)}
-                placeholder="(86) 99999-9999"
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500"
-              />
-            </div>
-          </div>
-
-          {/* Observações */}
           <div>
-            <label className="block text-zinc-300 font-semibold mb-1">Observações do Plantão</label>
-            <textarea
-              rows={2}
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder="Instruções de velório, translado ou documentação pendente..."
-              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500 resize-none"
+            <label className="text-[11px] font-semibold text-zinc-400 mb-1 block">Endereço de Remoção / Velório *</label>
+            <input
+              type="text"
+              required
+              placeholder="Rua, Número, Bairro, Cidade"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-3 border-t border-zinc-800">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="text-[11px] font-semibold text-zinc-400 mb-1 block">Veículo Escalado *</label>
+              <select
+                value={selectedVehicleId}
+                onChange={(e) => setSelectedVehicleId(e.target.value)}
+                className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+              >
+                <option value="">Selecione o veículo...</option>
+                {vehicles.map(v => (
+                  <option key={v.id} value={v.id} disabled={v.status !== 'disponivel'}>
+                    {v.model} ({v.plate}) {v.status !== 'disponivel' ? '- [EM USO]' : '- [LIVRE]'}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="text-[11px] font-semibold text-zinc-400 mb-1 block">Urna / Modelo de Estoque</label>
+              <select
+                value={urnModel}
+                onChange={(e) => setUrnModel(e.target.value)}
+                className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+              >
+                <option value="Sextavada Luxo Ouro (Ref. 102)">Sextavada Luxo Ouro (Ref. 102)</option>
+                {inventory.map(item => (
+                  <option key={item.id} value={item.name}>
+                    {item.name} (Saldo: {item.quantity} un)
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="text-[11px] font-semibold text-zinc-400 mb-1 block">Agente / Motorista</label>
+              <input
+                type="text"
+                value={driverAgent}
+                onChange={(e) => setDriverAgent(e.target.value)}
+                className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+              />
+            </div>
+            <div>
+              <label className="text-[11px] font-semibold text-zinc-400 mb-1 block">Telefone do Motorista</label>
+              <input
+                type="text"
+                value={driverPhone}
+                onChange={(e) => setDriverPhone(e.target.value)}
+                className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="text-[11px] font-semibold text-zinc-400 mb-1 block">Contato do Familiar</label>
+              <input
+                type="text"
+                value={familyContactName}
+                onChange={(e) => setFamilyContactName(e.target.value)}
+                className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+              />
+            </div>
+            <div>
+              <label className="text-[11px] font-semibold text-zinc-400 mb-1 block">Telefone do Familiar</label>
+              <input
+                type="text"
+                value={familyContactPhone}
+                onChange={(e) => setFamilyContactPhone(e.target.value)}
+                className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+              />
+            </div>
+          </div>
+
+          <div className="p-4 border-t border-zinc-800 flex justify-end gap-3 pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs text-zinc-400 hover:text-white"
+              className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg text-xs font-medium transition"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              disabled={loading || !deceasedName || !deathLocation}
-              className="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-red-600/20"
+              disabled={saving}
+              className="px-5 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg text-xs font-semibold flex items-center gap-2 shadow-lg shadow-red-950/40 transition disabled:opacity-50"
             >
-              <PhoneCall className="w-4 h-4" />
-              {loading ? 'Registrando...' : 'Despachar Plantão & Registrar OS'}
+              <Siren className="w-4 h-4" />
+              {saving ? 'Gerando OS...' : 'Gerar Ordem e Despachar'}
             </button>
           </div>
         </form>
+
       </div>
     </div>
   );

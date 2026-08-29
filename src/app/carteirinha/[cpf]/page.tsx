@@ -1,190 +1,154 @@
-﻿import React from 'react';
-import { supabaseAdmin } from '@/lib/supabaseAdmin';
-import { ShieldCheck, ShieldAlert, CheckCircle2, User, Users, Calendar, AlertCircle, PhoneCall, Building2 } from 'lucide-react';
-import Link from 'next/link';
+﻿'use client';
 
-interface PageProps {
-  params: Promise<{ cpf: string }>;
-}
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { ShieldCheck, User, Calendar, CreditCard, Sparkles, Printer, ArrowLeft } from 'lucide-react';
+import { supabase } from '@/lib/supabaseClient';
 
-export const dynamic = 'force-dynamic';
+export default function CarteirinhaPage() {
+  const params = useParams();
+  const rawCpf = params?.cpf as string;
+  const [holderData, setHolderData] = useState<any>(null);
+  const [dependents, setDependents] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default async function CarteirinhaPage({ params }: PageProps) {
-  const resolvedParams = await params;
-  const rawCpf = resolvedParams?.cpf || '';
-  const cleanCpf = rawCpf.replace(/\D/g, '');
+  useEffect(() => {
+    async function loadCardData() {
+      if (!rawCpf) return;
+      setLoading(true);
+      try {
+        const cleanDigits = rawCpf.replace(/\D/g, '');
+        
+        const { data: holders, error } = await supabase
+          .from('holders')
+          .select('id, full_name, cpf, phone, contracts(id, status, created_at, plans(name, monthly_fee))')
+          .order('created_at', { ascending: false });
 
-  if (!cleanCpf || cleanCpf.length !== 11) {
+        if (holders) {
+          const matched = holders.find(h => (h.cpf || '').replace(/\D/g, '') === cleanDigits);
+          if (matched) {
+            setHolderData(matched);
+            const { data: depData } = await supabase
+              .from('dependents')
+              .select('*')
+              .eq('holder_id', matched.id);
+            setDependents(depData || []);
+          }
+        }
+      } catch (err) {
+        console.error('Erro ao carregar carteirinha:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadCardData();
+  }, [rawCpf]);
+
+  if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-center p-4">
-        <div className="bg-slate-900 border border-red-500/30 p-8 rounded-2xl max-w-md w-full text-center shadow-2xl">
-          <ShieldAlert className="w-16 h-16 text-red-400 mx-auto mb-4" />
-          <h1 className="text-xl font-bold text-white mb-2">CPF Inválido</h1>
-          <p className="text-slate-400 text-sm mb-6">
-            O documento informado deve possuir exatamente 11 dígitos numéricos.
-          </p>
-          <Link href="/" className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm font-medium text-slate-200 transition-colors">
-            Voltar ao Início
-          </Link>
-        </div>
+      <div className="min-h-screen bg-zinc-950 flex items-center justify-center text-zinc-400 text-sm">
+        Carregando credencial digital...
       </div>
     );
   }
 
-  // 1. Consulta Segura do Titular
-  const { data: holder, error: holderErr } = await supabaseAdmin
-    .from('holders')
-    .select('id, name, created_at, tenant_id')
-    .eq('cpf', cleanCpf)
-    .single();
-
-  if (holderErr || !holder) {
+  if (!holderData) {
     return (
-      <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-center p-4">
-        <div className="bg-slate-900 border border-slate-800 p-8 rounded-2xl max-w-md w-full text-center shadow-2xl">
-          <AlertCircle className="w-16 h-16 text-amber-400 mx-auto mb-4" />
-          <h1 className="text-xl font-bold text-white mb-2">Associado Não Localizado</h1>
-          <p className="text-slate-400 text-sm mb-6">
-            Nenhum registro ativo foi encontrado para este CPF. Em caso de dúvidas, consulte o suporte da sua assistência funeral.
-          </p>
-          <Link href="/" className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-sm font-medium text-white transition-colors">
-            Página Principal
-          </Link>
-        </div>
+      <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center text-zinc-400 p-4">
+        <p className="text-base text-red-400 font-semibold mb-2">Associado não localizado</p>
+        <p className="text-xs text-zinc-500 mb-4">Nenhum contrato ativo foi encontrado para o CPF informado.</p>
+        <button
+          onClick={() => window.close()}
+          className="px-4 py-2 bg-zinc-800 text-zinc-200 rounded-lg text-xs font-medium"
+        >
+          Fechar Janela
+        </button>
       </div>
     );
   }
 
-  // 2. Buscar Dados da Empresa Prestadora (Tenant / White-Label)
-  const tenantId = holder.tenant_id || 'a0000000-0000-0000-0000-000000000001';
-  const { data: tenant } = await supabaseAdmin
-    .from('tenants')
-    .select('trade_name, phone_emergency, municipal_license_number, issuance_city')
-    .eq('id', tenantId)
-    .single();
-
-  const companyName = tenant?.trade_name || 'Saad Fune';
-  const phoneEmergency = tenant?.phone_emergency || '(86) 99999-9999';
-  const municipalLicense = tenant?.municipal_license_number ? `Alvará Municipal: ${tenant.municipal_license_number} (${tenant.issuance_city || 'THE'})` : 'Credenciamento Municipal Ativo';
-
-  // 3. Buscar Contrato e Plano
-  const { data: contract } = await supabaseAdmin
-    .from('contracts')
-    .select('id, status, plan_id, created_at, plans(name, grace_period_days)')
-    .eq('holder_id', holder.id)
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .single();
-
-  // 4. Buscar Dependentes
-  const { data: dependents } = await supabaseAdmin
-    .from('dependents')
-    .select('id, name, relationship')
-    .eq('holder_id', holder.id);
-
-  const planName = (contract as any)?.plans?.name || 'Plano Familiar Tradicional';
-  const isContractActive = contract?.status === 'ativo' || contract?.status === 'pago';
-  const memberSince = holder.created_at ? new Date(holder.created_at).toLocaleDateString('pt-BR') : 'Ativo';
+  const contract = holderData.contracts?.[0];
+  const planName = contract?.plans?.name || 'Plano Padrão';
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col items-center justify-center p-4 sm:p-6 antialiased">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center p-4 print:p-0 print:bg-white print:text-black font-sans">
+      
+      {/* Ações Superiores */}
+      <div className="w-full max-w-md flex justify-between items-center mb-6 print:hidden">
+        <button
+          onClick={() => window.close()}
+          className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 transition"
+        >
+          <ArrowLeft className="w-4 h-4" /> Fechar
+        </button>
+        <button
+          onClick={() => window.print()}
+          className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-lg text-xs font-medium flex items-center gap-2 transition"
+        >
+          <Printer className="w-3.5 h-3.5" /> Imprimir / Salvar PDF
+        </button>
+      </div>
+
+      {/* Cartão do Associado */}
+      <div className="w-full max-w-md bg-gradient-to-br from-zinc-900 via-zinc-900 to-emerald-950/40 border border-emerald-500/30 rounded-2xl p-6 shadow-2xl relative overflow-hidden print:border-black print:shadow-none">
         
-        {/* Cartão Digital White-Label */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/40 border border-slate-800 p-6 sm:p-7 shadow-2xl backdrop-blur-xl">
-          <div className="absolute top-0 right-0 -mt-8 -mr-8 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-          
-          {/* Cabeçalho */}
-          <div className="flex items-center justify-between pb-5 border-b border-slate-800/80">
-            <div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/80 border border-emerald-800/50 px-2.5 py-1 rounded-full">
-                Carteirinha Digital
-              </span>
-              <h2 className="text-lg font-bold text-white mt-1.5">{companyName}</h2>
+        <div className="flex justify-between items-start mb-6">
+          <div className="flex items-center gap-2">
+            <div className="p-2 bg-emerald-500/20 border border-emerald-500/40 rounded-xl text-emerald-400">
+              <Sparkles className="w-5 h-5" />
             </div>
-            {isContractActive ? (
-              <div className="flex items-center gap-1.5 text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20 text-xs font-semibold">
-                <CheckCircle2 className="w-4 h-4" />
-                <span>Regular</span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-1.5 text-amber-400 bg-amber-500/10 px-3 py-1.5 rounded-full border border-amber-500/20 text-xs font-semibold">
-                <ShieldAlert className="w-4 h-4" />
-                <span>Pendente</span>
-              </div>
-            )}
+            <div>
+              <h1 className="text-sm font-bold tracking-wider uppercase text-white print:text-black">Eternity OS</h1>
+              <p className="text-[10px] text-emerald-400 font-medium">CREDENCIAL DO ASSOCIADO</p>
+            </div>
+          </div>
+          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            {contract?.status === 'active' ? 'ATIVO' : 'REGULAR'}
+          </span>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <p className="text-[10px] text-zinc-400 uppercase tracking-wider">Titular do Plano</p>
+            <p className="text-base font-bold text-white print:text-black">{holderData.full_name}</p>
           </div>
 
-          {/* Dados do Titular */}
-          <div className="py-5 space-y-4">
+          <div className="grid grid-cols-2 gap-4">
             <div>
-              <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Titular</span>
-              <div className="flex items-center gap-2 mt-0.5">
-                <User className="w-4 h-4 text-emerald-400 shrink-0" />
-                <p className="text-base font-semibold text-white truncate">{holder.name}</p>
-              </div>
+              <p className="text-[10px] text-zinc-400 uppercase tracking-wider">CPF</p>
+              <p className="text-xs font-mono font-medium text-zinc-200 print:text-black">{holderData.cpf}</p>
             </div>
-
-            <div className="grid grid-cols-2 gap-4 pt-2">
-              <div>
-                <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Plano</span>
-                <p className="text-sm font-semibold text-slate-200 mt-0.5">{planName}</p>
-              </div>
-              <div>
-                <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Adesão</span>
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                  <p className="text-sm font-medium text-slate-200">{memberSince}</p>
-                </div>
-              </div>
+            <div>
+              <p className="text-[10px] text-zinc-400 uppercase tracking-wider">Plano</p>
+              <p className="text-xs font-semibold text-emerald-400 print:text-black">{planName}</p>
             </div>
           </div>
 
-          {/* Dependentes Inclusos */}
-          {dependents && dependents.length > 0 && (
-            <div className="pt-4 border-t border-slate-800/80">
-              <div className="flex items-center gap-2 mb-3">
-                <Users className="w-4 h-4 text-emerald-400" />
-                <span className="text-xs font-semibold uppercase tracking-wider text-slate-300">
-                  Dependentes Vinculados ({dependents.length})
-                </span>
-              </div>
-              <div className="space-y-1.5 max-h-36 overflow-y-auto pr-1 text-xs">
+          {dependents.length > 0 && (
+            <div className="pt-2 border-t border-zinc-800 print:border-zinc-300">
+              <p className="text-[10px] text-zinc-400 uppercase tracking-wider mb-1.5">
+                Dependentes Vinculados ({dependents.length})
+              </p>
+              <div className="flex flex-wrap gap-1.5">
                 {dependents.map((dep) => (
-                  <div key={dep.id} className="flex items-center justify-between p-2 rounded-lg bg-slate-950/50 border border-slate-800/50 text-slate-300">
-                    <span className="font-medium truncate mr-2">{dep.name}</span>
-                    <span className="text-[10px] uppercase text-emerald-400/80 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-800/30 shrink-0">
-                      {dep.relationship || 'Dependente'}
-                    </span>
-                  </div>
+                  <span
+                    key={dep.id}
+                    className="px-2 py-0.5 rounded bg-zinc-800 text-[10px] text-zinc-300 print:bg-zinc-100 print:text-black"
+                  >
+                    {dep.full_name} ({dep.relation})
+                  </span>
                 ))}
               </div>
             </div>
           )}
-
-          {/* Rodapé do Cartão & Conformidade Regulatória */}
-          <div className="mt-6 pt-4 border-t border-slate-800/60 text-[11px] text-slate-500 space-y-1">
-            <div className="flex items-center justify-between">
-              <span>Lei Federal 13.261/2016</span>
-              <span className="font-mono">ID: {holder.id.slice(0, 8).toUpperCase()}</span>
-            </div>
-            <p className="text-[10px] text-slate-600 truncate">{municipalLicense}</p>
-          </div>
         </div>
 
-        {/* Central de Atendimento 24h Dinâmica */}
-        <div className="mt-6 text-center space-y-2">
-          <p className="text-xs text-slate-400">Central de Plantão 24 Horas</p>
-          <a
-            href={`tel:${phoneEmergency.replace(/\D/g, '')}`}
-            className="inline-flex items-center gap-2 text-xs font-medium text-emerald-400 bg-emerald-950/40 border border-emerald-800/40 px-4 py-2 rounded-full hover:bg-emerald-900/50 transition-colors"
-          >
-            <PhoneCall className="w-3.5 h-3.5" />
-            <span>{phoneEmergency}</span>
-          </a>
+        <div className="mt-6 pt-4 border-t border-zinc-800/80 flex items-center justify-between text-[10px] text-zinc-500 print:border-zinc-300">
+          <span>Plantão 24h: Suporte Imediato</span>
+          <span className="font-mono">ID: {holderData.id.slice(0, 8).toUpperCase()}</span>
         </div>
-
       </div>
+
     </div>
   );
 }
