@@ -1,84 +1,52 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabaseClient';
+﻿import { NextRequest, NextResponse } from 'next/server';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
   try {
-    const { dispatchId, deceasedName, coffinId, itemsUsed } = await req.json();
+    const body = await req.json();
+    const { stockItemId, quantity, reason, dispatchId } = body;
 
-    if (!dispatchId) {
-      return NextResponse.json({ error: 'ID do despacho não informado.' }, { status: 400 });
+    if (!stockItemId || !quantity) {
+      return NextResponse.json({ error: 'stockItemId e quantity são obrigatórios.' }, { status: 400 });
     }
 
-    const deductions = [];
+    // 1. Obter quantidade atual
+    const { data: item, error: fetchErr } = await supabaseAdmin
+      .from('stock_items')
+      .select('id, quantity, name')
+      .eq('id', stockItemId)
+      .single();
 
-    // 1. Debitar Urna Funerária (se informada)
-    if (coffinId) {
-      const { data: item, error: fetchErr } = await supabase
-        .from('stock_items')
-        .select('id, name, quantity, min_quantity')
-        .eq('id', coffinId)
-        .single();
-
-      if (!fetchErr && item) {
-        const newQty = Math.max(0, item.quantity - 1);
-        await supabase
-          .from('stock_items')
-          .update({ quantity: newQty, updated_at: new Date().toISOString() })
-          .eq('id', item.id);
-
-        await supabase.from('stock_movements').insert({
-          item_id: item.id,
-          item_name: item.name,
-          type: 'saida',
-          quantity: 1,
-          reason: `Atendimento OS Plantão: ${deceasedName || dispatchId}`,
-          created_at: new Date().toISOString()
-        });
-
-        deductions.push({ id: item.id, name: item.name, remaining: newQty });
-      }
+    if (fetchErr || !item) {
+      return NextResponse.json({ error: 'Item de estoque não localizado.' }, { status: 404 });
     }
 
-    // 2. Debitar Insumos Adicionais (Kits, Velas, Flores)
-    if (Array.isArray(itemsUsed) && itemsUsed.length > 0) {
-      for (const entry of itemsUsed) {
-        const { data: item } = await supabase
-          .from('stock_items')
-          .select('id, name, quantity')
-          .eq('id', entry.id)
-          .single();
-
-        if (item) {
-          const qtyToDeduct = Number(entry.quantity) || 1;
-          const newQty = Math.max(0, item.quantity - qtyToDeduct);
-
-          await supabase
-            .from('stock_items')
-            .update({ quantity: newQty, updated_at: new Date().toISOString() })
-            .eq('id', item.id);
-
-          await supabase.from('stock_movements').insert({
-            item_id: item.id,
-            item_name: item.name,
-            type: 'saida',
-            quantity: qtyToDeduct,
-            reason: `Insumo OS Plantão: ${deceasedName || dispatchId}`,
-            created_at: new Date().toISOString()
-          });
-
-          deductions.push({ id: item.id, name: item.name, remaining: newQty });
-        }
-      }
+    if (item.quantity < quantity) {
+      return NextResponse.json({ error: 'Estoque insuficiente para baixa.' }, { status: 400 });
     }
 
-    return NextResponse.json({
-      success: true,
-      dispatchId,
-      deductions
-    });
+    // 2. Atualizar saldo
+    const newQty = item.quantity - quantity;
+    await supabaseAdmin
+      .from('stock_items')
+      .update({ quantity: newQty })
+      .eq('id', stockItemId);
 
-  } catch (error: any) {
-    console.error('Erro na baixa automática de estoque:', error);
-    return NextResponse.json({ error: error.message || 'Erro interno' }, { status: 500 });
+    // 3. Registrar movimentação
+    await supabaseAdmin
+      .from('stock_movements')
+      .insert([{
+        stock_item_id: stockItemId,
+        type: 'baixa_plantao',
+        quantity: quantity,
+        reason: reason || `Baixa de chamado de emergência ${dispatchId || ''}`,
+        created_at: new Date().toISOString()
+      }]);
+
+    return NextResponse.json({ success: true, remainingQuantity: newQty });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
