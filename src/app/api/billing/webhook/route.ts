@@ -1,141 +1,154 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { createClient } from '@supabase/supabase-js';
 
 export const dynamic = 'force-dynamic';
 
+function getSupabaseClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+  const supabaseServiceKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    'placeholder-key';
+  return createClient(supabaseUrl, supabaseServiceKey);
+}
+
 export async function POST(req: NextRequest) {
   try {
-    const asaasHeaderToken = req.headers.get('asaas-access-token') || req.headers.get('authorization');
-    const globalToken = process.env.ASAAS_WEBHOOK_TOKEN;
+    const supabase = getSupabaseClient();
+    const rawBody = await req.json();
 
-    const body = await req.json();
-    const { event, payment } = body;
+    const { event, payment } = rawBody;
 
-    if (!payment || !event) {
-      return NextResponse.json({ error: 'Payload incompleto recebido do gateway.' }, { status: 400 });
+    if (!event || !payment) {
+      return NextResponse.json({ error: 'Payload de webhook inválido.' }, { status: 400 });
     }
 
-    const contractId = payment.externalReference;
-    const paymentId = payment.id;
-    const amount = Number(payment.value || 0);
+    const asaasPaymentId = payment.id;
+    const paymentValue = payment.value;
+    const netValue = payment.netValue || payment.value;
+    const billingType = payment.billingType; // BOLETO, PIX, CREDIT_CARD
+    const externalReference = payment.externalReference;
+    const clientPaymentDate = payment.clientPaymentDate || payment.paymentDate || new Date().toISOString();
 
-    let tenantId: string | null = null;
-    let expectedTenantToken: string | null = null;
+    console.log(`[Webhook Asaas] Evento: ${event} | Payment ID: ${asaasPaymentId}`);
 
-    // Localizar o contrato para identificar a empresa dona do recebível
-    if (contractId) {
-      const { data: contractData } = await supabaseAdmin
-        .from('contracts')
-        .select('id, tenant_id')
-        .eq('id', contractId)
+    // Mapeamento de status conforme evento Asaas
+    let paymentStatus: string | null = null;
+    let contractStatus: string | null = null;
+
+    switch (event) {
+      case 'PAYMENT_RECEIVED':
+      case 'PAYMENT_CONFIRMED':
+        paymentStatus = 'Pago';
+        contractStatus = 'Ativo';
+        break;
+
+      case 'PAYMENT_OVERDUE':
+        paymentStatus = 'Atrasado';
+        break;
+
+      case 'PAYMENT_REFUNDED':
+      case 'PAYMENT_CHARGEBACK_REQUESTED':
+        paymentStatus = 'Estornado';
+        break;
+
+      case 'PAYMENT_DELETED':
+        paymentStatus = 'Cancelado';
+        break;
+
+      default:
+        return NextResponse.json({ message: `Evento ${event} ignorado sem alteração de estado.` });
+    }
+
+    // 1. Atualizar registro na tabela payments pelo asaas_payment_id ou externalReference
+    let updatedPayment = null;
+
+    const { data: payByAsaasId, error: findErr } = await supabase
+      .from('payments')
+      .select('*')
+      .eq('asaas_payment_id', asaasPaymentId)
+      .maybeSingle();
+
+    if (payByAsaasId) {
+      const updateData: any = {
+        status: paymentStatus,
+        payment_method: billingType || payByAsaasId.payment_method,
+        net_value: netValue
+      };
+
+      if (paymentStatus === 'Pago') {
+        updateData.paid_at = clientPaymentDate;
+      }
+
+      const { data: updated, error: uErr } = await supabase
+        .from('payments')
+        .update(updateData)
+        .eq('id', payByAsaasId.id)
+        .select()
         .single();
 
-      if (contractData) {
-        tenantId = contractData.tenant_id;
+      if (!uErr) updatedPayment = updated;
+    } else if (externalReference) {
+      // Tentar localizar pelo contract_id
+      const { data: updated, error: uErr } = await supabase
+        .from('payments')
+        .update({
+          status: paymentStatus,
+          asaas_payment_id: asaasPaymentId,
+          payment_method: billingType,
+          paid_at: paymentStatus === 'Pago' ? clientPaymentDate : null,
+          net_value: netValue
+        })
+        .eq('contract_id', externalReference)
+        .eq('status', 'Pendente')
+        .order('due_date', { ascending: true })
+        .limit(1)
+        .select()
+        .maybeSingle();
 
-        if (tenantId) {
-          const { data: tenantData } = await supabaseAdmin
-            .from('tenants')
-            .select('asaas_webhook_token, asaas_api_key')
-            .eq('id', tenantId)
-            .single();
-
-          if (tenantData) {
-            expectedTenantToken = tenantData.asaas_webhook_token || tenantData.asaas_api_key;
-          }
-        }
-      }
+      if (!uErr && updated) updatedPayment = updated;
     }
 
-    // Validação de Segurança: Token Global OU Token específico do Tenant
-    const isAuthorized =
-      (globalToken && asaasHeaderToken === globalToken) ||
-      (expectedTenantToken && asaasHeaderToken === expectedTenantToken);
-
-    if (!isAuthorized) {
-      console.warn(`⚠️ Tentativa de webhook rejeitada. Token recebido: ${asaasHeaderToken ? 'Presente' : 'Ausente'}, Tenant: ${tenantId || 'Desconhecido'}`);
-      return NextResponse.json(
-        { error: 'Não autorizado. Token de webhook Asaas inválido para o tenant.' },
-        { status: 401 }
-      );
+    // 2. Se o pagamento foi confirmado, atualizar o contrato correspondente
+    const targetContractId = updatedPayment?.contract_id || externalReference;
+    if (targetContractId && contractStatus === 'Ativo') {
+      await supabase
+        .from('contracts')
+        .update({ status: 'Ativo', last_payment_date: clientPaymentDate })
+        .eq('id', targetContractId);
     }
 
-    // Processamento de Liquidação Financeira
-    if (event === 'PAYMENT_RECEIVED' || event === 'PAYMENT_CONFIRMED' || event === 'PAYMENT_UPDATED') {
-      if (contractId) {
-        // 1. Atualizar Contrato
-        await supabaseAdmin
-          .from('contracts')
-          .update({
-            status: 'ativo',
-            last_payment_date: new Date().toISOString()
-          })
-          .eq('id', contractId);
-
-        // 2. Baixar fatura no sistema
-        await supabaseAdmin
-          .from('payments')
-          .update({
-            status: 'paid',
-            paid_at: new Date().toISOString()
-          })
-          .eq('contract_id', contractId)
-          .eq('status', 'pending');
-
-        // 3. Idempotência: Checar se a transação já foi contabilizada
-        const { data: existingTx } = await supabaseAdmin
-          .from('financial_transactions')
-          .select('id')
-          .eq('gateway_txid', paymentId)
-          .limit(1);
-
-        if (!existingTx || existingTx.length === 0) {
-          // Inserir receita vinculada ao tenant correto
-          await supabaseAdmin
-            .from('financial_transactions')
-            .insert([{
-              tenant_id: tenantId,
-              contract_id: contractId,
-              amount: amount,
-              type: 'receita',
-              gateway_txid: paymentId,
-              description: `Mensalidade Pix Asaas - Evento ${event} - ID ${paymentId}`,
-              created_at: new Date().toISOString()
-            }]);
-
-          // Provisionamento automático da Reserva Regulatória (10%)
-          if (tenantId && amount > 0) {
-            const reserveAmount = Number((amount * 0.10).toFixed(2));
-            await supabaseAdmin
-              .from('regulatory_reserves')
-              .insert([{
-                tenant_id: tenantId,
-                period: new Date().toISOString().substring(0, 7),
-                reserve_type: 'funeral_plan_guarantee',
-                required_amount: reserveAmount,
-                current_balance: reserveAmount,
-                status: 'adequada',
-                notes: `Retenção automática 10% sobre pagamento Asaas ${paymentId}`
-              }]);
-          }
-        }
-      }
-    }
-
-    return NextResponse.json(
+    // 3. Registrar log de auditoria da transação financeira
+    const tenantId = updatedPayment?.tenant_id || 'matriz';
+    await supabase.from('dispatch_audit_logs').insert([
       {
-        received: true,
-        event,
         tenant_id: tenantId,
-        status: 'processed'
-      },
-      { status: 200 }
-    );
+        dispatch_id: targetContractId || asaasPaymentId,
+        action: `PAGAMENTO_${paymentStatus?.toUpperCase()}`,
+        actor_name: 'Webhook Asaas (Automático)',
+        actor_role: 'sistema',
+        details: {
+          event,
+          asaas_payment_id: asaasPaymentId,
+          amount: paymentValue,
+          net_value: netValue,
+          billing_type: billingType,
+          paid_at: clientPaymentDate
+        },
+        created_at: new Date().toISOString()
+      }
+    ]);
+
+    return NextResponse.json({
+      success: true,
+      event,
+      paymentId: asaasPaymentId,
+      status: paymentStatus,
+      updatedPayment
+    });
+
   } catch (err: any) {
-    console.error('💥 Erro no processamento do webhook Asaas Multi-tenant:', err);
-    return NextResponse.json(
-      { error: 'Erro interno ao processar webhook.', details: err.message },
-      { status: 500 }
-    );
+    console.error('[Webhook Asaas Error]:', err);
+    return NextResponse.json({ error: err.message || 'Erro interno ao processar webhook.' }, { status: 500 });
   }
 }
