@@ -3,6 +3,7 @@ import { ModalPlantao } from '@/components/modals/ModalPlantao';
 import { ModalNewHolder } from '@/components/modals/ModalNewHolder';
 import { ModalExpense } from '@/components/modals/ModalExpense';
 import { ModalPix } from '@/components/modals/ModalPix';
+import { TenantSettingsTab } from '@/components/tabs/TenantSettingsTab';
 import { useTenant } from '@/contexts/TenantContext';
 import { AssociatesTab } from '@/components/dashboard/AssociatesTab';
 import { DispatchesTab } from '@/components/dashboard/DispatchesTab';
@@ -181,7 +182,7 @@ interface DependentItem {
   birth_date: string;
 }
 
-type TabType = 'overview' | 'associates' | 'dispatches' | 'fleet' | 'inventory' | 'commissions';
+type TabType = 'overview' | 'associates' | 'dispatches' | 'fleet' | 'inventory' | 'commissions' | 'settings';
 
 export default function Dashboard() {
   const { currentTenant } = useTenant();
@@ -1488,7 +1489,11 @@ export default function Dashboard() {
       </div>
 
       {/* MODAL: PLANTÁO 24H */}
-            <ModalPlantao
+                    {currentTab === 'settings' && (
+          <TenantSettingsTab />
+        )}
+
+      <ModalPlantao
         isOpen={isPlantaopen}
         onClose={() => setIsPlantaopen(false)}
         payments={payments}
