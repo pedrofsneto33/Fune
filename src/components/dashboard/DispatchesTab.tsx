@@ -1,4 +1,5 @@
-﻿import { AuditTimeline } from '@/components/dashboard/AuditTimeline';
+﻿import { ModalCloseDispatch } from '@/components/modals/ModalCloseDispatch';
+import { AuditTimeline } from '@/components/dashboard/AuditTimeline';
 'use client';
 
 import React from 'react';
@@ -22,6 +23,7 @@ interface DispatchesTabProps {
 
 export function DispatchesTab({ dispatches, onOpenPlantaoModal }: DispatchesTabProps) {
   const [selectedDispatchForAudit, setSelectedDispatchForAudit] = React.useState<any | null>(null);
+  const [selectedDispatchForClose, setSelectedDispatchForClose] = React.useState<any | null>(null);
   return (
     <div className="space-y-5">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -105,6 +107,15 @@ export function DispatchesTab({ dispatches, onOpenPlantaoModal }: DispatchesTabP
           </div>
         </div>
       )}
+
+            <ModalCloseDispatch
+        isOpen={!!selectedDispatchForClose}
+        onClose={() => setSelectedDispatchForClose(null)}
+        dispatch={selectedDispatchForClose}
+        onSuccess={() => {
+          if (typeof window !== 'undefined') window.location.reload();
+        }}
+      />
 
     </div>
   );
