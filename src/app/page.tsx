@@ -48,6 +48,7 @@ import { ModalPlantao } from '@/components/modals/ModalPlantao';
 import { ModalNewHolder } from '@/components/modals/ModalNewHolder';
 import { ModalExpense } from '@/components/modals/ModalExpense';
 import { ModalPix } from '@/components/modals/ModalPix';
+import { ModalBoletoBatch } from '@/components/modals/ModalBoletoBatch';
 import { ModalDependent } from '@/components/modals/ModalDependent';
 import { ModalPixSim } from '@/components/modals/ModalPixSim';
 import { TenantSettingsTab } from '@/components/tabs/TenantSettingsTab';
@@ -180,6 +181,7 @@ export default function Dashboard() {
   const [isDependentModalOpen, setIsDependentModalOpen] = useState(false);
   const [isPixSimModalOpen, setIsPixSimModalOpen] = useState(false);
   const [isPixModalOpen, setIsPixModalOpen] = useState(false);
+  const [isBoletoModalOpen, setIsBoletoModalOpen] = useState(false);
   const [selectedPixRow, setSelectedPixRow] = useState<any | null>(null);
   const [pixPayload, setPixPayload] = useState<{ qrCode: string; copyPaste: string; txid: string } | null>(null);
   const [pixLoading, setPixLoading] = useState(false);
@@ -1702,7 +1704,14 @@ export default function Dashboard() {
 
     
       {/* MODAL_COBRANCA_PIX_ASSOCIADO */}
-            <ModalPix
+                  <ModalBoletoBatch
+        isOpen={isBoletoModalOpen}
+        onClose={() => setIsBoletoModalOpen(false)}
+        holders={payments}
+        onSuccess={() => fetchSupabaseData()}
+      />
+
+      <ModalPix
         isOpen={isPixModalOpen}
         onClose={() => setIsPixModalOpen(false)}
         selectedPixRow={selectedPixRow}
