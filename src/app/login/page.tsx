@@ -1,21 +1,26 @@
-'use client';
-
-export const dynamic = 'force-dynamic';
+﻿'use client';
 
 import React, { useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
-import { Lock, Mail, ShieldAlert, ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@supabase/supabase-js';
+import { Shield, Lock, Mail, ArrowRight, AlertCircle } from 'lucide-react';
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://plvrapxybdnwmquossb.supabase.co';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsdnJhcHh5YmhkbndtcXVvc3NiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc5MDAxNTIsImV4cCI6MjEwMzQ3NjE1Mn0.5zziRxyOMI_-eipi4-LXP2oROM0u7X_sD86NhuFoyz4';
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setErrorMsg('');
+    setErrorMessage(null);
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -24,70 +29,73 @@ export default function LoginPage() {
       });
 
       if (error) {
-        throw error;
+        if (error.message.includes('Invalid login credentials')) {
+          setErrorMessage('E-mail ou senha incorretos.');
+        } else {
+          setErrorMessage(error.message);
+        }
+        return;
       }
 
       if (data?.session) {
-        // Redirecionamento direto e limpo
-        window.location.href = '/';
+        router.push('/');
+        router.refresh();
       }
     } catch (err: any) {
-      console.error('Erro no login:', err);
-      setErrorMsg(
-        err.message === 'Invalid login credentials'
-          ? 'E-mail ou senha incorretos.'
-          : err.message || 'Falha ao autenticar no Supabase.'
-      );
+      console.error('Erro de autenticação:', err);
+      setErrorMessage(err.message || 'Falha na conexão com o servidor de autenticação.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] text-slate-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl p-8 shadow-2xl relative overflow-hidden">
-        {/* Efeito Glow */}
-        <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#00D1FF]/10 rounded-full blur-2xl pointer-events-none" />
-
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold tracking-tight text-white">SAAD<span className="text-[#00D1FF]"> FUNE</span></h1>
-          <p className="text-xs text-zinc-400 mt-1">Acesso Restrito ao Painel Operacional</p>
+    <div className="min-h-screen bg-zinc-950 text-white flex items-center justify-center p-4">
+      <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-3xl p-8 shadow-2xl space-y-6">
+        <div className="text-center space-y-2">
+          <div className="inline-flex p-3 bg-teal-500/10 border border-teal-500/20 rounded-2xl text-teal-400 mb-2">
+            <Shield className="w-8 h-8" />
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight">ETERNITY SOS</h1>
+          <p className="text-xs text-zinc-400 uppercase tracking-widest font-semibold">
+            Portal de Gestão Funerária & Planos
+          </p>
         </div>
 
-        {errorMsg && (
-          <div className="mb-6 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg flex items-center gap-2 text-rose-400 text-xs">
-            <ShieldAlert className="w-4 h-4 shrink-0" />
-            <span>{errorMsg}</span>
+        {errorMessage && (
+          <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-xs flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 flex-shrink-0" />
+            <span>{errorMessage}</span>
           </div>
         )}
 
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <label className="block text-xs font-medium text-zinc-300 mb-1.5">E-mail Operacional</label>
+        <form onSubmit={handleLogin} className="space-y-4 text-xs">
+          <div className="space-y-1">
+            <label className="block text-zinc-300 font-semibold">E-mail Operacional</label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Mail className="w-4 h-4 text-zinc-500 absolute left-3 top-3" />
               <input
                 type="email"
                 required
-                placeholder="operador@saadfune.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-zinc-800/80 border border-zinc-700 rounded-lg pl-9 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00D1FF] transition"
+                placeholder="operador@eternitysos.com.br"
+                className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-9 pr-3 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-teal-500"
               />
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-medium text-zinc-300 mb-1.5">Senha de Acesso</label>
+          <div className="space-y-1">
+            <label className="block text-zinc-300 font-semibold">Senha de Acesso</label>
             <div className="relative">
-              <Lock className="w-4 h-4 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Lock className="w-4 h-4 text-zinc-500 absolute left-3 top-3" />
               <input
                 type="password"
                 required
-                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-zinc-800/80 border border-zinc-700 rounded-lg pl-9 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00D1FF] transition"
+                placeholder="••••••••"
+                className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-9 pr-3 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-teal-500"
               />
             </div>
           </div>
@@ -95,19 +103,18 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-2 bg-[#0F62FE] hover:bg-blue-600 disabled:opacity-50 text-white font-semibold py-2.5 rounded-lg text-sm flex items-center justify-center gap-2 transition cursor-pointer shadow-lg shadow-blue-950/40"
+            className="w-full py-3 bg-teal-600 hover:bg-teal-500 text-white rounded-xl font-bold text-xs shadow-lg shadow-teal-600/20 transition flex items-center justify-center gap-2 disabled:opacity-50"
           >
-            {loading ? 'Validando acesso...' : 'Entrar no Sistema'}
-            {!loading && <ArrowRight className="w-4 h-4" />}
+            <span>{loading ? 'Autenticando...' : 'Acessar Painel Operacional'}</span>
+            <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-zinc-800/80 text-center">
-          <p className="text-[11px] text-zinc-500">
-            Ambiente Monitorado & Criptografado • EternityOS
-          </p>
+        <div className="text-center pt-4 border-t border-zinc-800/80 text-[11px] text-zinc-500">
+          <p>Eternity SOS • Sistema de Gestão Funerária</p>
+          <p className="font-mono text-[10px] text-zinc-600 mt-1">v2.4.0 (Multi-Tenant)</p>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
