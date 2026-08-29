@@ -182,6 +182,7 @@ export default function Dashboard() {
   const [isPixSimModalOpen, setIsPixSimModalOpen] = useState(false);
   const [isPixModalOpen, setIsPixModalOpen] = useState(false);
   const [isBoletoModalOpen, setIsBoletoModalOpen] = useState(false);
+  const [selectedHolderForBoleto, setSelectedHolderForBoleto] = useState<string | null>(null);
   const [selectedPixRow, setSelectedPixRow] = useState<any | null>(null);
   const [pixPayload, setPixPayload] = useState<{ qrCode: string; copyPaste: string; txid: string } | null>(null);
   const [pixLoading, setPixLoading] = useState(false);
@@ -1708,6 +1709,7 @@ export default function Dashboard() {
         isOpen={isBoletoModalOpen}
         onClose={() => setIsBoletoModalOpen(false)}
         holders={payments}
+        initialHolderId={selectedHolderForBoleto}
         onSuccess={() => fetchSupabaseData()}
       />
 

@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FileText, X, Check, Copy, ExternalLink, Calendar, DollarSign, Layers } from 'lucide-react';
 import { useTenant } from '@/contexts/TenantContext';
 
@@ -8,10 +8,11 @@ interface ModalBoletoBatchProps {
   isOpen: boolean;
   onClose: () => void;
   holders: any[];
+  initialHolderId?: string | null;
   onSuccess?: () => void;
 }
 
-export function ModalBoletoBatch({ isOpen, onClose, holders, onSuccess }: ModalBoletoBatchProps) {
+export function ModalBoletoBatch({ isOpen, onClose, holders, initialHolderId, onSuccess }: ModalBoletoBatchProps) {
   const { currentTenant } = useTenant();
   const [selectedHolderId, setSelectedHolderId] = useState('');
   const [type, setType] = useState<'single' | 'carne'>('carne');
@@ -26,6 +27,12 @@ export function ModalBoletoBatch({ isOpen, onClose, holders, onSuccess }: ModalB
   const [result, setResult] = useState<any | null>(null);
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (initialHolderId) {
+      setSelectedHolderId(initialHolderId);
+    }
+  }, [initialHolderId, isOpen]);
 
   if (!isOpen) return null;
 
