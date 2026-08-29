@@ -1,4 +1,5 @@
-﻿'use client';
+﻿import { AuditTimeline } from '@/components/dashboard/AuditTimeline';
+'use client';
 
 import React from 'react';
 import { Siren, Plus, MapPin, Clock, UserCheck, ShieldAlert, CheckCircle2 } from 'lucide-react';
@@ -20,6 +21,7 @@ interface DispatchesTabProps {
 }
 
 export function DispatchesTab({ dispatches, onOpenPlantaoModal }: DispatchesTabProps) {
+  const [selectedDispatchForAudit, setSelectedDispatchForAudit] = React.useState<any | null>(null);
   return (
     <div className="space-y-5">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -70,7 +72,40 @@ export function DispatchesTab({ dispatches, onOpenPlantaoModal }: DispatchesTabP
             </div>
           ))
         )}
-      </div>
+      </div>      {/* Modal de Trilha de Auditoria */}
+      {selectedDispatchForAudit && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 overflow-y-auto">
+          <div className="bg-zinc-900 border border-zinc-800 w-full max-w-xl rounded-2xl p-6 shadow-2xl space-y-4 my-8 max-h-[85vh] overflow-y-auto">
+            <div className="flex justify-between items-center pb-3 border-b border-zinc-800">
+              <div>
+                <h3 className="text-base font-bold text-white">Auditoria do Atendimento</h3>
+                <p className="text-xs text-zinc-400">OS: {selectedDispatchForAudit.id} - {selectedDispatchForAudit.deceased_name || selectedDispatchForAudit.deceasedName || 'Falecido'}</p>
+              </div>
+              <button
+                onClick={() => setSelectedDispatchForAudit(null)}
+                className="text-zinc-400 hover:text-white p-1"
+              >
+                ✕
+              </button>
+            </div>
+
+            <AuditTimeline
+              dispatchId={selectedDispatchForAudit.id}
+              tenantId={selectedDispatchForAudit.tenant_id}
+            />
+
+            <div className="flex justify-end pt-3 border-t border-zinc-800">
+              <button
+                onClick={() => setSelectedDispatchForAudit(null)}
+                className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-semibold rounded-xl"
+              >
+                Fechar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
