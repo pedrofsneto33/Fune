@@ -1,76 +1,74 @@
-interface SendMessageParams {
-  phone: string;
-  message: string;
-}
+﻿export function formatWhatsAppMessage(params: {
+  holderName: string;
+  planName?: string;
+  phone?: string;
+  amount?: string | number;
+  dueDate?: string;
+  bankSlipUrl?: string;
+  identificationField?: string;
+  installmentCount?: number;
+  tenantName?: string;
+}) {
+  const {
+    holderName,
+    planName = 'Plano Funerário',
+    amount,
+    dueDate,
+    bankSlipUrl,
+    identificationField,
+    installmentCount = 1,
+    tenantName = 'Eternity SOS'
+  } = params;
 
-export const sendWhatsAppNotification = async ({ phone, message }: SendMessageParams) => {
-  const cleanPhone = phone.replace(/\D/g, '');
-  const formattedPhone = cleanPhone.startsWith('55') ? cleanPhone : `55${cleanPhone}`;
+  let message = `Olá, *${holderName}*! 👋\n\n`;
+  message += `Aqui é do atendimento *${tenantName}* referente ao seu contrato (*${planName}*).\n\n`;
 
-  const apiUrl = process.env.NEXT_PUBLIC_EVOLUTION_API_URL;
-  const apiKey = process.env.NEXT_PUBLIC_EVOLUTION_API_KEY;
-  const instanceName = process.env.NEXT_PUBLIC_EVOLUTION_INSTANCE || 'saadfune';
-
-  // Se houver Evolution API configurada, dispara em segundo plano via POST
-  if (apiUrl && apiKey) {
-    try {
-      const response = await fetch(`${apiUrl}/message/sendText/${instanceName}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': apiKey
-        },
-        body: JSON.stringify({
-          number: formattedPhone,
-          options: {
-            delay: 1200,
-            presence: 'composing',
-            linkPreview: false
-          },
-          textMessage: {
-            text: message
-          }
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Falha no gateway WhatsApp: ${response.statusText}`);
-      }
-
-      return { success: true, method: 'api' };
-    } catch (err) {
-      console.warn('Falha no disparo via API, utilizando fallback nativo:', err);
-    }
+  if (installmentCount > 1) {
+    message += `📄 Segue o seu *Carnê Anual/Parcelado* (${installmentCount} parcelas).\n`;
+  } else {
+    message += `📄 Segue o seu *Boleto de Mensalidade* no valor de *R$ ${amount}*.\n`;
   }
 
-  // Fallback: Retorna URL para abertura direta no WhatsApp Web / App
-  const webUrl = `https://api.whatsapp.com/send?phone=${formattedPhone}&text=${encodeURIComponent(message)}`;
-  return { success: true, method: 'redirect', url: webUrl };
-};
+  if (dueDate) {
+    message += `🗓️ *Vencimento:* ${dueDate}\n`;
+  }
 
-export const formatWhatsAppMessage = ({
-  phone,
-  customerName,
-  planName,
-  amount,
-  dueDate,
-  pixCode
-}: {
-  phone: string;
-  customerName: string;
-  planName: string;
-  amount: string;
-  dueDate: string;
-  pixCode: string;
-}) => {
-  const cleanPhone = phone.replace(/\D/g, '');
-  const formattedPhone = cleanPhone.startsWith('55') ? cleanPhone : `55${cleanPhone}`;
-  
-  const msg = `Olá, *${customerName}*!\n\n` +
-    `Informamos que a fatura do seu plano *${planName}* no valor de *${amount}* vence em *${dueDate}*.\n\n` +
-    `Para pagar via PIX copia e cola, utilize a chave abaixo:\n\n` +
-    `\`${pixCode}\`\n\n` +
-    `_SAAD FUNE • Assistência Familiar 24h_`;
+  if (identificationField) {
+    message += `\n🔢 *Linha Digitável (Copie e Cole no seu banco):*\n\`${identificationField}\`\n`;
+  }
 
-  return `https://api.whatsapp.com/send?phone=${formattedPhone}&text=${encodeURIComponent(msg)}`;
-};
+  if (bankSlipUrl) {
+    message += `\n🔗 *Link para Visualizar / Baixar o Carnê em PDF:*\n${bankSlipUrl}\n`;
+  }
+
+  message += `\nQualquer dúvida, estamos à sua inteira disposição 24h!\n*${tenantName}*`;
+
+  return encodeURIComponent(message);
+}
+
+export function openWhatsAppBilling(params: {
+  phone?: string;
+  holderName: string;
+  planName?: string;
+  amount?: string | number;
+  dueDate?: string;
+  bankSlipUrl?: string;
+  identificationField?: string;
+  installmentCount?: number;
+  tenantName?: string;
+}) {
+  const cleanPhone = (params.phone || '').replace(/\D/g, '');
+  const encodedText = formatWhatsAppMessage(params);
+
+  // Se tiver DDD mas não tiver código do país 55, adiciona
+  let fullPhone = cleanPhone;
+  if (fullPhone.length === 10 || fullPhone.length === 11) {
+    fullPhone = `55${fullPhone}`;
+  }
+
+  const url = fullPhone.length >= 12
+    ? `https://api.whatsapp.com/send?phone=${fullPhone}&text=${encodedText}`
+    : `https://api.whatsapp.com/send?text=${encodedText}`;
+
+  window.open(url, '_blank');
+}

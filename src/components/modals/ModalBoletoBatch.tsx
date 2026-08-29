@@ -1,8 +1,9 @@
 ﻿'use client';
 
 import React, { useState, useEffect } from 'react';
-import { FileText, X, Check, Copy, ExternalLink, Calendar, DollarSign, Layers } from 'lucide-react';
+import { FileText, X, Check, Copy, ExternalLink, Calendar, DollarSign, Layers, MessageSquare } from 'lucide-react';
 import { useTenant } from '@/contexts/TenantContext';
+import { openWhatsAppBilling } from '@/lib/whatsapp';
 
 interface ModalBoletoBatchProps {
   isOpen: boolean;
@@ -90,6 +91,21 @@ export function ModalBoletoBatch({ isOpen, onClose, holders, initialHolderId, on
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
+  };
+
+  const handleSendWhatsApp = () => {
+    if (!selectedHolder) return;
+    openWhatsAppBilling({
+      phone: selectedHolder.phone,
+      holderName: selectedHolder.full_name || selectedHolder.holder,
+      planName: selectedHolder.plan,
+      amount: monthlyValue,
+      dueDate: firstDueDate,
+      bankSlipUrl: result?.bankSlipUrl || result?.invoiceUrl,
+      identificationField: result?.identificationField,
+      installmentCount: result?.installmentCount || (type === 'single' ? 1 : installments),
+      tenantName: currentTenant?.name || 'Eternity SOS'
+    });
   };
 
   return (
@@ -233,16 +249,24 @@ export function ModalBoletoBatch({ isOpen, onClose, holders, initialHolderId, on
               </div>
             )}
 
-            <div className="flex gap-3 pt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <button
+                onClick={handleSendWhatsApp}
+                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition shadow-lg shadow-emerald-600/20"
+              >
+                <MessageSquare className="w-4 h-4" />
+                Enviar WhatsApp
+              </button>
+
               {result.bankSlipUrl && (
                 <a
                   href={result.bankSlipUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold"
+                  className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold transition"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  Abrir Boleto / Carnê (PDF)
+                  Abrir PDF
                 </a>
               )}
             </div>
