@@ -3,10 +3,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
 import { formatWhatsAppMessage } from '@/lib/whatsapp';
+import { isTabAllowed, hasPermission, UserRole } from '@/config/permissions';
 import { ModalRBAC } from '@/components/dashboard/ModalRBAC';
 import { ModalDRE } from '@/components/dashboard/ModalDRE';
 
-// Interfaces
+// Interfaces de Tipagem
 interface Dependent {
   id: string;
   full_name: string;
@@ -83,23 +84,32 @@ interface FinancialTransaction {
   transaction_date: string;
 }
 
-export default function EternityMasterERP() {
+export default function MasterEternityOS() {
+  // 1. Estado de Autenticação
+  const [session, setSession] = useState<any>(null);
+  const [authChecking, setAuthChecking] = useState(true);
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [loginError, setLoginError] = useState('');
+
+  // 2. Perfil e Tenant
+  const [userRole, setUserRole] = useState<UserRole>('admin');
+  const [tenantName, setTenantName] = useState<string>('Funerária Matriz');
+
+  // 3. Navegação
   const [activeTab, setActiveTab] = useState<
     'executive' | 'holders' | 'burials' | 'thanatopraxy' | 'chapel' | 'fleet' | 'inventory' | 'convalescence' | 'benefits' | 'financial'
   >('holders');
 
-  const [tenantName, setTenantName] = useState<string>('Funerária Matriz');
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // 4. Coleções de Dados
   const [holders, setHolders] = useState<Holder[]>([]);
   const [burials, setBurials] = useState<Burial[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  // Coleções de Dados
-  const [inventory, setInventory] = useState<InventoryItem[]>([
-    { id: '1', item_name: 'Urna Luxo Sextavada Mogno', category: 'Urna Adulto', stock_quantity: 8, min_threshold: 4 },
-    { id: '2', item_name: 'Urna Standard Envernizada', category: 'Urna Adulto', stock_quantity: 12, min_threshold: 5 },
-    { id: '3', item_name: 'Urna Infantil Branca com Anjo', category: 'Urna Infantil', stock_quantity: 3, min_threshold: 2 },
-    { id: '4', item_name: 'Véu de Renda Especial com Flores', category: 'Ornamentação', stock_quantity: 25, min_threshold: 10 },
-  ]);
+  const [inventory, setInventory] = useState<InventoryItem[]>([]);
+  const [partners, setPartners] = useState<Partner[]>([]);
+  const [thanatopraxyRecords, setThanatopraxyRecords] = useState<any[]>([]);
 
   const [vehicles, setVehicles] = useState<Vehicle[]>([
     { id: '1', plate: 'PI-FUN-2026', model: 'Mercedes-Benz Vito Cortejo', type: 'Cortejo Fúnebre', status: 'Disponível', driver_name: 'Marcos Plantão' },
@@ -111,17 +121,6 @@ export default function EternityMasterERP() {
     { id: '1', item_name: 'Cadeira de Rodas Dobrável', holder_name: 'Carlos Eduardo Silva', loan_date: '15/08/2026', status: 'Ativo' },
     { id: '2', item_name: 'Par de Muletas Canadenses', holder_name: 'Mariana Costa Ferreira', loan_date: '20/08/2026', status: 'Ativo' },
     { id: '3', item_name: 'Cama Hospitalar Articulada', holder_name: 'pedro', loan_date: '10/08/2026', status: 'Ativo' },
-  ]);
-
-  const [partners, setPartners] = useState<Partner[]>([
-    { id: '1', partner_name: 'Farmácia Pague Menos Teresina', category: 'Medicamentos & Farmácia', discount_percentage: 25, contact_info: '(86) 3222-1000' },
-    { id: '2', partner_name: 'Clínica Médica São Camilo', category: 'Consultas & Exames', discount_percentage: 30, contact_info: '(86) 3215-4000' },
-    { id: '3', partner_name: 'Laboratório Central Diagnósticos', category: 'Exames Laboratoriais', discount_percentage: 35, contact_info: '(86) 3230-8000' },
-    { id: '4', partner_name: 'Óticas Diniz Centro', category: 'Ótica & Óculos', discount_percentage: 20, contact_info: '(86) 3221-5500' },
-  ]);
-
-  const [thanatopraxyRecords, setThanatopraxyRecords] = useState<any[]>([
-    { id: '1', deceased_name: 'Severino Bezerra', technician: 'Dr. Roberto Tanatólogo', procedure: 'Aspiração, Formolização e Maquiagem Corretiva', completed_at: '29/08/2026 18:30', status: 'Concluído' },
   ]);
 
   const [chapels, setChapels] = useState([
@@ -138,11 +137,11 @@ export default function EternityMasterERP() {
     { id: '5', description: 'Taxa Cemitério Municipal', amount: 180.00, type: 'expense', category: 'Cemitério & Taxas', transaction_date: '2026-08-29' },
   ]);
 
-  // Filtros
+  // 5. Filtros
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'defaulted'>('all');
 
-  // Modais de Cadastro e Configurações
+  // 6. Modais de Cadastro
   const [isNewHolderOpen, setIsNewHolderOpen] = useState(false);
   const [isNewBurialOpen, setIsNewBurialOpen] = useState(false);
   const [isNewVehicleOpen, setIsNewVehicleOpen] = useState(false);
@@ -155,7 +154,7 @@ export default function EternityMasterERP() {
   const [isDREOpen, setIsDREOpen] = useState(false);
   const [isRBACOpen, setIsRBACOpen] = useState(false);
 
-  // Modais de Impressão e Dependentes
+  // 7. Modais de Impressão e Dependentes
   const [selectedHolder, setSelectedHolder] = useState<Holder | null>(null);
   const [printHolderContract, setPrintHolderContract] = useState<Holder | null>(null);
   const [printBurialGuide, setPrintBurialGuide] = useState<Burial | null>(null);
@@ -174,7 +173,7 @@ export default function EternityMasterERP() {
   const [thanatoForm, setThanatoForm] = useState({ deceased_name: '', technician: 'Dr. Roberto Tanatólogo', procedure: 'Aspiração e Formolização Padrão' });
   const [txForm, setTxForm] = useState({ description: '', amount: 100, type: 'income' as 'income' | 'expense', category: 'Mensalidade Plano' });
 
-  // Configuração Asaas
+  // Gateway Asaas
   const [asaasApiKey, setAsaasApiKey] = useState('$aact_YTU5YTE0M2M6N2I5ZDY0OTg4N2I5ZDY0OTg4N2I5ZDY0OTg4');
   const [asaasEnv, setAsaasEnv] = useState<'sandbox' | 'production'>('production');
 
@@ -182,30 +181,123 @@ export default function EternityMasterERP() {
   const [depRelation, setDepRelation] = useState('Cônjuge');
   const [savingDep, setSavingDep] = useState(false);
 
+  // Helper de Requisições Autenticadas com JWT do Supabase
+  const authFetch = async (url: string, options: RequestInit = {}) => {
+    const { data: { session: currentSession } } = await supabase.auth.getSession();
+    const token = currentSession?.access_token || '';
+    const headers = {
+      ...options.headers,
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    };
+    return fetch(url, { ...options, headers });
+  };
+
+  // Carregar Dados da Empresa
   async function loadData() {
     setLoading(true);
     try {
-      const res = await fetch('/api/holders');
+      const res = await authFetch('/api/holders');
       if (res.ok) {
         const data = await res.json();
         setHolders(Array.isArray(data) ? data : []);
       }
-      const bRes = await fetch('/api/chapel/burials');
+
+      const bRes = await authFetch('/api/chapel/burials');
       if (bRes.ok) {
         const bData = await bRes.json();
         setBurials(Array.isArray(bData) ? bData : []);
       }
+
+      const invRes = await authFetch('/api/inventory');
+      if (invRes.ok) {
+        const invData = await invRes.json();
+        if (Array.isArray(invData) && invData.length > 0) setInventory(invData);
+      }
+
+      const partRes = await authFetch('/api/benefits/partners');
+      if (partRes.ok) {
+        const partData = await partRes.json();
+        if (Array.isArray(partData) && partData.length > 0) setPartners(partData);
+      }
+
+      const tanRes = await authFetch('/api/thanatopraxy');
+      if (tanRes.ok) {
+        const tanData = await tanRes.json();
+        if (Array.isArray(tanData) && tanData.length > 0) setThanatopraxyRecords(tanData);
+      }
     } catch (e) {
-      console.error(e);
+      console.error('Erro ao carregar dados do ERP:', e);
     } finally {
       setLoading(false);
     }
   }
 
+  // Monitorar Sessão do Usuário
   useEffect(() => {
-    loadData();
+    supabase.auth.getSession().then(({ data: { session: initialSession } }) => {
+      setSession(initialSession);
+      if (initialSession) {
+        supabase
+          .from('user_roles')
+          .select('role, tenant_id, tenants(name)')
+          .eq('user_id', initialSession.user.id)
+          .maybeSingle()
+          .then(({ data: roleRecord }) => {
+            if (roleRecord) {
+              setUserRole(roleRecord.role as UserRole);
+              if ((roleRecord as any).tenants?.name) {
+                setTenantName((roleRecord as any).tenants.name);
+              }
+            }
+            loadData();
+          });
+      }
+      setAuthChecking(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      setSession(newSession);
+      if (newSession) {
+        loadData();
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
+  // Login
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginLoading(true);
+    setLoginError('');
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: loginEmail.trim(),
+        password: loginPassword,
+      });
+
+      if (error) {
+        setLoginError('E-mail ou senha incorretos.');
+      } else if (data.session) {
+        setSession(data.session);
+        setLoginEmail('');
+        setLoginPassword('');
+      }
+    } catch {
+      setLoginError('Erro de conexão ao autenticar.');
+    } finally {
+      setLoginLoading(false);
+    }
+  };
+
+  // Logout Oficial
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setSession(null);
+    window.location.reload();
+  };
+
+  // Filtragem de Associados
   const filteredHolders = useMemo(() => {
     return holders.filter((h) => {
       const q = searchQuery.toLowerCase().trim();
@@ -222,6 +314,7 @@ export default function EternityMasterERP() {
     });
   }, [holders, searchQuery, statusFilter]);
 
+  // Exportar Associados para CSV
   const handleExportCSV = () => {
     if (holders.length === 0) return alert('Nenhum associado para exportar.');
     let csv = 'Nome;CPF;Telefone;Email;Endereco;Status;Plano\n';
@@ -238,11 +331,12 @@ export default function EternityMasterERP() {
     a.click();
   };
 
+  // Salvar Titular
   const handleSaveHolder = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingHolder(true);
     try {
-      const res = await fetch('/api/holders', {
+      const res = await authFetch('/api/holders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(holderForm),
@@ -263,11 +357,12 @@ export default function EternityMasterERP() {
     }
   };
 
+  // Salvar Óbito
   const handleSaveBurial = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingBurial(true);
     try {
-      const res = await fetch('/api/chapel/burials', {
+      const res = await authFetch('/api/chapel/burials', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -278,18 +373,10 @@ export default function EternityMasterERP() {
       });
 
       if (res.ok) {
-        setInventory((prev) =>
-          prev.map((item) =>
-            item.item_name === burialForm.urn_name
-              ? { ...item, stock_quantity: Math.max(0, item.stock_quantity - 1) }
-              : item
-          )
-        );
-
         setIsNewBurialOpen(false);
         setBurialForm({ deceased_name: '', cemetery_location: '', burial_date: '', urn_name: 'Urna Luxo Sextavada Mogno' });
         await loadData();
-        alert('Atendimento de óbito registrado com sucesso e -1 urna baixada no estoque!');
+        alert('Atendimento de óbito registrado com sucesso!');
       } else {
         const j = await res.json();
         alert(`Erro ao salvar óbito: ${j.error || 'Falha no registro'}`);
@@ -301,9 +388,10 @@ export default function EternityMasterERP() {
     }
   };
 
+  // Disparar Carnês em Lote no Asaas
   const handleGenerateAsaasBatch = async () => {
     try {
-      const res = await fetch('/api/billing/asaas-batch', { method: 'POST' });
+      const res = await authFetch('/api/billing/asaas-batch', { method: 'POST' });
       const data = await res.json();
       if (res.ok) {
         alert(`✓ Sucesso Asaas: ${data.message || 'Lote de cobranças gerado com sucesso!'}`);
@@ -315,6 +403,7 @@ export default function EternityMasterERP() {
     }
   };
 
+  // Salvar Lançamento Financeiro
   const handleSaveTransaction = (e: React.FormEvent) => {
     e.preventDefault();
     setTransactions((prev) => [
@@ -333,6 +422,7 @@ export default function EternityMasterERP() {
     alert('Lançamento registrado no Livro Caixa!');
   };
 
+  // Salvar Novo Veículo
   const handleSaveVehicle = (e: React.FormEvent) => {
     e.preventDefault();
     setVehicles((prev) => [
@@ -343,16 +433,27 @@ export default function EternityMasterERP() {
     setVehicleForm({ plate: '', model: '', type: 'Cortejo Fúnebre', driver_name: '' });
   };
 
-  const handleSaveInventory = (e: React.FormEvent) => {
+  // Salvar Item de Estoque
+  const handleSaveInventory = async (e: React.FormEvent) => {
     e.preventDefault();
-    setInventory((prev) => [
-      ...prev,
-      { id: String(Date.now()), item_name: inventoryForm.item_name, category: inventoryForm.category, stock_quantity: Number(inventoryForm.stock_quantity), min_threshold: Number(inventoryForm.min_threshold) },
-    ]);
-    setIsNewInventoryOpen(false);
-    setInventoryForm({ item_name: '', category: 'Urna Adulto', stock_quantity: 10, min_threshold: 3 });
+    try {
+      const res = await authFetch('/api/inventory', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(inventoryForm),
+      });
+      if (res.ok) {
+        setIsNewInventoryOpen(false);
+        setInventoryForm({ item_name: '', category: 'Urna Adulto', stock_quantity: 10, min_threshold: 3 });
+        await loadData();
+        alert('Item de estoque adicionado!');
+      }
+    } catch {
+      alert('Erro ao salvar item.');
+    }
   };
 
+  // Salvar Empréstimo Convalescença
   const handleSaveConvalescence = (e: React.FormEvent) => {
     e.preventDefault();
     setConvalescence((prev) => [
@@ -363,26 +464,47 @@ export default function EternityMasterERP() {
     setConvalescenceForm({ item_name: 'Cadeira de Rodas Dobrável', holder_name: '', loan_date: '' });
   };
 
-  const handleSavePartner = (e: React.FormEvent) => {
+  // Salvar Parceiro de Convênio
+  const handleSavePartner = async (e: React.FormEvent) => {
     e.preventDefault();
-    setPartners((prev) => [
-      ...prev,
-      { id: String(Date.now()), partner_name: partnerForm.partner_name, category: partnerForm.category, discount_percentage: Number(partnerForm.discount_percentage), contact_info: partnerForm.contact_info },
-    ]);
-    setIsNewPartnerOpen(false);
-    setPartnerForm({ partner_name: '', category: 'Medicamentos & Farmácia', discount_percentage: 20, contact_info: '' });
+    try {
+      const res = await authFetch('/api/benefits/partners', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(partnerForm),
+      });
+      if (res.ok) {
+        setIsNewPartnerOpen(false);
+        setPartnerForm({ partner_name: '', category: 'Medicamentos & Farmácia', discount_percentage: 20, contact_info: '' });
+        await loadData();
+        alert('Parceiro credenciado com sucesso!');
+      }
+    } catch {
+      alert('Erro ao salvar parceiro.');
+    }
   };
 
-  const handleSaveThanato = (e: React.FormEvent) => {
+  // Salvar Procedimento Tanatopraxia
+  const handleSaveThanato = async (e: React.FormEvent) => {
     e.preventDefault();
-    setThanatopraxyRecords((prev) => [
-      ...prev,
-      { id: String(Date.now()), deceased_name: thanatoForm.deceased_name, technician: thanatoForm.technician, procedure: thanatoForm.procedure, completed_at: new Date().toLocaleString('pt-BR'), status: 'Concluído' },
-    ]);
-    setIsNewThanatoOpen(false);
-    setThanatoForm({ deceased_name: '', technician: 'Dr. Roberto Tanatólogo', procedure: 'Aspiração e Formolização Padrão' });
+    try {
+      const res = await authFetch('/api/thanatopraxy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(thanatoForm),
+      });
+      if (res.ok) {
+        setIsNewThanatoOpen(false);
+        setThanatoForm({ deceased_name: '', technician: 'Dr. Roberto Tanatólogo', procedure: 'Aspiração e Formolização Padrão' });
+        await loadData();
+        alert('Procedimento de tanatopraxia registrado!');
+      }
+    } catch {
+      alert('Erro ao gravar procedimento.');
+    }
   };
 
+  // Adicionar Dependente
   const handleAddDep = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedHolder || !depName) return;
@@ -414,9 +536,66 @@ export default function EternityMasterERP() {
   const totalExpenses = transactions.filter((t) => t.type === 'expense').reduce((acc, t) => acc + t.amount, 0);
   const netBalance = totalIncome - totalExpenses;
 
+  // 7. TELA DE LOGIN SE NÃO ESTIVER AUTENTICADO
+  if (!authChecking && !session) {
+    return (
+      <div className="min-h-screen bg-[#07090e] text-slate-100 flex items-center justify-center p-4 font-sans antialiased">
+        <div className="bg-[#0d111a] border border-slate-800 rounded-2xl max-w-md w-full p-8 shadow-2xl space-y-6">
+          <div className="text-center space-y-2">
+            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 font-black text-2xl mx-auto shadow-inner">
+              ✦
+            </div>
+            <h1 className="text-xl font-bold text-white tracking-wide">ETERNITY<span className="text-emerald-400">OS</span></h1>
+            <p className="text-xs text-slate-400">Acesso Restrito ao ERP Funerário</p>
+          </div>
+
+          {loginError && (
+            <div className="p-3 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-300 text-xs font-semibold text-center">
+              {loginError}
+            </div>
+          )}
+
+          <form onSubmit={handleLogin} className="space-y-4 text-xs">
+            <div>
+              <label className="block text-slate-400 font-semibold mb-1.5">E-mail de Acesso:</label>
+              <input
+                type="email"
+                required
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+                placeholder="seuemail@exemplo.com"
+                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-emerald-500 text-xs"
+              />
+            </div>
+
+            <div>
+              <label className="block text-slate-400 font-semibold mb-1.5">Senha:</label>
+              <input
+                type="password"
+                required
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+                placeholder="••••••••"
+                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-emerald-500 text-xs"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loginLoading}
+              className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold rounded-lg transition shadow-md text-xs"
+            >
+              {loginLoading ? 'Validando Acesso...' : 'Entrar no ERP'}
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-screen bg-[#07090e] text-slate-100 font-sans overflow-hidden antialiased">
-      {/* 1. SIDEBAR ERGONÔMICA */}
+      {/* 1. SIDEBAR COM TODOS OS MÓDULOS E RBAC */}
       <aside className="w-64 bg-[#0d111a] border-r border-slate-800 flex flex-col justify-between shrink-0 select-none">
         <div>
           <div className="p-4 border-b border-slate-800 flex items-center gap-2.5">
@@ -439,81 +618,126 @@ export default function EternityMasterERP() {
             </div>
           </div>
 
-          <nav className="p-3 space-y-3 overflow-y-auto max-h-[calc(100vh-210px)]">
-            <div>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1">GESTÃO & FINANÇAS</p>
-              <div className="space-y-0.5">
-                <button onClick={() => setActiveTab('executive')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'executive' ? 'bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                  <div className="flex items-center gap-2"><span>📊</span> Painel Executivo</div>
-                </button>
-                <button onClick={() => setActiveTab('holders')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'holders' ? 'bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                  <div className="flex items-center gap-2"><span>👥</span> Associados & Contratos</div>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{holders.length}</span>
-                </button>
-                <button onClick={() => setActiveTab('financial')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'financial' ? 'bg-emerald-600/15 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                  <div className="flex items-center gap-2"><span>💰</span> Financeiro & DRE</div>
-                </button>
+          <nav className="p-3 space-y-3 overflow-y-auto max-h-[calc(100vh-170px)]">
+            {/* GESTÃO & FINANÇAS */}
+            {(isTabAllowed(userRole, 'executive') || isTabAllowed(userRole, 'holders') || isTabAllowed(userRole, 'financial')) && (
+              <div>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1">GESTÃO & FINANÇAS</p>
+                <div className="space-y-0.5">
+                  {isTabAllowed(userRole, 'executive') && (
+                    <button onClick={() => setActiveTab('executive')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'executive' ? 'bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
+                      <div className="flex items-center gap-2"><span>📊</span> Painel Executivo</div>
+                    </button>
+                  )}
+                  {isTabAllowed(userRole, 'holders') && (
+                    <button onClick={() => setActiveTab('holders')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'holders' ? 'bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
+                      <div className="flex items-center gap-2"><span>👥</span> Associados & Contratos</div>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{holders.length}</span>
+                    </button>
+                  )}
+                  {isTabAllowed(userRole, 'financial') && (
+                    <button onClick={() => setActiveTab('financial')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'financial' ? 'bg-emerald-600/15 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
+                      <div className="flex items-center gap-2"><span>💰</span> Financeiro & DRE</div>
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
 
-            <div>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1">OPERAÇÕES & PLANTÃO</p>
-              <div className="space-y-0.5">
-                <button onClick={() => setActiveTab('burials')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'burials' ? 'bg-rose-600/15 text-rose-400 border border-rose-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                  <div className="flex items-center gap-2"><span>🚨</span> Plantão 24h & Óbitos</div>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 font-bold">{burials.length}</span>
-                </button>
-                <button onClick={() => setActiveTab('thanatopraxy')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'thanatopraxy' ? 'bg-purple-600/15 text-purple-400 border border-purple-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                  <div className="flex items-center gap-2"><span>🔬</span> Tanatopraxia</div>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{thanatopraxyRecords.length}</span>
-                </button>
-                <button onClick={() => setActiveTab('chapel')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'chapel' ? 'bg-amber-600/15 text-amber-400 border border-amber-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                  <div className="flex items-center gap-2"><span>⛪</span> Capelas & Velórios</div>
-                </button>
+            {/* OPERAÇÕES & PLANTÃO */}
+            {(isTabAllowed(userRole, 'burials') || isTabAllowed(userRole, 'thanatopraxy') || isTabAllowed(userRole, 'chapel')) && (
+              <div>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1">OPERAÇÕES & PLANTÃO</p>
+                <div className="space-y-0.5">
+                  {isTabAllowed(userRole, 'burials') && (
+                    <button onClick={() => setActiveTab('burials')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'burials' ? 'bg-rose-600/15 text-rose-400 border border-rose-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
+                      <div className="flex items-center gap-2"><span>🚨</span> Plantão 24h & Óbitos</div>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 font-bold">{burials.length}</span>
+                    </button>
+                  )}
+                  {isTabAllowed(userRole, 'thanatopraxy') && (
+                    <button onClick={() => setActiveTab('thanatopraxy')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'thanatopraxy' ? 'bg-purple-600/15 text-purple-400 border border-purple-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
+                      <div className="flex items-center gap-2"><span>🔬</span> Tanatopraxia</div>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{thanatopraxyRecords.length}</span>
+                    </button>
+                  )}
+                  {isTabAllowed(userRole, 'chapel') && (
+                    <button onClick={() => setActiveTab('chapel')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'chapel' ? 'bg-amber-600/15 text-amber-400 border border-amber-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
+                      <div className="flex items-center gap-2"><span>⛪</span> Capelas & Velórios</div>
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
 
-            <div>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1">LOGÍSTICA & SUPORTE</p>
-              <div className="space-y-0.5">
-                <button onClick={() => setActiveTab('fleet')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'fleet' ? 'bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                  <div className="flex items-center gap-2"><span>🚐</span> Frota & Veículos</div>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{vehicles.length}</span>
-                </button>
-                <button onClick={() => setActiveTab('inventory')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'inventory' ? 'bg-amber-600/15 text-amber-400 border border-amber-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                  <div className="flex items-center gap-2"><span>📦</span> Estoque & Urnas</div>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{inventory.length}</span>
-                </button>
-                <button onClick={() => setActiveTab('convalescence')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'convalescence' ? 'bg-emerald-600/15 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                  <div className="flex items-center gap-2"><span>♿</span> Convalescença</div>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{convalescence.length}</span>
-                </button>
-                <button onClick={() => setActiveTab('benefits')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'benefits' ? 'bg-cyan-600/15 text-cyan-400 border border-cyan-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                  <div className="flex items-center gap-2"><span>🤝</span> Clube de Convênios</div>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{partners.length}</span>
-                </button>
+            {/* LOGÍSTICA & SUPORTE */}
+            {(isTabAllowed(userRole, 'fleet') || isTabAllowed(userRole, 'inventory') || isTabAllowed(userRole, 'convalescence') || isTabAllowed(userRole, 'benefits')) && (
+              <div>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1">LOGÍSTICA & SUPORTE</p>
+                <div className="space-y-0.5">
+                  {isTabAllowed(userRole, 'fleet') && (
+                    <button onClick={() => setActiveTab('fleet')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'fleet' ? 'bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
+                      <div className="flex items-center gap-2"><span>🚐</span> Frota & Veículos</div>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{vehicles.length}</span>
+                    </button>
+                  )}
+                  {isTabAllowed(userRole, 'inventory') && (
+                    <button onClick={() => setActiveTab('inventory')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'inventory' ? 'bg-amber-600/15 text-amber-400 border border-amber-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
+                      <div className="flex items-center gap-2"><span>📦</span> Estoque & Urnas</div>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{inventory.length}</span>
+                    </button>
+                  )}
+                  {isTabAllowed(userRole, 'convalescence') && (
+                    <button onClick={() => setActiveTab('convalescence')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'convalescence' ? 'bg-emerald-600/15 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
+                      <div className="flex items-center gap-2"><span>♿</span> Convalescença</div>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{convalescence.length}</span>
+                    </button>
+                  )}
+                  {isTabAllowed(userRole, 'benefits') && (
+                    <button onClick={() => setActiveTab('benefits')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'benefits' ? 'bg-cyan-600/15 text-cyan-400 border border-cyan-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
+                      <div className="flex items-center gap-2"><span>🤝</span> Clube de Convênios</div>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{partners.length}</span>
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </nav>
         </div>
 
+        {/* Rodapé do Usuário com Logout */}
         <div className="p-3 border-t border-slate-800 bg-slate-900/50 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-full bg-slate-800 text-slate-300 text-xs font-bold flex items-center justify-center">AD</div>
-            <div>
-              <p className="text-xs font-semibold text-white">Administrador</p>
-              <p className="text-[10px] text-emerald-400">● Operador Ativo</p>
+          <div className="flex items-center gap-2 overflow-hidden">
+            <div className="w-7 h-7 rounded-full bg-slate-800 text-slate-300 text-xs font-bold flex items-center justify-center shrink-0">
+              {userRole.substring(0, 2).toUpperCase()}
+            </div>
+            <div className="truncate">
+              <p className="text-xs font-semibold text-white capitalize truncate">{userRole}</p>
+              <p className="text-[10px] text-emerald-400">● Conectado</p>
             </div>
           </div>
-          <div className="flex gap-1">
-            <button onClick={() => setIsAsaasConfigOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-cyan-400" title="Configurar Gateway Asaas">⚡</button>
-            <button onClick={() => setIsDREOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-emerald-400" title="Ver DRE">📈</button>
-            <button onClick={() => setIsRBACOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-blue-400" title="Permissões">🛡️</button>
+          <div className="flex items-center gap-1">
+            {hasPermission(userRole, 'canManageFinancial') && (
+              <>
+                <button onClick={() => setIsAsaasConfigOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-cyan-400" title="Gateway Asaas">⚡</button>
+                <button onClick={() => setIsDREOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-emerald-400" title="Ver DRE">📈</button>
+              </>
+            )}
+            {hasPermission(userRole, 'canManageUsers') && (
+              <button onClick={() => setIsRBACOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-blue-400" title="Permissões RBAC">🛡️</button>
+            )}
+            <button
+              onClick={handleLogout}
+              className="p-1.5 text-xs text-rose-400 hover:text-white hover:bg-rose-950/60 rounded transition"
+              title="Encerrar Sessão (Logout)"
+            >
+              🚪
+            </button>
           </div>
         </div>
       </aside>
 
-      {/* 2. ÁREA PRINCIPAL */}
+      {/* 2. ÁREA DE TRABALHO PRINCIPAL */}
       <main className="flex-1 flex flex-col overflow-hidden bg-[#070a11]">
         <header className="p-4 border-b border-slate-800 bg-[#0d111a] flex items-center justify-between gap-4 shrink-0">
           <h2 className="text-sm font-bold text-white uppercase tracking-wider">
@@ -530,24 +754,37 @@ export default function EternityMasterERP() {
           </h2>
 
           <div className="flex items-center gap-2.5">
+            {hasPermission(userRole, 'canManageBurials') && (
+              <button
+                onClick={() => setIsNewBurialOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition shadow"
+              >
+                <span>🚨</span> Novo Atendimento / Óbito
+              </button>
+            )}
+            {hasPermission(userRole, 'canManageContracts') && (
+              <button
+                onClick={() => setIsNewHolderOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow"
+              >
+                <span>+</span> Novo Titular
+              </button>
+            )}
+
+            {/* BOTÃO DE LOGOUT SUPERIOR DESTACADO */}
             <button
-              onClick={() => setIsNewBurialOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition shadow"
+              onClick={handleLogout}
+              className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-slate-300 hover:text-rose-400 hover:bg-rose-950/40 bg-slate-900 border border-slate-800 rounded-lg transition shadow-sm"
+              title="Encerrar Sessão"
             >
-              <span>🚨</span> Novo Atendimento / Óbito
-            </button>
-            <button
-              onClick={() => setIsNewHolderOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow"
-            >
-              <span>+</span> Novo Titular
+              <span>🚪</span> Sair
             </button>
           </div>
         </header>
 
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
-          {/* 1. PAINEL EXECUTIVO */}
-          {activeTab === 'executive' && (
+          {/* PAINEL EXECUTIVO */}
+          {activeTab === 'executive' && isTabAllowed(userRole, 'executive') && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
@@ -574,8 +811,8 @@ export default function EternityMasterERP() {
             </div>
           )}
 
-          {/* 2. ASSOCIADOS & CONTRATOS */}
-          {activeTab === 'holders' && (
+          {/* ASSOCIADOS & CONTRATOS */}
+          {activeTab === 'holders' && isTabAllowed(userRole, 'holders') && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-sm">
                 <div className="flex-1 min-w-[280px]">
@@ -637,14 +874,17 @@ export default function EternityMasterERP() {
                         </tr>
                       );
                     })}
+                    {filteredHolders.length === 0 && !loading && (
+                      <tr><td colSpan={6} className="py-8 text-center text-slate-500">Nenhum associado cadastrado no momento.</td></tr>
+                    )}
                   </tbody>
                 </table>
               </div>
             </div>
           )}
 
-          {/* 3. PLANTÃO 24H & ÓBITOS */}
-          {activeTab === 'burials' && (
+          {/* PLANTÃO 24H & ÓBITOS */}
+          {activeTab === 'burials' && isTabAllowed(userRole, 'burials') && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-hidden">
                 <table className="w-full text-left text-xs">
@@ -670,8 +910,8 @@ export default function EternityMasterERP() {
             </div>
           )}
 
-          {/* 4. TANATOPRAXIA */}
-          {activeTab === 'thanatopraxy' && (
+          {/* TANATOPRAXIA */}
+          {activeTab === 'thanatopraxy' && isTabAllowed(userRole, 'thanatopraxy') && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
                 <div>
@@ -692,9 +932,9 @@ export default function EternityMasterERP() {
                     {thanatopraxyRecords.map((t) => (
                       <tr key={t.id} className="hover:bg-slate-800/30">
                         <td className="py-3 px-4 font-bold text-white">{t.deceased_name}</td>
-                        <td className="py-3 px-4 text-purple-400 font-semibold">{t.technician}</td>
-                        <td className="py-3 px-4 text-slate-300">{t.procedure}</td>
-                        <td className="py-3 px-4 font-mono text-slate-400">{t.completed_at}</td>
+                        <td className="py-3 px-4 text-purple-400 font-semibold">{t.technician || t.technician_name}</td>
+                        <td className="py-3 px-4 text-slate-300">{t.procedure || t.procedure_notes}</td>
+                        <td className="py-3 px-4 font-mono text-slate-400">{t.completed_at ? new Date(t.completed_at).toLocaleString('pt-BR') : 'Concluído'}</td>
                         <td className="py-3 px-4"><span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 text-[10px] font-bold">✓ Concluído</span></td>
                       </tr>
                     ))}
@@ -704,8 +944,8 @@ export default function EternityMasterERP() {
             </div>
           )}
 
-          {/* 5. CAPELAS */}
-          {activeTab === 'chapel' && (
+          {/* CAPELAS */}
+          {activeTab === 'chapel' && isTabAllowed(userRole, 'chapel') && (
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {chapels.map((cap) => (
@@ -736,8 +976,8 @@ export default function EternityMasterERP() {
             </div>
           )}
 
-          {/* 6. FROTA */}
-          {activeTab === 'fleet' && (
+          {/* FROTA */}
+          {activeTab === 'fleet' && isTabAllowed(userRole, 'fleet') && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
                 <div>
@@ -786,8 +1026,8 @@ export default function EternityMasterERP() {
             </div>
           )}
 
-          {/* 7. ESTOQUE */}
-          {activeTab === 'inventory' && (
+          {/* ESTOQUE */}
+          {activeTab === 'inventory' && isTabAllowed(userRole, 'inventory') && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
                 <div>
@@ -832,8 +1072,8 @@ export default function EternityMasterERP() {
             </div>
           )}
 
-          {/* 8. CONVALESCENÇA */}
-          {activeTab === 'convalescence' && (
+          {/* CONVALESCENÇA */}
+          {activeTab === 'convalescence' && isTabAllowed(userRole, 'convalescence') && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
                 <div>
@@ -873,8 +1113,8 @@ export default function EternityMasterERP() {
             </div>
           )}
 
-          {/* 9. CLUBE DE CONVÊNIOS */}
-          {activeTab === 'benefits' && (
+          {/* CLUBE DE CONVÊNIOS */}
+          {activeTab === 'benefits' && isTabAllowed(userRole, 'benefits') && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
                 <div>
@@ -894,22 +1134,17 @@ export default function EternityMasterERP() {
                       <h4 className="font-bold text-white text-sm mt-1">{p.partner_name}</h4>
                       <p className="text-xs text-slate-400 mt-1">Contato: {p.contact_info}</p>
                     </div>
-                    <div className="flex flex-col items-end gap-2">
-                      <span className="text-sm font-extrabold text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-800">
-                        {p.discount_percentage}% OFF
-                      </span>
-                      <button onClick={() => setPartners((prev) => prev.filter((item) => item.id !== p.id))} className="text-[10px] text-rose-400 hover:underline">
-                        Remover
-                      </button>
-                    </div>
+                    <span className="text-sm font-extrabold text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-800">
+                      {p.discount_percentage}% OFF
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {/* 10. FINANCEIRO & LIVRO CAIXA COMPLETO */}
-          {activeTab === 'financial' && (
+          {/* FINANCEIRO & LIVRO CAIXA COMPLETO */}
+          {activeTab === 'financial' && isTabAllowed(userRole, 'financial') && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
@@ -993,7 +1228,7 @@ export default function EternityMasterERP() {
         </div>
       </main>
 
-      {/* MODAIS */}
+      {/* MODAL TITULAR */}
       {isNewHolderOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
@@ -1014,6 +1249,7 @@ export default function EternityMasterERP() {
         </div>
       )}
 
+      {/* MODAL ÓBITO */}
       {isNewBurialOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
@@ -1021,11 +1257,6 @@ export default function EternityMasterERP() {
             <form onSubmit={handleSaveBurial} className="space-y-3 text-xs">
               <div><label className="block text-slate-400 font-semibold mb-1">Nome do Falecido:</label><input type="text" required value={burialForm.deceased_name} onChange={(e) => setBurialForm({ ...burialForm, deceased_name: e.target.value })} placeholder="Nome da pessoa falecida..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
               <div><label className="block text-slate-400 font-semibold mb-1">Cemitério / Local do Sepultamento:</label><input type="text" value={burialForm.cemetery_location} onChange={(e) => setBurialForm({ ...burialForm, cemetery_location: e.target.value })} placeholder="Cemitério da Saudade..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
-              <div><label className="block text-slate-400 font-semibold mb-1">Modelo de Urna Utilizada (Baixa Automática):</label>
-                <select value={burialForm.urn_name} onChange={(e) => setBurialForm({ ...burialForm, urn_name: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white">
-                  {inventory.map((i) => <option key={i.id} value={i.item_name}>{i.item_name} (Estoque: {i.stock_quantity})</option>)}
-                </select>
-              </div>
               <div><label className="block text-slate-400 font-semibold mb-1">Data e Horário:</label><input type="datetime-local" required value={burialForm.burial_date} onChange={(e) => setBurialForm({ ...burialForm, burial_date: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
                 <button type="button" onClick={() => setIsNewBurialOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
@@ -1036,6 +1267,7 @@ export default function EternityMasterERP() {
         </div>
       )}
 
+      {/* MODAL LANÇAMENTO FINANCEIRO */}
       {isNewTxOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
@@ -1070,6 +1302,7 @@ export default function EternityMasterERP() {
         </div>
       )}
 
+      {/* MODAL CONFIGURAÇÃO ASAAS */}
       {isAsaasConfigOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-lg w-full p-6 text-white shadow-2xl">
@@ -1126,6 +1359,7 @@ export default function EternityMasterERP() {
         </div>
       )}
 
+      {/* MODAL NOVO VEÍCULO */}
       {isNewVehicleOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
@@ -1152,6 +1386,7 @@ export default function EternityMasterERP() {
         </div>
       )}
 
+      {/* MODAL NOVO ITEM ESTOQUE */}
       {isNewInventoryOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
@@ -1179,6 +1414,7 @@ export default function EternityMasterERP() {
         </div>
       )}
 
+      {/* MODAL NOVO EMPRÉSTIMO CONVALESCENÇA */}
       {isNewConvalescenceOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
@@ -1204,6 +1440,7 @@ export default function EternityMasterERP() {
         </div>
       )}
 
+      {/* MODAL NOVO PARCEIRO CONVÊNIO */}
       {isNewPartnerOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
@@ -1224,6 +1461,7 @@ export default function EternityMasterERP() {
         </div>
       )}
 
+      {/* MODAL NOVO PROCEDIMENTO TANATOPRAXIA */}
       {isNewThanatoOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
@@ -1241,7 +1479,7 @@ export default function EternityMasterERP() {
         </div>
       )}
 
-      {/* MODAL: IMPRESSÃO DE TERMO DE ADESÃO / CONTRATO */}
+      {/* MODAL IMPRESSÃO TERMO DE ADESÃO */}
       {printHolderContract && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur flex items-center justify-center p-4 z-50 overflow-y-auto">
           <div className="bg-white text-slate-900 rounded-xl max-w-2xl w-full p-8 shadow-2xl">
@@ -1297,7 +1535,7 @@ export default function EternityMasterERP() {
         </div>
       )}
 
-      {/* MODAL: IMPRESSÃO DE GUIA DE SEPULTAMENTO */}
+      {/* MODAL IMPRESSÃO GUIA DE SEPULTAMENTO */}
       {printBurialGuide && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur flex items-center justify-center p-4 z-50 overflow-y-auto">
           <div className="bg-white text-slate-900 rounded-xl max-w-xl w-full p-8 shadow-2xl">
@@ -1330,7 +1568,7 @@ export default function EternityMasterERP() {
         </div>
       )}
 
-      {/* MODAL: DEPENDENTES */}
+      {/* MODAL DEPENDENTES */}
       {selectedHolder && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-lg w-full p-6 text-white shadow-2xl">
