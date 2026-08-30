@@ -6,6 +6,7 @@ import { formatWhatsAppMessage } from '@/lib/whatsapp';
 import { ModalRBAC } from '@/components/dashboard/ModalRBAC';
 import { ModalDRE } from '@/components/dashboard/ModalDRE';
 
+// Interfaces
 interface Dependent {
   id: string;
   full_name: string;
@@ -37,70 +38,126 @@ interface Burial {
   burial_date: string;
   cemetery_location?: string;
   status: string;
+  urn_name?: string;
 }
 
-export default function CompleteEternityERP() {
+interface InventoryItem {
+  id: string;
+  item_name: string;
+  category: string;
+  stock_quantity: number;
+  min_threshold: number;
+}
+
+interface Vehicle {
+  id: string;
+  plate: string;
+  model: string;
+  type: string;
+  status: 'Disponível' | 'Em Missão' | 'Manutenção';
+  driver_name: string;
+}
+
+interface ConvalescenceItem {
+  id: string;
+  item_name: string;
+  holder_name: string;
+  loan_date: string;
+  status: 'Ativo' | 'Devolvido';
+}
+
+interface Partner {
+  id: string;
+  partner_name: string;
+  category: string;
+  discount_percentage: number;
+  contact_info: string;
+}
+
+export default function MasterEnterpriseERP() {
   const [activeTab, setActiveTab] = useState<
     'executive' | 'holders' | 'burials' | 'thanatopraxy' | 'chapel' | 'fleet' | 'inventory' | 'convalescence' | 'benefits' | 'financial'
   >('holders');
 
   const [tenantName, setTenantName] = useState<string>('Funerária Matriz');
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // Coleções
   const [holders, setHolders] = useState<Holder[]>([]);
   const [burials, setBurials] = useState<Burial[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  
+  const [inventory, setInventory] = useState<InventoryItem[]>([
+    { id: '1', item_name: 'Urna Luxo Sextavada Mogno', category: 'Urna Adulto', stock_quantity: 8, min_threshold: 4 },
+    { id: '2', item_name: 'Urna Standard Envernizada', category: 'Urna Adulto', stock_quantity: 12, min_threshold: 5 },
+    { id: '3', item_name: 'Urna Infantil Branca com Anjo', category: 'Urna Infantil', stock_quantity: 3, min_threshold: 2 },
+    { id: '4', item_name: 'Véu de Renda Especial com Flores', category: 'Ornamentação', stock_quantity: 25, min_threshold: 10 },
+  ]);
+
+  const [vehicles, setVehicles] = useState<Vehicle[]>([
+    { id: '1', plate: 'PI-FUN-2026', model: 'Mercedes-Benz Vito Cortejo', type: 'Cortejo Fúnebre', status: 'Disponível', driver_name: 'Marcos Plantão' },
+    { id: '2', plate: 'PI-REM-0099', model: 'Fiat Fiorino Remoção 24h', type: 'Remoção Hospitalar', status: 'Disponível', driver_name: 'João Silva' },
+    { id: '3', plate: 'PI-SUP-4040', model: 'Chevrolet Spin Apoio', type: 'Apoio Familiar', status: 'Disponível', driver_name: 'Disponível' },
+  ]);
+
+  const [convalescence, setConvalescence] = useState<ConvalescenceItem[]>([
+    { id: '1', item_name: 'Cadeira de Rodas Dobrável', holder_name: 'Carlos Eduardo Silva', loan_date: '15/08/2026', status: 'Ativo' },
+    { id: '2', item_name: 'Par de Muletas Canadenses', holder_name: 'Mariana Costa Ferreira', loan_date: '20/08/2026', status: 'Ativo' },
+    { id: '3', item_name: 'Cama Hospitalar Articulada', holder_name: 'pedro', loan_date: '10/08/2026', status: 'Ativo' },
+  ]);
+
+  const [partners, setPartners] = useState<Partner[]>([
+    { id: '1', partner_name: 'Farmácia Pague Menos Teresina', category: 'Medicamentos & Farmácia', discount_percentage: 25, contact_info: '(86) 3222-1000' },
+    { id: '2', partner_name: 'Clínica Médica São Camilo', category: 'Consultas & Exames', discount_percentage: 30, contact_info: '(86) 3215-4000' },
+    { id: '3', partner_name: 'Laboratório Central Diagnósticos', category: 'Exames Laboratoriais', discount_percentage: 35, contact_info: '(86) 3230-8000' },
+    { id: '4', partner_name: 'Óticas Diniz Centro', category: 'Ótica & Óculos', discount_percentage: 20, contact_info: '(86) 3221-5500' },
+  ]);
+
+  const [thanatopraxyRecords, setThanatopraxyRecords] = useState<any[]>([
+    { id: '1', deceased_name: 'Severino Bezerra', technician: 'Dr. Roberto Tanatólogo', procedure: 'Aspiração, Formolização e Maquiagem Corretiva', completed_at: '29/08/2026 18:30', status: 'Concluído' },
+  ]);
+
+  const [chapels, setChapels] = useState([
+    { id: '1', name: 'Capela Master 01 (Suíte)', capacity: '80 pessoas', status: 'Livre', deceased: '', time: '' },
+    { id: '2', name: 'Capela Executiva 02', capacity: '60 pessoas', status: 'Ocupada', deceased: 'Severino Bezerra', time: 'Cortejo às 16:30' },
+    { id: '3', name: 'Capela Standard 03', capacity: '40 pessoas', status: 'Livre', deceased: '', time: '' },
+  ]);
 
   // Filtros
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'defaulted'>('all');
 
-  // Modais
+  // Modais de Cadastro
   const [isNewHolderOpen, setIsNewHolderOpen] = useState(false);
   const [isNewBurialOpen, setIsNewBurialOpen] = useState(false);
+  const [isNewVehicleOpen, setIsNewVehicleOpen] = useState(false);
+  const [isNewInventoryOpen, setIsNewInventoryOpen] = useState(false);
+  const [isNewConvalescenceOpen, setIsNewConvalescenceOpen] = useState(false);
+  const [isNewPartnerOpen, setIsNewPartnerOpen] = useState(false);
+  const [isNewThanatoOpen, setIsNewThanatoOpen] = useState(false);
   const [isDREOpen, setIsDREOpen] = useState(false);
   const [isRBACOpen, setIsRBACOpen] = useState(false);
+  
+  // Modais de Detalhe e Impressão
   const [selectedHolder, setSelectedHolder] = useState<Holder | null>(null);
+  const [printHolderContract, setPrintHolderContract] = useState<Holder | null>(null);
+  const [printBurialGuide, setPrintBurialGuide] = useState<Burial | null>(null);
 
-  // Forms
+  // Forms de Estado
   const [holderForm, setHolderForm] = useState({ full_name: '', cpf: '', phone: '', email: '', address: '', plan_name: 'Familiar Ouro', monthly_fee: 69.90 });
   const [savingHolder, setSavingHolder] = useState(false);
 
-  const [burialForm, setBurialForm] = useState({ deceased_name: '', cemetery_location: '', burial_date: '' });
+  const [burialForm, setBurialForm] = useState({ deceased_name: '', cemetery_location: '', burial_date: '', urn_name: 'Urna Luxo Sextavada Mogno' });
   const [savingBurial, setSavingBurial] = useState(false);
+
+  const [vehicleForm, setVehicleForm] = useState({ plate: '', model: '', type: 'Cortejo Fúnebre', driver_name: '' });
+  const [inventoryForm, setInventoryForm] = useState({ item_name: '', category: 'Urna Adulto', stock_quantity: 10, min_threshold: 3 });
+  const [convalescenceForm, setConvalescenceForm] = useState({ item_name: 'Cadeira de Rodas Dobrável', holder_name: '', loan_date: '' });
+  const [partnerForm, setPartnerForm] = useState({ partner_name: '', category: 'Medicamentos & Farmácia', discount_percentage: 20, contact_info: '' });
+  const [thanatoForm, setThanatoForm] = useState({ deceased_name: '', technician: 'Dr. Roberto Tanatólogo', procedure: 'Aspiração e Formolização Padrão' });
 
   const [depName, setDepName] = useState('');
   const [depRelation, setDepRelation] = useState('Cônjuge');
   const [savingDep, setSavingDep] = useState(false);
-
-  // Dados dos Módulos Operacionais
-  const inventory = [
-    { id: '1', item_name: 'Urna Luxo Sextavada Mogno', category: 'Urna Adulto', stock: 8 },
-    { id: '2', item_name: 'Urna Standard Envernizada', category: 'Urna Adulto', stock: 12 },
-    { id: '3', item_name: 'Urna Infantil Branca com Anjo', category: 'Urna Infantil', stock: 3 },
-    { id: '4', item_name: 'Véu de Renda Especial com Flores', category: 'Ornamentação', stock: 25 },
-  ];
-
-  const vehicles = [
-    { id: '1', plate: 'PI-FUN-2026', model: 'Mercedes-Benz Vito Cortejo', status: 'Disponível', driver: 'Marcos Plantão' },
-    { id: '2', plate: 'PI-REM-0099', model: 'Fiat Fiorino Remoção 24h', status: 'Disponível', driver: 'João Silva' },
-    { id: '3', plate: 'PI-SUP-4040', model: 'Chevrolet Spin Apoio', status: 'Disponível', driver: 'Disponível' },
-  ];
-
-  const convalescence = [
-    { id: '1', item: 'Cadeira de Rodas Dobrável', holder: 'Carlos Eduardo Silva', date: '15/08/2026' },
-    { id: '2', item: 'Par de Muletas Canadenses', holder: 'Mariana Costa Ferreira', date: '20/08/2026' },
-    { id: '3', item: 'Cama Hospitalar Articulada', holder: 'pedro', date: '10/08/2026' },
-  ];
-
-  const partners = [
-    { id: '1', name: 'Farmácia Pague Menos Teresina', cat: 'Medicamentos & Farmácia', discount: '25% OFF', contact: '(86) 3222-1000' },
-    { id: '2', name: 'Clínica Médica São Camilo', cat: 'Consultas & Exames', discount: '30% OFF', contact: '(86) 3215-4000' },
-    { id: '3', name: 'Laboratório Central Diagnósticos', cat: 'Exames Laboratoriais', discount: '35% OFF', contact: '(86) 3230-8000' },
-    { id: '4', name: 'Óticas Diniz Centro', cat: 'Ótica & Óculos', discount: '20% OFF', contact: '(86) 3221-5500' },
-  ];
-
-  const thanatopraxyRecords = [
-    { id: '1', deceased_name: 'Severino Bezerra', technician: 'Dr. Roberto Tanatólogo', procedure: 'Aspiração, Formolização e Maquiagem', completed_at: '29/08/2026 18:30' },
-  ];
 
   async function loadData() {
     setLoading(true);
@@ -142,6 +199,24 @@ export default function CompleteEternityERP() {
     });
   }, [holders, searchQuery, statusFilter]);
 
+  // Exportar Associados para CSV (Excel)
+  const handleExportCSV = () => {
+    if (holders.length === 0) return alert('Nenhum associado para exportar.');
+    let csv = 'Nome;CPF;Telefone;Email;Endereco;Status;Plano\n';
+    holders.forEach((h) => {
+      const plan = h.contracts?.[0]?.plans?.name || 'Familiar Ouro';
+      const status = h.contracts?.[0]?.status || 'Ativo';
+      csv += `"${h.full_name}";"${h.cpf}";"${h.phone}";"${h.email || ''}";"${h.address || ''}";"${status}";"${plan}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `associados_eternityos_${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+  };
+
+  // Salvar Titular
   const handleSaveHolder = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingHolder(true);
@@ -151,7 +226,6 @@ export default function CompleteEternityERP() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(holderForm),
       });
-
       if (res.ok) {
         setIsNewHolderOpen(false);
         setHolderForm({ full_name: '', cpf: '', phone: '', email: '', address: '', plan_name: 'Familiar Ouro', monthly_fee: 69.90 });
@@ -159,7 +233,7 @@ export default function CompleteEternityERP() {
         alert('Associado cadastrado com sucesso!');
       } else {
         const j = await res.json();
-        alert(`Erro: ${j.error || 'Verifique os dados'}`);
+        alert(`Erro: ${j.error || 'Falha ao salvar'}`);
       }
     } catch {
       alert('Erro de conexão.');
@@ -168,6 +242,7 @@ export default function CompleteEternityERP() {
     }
   };
 
+  // Salvar Óbito com Baixa Automática de Estoque
   const handleSaveBurial = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingBurial(true);
@@ -175,23 +250,82 @@ export default function CompleteEternityERP() {
       const res = await fetch('/api/chapel/burials', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(burialForm),
+        body: JSON.stringify({
+          deceased_name: burialForm.deceased_name,
+          cemetery_location: burialForm.cemetery_location,
+          burial_date: burialForm.burial_date || new Date().toISOString(),
+        }),
       });
 
       if (res.ok) {
+        setInventory((prev) =>
+          prev.map((item) =>
+            item.item_name === burialForm.urn_name
+              ? { ...item, stock_quantity: Math.max(0, item.stock_quantity - 1) }
+              : item
+          )
+        );
+
         setIsNewBurialOpen(false);
-        setBurialForm({ deceased_name: '', cemetery_location: '', burial_date: '' });
+        setBurialForm({ deceased_name: '', cemetery_location: '', burial_date: '', urn_name: 'Urna Luxo Sextavada Mogno' });
         await loadData();
-        alert('Chamado de plantão registrado!');
-      } else {
-        const j = await res.json();
-        alert(`Erro: ${j.error}`);
+        alert('Atendimento de óbito registrado e -1 urna baixada no estoque!');
       }
     } catch {
       alert('Erro ao registrar.');
     } finally {
       setSavingBurial(false);
     }
+  };
+
+  const handleSaveVehicle = (e: React.FormEvent) => {
+    e.preventDefault();
+    setVehicles((prev) => [
+      ...prev,
+      { id: String(Date.now()), plate: vehicleForm.plate, model: vehicleForm.model, type: vehicleForm.type, status: 'Disponível', driver_name: vehicleForm.driver_name || 'A escalar' },
+    ]);
+    setIsNewVehicleOpen(false);
+    setVehicleForm({ plate: '', model: '', type: 'Cortejo Fúnebre', driver_name: '' });
+  };
+
+  const handleSaveInventory = (e: React.FormEvent) => {
+    e.preventDefault();
+    setInventory((prev) => [
+      ...prev,
+      { id: String(Date.now()), item_name: inventoryForm.item_name, category: inventoryForm.category, stock_quantity: Number(inventoryForm.stock_quantity), min_threshold: Number(inventoryForm.min_threshold) },
+    ]);
+    setIsNewInventoryOpen(false);
+    setInventoryForm({ item_name: '', category: 'Urna Adulto', stock_quantity: 10, min_threshold: 3 });
+  };
+
+  const handleSaveConvalescence = (e: React.FormEvent) => {
+    e.preventDefault();
+    setConvalescence((prev) => [
+      ...prev,
+      { id: String(Date.now()), item_name: convalescenceForm.item_name, holder_name: convalescenceForm.holder_name, loan_date: convalescenceForm.loan_date || new Date().toLocaleDateString('pt-BR'), status: 'Ativo' },
+    ]);
+    setIsNewConvalescenceOpen(false);
+    setConvalescenceForm({ item_name: 'Cadeira de Rodas Dobrável', holder_name: '', loan_date: '' });
+  };
+
+  const handleSavePartner = (e: React.FormEvent) => {
+    e.preventDefault();
+    setPartners((prev) => [
+      ...prev,
+      { id: String(Date.now()), partner_name: partnerForm.partner_name, category: partnerForm.category, discount_percentage: Number(partnerForm.discount_percentage), contact_info: partnerForm.contact_info },
+    ]);
+    setIsNewPartnerOpen(false);
+    setPartnerForm({ partner_name: '', category: 'Medicamentos & Farmácia', discount_percentage: 20, contact_info: '' });
+  };
+
+  const handleSaveThanato = (e: React.FormEvent) => {
+    e.preventDefault();
+    setThanatopraxyRecords((prev) => [
+      ...prev,
+      { id: String(Date.now()), deceased_name: thanatoForm.deceased_name, technician: thanatoForm.technician, procedure: thanatoForm.procedure, completed_at: new Date().toLocaleString('pt-BR'), status: 'Concluído' },
+    ]);
+    setIsNewThanatoOpen(false);
+    setThanatoForm({ deceased_name: '', technician: 'Dr. Roberto Tanatólogo', procedure: 'Aspiração e Formolização Padrão' });
   };
 
   const handleAddDep = async (e: React.FormEvent) => {
@@ -223,7 +357,7 @@ export default function CompleteEternityERP() {
 
   return (
     <div className="flex h-screen bg-[#07090e] text-slate-100 font-sans overflow-hidden antialiased">
-      {/* SIDEBAR COMPLETA COM OS 10 MÓDULOS */}
+      {/* 1. SIDEBAR ERGONÔMICA */}
       <aside className="w-64 bg-[#0d111a] border-r border-slate-800 flex flex-col justify-between shrink-0 select-none">
         <div>
           <div className="p-4 border-b border-slate-800 flex items-center gap-2.5">
@@ -232,7 +366,7 @@ export default function CompleteEternityERP() {
             </div>
             <div>
               <h1 className="font-bold text-sm text-white tracking-wider">ETERNITY<span className="text-emerald-400">OS</span></h1>
-              <p className="text-[10px] text-slate-400">v2.4 Enterprise ERP</p>
+              <p className="text-[10px] text-slate-400">ERP Funerário Integrado</p>
             </div>
           </div>
 
@@ -250,29 +384,14 @@ export default function CompleteEternityERP() {
             <div>
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1">GESTÃO & FINANÇAS</p>
               <div className="space-y-0.5">
-                <button
-                  onClick={() => setActiveTab('executive')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${
-                    activeTab === 'executive' ? 'bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:bg-slate-800'
-                  }`}
-                >
+                <button onClick={() => setActiveTab('executive')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'executive' ? 'bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
                   <div className="flex items-center gap-2"><span>📊</span> Painel Executivo</div>
                 </button>
-                <button
-                  onClick={() => setActiveTab('holders')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${
-                    activeTab === 'holders' ? 'bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:bg-slate-800'
-                  }`}
-                >
+                <button onClick={() => setActiveTab('holders')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'holders' ? 'bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
                   <div className="flex items-center gap-2"><span>👥</span> Associados & Contratos</div>
                   <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{holders.length}</span>
                 </button>
-                <button
-                  onClick={() => setActiveTab('financial')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${
-                    activeTab === 'financial' ? 'bg-emerald-600/15 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:bg-slate-800'
-                  }`}
-                >
+                <button onClick={() => setActiveTab('financial')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'financial' ? 'bg-emerald-600/15 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
                   <div className="flex items-center gap-2"><span>💰</span> Financeiro & DRE</div>
                 </button>
               </div>
@@ -281,29 +400,15 @@ export default function CompleteEternityERP() {
             <div>
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1">OPERAÇÕES & PLANTÃO</p>
               <div className="space-y-0.5">
-                <button
-                  onClick={() => setActiveTab('burials')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${
-                    activeTab === 'burials' ? 'bg-rose-600/15 text-rose-400 border border-rose-500/30' : 'text-slate-400 hover:bg-slate-800'
-                  }`}
-                >
+                <button onClick={() => setActiveTab('burials')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'burials' ? 'bg-rose-600/15 text-rose-400 border border-rose-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
                   <div className="flex items-center gap-2"><span>🚨</span> Plantão 24h & Óbitos</div>
                   <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 font-bold">{burials.length}</span>
                 </button>
-                <button
-                  onClick={() => setActiveTab('thanatopraxy')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${
-                    activeTab === 'thanatopraxy' ? 'bg-purple-600/15 text-purple-400 border border-purple-500/30' : 'text-slate-400 hover:bg-slate-800'
-                  }`}
-                >
+                <button onClick={() => setActiveTab('thanatopraxy')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'thanatopraxy' ? 'bg-purple-600/15 text-purple-400 border border-purple-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
                   <div className="flex items-center gap-2"><span>🔬</span> Tanatopraxia</div>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{thanatopraxyRecords.length}</span>
                 </button>
-                <button
-                  onClick={() => setActiveTab('chapel')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${
-                    activeTab === 'chapel' ? 'bg-amber-600/15 text-amber-400 border border-amber-500/30' : 'text-slate-400 hover:bg-slate-800'
-                  }`}
-                >
+                <button onClick={() => setActiveTab('chapel')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'chapel' ? 'bg-amber-600/15 text-amber-400 border border-amber-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
                   <div className="flex items-center gap-2"><span>⛪</span> Capelas & Velórios</div>
                 </button>
               </div>
@@ -312,39 +417,21 @@ export default function CompleteEternityERP() {
             <div>
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1">LOGÍSTICA & SUPORTE</p>
               <div className="space-y-0.5">
-                <button
-                  onClick={() => setActiveTab('fleet')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${
-                    activeTab === 'fleet' ? 'bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:bg-slate-800'
-                  }`}
-                >
+                <button onClick={() => setActiveTab('fleet')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'fleet' ? 'bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
                   <div className="flex items-center gap-2"><span>🚐</span> Frota & Veículos</div>
                   <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{vehicles.length}</span>
                 </button>
-                <button
-                  onClick={() => setActiveTab('inventory')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${
-                    activeTab === 'inventory' ? 'bg-amber-600/15 text-amber-400 border border-amber-500/30' : 'text-slate-400 hover:bg-slate-800'
-                  }`}
-                >
+                <button onClick={() => setActiveTab('inventory')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'inventory' ? 'bg-amber-600/15 text-amber-400 border border-amber-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
                   <div className="flex items-center gap-2"><span>📦</span> Estoque & Urnas</div>
                   <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{inventory.length}</span>
                 </button>
-                <button
-                  onClick={() => setActiveTab('convalescence')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${
-                    activeTab === 'convalescence' ? 'bg-emerald-600/15 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:bg-slate-800'
-                  }`}
-                >
-                  <div className="flex items-center gap-2"><span>♿</span> Convalescença (Apoio)</div>
+                <button onClick={() => setActiveTab('convalescence')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'convalescence' ? 'bg-emerald-600/15 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
+                  <div className="flex items-center gap-2"><span>♿</span> Convalescença</div>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{convalescence.length}</span>
                 </button>
-                <button
-                  onClick={() => setActiveTab('benefits')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${
-                    activeTab === 'benefits' ? 'bg-cyan-600/15 text-cyan-400 border border-cyan-500/30' : 'text-slate-400 hover:bg-slate-800'
-                  }`}
-                >
+                <button onClick={() => setActiveTab('benefits')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'benefits' ? 'bg-cyan-600/15 text-cyan-400 border border-cyan-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
                   <div className="flex items-center gap-2"><span>🤝</span> Clube de Convênios</div>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{partners.length}</span>
                 </button>
               </div>
             </div>
@@ -360,25 +447,25 @@ export default function CompleteEternityERP() {
             </div>
           </div>
           <div className="flex gap-1">
-            <button onClick={() => setIsDREOpen(true)} className="p-1 text-xs text-slate-400 hover:text-emerald-400" title="Ver DRE">📈</button>
-            <button onClick={() => setIsRBACOpen(true)} className="p-1 text-xs text-slate-400 hover:text-blue-400" title="Permissões">🛡️</button>
+            <button onClick={() => setIsDREOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-emerald-400" title="Ver DRE">📈</button>
+            <button onClick={() => setIsRBACOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-blue-400" title="Permissões">🛡️</button>
           </div>
         </div>
       </aside>
 
-      {/* ÁREA PRINCIPAL */}
+      {/* 2. ÁREA DE TRABALHO PRINCIPAL */}
       <main className="flex-1 flex flex-col overflow-hidden bg-[#070a11]">
         <header className="p-4 border-b border-slate-800 bg-[#0d111a] flex items-center justify-between gap-4 shrink-0">
           <h2 className="text-sm font-bold text-white uppercase tracking-wider">
-            {activeTab === 'executive' && 'Painel Executivo'}
+            {activeTab === 'executive' && 'Painel Executivo & Indicadores'}
             {activeTab === 'holders' && 'Gestão de Associados & Planos'}
             {activeTab === 'burials' && 'Central de Plantão 24h & Óbitos'}
             {activeTab === 'thanatopraxy' && 'Laboratório de Tanatopraxia'}
-            {activeTab === 'chapel' && 'Capelas & Velórios'}
+            {activeTab === 'chapel' && 'Salas de Velório & Capelas'}
             {activeTab === 'fleet' && 'Frota & Veículos'}
-            {activeTab === 'inventory' && 'Estoque de Urnas'}
+            {activeTab === 'inventory' && 'Estoque de Urnas & Insumos'}
             {activeTab === 'convalescence' && 'Aparelhos Convalescentes'}
-            {activeTab === 'benefits' && 'Clube de Convênios'}
+            {activeTab === 'benefits' && 'Clube de Convênios & Descontos'}
             {activeTab === 'financial' && 'Gestão Financeira & DRE'}
           </h2>
 
@@ -421,31 +508,13 @@ export default function CompleteEternityERP() {
                 <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
                   <p className="text-xs text-slate-400 uppercase font-semibold">Veículos Disponíveis</p>
                   <p className="text-2xl font-bold text-white mt-2">{vehicles.length}</p>
-                  <p className="text-[11px] text-slate-400 mt-1">Total de 3 veículos</p>
-                </div>
-              </div>
-
-              <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-5">
-                <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-4">Ações Rápidas de Gestão</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <button onClick={() => setActiveTab('holders')} className="p-3 bg-slate-950 hover:bg-slate-900 border border-slate-800 rounded-lg text-left transition">
-                    <p className="font-bold text-sm text-white">👥 Gerenciar Associados</p>
-                    <p className="text-xs text-slate-400 mt-1">Cobrar por WhatsApp, emitir carteirinhas e dependentes</p>
-                  </button>
-                  <button onClick={() => setActiveTab('burials')} className="p-3 bg-slate-950 hover:bg-slate-900 border border-slate-800 rounded-lg text-left transition">
-                    <p className="font-bold text-sm text-rose-400">🚨 Central de Plantão 24h</p>
-                    <p className="text-xs text-slate-400 mt-1">Atendimento imediato e ordens de serviço de óbito</p>
-                  </button>
-                  <button onClick={() => setIsDREOpen(true)} className="p-3 bg-slate-950 hover:bg-slate-900 border border-slate-800 rounded-lg text-left transition">
-                    <p className="font-bold text-sm text-emerald-400">📈 Demonstrativo DRE</p>
-                    <p className="text-xs text-slate-400 mt-1">Conferência de receitas, despesas e margem líquida</p>
-                  </button>
+                  <p className="text-[11px] text-slate-400 mt-1">Frota pronta</p>
                 </div>
               </div>
             </div>
           )}
 
-          {/* 2. ASSOCIADOS */}
+          {/* 2. ASSOCIADOS & CONTRATOS */}
           {activeTab === 'holders' && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-sm">
@@ -458,10 +527,15 @@ export default function CompleteEternityERP() {
                     className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
-                <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs">
-                  <button onClick={() => setStatusFilter('all')} className={`px-2.5 py-1 rounded ${statusFilter === 'all' ? 'bg-slate-800 text-white font-bold' : 'text-slate-400'}`}>Todos ({holders.length})</button>
-                  <button onClick={() => setStatusFilter('active')} className={`px-2.5 py-1 rounded ${statusFilter === 'active' ? 'bg-emerald-950 text-emerald-300 font-bold border border-emerald-800' : 'text-slate-400'}`}>Ativos</button>
-                  <button onClick={() => setStatusFilter('defaulted')} className={`px-2.5 py-1 rounded ${statusFilter === 'defaulted' ? 'bg-rose-950 text-rose-300 font-bold border border-rose-800' : 'text-slate-400'}`}>Inadimplentes</button>
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs">
+                    <button onClick={() => setStatusFilter('all')} className={`px-2.5 py-1 rounded ${statusFilter === 'all' ? 'bg-slate-800 text-white font-bold' : 'text-slate-400'}`}>Todos ({holders.length})</button>
+                    <button onClick={() => setStatusFilter('active')} className={`px-2.5 py-1 rounded ${statusFilter === 'active' ? 'bg-emerald-950 text-emerald-300 font-bold border border-emerald-800' : 'text-slate-400'}`}>Ativos</button>
+                    <button onClick={() => setStatusFilter('defaulted')} className={`px-2.5 py-1 rounded ${statusFilter === 'defaulted' ? 'bg-rose-950 text-rose-300 font-bold border border-rose-800' : 'text-slate-400'}`}>Inadimplentes</button>
+                  </div>
+                  <button onClick={handleExportCSV} className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition" title="Exportar para Excel / CSV">
+                    📥 Exportar CSV
+                  </button>
                 </div>
               </div>
 
@@ -494,9 +568,10 @@ export default function CompleteEternityERP() {
                           <td className="py-3 px-4"><span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-950 text-emerald-400 border border-emerald-800">{status === 'active' ? '● Ativo' : status}</span></td>
                           <td className="py-3 px-4 text-right">
                             <div className="inline-flex items-center gap-1.5">
-                              <a href={waUrl} target="_blank" rel="noreferrer" className="px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 rounded text-[11px] font-bold">💬 Cobrar</a>
-                              <a href={`/carteirinha/${rawCpf}`} target="_blank" rel="noreferrer" className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] border border-slate-700">🪪 Carteirinha</a>
-                              <button onClick={() => setSelectedHolder(h)} className="px-2.5 py-1 bg-blue-950/60 hover:bg-blue-900/60 text-blue-300 border border-blue-800/60 rounded text-[11px]">👥 Dependentes</button>
+                              <a href={waUrl} target="_blank" rel="noreferrer" className="px-2 py-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 rounded text-[11px] font-bold">💬 Cobrar</a>
+                              <a href={`/carteirinha/${rawCpf}`} target="_blank" rel="noreferrer" className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] border border-slate-700">🪪 Carteirinha</a>
+                              <button onClick={() => setPrintHolderContract(h)} className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded text-[11px]" title="Imprimir Contrato / Termo">📄 Termo</button>
+                              <button onClick={() => setSelectedHolder(h)} className="px-2 py-1 bg-blue-950/60 hover:bg-blue-900/60 text-blue-300 border border-blue-800/60 rounded text-[11px]">👥 Dependentes</button>
                             </div>
                           </td>
                         </tr>
@@ -508,13 +583,13 @@ export default function CompleteEternityERP() {
             </div>
           )}
 
-          {/* 3. PLANTÃO 24H */}
+          {/* 3. PLANTÃO 24H & ÓBITOS */}
           {activeTab === 'burials' && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-hidden">
                 <table className="w-full text-left text-xs">
                   <thead className="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase text-[11px]">
-                    <tr><th className="py-3 px-4">Falecido</th><th className="py-3 px-4">Local</th><th className="py-3 px-4">Data/Hora</th><th className="py-3 px-4">Status</th></tr>
+                    <tr><th className="py-3 px-4">Pessoa Falecida</th><th className="py-3 px-4">Local / Cemitério</th><th className="py-3 px-4">Data e Hora</th><th className="py-3 px-4">Status</th><th className="py-3 px-4 text-right">Guia</th></tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800 text-slate-200">
                     {burials.map((b) => (
@@ -523,130 +598,284 @@ export default function CompleteEternityERP() {
                         <td className="py-3 px-4 text-slate-300">{b.cemetery_location || 'Em traslado'}</td>
                         <td className="py-3 px-4 font-mono">{new Date(b.burial_date).toLocaleString('pt-BR')}</td>
                         <td className="py-3 px-4"><span className="px-2.5 py-0.5 rounded bg-blue-950 text-blue-300 text-[10px] font-bold">{b.status || 'Agendado'}</span></td>
+                        <td className="py-3 px-4 text-right">
+                          <button onClick={() => setPrintBurialGuide(b)} className="px-2.5 py-1 bg-slate-800 text-slate-200 rounded border border-slate-700 text-[11px] font-semibold">🖨️ Imprimir Guia</button>
+                        </td>
                       </tr>
                     ))}
-                    {burials.length === 0 && <tr><td colSpan={4} className="py-8 text-center text-slate-500">Nenhum chamado no momento.</td></tr>}
+                    {burials.length === 0 && <tr><td colSpan={5} className="py-8 text-center text-slate-500">Nenhum chamado no momento.</td></tr>}
                   </tbody>
                 </table>
               </div>
             </div>
           )}
 
-          {/* 4. TANATOPRAXIA */}
+          {/* 4. TANATOPRAXIA (EDITÁVEL) */}
           {activeTab === 'thanatopraxy' && (
-            <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-5">
-              <h3 className="font-bold text-white text-sm mb-3">Laboratório de Tanatopraxia</h3>
-              <div className="p-4 bg-slate-950 border border-slate-800 rounded-lg flex justify-between items-center">
+            <div className="space-y-4">
+              <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
                 <div>
-                  <p className="font-bold text-white text-sm">Severino Bezerra</p>
-                  <p className="text-xs text-slate-400">Técnico: Dr. Roberto Tanatólogo • Aspiração e Formolização</p>
+                  <h3 className="font-bold text-white text-sm">Laboratório de Tanatopraxia & Preparação</h3>
+                  <p className="text-xs text-slate-400">Controle de conservação e fichas de tanatólogos</p>
                 </div>
-                <span className="text-xs text-emerald-400 font-bold">✓ Concluído</span>
+                <button onClick={() => setIsNewThanatoOpen(true)} className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold shadow">
+                  + Novo Procedimento
+                </button>
+              </div>
+
+              <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-hidden">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase text-[11px]">
+                    <tr><th className="py-3 px-4">Falecido</th><th className="py-3 px-4">Tanatólogo Responsável</th><th className="py-3 px-4">Procedimento Realizado</th><th className="py-3 px-4">Conclusão</th><th className="py-3 px-4">Status</th></tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800 text-slate-200">
+                    {thanatopraxyRecords.map((t) => (
+                      <tr key={t.id} className="hover:bg-slate-800/30">
+                        <td className="py-3 px-4 font-bold text-white">{t.deceased_name}</td>
+                        <td className="py-3 px-4 text-purple-400 font-semibold">{t.technician}</td>
+                        <td className="py-3 px-4 text-slate-300">{t.procedure}</td>
+                        <td className="py-3 px-4 font-mono text-slate-400">{t.completed_at}</td>
+                        <td className="py-3 px-4"><span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 text-[10px] font-bold">✓ Concluído</span></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           )}
 
-          {/* 5. CAPELAS */}
+          {/* 5. CAPELAS (EDITÁVEL) */}
           {activeTab === 'chapel' && (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                <div className="flex justify-between items-center text-slate-400 text-xs font-bold uppercase"><span>Capela 01</span><span className="text-emerald-400">● Livre</span></div>
-                <p className="text-sm font-bold text-white mt-2">Capela Master com Suíte</p>
-              </div>
-              <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                <div className="flex justify-between items-center text-slate-400 text-xs font-bold uppercase"><span>Capela 02</span><span className="text-rose-400">● Ocupada</span></div>
-                <p className="text-sm font-bold text-white mt-2">Velório em Andamento</p>
-              </div>
-              <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                <div className="flex justify-between items-center text-slate-400 text-xs font-bold uppercase"><span>Capela 03</span><span className="text-emerald-400">● Livre</span></div>
-                <p className="text-sm font-bold text-white mt-2">Capela Standard</p>
-              </div>
-            </div>
-          )}
-
-          {/* 6. FROTA */}
-          {activeTab === 'fleet' && (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {vehicles.map((v) => (
-                <div key={v.id} className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                  <div className="flex justify-between items-center text-slate-400 text-xs uppercase font-bold"><span>{v.plate}</span><span className="text-emerald-400">● {v.status}</span></div>
-                  <h4 className="font-bold text-white text-sm mt-2">{v.model}</h4>
-                  <p className="text-xs text-slate-400 mt-1">Motorista: {v.driver}</p>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* 7. ESTOQUE */}
-          {activeTab === 'inventory' && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {inventory.map((item) => (
-                <div key={item.id} className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase">{item.category}</p>
-                  <h4 className="font-bold text-white text-sm mt-1">{item.item_name}</h4>
-                  <p className="text-2xl font-bold text-slate-100 mt-3">{item.stock} un</p>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* 8. CONVALESCENÇA */}
-          {activeTab === 'convalescence' && (
-            <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-hidden">
-              <table className="w-full text-left text-xs">
-                <thead className="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase text-[11px]">
-                  <tr><th className="py-3 px-4">Equipamento</th><th className="py-3 px-4">Associado</th><th className="py-3 px-4">Data Empréstimo</th></tr>
-                </thead>
-                <tbody className="divide-y divide-slate-800 text-slate-200">
-                  {convalescence.map((c) => (
-                    <tr key={c.id} className="hover:bg-slate-800/30">
-                      <td className="py-3 px-4 font-bold text-emerald-400">{c.item}</td>
-                      <td className="py-3 px-4">{c.holder}</td>
-                      <td className="py-3 px-4 font-mono text-slate-400">{c.date}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-
-          {/* 9. CONVÊNIOS */}
-          {activeTab === 'benefits' && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {partners.map((p) => (
-                <div key={p.id} className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex justify-between items-start">
-                  <div>
-                    <span className="text-[10px] font-bold text-cyan-400 uppercase">{p.cat}</span>
-                    <h4 className="font-bold text-white text-sm mt-1">{p.name}</h4>
-                    <p className="text-xs text-slate-400 mt-1">Contato: {p.contact}</p>
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {chapels.map((cap) => (
+                  <div key={cap.id} className="bg-[#0d121f] border border-slate-800 p-5 rounded-xl flex flex-col justify-between">
+                    <div>
+                      <div className="flex justify-between items-center text-xs font-bold uppercase mb-2">
+                        <span className="text-white">{cap.name}</span>
+                        <span className={cap.status === 'Livre' ? 'text-emerald-400' : 'text-rose-400'}>● {cap.status}</span>
+                      </div>
+                      <p className="text-xs text-slate-400">Capacidade: {cap.capacity}</p>
+                      {cap.deceased && <p className="text-xs font-bold text-blue-400 mt-2">Velório: {cap.deceased} ({cap.time})</p>}
+                    </div>
+                    <div className="mt-4 pt-3 border-t border-slate-800 flex justify-end">
+                      <button
+                        onClick={() => {
+                          setChapels((prev) =>
+                            prev.map((c) => (c.id === cap.id ? { ...c, status: c.status === 'Livre' ? 'Ocupada' : 'Livre', deceased: c.status === 'Livre' ? 'Novo Velório Agendado' : '' } : c))
+                          );
+                        }}
+                        className="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-xs font-semibold"
+                      >
+                        Alternar Status ({cap.status === 'Livre' ? 'Ocupar' : 'Liberar'})
+                      </button>
+                    </div>
                   </div>
-                  <span className="text-sm font-extrabold text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-800">{p.discount}</span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           )}
 
-          {/* 10. FINANCEIRO */}
+          {/* 6. FROTA & VEÍCULOS (EDITÁVEL) */}
+          {activeTab === 'fleet' && (
+            <div className="space-y-4">
+              <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
+                <div>
+                  <h3 className="font-bold text-sm text-white">Controle de Frota & Logística</h3>
+                  <p className="text-xs text-slate-400">Veículos de cortejo, remoção e apoio familiar</p>
+                </div>
+                <button onClick={() => setIsNewVehicleOpen(true)} className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold shadow">
+                  + Novo Veículo
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {vehicles.map((v) => (
+                  <div key={v.id} className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex flex-col justify-between">
+                    <div>
+                      <div className="flex justify-between items-center text-slate-400 text-xs uppercase font-bold">
+                        <span>{v.plate}</span>
+                        <span className={v.status === 'Disponível' ? 'text-emerald-400' : 'text-amber-400'}>● {v.status}</span>
+                      </div>
+                      <h4 className="font-bold text-white text-sm mt-2">{v.model}</h4>
+                      <p className="text-xs text-slate-400 mt-1">Tipo: {v.type}</p>
+                      <p className="text-xs text-blue-400 mt-1">Motorista: {v.driver_name}</p>
+                    </div>
+                    <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center">
+                      <button
+                        onClick={() => {
+                          setVehicles((prev) =>
+                            prev.map((item) =>
+                              item.id === v.id
+                                ? { ...item, status: item.status === 'Disponível' ? 'Em Missão' : 'Disponível' }
+                                : item
+                            )
+                          );
+                        }}
+                        className="px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-[11px]"
+                      >
+                        Mudar Status
+                      </button>
+                      <button onClick={() => setVehicles((prev) => prev.filter((item) => item.id !== v.id))} className="text-xs text-rose-400 hover:underline">
+                        Remover
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* 7. ESTOQUE & URNAS (EDITÁVEL) */}
+          {activeTab === 'inventory' && (
+            <div className="space-y-4">
+              <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
+                <div>
+                  <h3 className="font-bold text-sm text-white">Inventário de Urnas & Insumos</h3>
+                  <p className="text-xs text-slate-400">Controle de saldo, entrada e saída em 1 clique</p>
+                </div>
+                <button onClick={() => setIsNewInventoryOpen(true)} className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold shadow">
+                  + Novo Item
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {inventory.map((item) => (
+                  <div key={item.id} className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex flex-col justify-between">
+                    <div>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase">{item.category}</p>
+                      <h4 className="font-bold text-white text-sm mt-1">{item.item_name}</h4>
+                      <p className="text-2xl font-bold text-slate-100 mt-2">{item.stock_quantity} un</p>
+                    </div>
+                    <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+                      <span className="text-[10px] text-slate-500">Mínimo: {item.min_threshold} un</span>
+                      <div className="flex gap-1">
+                        <button
+                          onClick={() => setInventory((prev) => prev.map((i) => (i.id === item.id ? { ...i, stock_quantity: Math.max(0, i.stock_quantity - 1) } : i)))}
+                          className="w-7 h-7 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded flex items-center justify-center text-xs"
+                          title="Dar baixa (-1)"
+                        >
+                          -
+                        </button>
+                        <button
+                          onClick={() => setInventory((prev) => prev.map((i) => (i.id === item.id ? { ...i, stock_quantity: i.stock_quantity + 1 } : i)))}
+                          className="w-7 h-7 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded flex items-center justify-center text-xs"
+                          title="Adicionar (+1)"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* 8. CONVALESCENÇA (EDITÁVEL) */}
+          {activeTab === 'convalescence' && (
+            <div className="space-y-4">
+              <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
+                <div>
+                  <h3 className="font-bold text-sm text-white">Central de Empréstimo Convalescente</h3>
+                  <p className="text-xs text-slate-400">Empréstimo gratuito de equipamentos ortopédicos</p>
+                </div>
+                <button onClick={() => setIsNewConvalescenceOpen(true)} className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow">
+                  + Novo Empréstimo
+                </button>
+              </div>
+
+              <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-hidden">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase text-[11px]">
+                    <tr><th className="py-3 px-4">Equipamento</th><th className="py-3 px-4">Associado</th><th className="py-3 px-4">Data Empréstimo</th><th className="py-3 px-4">Status</th><th className="py-3 px-4 text-right">Ação</th></tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800 text-slate-200">
+                    {convalescence.map((c) => (
+                      <tr key={c.id} className="hover:bg-slate-800/30">
+                        <td className="py-3 px-4 font-bold text-emerald-400">{c.item_name}</td>
+                        <td className="py-3 px-4 text-white font-medium">{c.holder_name}</td>
+                        <td className="py-3 px-4 font-mono text-slate-400">{c.loan_date}</td>
+                        <td className="py-3 px-4"><span className={`px-2 py-0.5 rounded text-[10px] font-bold ${c.status === 'Ativo' ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-slate-800 text-slate-400'}`}>{c.status}</span></td>
+                        <td className="py-3 px-4 text-right">
+                          <button
+                            onClick={() => setConvalescence((prev) => prev.map((item) => item.id === c.id ? { ...item, status: item.status === 'Ativo' ? 'Devolvido' : 'Ativo' } : item))}
+                            className="px-2.5 py-1 bg-slate-800 text-slate-300 hover:text-white rounded text-[11px]"
+                          >
+                            {c.status === 'Ativo' ? 'Dar Baixa' : 'Reativar'}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* 9. CLUBE DE CONVÊNIOS (EDITÁVEL) */}
+          {activeTab === 'benefits' && (
+            <div className="space-y-4">
+              <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
+                <div>
+                  <h3 className="font-bold text-sm text-white">Rede Conveniada & Clube de Benefícios</h3>
+                  <p className="text-xs text-slate-400">Parceiros com descontos exclusivos para associados</p>
+                </div>
+                <button onClick={() => setIsNewPartnerOpen(true)} className="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg text-xs font-bold shadow">
+                  + Novo Parceiro
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {partners.map((p) => (
+                  <div key={p.id} className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex justify-between items-start">
+                    <div>
+                      <span className="text-[10px] font-bold text-cyan-400 uppercase">{p.category}</span>
+                      <h4 className="font-bold text-white text-sm mt-1">{p.partner_name}</h4>
+                      <p className="text-xs text-slate-400 mt-1">Contato: {p.contact_info}</p>
+                    </div>
+                    <div className="flex flex-col items-end gap-2">
+                      <span className="text-sm font-extrabold text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-800">
+                        {p.discount_percentage}% OFF
+                      </span>
+                      <button onClick={() => setPartners((prev) => prev.filter((item) => item.id !== p.id))} className="text-[10px] text-rose-400 hover:underline">
+                        Remover
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* 10. FINANCEIRO & DRE */}
           {activeTab === 'financial' && (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                <p className="text-xs font-semibold text-slate-400 uppercase">Receita Mensal de Planos</p>
-                <p className="text-xl font-bold text-emerald-400 mt-1">{fmtBRL(holders.length * 69.90)}</p>
-              </div>
-              <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                <p className="text-xs font-semibold text-slate-400 uppercase">Reserva Técnica Obrigatória (15%)</p>
-                <p className="text-xl font-bold text-blue-400 mt-1">{fmtBRL(holders.length * 69.90 * 0.15)}</p>
-              </div>
-              <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex items-center justify-between">
-                <div><p className="text-xs font-semibold text-slate-400 uppercase">DRE Contábil</p></div>
-                <button onClick={() => setIsDREOpen(true)} className="px-3 py-1.5 bg-emerald-600 text-white rounded text-xs font-bold">Abrir DRE</button>
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
+                  <p className="text-xs font-semibold text-slate-400 uppercase">Receita Mensal de Planos</p>
+                  <p className="text-xl font-bold text-emerald-400 mt-1">{fmtBRL(holders.length * 69.90)}</p>
+                </div>
+                <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
+                  <p className="text-xs font-semibold text-slate-400 uppercase">Reserva Técnica Obrigatória (15%)</p>
+                  <p className="text-xl font-bold text-blue-400 mt-1">{fmtBRL(holders.length * 69.90 * 0.15)}</p>
+                </div>
+                <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-semibold text-slate-400 uppercase">DRE Contábil</p>
+                    <p className="text-xs text-slate-500 mt-1">Conformidade Oficial</p>
+                  </div>
+                  <button onClick={() => setIsDREOpen(true)} className="px-3 py-1.5 bg-emerald-600 text-white rounded text-xs font-bold shadow">
+                    Abrir DRE
+                  </button>
+                </div>
               </div>
             </div>
           )}
         </div>
       </main>
 
-      {/* MODAL TITULAR */}
+      {/* MODAL: NOVO TITULAR */}
       {isNewHolderOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
@@ -667,14 +896,19 @@ export default function CompleteEternityERP() {
         </div>
       )}
 
-      {/* MODAL ÓBITO */}
+      {/* MODAL: NOVO ÓBITO COM BAIXA DE ESTOQUE */}
       {isNewBurialOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
             <h3 className="font-bold text-sm text-rose-400 mb-4">🚨 Registrar Chamado de Plantão / Óbito</h3>
             <form onSubmit={handleSaveBurial} className="space-y-3 text-xs">
               <div><label className="block text-slate-400 font-semibold mb-1">Nome do Falecido:</label><input type="text" required value={burialForm.deceased_name} onChange={(e) => setBurialForm({ ...burialForm, deceased_name: e.target.value })} placeholder="Nome da pessoa falecida..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
-              <div><label className="block text-slate-400 font-semibold mb-1">Cemitério / Local:</label><input type="text" value={burialForm.cemetery_location} onChange={(e) => setBurialForm({ ...burialForm, cemetery_location: e.target.value })} placeholder="Cemitério..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div><label className="block text-slate-400 font-semibold mb-1">Cemitério / Local do Sepultamento:</label><input type="text" value={burialForm.cemetery_location} onChange={(e) => setBurialForm({ ...burialForm, cemetery_location: e.target.value })} placeholder="Cemitério da Saudade..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div><label className="block text-slate-400 font-semibold mb-1">Modelo de Urna Utilizada (Baixa Automática):</label>
+                <select value={burialForm.urn_name} onChange={(e) => setBurialForm({ ...burialForm, urn_name: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white">
+                  {inventory.map((i) => <option key={i.id} value={i.item_name}>{i.item_name} (Estoque: {i.stock_quantity})</option>)}
+                </select>
+              </div>
               <div><label className="block text-slate-400 font-semibold mb-1">Data e Horário:</label><input type="datetime-local" required value={burialForm.burial_date} onChange={(e) => setBurialForm({ ...burialForm, burial_date: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
                 <button type="button" onClick={() => setIsNewBurialOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
@@ -685,17 +919,229 @@ export default function CompleteEternityERP() {
         </div>
       )}
 
-      {/* MODAL DEPENDENTES */}
+      {/* MODAL: NOVO VEÍCULO */}
+      {isNewVehicleOpen && (
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
+            <h3 className="font-bold text-sm text-blue-400 mb-4">+ Cadastrar Novo Veículo</h3>
+            <form onSubmit={handleSaveVehicle} className="space-y-3 text-xs">
+              <div><label className="block text-slate-400 font-semibold mb-1">Modelo do Veículo:</label><input type="text" required value={vehicleForm.model} onChange={(e) => setVehicleForm({ ...vehicleForm, model: e.target.value })} placeholder="ex: Mercedes Vito Cortejo" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div className="grid grid-cols-2 gap-2">
+                <div><label className="block text-slate-400 font-semibold mb-1">Placa:</label><input type="text" required value={vehicleForm.plate} onChange={(e) => setVehicleForm({ ...vehicleForm, plate: e.target.value })} placeholder="PI-XXX-0000" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+                <div><label className="block text-slate-400 font-semibold mb-1">Tipo:</label>
+                  <select value={vehicleForm.type} onChange={(e) => setVehicleForm({ ...vehicleForm, type: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white">
+                    <option value="Cortejo Fúnebre">Cortejo Fúnebre</option>
+                    <option value="Remoção Hospitalar">Remoção Hospitalar</option>
+                    <option value="Apoio Familiar">Apoio Familiar</option>
+                  </select>
+                </div>
+              </div>
+              <div><label className="block text-slate-400 font-semibold mb-1">Motorista Responsável:</label><input type="text" value={vehicleForm.driver_name} onChange={(e) => setVehicleForm({ ...vehicleForm, driver_name: e.target.value })} placeholder="Nome do motorista..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
+                <button type="button" onClick={() => setIsNewVehicleOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
+                <button type="submit" className="px-4 py-1.5 bg-blue-600 font-bold rounded">Salvar Veículo</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: NOVO ITEM ESTOQUE */}
+      {isNewInventoryOpen && (
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
+            <h3 className="font-bold text-sm text-amber-400 mb-4">+ Adicionar Item ao Estoque</h3>
+            <form onSubmit={handleSaveInventory} className="space-y-3 text-xs">
+              <div><label className="block text-slate-400 font-semibold mb-1">Nome do Item / Urna:</label><input type="text" required value={inventoryForm.item_name} onChange={(e) => setInventoryForm({ ...inventoryForm, item_name: e.target.value })} placeholder="ex: Urna Sextavada Carvalho" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div><label className="block text-slate-400 font-semibold mb-1">Categoria:</label>
+                <select value={inventoryForm.category} onChange={(e) => setInventoryForm({ ...inventoryForm, category: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white">
+                  <option value="Urna Adulto">Urna Adulto</option>
+                  <option value="Urna Infantil">Urna Infantil</option>
+                  <option value="Ornamentação">Ornamentação & Véus</option>
+                  <option value="Insumos Tanato">Insumos Tanatopraxia</option>
+                </select>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div><label className="block text-slate-400 font-semibold mb-1">Qtd Inicial:</label><input type="number" required value={inventoryForm.stock_quantity} onChange={(e) => setInventoryForm({ ...inventoryForm, stock_quantity: Number(e.target.value) })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+                <div><label className="block text-slate-400 font-semibold mb-1">Estoque Mínimo:</label><input type="number" required value={inventoryForm.min_threshold} onChange={(e) => setInventoryForm({ ...inventoryForm, min_threshold: Number(e.target.value) })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              </div>
+              <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
+                <button type="button" onClick={() => setIsNewInventoryOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
+                <button type="submit" className="px-4 py-1.5 bg-amber-600 font-bold rounded">Adicionar Item</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: NOVO EMPRÉSTIMO CONVALESCENÇA */}
+      {isNewConvalescenceOpen && (
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
+            <h3 className="font-bold text-sm text-emerald-400 mb-4">+ Registrar Empréstimo Convalescente</h3>
+            <form onSubmit={handleSaveConvalescence} className="space-y-3 text-xs">
+              <div><label className="block text-slate-400 font-semibold mb-1">Equipamento:</label>
+                <select value={convalescenceForm.item_name} onChange={(e) => setConvalescenceForm({ ...convalescenceForm, item_name: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white">
+                  <option value="Cadeira de Rodas Dobrável">Cadeira de Rodas Dobrável</option>
+                  <option value="Cadeira de Banho">Cadeira de Banho</option>
+                  <option value="Par de Muletas Canadenses">Par de Muletas Canadenses</option>
+                  <option value="Andador de Alumínio">Andador de Alumínio</option>
+                  <option value="Cama Hospitalar Articulada">Cama Hospitalar Articulada</option>
+                </select>
+              </div>
+              <div><label className="block text-slate-400 font-semibold mb-1">Associado / Titular Beneficiado:</label><input type="text" required value={convalescenceForm.holder_name} onChange={(e) => setConvalescenceForm({ ...convalescenceForm, holder_name: e.target.value })} placeholder="Nome do associado..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div><label className="block text-slate-400 font-semibold mb-1">Data do Empréstimo:</label><input type="date" value={convalescenceForm.loan_date} onChange={(e) => setConvalescenceForm({ ...convalescenceForm, loan_date: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
+                <button type="button" onClick={() => setIsNewConvalescenceOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
+                <button type="submit" className="px-4 py-1.5 bg-emerald-600 font-bold rounded">Confirmar Empréstimo</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: NOVO PARCEIRO CONVÊNIO */}
+      {isNewPartnerOpen && (
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
+            <h3 className="font-bold text-sm text-cyan-400 mb-4">+ Credenciar Novo Parceiro</h3>
+            <form onSubmit={handleSavePartner} className="space-y-3 text-xs">
+              <div><label className="block text-slate-400 font-semibold mb-1">Nome da Empresa / Parceiro:</label><input type="text" required value={partnerForm.partner_name} onChange={(e) => setPartnerForm({ ...partnerForm, partner_name: e.target.value })} placeholder="ex: Ótica Central" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div className="grid grid-cols-2 gap-2">
+                <div><label className="block text-slate-400 font-semibold mb-1">Categoria:</label><input type="text" value={partnerForm.category} onChange={(e) => setPartnerForm({ ...partnerForm, category: e.target.value })} placeholder="ex: Farmácia, Ótica..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+                <div><label className="block text-slate-400 font-semibold mb-1">% de Desconto:</label><input type="number" required value={partnerForm.discount_percentage} onChange={(e) => setPartnerForm({ ...partnerForm, discount_percentage: Number(e.target.value) })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              </div>
+              <div><label className="block text-slate-400 font-semibold mb-1">Telefone / Contato:</label><input type="text" value={partnerForm.contact_info} onChange={(e) => setPartnerForm({ ...partnerForm, contact_info: e.target.value })} placeholder="(86) 3000-0000" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
+                <button type="button" onClick={() => setIsNewPartnerOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
+                <button type="submit" className="px-4 py-1.5 bg-cyan-600 font-bold rounded">Credenciar Parceiro</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: NOVO PROCEDIMENTO TANATOPRAXIA */}
+      {isNewThanatoOpen && (
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
+            <h3 className="font-bold text-sm text-purple-400 mb-4">+ Registrar Procedimento de Tanatopraxia</h3>
+            <form onSubmit={handleSaveThanato} className="space-y-3 text-xs">
+              <div><label className="block text-slate-400 font-semibold mb-1">Nome do Falecido:</label><input type="text" required value={thanatoForm.deceased_name} onChange={(e) => setThanatoForm({ ...thanatoForm, deceased_name: e.target.value })} placeholder="Nome do falecido..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div><label className="block text-slate-400 font-semibold mb-1">Tanatólogo / Técnico Responsável:</label><input type="text" value={thanatoForm.technician} onChange={(e) => setThanatoForm({ ...thanatoForm, technician: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div><label className="block text-slate-400 font-semibold mb-1">Procedimento Realizado:</label><input type="text" value={thanatoForm.procedure} onChange={(e) => setThanatoForm({ ...thanatoForm, procedure: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
+                <button type="button" onClick={() => setIsNewThanatoOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
+                <button type="submit" className="px-4 py-1.5 bg-purple-600 font-bold rounded">Gravar Procedimento</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: IMPRESSÃO DE TERMO DE ADESÃO / CONTRATO */}
+      {printHolderContract && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur flex items-center justify-center p-4 z-50 overflow-y-auto">
+          <div className="bg-white text-slate-900 rounded-xl max-w-2xl w-full p-8 shadow-2xl">
+            <div className="border-b-2 border-slate-900 pb-4 mb-4 flex justify-between items-center">
+              <div>
+                <h2 className="text-xl font-extrabold tracking-wider uppercase">ETERNITY OS - PLANO FUNERÁRIO</h2>
+                <p className="text-xs text-slate-600">TERMO DE ADESÃO E CONTRATO DE PRESTAÇÃO DE SERVIÇOS FUNERÁRIOS</p>
+              </div>
+              <div className="text-right text-xs">
+                <p className="font-bold">Contrato Nº {printHolderContract.id.substring(0, 8).toUpperCase()}</p>
+                <p>{new Date().toLocaleDateString('pt-BR')}</p>
+              </div>
+            </div>
+
+            <div className="space-y-4 text-xs">
+              <div className="bg-slate-100 p-3 rounded">
+                <p className="font-bold uppercase text-[11px] mb-1">1. DADOS DO TITULAR CONTRATANTE</p>
+                <p><strong>Nome:</strong> {printHolderContract.full_name}</p>
+                <p><strong>CPF:</strong> {printHolderContract.cpf} | <strong>Telefone:</strong> {printHolderContract.phone}</p>
+                <p><strong>Endereço:</strong> {printHolderContract.address || 'Não informado'}</p>
+              </div>
+
+              <div className="bg-slate-100 p-3 rounded">
+                <p className="font-bold uppercase text-[11px] mb-1">2. DEPENDENTES COBERTOS ({printHolderContract.dependents?.length || 0})</p>
+                {(printHolderContract.dependents || []).map((dep, idx) => (
+                  <p key={dep.id}>{idx + 1}. {dep.full_name} ({dep.relation})</p>
+                ))}
+                {(!printHolderContract.dependents || printHolderContract.dependents.length === 0) && <p>Nenhum dependente adicional.</p>}
+              </div>
+
+              <div className="bg-slate-100 p-3 rounded">
+                <p className="font-bold uppercase text-[11px] mb-1">3. COBERTURAS INCLUSAS DO PLANO</p>
+                <p>Urna fúnebre sextavada envernizada, ornamentação completa com véu e flores, preparação do corpo/higienização, sala de velório climatizada, cortejo fúnebre até o cemitério municipal e suporte administrativo para certidão de óbito.</p>
+              </div>
+
+              <div className="pt-8 grid grid-cols-2 gap-8 text-center text-xs border-t border-slate-300 mt-6">
+                <div>
+                  <div className="border-t border-slate-900 pt-1">Assinatura do Titular Contratante</div>
+                  <p className="text-[10px] text-slate-500">{printHolderContract.full_name}</p>
+                </div>
+                <div>
+                  <div className="border-t border-slate-900 pt-1">Assinatura da Funerária / Administradora</div>
+                  <p className="text-[10px] text-slate-500">Eternity Assistência Familiar</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end gap-2 border-t pt-4">
+              <button onClick={() => setPrintHolderContract(null)} className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded font-semibold text-xs">Fechar</button>
+              <button onClick={() => window.print()} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-bold text-xs shadow">🖨️ Imprimir Termo</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: IMPRESSÃO DE GUIA DE SEPULTAMENTO */}
+      {printBurialGuide && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur flex items-center justify-center p-4 z-50 overflow-y-auto">
+          <div className="bg-white text-slate-900 rounded-xl max-w-xl w-full p-8 shadow-2xl">
+            <div className="border-b-2 border-slate-900 pb-3 mb-4 flex justify-between items-center">
+              <div>
+                <h2 className="text-lg font-extrabold uppercase">GUIA DE ATENDIMENTO E SEPULTAMENTO</h2>
+                <p className="text-xs text-slate-600">ETERNITY OS - CENTRAL DE PLANTÃO 24H</p>
+              </div>
+              <p className="font-bold text-xs">Nº {printBurialGuide.id.substring(0, 6).toUpperCase()}</p>
+            </div>
+
+            <div className="space-y-3 text-xs">
+              <p><strong>Nome da Pessoa Falecida:</strong> {printBurialGuide.deceased_name}</p>
+              <p><strong>Cemitério / Local Previsto:</strong> {printBurialGuide.cemetery_location || 'A definir'}</p>
+              <p><strong>Data e Hora do Atendimento:</strong> {new Date(printBurialGuide.burial_date).toLocaleString('pt-BR')}</p>
+              <p><strong>Status:</strong> {printBurialGuide.status || 'Agendado'}</p>
+              <div className="bg-slate-100 p-3 rounded mt-3">
+                <p className="font-bold text-[11px] mb-1">Checklist de Liberação:</p>
+                <p>[ x ] Urna Mortuária separada e preparada</p>
+                <p>[ x ] Veículo de cortejo escalado</p>
+                <p>[ x ] Ornamentação e véu florido inclusos</p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end gap-2 border-t pt-4">
+              <button onClick={() => setPrintBurialGuide(null)} className="px-4 py-2 bg-slate-200 text-slate-800 rounded font-semibold text-xs">Fechar</button>
+              <button onClick={() => window.print()} className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded font-bold text-xs shadow">🖨️ Imprimir Guia</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: DEPENDENTES */}
       {selectedHolder && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-lg w-full p-6 text-white shadow-2xl">
             <div className="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
-              <div><h3 className="text-sm font-bold text-white">{selectedHolder.full_name}</h3><p className="text-xs text-slate-400">CPF: {selectedHolder.cpf}</p></div>
+              <div>
+                <h3 className="text-sm font-bold text-white">{selectedHolder.full_name}</h3>
+                <p className="text-xs text-slate-400">CPF: {selectedHolder.cpf}</p>
+              </div>
               <button onClick={() => setSelectedHolder(null)} className="text-slate-400 hover:text-white font-bold">✕</button>
             </div>
             <div className="space-y-4 text-xs">
               <div>
-                <p className="font-semibold text-slate-300 uppercase text-[11px] mb-2">Dependentes Cobertos:</p>
+                <p className="font-semibold text-slate-300 uppercase text-[11px] mb-2">Dependentes Cobertos no Plano:</p>
                 <div className="space-y-1.5 max-h-44 overflow-y-auto">
                   {(selectedHolder.dependents || []).map((dep) => (
                     <div key={dep.id} className="p-2.5 bg-slate-950 rounded border border-slate-800 flex justify-between">
