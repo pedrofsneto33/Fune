@@ -1,71 +1,45 @@
-﻿export interface WhatsAppMessageParams {
-  // Novos campos estruturados
-  holderName?: string;
-  customerName?: string; // Retrocompatibilidade
-  planName?: string;
-  phone?: string;
-  amount?: string | number;
-  dueDate?: string;
-  month?: string; // Retrocompatibilidade
-  bankSlipUrl?: string;
-  link?: string; // Retrocompatibilidade
-  identificationField?: string;
-  pixCode?: string; // Retrocompatibilidade
-  installmentCount?: number;
-  tenantName?: string;
+/**
+ * Formata telefone brasileiro para o padrão internacional (55DDD9XXXXXXXX)
+ */
+export function formatPhoneForWhatsApp(phone: string): string {
+  const clean = phone.replace(/\D/g, '');
+  if (clean.length === 10 || clean.length === 11) {
+    return `55${clean}`;
+  }
+  return clean;
 }
 
-export function formatWhatsAppMessage(params: WhatsAppMessageParams): string {
-  const name = params.holderName || params.customerName || 'Associado(a)';
-  const plan = params.planName || 'Plano Funerário';
-  const tenant = params.tenantName || 'Eternity SOS';
-  const slipUrl = params.bankSlipUrl || params.link;
-  const installments = params.installmentCount || 1;
-
-  let message = `Olá, *${name}*! 👋\n\n`;
-  message += `Aqui é do atendimento *${tenant}* referente ao seu contrato (*${plan}*).\n\n`;
-
-  if (installments > 1) {
-    message += `📄 Segue o seu *Carnê Anual/Parcelado* (${installments} parcelas).\n`;
-  } else if (params.amount) {
-    message += `📄 Segue a sua mensalidade ${params.month ? `de *${params.month}* ` : ''}no valor de *R$ ${params.amount}*.\n`;
-  }
-
-  if (params.dueDate) {
-    message += `🗓️ *Vencimento:* ${params.dueDate}\n`;
-  }
-
-  if (params.identificationField) {
-    message += `\n🔢 *Linha Digitável (Boleto):*\n\`${params.identificationField}\`\n`;
-  }
-
-  if (params.pixCode) {
-    message += `\n📱 *Código PIX Copia e Cola:*\n\`${params.pixCode}\`\n`;
-  }
-
-  if (slipUrl) {
-    message += `\n🔗 *Link para Visualizar / Baixar Boleto ou Carnê em PDF:*\n${slipUrl}\n`;
-  }
-
-  message += `\nQualquer dúvida, estamos à sua inteira disposição 24h!\n*${tenant}*`;
-
-  return encodeURIComponent(message);
+export interface WhatsAppChargePayload {
+  holderName: string;
+  phone: string;
+  amount: number;
+  dueDate: string;
+  pixCode?: string;
+  cpf: string;
+  baseUrl?: string;
 }
 
-export function openWhatsAppBilling(params: WhatsAppMessageParams) {
-  const cleanPhone = (params.phone || '').replace(/\D/g, '');
-  const encodedText = formatWhatsAppMessage(params);
+/**
+ * Gera link wa.me com mensagem de cobrança pronta (PIX + Link da Carteirinha)
+ */
+export function generateChargeWhatsAppUrl(payload: WhatsAppChargePayload): string {
+  const targetPhone = formatPhoneForWhatsApp(payload.phone);
+  const formattedAmount = payload.amount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  const rawCpf = payload.cpf.replace(/\D/g, '');
+  const domain = payload.baseUrl || (typeof window !== 'undefined' ? window.location.origin : '');
+  const carteirinhaUrl = `${domain}/carteirinha/${rawCpf}`;
 
-  let fullPhone = cleanPhone;
-  if (fullPhone.length === 10 || fullPhone.length === 11) {
-    fullPhone = `55${fullPhone}`;
+  let message = `Olá, *${payload.holderName}*!\n\n`;
+  message += `Segue a cobrança da sua mensalidade do plano funerário:\n`;
+  message += `*Valor:* ${formattedAmount}\n`;
+  message += `*Vencimento:* ${payload.dueDate}\n\n`;
+
+  if (payload.pixCode) {
+    message += `*Código PIX Copia e Cola:*\n` + payload.pixCode + `\n\n`;
   }
 
-  const url = fullPhone.length >= 12
-    ? `https://api.whatsapp.com/send?phone=${fullPhone}&text=${encodedText}`
-    : `https://api.whatsapp.com/send?text=${encodedText}`;
+  message += `Acesse sua carteirinha e status do plano em:\n${carteirinhaUrl}\n\n`;
+  message += `Qualquer dúvida, estamos à disposição!`;
 
-  if (typeof window !== 'undefined') {
-    window.open(url, '_blank');
-  }
+  return `https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`;
 }
