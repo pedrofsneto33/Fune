@@ -1,4 +1,5 @@
 export type AppRole = 'superadmin' | 'admin' | 'manager' | 'attendant' | 'driver' | 'financial';
+export type UserRole = AppRole;
 
 export type Permission =
   | 'canManageSettings'

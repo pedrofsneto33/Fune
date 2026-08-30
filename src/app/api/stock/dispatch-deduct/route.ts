@@ -1,44 +1,39 @@
-﻿import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabaseClient';
+import { NextRequest, NextResponse } from 'next/server';
+import { withAuth } from '@/lib/api-handler';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
-export async function POST(req: Request) {
+export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
-    const body = await req.json();
-    const { dispatchId, coffinId, deceasedName } = body;
+    const body = await req.json().catch(() => ({}));
+    const { itemId, quantity = 1 } = body;
 
-    if (!dispatchId) {
-      return NextResponse.json({ success: false, error: 'dispatchId obrigatório' }, { status: 400 });
+    if (!itemId) {
+      return NextResponse.json({ error: 'itemId é obrigatório.' }, { status: 400 });
     }
 
-    const deductions: any[] = [];
+    const { data: item, error: findError } = await supabaseAdmin
+      .from('inventory')
+      .select('id, stock_quantity')
+      .eq('id', itemId)
+      .eq('tenant_id', auth.tenantId)
+      .single();
 
-    // Se houver urna selecionada, decrementa a quantidade em estoque
-    if (coffinId) {
-      const { data: item, error: fetchErr } = await supabase
-        .from('inventory_items')
-        .select('id, name, quantity')
-        .eq('id', coffinId)
-        .single();
-
-      if (!fetchErr && item) {
-        const nextQty = Math.max(0, (item.quantity || 0) - 1);
-        const { error: updateErr } = await supabase
-          .from('inventory_items')
-          .update({ quantity: nextQty, updated_at: new Date().toISOString() })
-          .eq('id', item.id);
-
-        if (!updateErr) {
-          deductions.push({ id: item.id, name: item.name, previous: item.quantity, current: nextQty });
-        }
-      }
+    if (findError || !item) {
+      return NextResponse.json({ error: 'Item de estoque não encontrado.' }, { status: 404 });
     }
 
-    return NextResponse.json({
-      success: true,
-      message: 'Baixa de estoque efetuada com sucesso',
-      deductions
-    });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    const newQty = Math.max(0, (item.stock_quantity || 0) - quantity);
+
+    const { data, error: updateError } = await supabaseAdmin
+      .from('inventory')
+      .update({ stock_quantity: newQty })
+      .eq('id', itemId)
+      .select()
+      .single();
+
+    if (updateError) return NextResponse.json({ error: updateError.message }, { status: 500 });
+    return NextResponse.json({ success: true, item: data });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
-}
+}, ['superadmin', 'admin', 'manager']);

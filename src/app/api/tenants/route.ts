@@ -50,7 +50,7 @@ export const PATCH = withAuth(async (req, { auth }) => {
     return NextResponse.json({ error: 'Tenant ID não fornecido' }, { status: 400 });
   }
 
-  const updateData = { updated_at: new Date().toISOString() };
+  const updateData: Record<string, any> = { updated_at: new Date().toISOString() };
   if (name) updateData.name = name;
   if (asaas_api_key) updateData.asaas_api_key = asaas_api_key;
   if (asaas_webhook_token) updateData.asaas_webhook_token = asaas_webhook_token;
