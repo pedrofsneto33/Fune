@@ -1,37 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
-async function getTenantId(): Promise<string> {
-  const { data: t } = await supabaseAdmin.from('tenants').select('id').limit(1).maybeSingle();
-  return t?.id || '00000000-0000-0000-0000-000000000000';
-}
+export const GET = withAuth(async (req: NextRequest, { auth }) => {
+  const { data, error } = await supabaseAdmin
+    .from('benefits_partners')
+    .select('*')
+    .eq('tenant_id', auth.tenantId);
 
-export async function GET(req: NextRequest) {
-  try {
-    const tenantId = await getTenantId();
-    const { data, error } = await supabaseAdmin
-      .from('benefits_partners')
-      .select('*')
-      .eq('tenant_id', tenantId);
+  if (error) return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+  return NextResponse.json(data || []);
+}, ['superadmin', 'admin', 'manager', 'attendant', 'financial']);
 
-    if (error) return NextResponse.json([]);
-    return NextResponse.json(data || []);
-  } catch (err: unknown) {
-    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
-  }
-}
-
-export async function POST(req: NextRequest) {
+export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const body = await req.json();
     const { partner_name, category, discount_percentage, contact_info } = body;
-    const tenantId = await getTenantId();
+
+    if (!partner_name || partner_name.trim() === '') {
+      return NextResponse.json({ error: 'Nome do parceiro é obrigatório.' }, { status: 400 });
+    }
 
     const { data, error } = await supabaseAdmin
       .from('benefits_partners')
       .insert([{
-        tenant_id: tenantId,
-        partner_name: partner_name?.trim() || 'Novo Parceiro',
+        tenant_id: auth.tenantId,
+        partner_name: partner_name.trim(),
         category: category || 'Comércio Geral',
         discount_percentage: Number(discount_percentage || 10),
         contact_info: contact_info ? contact_info.trim() : null,
@@ -45,4 +39,4 @@ export async function POST(req: NextRequest) {
   } catch (err: unknown) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
-}
+}, ['superadmin', 'admin', 'manager']);

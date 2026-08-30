@@ -1,38 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
-async function getTenantId(): Promise<string> {
-  const { data: t } = await supabaseAdmin.from('tenants').select('id').limit(1).maybeSingle();
-  return t?.id || '00000000-0000-0000-0000-000000000000';
-}
+export const GET = withAuth(async (req: NextRequest, { auth }) => {
+  const { data, error } = await supabaseAdmin
+    .from('inventory')
+    .select('*')
+    .eq('tenant_id', auth.tenantId)
+    .order('item_name', { ascending: true });
 
-export async function GET(req: NextRequest) {
-  try {
-    const tenantId = await getTenantId();
-    const { data, error } = await supabaseAdmin
-      .from('inventory')
-      .select('*')
-      .eq('tenant_id', tenantId)
-      .order('item_name', { ascending: true });
+  if (error) return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+  return NextResponse.json(data || []);
+}, ['superadmin', 'admin', 'manager', 'attendant', 'financial']);
 
-    if (error) return NextResponse.json([]);
-    return NextResponse.json(data || []);
-  } catch (err: unknown) {
-    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
-  }
-}
-
-export async function POST(req: NextRequest) {
+export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const body = await req.json();
     const { item_name, category, stock_quantity, min_threshold } = body;
-    const tenantId = await getTenantId();
+
+    if (!item_name || item_name.trim() === '') {
+      return NextResponse.json({ error: 'Nome do item é obrigatório.' }, { status: 400 });
+    }
 
     const { data, error } = await supabaseAdmin
       .from('inventory')
       .insert([{
-        tenant_id: tenantId,
-        item_name: item_name?.trim() || 'Nova Urna',
+        tenant_id: auth.tenantId,
+        item_name: item_name.trim(),
         category: category || 'Urna Adulto',
         stock_quantity: Number(stock_quantity || 0),
         min_threshold: Number(min_threshold || 2),
@@ -45,4 +39,4 @@ export async function POST(req: NextRequest) {
   } catch (err: unknown) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
-}
+}, ['superadmin', 'admin', 'manager']);
