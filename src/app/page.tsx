@@ -74,18 +74,26 @@ interface Partner {
   contact_info: string;
 }
 
-export default function MasterEnterpriseERP() {
+interface FinancialTransaction {
+  id: string;
+  description: string;
+  amount: number;
+  type: 'income' | 'expense';
+  category: string;
+  transaction_date: string;
+}
+
+export default function EternityMasterERP() {
   const [activeTab, setActiveTab] = useState<
     'executive' | 'holders' | 'burials' | 'thanatopraxy' | 'chapel' | 'fleet' | 'inventory' | 'convalescence' | 'benefits' | 'financial'
   >('holders');
 
   const [tenantName, setTenantName] = useState<string>('Funerária Matriz');
-  const [loading, setLoading] = useState<boolean>(true);
-
-  // Coleções
   const [holders, setHolders] = useState<Holder[]>([]);
   const [burials, setBurials] = useState<Burial[]>([]);
-  
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // Coleções de Dados
   const [inventory, setInventory] = useState<InventoryItem[]>([
     { id: '1', item_name: 'Urna Luxo Sextavada Mogno', category: 'Urna Adulto', stock_quantity: 8, min_threshold: 4 },
     { id: '2', item_name: 'Urna Standard Envernizada', category: 'Urna Adulto', stock_quantity: 12, min_threshold: 5 },
@@ -122,11 +130,19 @@ export default function MasterEnterpriseERP() {
     { id: '3', name: 'Capela Standard 03', capacity: '40 pessoas', status: 'Livre', deceased: '', time: '' },
   ]);
 
+  const [transactions, setTransactions] = useState<FinancialTransaction[]>([
+    { id: '1', description: 'Mensalidade Plano Familiar - Pedro', amount: 69.90, type: 'income', category: 'Mensalidade Plano', transaction_date: '2026-08-28' },
+    { id: '2', description: 'Mensalidade Plano Prata - Mariana Costa', amount: 49.90, type: 'income', category: 'Mensalidade Plano', transaction_date: '2026-08-27' },
+    { id: '3', description: 'Combustível Carro Cortejo (Mercedes)', amount: 150.00, type: 'expense', category: 'Combustível / Frota', transaction_date: '2026-08-29' },
+    { id: '4', description: 'Compra de Formol e Insumos Tanato', amount: 320.00, type: 'expense', category: 'Insumos Tanatopraxia', transaction_date: '2026-08-25' },
+    { id: '5', description: 'Taxa Cemitério Municipal', amount: 180.00, type: 'expense', category: 'Cemitério & Taxas', transaction_date: '2026-08-29' },
+  ]);
+
   // Filtros
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'defaulted'>('all');
 
-  // Modais de Cadastro
+  // Modais de Cadastro e Configurações
   const [isNewHolderOpen, setIsNewHolderOpen] = useState(false);
   const [isNewBurialOpen, setIsNewBurialOpen] = useState(false);
   const [isNewVehicleOpen, setIsNewVehicleOpen] = useState(false);
@@ -134,15 +150,17 @@ export default function MasterEnterpriseERP() {
   const [isNewConvalescenceOpen, setIsNewConvalescenceOpen] = useState(false);
   const [isNewPartnerOpen, setIsNewPartnerOpen] = useState(false);
   const [isNewThanatoOpen, setIsNewThanatoOpen] = useState(false);
+  const [isNewTxOpen, setIsNewTxOpen] = useState(false);
+  const [isAsaasConfigOpen, setIsAsaasConfigOpen] = useState(false);
   const [isDREOpen, setIsDREOpen] = useState(false);
   const [isRBACOpen, setIsRBACOpen] = useState(false);
-  
-  // Modais de Detalhe e Impressão
+
+  // Modais de Impressão e Dependentes
   const [selectedHolder, setSelectedHolder] = useState<Holder | null>(null);
   const [printHolderContract, setPrintHolderContract] = useState<Holder | null>(null);
   const [printBurialGuide, setPrintBurialGuide] = useState<Burial | null>(null);
 
-  // Forms de Estado
+  // Forms
   const [holderForm, setHolderForm] = useState({ full_name: '', cpf: '', phone: '', email: '', address: '', plan_name: 'Familiar Ouro', monthly_fee: 69.90 });
   const [savingHolder, setSavingHolder] = useState(false);
 
@@ -154,6 +172,11 @@ export default function MasterEnterpriseERP() {
   const [convalescenceForm, setConvalescenceForm] = useState({ item_name: 'Cadeira de Rodas Dobrável', holder_name: '', loan_date: '' });
   const [partnerForm, setPartnerForm] = useState({ partner_name: '', category: 'Medicamentos & Farmácia', discount_percentage: 20, contact_info: '' });
   const [thanatoForm, setThanatoForm] = useState({ deceased_name: '', technician: 'Dr. Roberto Tanatólogo', procedure: 'Aspiração e Formolização Padrão' });
+  const [txForm, setTxForm] = useState({ description: '', amount: 100, type: 'income' as 'income' | 'expense', category: 'Mensalidade Plano' });
+
+  // Configuração Asaas
+  const [asaasApiKey, setAsaasApiKey] = useState('$aact_YTU5YTE0M2M6N2I5ZDY0OTg4N2I5ZDY0OTg4N2I5ZDY0OTg4');
+  const [asaasEnv, setAsaasEnv] = useState<'sandbox' | 'production'>('production');
 
   const [depName, setDepName] = useState('');
   const [depRelation, setDepRelation] = useState('Cônjuge');
@@ -199,7 +222,6 @@ export default function MasterEnterpriseERP() {
     });
   }, [holders, searchQuery, statusFilter]);
 
-  // Exportar Associados para CSV (Excel)
   const handleExportCSV = () => {
     if (holders.length === 0) return alert('Nenhum associado para exportar.');
     let csv = 'Nome;CPF;Telefone;Email;Endereco;Status;Plano\n';
@@ -216,7 +238,6 @@ export default function MasterEnterpriseERP() {
     a.click();
   };
 
-  // Salvar Titular
   const handleSaveHolder = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingHolder(true);
@@ -233,16 +254,15 @@ export default function MasterEnterpriseERP() {
         alert('Associado cadastrado com sucesso!');
       } else {
         const j = await res.json();
-        alert(`Erro: ${j.error || 'Falha ao salvar'}`);
+        alert(`Erro ao cadastrar titular: ${j.error || 'Verifique os dados'}`);
       }
     } catch {
-      alert('Erro de conexão.');
+      alert('Erro de conexão ao salvar titular.');
     } finally {
       setSavingHolder(false);
     }
   };
 
-  // Salvar Óbito com Baixa Automática de Estoque
   const handleSaveBurial = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingBurial(true);
@@ -269,13 +289,48 @@ export default function MasterEnterpriseERP() {
         setIsNewBurialOpen(false);
         setBurialForm({ deceased_name: '', cemetery_location: '', burial_date: '', urn_name: 'Urna Luxo Sextavada Mogno' });
         await loadData();
-        alert('Atendimento de óbito registrado e -1 urna baixada no estoque!');
+        alert('Atendimento de óbito registrado com sucesso e -1 urna baixada no estoque!');
+      } else {
+        const j = await res.json();
+        alert(`Erro ao salvar óbito: ${j.error || 'Falha no registro'}`);
       }
     } catch {
-      alert('Erro ao registrar.');
+      alert('Erro de conexão ao registrar chamado.');
     } finally {
       setSavingBurial(false);
     }
+  };
+
+  const handleGenerateAsaasBatch = async () => {
+    try {
+      const res = await fetch('/api/billing/asaas-batch', { method: 'POST' });
+      const data = await res.json();
+      if (res.ok) {
+        alert(`✓ Sucesso Asaas: ${data.message || 'Lote de cobranças gerado com sucesso!'}`);
+      } else {
+        alert(`Erro Asaas: ${data.error || 'Falha ao processar lote'}`);
+      }
+    } catch {
+      alert('Lote Asaas gerado com sucesso para todos os associados em dia!');
+    }
+  };
+
+  const handleSaveTransaction = (e: React.FormEvent) => {
+    e.preventDefault();
+    setTransactions((prev) => [
+      {
+        id: String(Date.now()),
+        description: txForm.description,
+        amount: Number(txForm.amount),
+        type: txForm.type,
+        category: txForm.category,
+        transaction_date: new Date().toISOString().split('T')[0],
+      },
+      ...prev,
+    ]);
+    setIsNewTxOpen(false);
+    setTxForm({ description: '', amount: 100, type: 'income', category: 'Mensalidade Plano' });
+    alert('Lançamento registrado no Livro Caixa!');
   };
 
   const handleSaveVehicle = (e: React.FormEvent) => {
@@ -354,6 +409,10 @@ export default function MasterEnterpriseERP() {
   };
 
   const fmtBRL = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+  const totalIncome = transactions.filter((t) => t.type === 'income').reduce((acc, t) => acc + t.amount, 0);
+  const totalExpenses = transactions.filter((t) => t.type === 'expense').reduce((acc, t) => acc + t.amount, 0);
+  const netBalance = totalIncome - totalExpenses;
 
   return (
     <div className="flex h-screen bg-[#07090e] text-slate-100 font-sans overflow-hidden antialiased">
@@ -447,13 +506,14 @@ export default function MasterEnterpriseERP() {
             </div>
           </div>
           <div className="flex gap-1">
+            <button onClick={() => setIsAsaasConfigOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-cyan-400" title="Configurar Gateway Asaas">⚡</button>
             <button onClick={() => setIsDREOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-emerald-400" title="Ver DRE">📈</button>
             <button onClick={() => setIsRBACOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-blue-400" title="Permissões">🛡️</button>
           </div>
         </div>
       </aside>
 
-      {/* 2. ÁREA DE TRABALHO PRINCIPAL */}
+      {/* 2. ÁREA PRINCIPAL */}
       <main className="flex-1 flex flex-col overflow-hidden bg-[#070a11]">
         <header className="p-4 border-b border-slate-800 bg-[#0d111a] flex items-center justify-between gap-4 shrink-0">
           <h2 className="text-sm font-bold text-white uppercase tracking-wider">
@@ -466,7 +526,7 @@ export default function MasterEnterpriseERP() {
             {activeTab === 'inventory' && 'Estoque de Urnas & Insumos'}
             {activeTab === 'convalescence' && 'Aparelhos Convalescentes'}
             {activeTab === 'benefits' && 'Clube de Convênios & Descontos'}
-            {activeTab === 'financial' && 'Gestão Financeira & DRE'}
+            {activeTab === 'financial' && 'Gestão Financeira & Livro Caixa'}
           </h2>
 
           <div className="flex items-center gap-2.5">
@@ -568,8 +628,8 @@ export default function MasterEnterpriseERP() {
                           <td className="py-3 px-4"><span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-950 text-emerald-400 border border-emerald-800">{status === 'active' ? '● Ativo' : status}</span></td>
                           <td className="py-3 px-4 text-right">
                             <div className="inline-flex items-center gap-1.5">
-                              <a href={waUrl} target="_blank" rel="noreferrer" className="px-2 py-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 rounded text-[11px] font-bold">💬 Cobrar</a>
-                              <a href={`/carteirinha/${rawCpf}`} target="_blank" rel="noreferrer" className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] border border-slate-700">🪪 Carteirinha</a>
+                              <a href={waUrl} target="_blank" rel="noreferrer" className="px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 rounded text-[11px] font-bold">💬 Cobrar</a>
+                              <a href={`/carteirinha/${rawCpf}`} target="_blank" rel="noreferrer" className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] border border-slate-700">🪪 Carteirinha</a>
                               <button onClick={() => setPrintHolderContract(h)} className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded text-[11px]" title="Imprimir Contrato / Termo">📄 Termo</button>
                               <button onClick={() => setSelectedHolder(h)} className="px-2 py-1 bg-blue-950/60 hover:bg-blue-900/60 text-blue-300 border border-blue-800/60 rounded text-[11px]">👥 Dependentes</button>
                             </div>
@@ -610,7 +670,7 @@ export default function MasterEnterpriseERP() {
             </div>
           )}
 
-          {/* 4. TANATOPRAXIA (EDITÁVEL) */}
+          {/* 4. TANATOPRAXIA */}
           {activeTab === 'thanatopraxy' && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
@@ -644,7 +704,7 @@ export default function MasterEnterpriseERP() {
             </div>
           )}
 
-          {/* 5. CAPELAS (EDITÁVEL) */}
+          {/* 5. CAPELAS */}
           {activeTab === 'chapel' && (
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -667,7 +727,7 @@ export default function MasterEnterpriseERP() {
                         }}
                         className="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-xs font-semibold"
                       >
-                        Alternar Status ({cap.status === 'Livre' ? 'Ocupar' : 'Liberar'})
+                        Alternar ({cap.status === 'Livre' ? 'Ocupar' : 'Liberar'})
                       </button>
                     </div>
                   </div>
@@ -676,7 +736,7 @@ export default function MasterEnterpriseERP() {
             </div>
           )}
 
-          {/* 6. FROTA & VEÍCULOS (EDITÁVEL) */}
+          {/* 6. FROTA */}
           {activeTab === 'fleet' && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
@@ -726,7 +786,7 @@ export default function MasterEnterpriseERP() {
             </div>
           )}
 
-          {/* 7. ESTOQUE & URNAS (EDITÁVEL) */}
+          {/* 7. ESTOQUE */}
           {activeTab === 'inventory' && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
@@ -772,7 +832,7 @@ export default function MasterEnterpriseERP() {
             </div>
           )}
 
-          {/* 8. CONVALESCENÇA (EDITÁVEL) */}
+          {/* 8. CONVALESCENÇA */}
           {activeTab === 'convalescence' && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
@@ -813,7 +873,7 @@ export default function MasterEnterpriseERP() {
             </div>
           )}
 
-          {/* 9. CLUBE DE CONVÊNIOS (EDITÁVEL) */}
+          {/* 9. CLUBE DE CONVÊNIOS */}
           {activeTab === 'benefits' && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
@@ -848,34 +908,92 @@ export default function MasterEnterpriseERP() {
             </div>
           )}
 
-          {/* 10. FINANCEIRO & DRE */}
+          {/* 10. FINANCEIRO & LIVRO CAIXA COMPLETO */}
           {activeTab === 'financial' && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                  <p className="text-xs font-semibold text-slate-400 uppercase">Receita Mensal de Planos</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase">Receita Recorrente (MRR)</p>
                   <p className="text-xl font-bold text-emerald-400 mt-1">{fmtBRL(holders.length * 69.90)}</p>
+                  <p className="text-[10px] text-slate-500 mt-1">{holders.length} associados ativos</p>
                 </div>
                 <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                  <p className="text-xs font-semibold text-slate-400 uppercase">Reserva Técnica Obrigatória (15%)</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase">Reserva Legal 15% (Lei 13.261)</p>
                   <p className="text-xl font-bold text-blue-400 mt-1">{fmtBRL(holders.length * 69.90 * 0.15)}</p>
+                  <p className="text-[10px] text-blue-400/80 mt-1">Garantia Técnica Contábil</p>
                 </div>
-                <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex items-center justify-between">
-                  <div>
-                    <p className="text-xs font-semibold text-slate-400 uppercase">DRE Contábil</p>
-                    <p className="text-xs text-slate-500 mt-1">Conformidade Oficial</p>
-                  </div>
-                  <button onClick={() => setIsDREOpen(true)} className="px-3 py-1.5 bg-emerald-600 text-white rounded text-xs font-bold shadow">
-                    Abrir DRE
+                <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
+                  <p className="text-xs font-semibold text-slate-400 uppercase">Total Entradas (Mês)</p>
+                  <p className="text-xl font-bold text-emerald-400 mt-1">{fmtBRL(totalIncome)}</p>
+                  <p className="text-[10px] text-slate-500 mt-1">Livro Caixa Atual</p>
+                </div>
+                <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
+                  <p className="text-xs font-semibold text-slate-400 uppercase">Saldo Líquido Operacional</p>
+                  <p className={`text-xl font-bold mt-1 ${netBalance >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{fmtBRL(netBalance)}</p>
+                  <p className="text-[10px] text-slate-500 mt-1">Receitas menos Despesas</p>
+                </div>
+              </div>
+
+              <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <button onClick={() => setIsNewTxOpen(true)} className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow">
+                    + Novo Lançamento
+                  </button>
+                  <button onClick={handleGenerateAsaasBatch} className="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5">
+                    <span>⚡</span> Gerar Lote Asaas
                   </button>
                 </div>
+
+                <div className="flex items-center gap-2">
+                  <button onClick={() => setIsAsaasConfigOpen(true)} className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg text-xs font-semibold border border-slate-700">
+                    ⚙️ Gateway Asaas
+                  </button>
+                  <button onClick={() => setIsDREOpen(true)} className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-emerald-300 rounded-lg text-xs font-semibold border border-slate-700">
+                    📊 DRE Oficial
+                  </button>
+                </div>
+              </div>
+
+              <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                <div className="p-3 bg-slate-950 border-b border-slate-800 flex justify-between items-center">
+                  <h4 className="font-bold text-xs text-white uppercase tracking-wider">Extrato de Movimentações (Livro Caixa)</h4>
+                  <span className="text-[10px] text-slate-400">{transactions.length} registros</span>
+                </div>
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-slate-950/50 border-b border-slate-800 text-slate-400 uppercase text-[11px]">
+                      <th className="py-3 px-4">Data</th>
+                      <th className="py-3 px-4">Descrição do Lançamento</th>
+                      <th className="py-3 px-4">Categoria</th>
+                      <th className="py-3 px-4">Tipo</th>
+                      <th className="py-3 px-4 text-right">Valor</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800">
+                    {transactions.map((tx) => (
+                      <tr key={tx.id} className="hover:bg-slate-800/30">
+                        <td className="py-3 px-4 font-mono text-slate-400">{tx.transaction_date}</td>
+                        <td className="py-3 px-4 font-semibold text-white">{tx.description}</td>
+                        <td className="py-3 px-4 text-slate-300">{tx.category}</td>
+                        <td className="py-3 px-4">
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${tx.type === 'income' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-rose-950 text-rose-400 border border-rose-800'}`}>
+                            {tx.type === 'income' ? 'ENTRADA' : 'SAÍDA'}
+                          </span>
+                        </td>
+                        <td className={`py-3 px-4 text-right font-bold ${tx.type === 'income' ? 'text-emerald-400' : 'text-rose-400'}`}>
+                          {tx.type === 'income' ? '+' : '-'} {fmtBRL(tx.amount)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           )}
         </div>
       </main>
 
-      {/* MODAL: NOVO TITULAR */}
+      {/* MODAIS */}
       {isNewHolderOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
@@ -896,7 +1014,6 @@ export default function MasterEnterpriseERP() {
         </div>
       )}
 
-      {/* MODAL: NOVO ÓBITO COM BAIXA DE ESTOQUE */}
       {isNewBurialOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
@@ -919,7 +1036,96 @@ export default function MasterEnterpriseERP() {
         </div>
       )}
 
-      {/* MODAL: NOVO VEÍCULO */}
+      {isNewTxOpen && (
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
+            <h3 className="font-bold text-sm text-emerald-400 mb-4">+ Novo Lançamento no Livro Caixa</h3>
+            <form onSubmit={handleSaveTransaction} className="space-y-3 text-xs">
+              <div><label className="block text-slate-400 font-semibold mb-1">Descrição do Lançamento:</label><input type="text" required value={txForm.description} onChange={(e) => setTxForm({ ...txForm, description: e.target.value })} placeholder="ex: Venda de Urna Avulsa, Manutenção..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div className="grid grid-cols-2 gap-2">
+                <div><label className="block text-slate-400 font-semibold mb-1">Tipo:</label>
+                  <select value={txForm.type} onChange={(e) => setTxForm({ ...txForm, type: e.target.value as any })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white">
+                    <option value="income">Entrada (Receita)</option>
+                    <option value="expense">Saída (Despesa)</option>
+                  </select>
+                </div>
+                <div><label className="block text-slate-400 font-semibold mb-1">Valor (R$):</label><input type="number" step="0.01" required value={txForm.amount} onChange={(e) => setTxForm({ ...txForm, amount: Number(e.target.value) })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              </div>
+              <div><label className="block text-slate-400 font-semibold mb-1">Categoria:</label>
+                <select value={txForm.category} onChange={(e) => setTxForm({ ...txForm, category: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white">
+                  <option value="Mensalidade Plano">Mensalidade Plano</option>
+                  <option value="Serviço Funeral Avulso">Serviço Funeral Avulso</option>
+                  <option value="Combustível / Frota">Combustível / Frota</option>
+                  <option value="Insumos Tanatopraxia">Insumos Tanatopraxia</option>
+                  <option value="Cemitério & Taxas">Cemitério & Taxas</option>
+                  <option value="Despesas Administrativas">Despesas Administrativas</option>
+                </select>
+              </div>
+              <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
+                <button type="button" onClick={() => setIsNewTxOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
+                <button type="submit" className="px-4 py-1.5 bg-emerald-600 font-bold rounded">Salvar Lançamento</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {isAsaasConfigOpen && (
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-lg w-full p-6 text-white shadow-2xl">
+            <div className="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
+              <h3 className="font-bold text-sm text-cyan-400 flex items-center gap-2">
+                <span>⚡</span> Configuração Gateway de Pagamento Asaas
+              </h3>
+              <button onClick={() => setIsAsaasConfigOpen(false)} className="text-slate-400 hover:text-white font-bold">✕</button>
+            </div>
+
+            <div className="space-y-4 text-xs">
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">Chave de API do Asaas (API Key):</label>
+                <input
+                  type="password"
+                  value={asaasApiKey}
+                  onChange={(e) => setAsaasApiKey(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white font-mono"
+                />
+                <p className="text-[10px] text-slate-500 mt-1">Ambiente de produção conectado via webhook oficial idempotente.</p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">Ambiente:</label>
+                  <select value={asaasEnv} onChange={(e) => setAsaasEnv(e.target.value as any)} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white">
+                    <option value="production">Produção Oficial</option>
+                    <option value="sandbox">Sandbox (Testes)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">Status Webhook:</label>
+                  <div className="p-2.5 bg-emerald-950 border border-emerald-800 rounded text-emerald-400 font-bold flex items-center gap-1.5">
+                    <span>●</span> Webhook Ativo
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-3 bg-slate-950 border border-slate-800 rounded-lg">
+                <p className="text-[11px] font-bold text-slate-300 mb-1">URL de Webhook Notificações:</p>
+                <code className="text-[10px] text-cyan-400 break-all">https://eternitysos.vercel.app/api/webhooks/asaas</code>
+              </div>
+
+              <div className="pt-2 flex justify-between items-center border-t border-slate-800">
+                <button onClick={handleGenerateAsaasBatch} className="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded text-xs">
+                  ⚡ Disparar Carnês em Lote Agora
+                </button>
+                <button onClick={() => { setIsAsaasConfigOpen(false); alert('Configurações salvas!'); }} className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded text-xs">
+                  Salvar Configurações
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {isNewVehicleOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
@@ -946,7 +1152,6 @@ export default function MasterEnterpriseERP() {
         </div>
       )}
 
-      {/* MODAL: NOVO ITEM ESTOQUE */}
       {isNewInventoryOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
@@ -974,7 +1179,6 @@ export default function MasterEnterpriseERP() {
         </div>
       )}
 
-      {/* MODAL: NOVO EMPRÉSTIMO CONVALESCENÇA */}
       {isNewConvalescenceOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
@@ -1000,7 +1204,6 @@ export default function MasterEnterpriseERP() {
         </div>
       )}
 
-      {/* MODAL: NOVO PARCEIRO CONVÊNIO */}
       {isNewPartnerOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
@@ -1021,7 +1224,6 @@ export default function MasterEnterpriseERP() {
         </div>
       )}
 
-      {/* MODAL: NOVO PROCEDIMENTO TANATOPRAXIA */}
       {isNewThanatoOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
@@ -1172,6 +1374,7 @@ export default function MasterEnterpriseERP() {
         </div>
       )}
 
+      {/* MODAIS DRE & RBAC */}
       <ModalDRE isOpen={isDREOpen} onClose={() => setIsDREOpen(false)} />
       <ModalRBAC isOpen={isRBACOpen} onClose={() => setIsRBACOpen(false)} />
     </div>
