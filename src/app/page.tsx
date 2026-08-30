@@ -1,7 +1,7 @@
-import { HeaderQuickSearch } from '@/components/HeaderQuickSearch';
-﻿'use client';
+'use client';
 
-import React, { useState, useEffect } from 'react';
+import { HeaderQuickSearch } from '@/components/HeaderQuickSearch';
+﻿import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   LayoutDashboard,
