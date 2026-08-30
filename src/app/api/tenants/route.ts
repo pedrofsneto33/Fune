@@ -44,9 +44,9 @@ export const PATCH = withAuth(async (req, { auth }) => {
   const body = await req.json();
   const { tenant_id, name, asaas_api_key, asaas_webhook_token } = body;
 
-  const targetTenantId = auth.role === 'superadmin' ? (tenant_id || auth.tenantId) : auth.tenantId;
+  const destinationTenantId = auth.role === 'superadmin' ? (tenant_id || auth.tenantId) : auth.tenantId;
 
-  if (!targetTenantId) {
+  if (!destinationTenantId) {
     return NextResponse.json({ error: 'Tenant ID não fornecido' }, { status: 400 });
   }
 
@@ -58,7 +58,7 @@ export const PATCH = withAuth(async (req, { auth }) => {
   const { error } = await supabaseAdmin
     .from('tenants')
     .update(updateData)
-    .eq('id', targetTenantId);
+    .eq('id', destinationTenantId);
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ success: true, message: 'Configurações do tenant atualizadas.' });
