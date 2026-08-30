@@ -1,136 +1,203 @@
-﻿-- Enable uuid-ossp extension
+-- ==========================================
+-- ETERNITYOS - SCHEMA COMPLETO COM RLS E MULTI-TENANCY
+-- ==========================================
+
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Table: plans
-CREATE TABLE plans (
+-- 1. Tenants (Empresas / Funerárias)
+CREATE TABLE IF NOT EXISTS public.tenants (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name VARCHAR NOT NULL,
-    monthly_fee NUMERIC(10,2) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    cnpj VARCHAR(18) UNIQUE NOT NULL,
+    asaas_api_key TEXT,
+    asaas_webhook_token TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 2. Perfis de Usuários e Permissões (RBAC)
+CREATE TABLE IF NOT EXISTS public.user_roles (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    role VARCHAR(50) NOT NULL CHECK (role IN ('superadmin', 'admin', 'manager', 'attendant', 'driver', 'financial')),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE (user_id, tenant_id)
+);
+
+-- 3. Planos
+CREATE TABLE IF NOT EXISTS public.plans (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    name VARCHAR(150) NOT NULL,
+    monthly_fee NUMERIC(10,2) NOT NULL CHECK (monthly_fee >= 0),
     max_dependents INT NOT NULL DEFAULT 4,
     description TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Table: holders
-CREATE TABLE holders (
+-- 4. Titulares
+CREATE TABLE IF NOT EXISTS public.holders (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    full_name VARCHAR NOT NULL,
-    cpf VARCHAR(14) UNIQUE NOT NULL,
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    full_name VARCHAR(255) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
     phone VARCHAR(20) NOT NULL,
     email VARCHAR(255),
     address TEXT,
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE (tenant_id, cpf)
 );
 
--- Table: dependents
-CREATE TABLE dependents (
+-- 5. Dependentes
+CREATE TABLE IF NOT EXISTS public.dependents (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    holder_id UUID NOT NULL REFERENCES holders(id) ON DELETE CASCADE,
-    full_name VARCHAR NOT NULL,
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    holder_id UUID NOT NULL REFERENCES public.holders(id) ON DELETE CASCADE,
+    full_name VARCHAR(255) NOT NULL,
     cpf VARCHAR(14),
     relation VARCHAR(50) NOT NULL,
     birth_date DATE,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Table: contracts
-CREATE TABLE contracts (
+-- 6. Contratos
+CREATE TABLE IF NOT EXISTS public.contracts (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    holder_id UUID NOT NULL REFERENCES holders(id),
-    plan_id UUID NOT NULL REFERENCES plans(id),
-    status VARCHAR(20) NOT NULL DEFAULT 'active', -- active, grace_period, defaulted, cancelled
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    holder_id UUID NOT NULL REFERENCES public.holders(id) ON DELETE RESTRICT,
+    plan_id UUID NOT NULL REFERENCES public.plans(id) ON DELETE RESTRICT,
+    status VARCHAR(20) NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'grace_period', 'defaulted', 'cancelled')),
     start_date DATE NOT NULL DEFAULT CURRENT_DATE,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Table: payments
-CREATE TABLE payments (
+-- 7. Pagamentos / Cobranças
+CREATE TABLE IF NOT EXISTS public.payments (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    contract_id UUID NOT NULL REFERENCES contracts(id) ON DELETE CASCADE,
-    amount NUMERIC(10,2) NOT NULL,
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    contract_id UUID NOT NULL REFERENCES public.contracts(id) ON DELETE CASCADE,
+    asaas_payment_id VARCHAR(100) UNIQUE,
+    amount NUMERIC(10,2) NOT NULL CHECK (amount >= 0),
     due_date DATE NOT NULL,
     paid_at TIMESTAMPTZ,
-    status VARCHAR(20) NOT NULL DEFAULT 'pending', -- pending, paid, overdue, cancelled
-    payment_method VARCHAR(20), -- pix, boleto, cash
+    status VARCHAR(20) NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'paid', 'overdue', 'cancelled')),
+    payment_method VARCHAR(20) CHECK (payment_method IN ('pix', 'boleto', 'credit_card', 'cash')),
     pix_code TEXT,
-    pix_qr_code_url TEXT
+    pix_qr_code_url TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Table: inventory
-CREATE TABLE inventory (
+-- 8. Transações Financeiras (Livro Caixa Único)
+CREATE TABLE IF NOT EXISTS public.financial_transactions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    item_name VARCHAR(150) NOT NULL,
-    category VARCHAR(50) NOT NULL, -- urn, chemical, ornament
-    stock_quantity INT NOT NULL DEFAULT 0,
-    min_threshold INT NOT NULL DEFAULT 5
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    payment_id UUID REFERENCES public.payments(id) ON DELETE SET NULL,
+    type VARCHAR(20) NOT NULL CHECK (type IN ('income', 'expense')),
+    category VARCHAR(50) NOT NULL,
+    amount NUMERIC(10,2) NOT NULL CHECK (amount > 0),
+    description TEXT,
+    transaction_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Indexes for foreign keys and frequent search fields
-CREATE INDEX idx_dependents_holder_id ON dependents(holder_id);
-CREATE INDEX idx_contracts_holder_id ON contracts(holder_id);
-CREATE INDEX idx_contracts_plan_id ON contracts(plan_id);
-CREATE INDEX idx_payments_contract_id ON payments(contract_id);
-CREATE INDEX idx_holders_cpf ON holders(cpf);
-CREATE INDEX idx_payments_due_date ON payments(due_date);
-CREATE INDEX idx_payments_status ON payments(status);
-CREATE INDEX idx_contracts_status ON contracts(status);
+-- 9. Estoque
+CREATE TABLE IF NOT EXISTS public.inventory (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    item_name VARCHAR(150) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    stock_quantity INT NOT NULL DEFAULT 0 CHECK (stock_quantity >= 0),
+    min_threshold INT NOT NULL DEFAULT 5,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
 
--- Insert sample data
+-- 10. Capela e Sepultamentos
+CREATE TABLE IF NOT EXISTS public.chapel_burials (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    contract_id UUID REFERENCES public.contracts(id) ON DELETE SET NULL,
+    deceased_name VARCHAR(255) NOT NULL,
+    burial_date TIMESTAMPTZ NOT NULL,
+    cemetery_location VARCHAR(255),
+    status VARCHAR(50) NOT NULL DEFAULT 'scheduled',
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
 
--- Plans
-INSERT INTO plans (name, monthly_fee, max_dependents, description) VALUES
-('Plano Básico', 100.00, 4, 'Plano básico com assistência funerária essencial e cobertura para até 4 dependentes.'),
-('Plano Premium', 250.00, 6, 'Plano premium com ampla cobertura, incluindo velório, traslado e assistência para até 6 dependentes.'),
-('Plano Familiar', 400.00, 8, 'Plano familiar com cobertura completa e benefícios adicionais para até 8 dependentes.');
+-- 11. Tanatopraxia
+CREATE TABLE IF NOT EXISTS public.thanatopraxy_records (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    burial_id UUID REFERENCES public.chapel_burials(id) ON DELETE CASCADE,
+    technician_name VARCHAR(255) NOT NULL,
+    procedure_notes TEXT,
+    completed_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
 
--- Holders
-INSERT INTO holders (full_name, cpf, phone, email, address) VALUES
-('João Silva', '123.456.789-00', '(11) 98765-4321', 'joao@email.com', 'Rua A, 123, São Paulo, SP'),
-('Maria Oliveira', '987.654.321-00', '(11) 91234-5678', 'maria@email.com', 'Rua B, 456, Rio de Janeiro, RJ'),
-('Carlos Souza', '111.222.333-44', '(11) 99999-9999', 'carlos@email.com', 'Rua C, 789, Belo Horizonte, MG');
+-- 12. Parceiros de Benefícios
+CREATE TABLE IF NOT EXISTS public.benefits_partners (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    partner_name VARCHAR(255) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    discount_percentage NUMERIC(5,2),
+    contact_info TEXT,
+    active BOOLEAN NOT NULL DEFAULT true,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
 
--- Dependents
-INSERT INTO dependents (holder_id, full_name, cpf, relation, birth_date) VALUES
--- Dependents for João Silva (holder_id 1)
-((SELECT id FROM holders WHERE cpf = '123.456.789-00'), 'Ana Silva', '111.111.111-11', 'Cônjuge', '1980-05-15'),
-((SELECT id FROM holders WHERE cpf = '123.456.789-00'), 'Pedro Silva', '222.222.222-22', 'Filho', '2005-08-20'),
--- Dependents for Maria Oliveira (holder_id 2)
-((SELECT id FROM holders WHERE cpf = '987.654.321-00'), 'Carlos Oliveira', '333.333.333-33', 'Filho', '2010-12-10'),
-((SELECT id FROM holders WHERE cpf = '987.654.321-00'), 'Laura Oliveira', '444.444.444-44', 'Mãe', '1955-03-22'),
--- Dependents for Carlos Souza (holder_id 3)
-((SELECT id FROM holders WHERE cpf = '111.222.333-44'), 'Julia Souza', '555.555.555-55', 'Cônjuge', '1978-09-30'),
-((SELECT id FROM holders WHERE cpf = '111.222.333-44'), 'Felipe Souza', '666.666.666-66', 'Filho', '2000-11-05');
+-- ==========================================
+-- ROW LEVEL SECURITY (RLS)
+-- ==========================================
 
--- Contracts
-INSERT INTO contracts (holder_id, plan_id, status, start_date) VALUES
--- João Silva with Plano Básico
-((SELECT id FROM holders WHERE cpf = '123.456.789-00'), (SELECT id FROM plans WHERE name = 'Plano Básico'), 'active', CURRENT_DATE),
--- Maria Oliveira with Plano Premium
-((SELECT id FROM holders WHERE cpf = '987.654.321-00'), (SELECT id FROM plans WHERE name = 'Plano Premium'), 'active', CURRENT_DATE),
--- Carlos Souza with Plano Familiar
-((SELECT id FROM holders WHERE cpf = '111.222.333-44'), (SELECT id FROM plans WHERE name = 'Plano Familiar'), 'active', CURRENT_DATE);
+CREATE OR REPLACE FUNCTION public.get_user_tenant_id()
+RETURNS UUID AS $$
+    SELECT tenant_id FROM public.user_roles 
+    WHERE user_id = auth.uid() 
+    LIMIT 1;
+$$ LANGUAGE SQL STABLE SECURITY DEFINER;
 
--- Payments
--- We'll create a few payments for each contract, mixing statuses and dates.
--- Using relative dates for demonstration.
-INSERT INTO payments (contract_id, amount, due_date, paid_at, status, payment_method, pix_code, pix_qr_code_url) VALUES
--- Payments for João's contract (first contract)
-((SELECT id FROM contracts WHERE holder_id = (SELECT id FROM holders WHERE cpf = '123.456.789-00') LIMIT 1), 100.00, CURRENT_DATE - INTERVAL '1 month', CURRENT_DATE - INTERVAL '25 days', 'paid', 'pix', '00020126580014BR.GOV.BCB.PIX0136joao@email.com5204000053039865802BR5913Joao Silva6009SAO PAULO62070503***6304A8B1', 'https://example.com/pix1.png'),
-((SELECT id FROM contracts WHERE holder_id = (SELECT id FROM holders WHERE cpf = '123.456.789-00') LIMIT 1), 100.00, CURRENT_DATE + INTERVAL '10 days', NULL, 'pending', 'boleto', NULL, NULL),
-((SELECT id FROM contracts WHERE holder_id = (SELECT id FROM holders WHERE cpf = '123.456.789-00') LIMIT 1), 100.00, CURRENT_DATE - INTERVAL '2 months', NULL, 'overdue', 'pix', '00020126580014BR.GOV.BCB.PIX0136joao@email.com5204000053039865802BR5913Joao Silva6009SAO PAULO62070503***6304A8B2', 'https://example.com/pix2.png'),
+CREATE OR REPLACE FUNCTION public.is_superadmin()
+RETURNS BOOLEAN AS $$
+    SELECT EXISTS (
+        SELECT 1 FROM public.user_roles 
+        WHERE user_id = auth.uid() AND role = 'superadmin'
+    );
+$$ LANGUAGE SQL STABLE SECURITY DEFINER;
 
--- Payments for Maria's contract (second contract)
-((SELECT id FROM contracts WHERE holder_id = (SELECT id FROM holders WHERE cpf = '987.654.321-00') LIMIT 1), 250.00, CURRENT_DATE - INTERVAL '1 month', CURRENT_DATE - INTERVAL '20 days', 'paid', 'pix', '00020126580014BR.GOV.BCB.PIX0136maria@email.com5204000053039865802BR5913Maria Oliveira6009RIO DE JANEIRO62070503***6304B9C2', 'https://example.com/pix3.png'),
-((SELECT id FROM contracts WHERE holder_id = (SELECT id FROM holders WHERE cpf = '987.654.321-00') LIMIT 1), 250.00, CURRENT_DATE + INTERVAL '5 days', NULL, 'pending', 'boleto', NULL, NULL),
-((SELECT id FROM contracts WHERE holder_id = (SELECT id FROM holders WHERE cpf = '987.654.321-00') LIMIT 1), 250.00, CURRENT_DATE - INTERVAL '3 months', NULL, 'overdue', 'pix', '00020126580014BR.GOV.BCB.PIX0136maria@email.com5204000053039865802BR5913Maria Oliveira6009RIO DE JANEIRO62070503***6304B9C3', 'https://example.com/pix4.png'),
+-- Habilitar RLS em todas as tabelas
+ALTER TABLE public.tenants ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.plans ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.holders ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.dependents ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.contracts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.payments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.financial_transactions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.inventory ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.chapel_burials ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.thanatopraxy_records ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.benefits_partners ENABLE ROW LEVEL SECURITY;
 
--- Payments for Carlos's contract (third contract)
-((SELECT id FROM contracts WHERE holder_id = (SELECT id FROM holders WHERE cpf = '111.222.333-44') LIMIT 1), 400.00, CURRENT_DATE - INTERVAL '1 month', CURRENT_DATE - INTERVAL '15 days', 'paid', 'pix', '00020126580014BR.GOV.BCB.PIX0136carlos@email.com5204000053039865802BR5913Carlos Souza6009BELO HORIZONTE62070503***6304C0D3', 'https://example.com/pix5.png'),
-((SELECT id FROM contracts WHERE holder_id = (SELECT id FROM holders WHERE cpf = '111.222.333-44') LIMIT 1), 400.00, CURRENT_DATE + INTERVAL '15 days', NULL, 'pending', 'boleto', NULL, NULL),
-((SELECT id FROM contracts WHERE holder_id = (SELECT id FROM holders WHERE cpf = '111.222.333-44') LIMIT 1), 400.00, CURRENT_DATE - INTERVAL '2 months', NULL, 'overdue', 'pix', '00020126580014BR.GOV.BCB.PIX0136carlos@email.com5204000053039865802BR5913Carlos Souza6009BELO HORIZONTE62070503***6304C0D4', 'https://example.com/pix6.png');
-
--- Inventory
-INSERT INTO inventory (item_name, category, stock_quantity, min_threshold) VALUES
-('Urna de Madeira Modelo Clássico', 'urna', 15, 5),
-('Químico para Conservação 5L', 'químico', 30, 10),
-('Flores Artificiais Ramos Brancos', 'ornamento', 50, 20);
+-- Políticas de Isolamento por Tenant
+DO $$
+DECLARE
+    t text;
+    tables_list text[] := ARRAY[
+        'plans', 'holders', 'dependents', 'contracts', 
+        'payments', 'financial_transactions', 'inventory', 
+        'chapel_burials', 'thanatopraxy_records', 'benefits_partners'
+    ];
+BEGIN
+    FOREACH t IN ARRAY tables_list LOOP
+        EXECUTE format('DROP POLICY IF EXISTS "%s_tenant_isolation" ON public.%I;', t, t);
+        EXECUTE format('
+            CREATE POLICY "%s_tenant_isolation" ON public.%I
+            FOR ALL
+            TO authenticated
+            USING (tenant_id = public.get_user_tenant_id() OR public.is_superadmin())
+            WITH CHECK (tenant_id = public.get_user_tenant_id() OR public.is_superadmin());
+        ', t, t);
+    END LOOP;
+END $$;
