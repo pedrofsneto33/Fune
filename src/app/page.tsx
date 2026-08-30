@@ -811,7 +811,7 @@ export default function Dashboard() {
             </div>
             <div>
               <h1 className="text-sm font-bold tracking-wide uppercase text-white">Eternity OS</h1>
-          <div className="flex-1 max-w-md mx-4 hidden md:block"><HeaderQuickSearch /></div>
+          
 
               <p className="text-[11px] text-zinc-400 font-mono">v2.4 Enterprise ERP</p>
             </div>
