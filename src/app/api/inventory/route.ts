@@ -4,9 +4,10 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   const { data, error } = await supabaseAdmin
-    .from('benefits_partners')
+    .from('inventory')
     .select('*')
-    .eq('tenant_id', auth.tenantId);
+    .eq('tenant_id', auth.tenantId)
+    .order('item_name', { ascending: true });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json(data || []);
@@ -14,21 +15,20 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
 
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   const body = await req.json();
-  const { partner_name, category, discount_percentage, contact_info } = body;
+  const { item_name, category, stock_quantity, min_threshold } = body;
 
-  if (!partner_name) {
-    return NextResponse.json({ error: 'Nome do parceiro é obrigatório.' }, { status: 400 });
+  if (!item_name) {
+    return NextResponse.json({ error: 'Nome do item é obrigatório.' }, { status: 400 });
   }
 
   const { data, error } = await supabaseAdmin
-    .from('benefits_partners')
+    .from('inventory')
     .insert([{
       tenant_id: auth.tenantId,
-      partner_name: partner_name.trim(),
-      category: category || 'Comércio Geral',
-      discount_percentage: Number(discount_percentage || 10),
-      contact_info: contact_info ? contact_info.trim() : null,
-      active: true,
+      item_name: item_name.trim(),
+      category: category || 'Urna Adulto',
+      stock_quantity: Number(stock_quantity || 0),
+      min_threshold: Number(min_threshold || 2),
     }])
     .select()
     .single();

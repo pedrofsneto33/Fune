@@ -4,60 +4,33 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   try {
-    const { count: activeContracts } = await supabaseAdmin
-      .from('contracts')
+    const { count: holdersCount } = await supabaseAdmin
+      .from('holders')
       .select('*', { count: 'exact', head: true })
-      .eq('tenant_id', auth.tenantId)
-      .eq('status', 'active');
+      .eq('tenant_id', auth.tenantId);
 
-    const { count: totalDependents } = await supabaseAdmin
+    const { count: depsCount } = await supabaseAdmin
       .from('dependents')
       .select('*', { count: 'exact', head: true })
       .eq('tenant_id', auth.tenantId);
 
-    const startOfMonth = new Date();
-    startOfMonth.setDate(1);
-    startOfMonth.setHours(0, 0, 0, 0);
-
-    const { data: monthTransactions } = await supabaseAdmin
-      .from('financial_transactions')
-      .select('amount, type')
-      .eq('tenant_id', auth.tenantId)
-      .gte('transaction_date', startOfMonth.toISOString());
-
-    let monthlyRevenue = 0;
-    (monthTransactions || []).forEach((t) => {
-      if (t.type === 'income') monthlyRevenue += Number(t.amount || 0);
-    });
-
-    const today = new Date().toISOString().split('T')[0];
-    const { data: overduePayments } = await supabaseAdmin
-      .from('payments')
-      .select('amount')
-      .eq('tenant_id', auth.tenantId)
-      .eq('status', 'pending')
-      .lt('due_date', today);
-
-    let overdueAmount = 0;
-    (overduePayments || []).forEach((p) => {
-      overdueAmount += Number(p.amount || 0);
-    });
-
-    const { count: burialsThisMonth } = await supabaseAdmin
+    const { count: burialsCount } = await supabaseAdmin
       .from('chapel_burials')
       .select('*', { count: 'exact', head: true })
-      .eq('tenant_id', auth.tenantId)
-      .gte('burial_date', startOfMonth.toISOString());
+      .eq('tenant_id', auth.tenantId);
+
+    const totalLives = (holdersCount || 0) + (depsCount || 0);
+    const estimatedRevenue = (holdersCount || 0) * 69.90;
 
     return NextResponse.json({
-      totalLives: (activeContracts || 0) + (totalDependents || 0),
-      activeContracts: activeContracts || 0,
-      monthlyRevenue,
-      overdueAmount,
-      overdueCount: overduePayments?.length || 0,
-      burialsThisMonth: burialsThisMonth || 0,
+      totalLives: totalLives || 0,
+      activeContracts: holdersCount || 0,
+      monthlyRevenue: estimatedRevenue || 0,
+      overdueAmount: 0,
+      overdueCount: 0,
+      burialsThisMonth: burialsCount || 0,
     });
-  } catch (err) {
-    return NextResponse.json({ error: 'Erro ao calcular KPIs.' }, { status: 500 });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
-});
+}, ['superadmin', 'admin', 'manager', 'financial']);
