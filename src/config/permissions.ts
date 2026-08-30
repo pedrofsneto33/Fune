@@ -1,67 +1,71 @@
-﻿export type UserRole = 'admin' | 'atendente' | 'motorista';
+export type AppRole = 'superadmin' | 'admin' | 'manager' | 'attendant' | 'driver' | 'financial';
 
-export interface UserSessionProfile {
-  id: string;
-  email: string;
-  role: UserRole;
-  name: string;
-}
+export type Permission =
+  | 'canManageSettings'
+  | 'canManageUsers'
+  | 'canManageFinancial'
+  | 'canManageContracts'
+  | 'canViewBurials'
+  | 'canManageBurials'
+  | 'canViewInventory';
 
-export const ROLE_PERMISSIONS: Record<UserRole, {
-  canViewFinancialMetrics: boolean;
-  canManageContracts: boolean;
-  canManageFleet: boolean;
-  canManageInventory: boolean;
-  canManageDispatches: boolean;
-  canManageCommissions: boolean;
-  canManageSettings: boolean;
-  canDeleteRecords: boolean;
-  allowedTabs: string[];
-}> = {
-  admin: {
-    canViewFinancialMetrics: true,
-    canManageContracts: true,
-    canManageFleet: true,
-    canManageInventory: true,
-    canManageDispatches: true,
-    canManageCommissions: true,
-    canManageSettings: true,
-    canDeleteRecords: true,
-    allowedTabs: ['overview', 'associates', 'dispatches', 'fleet', 'inventory', 'commissions', 'settings']
-  },
-  atendente: {
-    canViewFinancialMetrics: true,
-    canManageContracts: true,
-    canManageFleet: false,
-    canManageInventory: false,
-    canManageDispatches: true,
-    canManageCommissions: true,
-    canManageSettings: false,
-    canDeleteRecords: false,
-    allowedTabs: ['overview', 'associates', 'dispatches', 'commissions']
-  },
-  motorista: {
-    canViewFinancialMetrics: false,
-    canManageContracts: false,
-    canManageFleet: true,
-    canManageInventory: false,
-    canManageDispatches: true,
-    canManageCommissions: false,
-    canManageSettings: false,
-    canDeleteRecords: false,
-    allowedTabs: ['dispatches', 'fleet']
-  }
+export const ROLE_PERMISSIONS: Record<AppRole, Permission[]> = {
+  superadmin: [
+    'canManageSettings',
+    'canManageUsers',
+    'canManageFinancial',
+    'canManageContracts',
+    'canViewBurials',
+    'canManageBurials',
+    'canViewInventory',
+  ],
+  admin: [
+    'canManageSettings',
+    'canManageUsers',
+    'canManageFinancial',
+    'canManageContracts',
+    'canViewBurials',
+    'canManageBurials',
+    'canViewInventory',
+  ],
+  manager: [
+    'canManageContracts',
+    'canViewBurials',
+    'canManageBurials',
+    'canViewInventory',
+  ],
+  financial: [
+    'canManageFinancial',
+    'canManageContracts',
+  ],
+  attendant: [
+    'canManageContracts',
+    'canViewBurials',
+  ],
+  driver: [
+    'canViewBurials',
+  ],
 };
 
-export function hasPermission(
-  role: UserRole,
-  permission: keyof typeof ROLE_PERMISSIONS['admin']
-): boolean {
-  const config = ROLE_PERMISSIONS[role] || ROLE_PERMISSIONS['atendente'];
-  return !!config[permission];
+export function hasPermission(role: AppRole | undefined | null, permission: Permission): boolean {
+  if (!role) return false;
+  return ROLE_PERMISSIONS[role]?.includes(permission) ?? false;
 }
 
-export function isTabAllowed(role: UserRole, tab: string): boolean {
-  const allowed = ROLE_PERMISSIONS[role]?.allowedTabs || [];
-  return allowed.includes(tab);
+export function isTabAllowed(role: AppRole | undefined | null, tab: string): boolean {
+  if (!role) return false;
+  switch (tab) {
+    case 'settings':
+      return hasPermission(role, 'canManageSettings');
+    case 'financial':
+      return hasPermission(role, 'canManageFinancial');
+    case 'contracts':
+      return hasPermission(role, 'canManageContracts');
+    case 'burials':
+      return hasPermission(role, 'canViewBurials');
+    case 'inventory':
+      return hasPermission(role, 'canViewInventory');
+    default:
+      return true;
+  }
 }
