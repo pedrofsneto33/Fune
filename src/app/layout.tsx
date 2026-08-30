@@ -1,10 +1,13 @@
-﻿import type { Metadata } from 'next';
-import './globals.css';
-import { TenantProvider } from '@/contexts/TenantContext';
+﻿import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { AuthGuard } from "@/components/AuthGuard";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Eternity SOS - Gestão Funerária & Planos',
-  description: 'Sistema Integrado de Gestão Funerária, Frotas, Plantão 24h e Planos de Assistência Familiar',
+  title: "Eternity OS - ERP Funerário",
+  description: "Sistema de Gestão para Empresas Funerárias e Planos de Assistência",
 };
 
 export default function RootLayout({
@@ -14,10 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className="dark">
-      <body className="bg-slate-950 text-slate-100 min-h-screen antialiased">
-        <TenantProvider>
+      <body className={`${inter.className} bg-zinc-950 text-zinc-100 antialiased`}>
+        <AuthGuard>
           {children}
-        </TenantProvider>
+        </AuthGuard>
       </body>
     </html>
   );
