@@ -25,47 +25,59 @@ export function ModalRBAC({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
       const { data: { session } } = await supabase.auth.getSession();
       const res = await fetch('/api/users/roles', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session?.access_token || ''}` },
-        body: JSON.stringify({ email, role }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + (session?.access_token || ''),
+        },
+        body: JSON.stringify({ email: email.trim(), role }),
       });
+
       if (res.ok) {
         alert('Permissão atualizada com sucesso!');
         onClose();
       } else {
         const j = await res.json();
-        alert(`Erro: ${j.error || 'Falha ao salvar'}`);
+        alert('Erro: ' + (j.error || 'Falha ao salvar permissão'));
       }
     } catch {
-      alert('Erro de conexão.');
+      alert('Erro de conexão ao atualizar permissão.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-      <div className="bg-slate-900 border border-slate-800 rounded-xl max-w-md w-full p-6 text-white">
-        <h3 className="font-bold text-sm mb-4">🛡️ Controle de Acesso (RBAC)</h3>
+    <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+      <div className="bg-[#0d111a] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
+        <h3 className="font-bold text-sm text-blue-400 mb-4 flex items-center gap-2">
+          <span>🛡️</span> Controle de Acesso e Papéis (RBAC)
+        </h3>
         <form onSubmit={handleSave} className="space-y-3 text-xs">
-          <input
-            type="email"
-            required
-            placeholder="E-mail do usuário..."
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full bg-slate-950 border border-slate-800 p-2.5 rounded text-white"
-          />
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            className="w-full bg-slate-950 border border-slate-800 p-2.5 rounded text-white"
-          >
-            {ROLES.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
-          </select>
-          <div className="flex justify-end gap-2 pt-2">
-            <button type="button" onClick={onClose} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
-            <button type="submit" disabled={loading} className="px-4 py-1.5 bg-blue-600 font-bold rounded">
-              {loading ? 'Salvando...' : 'Salvar'}
+          <div>
+            <label className="block text-slate-400 font-semibold mb-1">E-mail do Colaborador:</label>
+            <input
+              type="email"
+              required
+              placeholder="funcionario@funeraria.com.br"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-lg text-white"
+            />
+          </div>
+          <div>
+            <label className="block text-slate-400 font-semibold mb-1">Cargo / Nível de Acesso:</label>
+            <select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-lg text-white"
+            >
+              {ROLES.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
+            </select>
+          </div>
+          <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
+            <button type="button" onClick={onClose} className="px-3.5 py-1.5 bg-slate-800 rounded-lg text-slate-300 font-semibold">Cancelar</button>
+            <button type="submit" disabled={loading} className="px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow">
+              {loading ? 'Salvando...' : 'Salvar Permissão'}
             </button>
           </div>
         </form>

@@ -1,124 +1,93 @@
-﻿'use client';
-import React, { useEffect, useState } from 'react';
-import { X, TrendingUp, TrendingDown, DollarSign, PieChart, ShieldAlert } from 'lucide-react';
-import { supabase } from '@/lib/supabaseClient';
+'use client';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 
 export function ModalDRE({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const [loading, setLoading] = useState(true);
-  const [metrics, setMetrics] = useState({
-    totalRevenue: 0,
-    totalCosts: 0,
-    mrr: 0,
-    netProfit: 0
+  const [data, setData] = useState({
+    grossRevenue: 0,
+    operatingCosts: 0,
+    adminExpenses: 0,
+    netResult: 0,
   });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (isOpen) fetchFinancialData();
-  }, [isOpen]);
+    if (isOpen) {
+      setLoading(true);
+      supabase
+        .from('financial_transactions')
+        .select('amount, type, category')
+        .then(({ data: txs, error }) => {
+          if (!error && txs) {
+            let grossRevenue = 0;
+            let operatingCosts = 0;
+            let adminExpenses = 0;
 
-  const fetchFinancialData = async () => {
-    setLoading(true);
-    try {
-      // Busca contratos ativos para calcular MRR
-      const { data: contracts } = await supabase.from('contracts').select('id, plans(monthly_fee), status').eq('status', 'active');
-      const calculatedMrr = (contracts || []).reduce((acc, c: any) => acc + (c.plans?.monthly_fee || 59.90), 0);
+            txs.forEach((t) => {
+              const val = Number(t.amount || 0);
+              if (t.type === 'income') {
+                grossRevenue += val;
+              } else if (t.type === 'expense') {
+                if (t.category === 'Despesas Administrativas') {
+                  adminExpenses += val;
+                } else {
+                  operatingCosts += val;
+                }
+              }
+            });
 
-      // Busca entradas financeiras / caixa
-      const { data: cash } = await supabase.from('cash_flow').select('amount, type');
-      const totalRev = (cash || []).filter(c => c.type === 'receita').reduce((acc, c) => acc + Number(c.amount), 0) + calculatedMrr;
-      const totalExp = (cash || []).filter(c => c.type === 'despesa' || c.type === 'custo').reduce((acc, c) => acc + Number(c.amount), 0) || (calculatedMrr * 0.35); // estimativa operacional padrão
-
-      setMetrics({
-        totalRevenue: totalRev,
-        totalCosts: totalExp,
-        mrr: calculatedMrr,
-        netProfit: totalRev - totalExp
-      });
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
+            const netResult = grossRevenue - (operatingCosts + adminExpenses);
+            setData({ grossRevenue, operatingCosts, adminExpenses, netResult });
+          }
+          setLoading(false);
+        });
     }
-  };
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
+  const fmtBRL = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-      <div className="w-full max-w-2xl bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
-        
-        {/* Header */}
-        <div className="p-5 border-b border-zinc-800 flex items-center justify-between bg-zinc-950/40">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400">
-              <PieChart className="w-5 h-5" />
+    <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+      <div className="bg-[#0d111a] border border-slate-800 rounded-xl max-w-lg w-full p-6 text-white shadow-2xl">
+        <div className="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
+          <h3 className="font-bold text-sm text-emerald-400 flex items-center gap-2">
+            <span>📊</span> Demonstrativo de Resultado do Exercício (DRE)
+          </h3>
+          <button onClick={onClose} className="text-slate-400 hover:text-white font-bold">✕</button>
+        </div>
+
+        {loading ? (
+          <p className="text-xs text-slate-400 py-6 text-center">Calculando demonstrativo contábil...</p>
+        ) : (
+          <div className="space-y-3 text-xs">
+            <div className="flex justify-between py-2 border-b border-slate-800">
+              <span className="text-slate-300 font-semibold">(+) RECEITA BRUTA OPERACIONAL</span>
+              <span className="text-emerald-400 font-bold">{fmtBRL(data.grossRevenue)}</span>
             </div>
-            <div>
-              <h2 className="text-base font-bold text-white tracking-wide">DRE Gerencial & Fluxo de Caixa Consolidado</h2>
-              <p className="text-xs text-zinc-400">Análise de lucratividade, MRR e custos operacionais</p>
+            <div className="flex justify-between py-2 border-b border-slate-800">
+              <span className="text-slate-300 font-semibold">(-) CUSTOS OPERACIONAIS (Urnas, Tanato, Cemitério)</span>
+              <span className="text-rose-400 font-bold">{fmtBRL(data.operatingCosts)}</span>
+            </div>
+            <div className="flex justify-between py-2 border-b border-slate-800">
+              <span className="text-slate-300 font-semibold">(-) DESPESAS ADMINISTRATIVAS & FROTA</span>
+              <span className="text-rose-400 font-bold">{fmtBRL(data.adminExpenses)}</span>
+            </div>
+            <div className="flex justify-between py-3 bg-slate-950 p-3 rounded-lg border border-slate-800 text-sm mt-4">
+              <span className="font-extrabold text-white">(=) RESULTADO LÍQUIDO DO PERÍODO</span>
+              <span className={data.netResult >= 0 ? 'font-extrabold text-emerald-400' : 'font-extrabold text-rose-400'}>
+                {fmtBRL(data.netResult)}
+              </span>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 rounded-lg transition">
-            <X className="w-5 h-5" />
+        )}
+
+        <div className="flex justify-end pt-4 border-t border-slate-800 mt-4">
+          <button onClick={onClose} className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-xs font-semibold">
+            Fechar Relatório
           </button>
         </div>
-
-        {/* Content */}
-        <div className="p-6 space-y-5">
-          {loading ? (
-            <div className="py-12 text-center text-xs text-zinc-400 animate-pulse">Calculando balanço financeiro...</div>
-          ) : (
-            <>
-              {/* Cards Resumo */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div className="bg-zinc-950 border border-zinc-800 p-3.5 rounded-xl">
-                  <span className="text-[10px] uppercase font-bold text-zinc-400 block mb-1">MRR Recorrente</span>
-                  <span className="text-sm font-extrabold text-emerald-400 font-mono">R$ {metrics.mrr.toFixed(2).replace('.', ',')}</span>
-                </div>
-                <div className="bg-zinc-950 border border-zinc-800 p-3.5 rounded-xl">
-                  <span className="text-[10px] uppercase font-bold text-zinc-400 block mb-1">Receita Total</span>
-                  <span className="text-sm font-extrabold text-white font-mono">R$ {metrics.totalRevenue.toFixed(2).replace('.', ',')}</span>
-                </div>
-                <div className="bg-zinc-950 border border-zinc-800 p-3.5 rounded-xl">
-                  <span className="text-[10px] uppercase font-bold text-zinc-400 block mb-1">Custos Operacionais</span>
-                  <span className="text-sm font-extrabold text-red-400 font-mono">R$ {metrics.totalCosts.toFixed(2).replace('.', ',')}</span>
-                </div>
-                <div className="bg-zinc-950 border border-zinc-800 p-3.5 rounded-xl">
-                  <span className="text-[10px] uppercase font-bold text-zinc-400 block mb-1">Lucro Líquido (EBITDA)</span>
-                  <span className={`text-sm font-extrabold font-mono ${metrics.netProfit >= 0 ? 'text-blue-400' : 'text-red-400'}`}>
-                    R$ {metrics.netProfit.toFixed(2).replace('.', ',')}
-                  </span>
-                </div>
-              </div>
-
-              {/* Demonstrativo Estruturado */}
-              <div className="bg-zinc-950/60 border border-zinc-800 rounded-xl p-4 space-y-3 text-xs">
-                <h3 className="font-bold text-zinc-300 uppercase tracking-wider border-b border-zinc-800 pb-2">Demonstrativo de Resultado do Exercício</h3>
-                
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-zinc-400">(+) Receita Operacional Bruta (MRR + Avulsos)</span>
-                  <span className="font-mono text-white font-bold">R$ {metrics.totalRevenue.toFixed(2).replace('.', ',')}</span>
-                </div>
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-zinc-400">(-) Custos Operacionais (Frota, Óbitos, Insumos)</span>
-                  <span className="font-mono text-red-400 font-bold">- R$ {metrics.totalCosts.toFixed(2).replace('.', ',')}</span>
-                </div>
-                <div className="flex justify-between items-center py-2.5 border-t border-zinc-800 font-bold text-sm">
-                  <span className="text-emerald-400">(=) Resultado Operacional Líquido</span>
-                  <span className="font-mono text-emerald-400">R$ {metrics.netProfit.toFixed(2).replace('.', ',')}</span>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* Footer */}
-        <div className="p-4 border-t border-zinc-800 bg-zinc-950/40 flex justify-end">
-          <button onClick={onClose} className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg text-xs font-medium transition">
-            Fechar
-          </button>
-        </div>
-
       </div>
     </div>
   );
