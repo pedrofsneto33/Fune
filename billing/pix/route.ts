@@ -125,4 +125,4 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
-}, ['superadmin', 'admin', 'manager', 'attendant', 'financial']);
+}, ['superadmin', 'admin', 'manager', 'attendant', 'financial'])
