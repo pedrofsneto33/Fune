@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from './supabaseAdmin';
 
 export interface AuthContext {
@@ -23,7 +23,7 @@ export function withAuth(
 
       if (!token) {
         return NextResponse.json(
-          { error: 'Não autorizado: cabeçalho de autenticação ausente ou inválido.' },
+          { error: 'Nao autorizado: cabecalho de autenticacao ausente ou invalido.' },
           { status: 401 }
         );
       }
@@ -32,7 +32,7 @@ export function withAuth(
 
       if (authError || !user) {
         return NextResponse.json(
-          { error: 'Sessão inválida ou expirada.' },
+          { error: 'Sessao invalida ou expirada.' },
           { status: 401 }
         );
       }
@@ -43,44 +43,55 @@ export function withAuth(
         .eq('user_id', user.id)
         .maybeSingle();
 
-      // Auto-vínculo seguro: vincula o administrador autenticado ao tenant no primeiro login
       if (!roleRecord) {
-        let tenantId = null;
-        const { data: existingTenant } = await supabaseAdmin
-          .from('tenants')
-          .select('id')
-          .limit(1)
-          .maybeSingle();
+        // Bootstrap seguro: so permite auto-vinculo como superadmin se o
+        // sistema INTEIRO ainda nao tiver nenhum usuario vinculado a
+        // nenhum tenant (ou seja, e literalmente o primeiro acesso de
+        // todos). Depois que existir um unico registro em user_roles,
+        // este bloco nunca mais executa para ninguem - novos usuarios
+        // precisam ser cadastrados por um admin via /api/users/roles.
+        const { count } = await supabaseAdmin
+          .from('user_roles')
+          .select('*', { count: 'exact', head: true });
 
-        if (existingTenant?.id) {
-          tenantId = existingTenant.id;
-        } else {
-          const { data: createdTenant } = await supabaseAdmin
+        if (count === 0) {
+          let tenantId: string | null = null;
+          const { data: existingTenant } = await supabaseAdmin
             .from('tenants')
-            .insert([{ name: 'Funerária Matriz', cnpj: '00.000.000/0001-00' }])
             .select('id')
-            .single();
-          tenantId = createdTenant?.id;
-        }
+            .limit(1)
+            .maybeSingle();
 
-        if (tenantId) {
-          const { data: createdRole } = await supabaseAdmin
-            .from('user_roles')
-            .insert([{
-              user_id: user.id,
-              tenant_id: tenantId,
-              role: 'admin',
-            }])
-            .select('tenant_id, role')
-            .single();
+          if (existingTenant?.id) {
+            tenantId = existingTenant.id;
+          } else {
+            const { data: createdTenant } = await supabaseAdmin
+              .from('tenants')
+              .insert([{ name: 'Funeraria Matriz', cnpj: '00.000.000/0001-00' }])
+              .select('id')
+              .single();
+            tenantId = createdTenant?.id || null;
+          }
 
-          roleRecord = createdRole;
+          if (tenantId) {
+            const { data: createdRole } = await supabaseAdmin
+              .from('user_roles')
+              .insert([{
+                user_id: user.id,
+                tenant_id: tenantId,
+                role: 'superadmin',
+              }])
+              .select('tenant_id, role')
+              .single();
+
+            roleRecord = createdRole;
+          }
         }
       }
 
       if (!roleRecord) {
         return NextResponse.json(
-          { error: 'Acesso negado: nenhum vínculo de empresa/tenant encontrado para este usuário.' },
+          { error: 'Acesso negado: seu usuario ainda nao foi vinculado a nenhuma unidade. Peca a um administrador para conceder seu acesso.' },
           { status: 403 }
         );
       }
@@ -88,7 +99,7 @@ export function withAuth(
       if (allowedRoles && allowedRoles.length > 0) {
         if (!allowedRoles.includes(roleRecord.role) && roleRecord.role !== 'superadmin') {
           return NextResponse.json(
-            { error: 'Acesso negado: seu perfil não tem permissão para realizar esta ação.' },
+            { error: 'Acesso negado: seu perfil nao tem permissao para realizar esta acao.' },
             { status: 403 }
           );
         }
@@ -105,9 +116,9 @@ export function withAuth(
         params: resolvedParams,
       });
     } catch (err: unknown) {
-      console.error('Erro na execução da rota protegida:', err);
+      console.error('Erro na execucao da rota protegida:', err);
       return NextResponse.json(
-        { error: 'Erro interno no servidor ao processar autenticação.' },
+        { error: 'Erro interno no servidor ao processar autenticacao.' },
         { status: 500 }
       );
     }
