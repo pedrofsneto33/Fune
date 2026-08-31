@@ -37,13 +37,48 @@ export function withAuth(
         );
       }
 
-      const { data: roleRecord, error: roleError } = await supabaseAdmin
+      let { data: roleRecord } = await supabaseAdmin
         .from('user_roles')
         .select('tenant_id, role')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
 
-      if (roleError || !roleRecord) {
+      // Auto-vínculo seguro: vincula o administrador autenticado ao tenant no primeiro login
+      if (!roleRecord) {
+        let tenantId = null;
+        const { data: existingTenant } = await supabaseAdmin
+          .from('tenants')
+          .select('id')
+          .limit(1)
+          .maybeSingle();
+
+        if (existingTenant?.id) {
+          tenantId = existingTenant.id;
+        } else {
+          const { data: createdTenant } = await supabaseAdmin
+            .from('tenants')
+            .insert([{ name: 'Funerária Matriz', cnpj: '00.000.000/0001-00' }])
+            .select('id')
+            .single();
+          tenantId = createdTenant?.id;
+        }
+
+        if (tenantId) {
+          const { data: createdRole } = await supabaseAdmin
+            .from('user_roles')
+            .insert([{
+              user_id: user.id,
+              tenant_id: tenantId,
+              role: 'admin',
+            }])
+            .select('tenant_id, role')
+            .single();
+
+          roleRecord = createdRole;
+        }
+      }
+
+      if (!roleRecord) {
         return NextResponse.json(
           { error: 'Acesso negado: nenhum vínculo de empresa/tenant encontrado para este usuário.' },
           { status: 403 }
@@ -69,7 +104,7 @@ export function withAuth(
         },
         params: resolvedParams,
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Erro na execução da rota protegida:', err);
       return NextResponse.json(
         { error: 'Erro interno no servidor ao processar autenticação.' },
