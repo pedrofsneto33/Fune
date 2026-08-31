@@ -3,14 +3,18 @@ import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
-  const { data, error } = await supabaseAdmin
-    .from('chapel_burials')
-    .select('*, contracts(holders(full_name, cpf))')
-    .eq('tenant_id', auth.tenantId)
-    .order('burial_date', { ascending: false });
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('chapel_burials')
+      .select('*')
+      .eq('tenant_id', auth.tenantId)
+      .order('burial_date', { ascending: false });
 
-  if (error) return NextResponse.json({ error: (error as Error).message }, { status: 500 });
-  return NextResponse.json(data || []);
+    if (error) return NextResponse.json([]);
+    return NextResponse.json(data || []);
+  } catch (err: unknown) {
+    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+  }
 }, ['superadmin', 'admin', 'manager', 'attendant', 'driver']);
 
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
