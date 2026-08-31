@@ -7,7 +7,7 @@ import { isTabAllowed, hasPermission, UserRole } from '@/config/permissions';
 import { ModalRBAC } from '@/components/dashboard/ModalRBAC';
 import { ModalDRE } from '@/components/dashboard/ModalDRE';
 
-// Interfaces de Tipagem
+// Interfaces
 interface Dependent {
   id: string;
   full_name: string;
@@ -88,6 +88,7 @@ export default function MasterEternityOS() {
   // 1. Estado de Autenticação
   const [session, setSession] = useState<any>(null);
   const [authChecking, setAuthChecking] = useState(true);
+  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
@@ -107,8 +108,20 @@ export default function MasterEternityOS() {
   // 4. Coleções de Dados
   const [holders, setHolders] = useState<Holder[]>([]);
   const [burials, setBurials] = useState<Burial[]>([]);
-  const [inventory, setInventory] = useState<InventoryItem[]>([]);
-  const [partners, setPartners] = useState<Partner[]>([]);
+  const [inventory, setInventory] = useState<InventoryItem[]>([
+    { id: '1', item_name: 'Urna Luxo Sextavada Mogno', category: 'Urna Adulto', stock_quantity: 8, min_threshold: 4 },
+    { id: '2', item_name: 'Urna Standard Envernizada', category: 'Urna Adulto', stock_quantity: 12, min_threshold: 5 },
+    { id: '3', item_name: 'Urna Infantil Branca com Anjo', category: 'Urna Infantil', stock_quantity: 3, min_threshold: 2 },
+    { id: '4', item_name: 'Véu de Renda Especial com Flores', category: 'Ornamentação', stock_quantity: 25, min_threshold: 10 },
+  ]);
+
+  const [partners, setPartners] = useState<Partner[]>([
+    { id: '1', partner_name: 'Farmácia Pague Menos Teresina', category: 'Medicamentos & Farmácia', discount_percentage: 25, contact_info: '(86) 3222-1000' },
+    { id: '2', partner_name: 'Clínica Médica São Camilo', category: 'Consultas & Exames', discount_percentage: 30, contact_info: '(86) 3215-4000' },
+    { id: '3', partner_name: 'Laboratório Central Diagnósticos', category: 'Exames Laboratoriais', discount_percentage: 35, contact_info: '(86) 3230-8000' },
+    { id: '4', partner_name: 'Óticas Diniz Centro', category: 'Ótica & Óculos', discount_percentage: 20, contact_info: '(86) 3221-5500' },
+  ]);
+
   const [thanatopraxyRecords, setThanatopraxyRecords] = useState<any[]>([]);
 
   const [vehicles, setVehicles] = useState<Vehicle[]>([
@@ -120,7 +133,7 @@ export default function MasterEternityOS() {
   const [convalescence, setConvalescence] = useState<ConvalescenceItem[]>([
     { id: '1', item_name: 'Cadeira de Rodas Dobrável', holder_name: 'Carlos Eduardo Silva', loan_date: '15/08/2026', status: 'Ativo' },
     { id: '2', item_name: 'Par de Muletas Canadenses', holder_name: 'Mariana Costa Ferreira', loan_date: '20/08/2026', status: 'Ativo' },
-    { id: '3', item_name: 'Cama Hospitalar Articulada', holder_name: 'pedro', loan_date: '10/08/2026', status: 'Ativo' },
+    { id: '3', item_name: 'Cama Hospitalar Articulada', holder_name: 'Pedro Silva', loan_date: '10/08/2026', status: 'Ativo' },
   ]);
 
   const [chapels, setChapels] = useState([
@@ -137,11 +150,11 @@ export default function MasterEternityOS() {
     { id: '5', description: 'Taxa Cemitério Municipal', amount: 180.00, type: 'expense', category: 'Cemitério & Taxas', transaction_date: '2026-08-29' },
   ]);
 
-  // 5. Filtros
+  // Filtros
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'defaulted'>('all');
 
-  // 6. Modais de Cadastro
+  // Modais
   const [isNewHolderOpen, setIsNewHolderOpen] = useState(false);
   const [isNewBurialOpen, setIsNewBurialOpen] = useState(false);
   const [isNewVehicleOpen, setIsNewVehicleOpen] = useState(false);
@@ -154,7 +167,7 @@ export default function MasterEternityOS() {
   const [isDREOpen, setIsDREOpen] = useState(false);
   const [isRBACOpen, setIsRBACOpen] = useState(false);
 
-  // 7. Modais de Impressão e Dependentes
+  // Impressões e Dependentes
   const [selectedHolder, setSelectedHolder] = useState<Holder | null>(null);
   const [printHolderContract, setPrintHolderContract] = useState<Holder | null>(null);
   const [printBurialGuide, setPrintBurialGuide] = useState<Burial | null>(null);
@@ -173,7 +186,6 @@ export default function MasterEternityOS() {
   const [thanatoForm, setThanatoForm] = useState({ deceased_name: '', technician: 'Dr. Roberto Tanatólogo', procedure: 'Aspiração e Formolização Padrão' });
   const [txForm, setTxForm] = useState({ description: '', amount: 100, type: 'income' as 'income' | 'expense', category: 'Mensalidade Plano' });
 
-  // Gateway Asaas
   const [asaasApiKey, setAsaasApiKey] = useState('$aact_YTU5YTE0M2M6N2I5ZDY0OTg4N2I5ZDY0OTg4N2I5ZDY0OTg4');
   const [asaasEnv, setAsaasEnv] = useState<'sandbox' | 'production'>('production');
 
@@ -192,41 +204,46 @@ export default function MasterEternityOS() {
     return fetch(url, { ...options, headers });
   };
 
-  // Carregar Dados da Empresa
+  // Carregar Dados da Empresa do Banco de Dados
   async function loadData() {
     setLoading(true);
     try {
+      // 1. Titulares
       const res = await authFetch('/api/holders');
       if (res.ok) {
         const data = await res.json();
-        setHolders(Array.isArray(data) ? data : []);
+        if (Array.isArray(data)) setHolders(data);
       }
 
+      // 2. Óbitos
       const bRes = await authFetch('/api/chapel/burials');
       if (bRes.ok) {
         const bData = await bRes.json();
-        setBurials(Array.isArray(bData) ? bData : []);
+        if (Array.isArray(bData)) setBurials(bData);
       }
 
+      // 3. Estoque
       const invRes = await authFetch('/api/inventory');
       if (invRes.ok) {
         const invData = await invRes.json();
         if (Array.isArray(invData) && invData.length > 0) setInventory(invData);
       }
 
+      // 4. Parceiros
       const partRes = await authFetch('/api/benefits/partners');
       if (partRes.ok) {
         const partData = await partRes.json();
         if (Array.isArray(partData) && partData.length > 0) setPartners(partData);
       }
 
+      // 5. Tanatopraxia
       const tanRes = await authFetch('/api/thanatopraxy');
       if (tanRes.ok) {
         const tanData = await tanRes.json();
         if (Array.isArray(tanData) && tanData.length > 0) setThanatopraxyRecords(tanData);
       }
     } catch (e) {
-      console.error('Erro ao carregar dados do ERP:', e);
+      console.warn('Erro ao carregar dados do ERP:', e);
     } finally {
       setLoading(false);
     }
@@ -265,23 +282,39 @@ export default function MasterEternityOS() {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Login
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginLoading(true);
     setLoginError('');
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: loginEmail.trim(),
-        password: loginPassword,
-      });
+      if (authMode === 'login') {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: loginEmail.trim(),
+          password: loginPassword,
+        });
 
-      if (error) {
-        setLoginError('E-mail ou senha incorretos.');
-      } else if (data.session) {
-        setSession(data.session);
-        setLoginEmail('');
-        setLoginPassword('');
+        if (error) {
+          setLoginError(error.message === 'Invalid login credentials' ? 'E-mail ou senha incorretos.' : error.message);
+        } else if (data.session) {
+          setSession(data.session);
+          setLoginEmail('');
+          setLoginPassword('');
+        }
+      } else {
+        const { data, error } = await supabase.auth.signUp({
+          email: loginEmail.trim(),
+          password: loginPassword,
+        });
+
+        if (error) {
+          setLoginError(error.message);
+        } else if (data.session) {
+          setSession(data.session);
+          alert('✓ Conta criada com sucesso! Você está conectado como Administrador.');
+        } else {
+          alert('✓ Cadastro realizado! Faça login com o seu e-mail e senha.');
+          setAuthMode('login');
+        }
       }
     } catch {
       setLoginError('Erro de conexão ao autenticar.');
@@ -290,7 +323,6 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Logout Oficial
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setSession(null);
@@ -331,7 +363,7 @@ export default function MasterEternityOS() {
     a.click();
   };
 
-  // Salvar Titular
+  // Salvar Titular no Supabase
   const handleSaveHolder = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingHolder(true);
@@ -341,11 +373,14 @@ export default function MasterEternityOS() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(holderForm),
       });
+
       if (res.ok) {
+        const j = await res.json();
+        if (j.holder) setHolders((prev) => [j.holder, ...prev]);
         setIsNewHolderOpen(false);
         setHolderForm({ full_name: '', cpf: '', phone: '', email: '', address: '', plan_name: 'Familiar Ouro', monthly_fee: 69.90 });
-        await loadData();
         alert('Associado cadastrado com sucesso!');
+        loadData();
       } else {
         const j = await res.json();
         alert(`Erro ao cadastrar titular: ${j.error || 'Verifique os dados'}`);
@@ -357,7 +392,7 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Salvar Óbito
+  // Salvar Óbito no Supabase e Atualizar Tela
   const handleSaveBurial = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingBurial(true);
@@ -373,10 +408,13 @@ export default function MasterEternityOS() {
       });
 
       if (res.ok) {
+        const newBurial = await res.json();
+        setBurials((prev) => [newBurial, ...prev]);
         setIsNewBurialOpen(false);
         setBurialForm({ deceased_name: '', cemetery_location: '', burial_date: '', urn_name: 'Urna Luxo Sextavada Mogno' });
-        await loadData();
-        alert('Atendimento de óbito registrado com sucesso!');
+        setActiveTab('burials');
+        alert('✓ Atendimento de óbito gravado com sucesso no Supabase!');
+        loadData();
       } else {
         const j = await res.json();
         alert(`Erro ao salvar óbito: ${j.error || 'Falha no registro'}`);
@@ -443,10 +481,12 @@ export default function MasterEternityOS() {
         body: JSON.stringify(inventoryForm),
       });
       if (res.ok) {
+        const newI = await res.json();
+        setInventory((prev) => [...prev, newI]);
         setIsNewInventoryOpen(false);
         setInventoryForm({ item_name: '', category: 'Urna Adulto', stock_quantity: 10, min_threshold: 3 });
-        await loadData();
         alert('Item de estoque adicionado!');
+        loadData();
       }
     } catch {
       alert('Erro ao salvar item.');
@@ -474,10 +514,12 @@ export default function MasterEternityOS() {
         body: JSON.stringify(partnerForm),
       });
       if (res.ok) {
+        const newP = await res.json();
+        setPartners((prev) => [...prev, newP]);
         setIsNewPartnerOpen(false);
         setPartnerForm({ partner_name: '', category: 'Medicamentos & Farmácia', discount_percentage: 20, contact_info: '' });
-        await loadData();
         alert('Parceiro credenciado com sucesso!');
+        loadData();
       }
     } catch {
       alert('Erro ao salvar parceiro.');
@@ -494,10 +536,12 @@ export default function MasterEternityOS() {
         body: JSON.stringify(thanatoForm),
       });
       if (res.ok) {
+        const newT = await res.json();
+        setThanatopraxyRecords((prev) => [newT, ...prev]);
         setIsNewThanatoOpen(false);
         setThanatoForm({ deceased_name: '', technician: 'Dr. Roberto Tanatólogo', procedure: 'Aspiração e Formolização Padrão' });
-        await loadData();
         alert('Procedimento de tanatopraxia registrado!');
+        loadData();
       }
     } catch {
       alert('Erro ao gravar procedimento.');
@@ -523,7 +567,7 @@ export default function MasterEternityOS() {
       if (!error && data) {
         setDepName('');
         setSelectedHolder((prev) => prev ? { ...prev, dependents: [...(prev.dependents || []), data] } : null);
-        await loadData();
+        loadData();
       }
     } finally {
       setSavingDep(false);
@@ -536,7 +580,7 @@ export default function MasterEternityOS() {
   const totalExpenses = transactions.filter((t) => t.type === 'expense').reduce((acc, t) => acc + t.amount, 0);
   const netBalance = totalIncome - totalExpenses;
 
-  // 7. TELA DE LOGIN SE NÃO ESTIVER AUTENTICADO
+  // TELA DE LOGIN SE NÃO ESTIVER AUTENTICADO
   if (!authChecking && !session) {
     return (
       <div className="min-h-screen bg-[#07090e] text-slate-100 flex items-center justify-center p-4 font-sans antialiased">
@@ -547,6 +591,21 @@ export default function MasterEternityOS() {
             </div>
             <h1 className="text-xl font-bold text-white tracking-wide">ETERNITY<span className="text-emerald-400">OS</span></h1>
             <p className="text-xs text-slate-400">Acesso Restrito ao ERP Funerário</p>
+          </div>
+
+          <div className="flex bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs">
+            <button
+              onClick={() => setAuthMode('login')}
+              className={`flex-1 py-1.5 rounded-md font-bold transition ${authMode === 'login' ? 'bg-slate-800 text-white' : 'text-slate-400'}`}
+            >
+              Entrar
+            </button>
+            <button
+              onClick={() => setAuthMode('signup')}
+              className={`flex-1 py-1.5 rounded-md font-bold transition ${authMode === 'signup' ? 'bg-slate-800 text-white' : 'text-slate-400'}`}
+            >
+              Primeiro Acesso / Criar Conta
+            </button>
           </div>
 
           {loginError && (
@@ -585,7 +644,7 @@ export default function MasterEternityOS() {
               disabled={loginLoading}
               className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold rounded-lg transition shadow-md text-xs"
             >
-              {loginLoading ? 'Validando Acesso...' : 'Entrar no ERP'}
+              {loginLoading ? 'Processando...' : authMode === 'login' ? 'Entrar no ERP' : 'Criar Conta de Acesso'}
             </button>
           </form>
         </div>
@@ -595,7 +654,7 @@ export default function MasterEternityOS() {
 
   return (
     <div className="flex h-screen bg-[#07090e] text-slate-100 font-sans overflow-hidden antialiased">
-      {/* 1. SIDEBAR COM TODOS OS MÓDULOS E RBAC */}
+      {/* 1. SIDEBAR COM TODOS OS MÓDULOS E RBAC (isTabAllowed) */}
       <aside className="w-64 bg-[#0d111a] border-r border-slate-800 flex flex-col justify-between shrink-0 select-none">
         <div>
           <div className="p-4 border-b border-slate-800 flex items-center gap-2.5">
@@ -705,7 +764,7 @@ export default function MasterEternityOS() {
           </nav>
         </div>
 
-        {/* Rodapé do Usuário com Logout */}
+        {/* Rodapé com Perfil e Logout */}
         <div className="p-3 border-t border-slate-800 bg-slate-900/50 flex items-center justify-between">
           <div className="flex items-center gap-2 overflow-hidden">
             <div className="w-7 h-7 rounded-full bg-slate-800 text-slate-300 text-xs font-bold flex items-center justify-center shrink-0">
