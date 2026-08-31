@@ -46,7 +46,7 @@ export function ModalDRE({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
 
   if (!isOpen) return null;
 
-  const fmtBRL = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  const fmtBRL = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
   return (
     <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">

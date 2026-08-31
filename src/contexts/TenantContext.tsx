@@ -1,6 +1,7 @@
 ﻿'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabaseClient';
 
 export interface Tenant {
   id: string;
@@ -35,9 +36,14 @@ export function TenantProvider({ children }: { children: React.ReactNode }) {
   const [currentTenant, setCurrentTenantState] = useState<Tenant | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchTenants = async () => {
+    const fetchTenants = async () => {
     try {
-      const res = await fetch('/api/tenants');
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch('/api/tenants', {
+        headers: session?.access_token
+          ? { Authorization: `Bearer ${session.access_token}` }
+          : {},
+      });
       const json = await res.json();
       if (json.success && json.tenants?.length > 0) {
         setTenants(json.tenants);

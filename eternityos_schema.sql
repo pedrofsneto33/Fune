@@ -1,4 +1,4 @@
-﻿-- ==========================================
+-- ==========================================
 -- ETERNITYOS - SCHEMA COMPLETO COM RLS E MULTI-TENANCY
 -- ==========================================
 
@@ -8,9 +8,20 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TABLE IF NOT EXISTS public.tenants (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(255) NOT NULL,
+    trade_name VARCHAR(255),
     cnpj VARCHAR(18) UNIQUE NOT NULL,
+    phone_emergency VARCHAR(20),
+    primary_color VARCHAR(7) DEFAULT '#1e40af',
+    logo_url TEXT,
+    municipal_license_number VARCHAR(100),
+    issuance_city VARCHAR(255),
+    technical_manager VARCHAR(255),
+    status VARCHAR(20) DEFAULT 'active' CHECK (status IN ('active', 'inactive', 'suspended')),
     asaas_api_key TEXT,
     asaas_webhook_token TEXT,
+    asaas_environment VARCHAR(20) DEFAULT 'production' CHECK (asaas_environment IN ('sandbox', 'production')),
+    asaas_wallet_id VARCHAR(255),
+    pix_key VARCHAR(255),
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -407,3 +418,4 @@ BEGIN
         ', t, t);
     END LOOP;
 END $$;
+
