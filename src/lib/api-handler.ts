@@ -57,7 +57,7 @@ export function withAuth(
         } else {
           const { data: createdTenant } = await supabaseAdmin
             .from('tenants')
-            .insert([{ name: 'Funerária Matriz', cnpj: '00.000.000/0001-00' }])
+            .insert([{ name: 'Funerária Matriz', trade_name: 'Eternity Assistência Familiar', cnpj: '00.000.000/0001-00' }])
             .select('id')
             .single();
           tenantId = createdTenant?.id;
