@@ -1,14 +1,13 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
+import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest) {
+export const GET = withAuth(async (req: NextRequest, { auth }) => {
   try {
-    const { searchParams } = new URL(req.url);
-    const tenantId = searchParams.get('tenant_id') || 'a0000000-0000-0000-0000-000000000001';
+    const tenantId = auth.tenantId;
 
-    // 1. Buscar transações de receita do mês atual
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
     const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59).toISOString();
@@ -29,18 +28,17 @@ export async function GET(req: NextRequest) {
 
     (transactions || []).forEach(tx => {
       const val = Number(tx.amount) || 0;
-      if (tx.type === 'receita') {
+      if (tx.type === 'income') {
         grossRevenue += val;
-      } else if (tx.type === 'despesa') {
+      } else if (tx.type === 'expense') {
         expenses += val;
       }
     });
 
     const netRevenue = Math.max(0, grossRevenue - expenses);
-    const solvencyTarget = grossRevenue * 0.10;      // 10% Faturamento Bruto (Art. 8º, I)
-    const technicalTarget = netRevenue * 0.12;      // 12% Receita Líquida (Art. 8º, II)
+    const solvencyTarget = grossRevenue * 0.10;
+    const technicalTarget = netRevenue * 0.12;
 
-    // 2. Buscar status do mês gravado
     const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-01`;
     const { data: currentReserve } = await supabaseAdmin
       .from('regulatory_reserves')
@@ -66,4 +64,4 @@ export async function GET(req: NextRequest) {
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
-}
+}, ['superadmin', 'admin', 'financial']);

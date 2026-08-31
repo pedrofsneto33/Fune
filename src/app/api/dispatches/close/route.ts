@@ -1,23 +1,14 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { withAuth } from '@/lib/api-handler';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export const dynamic = 'force-dynamic';
 
-function getSupabaseClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-  const supabaseServiceKey =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-    'placeholder-key';
-  return createClient(supabaseUrl, supabaseServiceKey);
-}
-
-export async function POST(req: NextRequest) {
+export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const body = await req.json();
     const {
       dispatch_id,
-      tenant_id,
       vehicle_id,
       odometer_end,
       fuel_liters_added = 0,
@@ -27,36 +18,39 @@ export async function POST(req: NextRequest) {
       user_role
     } = body;
 
+    const tenant_id = auth.tenantId;
+
     if (!dispatch_id || odometer_end === undefined || odometer_end === null) {
       return NextResponse.json(
-        { error: 'Parâmetros obrigatórios ausentes (dispatch_id, odometer_end).' },
+        { error: 'Parametros obrigatorios ausentes (dispatch_id, odometer_end).' },
         { status: 400 }
       );
     }
 
-    const supabase = getSupabaseClient();
-
-    // 1. Obter dados do despacho atual
-    const { data: dispatch, error: dErr } = await supabase
+    const { data: dispatch, error: dErr } = await supabaseAdmin
       .from('dispatches')
       .select('*')
       .eq('id', dispatch_id)
+      .eq('tenant_id', tenant_id)
       .single();
+
+    if (dErr || !dispatch) {
+      return NextResponse.json({ error: 'Despacho nao localizado nesta unidade.' }, { status: 404 });
+    }
 
     const odometerStart = Number(dispatch?.odometer_start || 0);
     const odometerEndNum = Number(odometer_end);
 
     if (odometerStart > 0 && odometerEndNum < odometerStart) {
       return NextResponse.json(
-        { error: `Odômetro final (${odometerEndNum} km) não pode ser menor que o inicial (${odometerStart} km).` },
+        { error: `Odometro final (${odometerEndNum} km) nao pode ser menor que o inicial (${odometerStart} km).` },
         { status: 400 }
       );
     }
 
     const kmTraveled = odometerStart > 0 ? odometerEndNum - odometerStart : 0;
 
-    // 2. Atualizar o despacho
-    const { data: updatedDispatch, error: updateErr } = await supabase
+    const { data: updatedDispatch, error: updateErr } = await supabaseAdmin
       .from('dispatches')
       .update({
         status: 'Finalizado',
@@ -68,26 +62,30 @@ export async function POST(req: NextRequest) {
         closure_notes: notes || null
       })
       .eq('id', dispatch_id)
+      .eq('tenant_id', tenant_id)
       .select()
       .single();
 
-    // 3. Atualizar o veículo na frota (odômetro atual e liberar status)
+    if (updateErr) {
+      return NextResponse.json({ error: updateErr.message }, { status: 500 });
+    }
+
     const targetVehicleId = vehicle_id || dispatch?.vehicle_id;
     if (targetVehicleId) {
-      await supabase
+      await supabaseAdmin
         .from('vehicles')
         .update({
           odometer: odometerEndNum,
-          status: 'Disponível',
+          status: 'Disponivel',
           last_maintenance_check: new Date().toISOString()
         })
-        .eq('id', targetVehicleId);
+        .eq('id', targetVehicleId)
+        .eq('tenant_id', tenant_id);
     }
 
-    // 4. Gravar log de auditoria
-    await supabase.from('dispatch_audit_logs').insert([
+    await supabaseAdmin.from('dispatch_audit_logs').insert([
       {
-        tenant_id: tenant_id || dispatch?.tenant_id || 'matriz',
+        tenant_id,
         dispatch_id,
         action: 'FINALIZADO',
         actor_name: closed_by || 'Operador',
@@ -114,4 +112,4 @@ export async function POST(req: NextRequest) {
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Erro interno ao fechar despacho.' }, { status: 500 });
   }
-}
+}, ['superadmin', 'admin', 'manager', 'driver']);

@@ -1,32 +1,37 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
+import { withAuth } from '@/lib/api-handler';
+import { getAsaasConfigForTenant } from '@/lib/asaasClient';
 
-export async function POST(req: NextRequest) {
+export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const body = await req.json();
     const { contractId, amount, customerName, customerCpf, customerPhone } = body;
 
-    const apiKey = process.env.ASAAS_API_KEY;
-    const isSandbox = process.env.ASAAS_ENV !== 'production';
-    const baseUrl = isSandbox 
-      ? 'https://sandbox.asaas.com/api/v3' 
-      : 'https://api.asaas.com/v3';
-
-    if (!apiKey) {
+    if (!amount || Number(amount) <= 0) {
       return NextResponse.json(
-        { error: 'Chave de API do Asaas não configurada no servidor.' },
-        { status: 500 }
-      );
-    }
-
-    const cleanCpf = (customerCpf || '').replace(/\D/g, '');
-    if (!cleanCpf || cleanCpf.length !== 11) {
-      return NextResponse.json(
-        { error: 'CPF inválido ou não informado. O Asaas exige CPF regular para emissão de PIX.' },
+        { error: 'Valor da cobranca (amount) e obrigatorio e deve ser maior que zero.' },
         { status: 400 }
       );
     }
 
-    // 1. Localizar ou Criar Cliente no Asaas por CPF
+    const asaasConfig = await getAsaasConfigForTenant(auth.tenantId);
+    if (!asaasConfig.apiKey) {
+      return NextResponse.json(
+        { error: 'Chave de API do Asaas nao configurada para esta unidade.' },
+        { status: 400 }
+      );
+    }
+    const baseUrl = asaasConfig.baseUrl;
+    const apiKey = asaasConfig.apiKey;
+
+    const cleanCpf = (customerCpf || '').replace(/\D/g, '');
+    if (!cleanCpf || cleanCpf.length !== 11) {
+      return NextResponse.json(
+        { error: 'CPF invalido ou nao informado. O Asaas exige CPF regular para emissao de PIX.' },
+        { status: 400 }
+      );
+    }
+
     const searchRes = await fetch(`${baseUrl}/customers?cpfCnpj=${cleanCpf}`, {
       headers: { 'access_token': apiKey }
     });
@@ -48,7 +53,7 @@ export async function POST(req: NextRequest) {
         })
       });
       const createData = await createRes.json();
-      
+
       if (createData.errors) {
         return NextResponse.json(
           { error: 'Erro ao cadastrar cliente no Asaas', details: createData.errors },
@@ -58,7 +63,6 @@ export async function POST(req: NextRequest) {
       customerId = createData.id;
     }
 
-    // 2. Criar Cobrança PIX
     const today = new Date().toISOString().split('T')[0];
     const paymentRes = await fetch(`${baseUrl}/payments`, {
       method: 'POST',
@@ -69,7 +73,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         customer: customerId,
         billingType: 'PIX',
-        value: Number(amount) || 89.90,
+        value: Number(amount),
         dueDate: today,
         description: `Mensalidade Plano Funeral - Contrato ${contractId || 'Geral'}`,
         externalReference: contractId || undefined
@@ -80,12 +84,11 @@ export async function POST(req: NextRequest) {
 
     if (paymentData.errors) {
       return NextResponse.json(
-        { error: 'Erro ao gerar cobrança no Asaas', details: paymentData.errors },
+        { error: 'Erro ao gerar cobranca no Asaas', details: paymentData.errors },
         { status: 400 }
       );
     }
 
-    // 3. Obter QR Code PIX Real do Gateway
     const qrRes = await fetch(`${baseUrl}/payments/${paymentData.id}/pixQrCode`, {
       headers: { 'access_token': apiKey }
     });
@@ -103,8 +106,8 @@ export async function POST(req: NextRequest) {
   } catch (err: any) {
     console.error('Erro na rota PIX:', err);
     return NextResponse.json(
-      { error: 'Erro interno ao processar cobrança PIX.', details: err.message },
+      { error: 'Erro interno ao processar cobranca PIX.', details: err.message },
       { status: 500 }
     );
   }
-}
+}, ['superadmin', 'admin', 'manager', 'attendant', 'financial']);

@@ -1,17 +1,15 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
+import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest) {
+export const GET = withAuth(async (req: NextRequest, { auth }) => {
   try {
-    const { searchParams } = new URL(req.url);
-    const tenantId = searchParams.get('tenant_id') || 'a0000000-0000-0000-0000-000000000001';
-
     const { data: commissions, error } = await supabaseAdmin
       .from('commissions')
       .select('id, seller_name, amount, status, created_at, tenant_id, contracts(id, holders(name))')
-      .eq('tenant_id', tenantId)
+      .eq('tenant_id', auth.tenantId)
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -22,4 +20,4 @@ export async function GET(req: NextRequest) {
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
-}
+}, ['superadmin', 'admin', 'manager', 'financial']);

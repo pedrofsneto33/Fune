@@ -1,22 +1,13 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { withAuth } from '@/lib/api-handler';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export const dynamic = 'force-dynamic';
 
-function getSupabaseClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-  const supabaseServiceKey =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-    'placeholder-key';
-  return createClient(supabaseUrl, supabaseServiceKey);
-}
-
-export async function POST(req: NextRequest) {
+export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const body = await req.json();
     const {
-      tenant_id,
       dispatch_id,
       action,
       actor_name,
@@ -26,20 +17,18 @@ export async function POST(req: NextRequest) {
       driver_name
     } = body;
 
-    if (!tenant_id || !dispatch_id || !action || !actor_name) {
+    if (!dispatch_id || !action || !actor_name) {
       return NextResponse.json(
-        { error: 'Campos obrigatórios: tenant_id, dispatch_id, action, actor_name' },
+        { error: 'Campos obrigatorios: dispatch_id, action, actor_name' },
         { status: 400 }
       );
     }
 
-    const supabase = getSupabaseClient();
-
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('dispatch_audit_logs')
       .insert([
         {
-          tenant_id,
+          tenant_id: auth.tenantId,
           dispatch_id,
           action,
           actor_name,
@@ -62,28 +51,21 @@ export async function POST(req: NextRequest) {
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Erro ao registrar log' }, { status: 500 });
   }
-}
+}, ['superadmin', 'admin', 'manager', 'attendant', 'driver', 'financial']);
 
-export async function GET(req: NextRequest) {
+export const GET = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const { searchParams } = new URL(req.url);
     const dispatchId = searchParams.get('dispatch_id');
-    const tenantId = searchParams.get('tenant_id');
 
-    if (!dispatchId && !tenantId) {
-      return NextResponse.json({ error: 'Informe dispatch_id ou tenant_id' }, { status: 400 });
-    }
-
-    const supabase = getSupabaseClient();
-
-    let query = supabase
+    let query = supabaseAdmin
       .from('dispatch_audit_logs')
       .select('*')
+      .eq('tenant_id', auth.tenantId)
       .order('created_at', { ascending: false })
       .limit(50);
 
     if (dispatchId) query = query.eq('dispatch_id', dispatchId);
-    if (tenantId) query = query.eq('tenant_id', tenantId);
 
     const { data, error } = await query;
 
@@ -95,4 +77,4 @@ export async function GET(req: NextRequest) {
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Erro ao consultar logs' }, { status: 500 });
   }
-}
+}, ['superadmin', 'admin', 'manager', 'attendant', 'driver', 'financial']);

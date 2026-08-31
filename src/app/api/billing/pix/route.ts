@@ -1,19 +1,19 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
+import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { getAsaasConfigForTenant } from '@/lib/asaasClient';
 
 export const dynamic = 'force-dynamic';
 
-export async function POST(req: NextRequest) {
+export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const body = await req.json();
-    const { payment_id, tenant_id } = body;
+    const { payment_id } = body;
 
     if (!payment_id) {
-      return NextResponse.json({ error: 'payment_id é obrigatório.' }, { status: 400 });
+      return NextResponse.json({ error: 'payment_id e obrigatorio.' }, { status: 400 });
     }
 
-    // 1. Obter os dados do pagamento e titular
     const { data: payment, error: payError } = await supabaseAdmin
       .from('payments')
       .select(`
@@ -32,17 +32,17 @@ export async function POST(req: NextRequest) {
         )
       `)
       .eq('id', payment_id)
+      .eq('tenant_id', auth.tenantId)
       .single();
 
     if (payError || !payment) {
-      return NextResponse.json({ error: 'Pagamento não localizado.' }, { status: 404 });
+      return NextResponse.json({ error: 'Pagamento nao localizado.' }, { status: 404 });
     }
 
-    const effectiveTenantId = tenant_id || payment.tenant_id;
-    const asaasConfig = await getAsaasConfigForTenant(effectiveTenantId);
+    const asaasConfig = await getAsaasConfigForTenant(auth.tenantId);
 
     if (!asaasConfig.apiKey) {
-      return NextResponse.json({ error: 'Chave do Asaas não configurada para esta unidade.' }, { status: 400 });
+      return NextResponse.json({ error: 'Chave do Asaas nao configurada para esta unidade.' }, { status: 400 });
     }
 
     const holder = (payment.contracts as any)?.holders;
@@ -50,12 +50,11 @@ export async function POST(req: NextRequest) {
     const customerCpf = holder?.cpf?.replace(/\D/g, '') || '00000000000';
     const amount = Number(payment.amount);
 
-    // 2. Criar ou Obter Cliente no Asaas
     const customerRes = await fetch(`${asaasConfig.baseUrl}/customers?cpfCnpj=${customerCpf}`, {
       headers: { 'access_token': asaasConfig.apiKey }
     });
     const customerJson = await customerRes.json();
-    
+
     let customerId = customerJson?.data?.[0]?.id;
 
     if (!customerId) {
@@ -75,7 +74,6 @@ export async function POST(req: NextRequest) {
       customerId = newCust.id;
     }
 
-    // 3. Criar Cobrança PIX no Asaas
     const chargeRes = await fetch(`${asaasConfig.baseUrl}/payments`, {
       method: 'POST',
       headers: {
@@ -94,16 +92,14 @@ export async function POST(req: NextRequest) {
 
     const chargeData = await chargeRes.json();
     if (!chargeRes.ok || !chargeData.id) {
-      return NextResponse.json({ error: chargeData.errors?.[0]?.description || 'Erro ao gerar cobrança no Asaas.' }, { status: 400 });
+      return NextResponse.json({ error: chargeData.errors?.[0]?.description || 'Erro ao gerar cobranca no Asaas.' }, { status: 400 });
     }
 
-    // 4. Obter QR Code PIX
     const qrRes = await fetch(`${asaasConfig.baseUrl}/payments/${chargeData.id}/pixQrCode`, {
       headers: { 'access_token': asaasConfig.apiKey }
     });
     const qrData = await qrRes.json();
 
-    // 5. Atualizar pagamento local com dados do Asaas
     await supabaseAdmin
       .from('payments')
       .update({
@@ -124,4 +120,4 @@ export async function POST(req: NextRequest) {
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
-}
+}, ['superadmin', 'admin', 'manager', 'attendant', 'financial']);
