@@ -4,20 +4,22 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export const dynamic = 'force-dynamic';
 
-// GET: Listar colaboradores e permissoes da unidade do usuario logado
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   try {
+    const { searchParams } = new URL(req.url);
+    const queryTenantId = searchParams.get('tenant_id');
+    const targetTenantId = (auth.role === 'superadmin' && queryTenantId) ? queryTenantId : auth.tenantId;
+
     const { data: roles, error } = await supabaseAdmin
       .from('user_roles')
       .select('id, user_id, role, created_at')
-      .eq('tenant_id', auth.tenantId)
+      .eq('tenant_id', targetTenantId)
       .order('created_at', { ascending: true });
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    // Resolve o e-mail de cada usuario a partir do Supabase Auth
     const { data: usersData } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 });
     const emailById = new Map((usersData?.users || []).map(u => [u.id, u.email]));
 
@@ -32,11 +34,15 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
   }
 }, ['superadmin', 'admin']);
 
-// POST: Conceder ou atualizar a permissao de um colaborador por e-mail
+// POST: Conceder ou atualizar a permissao de um colaborador por e-mail.
+// Um superadmin pode informar tenant_id explicitamente para convidar o
+// primeiro usuario de uma empresa recem-cadastrada (onboarding). Qualquer
+// outro perfil sempre concede acesso dentro do proprio tenant, mesmo que
+// tente enviar um tenant_id diferente.
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const body = await req.json();
-    const { email, role } = body;
+    const { email, role, tenant_id } = body;
 
     const validRoles = ['superadmin', 'admin', 'manager', 'attendant', 'driver', 'financial'];
 
@@ -47,12 +53,12 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       return NextResponse.json({ error: 'Cargo invalido.' }, { status: 400 });
     }
 
-    // Apenas superadmin pode conceder o cargo de superadmin
     if (role === 'superadmin' && auth.role !== 'superadmin') {
       return NextResponse.json({ error: 'Somente um Super Administrador pode conceder este nivel de acesso.' }, { status: 403 });
     }
 
-    // Resolve o user_id a partir do e-mail informado
+    const targetTenantId = (auth.role === 'superadmin' && tenant_id) ? tenant_id : auth.tenantId;
+
     const { data: usersData, error: listErr } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 });
     if (listErr) {
       return NextResponse.json({ error: 'Erro ao consultar usuarios cadastrados.' }, { status: 500 });
@@ -69,11 +75,10 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       );
     }
 
-    // Grava/atualiza o vinculo, sempre dentro do tenant de quem esta concedendo
     const { data: saved, error: upsertErr } = await supabaseAdmin
       .from('user_roles')
       .upsert(
-        [{ user_id: targetUser.id, tenant_id: auth.tenantId, role }],
+        [{ user_id: targetUser.id, tenant_id: targetTenantId, role }],
         { onConflict: 'user_id,tenant_id' }
       )
       .select()
