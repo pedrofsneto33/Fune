@@ -6,6 +6,7 @@ import { formatWhatsAppMessage } from '@/lib/whatsapp';
 import { isTabAllowed, hasPermission, UserRole } from '@/config/permissions';
 import { ModalRBAC } from '@/components/dashboard/ModalRBAC';
 import { ModalDRE } from '@/components/dashboard/ModalDRE';
+import { TenantSettingsTab } from '@/components/tabs/TenantSettingsTab';
 
 // Interfaces
 interface Dependent {
@@ -166,6 +167,7 @@ export default function MasterEternityOS() {
   const [isAsaasConfigOpen, setIsAsaasConfigOpen] = useState(false);
   const [isDREOpen, setIsDREOpen] = useState(false);
   const [isRBACOpen, setIsRBACOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   // Impressões e Dependentes
   const [selectedHolder, setSelectedHolder] = useState<Holder | null>(null);
@@ -784,6 +786,9 @@ export default function MasterEternityOS() {
             )}
             {hasPermission(userRole, 'canManageUsers') && (
               <button onClick={() => setIsRBACOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-blue-400" title="Permissões RBAC">🛡️</button>
+            )}
+            {hasPermission(userRole, 'canManageSettings') && (
+              <button onClick={() => setIsSettingsOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-cyan-400" title="Configurações da Empresa (logo, cores, dados)">⚙️</button>
             )}
             <button
               onClick={handleLogout}
@@ -1674,6 +1679,29 @@ export default function MasterEternityOS() {
       {/* MODAIS DRE & RBAC */}
       <ModalDRE isOpen={isDREOpen} onClose={() => setIsDREOpen(false)} />
       <ModalRBAC isOpen={isRBACOpen} onClose={() => setIsRBACOpen(false)} />
+
+      {/* MODAL CONFIGURAÇÕES DA EMPRESA */}
+      {isSettingsOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 overflow-y-auto">
+          <div className="relative w-full max-w-4xl rounded-2xl border border-slate-700 bg-slate-900 shadow-2xl my-8">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
+              <h3 className="text-sm font-bold text-cyan-400 flex items-center gap-2">
+                <span>⚙️</span> Configurações da Empresa
+              </h3>
+              <button
+                onClick={() => setIsSettingsOpen(false)}
+                className="text-slate-400 hover:text-white font-bold text-lg"
+                title="Fechar"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="max-h-[80vh] overflow-y-auto">
+              <TenantSettingsTab />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

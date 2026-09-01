@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { Settings, ShieldCheck, Key, RefreshCw, Copy, Check, Building2, Upload, Image as ImageIcon } from 'lucide-react';
@@ -44,10 +44,20 @@ export function TenantSettingsTab() {
 
   const webhookUrl = 'https://eternitysos.vercel.app/api/webhooks/asaas';
 
+  const getAuthHeaders = async (): Promise<Record<string, string>> => {
+    const { data: { session } } = await supabase.auth.getSession();
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (session?.access_token) {
+      headers['Authorization'] = `Bearer ${session.access_token}`;
+    }
+    return headers;
+  };
+
   const loadTenants = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/tenants');
+      const headers = await getAuthHeaders();
+      const res = await fetch('/api/tenants', { headers });
       const data = await res.json();
       if (data.success && data.tenants?.length > 0) {
         setTenants(data.tenants);
@@ -121,9 +131,10 @@ export function TenantSettingsTab() {
 
     setSaving(true);
     try {
+      const headers = await getAuthHeaders();
       const res = await fetch('/api/tenants', {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({
           tenant_id: selectedTenantId,
           trade_name: tradeName,
