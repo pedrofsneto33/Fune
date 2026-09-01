@@ -177,6 +177,7 @@ export default function MasterEternityOS() {
   // Forms
   const [holderForm, setHolderForm] = useState({ full_name: '', cpf: '', phone: '', email: '', address: '', plan_name: 'Familiar Ouro', monthly_fee: 69.90 });
   const [deletingHolderId, setDeletingHolderId] = useState<string | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [savingHolder, setSavingHolder] = useState(false);
   const [editingHolder, setEditingHolder] = useState<Holder | null>(null);
   const [isImportOpen, setIsImportOpen] = useState(false);
@@ -719,7 +720,9 @@ export default function MasterEternityOS() {
   return (
     <div className="flex h-screen bg-[#07090e] text-slate-100 font-sans overflow-hidden antialiased">
       {/* 1. SIDEBAR COM TODOS OS MÓDULOS E RBAC (isTabAllowed) */}
-      <aside className="w-64 bg-[#0d111a] border-r border-slate-800 flex flex-col justify-between shrink-0 select-none">
+      {/* Overlay mobile para a sidebar */}
+      <div className={`fixed inset-0 bg-black/60 z-40 md:hidden ${isSidebarOpen ? 'block' : 'hidden'}`} onClick={() => setIsSidebarOpen(false)} />
+      <aside className={`fixed md:static inset-y-0 left-0 z-50 w-64 bg-[#0d111a] border-r border-slate-800 flex flex-col justify-between shrink-0 select-none transform transition-transform duration-200 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
         <div>
           <div className="p-4 border-b border-slate-800 flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 font-bold text-base shadow">
@@ -731,7 +734,7 @@ export default function MasterEternityOS() {
             </div>
           </div>
 
-          <div className="p-3">
+          <div className="p-3" onClick={() => setIsSidebarOpen(false)}>
             <div className="bg-slate-900 border border-slate-800 rounded-lg p-2.5 flex items-center justify-between shadow-sm">
               <div className="flex items-center gap-2 overflow-hidden">
                 <span className="text-emerald-400 text-xs">🏢</span>
@@ -865,8 +868,10 @@ export default function MasterEternityOS() {
 
       {/* 2. ÁREA DE TRABALHO PRINCIPAL */}
       <main className="flex-1 flex flex-col overflow-hidden bg-[#070a11]">
-        <header className="p-4 border-b border-slate-800 bg-[#0d111a] flex items-center justify-between gap-4 shrink-0">
-          <h2 className="text-sm font-bold text-white uppercase tracking-wider">
+        <header className="p-4 border-b border-slate-800 bg-[#0d111a] flex items-center justify-between gap-3 sm:gap-4 shrink-0">
+          <div className="flex items-center gap-2 min-w-0">
+            <button onClick={() => setIsSidebarOpen(true)} className="md:hidden p-2 bg-slate-900 border border-slate-800 rounded-lg text-slate-300 leading-none" aria-label="Abrir menu">&#9776;</button>
+            <h2 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider truncate">
             {activeTab === 'executive' && 'Painel Executivo & Indicadores'}
             {activeTab === 'holders' && 'Gestão de Associados & Planos'}
             {activeTab === 'burials' && 'Central de Plantão 24h & Óbitos'}
@@ -877,7 +882,7 @@ export default function MasterEternityOS() {
             {activeTab === 'convalescence' && 'Aparelhos Convalescentes'}
             {activeTab === 'benefits' && 'Clube de Convênios & Descontos'}
             {activeTab === 'financial' && 'Gestão Financeira & Livro Caixa'}
-          </h2>
+          </h2></div>
 
           <div className="flex items-center gap-2.5">
             {hasPermission(userRole, 'canManageBurials') && (
@@ -916,7 +921,7 @@ export default function MasterEternityOS() {
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
           {/* PAINEL EXECUTIVO */}
           {activeTab === 'executive' && isTabAllowed(userRole, 'executive') && (
             <div className="space-y-6">
@@ -970,7 +975,7 @@ export default function MasterEternityOS() {
                 </div>
               </div>
 
-              <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-hidden shadow-sm">
+              <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-x-auto shadow-sm">
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
                     <tr className="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase text-[11px]">
@@ -1020,8 +1025,8 @@ export default function MasterEternityOS() {
           {/* PLANTÃO 24H & ÓBITOS */}
           {activeTab === 'burials' && isTabAllowed(userRole, 'burials') && (
             <div className="space-y-4">
-              <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-hidden">
-                <table className="w-full text-left text-xs">
+              <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-x-auto">
+                <table className="w-full min-w-[640px] text-left text-xs">
                   <thead className="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase text-[11px]">
                     <tr><th className="py-3 px-4">Pessoa Falecida</th><th className="py-3 px-4">Local / Cemitério</th><th className="py-3 px-4">Data e Hora</th><th className="py-3 px-4">Status</th><th className="py-3 px-4 text-right">Guia</th></tr>
                   </thead>
@@ -1057,8 +1062,8 @@ export default function MasterEternityOS() {
                 </button>
               </div>
 
-              <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-hidden">
-                <table className="w-full text-left text-xs">
+              <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-x-auto">
+                <table className="w-full min-w-[640px] text-left text-xs">
                   <thead className="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase text-[11px]">
                     <tr><th className="py-3 px-4">Falecido</th><th className="py-3 px-4">Tanatólogo Responsável</th><th className="py-3 px-4">Procedimento Realizado</th><th className="py-3 px-4">Conclusão</th><th className="py-3 px-4">Status</th></tr>
                   </thead>
@@ -1219,8 +1224,8 @@ export default function MasterEternityOS() {
                 </button>
               </div>
 
-              <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-hidden">
-                <table className="w-full text-left text-xs">
+              <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-x-auto">
+                <table className="w-full min-w-[640px] text-left text-xs">
                   <thead className="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase text-[11px]">
                     <tr><th className="py-3 px-4">Equipamento</th><th className="py-3 px-4">Associado</th><th className="py-3 px-4">Data Empréstimo</th><th className="py-3 px-4">Status</th><th className="py-3 px-4 text-right">Ação</th></tr>
                   </thead>
@@ -1323,7 +1328,7 @@ export default function MasterEternityOS() {
                 </div>
               </div>
 
-              <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-hidden shadow-sm">
+              <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-x-auto shadow-sm">
                 <div className="p-3 bg-slate-950 border-b border-slate-800 flex justify-between items-center">
                   <h4 className="font-bold text-xs text-white uppercase tracking-wider">Extrato de Movimentações (Livro Caixa)</h4>
                   <span className="text-[10px] text-slate-400">{transactions.length} registros</span>
@@ -1364,8 +1369,8 @@ export default function MasterEternityOS() {
 
       {/* MODAL TITULAR */}
       {isNewHolderOpen && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
             <h3 className="font-bold text-sm text-emerald-400 mb-4">{editingHolder ? ('Editar Associado: ' + editingHolder.full_name) : '+ Cadastrar Novo Titular'}</h3>
             <form onSubmit={handleSaveHolder} className="space-y-3 text-xs">
               <div><label className="block text-slate-400 font-semibold mb-1">Nome Completo:</label><input type="text" required value={holderForm.full_name} onChange={(e) => setHolderForm({ ...holderForm, full_name: e.target.value })} placeholder="Nome do titular..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
@@ -1387,8 +1392,8 @@ export default function MasterEternityOS() {
       {/* MODAL ÓBITO */}
             {/* MODAL IMPORTAR CSV */}
       {isImportOpen && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-lg w-full p-6 text-white shadow-2xl">
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-lg w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
             <h3 className="font-bold text-sm text-sky-400 mb-1">Importar Associados via CSV</h3>
             <p className="text-[10px] text-slate-400 mb-3">Cole os dados do Excel/CSV: uma linha por associado, separados por ponto-e-virgula. Formato: <span className="font-mono text-slate-300">Nome;CPF;Telefone;Email;Endereco</span>. Cabecalho na primeira linha e ignorado automaticamente.</p>
             <textarea
@@ -1420,8 +1425,8 @@ export default function MasterEternityOS() {
         </div>
       )}
       {isNewBurialOpen && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
             <h3 className="font-bold text-sm text-rose-400 mb-4">🚨 Registrar Chamado de Plantão / Óbito</h3>
             <form onSubmit={handleSaveBurial} className="space-y-3 text-xs">
               <div><label className="block text-slate-400 font-semibold mb-1">Nome do Falecido:</label><input type="text" required value={burialForm.deceased_name} onChange={(e) => setBurialForm({ ...burialForm, deceased_name: e.target.value })} placeholder="Nome da pessoa falecida..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
@@ -1438,8 +1443,8 @@ export default function MasterEternityOS() {
 
       {/* MODAL LANÇAMENTO FINANCEIRO */}
       {isNewTxOpen && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
             <h3 className="font-bold text-sm text-emerald-400 mb-4">+ Novo Lançamento no Livro Caixa</h3>
             <form onSubmit={handleSaveTransaction} className="space-y-3 text-xs">
               <div><label className="block text-slate-400 font-semibold mb-1">Descrição do Lançamento:</label><input type="text" required value={txForm.description} onChange={(e) => setTxForm({ ...txForm, description: e.target.value })} placeholder="ex: Venda de Urna Avulsa, Manutenção..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
@@ -1473,8 +1478,8 @@ export default function MasterEternityOS() {
 
       {/* MODAL CONFIGURAÇÃO ASAAS */}
       {isAsaasConfigOpen && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-lg w-full p-6 text-white shadow-2xl">
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-lg w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
             <div className="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
               <h3 className="font-bold text-sm text-cyan-400 flex items-center gap-2">
                 <span>⚡</span> Configuração Gateway de Pagamento Asaas
@@ -1530,8 +1535,8 @@ export default function MasterEternityOS() {
 
       {/* MODAL NOVO VEÍCULO */}
       {isNewVehicleOpen && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
             <h3 className="font-bold text-sm text-blue-400 mb-4">+ Cadastrar Novo Veículo</h3>
             <form onSubmit={handleSaveVehicle} className="space-y-3 text-xs">
               <div><label className="block text-slate-400 font-semibold mb-1">Modelo do Veículo:</label><input type="text" required value={vehicleForm.model} onChange={(e) => setVehicleForm({ ...vehicleForm, model: e.target.value })} placeholder="ex: Mercedes Vito Cortejo" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
@@ -1557,8 +1562,8 @@ export default function MasterEternityOS() {
 
       {/* MODAL NOVO ITEM ESTOQUE */}
       {isNewInventoryOpen && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
             <h3 className="font-bold text-sm text-amber-400 mb-4">+ Adicionar Item ao Estoque</h3>
             <form onSubmit={handleSaveInventory} className="space-y-3 text-xs">
               <div><label className="block text-slate-400 font-semibold mb-1">Nome do Item / Urna:</label><input type="text" required value={inventoryForm.item_name} onChange={(e) => setInventoryForm({ ...inventoryForm, item_name: e.target.value })} placeholder="ex: Urna Sextavada Carvalho" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
@@ -1585,8 +1590,8 @@ export default function MasterEternityOS() {
 
       {/* MODAL NOVO EMPRÉSTIMO CONVALESCENÇA */}
       {isNewConvalescenceOpen && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
             <h3 className="font-bold text-sm text-emerald-400 mb-4">+ Registrar Empréstimo Convalescente</h3>
             <form onSubmit={handleSaveConvalescence} className="space-y-3 text-xs">
               <div><label className="block text-slate-400 font-semibold mb-1">Equipamento:</label>
@@ -1611,8 +1616,8 @@ export default function MasterEternityOS() {
 
       {/* MODAL NOVO PARCEIRO CONVÊNIO */}
       {isNewPartnerOpen && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
             <h3 className="font-bold text-sm text-cyan-400 mb-4">+ Credenciar Novo Parceiro</h3>
             <form onSubmit={handleSavePartner} className="space-y-3 text-xs">
               <div><label className="block text-slate-400 font-semibold mb-1">Nome da Empresa / Parceiro:</label><input type="text" required value={partnerForm.partner_name} onChange={(e) => setPartnerForm({ ...partnerForm, partner_name: e.target.value })} placeholder="ex: Ótica Central" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
@@ -1632,8 +1637,8 @@ export default function MasterEternityOS() {
 
       {/* MODAL NOVO PROCEDIMENTO TANATOPRAXIA */}
       {isNewThanatoOpen && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
             <h3 className="font-bold text-sm text-purple-400 mb-4">+ Registrar Procedimento de Tanatopraxia</h3>
             <form onSubmit={handleSaveThanato} className="space-y-3 text-xs">
               <div><label className="block text-slate-400 font-semibold mb-1">Nome do Falecido:</label><input type="text" required value={thanatoForm.deceased_name} onChange={(e) => setThanatoForm({ ...thanatoForm, deceased_name: e.target.value })} placeholder="Nome do falecido..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
@@ -1739,8 +1744,8 @@ export default function MasterEternityOS() {
 
       {/* MODAL DEPENDENTES */}
       {selectedHolder && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-lg w-full p-6 text-white shadow-2xl">
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-lg w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
             <div className="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
               <div>
                 <h3 className="text-sm font-bold text-white">{selectedHolder.full_name}</h3>
