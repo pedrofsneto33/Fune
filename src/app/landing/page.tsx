@@ -1,20 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabaseClient';
-
 export default function LandingPage() {
-  const router = useRouter();
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        router.replace('/');
-      }
-    });
-  }, [router]);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-zinc-100 font-sans">
       <header className="container mx-auto px-6 py-5 flex items-center justify-between">
