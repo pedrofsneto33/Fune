@@ -1,8 +1,22 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
-const PUBLIC_COLUMNS = 'id, name, trade_name, cnpj, phone_emergency, primary_color, logo_url, municipal_license_number, issuance_city, technical_manager, pix_key, status, asaas_environment, asaas_wallet_id, created_at';
+const PUBLIC_COLUMNS = 'id, name, trade_name, cnpj, phone_emergency, primary_color, logo_url, municipal_license_number, issuance_city, technical_manager, pix_key, status, commercial_plan, asaas_environment, asaas_wallet_id, created_at';
+
+const VALID_PLAN_CODES = ['essencial', 'profissional', 'enterprise'];
+
+// Uso atual do tenant x limites do plano comercial (para exibicao no painel)
+async function getTenantUsage(tenantId: string) {
+  const [holdersRes, usersRes] = await Promise.all([
+    supabaseAdmin.from('holders').select('*', { count: 'exact', head: true }).eq('tenant_id', tenantId),
+    supabaseAdmin.from('user_roles').select('*', { count: 'exact', head: true }).eq('tenant_id', tenantId),
+  ]);
+  return {
+    holders: holdersRes.count || 0,
+    users: usersRes.count || 0,
+  };
+}
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   const columns = `${PUBLIC_COLUMNS}, asaas_api_key, asaas_webhook_token`;
@@ -18,7 +32,13 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
   if (auth.role === 'superadmin') {
     const { data, error } = await supabaseAdmin.from('tenants').select(columns);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json({ success: true, tenants: (data || []).map(scrub) });
+    const enriched = await Promise.all(
+      (data || []).map(async (t) => ({
+        ...scrub(t),
+        usage: await getTenantUsage(t.id),
+      }))
+    );
+    return NextResponse.json({ success: true, can_manage_plan: true, tenants: enriched });
   }
 
   const { data, error } = await supabaseAdmin
@@ -28,7 +48,8 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ success: true, tenants: [scrub(data)] });
+  const enriched = { ...scrub(data), usage: await getTenantUsage(data.id) };
+  return NextResponse.json({ success: true, can_manage_plan: false, tenants: [enriched] });
 });
 
 export const POST = withAuth(async (req: NextRequest) => {
@@ -70,7 +91,8 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
     tenant_id, name, trade_name, cnpj, phone_emergency,
     primary_color, logo_url, municipal_license_number,
     issuance_city, technical_manager, asaas_environment,
-    asaas_api_key, asaas_webhook_token, asaas_wallet_id, pix_key
+    asaas_api_key, asaas_webhook_token, asaas_wallet_id, pix_key,
+    commercial_plan
   } = body;
 
   const destinationTenantId = auth.role === 'superadmin' ? (tenant_id || auth.tenantId) : auth.tenantId;
@@ -80,6 +102,24 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
   }
 
   const updateData: Record<string, any> = { updated_at: new Date().toISOString() };
+
+  // Plano comercial: SOMENTE superadmin pode alterar (impacta cobranca)
+  if (commercial_plan !== undefined) {
+    if (auth.role !== 'superadmin') {
+      return NextResponse.json(
+        { error: 'Somente um Super Administrador pode alterar o plano comercial.' },
+        { status: 403 }
+      );
+    }
+    if (!VALID_PLAN_CODES.includes(commercial_plan)) {
+      return NextResponse.json(
+        { error: 'Plano comercial invalido. Use: ' + VALID_PLAN_CODES.join(', ') },
+        { status: 400 }
+      );
+    }
+    updateData.commercial_plan = commercial_plan;
+  }
+
   if (name !== undefined) updateData.name = name;
   if (trade_name !== undefined) updateData.trade_name = trade_name;
   if (cnpj !== undefined) updateData.cnpj = cnpj;

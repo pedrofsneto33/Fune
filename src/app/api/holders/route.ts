@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { sanitizeString, sanitizeCPF, isValidEmail, clampNumber } from '@/lib/validation';
+import { getPlanByCode, checkHolderLimit } from '@/lib/planLimits';
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   try {
@@ -88,6 +89,27 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     if (email && !isValidEmail(email)) {
       return NextResponse.json({ error: 'E-mail inválido.' }, { status: 400 });
+    }
+
+    // VERIFICACAO DE LIMITE DO PLANO COMERCIAL
+    const { data: tenantRow } = await supabaseAdmin
+      .from('tenants')
+      .select('commercial_plan')
+      .eq('id', auth.tenantId)
+      .single();
+    const plan = getPlanByCode(tenantRow?.commercial_plan);
+
+    const { count: holdersCount } = await supabaseAdmin
+      .from('holders')
+      .select('*', { count: 'exact', head: true })
+      .eq('tenant_id', auth.tenantId);
+    const limitCheck = checkHolderLimit(plan, holdersCount || 0);
+
+    if (!limitCheck.allowed) {
+      return NextResponse.json(
+        { error: limitCheck.message, code: 'PLAN_LIMIT_EXCEEDED', plan: plan.code },
+        { status: 402 }
+      );
     }
 
     const { data: holder, error: holderError } = await supabaseAdmin

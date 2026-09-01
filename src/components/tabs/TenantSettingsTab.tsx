@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Settings, ShieldCheck, Key, RefreshCw, Copy, Check, Building2, Upload, Image as ImageIcon } from 'lucide-react';
+import { getPlanByCode, formatPlanPrice, COMMERCIAL_PLANS } from '@/lib/planLimits';
 import { supabase } from '@/lib/supabaseClient';
 
 interface Tenant {
@@ -18,6 +19,8 @@ interface Tenant {
   asaas_environment?: 'sandbox' | 'production';
   has_asaas_api_key?: boolean;
   has_asaas_webhook_token?: boolean;
+  commercial_plan?: string;
+  usage?: { holders: number; users: number };
 }
 
 export function TenantSettingsTab() {
@@ -41,6 +44,8 @@ export function TenantSettingsTab() {
   const [webhookToken, setWebhookToken] = useState('');
   const [hasApiKey, setHasApiKey] = useState(false);
   const [hasWebhookToken, setHasWebhookToken] = useState(false);
+  const [commercialPlan, setCommercialPlan] = useState('essencial');
+  const [canManagePlan, setCanManagePlan] = useState(false);
 
   const webhookUrl = 'https://eternitysos.vercel.app/api/webhooks/asaas';
 
@@ -61,6 +66,7 @@ export function TenantSettingsTab() {
       const data = await res.json();
       if (data.success && data.tenants?.length > 0) {
         setTenants(data.tenants);
+        setCanManagePlan(!!data.can_manage_plan);
         selectTenantData(data.tenants[0]);
       }
     } catch (err) {
@@ -85,6 +91,7 @@ export function TenantSettingsTab() {
     setWebhookToken('');
     setHasApiKey(!!t.has_asaas_api_key);
     setHasWebhookToken(!!t.has_asaas_webhook_token);
+    setCommercialPlan(t.commercial_plan || 'essencial');
   };
 
   useEffect(() => {
@@ -147,7 +154,8 @@ export function TenantSettingsTab() {
           logo_url: logoUrl,
           asaas_environment: asaasEnv,
           asaas_api_key: apiKey.trim() || undefined,
-          asaas_webhook_token: webhookToken.trim() || undefined
+          asaas_webhook_token: webhookToken.trim() || undefined,
+          commercial_plan: commercialPlan
         })
       });
 
@@ -164,6 +172,15 @@ export function TenantSettingsTab() {
       setSaving(false);
     }
   };
+
+  const selectedTenant = tenants.find((t: Tenant) => t.id === selectedTenantId);
+  const usage = selectedTenant?.usage || { holders: 0, users: 0 };
+  const activePlan = getPlanByCode(commercialPlan);
+  const holdersLimit = activePlan.maxHolders === Number.MAX_SAFE_INTEGER ? Infinity : activePlan.maxHolders;
+  const usersLimit = activePlan.maxUsers === Number.MAX_SAFE_INTEGER ? Infinity : activePlan.maxUsers;
+  const pctOf = (n: number, max: number) => (max === Infinity ? 0 : Math.min(100, Math.round((n / max) * 100)));
+  const holdersPct = pctOf(usage.holders, holdersLimit);
+  const usersPct = pctOf(usage.users, usersLimit);
 
   if (loading) {
     return (
@@ -203,6 +220,52 @@ export function TenantSettingsTab() {
       </div>
 
       <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <div className="bg-zinc-900 border border-zinc-800 p-5 rounded-2xl space-y-4 lg:col-span-2">
+          <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-zinc-800 text-sm font-semibold text-white">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <span>Plano Comercial e Limites de Uso</span>
+            </div>
+            {canManagePlan ? (
+              <select value={commercialPlan} onChange={(e) => setCommercialPlan(e.target.value)}
+                className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+                <option value="essencial">Essencial - {formatPlanPrice(COMMERCIAL_PLANS.essencial)}/mes</option>
+                <option value="profissional">Profissional - {formatPlanPrice(COMMERCIAL_PLANS.profissional)}/mes</option>
+                <option value="enterprise">Enterprise - Sob consulta</option>
+              </select>
+            ) : (
+              <span className="text-[11px] font-normal text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full">
+                Plano {getPlanByCode(commercialPlan).name} - alteravel apenas pelo Super Admin
+              </span>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-zinc-300">
+                <span>Titulares cadastrados</span>
+                <span className="font-mono text-white">{usage.holders} / {holdersLimit === Infinity ? 'Ilimitado' : holdersLimit}</span>
+              </div>
+              <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
+                <div className={"h-full rounded-full " + (holdersPct >= 100 ? 'bg-red-500' : holdersPct >= 80 ? 'bg-amber-400' : 'bg-emerald-500')} style={{ width: holdersPct + '%' }} />
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-zinc-300">
+                <span>Usuarios do sistema</span>
+                <span className="font-mono text-white">{usage.users} / {usersLimit === Infinity ? 'Ilimitado' : usersLimit}</span>
+              </div>
+              <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
+                <div className={"h-full rounded-full " + (usersPct >= 100 ? 'bg-red-500' : usersPct >= 80 ? 'bg-amber-400' : 'bg-emerald-500')} style={{ width: usersPct + '%' }} />
+              </div>
+            </div>
+          </div>
+          <p className="text-[10px] text-zinc-500">
+            Ao atingir o limite do plano, o cadastro de novos titulares e usuarios e bloqueado automaticamente.
+            O plano selecionado e aplicado por filial (tenant) ao salvar as configuracoes.
+          </p>
+        </div>
 
         <div className="bg-zinc-900 border border-zinc-800 p-5 rounded-2xl space-y-4 lg:col-span-2">
           <div className="flex items-center gap-2 pb-3 border-b border-zinc-800 text-sm font-semibold text-white">

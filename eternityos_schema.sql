@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS public.tenants (
     issuance_city VARCHAR(255),
     technical_manager VARCHAR(255),
     status VARCHAR(20) DEFAULT 'active' CHECK (status IN ('active', 'inactive', 'suspended')),
+    commercial_plan VARCHAR(20) DEFAULT 'essencial' CHECK (commercial_plan IN ('essencial', 'profissional', 'enterprise')),
     asaas_api_key TEXT,
     asaas_webhook_token TEXT,
     asaas_environment VARCHAR(20) DEFAULT 'production' CHECK (asaas_environment IN ('sandbox', 'production')),
@@ -25,6 +26,11 @@ CREATE TABLE IF NOT EXISTS public.tenants (
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- MIGRACAO (idempotente) para bancos ja existentes:
+-- Execute no Supabase SQL Editor se a tabela tenants foi criada antes
+-- desta coluna existir no schema.
+ALTER TABLE public.tenants ADD COLUMN IF NOT EXISTS commercial_plan VARCHAR(20) DEFAULT 'essencial';
 
 -- 2. Perfis de Usuarios e Permissoes (RBAC)
 CREATE TABLE IF NOT EXISTS public.user_roles (

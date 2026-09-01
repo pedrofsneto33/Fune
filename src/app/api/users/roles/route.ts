@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { isValidUUID, sanitizeString, isValidEmail } from '@/lib/validation';
+import { getPlanByCode, checkUserLimit } from '@/lib/planLimits';
 
 export const dynamic = 'force-dynamic';
 
@@ -98,6 +99,38 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         { error: 'Nenhuma conta encontrada com este e-mail. O colaborador precisa criar a conta (fazer o primeiro login) antes de receber uma permissao.' },
         { status: 404 }
       );
+    }
+
+    // VERIFICACAO DE LIMITE DE USUARIOS DO PLANO COMERCIAL
+    // Se o usuario ja possui role neste tenant, trata-se de ATUALIZACAO de
+    // cargo e nao conta como novo usuario (o upsert abaixo faz update).
+    const { data: existingRole } = await supabaseAdmin
+      .from('user_roles')
+      .select('id')
+      .eq('user_id', targetUser.id)
+      .eq('tenant_id', targetTenantId)
+      .maybeSingle();
+
+    if (!existingRole) {
+      const { data: tenantRow } = await supabaseAdmin
+        .from('tenants')
+        .select('commercial_plan')
+        .eq('id', targetTenantId)
+        .single();
+      const plan = getPlanByCode(tenantRow?.commercial_plan);
+
+      const { count: usersCount } = await supabaseAdmin
+        .from('user_roles')
+        .select('*', { count: 'exact', head: true })
+        .eq('tenant_id', targetTenantId);
+
+      const userLimitCheck = checkUserLimit(plan, usersCount || 0);
+      if (!userLimitCheck.allowed) {
+        return NextResponse.json(
+          { error: userLimitCheck.message, code: 'PLAN_LIMIT_EXCEEDED', plan: plan.code },
+          { status: 402 }
+        );
+      }
     }
 
     const { data: saved, error: upsertErr } = await supabaseAdmin
