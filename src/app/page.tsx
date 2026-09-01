@@ -176,6 +176,7 @@ export default function MasterEternityOS() {
 
   // Forms
   const [holderForm, setHolderForm] = useState({ full_name: '', cpf: '', phone: '', email: '', address: '', plan_name: 'Familiar Ouro', monthly_fee: 69.90 });
+  const [deletingHolderId, setDeletingHolderId] = useState<string | null>(null);
   const [savingHolder, setSavingHolder] = useState(false);
 
   const [burialForm, setBurialForm] = useState({ deceased_name: '', cemetery_location: '', burial_date: '', urn_name: 'Urna Luxo Sextavada Mogno' });
@@ -391,6 +392,25 @@ export default function MasterEternityOS() {
       alert('Erro de conexão ao salvar titular.');
     } finally {
       setSavingHolder(false);
+    }
+  };
+  // Excluir Associado (Titular)
+  const handleDeleteHolder = async (h: Holder) => {
+    if (!confirm('Excluir o associado "' + h.full_name + '"?\n\nEsta acao nao pode ser desfeita e removera tambem os dependentes e contratos vinculados.')) return;
+    setDeletingHolderId(h.id);
+    try {
+      const res = await authFetch('/api/holders?id=' + h.id, { method: 'DELETE' });
+      if (res.ok) {
+        setHolders((prev) => prev.filter((x) => x.id !== h.id));
+        alert('Associado excluido com sucesso!');
+      } else {
+        const j = await res.json();
+        alert('Erro ao excluir: ' + (j.error || 'Tente novamente'));
+      }
+    } catch {
+      alert('Erro de conexao ao excluir associado.');
+    } finally {
+      setDeletingHolderId(null);
     }
   };
 
@@ -932,7 +952,7 @@ export default function MasterEternityOS() {
                               <a href={waUrl} target="_blank" rel="noreferrer" className="px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 rounded text-[11px] font-bold">💬 Cobrar</a>
                               <a href={`/carteirinha/${rawCpf}`} target="_blank" rel="noreferrer" className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] border border-slate-700">🪪 Carteirinha</a>
                               <button onClick={() => setPrintHolderContract(h)} className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded text-[11px]" title="Imprimir Contrato / Termo">📄 Termo</button>
-                              <button onClick={() => setSelectedHolder(h)} className="px-2 py-1 bg-blue-950/60 hover:bg-blue-900/60 text-blue-300 border border-blue-800/60 rounded text-[11px]">👥 Dependentes</button>
+                              <button onClick={() => setSelectedHolder(h)} className="px-2 py-1 bg-blue-950/60 hover:bg-blue-900/60 text-blue-300 border border-blue-800/60 rounded text-[11px]">👥 Dependentes</button><button onClick={() => handleDeleteHolder(h)} disabled={deletingHolderId === h.id} className="px-2 py-1 bg-red-950/60 hover:bg-red-900/60 text-red-300 border border-red-800/60 rounded text-[11px]" title="Excluir Associado">{deletingHolderId === h.id ? 'Excluindo...' : 'Excluir'}</button>
                             </div>
                           </td>
                         </tr>

@@ -156,3 +156,53 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
 }, ['superadmin', 'admin', 'manager', 'attendant']);
+
+// SECURITY: Exclusao destrutiva - somente superadmin/admin, sempre restrita ao tenant
+export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get('id');
+
+    if (!id || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
+      return NextResponse.json({ error: 'ID do titular invalido ou ausente.' }, { status: 400 });
+    }
+
+    // Garante que o titular pertence ao tenant do usuario autenticado
+    const { data: holder, error: findError } = await supabaseAdmin
+      .from('holders')
+      .select('id, full_name')
+      .eq('id', id)
+      .eq('tenant_id', auth.tenantId)
+      .maybeSingle();
+
+    if (findError) return NextResponse.json({ error: 'Erro ao localizar titular.' }, { status: 500 });
+    if (!holder) return NextResponse.json({ error: 'Titular nao encontrado.' }, { status: 404 });
+
+    // contracts tem ON DELETE RESTRICT em holder_id: remove contratos primeiro
+    // (payments/payment_carnets caem por CASCADE; demais referencias ficam SET NULL)
+    const { error: contractsError } = await supabaseAdmin
+      .from('contracts')
+      .delete()
+      .eq('holder_id', id)
+      .eq('tenant_id', auth.tenantId);
+
+    if (contractsError) {
+      return NextResponse.json({ error: 'Erro ao remover contratos vinculados: ' + contractsError.message }, { status: 500 });
+    }
+
+    // dependents caem por ON DELETE CASCADE
+    const { error: deleteError } = await supabaseAdmin
+      .from('holders')
+      .delete()
+      .eq('id', id)
+      .eq('tenant_id', auth.tenantId);
+
+    if (deleteError) {
+      return NextResponse.json({ error: 'Erro ao excluir titular: ' + deleteError.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true, message: 'Associado ' + holder.full_name + ' excluido com sucesso.' });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+  }
+}, ['superadmin', 'admin']);
