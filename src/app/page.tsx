@@ -868,7 +868,7 @@ export default function MasterEternityOS() {
 
       {/* 2. ÁREA DE TRABALHO PRINCIPAL */}
       <main className="flex-1 flex flex-col overflow-hidden bg-[#070a11]">
-        <header className="p-4 border-b border-slate-800 bg-[#0d111a] flex items-center justify-between gap-3 sm:gap-4 shrink-0">
+        <header className="p-4 border-b border-slate-800 bg-[#0d111a] flex items-center justify-between gap-2 flex-wrap sm:gap-4 sm:flex-nowrap shrink-0">
           <div className="flex items-center gap-2 min-w-0">
             <button onClick={() => setIsSidebarOpen(true)} className="md:hidden p-2 bg-slate-900 border border-slate-800 rounded-lg text-slate-300 leading-none" aria-label="Abrir menu">&#9776;</button>
             <h2 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider truncate">
@@ -888,15 +888,15 @@ export default function MasterEternityOS() {
             {hasPermission(userRole, 'canManageBurials') && (
               <button
                 onClick={() => setIsNewBurialOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition shadow"
-              >
-                <span>🚨</span> Novo Atendimento / Óbito
+                className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition shadow shrink-0">
+                <span className="hidden sm:inline">🚨 Novo Atendimento / Óbito</span>
+                <span className="sm:hidden">🚨 Óbito</span>
               </button>
             )}
             {hasPermission(userRole, 'canManageContracts') && (
               <button
                 onClick={() => setIsNewHolderOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow"
               >
                 <span>+</span> Novo Titular
               </button>
@@ -904,7 +904,7 @@ export default function MasterEternityOS() {
             {hasPermission(userRole, 'canManageContracts') && (
               <button
                 onClick={() => { setImportText(''); setImportResult(null); setIsImportOpen(true); }}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-slate-700 hover:bg-slate-600 rounded-lg transition shadow"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-slate-700 hover:bg-slate-600 rounded-lg transition shadow"
               >
                 <span>CSV</span> Importar
               </button>
@@ -913,11 +913,10 @@ export default function MasterEternityOS() {
             {/* BOTÃO DE LOGOUT SUPERIOR DESTACADO */}
             <button
               onClick={handleLogout}
-              className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-slate-300 hover:text-rose-400 hover:bg-rose-950/40 bg-slate-900 border border-slate-800 rounded-lg transition shadow-sm"
+              className="inline-flex items-center gap-1 px-2 sm:px-3 py-1.5 text-xs font-bold text-slate-300 hover:text-rose-400 shrink-0 hover:bg-rose-950/40 bg-slate-900 border border-slate-800 rounded-lg transition shadow-sm"
               title="Encerrar Sessão"
             >
-              <span>🚪</span> Sair
-            </button>
+              <span>🚪</span><span className="hidden sm:inline">Sair</span></button>
           </div>
         </header>
 
@@ -969,7 +968,13 @@ export default function MasterEternityOS() {
                     <button onClick={() => setStatusFilter('active')} className={`px-2.5 py-1 rounded ${statusFilter === 'active' ? 'bg-emerald-950 text-emerald-300 font-bold border border-emerald-800' : 'text-slate-400'}`}>Ativos</button>
                     <button onClick={() => setStatusFilter('defaulted')} className={`px-2.5 py-1 rounded ${statusFilter === 'defaulted' ? 'bg-rose-950 text-rose-300 font-bold border border-rose-800' : 'text-slate-400'}`}>Inadimplentes</button>
                   </div>
-                  <button onClick={handleExportCSV} className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition" title="Exportar para Excel / CSV">
+                  {hasPermission(userRole, 'canManageContracts') && (
+                    <button onClick={() => setIsNewHolderOpen(true)} className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg transition shadow">+ Novo Titular</button>
+                  )}
+                  {hasPermission(userRole, 'canManageContracts') && (
+                    <button onClick={() => { setImportText(''); setImportResult(null); setIsImportOpen(true); }} className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition">CSV Importar</button>
+                  )}
+                                    <button onClick={handleExportCSV} className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition" title="Exportar para Excel / CSV">
                     📥 Exportar CSV
                   </button>
                 </div>

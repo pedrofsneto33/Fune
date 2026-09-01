@@ -43,3 +43,5 @@ next-env.d.ts
 .vercel
 
 build-check.log
+deploy.log
+build-check.log

@@ -1,6 +1,7 @@
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import QRCode from 'qrcode';
 
 interface Props {
   params: Promise<{ cpf: string }>;
@@ -71,6 +72,7 @@ export default async function CarteirinhaPage({ params }: Props) {
     // fallback: URL relativa
   }
   const waShare = `https://wa.me/?text=${encodeURIComponent(`Meu comprovante de assistencia - ${tenantName}: ${shareUrl}`)}`;
+  const qrDataUrl = await QRCode.toDataURL(shareUrl, { width: 240, margin: 1, errorCorrectionLevel: 'M', color: { dark: '#0f172a', light: '#ffffff' } });
   const initials = holder.full_name
     .split(' ')
     .filter(Boolean)
@@ -151,10 +153,19 @@ export default async function CarteirinhaPage({ params }: Props) {
             className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl font-bold text-xs bg-emerald-600 hover:bg-emerald-500 text-white transition"
           >
             Compartilhar no WhatsApp
-          </a>
+                    </a>
+
+          {/* QR Code de verificacao de autenticidade */}
+          <div className="border border-slate-800 rounded-xl bg-white p-3 flex items-center gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={qrDataUrl} alt="QR Code de verificacao" className="h-24 w-24 shrink-0" />
+            <div className="min-w-0">
+              <p className="text-[10px] font-black uppercase tracking-wider text-slate-800">Verificacao de Autenticidade</p>
+              <p className="text-[10px] text-slate-600 leading-snug mt-1">Aponte a camera para o QR Code para abrir a carteirinha oficial e confirmar que ela e autentica.</p>
+            </div>
+          </div>
         </div>
       </div>
-
       <p className="text-[10px] text-slate-600 mt-4">
         Documento de identificacao do associado - valide pelo telefone da funeraria.
       </p>
