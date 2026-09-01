@@ -178,6 +178,11 @@ export default function MasterEternityOS() {
   const [holderForm, setHolderForm] = useState({ full_name: '', cpf: '', phone: '', email: '', address: '', plan_name: 'Familiar Ouro', monthly_fee: 69.90 });
   const [deletingHolderId, setDeletingHolderId] = useState<string | null>(null);
   const [savingHolder, setSavingHolder] = useState(false);
+  const [editingHolder, setEditingHolder] = useState<Holder | null>(null);
+  const [isImportOpen, setIsImportOpen] = useState(false);
+  const [importText, setImportText] = useState('');
+  const [importResult, setImportResult] = useState<{ imported: number; skipped_duplicates: number; invalid: { line: number; reason: string }[] } | null>(null);
+  const [importing, setImporting] = useState(false);
 
   const [burialForm, setBurialForm] = useState({ deceased_name: '', cemetery_location: '', burial_date: '', urn_name: 'Urna Luxo Sextavada Mogno' });
   const [savingBurial, setSavingBurial] = useState(false);
@@ -366,32 +371,69 @@ export default function MasterEternityOS() {
     a.click();
   };
 
-  // Salvar Titular no Supabase
+  // Salvar Titular (novo ou edicao) no Supabase
   const handleSaveHolder = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingHolder(true);
+    const isEdit = !!editingHolder;
     try {
       const res = await authFetch('/api/holders', {
-        method: 'POST',
+        method: isEdit ? 'PATCH' : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(holderForm),
+        body: JSON.stringify(isEdit ? { id: editingHolder!.id, ...holderForm } : holderForm),
       });
 
+      const j = await res.json();
       if (res.ok) {
-        const j = await res.json();
-        if (j.holder) setHolders((prev) => [j.holder, ...prev]);
+        if (isEdit && j.holder) {
+          setHolders((prev) => prev.map((x) => (x.id === j.holder.id ? { ...x, ...j.holder } : x)));
+          alert('Associado atualizado com sucesso!');
+        } else {
+          if (j.holder) setHolders((prev) => [j.holder, ...prev]);
+          alert('Associado cadastrado com sucesso!');
+        }
         setIsNewHolderOpen(false);
+        setEditingHolder(null);
         setHolderForm({ full_name: '', cpf: '', phone: '', email: '', address: '', plan_name: 'Familiar Ouro', monthly_fee: 69.90 });
-        alert('Associado cadastrado com sucesso!');
         loadData();
       } else {
-        const j = await res.json();
-        alert(`Erro ao cadastrar titular: ${j.error || 'Verifique os dados'}`);
+        alert(`Erro ao salvar titular: ${j.error || 'Verifique os dados'}`);
       }
     } catch {
-      alert('Erro de conexão ao salvar titular.');
+      alert('Erro de conexÃ£o ao salvar titular.');
     } finally {
       setSavingHolder(false);
+    }
+  };
+
+  // Abrir modal de edicao preenchido (CPF bloqueado - e a chave de identificacao)
+  const openEditHolder = (h: Holder) => {
+    setEditingHolder(h);
+    setHolderForm({ full_name: h.full_name, cpf: h.cpf, phone: h.phone, email: (h as any).email || '', address: (h as any).address || '', plan_name: 'Familiar Ouro', monthly_fee: 69.90 });
+    setIsNewHolderOpen(true);
+  };
+
+  // Importar associados via CSV (Nome;CPF;Telefone;Email;Endereco)
+  const handleImportCsv = async () => {
+    setImporting(true);
+    setImportResult(null);
+    try {
+      const res = await authFetch('/api/holders/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ csv: importText }),
+      });
+      const j = await res.json();
+      if (res.ok) {
+        setImportResult(j);
+        if (j.imported > 0) loadData();
+      } else {
+        alert('Erro na importacao: ' + (j.error || 'Tente novamente'));
+      }
+    } catch {
+      alert('Erro de conexao ao importar.');
+    } finally {
+      setImporting(false);
     }
   };
   // Excluir Associado (Titular)
@@ -854,6 +896,14 @@ export default function MasterEternityOS() {
                 <span>+</span> Novo Titular
               </button>
             )}
+            {hasPermission(userRole, 'canManageContracts') && (
+              <button
+                onClick={() => { setImportText(''); setImportResult(null); setIsImportOpen(true); }}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-slate-700 hover:bg-slate-600 rounded-lg transition shadow"
+              >
+                <span>CSV</span> Importar
+              </button>
+            )}
 
             {/* BOTÃO DE LOGOUT SUPERIOR DESTACADO */}
             <button
@@ -952,7 +1002,7 @@ export default function MasterEternityOS() {
                               <a href={waUrl} target="_blank" rel="noreferrer" className="px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 rounded text-[11px] font-bold">💬 Cobrar</a>
                               <a href={`/carteirinha/${rawCpf}`} target="_blank" rel="noreferrer" className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] border border-slate-700">🪪 Carteirinha</a>
                               <button onClick={() => setPrintHolderContract(h)} className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded text-[11px]" title="Imprimir Contrato / Termo">📄 Termo</button>
-                              <button onClick={() => setSelectedHolder(h)} className="px-2 py-1 bg-blue-950/60 hover:bg-blue-900/60 text-blue-300 border border-blue-800/60 rounded text-[11px]">👥 Dependentes</button><button onClick={() => handleDeleteHolder(h)} disabled={deletingHolderId === h.id} className="px-2 py-1 bg-red-950/60 hover:bg-red-900/60 text-red-300 border border-red-800/60 rounded text-[11px]" title="Excluir Associado">{deletingHolderId === h.id ? 'Excluindo...' : 'Excluir'}</button>
+                              <button onClick={() => openEditHolder(h)} className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded text-[11px]" title="Editar Associado">Editar</button><button onClick={() => setSelectedHolder(h)} className="px-2 py-1 bg-blue-950/60 hover:bg-blue-900/60 text-blue-300 border border-blue-800/60 rounded text-[11px]">👥 Dependentes</button><button onClick={() => handleDeleteHolder(h)} disabled={deletingHolderId === h.id} className="px-2 py-1 bg-red-950/60 hover:bg-red-900/60 text-red-300 border border-red-800/60 rounded text-[11px]" title="Excluir Associado">{deletingHolderId === h.id ? 'Excluindo...' : 'Excluir'}</button>
                             </div>
                           </td>
                         </tr>
@@ -1316,16 +1366,17 @@ export default function MasterEternityOS() {
       {isNewHolderOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">
-            <h3 className="font-bold text-sm text-emerald-400 mb-4">+ Cadastrar Novo Titular</h3>
+            <h3 className="font-bold text-sm text-emerald-400 mb-4">{editingHolder ? ('Editar Associado: ' + editingHolder.full_name) : '+ Cadastrar Novo Titular'}</h3>
             <form onSubmit={handleSaveHolder} className="space-y-3 text-xs">
               <div><label className="block text-slate-400 font-semibold mb-1">Nome Completo:</label><input type="text" required value={holderForm.full_name} onChange={(e) => setHolderForm({ ...holderForm, full_name: e.target.value })} placeholder="Nome do titular..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
               <div className="grid grid-cols-2 gap-2">
-                <div><label className="block text-slate-400 font-semibold mb-1">CPF:</label><input type="text" required value={holderForm.cpf} onChange={(e) => setHolderForm({ ...holderForm, cpf: e.target.value })} placeholder="000.000.000-00" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+                <div><label className="block text-slate-400 font-semibold mb-1">CPF {editingHolder ? '(bloqueado na edicao)' : ''}:</label><input type="text" required disabled={!!editingHolder} value={holderForm.cpf} onChange={(e) => setHolderForm({ ...holderForm, cpf: e.target.value })} placeholder="000.000.000-00" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
                 <div><label className="block text-slate-400 font-semibold mb-1">Telefone:</label><input type="text" required value={holderForm.phone} onChange={(e) => setHolderForm({ ...holderForm, phone: e.target.value })} placeholder="(86) 99999-9999" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div><label className="block text-slate-400 font-semibold mb-1">Email:</label><input type="email" value={holderForm.email} onChange={(e) => setHolderForm({ ...holderForm, email: e.target.value })} placeholder="email@dominio.com" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
               </div>
               <div><label className="block text-slate-400 font-semibold mb-1">Endereço:</label><input type="text" value={holderForm.address} onChange={(e) => setHolderForm({ ...holderForm, address: e.target.value })} placeholder="Rua, Número..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
-                <button type="button" onClick={() => setIsNewHolderOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
+                <button type="button" onClick={() => { setIsNewHolderOpen(false); setEditingHolder(null); }} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
                 <button type="submit" disabled={savingHolder} className="px-4 py-1.5 bg-emerald-600 font-bold rounded">{savingHolder ? 'Gravando...' : 'Salvar Titular'}</button>
               </div>
             </form>
@@ -1334,6 +1385,40 @@ export default function MasterEternityOS() {
       )}
 
       {/* MODAL ÓBITO */}
+            {/* MODAL IMPORTAR CSV */}
+      {isImportOpen && (
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-lg w-full p-6 text-white shadow-2xl">
+            <h3 className="font-bold text-sm text-sky-400 mb-1">Importar Associados via CSV</h3>
+            <p className="text-[10px] text-slate-400 mb-3">Cole os dados do Excel/CSV: uma linha por associado, separados por ponto-e-virgula. Formato: <span className="font-mono text-slate-300">Nome;CPF;Telefone;Email;Endereco</span>. Cabecalho na primeira linha e ignorado automaticamente.</p>
+            <textarea
+              rows={8}
+              value={importText}
+              onChange={(e) => setImportText(e.target.value)}
+              placeholder={'Maria da Silva;12345678900;(86) 98811-7925;maria@email.com;Rua A, 123' + '\n' + 'Joao Souza;98765432100;(86) 99999-0000'}
+              className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-xs font-mono text-white"
+            />
+            {importResult && (
+              <div className="mt-3 p-3 rounded border text-[11px] bg-slate-950 border-slate-800 space-y-1">
+                <p className="text-emerald-400 font-bold">Importados com sucesso: {importResult.imported}</p>
+                <p className="text-amber-400">Ignorados (duplicados): {importResult.skipped_duplicates}</p>
+                {importResult.invalid && importResult.invalid.length > 0 && (
+                  <div className="text-rose-400">
+                    <p className="font-bold">Linhas invalidas: {importResult.invalid.length}</p>
+                    <ul className="list-disc list-inside max-h-24 overflow-y-auto">
+                      {importResult.invalid.map((r, i) => <li key={i}>Linha {r.line}: {r.reason}</li>)}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+            <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
+              <button type="button" onClick={() => setIsImportOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Fechar</button>
+              <button type="button" disabled={importing || !importText.trim()} onClick={handleImportCsv} className="px-4 py-1.5 bg-sky-600 font-bold rounded disabled:opacity-50">{importing ? 'Importando...' : 'Importar Agora'}</button>
+            </div>
+          </div>
+        </div>
+      )}
       {isNewBurialOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-6 text-white shadow-2xl">

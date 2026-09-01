@@ -157,6 +157,67 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
   }
 }, ['superadmin', 'admin', 'manager', 'attendant']);
 
+// SECURITY: Edicao de titular - CPF imutavel (e a chave de identificacao/busca), restrito ao tenant
+export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
+  try {
+    const body = await req.json();
+    const id = body.id;
+
+    if (!id || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
+      return NextResponse.json({ error: 'ID do titular invalido ou ausente.' }, { status: 400 });
+    }
+
+    const updateData: Record<string, unknown> = {};
+
+    if (body.full_name !== undefined) {
+      const full_name = sanitizeString(body.full_name, 255);
+      if (!full_name || full_name.length < 2) {
+        return NextResponse.json({ error: 'Nome completo invalido (minimo 2 caracteres).' }, { status: 400 });
+      }
+      updateData.full_name = full_name;
+    }
+
+    if (body.phone !== undefined) {
+      const phone = sanitizeString(body.phone, 20);
+      if (!phone || phone.length < 10) {
+        return NextResponse.json({ error: 'Telefone invalido.' }, { status: 400 });
+      }
+      updateData.phone = phone;
+    }
+
+    if (body.email !== undefined) {
+      const email = body.email ? sanitizeString(body.email, 254) : null;
+      if (email && !isValidEmail(email)) {
+        return NextResponse.json({ error: 'E-mail invalido.' }, { status: 400 });
+      }
+      updateData.email = email;
+    }
+
+    if (body.address !== undefined) {
+      updateData.address = body.address ? sanitizeString(body.address, 500) : null;
+    }
+
+    if (Object.keys(updateData).length === 0) {
+      return NextResponse.json({ error: 'Nenhum campo valido para atualizar.' }, { status: 400 });
+    }
+
+    const { data: holder, error } = await supabaseAdmin
+      .from('holders')
+      .update(updateData)
+      .eq('id', id)
+      .eq('tenant_id', auth.tenantId)
+      .select()
+      .maybeSingle();
+
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (!holder) return NextResponse.json({ error: 'Titular nao encontrado.' }, { status: 404 });
+
+    return NextResponse.json({ success: true, holder });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+  }
+}, ['superadmin', 'admin', 'manager', 'attendant']);
+
 // SECURITY: Exclusao destrutiva - somente superadmin/admin, sempre restrita ao tenant
 export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
   try {
