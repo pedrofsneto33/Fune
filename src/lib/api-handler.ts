@@ -1,5 +1,6 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from './supabaseAdmin';
+import { checkRateLimit } from './rate-limiter';
 
 export interface AuthContext {
   userId: string;
@@ -12,12 +13,37 @@ type AuthenticatedHandler = (
   ctx: { auth: AuthContext; params?: any }
 ) => Promise<NextResponse>;
 
+// Rate limit configuration for auth endpoints
+const AUTH_RATE_LIMIT = { maxAttempts: 5, windowMs: 60000 }; // 5 attempts per minute
+const API_RATE_LIMIT = { maxAttempts: 100, windowMs: 60000 }; // 100 requests per minute
+
 export function withAuth(
   handler: AuthenticatedHandler,
   allowedRoles?: string[]
 ) {
   return async (req: NextRequest, props?: { params?: Promise<any> }) => {
     try {
+      // Rate limiting by IP
+      const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                       req.headers.get('x-real-ip') || 
+                       'unknown';
+      
+      const rateLimitResult = checkRateLimit(`api:${clientIP}`, API_RATE_LIMIT);
+      if (!rateLimitResult.allowed) {
+        return NextResponse.json(
+          { error: 'Muitas requisições. Tente novamente em alguns segundos.' },
+          { 
+            status: 429,
+            headers: {
+              'Retry-After': Math.ceil((rateLimitResult.resetAt - Date.now()) / 1000).toString(),
+              'X-RateLimit-Limit': API_RATE_LIMIT.maxAttempts.toString(),
+              'X-RateLimit-Remaining': '0',
+              'X-RateLimit-Reset': new Date(rateLimitResult.resetAt).toISOString(),
+            }
+          }
+        );
+      }
+
       const authHeader = req.headers.get('authorization');
       const token = authHeader?.startsWith('Bearer ') ? authHeader.substring(7) : null;
 
@@ -25,6 +51,15 @@ export function withAuth(
         return NextResponse.json(
           { error: 'Nao autorizado: cabecalho de autenticacao ausente ou invalido.' },
           { status: 401 }
+        );
+      }
+
+      // Rate limiting by user for auth attempts
+      const authRateLimit = checkRateLimit(`auth:${clientIP}`, AUTH_RATE_LIMIT);
+      if (!authRateLimit.allowed) {
+        return NextResponse.json(
+          { error: 'Muitas tentativas de autenticação. Tente novamente em 1 minuto.' },
+          { status: 429 }
         );
       }
 
@@ -43,55 +78,22 @@ export function withAuth(
         .eq('user_id', user.id)
         .maybeSingle();
 
+      // SECURITY FIX: Never auto-create roles
+      // Users must be explicitly assigned to a tenant by an admin
       if (!roleRecord) {
-        // Bootstrap seguro: so permite auto-vinculo como superadmin se o
-        // sistema INTEIRO ainda nao tiver nenhum usuario vinculado a
-        // nenhum tenant (ou seja, e literalmente o primeiro acesso de
-        // todos). Depois que existir um unico registro em user_roles,
-        // este bloco nunca mais executa para ninguem - novos usuarios
-        // precisam ser cadastrados por um admin via /api/users/roles.
-        const { count } = await supabaseAdmin
-          .from('user_roles')
-          .select('*', { count: 'exact', head: true });
-
-        if (count === 0) {
-          let tenantId: string | null = null;
-          const { data: existingTenant } = await supabaseAdmin
-            .from('tenants')
-            .select('id')
-            .limit(1)
-            .maybeSingle();
-
-          if (existingTenant?.id) {
-            tenantId = existingTenant.id;
-          } else {
-            const { data: createdTenant } = await supabaseAdmin
-              .from('tenants')
-              .insert([{ name: 'Funeraria Matriz', cnpj: '00.000.000/0001-00' }])
-              .select('id')
-              .single();
-            tenantId = createdTenant?.id || null;
-          }
-
-          if (tenantId) {
-            const { data: createdRole } = await supabaseAdmin
-              .from('user_roles')
-              .insert([{
-                user_id: user.id,
-                tenant_id: tenantId,
-                role: 'superadmin',
-              }])
-              .select('tenant_id, role')
-              .single();
-
-            roleRecord = createdRole;
-          }
-        }
+        return NextResponse.json(
+          { 
+            error: 'Acesso pendente. Sua conta não está vinculada a nenhuma organização. Solicite a um administrador que conceda acesso.',
+            code: 'PENDING_APPROVAL',
+            userId: user.id
+          },
+          { status: 403 }
+        );
       }
 
       if (!roleRecord) {
         return NextResponse.json(
-          { error: 'Acesso negado: seu usuario ainda nao foi vinculado a nenhuma unidade. Peca a um administrador para conceder seu acesso.' },
+          { error: 'Acesso negado: seu usuario ainda nao foi vinculado a nenhuma unidade.' },
           { status: 403 }
         );
       }
@@ -116,9 +118,16 @@ export function withAuth(
         params: resolvedParams,
       });
     } catch (err: unknown) {
-      console.error('Erro na execucao da rota protegida:', err);
+      // SECURITY: Log error without sensitive data
+      console.error('[API_ERROR]', {
+        timestamp: new Date().toISOString(),
+        path: req.url,
+        method: req.method,
+        errorCode: (err as Error).message?.split(':')[0] || 'UNKNOWN',
+        // Never log tokens or personal data
+      });
       return NextResponse.json(
-        { error: 'Erro interno no servidor ao processar autenticacao.' },
+        { error: 'Erro interno no servidor. Tente novamente.' },
         { status: 500 }
       );
     }

@@ -1,47 +1,69 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { sanitizeString, isValidUUID } from '@/lib/validation';
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const { data, error } = await supabaseAdmin
       .from('chapel_burials')
-      .select('*')
+      .select('id, deceased_name, burial_date, cemetery_location, status, created_at')
       .eq('tenant_id', auth.tenantId)
-      .order('burial_date', { ascending: false });
+      .order('burial_date', { ascending: false })
+      .limit(100); // SECURITY: Limit results to prevent DoS
 
-    if (error) return NextResponse.json([]);
+    if (error) {
+      return NextResponse.json({ error: 'Erro ao buscar registros' }, { status: 500 });
+    }
     return NextResponse.json(data || []);
   } catch (err: unknown) {
-    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+    return NextResponse.json({ error: 'Erro interno ao processar requisição' }, { status: 500 });
   }
 }, ['superadmin', 'admin', 'manager', 'attendant', 'driver']);
 
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const body = await req.json();
-    const { deceased_name, burial_date, cemetery_location, contract_id } = body;
+    
+    // SECURITY: Sanitize inputs
+    const deceased_name = sanitizeString(body.deceased_name, 255);
+    const cemetery_location = sanitizeString(body.cemetery_location || 'Cemitério Municipal', 255);
+    const contract_id = body.contract_id && isValidUUID(body.contract_id) ? body.contract_id : null;
 
-    if (!deceased_name || deceased_name.trim() === '') {
-      return NextResponse.json({ error: 'Nome do falecido é obrigatório.' }, { status: 400 });
+    // Validation
+    if (!deceased_name || deceased_name.length < 2) {
+      return NextResponse.json({ error: 'Nome do falecido é obrigatório (mínimo 2 caracteres).' }, { status: 400 });
+    }
+
+    // Validate burial_date if provided
+    let burial_date = new Date().toISOString();
+    if (body.burial_date) {
+      const parsedDate = new Date(body.burial_date);
+      if (isNaN(parsedDate.getTime())) {
+        return NextResponse.json({ error: 'Data de sepultamento inválida.' }, { status: 400 });
+      }
+      burial_date = parsedDate.toISOString();
     }
 
     const { data, error } = await supabaseAdmin
       .from('chapel_burials')
       .insert([{
         tenant_id: auth.tenantId,
-        contract_id: contract_id || null,
-        deceased_name: deceased_name.trim(),
-        burial_date: burial_date || new Date().toISOString(),
-        cemetery_location: cemetery_location ? cemetery_location.trim() : 'Cemitério Municipal',
+        contract_id: contract_id,
+        deceased_name: deceased_name,
+        burial_date: burial_date,
+        cemetery_location: cemetery_location,
         status: 'Agendado',
       }])
-      .select()
+      .select('id, deceased_name, burial_date, cemetery_location, status, created_at')
       .single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) {
+      return NextResponse.json({ error: 'Erro ao criar registro' }, { status: 500 });
+    }
     return NextResponse.json(data, { status: 201 });
   } catch (err: unknown) {
-    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+    return NextResponse.json({ error: 'Erro interno ao processar requisição' }, { status: 500 });
   }
 }, ['superadmin', 'admin', 'manager', 'attendant', 'driver']);
+

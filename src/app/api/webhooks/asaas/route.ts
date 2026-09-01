@@ -1,28 +1,67 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import crypto from 'crypto';
+
+/**
+ * Verify webhook signature using HMAC
+ * Documentation: https://docs.asaas.com/docs/webhook-signature
+ */
+function verifyWebhookSignature(payload: string, signature: string, secret: string): boolean {
+  try {
+    const expectedSignature = crypto
+      .createHmac('sha256', secret)
+      .update(payload)
+      .digest('hex');
+    return crypto.timingSafeEqual(
+      Buffer.from(signature, 'hex'),
+      Buffer.from(expectedSignature, 'hex')
+    );
+  } catch {
+    return false;
+  }
+}
 
 export async function POST(req: NextRequest) {
   const webhookToken = req.headers.get('asaas-access-token');
+  const webhookSignature = req.headers.get('x-asaas-signature');
 
   if (!webhookToken) {
     return NextResponse.json({ error: 'Token de webhook ausente' }, { status: 401 });
   }
 
-  const body = await req.json();
+  // Read raw body for signature verification
+  const rawBody = await req.text();
+  
+  let body;
+  try {
+    body = JSON.parse(rawBody);
+  } catch {
+    return NextResponse.json({ error: 'Payload JSON inválido' }, { status: 400 });
+  }
+
   const { event, payment } = body;
 
   if (!payment?.id) {
     return NextResponse.json({ error: 'Payload inválido' }, { status: 400 });
   }
 
+  // Find tenant by webhook token
   const { data: tenant, error: tenantError } = await supabaseAdmin
     .from('tenants')
-    .select('id')
+    .select('id, asaas_webhook_token')
     .eq('asaas_webhook_token', webhookToken)
     .single();
 
   if (tenantError || !tenant) {
     return NextResponse.json({ error: 'Token de webhook inválido' }, { status: 403 });
+  }
+
+  // SECURITY: Verify HMAC signature if secret is configured
+  const webhookSecret = process.env.ASAAS_WEBHOOK_SECRET;
+  if (webhookSecret && webhookSignature) {
+    if (!verifyWebhookSignature(rawBody, webhookSignature, webhookSecret)) {
+      return NextResponse.json({ error: 'Assinatura do webhook inválida' }, { status: 403 });
+    }
   }
 
   if (event === 'PAYMENT_RECEIVED' || event === 'PAYMENT_CONFIRMED') {
