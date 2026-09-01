@@ -5,7 +5,10 @@ import { useRouter, usePathname } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 
 // Public routes that don't require authentication
-const PUBLIC_ROUTES = ['/login', '/landing'];
+const PUBLIC_ROUTES = ['/login', '/landing', '/carteirinha'];
+
+const isPublicRoute = (pathname: string) =>
+  PUBLIC_ROUTES.some((r) => pathname === r || pathname.startsWith(r + '/'));
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -15,7 +18,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Allow free access to public routes (login, landing page)
-    if (PUBLIC_ROUTES.includes(pathname)) {
+    if (isPublicRoute(pathname)) {
       setLoading(false);
       setAuthenticated(true);
       return;
@@ -36,7 +39,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
 
     // Listen for auth state changes (login/logout)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session && !PUBLIC_ROUTES.includes(pathname)) {
+      if (!session && !isPublicRoute(pathname)) {
         router.replace('/login');
       } else if (session) {
         setAuthenticated(true);
@@ -57,7 +60,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   }
 
   // Block access to protected routes if not authenticated
-  if (!authenticated && !PUBLIC_ROUTES.includes(pathname)) return null;
+  if (!authenticated && !isPublicRoute(pathname)) return null;
 
   return <>{children}</>;
 }
