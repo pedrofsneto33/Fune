@@ -1987,28 +1987,33 @@ export default function MasterEternityOS() {
                     <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center">
                       <button
                         onClick={async () => {
-                          const newStatus =
-                            v.status === "Disponível"
-                              ? "Em Missão"
-                              : "Disponível";
-                          const res = await authFetch("/api/vehicles", {
-                            method: "PATCH",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                              id: v.id,
-                              status: newStatus,
-                            }),
-                          });
-                          if (res.ok) {
-                            setVehicles((prev) =>
-                              prev.map((item) =>
-                                item.id === v.id
-                                  ? { ...item, status: newStatus }
-                                  : item,
-                              ),
-                            );
-                          } else {
-                            alert("Não foi possível alterar o status.");
+                          try {
+                            const newStatus =
+                              v.status === "Disponível"
+                                ? "Em Missão"
+                                : "Disponível";
+                            const res = await authFetch("/api/vehicles", {
+                              method: "PATCH",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({
+                                id: v.id,
+                                status: newStatus,
+                              }),
+                            });
+                            if (res.ok) {
+                              setVehicles((prev) =>
+                                prev.map((item) =>
+                                  item.id === v.id
+                                    ? { ...item, status: newStatus }
+                                    : item,
+                                ),
+                              );
+                            } else {
+                              const errData = await res.json().catch(() => ({}));
+                              alert(`Erro: ${errData.error || "Falha ao alterar status"}`);
+                            }
+                          } catch (err) {
+                            alert("Erro de conexão ao alterar status do veículo.");
                           }
                         }}
                         className="px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-[11px]"
@@ -3633,7 +3638,7 @@ export default function MasterEternityOS() {
       )}
 
       {/* MODAL EDITAR ÓBITO */}
-      {editingBurial && (
+      {editingBurial && editingBurial.id && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
           <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl p-6 space-y-4 shadow-2xl">
             <div className="flex justify-between items-center border-b border-zinc-800 pb-3">
@@ -3650,17 +3655,17 @@ export default function MasterEternityOS() {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                      id: editingBurial.id,
-                      deceased_name: editingBurial.deceased_name,
-                      cemetery_location: editingBurial.cemetery_location,
-                      burial_date: editingBurial.burial_date,
-                      status: editingBurial.status,
+                      id: editingBurial?.id,
+                      deceased_name: editingBurial?.deceased_name || '',
+                      cemetery_location: editingBurial?.cemetery_location || '',
+                      burial_date: editingBurial?.burial_date || new Date().toISOString(),
+                      status: editingBurial?.status || 'Agendado',
                     }),
                   });
                   if (res.ok) {
                     setBurials((prev) =>
                       prev.map((b) =>
-                        b.id === editingBurial.id ? editingBurial : b
+                        b.id === editingBurial?.id ? { ...editingBurial } : b
                       )
                     );
                     setEditingBurial(null);
@@ -3679,7 +3684,7 @@ export default function MasterEternityOS() {
                 <input
                   type="text"
                   required
-                  value={editingBurial.deceased_name}
+                  value={editingBurial?.deceased_name || ''}
                   onChange={(e) => setEditingBurial({ ...editingBurial, deceased_name: e.target.value })}
                   className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white"
                 />
@@ -3688,7 +3693,7 @@ export default function MasterEternityOS() {
                 <label className="text-xs text-zinc-400 block mb-1">Local / Cemitério</label>
                 <input
                   type="text"
-                  value={editingBurial.cemetery_location || ''}
+                  value={editingBurial?.cemetery_location || ''}
                   onChange={(e) => setEditingBurial({ ...editingBurial, cemetery_location: e.target.value })}
                   className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white"
                 />
@@ -3697,7 +3702,7 @@ export default function MasterEternityOS() {
                 <label className="text-xs text-zinc-400 block mb-1">Data do Sepultamento</label>
                 <input
                   type="datetime-local"
-                  value={editingBurial.burial_date ? new Date(editingBurial.burial_date).toISOString().slice(0, 16) : ''}
+                  value={editingBurial?.burial_date ? new Date(editingBurial.burial_date).toISOString().slice(0, 16) : ''}
                   onChange={(e) => setEditingBurial({ ...editingBurial, burial_date: new Date(e.target.value).toISOString() })}
                   className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white"
                 />
@@ -3705,7 +3710,7 @@ export default function MasterEternityOS() {
               <div>
                 <label className="text-xs text-zinc-400 block mb-1">Status</label>
                 <select
-                  value={editingBurial.status || 'Agendado'}
+                  value={editingBurial?.status || 'Agendado'}
                   onChange={(e) => setEditingBurial({ ...editingBurial, status: e.target.value })}
                   className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white"
                 >
