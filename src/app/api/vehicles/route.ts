@@ -36,7 +36,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       model,
       type: type || "Cortejo Funerario",
       driver_name: driver_name || null,
-      status: status || "Disponivel",
+      status: status || "Disponível",
       created_at: new Date().toISOString(),
     })
     .select()

@@ -21,6 +21,46 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
   }
 }, ['superadmin', 'admin', 'manager', 'attendant', 'driver']);
 
+export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
+  try {
+    const body = await req.json();
+    const { id, ...updates } = body;
+
+    if (!id || !isValidUUID(id)) {
+      return NextResponse.json({ error: 'ID inválido.' }, { status: 400 });
+    }
+
+    // Sanitize string fields
+    if (updates.deceased_name) updates.deceased_name = sanitizeString(updates.deceased_name, 255);
+    if (updates.cemetery_location) updates.cemetery_location = sanitizeString(updates.cemetery_location, 255);
+    if (updates.status) updates.status = sanitizeString(updates.status, 50);
+
+    // Validate burial_date if provided
+    if (updates.burial_date) {
+      const parsedDate = new Date(updates.burial_date);
+      if (isNaN(parsedDate.getTime())) {
+        return NextResponse.json({ error: 'Data de sepultamento inválida.' }, { status: 400 });
+      }
+      updates.burial_date = parsedDate.toISOString();
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from('chapel_burials')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .eq('tenant_id', auth.tenantId)
+      .select('id, deceased_name, burial_date, cemetery_location, status, created_at')
+      .single();
+
+    if (error) {
+      return NextResponse.json({ error: 'Erro ao atualizar registro' }, { status: 500 });
+    }
+    return NextResponse.json(data);
+  } catch (err: unknown) {
+    return NextResponse.json({ error: 'Erro interno ao processar requisição' }, { status: 500 });
+  }
+}, ['superadmin', 'admin', 'manager', 'attendant']);
+
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const body = await req.json();
