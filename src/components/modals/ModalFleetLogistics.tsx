@@ -1,117 +1,95 @@
 ﻿'use client';
-import React, { useState } from 'react';
-import { X, Truck, Navigation, CheckCircle2, AlertTriangle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, Truck, PlusCircle, RefreshCw } from 'lucide-react';
 import { authFetch } from '@/lib/authFetch';
 
-export function ModalFleetLogistics({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const [vehicle, setVehicle] = useState('Furgão Fatorial 01 (Placa: ABC-1234)');
-  const [driver, setDriver] = useState('');
-  const [missionId, setMissionId] = useState('');
+interface Vehicle {
+  id: string;
+  plate: string;
+  model: string;
+  status: string;
+  odometer: number;
+}
+
+export function ModalFleetLogistics({ isOpen, onClose, onSuccess }: { isOpen: boolean; onClose: () => void; onSuccess?: () => void }) {
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [selectedVehicleId, setSelectedVehicleId] = useState<string>('');
+  const [newOdometer, setNewOdometer] = useState('');
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (isOpen) {
+      loadVehicles();
+    }
+  }, [isOpen]);
 
-  const handleAssignVehicle = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const loadVehicles = async () => {
     setLoading(true);
-    setSuccess(false);
-
     try {
-      // Atualiza status do veículo na tabela de frota ou registra missão logística
-      const res = await authFetch('/api/vehicles', { method: 'PATCH', body: JSON.stringify({ plate: 'ABC-1234', status: 'em_missao' }) });
-      
-      // Registra log de auditoria da alocação
-      await authFetch('/api/audit-logs', {
-        method: 'POST',
-        body: JSON.stringify({ action: 'FLEET_MISSION_ASSIGN', details: 'Veiculo ' + vehicle + ' alocado para motorista ' + driver })
-      });
-
-      setSuccess(true);
-      setTimeout(() => {
-        setSuccess(false);
-        onClose();
-      }, 2000);
-    } catch (err: any) {
-      alert('Erro ao alocar frota: ' + err.message);
+      const res = await authFetch('/api/vehicles');
+      if (res.ok) {
+        const data = await res.json();
+        setVehicles(data || []);
+        if (data.length > 0) setSelectedVehicleId(data[0].id);
+      }
+    } catch (err) {
+      console.error('Erro ao carregar veículos:', err);
     } finally {
       setLoading(false);
     }
   };
 
+  const handleUpdateOdometer = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedVehicleId) return;
+    setLoading(true);
+    try {
+      const res = await authFetch(`/api/vehicles?id=${selectedVehicleId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ odometer: parseInt(newOdometer) }),
+      });
+      if (!res.ok) throw new Error('Erro ao atualizar hodômetro');
+      if (onSuccess) onSuccess();
+      onClose();
+    } catch (err: any) {
+      alert('Erro ao atualizar: ' + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!isOpen) return null;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-      <div className="w-full max-w-lg bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
-        
-        {/* Header */}
-        <div className="p-5 border-b border-zinc-800 flex items-center justify-between bg-zinc-950/40">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-cyan-500/10 border border-cyan-500/20 rounded-xl text-cyan-400">
-              <Truck className="w-5 h-5" />
+      <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl p-6 space-y-4 shadow-2xl">
+        <div className="flex justify-between items-center border-b border-zinc-800 pb-3">
+          <h3 className="text-white font-bold text-sm flex items-center gap-2">
+            <Truck className="w-4 h-4 text-blue-400" /> Controle de Frota
+          </h3>
+          <button onClick={onClose} className="text-zinc-400 hover:text-white"><X className="w-5 h-5" /></button>
+        </div>
+        {loading ? (
+          <div className="text-center text-xs text-zinc-500 py-8">Carregando frota...</div>
+        ) : vehicles.length === 0 ? (
+          <div className="text-center text-xs text-zinc-500 py-8">Nenhum veículo cadastrado</div>
+        ) : (
+          <form onSubmit={handleUpdateOdometer} className="space-y-3">
+            <div>
+              <label className="text-xs text-zinc-400 block mb-1">Veículo</label>
+              <select value={selectedVehicleId} onChange={e => setSelectedVehicleId(e.target.value)} className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white">
+                {vehicles.map(v => <option key={v.id} value={v.id}>{v.plate} - {v.model}</option>)}
+              </select>
             </div>
             <div>
-              <h2 className="text-base font-bold text-white tracking-wide">Logística de Frota & Alocação de Óbitos</h2>
-              <p className="text-xs text-zinc-400">Gerenciamento de veículos de translado e prontidão de equipes</p>
+              <label className="text-xs text-zinc-400 block mb-1">Hodômetro Atual (km)</label>
+              <input required type="number" value={newOdometer} onChange={e => setNewOdometer(e.target.value)} className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white" />
             </div>
-          </div>
-          <button onClick={onClose} className="p-2 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 rounded-lg transition">
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Content */}
-        <form onSubmit={handleAssignVehicle} className="p-6 space-y-4">
-          {success && (
-            <div className="p-3 bg-cyan-500/10 border border-cyan-500/20 rounded-xl flex items-center gap-2 text-cyan-400 text-xs">
-              <CheckCircle2 className="w-4 h-4" /> Veículo alocado com sucesso para a missão!
-            </div>
-          )}
-
-          <div>
-            <label className="text-xs text-zinc-400 block mb-1">Selecionar Veículo / Furgão</label>
-            <select 
-              value={vehicle} 
-              onChange={e => setVehicle(e.target.value)} 
-              className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2.5 text-xs text-white"
-            >
-              <option value="Furgão Fatorial 01 (Placa: ABC-1234)">Furgão Fatorial 01 (Placa: ABC-1234)</option>
-              <option value="Cornoftal Executivo 02 (Placa: XYZ-5678)">Cornoftal Executivo 02 (Placa: XYZ-5678)</option>
-              <option value="Veículo de Apoio Logístico (Placa: DEF-9012)">Veículo de Apoio Logístico (Placa: DEF-9012)</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="text-xs text-zinc-400 block mb-1">Motorista / Socorrista Responsável</label>
-            <input 
-              required 
-              type="text" 
-              value={driver} 
-              onChange={e => setDriver(e.target.value)} 
-              placeholder="Nome do motorista de plantão" 
-              className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white" 
-            />
-          </div>
-
-          <div>
-            <label className="text-xs text-zinc-400 block mb-1">ID da Missão / Óbito Vinculado</label>
-            <input 
-              type="text" 
-              value={missionId} 
-              onChange={e => setMissionId(e.target.value)} 
-              placeholder="Opcional: ID do plantão 24h" 
-              className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white font-mono" 
-            />
-          </div>
-
-          <button 
-            disabled={loading} 
-            className="w-full py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2"
-          >
-            <Navigation className="w-4 h-4" />
-            {loading ? 'Processando Alocação...' : 'Confirmar Saída do Veículo'}
-          </button>
-        </form>
-
+            <button disabled={loading} className="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+              <RefreshCw className="w-4 h-4" /> {loading ? 'Atualizando...' : 'Atualizar Hodômetro'}
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );
