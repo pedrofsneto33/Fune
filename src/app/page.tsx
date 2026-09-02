@@ -3589,7 +3589,7 @@ export default function MasterEternityOS() {
 
       {/* MODAIS DRE & RBAC */}
       <ModalDRE isOpen={isDREOpen} onClose={() => setIsDREOpen(false)} />
-      <ModalRBAC isOpen={isRBACOpen} onClose={() => setIsRBACOpen(false)} />
+      <ModalRBAC isOpen={isRBACOpen} onClose={() => setIsRBACOpen(false)} currentRole={userRole} />
 
       {/* MODAL CONFIGURAÇÕES DA EMPRESA */}
       {isSettingsOpen && (

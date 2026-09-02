@@ -11,11 +11,13 @@ interface UserRole {
   email?: string;
 }
 
-export function ModalRBAC({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+export function ModalRBAC({ isOpen, onClose, currentRole = 'admin' }: { isOpen: boolean; onClose: () => void; currentRole?: string }) {
+  const isSuper = currentRole === 'superadmin';
   const [roles, setRoles] = useState<UserRole[]>([]);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('admin');
+  const [currentUserId, setCurrentUserId] = useState('');
 
   useEffect(() => {
     if (isOpen) loadRoles();
@@ -30,6 +32,7 @@ export function ModalRBAC({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
         throw new Error((body && body.error) || `Erro ao carregar (${res.status})`);
       }
       const list = Array.isArray(body) ? body : body && Array.isArray(body.roles) ? body.roles : [];
+      if (body && body.current_user_id) setCurrentUserId(body.current_user_id);
       setRoles(list);
     } catch (err: any) {
       console.error('Erro ao carregar roles:', err);
@@ -104,8 +107,10 @@ export function ModalRBAC({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
               <label className="text-[10px] uppercase font-bold text-zinc-400 block mb-1">Permissão</label>
               <select value={role} onChange={e => setRole(e.target.value)} className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white">
                 <option value="admin">Administrador</option>
+                <option value="manager">Gerente</option>
                 <option value="financial">Financeiro</option>
                 <option value="attendant">Atendente</option>
+                {isSuper && <option value="superadmin">Super Administrador (Dono)</option>}
               </select>
             </div>
             <button type="submit" className="w-full py-2 bg-violet-600 hover:bg-violet-500 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 h-[34px]">
@@ -119,17 +124,27 @@ export function ModalRBAC({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
             ) : roles.length === 0 ? (
               <div className="py-8 text-center text-xs text-zinc-500 bg-zinc-950/40 rounded-xl border border-zinc-800">Nenhum usuário vinculado.</div>
             ) : (
-              roles.map(r => (
-                <div key={r.id} className="bg-zinc-950 border border-zinc-800 p-3.5 rounded-xl flex items-center justify-between text-xs">
-                  <div>
-                    <span className="text-white font-bold">{r.email || r.user_id}</span>
-                    <span className="ml-2 px-2 py-0.5 bg-violet-500/10 text-violet-400 rounded-full text-[10px] font-bold uppercase">{r.role}</span>
+              roles.map(r => {
+                const isSelf = r.user_id === currentUserId;
+                const isSuperRow = r.role === 'superadmin';
+                const canDelete = !isSelf && (isSuper ? true : !isSuperRow);
+                return (
+                  <div key={r.id} className="bg-zinc-950 border border-zinc-800 p-3.5 rounded-xl flex items-center justify-between text-xs">
+                    <div>
+                      <span className="text-white font-bold">{r.email || r.user_id} {isSelf && <span className="ml-1 text-emerald-400 font-bold">(voce)</span>}</span>
+                      <span className={`ml-2 px-2 py-0.5 bg-violet-500/10 text-violet-400 rounded-full text-[10px] font-bold uppercase ${isSuperRow ? 'bg-amber-500/10 text-amber-400' : ''}`}>{r.role}{isSuperRow && ' (Dono)'}</span>
+                    </div>
+                    <button
+                      onClick={() => handleDeleteRole(r.id)}
+                      disabled={!canDelete}
+                      title={isSelf ? 'Voce nao pode remover seu proprio acesso' : !canDelete ? 'Apenas Super Admin gerencia Super Admin' : 'Remover acesso'}
+                      className={`p-1.5 rounded-lg transition ${canDelete ? 'text-red-400 hover:bg-red-500/10' : 'text-zinc-700 cursor-not-allowed'}`}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
                   </div>
-                  <button onClick={() => handleDeleteRole(r.id)} className="p-1.5 text-red-400 hover:bg-red-500/10 rounded-lg transition">
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>

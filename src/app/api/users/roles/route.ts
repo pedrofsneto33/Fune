@@ -38,7 +38,12 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
       email: emailById.get(r.user_id) || '(nao encontrado)',
     }));
 
-    return NextResponse.json({ success: true, roles: enriched });
+    return NextResponse.json({
+      success: true,
+      is_superadmin: auth.role === 'superadmin',
+      current_user_id: auth.userId,
+      roles: enriched,
+    });
   } catch (err: any) {
     return NextResponse.json({ error: 'Erro ao listar permissoes' }, { status: 500 });
   }
@@ -99,6 +104,49 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         { error: 'Nenhuma conta encontrada com este e-mail. O colaborador precisa criar a conta (fazer o primeiro login) antes de receber uma permissao.' },
         { status: 404 }
       );
+    }
+
+    // SECURITY: Um nao-superadmin NUNCA pode alterar (rebaixar ou trocar) o papel de um superadmin.
+    // Se o alvo ja e superadmin neste tenant, somente outro superadmin pode tocar nesse registro.
+    if (auth.role !== 'superadmin') {
+      const { data: existingSuper } = await supabaseAdmin
+        .from('user_roles')
+        .select('id, role')
+        .eq('user_id', targetUser.id)
+        .eq('tenant_id', targetTenantId)
+        .maybeSingle();
+
+      if (existingSuper?.role === 'superadmin') {
+        return NextResponse.json(
+          { error: 'Somente um Super Administrador pode alterar a permissao de um Super Administrador.' },
+          { status: 403 }
+        );
+      }
+    }
+
+    // SECURITY: Nunca rebaixar o UNICO superadmin restante (evita lockout total do sistema).
+    if (auth.role === 'superadmin' && role !== 'superadmin') {
+      const { data: superRow } = await supabaseAdmin
+        .from('user_roles')
+        .select('id, role')
+        .eq('user_id', targetUser.id)
+        .eq('tenant_id', targetTenantId)
+        .maybeSingle();
+
+      if (superRow?.role === 'superadmin') {
+        const { count } = await supabaseAdmin
+          .from('user_roles')
+          .select('id', { count: 'exact', head: true })
+          .eq('tenant_id', targetTenantId)
+          .eq('role', 'superadmin');
+
+        if (count !== undefined && (count ?? 0) <= 1) {
+          return NextResponse.json(
+            { error: 'Nao e possivel rebaixar o unico Super Administrador do sistema.' },
+            { status: 400 }
+          );
+        }
+      }
     }
 
     // VERIFICACAO DE LIMITE DE USUARIOS DO PLANO COMERCIAL
@@ -189,6 +237,22 @@ export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
     // Somente superadmin remove outro superadmin
     if (target.role === 'superadmin' && auth.role !== 'superadmin') {
       return NextResponse.json({ error: 'Somente um Super Administrador pode remover este nivel de acesso.' }, { status: 403 });
+    }
+
+    // SECURITY: Nunca remover o UNICO superadmin restante (evita lockout total do sistema)
+    if (target.role === 'superadmin') {
+      const { count } = await supabaseAdmin
+        .from('user_roles')
+        .select('id', { count: 'exact', head: true })
+        .eq('tenant_id', target.tenant_id)
+        .eq('role', 'superadmin');
+
+      if (count !== undefined && (count ?? 0) <= 1) {
+        return NextResponse.json(
+          { error: 'Nao e possivel remover o unico Super Administrador do sistema.' },
+          { status: 400 }
+        );
+      }
     }
 
     const { error: delErr } = await supabaseAdmin
