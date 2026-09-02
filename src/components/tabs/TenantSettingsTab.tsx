@@ -47,6 +47,19 @@ export function TenantSettingsTab() {
   const [commercialPlan, setCommercialPlan] = useState('essencial');
   const [canManagePlan, setCanManagePlan] = useState(false);
 
+  // ONBOARDING: Cadastro de nova funeraria cliente (superadmin apenas)
+  const [isNewTenantOpen, setIsNewTenantOpen] = useState(false);
+  const [creatingTenant, setCreatingTenant] = useState(false);
+  const [newTenantForm, setNewTenantForm] = useState({
+    name: '',
+    trade_name: '',
+    cnpj: '',
+    phone_emergency: '',
+    issuance_city: '',
+    primary_color: '#7c3aed',
+    commercial_plan: 'essencial',
+  });
+
   const webhookUrl = 'https://eternitysos.vercel.app/api/webhooks/asaas';
 
   const getAuthHeaders = async (): Promise<Record<string, string>> => {
@@ -101,6 +114,47 @@ export function TenantSettingsTab() {
   const handleTenantChange = (tenantId: string) => {
     const found = tenants.find(t => t.id === tenantId);
     if (found) selectTenantData(found);
+  };
+
+  // ONBOARDING: cria a funeraria do cliente novo (POST /api/tenants - superadmin)
+  const handleCreateTenant = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTenantForm.name.trim() || !newTenantForm.cnpj.trim()) {
+      alert('Nome da empresa e CNPJ sao obrigatorios.');
+      return;
+    }
+    setCreatingTenant(true);
+    try {
+      const headers = await getAuthHeaders();
+      const res = await fetch('/api/tenants', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(newTenantForm),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setIsNewTenantOpen(false);
+        await loadTenants();
+        alert(
+          'Funeraria cadastrada com sucesso!\n\n' +
+          'PROXIMOS PASSOS:\n' +
+          '1. O dono da funeraria cria a conta dele na tela de login (Cadastro).\n' +
+          '2. Va em Permissoes, insira o e-mail dele, cargo Admin, e selecione esta funeraria.\n' +
+          '3. Ele passara a administrar apenas os dados da funeraria dele.\n\n' +
+          'ID da funeraria: ' + (data.id || '')
+        );
+        setNewTenantForm({
+          name: '', trade_name: '', cnpj: '', phone_emergency: '',
+          issuance_city: '', primary_color: '#7c3aed', commercial_plan: 'essencial',
+        });
+      } else {
+        alert('Erro ao criar funeraria: ' + (data.error || 'Falha na requisicao.'));
+      }
+    } catch (err: any) {
+      alert('Erro ao conectar com a API: ' + err.message);
+    } finally {
+      setCreatingTenant(false);
+    }
   };
 
   const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -206,20 +260,32 @@ export function TenantSettingsTab() {
           </div>
         </div>
 
-        {tenants.length > 1 && (
-          <div className="flex items-center gap-2">
-            <Building2 className="w-4 h-4 text-zinc-400" />
-            <select
-              value={selectedTenantId}
-              onChange={(e) => handleTenantChange(e.target.value)}
-              className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500"
+        <div className="flex items-center gap-2 flex-wrap">
+          {canManagePlan && (
+            <button
+              type="button"
+              onClick={() => setIsNewTenantOpen(true)}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold transition shadow-lg shadow-violet-950/30"
             >
-              {tenants.map(t => (
-                <option key={t.id} value={t.id}>{t.trade_name} ({t.cnpj})</option>
-              ))}
-            </select>
-          </div>
-        )}
+              <Building2 className="w-4 h-4" />
+              + Nova Funeraria
+            </button>
+          )}
+          {tenants.length > 1 && (
+            <div className="flex items-center gap-2">
+              <Building2 className="w-4 h-4 text-zinc-400" />
+              <select
+                value={selectedTenantId}
+                onChange={(e) => handleTenantChange(e.target.value)}
+                className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500"
+              >
+                {tenants.map(t => (
+                  <option key={t.id} value={t.id}>{t.trade_name} ({t.cnpj})</option>
+                ))}
+              </select>
+            </div>
+          )}
+        </div>
       </div>
 
       <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -404,6 +470,87 @@ export function TenantSettingsTab() {
           </button>
         </div>
       </form>
+
+      {/* MODAL ONBOARDING: NOVA FUNERARIA (superadmin) */}
+      {isNewTenantOpen && (
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-[70]">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
+            <h3 className="font-bold text-sm text-violet-400 mb-1 flex items-center gap-2">
+              <Building2 className="w-4 h-4" />
+              Cadastrar Nova Funeraria Cliente
+            </h3>
+            <p className="text-[11px] text-zinc-500 mb-4">
+              Cada funeraria opera em ambiente 100% isolado. Os dados jamais se misturam entre clientes.
+            </p>
+            <form onSubmit={handleCreateTenant} className="space-y-3 text-xs">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="col-span-2">
+                  <label className="block font-medium text-zinc-300 mb-1">Razao Social *</label>
+                  <input type="text" required value={newTenantForm.name}
+                    onChange={(e) => setNewTenantForm({ ...newTenantForm, name: e.target.value })}
+                    placeholder="ex: Funeraria Sao Judas Tadeu LTDA"
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none" />
+                </div>
+                <div className="col-span-2">
+                  <label className="block font-medium text-zinc-300 mb-1">Nome Fantasia</label>
+                  <input type="text" value={newTenantForm.trade_name}
+                    onChange={(e) => setNewTenantForm({ ...newTenantForm, trade_name: e.target.value })}
+                    placeholder="ex: Sao Judas Tadeu"
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none" />
+                </div>
+                <div>
+                  <label className="block font-medium text-zinc-300 mb-1">CNPJ *</label>
+                  <input type="text" required value={newTenantForm.cnpj}
+                    onChange={(e) => setNewTenantForm({ ...newTenantForm, cnpj: e.target.value })}
+                    placeholder="00.000.000/0000-00"
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none font-mono" />
+                </div>
+                <div>
+                  <label className="block font-medium text-zinc-300 mb-1">Tel. Plantao 24h</label>
+                  <input type="text" value={newTenantForm.phone_emergency}
+                    onChange={(e) => setNewTenantForm({ ...newTenantForm, phone_emergency: e.target.value })}
+                    placeholder="(86) 99999-0000"
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none font-mono" />
+                </div>
+                <div>
+                  <label className="block font-medium text-zinc-300 mb-1">Cidade de Atuacao</label>
+                  <input type="text" value={newTenantForm.issuance_city}
+                    onChange={(e) => setNewTenantForm({ ...newTenantForm, issuance_city: e.target.value })}
+                    placeholder="ex: Teresina - PI"
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none" />
+                </div>
+                <div>
+                  <label className="block font-medium text-zinc-300 mb-1">Cor da Marca</label>
+                  <input type="color" value={newTenantForm.primary_color}
+                    onChange={(e) => setNewTenantForm({ ...newTenantForm, primary_color: e.target.value })}
+                    className="w-full h-9 bg-zinc-800 border border-zinc-700 rounded-lg px-1 cursor-pointer" />
+                </div>
+                <div className="col-span-2">
+                  <label className="block font-medium text-zinc-300 mb-1">Plano Comercial *</label>
+                  <select value={newTenantForm.commercial_plan}
+                    onChange={(e) => setNewTenantForm({ ...newTenantForm, commercial_plan: e.target.value })}
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none">
+                    <option value="essencial">Essencial - {formatPlanPrice(COMMERCIAL_PLANS.essencial)}/mes</option>
+                    <option value="profissional">Profissional - {formatPlanPrice(COMMERCIAL_PLANS.profissional)}/mes</option>
+                    <option value="enterprise">Enterprise - Sob consulta</option>
+                  </select>
+                </div>
+              </div>
+              <div className="flex justify-end gap-2 pt-3 border-t border-zinc-800 mt-4">
+                <button type="button" onClick={() => setIsNewTenantOpen(false)}
+                  className="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold">
+                  Cancelar
+                </button>
+                <button type="submit" disabled={creatingTenant}
+                  className="flex items-center gap-2 px-5 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 font-bold disabled:opacity-50">
+                  {creatingTenant ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Building2 className="w-3.5 h-3.5" />}
+                  {creatingTenant ? 'Cadastrando...' : 'Cadastrar Funeraria'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

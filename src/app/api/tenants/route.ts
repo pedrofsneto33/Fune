@@ -57,7 +57,7 @@ export const POST = withAuth(async (req: NextRequest) => {
   const {
     name, trade_name, cnpj, phone_emergency,
     municipal_license_number, issuance_city, technical_manager,
-    primary_color, logo_url
+    primary_color, logo_url, commercial_plan
   } = body;
 
   if (!name || !cnpj) {
@@ -76,6 +76,8 @@ export const POST = withAuth(async (req: NextRequest) => {
       technical_manager,
       primary_color,
       logo_url,
+      // Plano comercial definido no onboarding (rota exclusiva de superadmin)
+      commercial_plan: VALID_PLAN_CODES.includes(commercial_plan) ? commercial_plan : 'essencial',
       status: 'active'
     }])
     .select(PUBLIC_COLUMNS)
