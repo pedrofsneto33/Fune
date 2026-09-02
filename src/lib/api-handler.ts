@@ -13,9 +13,8 @@ type AuthenticatedHandler = (
   ctx: { auth: AuthContext; params?: any }
 ) => Promise<NextResponse>;
 
-// Rate limit configuration for auth endpoints
-const AUTH_RATE_LIMIT = { maxAttempts: 5, windowMs: 60000 }; // 5 attempts per minute
-const API_RATE_LIMIT = { maxAttempts: 100, windowMs: 60000 }; // 100 requests per minute
+// Rate limit configuration
+const API_RATE_LIMIT = { maxAttempts: 300, windowMs: 60000 }; // 300 requests per minute (dashboard dispara varias chamadas em paralelo)
 
 export function withAuth(
   handler: AuthenticatedHandler,
@@ -23,22 +22,22 @@ export function withAuth(
 ) {
   return async (req: NextRequest, props?: { params?: Promise<any> }) => {
     try {
-      // Rate limiting by IP
-      const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
-                       req.headers.get('x-real-ip') || 
+      // Rate limiting geral por IP (NUNCA conta chamadas normais como "tentativa de login")
+      const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+                       req.headers.get('x-real-ip') ||
                        'unknown';
-      
-      const rateLimitResult = checkRateLimit(`api:${clientIP}`, API_RATE_LIMIT);
-      if (!rateLimitResult.allowed) {
+
+      const apiRateLimit = checkRateLimit(`api:${clientIP}`, API_RATE_LIMIT);
+      if (!apiRateLimit.allowed) {
         return NextResponse.json(
           { error: 'Muitas requisições. Tente novamente em alguns segundos.' },
-          { 
+          {
             status: 429,
             headers: {
-              'Retry-After': Math.ceil((rateLimitResult.resetAt - Date.now()) / 1000).toString(),
+              'Retry-After': Math.ceil((apiRateLimit.resetAt - Date.now()) / 1000).toString(),
               'X-RateLimit-Limit': API_RATE_LIMIT.maxAttempts.toString(),
               'X-RateLimit-Remaining': '0',
-              'X-RateLimit-Reset': new Date(rateLimitResult.resetAt).toISOString(),
+              'X-RateLimit-Reset': new Date(apiRateLimit.resetAt).toISOString(),
             }
           }
         );
@@ -51,15 +50,6 @@ export function withAuth(
         return NextResponse.json(
           { error: 'Nao autorizado: cabecalho de autenticacao ausente ou invalido.' },
           { status: 401 }
-        );
-      }
-
-      // Rate limiting by user for auth attempts
-      const authRateLimit = checkRateLimit(`auth:${clientIP}`, AUTH_RATE_LIMIT);
-      if (!authRateLimit.allowed) {
-        return NextResponse.json(
-          { error: 'Muitas tentativas de autenticação. Tente novamente em 1 minuto.' },
-          { status: 429 }
         );
       }
 

@@ -25,12 +25,16 @@ export function ModalRBAC({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
     setLoading(true);
     try {
       const res = await authFetch('/api/users/roles');
-      if (res.ok) {
-        const data = await res.json();
-        setRoles(data || []);
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error((body && body.error) || `Erro ao carregar (${res.status})`);
       }
-    } catch (err) {
+      const list = Array.isArray(body) ? body : body && Array.isArray(body.roles) ? body.roles : [];
+      setRoles(list);
+    } catch (err: any) {
       console.error('Erro ao carregar roles:', err);
+      alert('Erro ao carregar acessos: ' + (err.message || 'tente novamente.'));
+      setRoles([]);
     } finally {
       setLoading(false);
     }
@@ -44,11 +48,14 @@ export function ModalRBAC({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
         method: 'POST',
         body: JSON.stringify({ email, role }),
       });
-      if (!res.ok) throw new Error('Erro ao adicionar');
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error((body && body.error) || 'Erro ao adicionar');
+      }
       setEmail('');
       loadRoles();
     } catch (err: any) {
-      alert('Erro: ' + err.message);
+      alert('Erro: ' + (err.message || 'Não foi possível adicionar o acesso.'));
     } finally {
       setLoading(false);
     }
@@ -58,10 +65,13 @@ export function ModalRBAC({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
     if (!confirm('Remover este acesso?')) return;
     try {
       const res = await authFetch(`/api/users/roles?id=${id}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error('Erro ao remover');
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error((body && body.error) || 'Erro ao remover');
+      }
       loadRoles();
     } catch (err: any) {
-      alert('Erro: ' + err.message);
+      alert('Erro: ' + (err.message || 'Não foi possível remover o acesso.'));
     }
   };
 

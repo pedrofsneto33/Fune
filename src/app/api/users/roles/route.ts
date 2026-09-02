@@ -151,3 +151,57 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     return NextResponse.json({ error: 'Erro ao salvar permissao' }, { status: 500 });
   }
 }, ['superadmin', 'admin']);
+
+// DELETE: Remover a permissao de acesso de um colaborador.
+// Regras de seguranca:
+//  - Admin gerencia apenas o proprio tenant; superadmin pode gerenciar qualquer tenant.
+//  - Ninguem pode remover o proprio acesso (evita lockout acidental).
+//  - Somente superadmin pode remover outro superadmin.
+export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get('id');
+
+    if (!id || !isValidUUID(id)) {
+      return NextResponse.json({ error: 'ID invalido.' }, { status: 400 });
+    }
+
+    const { data: target, error: findErr } = await supabaseAdmin
+      .from('user_roles')
+      .select('id, user_id, role, tenant_id')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (findErr || !target) {
+      return NextResponse.json({ error: 'Permissao nao encontrada.' }, { status: 404 });
+    }
+
+    // Escopo por tenant (admin so mexe no proprio; superadmin pode gerenciar outro)
+    if (target.tenant_id !== auth.tenantId && auth.role !== 'superadmin') {
+      return NextResponse.json({ error: 'Acesso negado: registro de outro tenant.' }, { status: 403 });
+    }
+
+    // Protege contra lockout acidental
+    if (target.user_id === auth.userId) {
+      return NextResponse.json({ error: 'Voce nao pode remover seu proprio acesso.' }, { status: 400 });
+    }
+
+    // Somente superadmin remove outro superadmin
+    if (target.role === 'superadmin' && auth.role !== 'superadmin') {
+      return NextResponse.json({ error: 'Somente um Super Administrador pode remover este nivel de acesso.' }, { status: 403 });
+    }
+
+    const { error: delErr } = await supabaseAdmin
+      .from('user_roles')
+      .delete()
+      .eq('id', id);
+
+    if (delErr) {
+      return NextResponse.json({ error: 'Erro ao remover permissao.' }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (err: any) {
+    return NextResponse.json({ error: 'Erro ao remover permissao.' }, { status: 500 });
+  }
+}, ['superadmin', 'admin']);
