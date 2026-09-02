@@ -1,9 +1,16 @@
 const { createClient } = require('@supabase/supabase-js');
 
-const url = 'https://plvrapxybhdnwmquossb.supabase.co';
-const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsdnJhcHh5YmhkbndtcXVvc3NiIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NzkwMDE1MiwiZXhwIjoyMTAzNDc2MTUyfQ.PPx5j7kvw0fKRCXSdplFGeCAYSw-x7NeRn_XX40N6o0';
+const url = process.env.SUPABASE_URL || 'https://plvrapxybhdnwmquossb.supabase.co';
+// SECURITY: chave via variavel de ambiente (.env.local). Nunca commitar o valor real.
+const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE;
+
+if (!key) {
+  console.error('ERRO: defina SUPABASE_SERVICE_ROLE_KEY no .env.local antes de rodar este script.');
+  process.exit(1);
+}
 
 const sb = createClient(url, key);
+
 
 async function createTables() {
   // Create service_orders table

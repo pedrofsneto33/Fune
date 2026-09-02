@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
-import { withAuth } from "@/lib/api-handler";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { sanitizeString, sanitizeCPF, isValidEmail } from "@/lib/validation";
-import { getPlanByCode, checkHolderLimit } from "@/lib/planLimits";
+import { NextRequest, NextResponse } from 'next/server';
+import { withAuth } from '@/lib/api-handler';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { checkRateLimit } from '@/lib/rate-limiter';
+import { sanitizeString, sanitizeCPF, isValidEmail } from '@/lib/validation';
+import { getPlanByCode, checkHolderLimit } from '@/lib/planLimits';
 
 // Importacao de associados via CSV colado no painel.
 // Formato por linha: Nome;CPF;Telefone;Email;Endereco  (delimitador ; ou ,)
@@ -22,6 +23,15 @@ interface ParsedRow {
 export const POST = withAuth(
   async (req: NextRequest, { auth }) => {
     try {
+      // SECURITY: rate limit por usuario (importacao e operacao pesada)
+      const rl = checkRateLimit(`import:${auth.userId}`, { maxAttempts: 5, windowMs: 60000 });
+      if (!rl.allowed) {
+        return NextResponse.json(
+          { error: 'Muitas importacoes seguidas. Aguarde um minuto.' },
+          { status: 429 },
+        );
+      }
+
       const body = await req.json();
       const rawCsv = typeof body.csv === "string" ? body.csv : "";
       if (!rawCsv.trim()) {

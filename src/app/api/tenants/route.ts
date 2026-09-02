@@ -103,7 +103,10 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
     return NextResponse.json({ error: 'Tenant ID nao fornecido' }, { status: 400 });
   }
 
-  const updateData: Record<string, any> = { updated_at: new Date().toISOString() };
+  // SECURITY: 'updated_at' removido - a coluna nao existe na tabela tenants
+  // (causava erro 500 em TODO save de configuracoes)
+  const updateData: Record<string, any> = {};
+
 
   // Plano comercial: SOMENTE superadmin pode alterar (impacta cobranca)
   if (commercial_plan !== undefined) {

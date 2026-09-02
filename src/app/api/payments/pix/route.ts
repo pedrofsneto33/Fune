@@ -1,9 +1,19 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { getAsaasConfigForTenant } from '@/lib/asaasClient';
+import { checkRateLimit } from '@/lib/rate-limiter';
 
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
+    // SECURITY: rate limit por usuario - criacao de cobranca tem custo financeiro
+    const rl = checkRateLimit(`pix:${auth.userId}`, { maxAttempts: 20, windowMs: 60000 });
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { error: 'Muitas cobrancas em sequencia. Aguarde um minuto.' },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
     const { contractId, amount, customerName, customerCpf, customerPhone } = body;
 

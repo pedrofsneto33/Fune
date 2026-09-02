@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { checkRateLimit } from '@/lib/rate-limiter';
 
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
+    // SECURITY: rate limit por usuario - operacao em lote de cobrancas
+    const rl = checkRateLimit(`asabatch:${auth.userId}`, { maxAttempts: 3, windowMs: 60000 });
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { error: 'Muitos lotes em sequencia. Aguarde um minuto.' },
+        { status: 429 }
+      );
+    }
+
     const { data: contracts, error } = await supabaseAdmin
       .from('contracts')
       .select('id, holder_id, plan_id, holders(full_name, cpf, phone), plans(name, monthly_fee)')

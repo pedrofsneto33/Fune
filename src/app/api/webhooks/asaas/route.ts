@@ -56,9 +56,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Token de webhook inválido' }, { status: 403 });
   }
 
-  // SECURITY: Verify HMAC signature if secret is configured
+  // SECURITY: fail-closed - se o segredo HMAC estiver configurado, a assinatura
+  // e OBRIGATORIA. Ausencia de assinatura tambem rejeita (401), nao apenas
+  // assinatura invalida. Para ativar: configure ASAAS_WEBHOOK_SECRET no painel
+  // do Asaas e na Vercel.
   const webhookSecret = process.env.ASAAS_WEBHOOK_SECRET;
-  if (webhookSecret && webhookSignature) {
+  if (webhookSecret) {
+    if (!webhookSignature) {
+      return NextResponse.json({ error: 'Assinatura do webhook ausente' }, { status: 401 });
+    }
     if (!verifyWebhookSignature(rawBody, webhookSignature, webhookSecret)) {
       return NextResponse.json({ error: 'Assinatura do webhook inválida' }, { status: 403 });
     }
