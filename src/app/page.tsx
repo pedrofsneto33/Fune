@@ -6,7 +6,8 @@ import { formatWhatsAppMessage } from '@/lib/whatsapp';
 import { isTabAllowed, hasPermission, UserRole } from '@/config/permissions';
 import { ModalRBAC } from '@/components/dashboard/ModalRBAC';
 import { ModalDRE } from '@/components/dashboard/ModalDRE';
-import { TenantSettingsTab } from '@/components/tabs/TenantSettingsTab';
+  import { TenantSettingsTab } from '@/components/tabs/TenantSettingsTab';
+  import { ModalChapel } from '@/components/modals/ModalChapel';
 
 // Interfaces
 interface Dependent {
@@ -74,6 +75,18 @@ interface Partner {
   category: string;
   discount_percentage: number;
   contact_info: string;
+  active?: boolean;
+}
+
+// Salas de Velório — agenda real vinda de /api/chapel-bookings
+interface ChapelBooking {
+  id: string;
+  chapel_name: string;
+  deceased_name: string;
+  family_contact: string;
+  start_time: string;
+  end_time: string;
+  status: 'reservado' | 'em_velorio' | 'concluido';
 }
 
 interface FinancialTransaction {
@@ -116,12 +129,7 @@ export default function MasterEternityOS() {
     { id: '4', item_name: 'Véu de Renda Especial com Flores', category: 'Ornamentação', stock_quantity: 25, min_threshold: 10 },
   ]);
 
-  const [partners, setPartners] = useState<Partner[]>([
-    { id: '1', partner_name: 'Farmácia Pague Menos Teresina', category: 'Medicamentos & Farmácia', discount_percentage: 25, contact_info: '(86) 3222-1000' },
-    { id: '2', partner_name: 'Clínica Médica São Camilo', category: 'Consultas & Exames', discount_percentage: 30, contact_info: '(86) 3215-4000' },
-    { id: '3', partner_name: 'Laboratório Central Diagnósticos', category: 'Exames Laboratoriais', discount_percentage: 35, contact_info: '(86) 3230-8000' },
-    { id: '4', partner_name: 'Óticas Diniz Centro', category: 'Ótica & Óculos', discount_percentage: 20, contact_info: '(86) 3221-5500' },
-  ]);
+    const [partners, setPartners] = useState<Partner[]>([]);
 
   const [thanatopraxyRecords, setThanatopraxyRecords] = useState<any[]>([]);
 
@@ -133,11 +141,7 @@ export default function MasterEternityOS() {
     { id: '3', item_name: 'Cama Hospitalar Articulada', holder_name: 'Pedro Silva', loan_date: '10/08/2026', status: 'Ativo' },
   ]);
 
-  const [chapels, setChapels] = useState([
-    { id: '1', name: 'Capela Master 01 (Suíte)', capacity: '80 pessoas', status: 'Livre', deceased: '', time: '' },
-    { id: '2', name: 'Capela Executiva 02', capacity: '60 pessoas', status: 'Ocupada', deceased: 'Severino Bezerra', time: 'Cortejo às 16:30' },
-    { id: '3', name: 'Capela Standard 03', capacity: '40 pessoas', status: 'Livre', deceased: '', time: '' },
-  ]);
+    const [chapels, setChapels] = useState<ChapelBooking[]>([]);
 
   const [transactions, setTransactions] = useState<FinancialTransaction[]>([]);
 
@@ -157,7 +161,8 @@ export default function MasterEternityOS() {
   const [isAsaasConfigOpen, setIsAsaasConfigOpen] = useState(false);
   const [isDREOpen, setIsDREOpen] = useState(false);
   const [isRBACOpen, setIsRBACOpen] = useState(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isNewChapelBookingOpen, setIsNewChapelBookingOpen] = useState(false);
 
   // Impressões e Dependentes
   const [selectedHolder, setSelectedHolder] = useState<Holder | null>(null);
@@ -181,7 +186,8 @@ export default function MasterEternityOS() {
   const [vehicleForm, setVehicleForm] = useState({ plate: '', model: '', type: 'Cortejo Fúnebre', driver_name: '' });
   const [inventoryForm, setInventoryForm] = useState({ item_name: '', category: 'Urna Adulto', stock_quantity: 10, min_threshold: 3 });
   const [convalescenceForm, setConvalescenceForm] = useState({ item_name: 'Cadeira de Rodas Dobrável', holder_name: '', loan_date: '' });
-  const [partnerForm, setPartnerForm] = useState({ partner_name: '', category: 'Medicamentos & Farmácia', discount_percentage: 20, contact_info: '' });
+    const [partnerForm, setPartnerForm] = useState({ partner_name: '', category: 'Medicamentos & Farmácia', discount_percentage: 20, contact_info: '' });
+  const [editingPartnerId, setEditingPartnerId] = useState<string | null>(null);
   const [thanatoForm, setThanatoForm] = useState({ deceased_name: '', technician: 'Dr. Roberto Tanatólogo', procedure: 'Aspiração e Formolização Padrão' });
   const [txForm, setTxForm] = useState({ description: '', amount: 100, type: 'income' as 'income' | 'expense', category: 'Mensalidade Plano' });
 
@@ -228,11 +234,11 @@ export default function MasterEternityOS() {
         if (Array.isArray(invData) && invData.length > 0) setInventory(invData);
       }
 
-      // 4. Parceiros
+            // 4. Parceiros
       const partRes = await authFetch('/api/benefits/partners');
       if (partRes.ok) {
         const partData = await partRes.json();
-        if (Array.isArray(partData) && partData.length > 0) setPartners(partData);
+        if (Array.isArray(partData)) setPartners(partData);
       }
 
       // 6. Veículos
@@ -247,6 +253,13 @@ export default function MasterEternityOS() {
       if (txRes.ok) {
         const txData = await txRes.json();
         if (Array.isArray(txData)) setTransactions(txData);
+      }
+
+      // 8. Reservas de Salas de Velório (chapel_bookings)
+      const capRes = await authFetch('/api/chapel-bookings');
+      if (capRes.ok) {
+        const capData = await capRes.json();
+        if (Array.isArray(capData)) setChapels(capData);
       }
     } catch (e) {
       console.warn('Erro ao carregar dados do ERP:', e);
@@ -584,25 +597,61 @@ export default function MasterEternityOS() {
     setConvalescenceForm({ item_name: 'Cadeira de Rodas Dobrável', holder_name: '', loan_date: '' });
   };
 
-  // Salvar Parceiro de Convênio
+    // Abrir/Editar Parceiro de Convênio
+  const openEditPartner = (p: Partner) => {
+    setPartnerForm({ partner_name: p.partner_name, category: p.category, discount_percentage: p.discount_percentage, contact_info: p.contact_info || '' });
+    setEditingPartnerId(p.id);
+    setIsNewPartnerOpen(true);
+  };
+
+  const closePartnerModal = () => {
+    setIsNewPartnerOpen(false);
+    setEditingPartnerId(null);
+    setPartnerForm({ partner_name: '', category: 'Medicamentos & Farmácia', discount_percentage: 20, contact_info: '' });
+  };
+
+  // Salvar Parceiro de Convênio (cria ou edita)
   const handleSavePartner = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const res = await authFetch('/api/benefits/partners', {
-        method: 'POST',
+        method: editingPartnerId ? 'PATCH' : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(partnerForm),
+        body: JSON.stringify({ ...partnerForm, ...(editingPartnerId ? { id: editingPartnerId } : {}) }),
       });
       if (res.ok) {
-        const newP = await res.json();
-        setPartners((prev) => [...prev, newP]);
-        setIsNewPartnerOpen(false);
-        setPartnerForm({ partner_name: '', category: 'Medicamentos & Farmácia', discount_percentage: 20, contact_info: '' });
-        alert('Parceiro credenciado com sucesso!');
+        const saved = await res.json();
+        if (editingPartnerId) {
+          setPartners((prev) => prev.map((p) => (p.id === editingPartnerId ? saved : p)));
+        } else {
+          setPartners((prev) => [...prev, saved]);
+        }
+        alert(editingPartnerId ? 'Parceiro atualizado com sucesso!' : 'Parceiro credenciado com sucesso!');
+        closePartnerModal();
         loadData();
+      } else {
+        const err = await res.json();
+        alert(`Erro: ${err.error || 'Falha ao salvar parceiro'}`);
       }
     } catch {
-      alert('Erro ao salvar parceiro.');
+      alert('Erro de conexão ao salvar parceiro.');
+    }
+  };
+
+  // Remover Parceiro de Convênio
+  const handleDeletePartner = async (id: string) => {
+    if (!confirm('Remover este parceiro da rede de convênios?')) return;
+    try {
+      const res = await authFetch(`/api/benefits/partners?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+      if (res.ok) {
+        setPartners((prev) => prev.filter((p) => p.id !== id));
+        alert('Parceiro removido.');
+      } else {
+        const err = await res.json();
+        alert(`Erro: ${err.error || 'Falha ao remover parceiro'}`);
+      }
+    } catch {
+      alert('Erro de conexão ao remover parceiro.');
     }
   };
 
@@ -1103,35 +1152,78 @@ export default function MasterEternityOS() {
             </div>
           )}
 
-          {/* CAPELAS */}
+                    {/* SALAS DE VELÓRIO - agenda real via /api/chapel-bookings */}
           {activeTab === 'chapel' && isTabAllowed(userRole, 'chapel') && (
             <div className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {chapels.map((cap) => (
-                  <div key={cap.id} className="bg-[#0d121f] border border-slate-800 p-5 rounded-xl flex flex-col justify-between">
-                    <div>
-                      <div className="flex justify-between items-center text-xs font-bold uppercase mb-2">
-                        <span className="text-white">{cap.name}</span>
-                        <span className={cap.status === 'Livre' ? 'text-emerald-400' : 'text-rose-400'}>● {cap.status}</span>
-                      </div>
-                      <p className="text-xs text-slate-400">Capacidade: {cap.capacity}</p>
-                      {cap.deceased && <p className="text-xs font-bold text-blue-400 mt-2">Velório: {cap.deceased} ({cap.time})</p>}
-                    </div>
-                    <div className="mt-4 pt-3 border-t border-slate-800 flex justify-end">
-                      <button
-                        onClick={() => {
-                          setChapels((prev) =>
-                            prev.map((c) => (c.id === cap.id ? { ...c, status: c.status === 'Livre' ? 'Ocupada' : 'Livre', deceased: c.status === 'Livre' ? 'Novo Velório Agendado' : '' } : c))
-                          );
-                        }}
-                        className="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-xs font-semibold"
-                      >
-                        Alternar ({cap.status === 'Livre' ? 'Ocupar' : 'Liberar'})
-                      </button>
-                    </div>
-                  </div>
-                ))}
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="font-bold text-sm text-white">Salas de Velório & Capelas</h3>
+                  <p className="text-xs text-slate-400">{chapels.length} reserva(s) agendada(s)</p>
+                </div>
+                <button onClick={() => setIsNewChapelBookingOpen(true)} className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold shadow">
+                  + Nova Reserva
+                </button>
               </div>
+
+              {chapels.length === 0 ? (
+                <div className="text-xs text-slate-400 bg-[#0d121f] border border-slate-800 rounded-xl p-6 text-center">
+                  Nenhuma reserva. Clique em “+ Nova Reserva” para agendar uma sala.
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {chapels.map((b) => {
+                    const statusLabel = b.status === 'reservado' ? 'Reservada' : b.status === 'em_velorio' ? 'Velório em andamento' : 'Concluída';
+                    const statusColor = b.status === 'reservado' ? 'text-amber-400' : b.status === 'em_velorio' ? 'text-rose-400' : 'text-emerald-400';
+                    const nextStatus = b.status === 'reservado' ? 'em_velorio' : b.status === 'em_velorio' ? 'concluido' : 'reservado';
+                    const toggleLabel = b.status === 'reservado' ? 'Iniciar Velório' : b.status === 'em_velorio' ? 'Liberar Sala' : 'Reabrir Reserva';
+                    return (
+                      <div key={b.id} className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex flex-col justify-between">
+                        <div>
+                          <div className="flex justify-between items-center text-xs font-bold uppercase mb-2">
+                            <span className="text-white">{b.chapel_name}</span>
+                            <span className={statusColor}>● {statusLabel}</span>
+                          </div>
+                          <p className="text-xs text-slate-400">Falecido: {b.deceased_name || '—'}</p>
+                          {b.family_contact && <p className="text-xs text-slate-400">Contato: {b.family_contact}</p>}
+                          <p className="text-xs text-slate-400">
+                            Início: {b.start_time ? new Date(b.start_time).toLocaleString('pt-BR') : '—'}
+                          </p>
+                          <p className="text-xs text-slate-400">
+                            Fim: {b.end_time ? new Date(b.end_time).toLocaleString('pt-BR') : '—'}
+                          </p>
+                        </div>
+                        <div className="mt-4 pt-3 border-t border-slate-800 flex gap-2">
+                          <button
+                            onClick={async () => {
+                              const res = await authFetch('/api/chapel-bookings', {
+                                method: 'PATCH',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ id: b.id, status: nextStatus }),
+                              });
+                              if (res.ok) loadData();
+                              else alert('Não foi possível atualizar o status.');
+                            }}
+                            className="flex-1 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] font-semibold"
+                          >
+                            {toggleLabel}
+                          </button>
+                          <button
+                            onClick={async () => {
+                              if (!confirm('Remover esta reserva?')) return;
+                              const res = await authFetch(`/api/chapel-bookings?id=${encodeURIComponent(b.id)}`, { method: 'DELETE' });
+                              if (res.ok) loadData();
+                              else alert('Não foi possível remover a reserva.');
+                            }}
+                            className="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded text-[11px] font-semibold"
+                          >
+                            Excluir
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           )}
 
@@ -1160,22 +1252,34 @@ export default function MasterEternityOS() {
                       <p className="text-xs text-slate-400 mt-1">Tipo: {v.type}</p>
                       <p className="text-xs text-blue-400 mt-1">Motorista: {v.driver_name}</p>
                     </div>
-                    <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center">
+                                        <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center">
                       <button
-                        onClick={() => {
-                          setVehicles((prev) =>
-                            prev.map((item) =>
-                              item.id === v.id
-                                ? { ...item, status: item.status === 'Disponível' ? 'Em Missão' : 'Disponível' }
-                                : item
-                            )
-                          );
+                        onClick={async () => {
+                          const newStatus = v.status === 'Disponível' ? 'Em Missão' : 'Disponível';
+                          const res = await authFetch('/api/vehicles', {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ id: v.id, status: newStatus }),
+                          });
+                          if (res.ok) {
+                            setVehicles((prev) => prev.map((item) => (item.id === v.id ? { ...item, status: newStatus } : item)));
+                          } else {
+                            alert('Não foi possível alterar o status.');
+                          }
                         }}
                         className="px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-[11px]"
                       >
                         Mudar Status
                       </button>
-                      <button onClick={() => setVehicles((prev) => prev.filter((item) => item.id !== v.id))} className="text-xs text-rose-400 hover:underline">
+                      <button
+                        onClick={async () => {
+                          if (!confirm('Remover este veículo da frota?')) return;
+                          const res = await authFetch(`/api/vehicles?id=${encodeURIComponent(v.id)}`, { method: 'DELETE' });
+                          if (res.ok) setVehicles((prev) => prev.filter((item) => item.id !== v.id));
+                          else alert('Não foi possível remover o veículo.');
+                        }}
+                        className="text-xs text-rose-400 hover:underline"
+                      >
                         Remover
                       </button>
                     </div>
@@ -1286,16 +1390,20 @@ export default function MasterEternityOS() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {partners.map((p) => (
+                                {partners.map((p) => (
                   <div key={p.id} className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex justify-between items-start">
                     <div>
                       <span className="text-[10px] font-bold text-cyan-400 uppercase">{p.category}</span>
                       <h4 className="font-bold text-white text-sm mt-1">{p.partner_name}</h4>
                       <p className="text-xs text-slate-400 mt-1">Contato: {p.contact_info}</p>
                     </div>
-                    <span className="text-sm font-extrabold text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-800">
-                      {p.discount_percentage}% OFF
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-extrabold text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-800">
+                        {p.discount_percentage}% OFF
+                      </span>
+                      <button onClick={() => openEditPartner(p)} className="p-1 text-sky-400 hover:bg-sky-500/10 rounded" title="Editar parceiro">✎</button>
+                      <button onClick={() => handleDeletePartner(p.id)} className="p-1 text-rose-400 hover:bg-rose-500/10 rounded" title="Excluir parceiro">✕</button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -1638,7 +1746,7 @@ export default function MasterEternityOS() {
       {isNewPartnerOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
-            <h3 className="font-bold text-sm text-cyan-400 mb-4">+ Credenciar Novo Parceiro</h3>
+                        <h3 className={`font-bold text-sm text-cyan-400 mb-4`}>{editingPartnerId ? 'Editar Parceiro' : '+ Credenciar Novo Parceiro'}</h3>
             <form onSubmit={handleSavePartner} className="space-y-3 text-xs">
               <div><label className="block text-slate-400 font-semibold mb-1">Nome da Empresa / Parceiro:</label><input type="text" required value={partnerForm.partner_name} onChange={(e) => setPartnerForm({ ...partnerForm, partner_name: e.target.value })} placeholder="ex: Ótica Central" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
               <div className="grid grid-cols-2 gap-2">
@@ -1647,13 +1755,16 @@ export default function MasterEternityOS() {
               </div>
               <div><label className="block text-slate-400 font-semibold mb-1">Telefone / Contato:</label><input type="text" value={partnerForm.contact_info} onChange={(e) => setPartnerForm({ ...partnerForm, contact_info: e.target.value })} placeholder="(86) 3000-0000" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
-                <button type="button" onClick={() => setIsNewPartnerOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
-                <button type="submit" className="px-4 py-1.5 bg-cyan-600 font-bold rounded">Credenciar Parceiro</button>
+                                <button type="button" onClick={closePartnerModal} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
+                <button type="submit" className="px-4 py-1.5 bg-cyan-600 font-bold rounded">{editingPartnerId ? 'Salvar Alterações' : 'Credenciar Parceiro'}</button>
               </div>
             </form>
           </div>
         </div>
-      )}
+            )}
+
+      {/* MODAL NOVA RESERVA DE SALA DE VELÓRIO */}
+      <ModalChapel isOpen={isNewChapelBookingOpen} onClose={() => setIsNewChapelBookingOpen(false)} onSuccess={loadData} />
 
       {/* MODAL NOVO PROCEDIMENTO TANATOPRAXIA */}
       {isNewThanatoOpen && (
