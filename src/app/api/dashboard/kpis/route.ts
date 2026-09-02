@@ -1,36 +1,50 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { withAuth } from '@/lib/api-handler';
-import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { NextRequest, NextResponse } from "next/server";
+import { withAuth } from "@/lib/api-handler";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-export const GET = withAuth(async (req: NextRequest, { auth }) => {
-  try {
-    const { count: holdersCount } = await supabaseAdmin
-      .from('holders')
-      .select('*', { count: 'exact', head: true })
-      .eq('tenant_id', auth.tenantId);
+export const GET = withAuth(
+  async (req: NextRequest, { auth }) => {
+    try {
+      const { count: holdersCount } = await supabaseAdmin
+        .from("holders")
+        .select("*", { count: "exact", head: true })
+        .eq("tenant_id", auth.tenantId);
 
-    const { count: depsCount } = await supabaseAdmin
-      .from('dependents')
-      .select('*', { count: 'exact', head: true })
-      .eq('tenant_id', auth.tenantId);
+      const { count: depsCount } = await supabaseAdmin
+        .from("dependents")
+        .select("*", { count: "exact", head: true })
+        .eq("tenant_id", auth.tenantId);
 
-    const { count: burialsCount } = await supabaseAdmin
-      .from('chapel_burials')
-      .select('*', { count: 'exact', head: true })
-      .eq('tenant_id', auth.tenantId);
+      const { count: burialsCount } = await supabaseAdmin
+        .from("chapel_burials")
+        .select("*", { count: "exact", head: true })
+        .eq("tenant_id", auth.tenantId);
 
-    const totalLives = (holdersCount || 0) + (depsCount || 0);
-    const estimatedRevenue = (holdersCount || 0) * 69.90;
+      const totalLives = (holdersCount || 0) + (depsCount || 0);
 
-    return NextResponse.json({
-      totalLives: totalLives || 0,
-      activeContracts: holdersCount || 0,
-      monthlyRevenue: estimatedRevenue || 0,
-      overdueAmount: 0,
-      overdueCount: 0,
-      burialsThisMonth: burialsCount || 0,
-    });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
-  }
-}, ['superadmin', 'admin', 'manager', 'financial']);
+      // Receita real: soma das mensalidades dos planos dos contratos ATIVOS
+      const { data: activeContracts, error: contractsErr } = await supabaseAdmin
+        .from("contracts")
+        .select("plans(monthly_fee)")
+        .eq("tenant_id", auth.tenantId)
+        .eq("status", "active");
+
+      const monthlyRevenue = (activeContracts || []).reduce(
+        (sum: number, c: any) => sum + (Number(c?.plans?.monthly_fee) || 0),
+        0,
+      );
+
+      return NextResponse.json({
+        totalLives: totalLives || 0,
+        activeContracts: activeContracts?.length || 0,
+        monthlyRevenue: monthlyRevenue || 0,
+        overdueAmount: 0,
+        overdueCount: 0,
+        burialsThisMonth: burialsCount || 0,
+      });
+    } catch (err: any) {
+      return NextResponse.json({ error: err.message }, { status: 500 });
+    }
+  },
+  ["superadmin", "admin", "manager", "financial"],
+);

@@ -1,13 +1,15 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { supabase } from '@/lib/supabase';
-import { formatWhatsAppMessage } from '@/lib/whatsapp';
-import { isTabAllowed, hasPermission, UserRole } from '@/config/permissions';
-import { ModalRBAC } from '@/components/dashboard/ModalRBAC';
-import { ModalDRE } from '@/components/dashboard/ModalDRE';
-  import { TenantSettingsTab } from '@/components/tabs/TenantSettingsTab';
-  import { ModalChapel } from '@/components/modals/ModalChapel';
+import React, { useState, useEffect, useMemo } from "react";
+import { supabase } from "@/lib/supabase";
+import { formatWhatsAppMessage } from "@/lib/whatsapp";
+
+import { ResponsiveContainer, ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
+import { isTabAllowed, hasPermission, UserRole } from "@/config/permissions";
+import { ModalRBAC } from "@/components/dashboard/ModalRBAC";
+import { ModalDRE } from "@/components/dashboard/ModalDRE";
+import { TenantSettingsTab } from "@/components/tabs/TenantSettingsTab";
+import { ModalChapel } from "@/components/modals/ModalChapel";
 
 // Interfaces
 interface Dependent {
@@ -57,7 +59,7 @@ interface Vehicle {
   plate: string;
   model: string;
   type: string;
-  status: 'Disponível' | 'Em Missão' | 'Manutenção';
+  status: "Disponível" | "Em Missão" | "Manutenção";
   driver_name: string;
 }
 
@@ -66,7 +68,7 @@ interface ConvalescenceItem {
   item_name: string;
   holder_name: string;
   loan_date: string;
-  status: 'Ativo' | 'Devolvido';
+  status: "Ativo" | "Devolvido";
 }
 
 interface Partner {
@@ -86,14 +88,14 @@ interface ChapelBooking {
   family_contact: string;
   start_time: string;
   end_time: string;
-  status: 'reservado' | 'em_velorio' | 'concluido';
+  status: "reservado" | "em_velorio" | "concluido";
 }
 
 interface FinancialTransaction {
   id: string;
   description: string;
   amount: number;
-  type: 'income' | 'expense';
+  type: "income" | "expense";
   category: string;
   transaction_date: string;
 }
@@ -102,20 +104,29 @@ export default function MasterEternityOS() {
   // 1. Estado de Autenticação
   const [session, setSession] = useState<any>(null);
   const [authChecking, setAuthChecking] = useState(true);
-  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
-  const [loginError, setLoginError] = useState('');
+  const [loginError, setLoginError] = useState("");
 
   // 2. Perfil e Tenant
-  const [userRole, setUserRole] = useState<UserRole>('admin');
-  const [tenantName, setTenantName] = useState<string>('Funerária Matriz');
+  const [userRole, setUserRole] = useState<UserRole>("admin");
+  const [tenantName, setTenantName] = useState<string>("Funerária Matriz");
 
   // 3. Navegação
   const [activeTab, setActiveTab] = useState<
-    'executive' | 'holders' | 'burials' | 'thanatopraxy' | 'chapel' | 'fleet' | 'inventory' | 'convalescence' | 'benefits' | 'financial'
-  >('holders');
+    | "executive"
+    | "holders"
+    | "burials"
+    | "thanatopraxy"
+    | "chapel"
+    | "fleet"
+    | "inventory"
+    | "convalescence"
+    | "benefits"
+    | "financial"
+  >("holders");
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -123,31 +134,75 @@ export default function MasterEternityOS() {
   const [holders, setHolders] = useState<Holder[]>([]);
   const [burials, setBurials] = useState<Burial[]>([]);
   const [inventory, setInventory] = useState<InventoryItem[]>([
-    { id: '1', item_name: 'Urna Luxo Sextavada Mogno', category: 'Urna Adulto', stock_quantity: 8, min_threshold: 4 },
-    { id: '2', item_name: 'Urna Standard Envernizada', category: 'Urna Adulto', stock_quantity: 12, min_threshold: 5 },
-    { id: '3', item_name: 'Urna Infantil Branca com Anjo', category: 'Urna Infantil', stock_quantity: 3, min_threshold: 2 },
-    { id: '4', item_name: 'Véu de Renda Especial com Flores', category: 'Ornamentação', stock_quantity: 25, min_threshold: 10 },
+    {
+      id: "1",
+      item_name: "Urna Luxo Sextavada Mogno",
+      category: "Urna Adulto",
+      stock_quantity: 8,
+      min_threshold: 4,
+    },
+    {
+      id: "2",
+      item_name: "Urna Standard Envernizada",
+      category: "Urna Adulto",
+      stock_quantity: 12,
+      min_threshold: 5,
+    },
+    {
+      id: "3",
+      item_name: "Urna Infantil Branca com Anjo",
+      category: "Urna Infantil",
+      stock_quantity: 3,
+      min_threshold: 2,
+    },
+    {
+      id: "4",
+      item_name: "Véu de Renda Especial com Flores",
+      category: "Ornamentação",
+      stock_quantity: 25,
+      min_threshold: 10,
+    },
   ]);
 
-    const [partners, setPartners] = useState<Partner[]>([]);
+  const [partners, setPartners] = useState<Partner[]>([]);
 
   const [thanatopraxyRecords, setThanatopraxyRecords] = useState<any[]>([]);
 
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
   const [convalescence, setConvalescence] = useState<ConvalescenceItem[]>([
-    { id: '1', item_name: 'Cadeira de Rodas Dobrável', holder_name: 'Carlos Eduardo Silva', loan_date: '15/08/2026', status: 'Ativo' },
-    { id: '2', item_name: 'Par de Muletas Canadenses', holder_name: 'Mariana Costa Ferreira', loan_date: '20/08/2026', status: 'Ativo' },
-    { id: '3', item_name: 'Cama Hospitalar Articulada', holder_name: 'Pedro Silva', loan_date: '10/08/2026', status: 'Ativo' },
+    {
+      id: "1",
+      item_name: "Cadeira de Rodas Dobrável",
+      holder_name: "Carlos Eduardo Silva",
+      loan_date: "15/08/2026",
+      status: "Ativo",
+    },
+    {
+      id: "2",
+      item_name: "Par de Muletas Canadenses",
+      holder_name: "Mariana Costa Ferreira",
+      loan_date: "20/08/2026",
+      status: "Ativo",
+    },
+    {
+      id: "3",
+      item_name: "Cama Hospitalar Articulada",
+      holder_name: "Pedro Silva",
+      loan_date: "10/08/2026",
+      status: "Ativo",
+    },
   ]);
 
-    const [chapels, setChapels] = useState<ChapelBooking[]>([]);
+  const [chapels, setChapels] = useState<ChapelBooking[]>([]);
 
   const [transactions, setTransactions] = useState<FinancialTransaction[]>([]);
 
   // Filtros
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'defaulted'>('all');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "active" | "defaulted"
+  >("all");
 
   // Modais
   const [isNewHolderOpen, setIsNewHolderOpen] = useState(false);
@@ -161,47 +216,100 @@ export default function MasterEternityOS() {
   const [isAsaasConfigOpen, setIsAsaasConfigOpen] = useState(false);
   const [isDREOpen, setIsDREOpen] = useState(false);
   const [isRBACOpen, setIsRBACOpen] = useState(false);
-    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isNewChapelBookingOpen, setIsNewChapelBookingOpen] = useState(false);
 
   // Impressões e Dependentes
   const [selectedHolder, setSelectedHolder] = useState<Holder | null>(null);
-  const [printHolderContract, setPrintHolderContract] = useState<Holder | null>(null);
+  const [printHolderContract, setPrintHolderContract] = useState<Holder | null>(
+    null,
+  );
   const [printBurialGuide, setPrintBurialGuide] = useState<Burial | null>(null);
 
   // Forms
-  const [holderForm, setHolderForm] = useState({ full_name: '', cpf: '', phone: '', email: '', address: '', plan_name: 'Familiar Ouro', monthly_fee: 69.90 });
+  const [holderForm, setHolderForm] = useState({
+    full_name: "",
+    cpf: "",
+    phone: "",
+    email: "",
+    address: "",
+    plan_name: "Familiar Ouro",
+    monthly_fee: "",
+  });
   const [deletingHolderId, setDeletingHolderId] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [savingHolder, setSavingHolder] = useState(false);
   const [editingHolder, setEditingHolder] = useState<Holder | null>(null);
   const [isImportOpen, setIsImportOpen] = useState(false);
-  const [importText, setImportText] = useState('');
-  const [importResult, setImportResult] = useState<{ imported: number; skipped_duplicates: number; invalid: { line: number; reason: string }[] } | null>(null);
+  const [importText, setImportText] = useState("");
+  const [importResult, setImportResult] = useState<{
+    imported: number;
+    skipped_duplicates: number;
+    invalid: { line: number; reason: string }[];
+  } | null>(null);
   const [importing, setImporting] = useState(false);
 
-  const [burialForm, setBurialForm] = useState({ deceased_name: '', cemetery_location: '', burial_date: '', urn_name: 'Urna Luxo Sextavada Mogno' });
+  const [burialForm, setBurialForm] = useState({
+    deceased_name: "",
+    cemetery_location: "",
+    burial_date: "",
+    urn_name: "Urna Luxo Sextavada Mogno",
+  });
   const [savingBurial, setSavingBurial] = useState(false);
 
-  const [vehicleForm, setVehicleForm] = useState({ plate: '', model: '', type: 'Cortejo Fúnebre', driver_name: '' });
-  const [inventoryForm, setInventoryForm] = useState({ item_name: '', category: 'Urna Adulto', stock_quantity: 10, min_threshold: 3 });
-  const [convalescenceForm, setConvalescenceForm] = useState({ item_name: 'Cadeira de Rodas Dobrável', holder_name: '', loan_date: '' });
-    const [partnerForm, setPartnerForm] = useState({ partner_name: '', category: 'Medicamentos & Farmácia', discount_percentage: 20, contact_info: '' });
+  const [vehicleForm, setVehicleForm] = useState({
+    plate: "",
+    model: "",
+    type: "Cortejo Fúnebre",
+    driver_name: "",
+  });
+  const [inventoryForm, setInventoryForm] = useState({
+    item_name: "",
+    category: "Urna Adulto",
+    stock_quantity: 10,
+    min_threshold: 3,
+  });
+  const [convalescenceForm, setConvalescenceForm] = useState({
+    item_name: "Cadeira de Rodas Dobrável",
+    holder_name: "",
+    loan_date: "",
+  });
+  const [partnerForm, setPartnerForm] = useState({
+    partner_name: "",
+    category: "Medicamentos & Farmácia",
+    discount_percentage: 20,
+    contact_info: "",
+  });
   const [editingPartnerId, setEditingPartnerId] = useState<string | null>(null);
-  const [thanatoForm, setThanatoForm] = useState({ deceased_name: '', technician: 'Dr. Roberto Tanatólogo', procedure: 'Aspiração e Formolização Padrão' });
-  const [txForm, setTxForm] = useState({ description: '', amount: 100, type: 'income' as 'income' | 'expense', category: 'Mensalidade Plano' });
+  const [thanatoForm, setThanatoForm] = useState({
+    deceased_name: "",
+    technician: "Dr. Roberto Tanatólogo",
+    procedure: "Aspiração e Formolização Padrão",
+  });
+  const [txForm, setTxForm] = useState({
+    description: "",
+    amount: 100,
+    type: "income" as "income" | "expense",
+    category: "Mensalidade Plano",
+  });
 
-  const [asaasApiKey, setAsaasApiKey] = useState('$aact_YTU5YTE0M2M6N2I5ZDY0OTg4N2I5ZDY0OTg4N2I5ZDY0OTg4');
-  const [asaasEnv, setAsaasEnv] = useState<'sandbox' | 'production'>('production');
+  const [asaasApiKey, setAsaasApiKey] = useState(
+    "$aact_YTU5YTE0M2M6N2I5ZDY0OTg4N2I5ZDY0OTg4N2I5ZDY0OTg4",
+  );
+  const [asaasEnv, setAsaasEnv] = useState<"sandbox" | "production">(
+    "production",
+  );
 
-  const [depName, setDepName] = useState('');
-  const [depRelation, setDepRelation] = useState('Cônjuge');
+  const [depName, setDepName] = useState("");
+  const [depRelation, setDepRelation] = useState("Cônjuge");
   const [savingDep, setSavingDep] = useState(false);
 
   // Helper de Requisições Autenticadas com JWT do Supabase
   const authFetch = async (url: string, options: RequestInit = {}) => {
-    const { data: { session: currentSession } } = await supabase.auth.getSession();
-    const token = currentSession?.access_token || '';
+    const {
+      data: { session: currentSession },
+    } = await supabase.auth.getSession();
+    const token = currentSession?.access_token || "";
     const headers = {
       ...options.headers,
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -214,55 +322,55 @@ export default function MasterEternityOS() {
     setLoading(true);
     try {
       // 1. Titulares
-      const res = await authFetch('/api/holders');
+      const res = await authFetch("/api/holders");
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data)) setHolders(data);
       }
 
       // 2. Óbitos
-      const bRes = await authFetch('/api/chapel/burials');
+      const bRes = await authFetch("/api/chapel/burials");
       if (bRes.ok) {
         const bData = await bRes.json();
         if (Array.isArray(bData)) setBurials(bData);
       }
 
       // 3. Estoque
-      const invRes = await authFetch('/api/inventory');
+      const invRes = await authFetch("/api/inventory");
       if (invRes.ok) {
         const invData = await invRes.json();
         if (Array.isArray(invData) && invData.length > 0) setInventory(invData);
       }
 
-            // 4. Parceiros
-      const partRes = await authFetch('/api/benefits/partners');
+      // 4. Parceiros
+      const partRes = await authFetch("/api/benefits/partners");
       if (partRes.ok) {
         const partData = await partRes.json();
         if (Array.isArray(partData)) setPartners(partData);
       }
 
       // 6. Veículos
-      const vehRes = await authFetch('/api/vehicles');
+      const vehRes = await authFetch("/api/vehicles");
       if (vehRes.ok) {
         const vehData = await vehRes.json();
         if (Array.isArray(vehData)) setVehicles(vehData);
       }
 
       // 7. Transações Financeiras
-      const txRes = await authFetch('/api/financial/transactions');
+      const txRes = await authFetch("/api/financial/transactions");
       if (txRes.ok) {
         const txData = await txRes.json();
         if (Array.isArray(txData)) setTransactions(txData);
       }
 
       // 8. Reservas de Salas de Velório (chapel_bookings)
-      const capRes = await authFetch('/api/chapel-bookings');
+      const capRes = await authFetch("/api/chapel-bookings");
       if (capRes.ok) {
         const capData = await capRes.json();
         if (Array.isArray(capData)) setChapels(capData);
       }
     } catch (e) {
-      console.warn('Erro ao carregar dados do ERP:', e);
+      console.warn("Erro ao carregar dados do ERP:", e);
     } finally {
       setLoading(false);
     }
@@ -274,9 +382,9 @@ export default function MasterEternityOS() {
       setSession(initialSession);
       if (initialSession) {
         supabase
-          .from('user_roles')
-          .select('role, tenant_id, tenants(name)')
-          .eq('user_id', initialSession.user.id)
+          .from("user_roles")
+          .select("role, tenant_id, tenants(name)")
+          .eq("user_id", initialSession.user.id)
           .maybeSingle()
           .then(({ data: roleRecord }) => {
             if (roleRecord) {
@@ -291,7 +399,9 @@ export default function MasterEternityOS() {
       setAuthChecking(false);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, newSession) => {
       setSession(newSession);
       if (newSession) {
         loadData();
@@ -304,20 +414,24 @@ export default function MasterEternityOS() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginLoading(true);
-    setLoginError('');
+    setLoginError("");
     try {
-      if (authMode === 'login') {
+      if (authMode === "login") {
         const { data, error } = await supabase.auth.signInWithPassword({
           email: loginEmail.trim(),
           password: loginPassword,
         });
 
         if (error) {
-          setLoginError(error.message === 'Invalid login credentials' ? 'E-mail ou senha incorretos.' : error.message);
+          setLoginError(
+            error.message === "Invalid login credentials"
+              ? "E-mail ou senha incorretos."
+              : error.message,
+          );
         } else if (data.session) {
           setSession(data.session);
-          setLoginEmail('');
-          setLoginPassword('');
+          setLoginEmail("");
+          setLoginPassword("");
         }
       } else {
         const { data, error } = await supabase.auth.signUp({
@@ -329,14 +443,16 @@ export default function MasterEternityOS() {
           setLoginError(error.message);
         } else if (data.session) {
           setSession(data.session);
-          alert('✓ Conta criada com sucesso! Você está conectado como Administrador.');
+          alert(
+            "✓ Conta criada com sucesso! Você está conectado como Administrador.",
+          );
         } else {
-          alert('✓ Cadastro realizado! Faça login com o seu e-mail e senha.');
-          setAuthMode('login');
+          alert("✓ Cadastro realizado! Faça login com o seu e-mail e senha.");
+          setAuthMode("login");
         }
       }
     } catch {
-      setLoginError('Erro de conexão ao autenticar.');
+      setLoginError("Erro de conexão ao autenticar.");
     } finally {
       setLoginLoading(false);
     }
@@ -355,11 +471,11 @@ export default function MasterEternityOS() {
       const matchQ =
         !q ||
         h.full_name?.toLowerCase().includes(q) ||
-        h.cpf?.replace(/\D/g, '').includes(q.replace(/\D/g, '')) ||
+        h.cpf?.replace(/\D/g, "").includes(q.replace(/\D/g, "")) ||
         h.phone?.includes(q);
 
-      const status = h.contracts?.[0]?.status || 'active';
-      const matchS = statusFilter === 'all' || status === statusFilter;
+      const status = h.contracts?.[0]?.status || "active";
+      const matchS = statusFilter === "all" || status === statusFilter;
 
       return matchQ && matchS;
     });
@@ -367,18 +483,18 @@ export default function MasterEternityOS() {
 
   // Exportar Associados para CSV
   const handleExportCSV = () => {
-    if (holders.length === 0) return alert('Nenhum associado para exportar.');
-    let csv = 'Nome;CPF;Telefone;Email;Endereco;Status;Plano\n';
+    if (holders.length === 0) return alert("Nenhum associado para exportar.");
+    let csv = "Nome;CPF;Telefone;Email;Endereco;Status;Plano\n";
     holders.forEach((h) => {
-      const plan = h.contracts?.[0]?.plans?.name || 'Familiar Ouro';
-      const status = h.contracts?.[0]?.status || 'Ativo';
-      csv += `"${h.full_name}";"${h.cpf}";"${h.phone}";"${h.email || ''}";"${h.address || ''}";"${status}";"${plan}"\n`;
+      const plan = h.contracts?.[0]?.plans?.name || "Familiar Ouro";
+      const status = h.contracts?.[0]?.status || "Ativo";
+      csv += `"${h.full_name}";"${h.cpf}";"${h.phone}";"${h.email || ""}";"${h.address || ""}";"${status}";"${plan}"\n`;
     });
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = `associados_eternityos_${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `associados_eternityos_${new Date().toISOString().split("T")[0]}.csv`;
     a.click();
   };
 
@@ -388,30 +504,50 @@ export default function MasterEternityOS() {
     setSavingHolder(true);
     const isEdit = !!editingHolder;
     try {
-      const res = await authFetch('/api/holders', {
-        method: isEdit ? 'PATCH' : 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(isEdit ? { id: editingHolder!.id, ...holderForm } : holderForm),
+      const res = await authFetch("/api/holders", {
+        method: isEdit ? "PATCH" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(
+          isEdit
+            ? { id: editingHolder!.id, ...holderForm }
+            : {
+                ...holderForm,
+                monthly_fee:
+                  holderForm.monthly_fee === ""
+                    ? undefined
+                    : Number(holderForm.monthly_fee),
+              },
+        ),
       });
 
       const j = await res.json();
       if (res.ok) {
         if (isEdit && j.holder) {
-          setHolders((prev) => prev.map((x) => (x.id === j.holder.id ? { ...x, ...j.holder } : x)));
-          alert('Associado atualizado com sucesso!');
+          setHolders((prev) =>
+            prev.map((x) => (x.id === j.holder.id ? { ...x, ...j.holder } : x)),
+          );
+          alert("Associado atualizado com sucesso!");
         } else {
           if (j.holder) setHolders((prev) => [j.holder, ...prev]);
-          alert('Associado cadastrado com sucesso!');
+          alert("Associado cadastrado com sucesso!");
         }
         setIsNewHolderOpen(false);
         setEditingHolder(null);
-        setHolderForm({ full_name: '', cpf: '', phone: '', email: '', address: '', plan_name: 'Familiar Ouro', monthly_fee: 69.90 });
+        setHolderForm({
+          full_name: "",
+          cpf: "",
+          phone: "",
+          email: "",
+          address: "",
+          plan_name: "Familiar Ouro",
+          monthly_fee: "",
+        });
         loadData();
       } else {
-        alert(`Erro ao salvar titular: ${j.error || 'Verifique os dados'}`);
+        alert(`Erro ao salvar titular: ${j.error || "Verifique os dados"}`);
       }
     } catch {
-      alert('Erro de conexÃ£o ao salvar titular.');
+      alert("Erro de conexÃ£o ao salvar titular.");
     } finally {
       setSavingHolder(false);
     }
@@ -419,8 +555,19 @@ export default function MasterEternityOS() {
 
   // Abrir modal de edicao preenchido (CPF bloqueado - e a chave de identificacao)
   const openEditHolder = (h: Holder) => {
+    const contract = h.contracts?.[0];
     setEditingHolder(h);
-    setHolderForm({ full_name: h.full_name, cpf: h.cpf, phone: h.phone, email: (h as any).email || '', address: (h as any).address || '', plan_name: 'Familiar Ouro', monthly_fee: 69.90 });
+    setHolderForm({
+      full_name: h.full_name,
+      cpf: h.cpf,
+      phone: h.phone,
+      email: (h as any).email || "",
+      address: (h as any).address || "",
+      plan_name: contract?.plans?.name || "Familiar Ouro",
+      monthly_fee: contract?.plans?.monthly_fee
+        ? String(contract.plans.monthly_fee)
+        : "",
+    });
     setIsNewHolderOpen(true);
   };
 
@@ -429,9 +576,9 @@ export default function MasterEternityOS() {
     setImporting(true);
     setImportResult(null);
     try {
-      const res = await authFetch('/api/holders/import', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await authFetch("/api/holders/import", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ csv: importText }),
       });
       const j = await res.json();
@@ -439,29 +586,38 @@ export default function MasterEternityOS() {
         setImportResult(j);
         if (j.imported > 0) loadData();
       } else {
-        alert('Erro na importacao: ' + (j.error || 'Tente novamente'));
+        alert("Erro na importacao: " + (j.error || "Tente novamente"));
       }
     } catch {
-      alert('Erro de conexao ao importar.');
+      alert("Erro de conexao ao importar.");
     } finally {
       setImporting(false);
     }
   };
   // Excluir Associado (Titular)
   const handleDeleteHolder = async (h: Holder) => {
-    if (!confirm('Excluir o associado "' + h.full_name + '"?\n\nEsta acao nao pode ser desfeita e removera tambem os dependentes e contratos vinculados.')) return;
+    if (
+      !confirm(
+        'Excluir o associado "' +
+          h.full_name +
+          '"?\n\nEsta acao nao pode ser desfeita e removera tambem os dependentes e contratos vinculados.',
+      )
+    )
+      return;
     setDeletingHolderId(h.id);
     try {
-      const res = await authFetch('/api/holders?id=' + h.id, { method: 'DELETE' });
+      const res = await authFetch("/api/holders?id=" + h.id, {
+        method: "DELETE",
+      });
       if (res.ok) {
         setHolders((prev) => prev.filter((x) => x.id !== h.id));
-        alert('Associado excluido com sucesso!');
+        alert("Associado excluido com sucesso!");
       } else {
         const j = await res.json();
-        alert('Erro ao excluir: ' + (j.error || 'Tente novamente'));
+        alert("Erro ao excluir: " + (j.error || "Tente novamente"));
       }
     } catch {
-      alert('Erro de conexao ao excluir associado.');
+      alert("Erro de conexao ao excluir associado.");
     } finally {
       setDeletingHolderId(null);
     }
@@ -472,9 +628,9 @@ export default function MasterEternityOS() {
     e.preventDefault();
     setSavingBurial(true);
     try {
-      const res = await authFetch('/api/chapel/burials', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await authFetch("/api/chapel/burials", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           deceased_name: burialForm.deceased_name,
           cemetery_location: burialForm.cemetery_location,
@@ -486,16 +642,21 @@ export default function MasterEternityOS() {
         const newBurial = await res.json();
         setBurials((prev) => [newBurial, ...prev]);
         setIsNewBurialOpen(false);
-        setBurialForm({ deceased_name: '', cemetery_location: '', burial_date: '', urn_name: 'Urna Luxo Sextavada Mogno' });
-        setActiveTab('burials');
-        alert('✓ Atendimento de óbito gravado com sucesso no Supabase!');
+        setBurialForm({
+          deceased_name: "",
+          cemetery_location: "",
+          burial_date: "",
+          urn_name: "Urna Luxo Sextavada Mogno",
+        });
+        setActiveTab("burials");
+        alert("✓ Atendimento de óbito gravado com sucesso no Supabase!");
         loadData();
       } else {
         const j = await res.json();
-        alert(`Erro ao salvar óbito: ${j.error || 'Falha no registro'}`);
+        alert(`Erro ao salvar óbito: ${j.error || "Falha no registro"}`);
       }
     } catch {
-      alert('Erro de conexão ao registrar chamado.');
+      alert("Erro de conexão ao registrar chamado.");
     } finally {
       setSavingBurial(false);
     }
@@ -504,15 +665,19 @@ export default function MasterEternityOS() {
   // Disparar Carnês em Lote no Asaas
   const handleGenerateAsaasBatch = async () => {
     try {
-      const res = await authFetch('/api/billing/asaas-batch', { method: 'POST' });
+      const res = await authFetch("/api/billing/asaas-batch", {
+        method: "POST",
+      });
       const data = await res.json();
       if (res.ok) {
-        alert(`✓ Sucesso Asaas: ${data.message || 'Lote de cobranças gerado com sucesso!'}`);
+        alert(
+          `✓ Sucesso Asaas: ${data.message || "Lote de cobranças gerado com sucesso!"}`,
+        );
       } else {
-        alert(`Erro Asaas: ${data.error || 'Falha ao processar lote'}`);
+        alert(`Erro Asaas: ${data.error || "Falha ao processar lote"}`);
       }
     } catch {
-      alert('Lote Asaas gerado com sucesso para todos os associados em dia!');
+      alert("Lote Asaas gerado com sucesso para todos os associados em dia!");
     }
   };
 
@@ -520,23 +685,28 @@ export default function MasterEternityOS() {
   const handleSaveTransaction = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await authFetch('/api/financial/transactions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await authFetch("/api/financial/transactions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(txForm),
       });
       if (res.ok) {
         const newTx = await res.json();
         setTransactions((prev) => [newTx, ...prev]);
         setIsNewTxOpen(false);
-        setTxForm({ description: '', amount: 100, type: 'income', category: 'Mensalidade Plano' });
-        alert('Lançamento registrado no Livro Caixa!');
+        setTxForm({
+          description: "",
+          amount: 100,
+          type: "income",
+          category: "Mensalidade Plano",
+        });
+        alert("Lançamento registrado no Livro Caixa!");
       } else {
         const err = await res.json();
-        alert(`Erro: ${err.error || 'Falha ao salvar lançamento'}`);
+        alert(`Erro: ${err.error || "Falha ao salvar lançamento"}`);
       }
     } catch {
-      alert('Erro de conexão ao salvar lançamento.');
+      alert("Erro de conexão ao salvar lançamento.");
     }
   };
 
@@ -544,23 +714,28 @@ export default function MasterEternityOS() {
   const handleSaveVehicle = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await authFetch('/api/vehicles', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await authFetch("/api/vehicles", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(vehicleForm),
       });
       if (res.ok) {
         const newVeh = await res.json();
         setVehicles((prev) => [...prev, newVeh]);
         setIsNewVehicleOpen(false);
-        setVehicleForm({ plate: '', model: '', type: 'Cortejo Fúnebre', driver_name: '' });
-        alert('Veículo cadastrado na frota!');
+        setVehicleForm({
+          plate: "",
+          model: "",
+          type: "Cortejo Fúnebre",
+          driver_name: "",
+        });
+        alert("Veículo cadastrado na frota!");
       } else {
         const err = await res.json();
-        alert(`Erro: ${err.error || 'Falha ao salvar veículo'}`);
+        alert(`Erro: ${err.error || "Falha ao salvar veículo"}`);
       }
     } catch {
-      alert('Erro de conexão ao salvar veículo.');
+      alert("Erro de conexão ao salvar veículo.");
     }
   };
 
@@ -568,21 +743,26 @@ export default function MasterEternityOS() {
   const handleSaveInventory = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await authFetch('/api/inventory', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await authFetch("/api/inventory", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(inventoryForm),
       });
       if (res.ok) {
         const newI = await res.json();
         setInventory((prev) => [...prev, newI]);
         setIsNewInventoryOpen(false);
-        setInventoryForm({ item_name: '', category: 'Urna Adulto', stock_quantity: 10, min_threshold: 3 });
-        alert('Item de estoque adicionado!');
+        setInventoryForm({
+          item_name: "",
+          category: "Urna Adulto",
+          stock_quantity: 10,
+          min_threshold: 3,
+        });
+        alert("Item de estoque adicionado!");
         loadData();
       }
     } catch {
-      alert('Erro ao salvar item.');
+      alert("Erro ao salvar item.");
     }
   };
 
@@ -591,15 +771,31 @@ export default function MasterEternityOS() {
     e.preventDefault();
     setConvalescence((prev) => [
       ...prev,
-      { id: String(Date.now()), item_name: convalescenceForm.item_name, holder_name: convalescenceForm.holder_name, loan_date: convalescenceForm.loan_date || new Date().toLocaleDateString('pt-BR'), status: 'Ativo' },
+      {
+        id: String(Date.now()),
+        item_name: convalescenceForm.item_name,
+        holder_name: convalescenceForm.holder_name,
+        loan_date:
+          convalescenceForm.loan_date || new Date().toLocaleDateString("pt-BR"),
+        status: "Ativo",
+      },
     ]);
     setIsNewConvalescenceOpen(false);
-    setConvalescenceForm({ item_name: 'Cadeira de Rodas Dobrável', holder_name: '', loan_date: '' });
+    setConvalescenceForm({
+      item_name: "Cadeira de Rodas Dobrável",
+      holder_name: "",
+      loan_date: "",
+    });
   };
 
-    // Abrir/Editar Parceiro de Convênio
+  // Abrir/Editar Parceiro de Convênio
   const openEditPartner = (p: Partner) => {
-    setPartnerForm({ partner_name: p.partner_name, category: p.category, discount_percentage: p.discount_percentage, contact_info: p.contact_info || '' });
+    setPartnerForm({
+      partner_name: p.partner_name,
+      category: p.category,
+      discount_percentage: p.discount_percentage,
+      contact_info: p.contact_info || "",
+    });
     setEditingPartnerId(p.id);
     setIsNewPartnerOpen(true);
   };
@@ -607,51 +803,68 @@ export default function MasterEternityOS() {
   const closePartnerModal = () => {
     setIsNewPartnerOpen(false);
     setEditingPartnerId(null);
-    setPartnerForm({ partner_name: '', category: 'Medicamentos & Farmácia', discount_percentage: 20, contact_info: '' });
+    setPartnerForm({
+      partner_name: "",
+      category: "Medicamentos & Farmácia",
+      discount_percentage: 20,
+      contact_info: "",
+    });
   };
 
   // Salvar Parceiro de Convênio (cria ou edita)
   const handleSavePartner = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await authFetch('/api/benefits/partners', {
-        method: editingPartnerId ? 'PATCH' : 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...partnerForm, ...(editingPartnerId ? { id: editingPartnerId } : {}) }),
+      const res = await authFetch("/api/benefits/partners", {
+        method: editingPartnerId ? "PATCH" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...partnerForm,
+          ...(editingPartnerId ? { id: editingPartnerId } : {}),
+        }),
       });
       if (res.ok) {
         const saved = await res.json();
         if (editingPartnerId) {
-          setPartners((prev) => prev.map((p) => (p.id === editingPartnerId ? saved : p)));
+          setPartners((prev) =>
+            prev.map((p) => (p.id === editingPartnerId ? saved : p)),
+          );
         } else {
           setPartners((prev) => [...prev, saved]);
         }
-        alert(editingPartnerId ? 'Parceiro atualizado com sucesso!' : 'Parceiro credenciado com sucesso!');
+        alert(
+          editingPartnerId
+            ? "Parceiro atualizado com sucesso!"
+            : "Parceiro credenciado com sucesso!",
+        );
         closePartnerModal();
         loadData();
       } else {
         const err = await res.json();
-        alert(`Erro: ${err.error || 'Falha ao salvar parceiro'}`);
+        alert(`Erro: ${err.error || "Falha ao salvar parceiro"}`);
       }
     } catch {
-      alert('Erro de conexão ao salvar parceiro.');
+      alert("Erro de conexão ao salvar parceiro.");
     }
   };
 
   // Remover Parceiro de Convênio
   const handleDeletePartner = async (id: string) => {
-    if (!confirm('Remover este parceiro da rede de convênios?')) return;
+    if (!confirm("Remover este parceiro da rede de convênios?")) return;
     try {
-      const res = await authFetch(`/api/benefits/partners?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+      const res = await authFetch(
+        `/api/benefits/partners?id=${encodeURIComponent(id)}`,
+        { method: "DELETE" },
+      );
       if (res.ok) {
         setPartners((prev) => prev.filter((p) => p.id !== id));
-        alert('Parceiro removido.');
+        alert("Parceiro removido.");
       } else {
         const err = await res.json();
-        alert(`Erro: ${err.error || 'Falha ao remover parceiro'}`);
+        alert(`Erro: ${err.error || "Falha ao remover parceiro"}`);
       }
     } catch {
-      alert('Erro de conexão ao remover parceiro.');
+      alert("Erro de conexão ao remover parceiro.");
     }
   };
 
@@ -659,21 +872,25 @@ export default function MasterEternityOS() {
   const handleSaveThanato = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await authFetch('/api/thanatopraxy', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await authFetch("/api/thanatopraxy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(thanatoForm),
       });
       if (res.ok) {
         const newT = await res.json();
         setThanatopraxyRecords((prev) => [newT, ...prev]);
         setIsNewThanatoOpen(false);
-        setThanatoForm({ deceased_name: '', technician: 'Dr. Roberto Tanatólogo', procedure: 'Aspiração e Formolização Padrão' });
-        alert('Procedimento de tanatopraxia registrado!');
+        setThanatoForm({
+          deceased_name: "",
+          technician: "Dr. Roberto Tanatólogo",
+          procedure: "Aspiração e Formolização Padrão",
+        });
+        alert("Procedimento de tanatopraxia registrado!");
         loadData();
       }
     } catch {
-      alert('Erro ao gravar procedimento.');
+      alert("Erro ao gravar procedimento.");
     }
   };
 
@@ -684,18 +901,24 @@ export default function MasterEternityOS() {
     setSavingDep(true);
     try {
       const { data, error } = await supabase
-        .from('dependents')
-        .insert([{
-          holder_id: selectedHolder.id,
-          full_name: depName,
-          relation: depRelation,
-        }])
+        .from("dependents")
+        .insert([
+          {
+            holder_id: selectedHolder.id,
+            full_name: depName,
+            relation: depRelation,
+          },
+        ])
         .select()
         .single();
 
       if (!error && data) {
-        setDepName('');
-        setSelectedHolder((prev) => prev ? { ...prev, dependents: [...(prev.dependents || []), data] } : null);
+        setDepName("");
+        setSelectedHolder((prev) =>
+          prev
+            ? { ...prev, dependents: [...(prev.dependents || []), data] }
+            : null,
+        );
         loadData();
       }
     } finally {
@@ -703,11 +926,72 @@ export default function MasterEternityOS() {
     }
   };
 
-  const fmtBRL = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  const fmtBRL = (v: number) =>
+    v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-  const totalIncome = transactions.filter((t) => t.type === 'income').reduce((acc, t) => acc + t.amount, 0);
-  const totalExpenses = transactions.filter((t) => t.type === 'expense').reduce((acc, t) => acc + t.amount, 0);
+  const totalIncome = transactions
+    .filter((t) => t.type === "income")
+    .reduce((acc, t) => acc + t.amount, 0);
+  const totalExpenses = transactions
+    .filter((t) => t.type === "expense")
+    .reduce((acc, t) => acc + t.amount, 0);
   const netBalance = totalIncome - totalExpenses;
+
+  // ---- Métricas Reais (sem números inventados) ----
+  // MRR = soma das mensalidades dos planos dos contratos ATIVOS de cada titular
+  const computeMRR = (hs: Holder[]): number =>
+    hs.reduce(
+      (sum, h) =>
+        sum +
+        (h.contracts || [])
+          .filter((c) => c.status === "active")
+          .reduce((s, c) => s + (Number(c.plans?.monthly_fee) || 0), 0),
+      0,
+    );
+
+  // Titulares considerados "Ativos" = com contrato ativo (fallback 'active' pra quem traz sem contrato)
+  const activeHoldersCount = holders.filter(
+    (h) => (h.contracts?.[0]?.status || "active") === "active",
+  ).length;
+
+  // ---- Série histórica Receita x Despesa (mês a mês) ----
+  const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+  const monthlySeries = useMemo(() => {
+    const map = new Map<string, { income: number; expense: number }>();
+    transactions.forEach((t) => {
+      const ym = (t.transaction_date || "").slice(0, 7);
+      if (!ym) return;
+      if (!map.has(ym)) map.set(ym, { income: 0, expense: 0 });
+      const row = map.get(ym)!;
+      if (t.type === "income") row.income += Number(t.amount) || 0;
+      else if (t.type === "expense") row.expense += Number(t.amount) || 0;
+    });
+    return Array.from(map.entries())
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .map(([ym, r]) => {
+        const [y, m] = ym.split("-");
+        return {
+          month: `${MONTHS[Number(m) - 1]}/${y}`,
+          income: Math.round(r.income),
+          expense: Math.round(r.expense),
+          net: Math.round(r.income - r.expense),
+        };
+      });
+  }, [transactions]);
+
+  // Missões em Aberto = sepultamentos que não estão concluídos/cancelados
+  const openBurials = burials.filter(
+    (b) =>
+      !["concluído", "concluido", "cancelado"].includes(
+        (b.status || "").toLowerCase(),
+      ),
+  ).length;
+
+  // Veículos Disponíveis = não em missão e não em manutenção (case/acentuação robusta)
+  const availableVehicles = vehicles.filter((v) => {
+    const s = (v.status || "").toLowerCase();
+    return s.length > 0 && s !== "em missão" && s !== "manutenção";
+  }).length;
 
   // TELA DE LOGIN SE NÃO ESTIVER AUTENTICADO
   if (!authChecking && !session) {
@@ -718,20 +1002,24 @@ export default function MasterEternityOS() {
             <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 font-black text-2xl mx-auto shadow-inner">
               ✦
             </div>
-            <h1 className="text-xl font-bold text-white tracking-wide">ETERNITY<span className="text-emerald-400">OS</span></h1>
-            <p className="text-xs text-slate-400">Acesso Restrito ao ERP Funerário</p>
+            <h1 className="text-xl font-bold text-white tracking-wide">
+              ETERNITY<span className="text-emerald-400">OS</span>
+            </h1>
+            <p className="text-xs text-slate-400">
+              Acesso Restrito ao ERP Funerário
+            </p>
           </div>
 
           <div className="flex bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs">
             <button
-              onClick={() => setAuthMode('login')}
-              className={`flex-1 py-1.5 rounded-md font-bold transition ${authMode === 'login' ? 'bg-slate-800 text-white' : 'text-slate-400'}`}
+              onClick={() => setAuthMode("login")}
+              className={`flex-1 py-1.5 rounded-md font-bold transition ${authMode === "login" ? "bg-slate-800 text-white" : "text-slate-400"}`}
             >
               Entrar
             </button>
             <button
-              onClick={() => setAuthMode('signup')}
-              className={`flex-1 py-1.5 rounded-md font-bold transition ${authMode === 'signup' ? 'bg-slate-800 text-white' : 'text-slate-400'}`}
+              onClick={() => setAuthMode("signup")}
+              className={`flex-1 py-1.5 rounded-md font-bold transition ${authMode === "signup" ? "bg-slate-800 text-white" : "text-slate-400"}`}
             >
               Primeiro Acesso / Criar Conta
             </button>
@@ -745,7 +1033,9 @@ export default function MasterEternityOS() {
 
           <form onSubmit={handleLogin} className="space-y-4 text-xs">
             <div>
-              <label className="block text-slate-400 font-semibold mb-1.5">E-mail de Acesso:</label>
+              <label className="block text-slate-400 font-semibold mb-1.5">
+                E-mail de Acesso:
+              </label>
               <input
                 type="email"
                 required
@@ -757,7 +1047,9 @@ export default function MasterEternityOS() {
             </div>
 
             <div>
-              <label className="block text-slate-400 font-semibold mb-1.5">Senha:</label>
+              <label className="block text-slate-400 font-semibold mb-1.5">
+                Senha:
+              </label>
               <input
                 type="password"
                 required
@@ -773,7 +1065,11 @@ export default function MasterEternityOS() {
               disabled={loginLoading}
               className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold rounded-lg transition shadow-md text-xs"
             >
-              {loginLoading ? 'Processando...' : authMode === 'login' ? 'Entrar no ERP' : 'Criar Conta de Acesso'}
+              {loginLoading
+                ? "Processando..."
+                : authMode === "login"
+                  ? "Entrar no ERP"
+                  : "Criar Conta de Acesso"}
             </button>
           </form>
         </div>
@@ -785,16 +1081,25 @@ export default function MasterEternityOS() {
     <div className="flex h-screen bg-[#07090e] text-slate-100 font-sans overflow-hidden antialiased">
       {/* 1. SIDEBAR COM TODOS OS MÓDULOS E RBAC (isTabAllowed) */}
       {/* Overlay mobile para a sidebar */}
-      <div className={`fixed inset-0 bg-black/60 z-40 md:hidden ${isSidebarOpen ? 'block' : 'hidden'}`} onClick={() => setIsSidebarOpen(false)} />
-      <aside className={`fixed md:static inset-y-0 left-0 z-50 w-64 bg-[#0d111a] border-r border-slate-800 flex flex-col justify-between shrink-0 select-none transform transition-transform duration-200 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
+      <div
+        className={`fixed inset-0 bg-black/60 z-40 md:hidden ${isSidebarOpen ? "block" : "hidden"}`}
+        onClick={() => setIsSidebarOpen(false)}
+      />
+      <aside
+        className={`fixed md:static inset-y-0 left-0 z-50 w-64 bg-[#0d111a] border-r border-slate-800 flex flex-col justify-between shrink-0 select-none transform transition-transform duration-200 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+      >
         <div>
           <div className="p-4 border-b border-slate-800 flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 font-bold text-base shadow">
               ✦
             </div>
             <div>
-              <h1 className="font-bold text-sm text-white tracking-wider">ETERNITY<span className="text-emerald-400">OS</span></h1>
-              <p className="text-[10px] text-slate-400">ERP Funerário Integrado</p>
+              <h1 className="font-bold text-sm text-white tracking-wider">
+                ETERNITY<span className="text-emerald-400">OS</span>
+              </h1>
+              <p className="text-[10px] text-slate-400">
+                ERP Funerário Integrado
+              </p>
             </div>
           </div>
 
@@ -802,7 +1107,9 @@ export default function MasterEternityOS() {
             <div className="bg-slate-900 border border-slate-800 rounded-lg p-2.5 flex items-center justify-between shadow-sm">
               <div className="flex items-center gap-2 overflow-hidden">
                 <span className="text-emerald-400 text-xs">🏢</span>
-                <p className="text-xs font-semibold text-white truncate">{tenantName}</p>
+                <p className="text-xs font-semibold text-white truncate">
+                  {tenantName}
+                </p>
               </div>
               <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
             </div>
@@ -810,24 +1117,45 @@ export default function MasterEternityOS() {
 
           <nav className="p-3 space-y-3 overflow-y-auto max-h-[calc(100vh-170px)]">
             {/* GESTÃO & FINANÇAS */}
-            {(isTabAllowed(userRole, 'executive') || isTabAllowed(userRole, 'holders') || isTabAllowed(userRole, 'financial')) && (
+            {(isTabAllowed(userRole, "executive") ||
+              isTabAllowed(userRole, "holders") ||
+              isTabAllowed(userRole, "financial")) && (
               <div>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1">GESTÃO & FINANÇAS</p>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1">
+                  GESTÃO & FINANÇAS
+                </p>
                 <div className="space-y-0.5">
-                  {isTabAllowed(userRole, 'executive') && (
-                    <button onClick={() => setActiveTab('executive')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'executive' ? 'bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                      <div className="flex items-center gap-2"><span>📊</span> Painel Executivo</div>
+                  {isTabAllowed(userRole, "executive") && (
+                    <button
+                      onClick={() => setActiveTab("executive")}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "executive" ? "bg-blue-600/15 text-blue-400 border border-blue-500/30" : "text-slate-400 hover:bg-slate-800"}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>📊</span> Painel Executivo
+                      </div>
                     </button>
                   )}
-                  {isTabAllowed(userRole, 'holders') && (
-                    <button onClick={() => setActiveTab('holders')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'holders' ? 'bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                      <div className="flex items-center gap-2"><span>👥</span> Associados & Contratos</div>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{holders.length}</span>
+                  {isTabAllowed(userRole, "holders") && (
+                    <button
+                      onClick={() => setActiveTab("holders")}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "holders" ? "bg-blue-600/15 text-blue-400 border border-blue-500/30" : "text-slate-400 hover:bg-slate-800"}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>👥</span> Associados & Contratos
+                      </div>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">
+                        {holders.length}
+                      </span>
                     </button>
                   )}
-                  {isTabAllowed(userRole, 'financial') && (
-                    <button onClick={() => setActiveTab('financial')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'financial' ? 'bg-emerald-600/15 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                      <div className="flex items-center gap-2"><span>💰</span> Financeiro & DRE</div>
+                  {isTabAllowed(userRole, "financial") && (
+                    <button
+                      onClick={() => setActiveTab("financial")}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "financial" ? "bg-emerald-600/15 text-emerald-400 border border-emerald-500/30" : "text-slate-400 hover:bg-slate-800"}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>💰</span> Financeiro & DRE
+                      </div>
                     </button>
                   )}
                 </div>
@@ -835,25 +1163,48 @@ export default function MasterEternityOS() {
             )}
 
             {/* OPERAÇÕES & PLANTÃO */}
-            {(isTabAllowed(userRole, 'burials') || isTabAllowed(userRole, 'thanatopraxy') || isTabAllowed(userRole, 'chapel')) && (
+            {(isTabAllowed(userRole, "burials") ||
+              isTabAllowed(userRole, "thanatopraxy") ||
+              isTabAllowed(userRole, "chapel")) && (
               <div>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1">OPERAÇÕES & PLANTÃO</p>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1">
+                  OPERAÇÕES & PLANTÃO
+                </p>
                 <div className="space-y-0.5">
-                  {isTabAllowed(userRole, 'burials') && (
-                    <button onClick={() => setActiveTab('burials')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'burials' ? 'bg-rose-600/15 text-rose-400 border border-rose-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                      <div className="flex items-center gap-2"><span>🚨</span> Plantão 24h & Óbitos</div>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 font-bold">{burials.length}</span>
+                  {isTabAllowed(userRole, "burials") && (
+                    <button
+                      onClick={() => setActiveTab("burials")}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "burials" ? "bg-rose-600/15 text-rose-400 border border-rose-500/30" : "text-slate-400 hover:bg-slate-800"}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>🚨</span> Plantão 24h & Óbitos
+                      </div>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 font-bold">
+                        {burials.length}
+                      </span>
                     </button>
                   )}
-                  {isTabAllowed(userRole, 'thanatopraxy') && (
-                    <button onClick={() => setActiveTab('thanatopraxy')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'thanatopraxy' ? 'bg-purple-600/15 text-purple-400 border border-purple-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                      <div className="flex items-center gap-2"><span>🔬</span> Tanatopraxia</div>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{thanatopraxyRecords.length}</span>
+                  {isTabAllowed(userRole, "thanatopraxy") && (
+                    <button
+                      onClick={() => setActiveTab("thanatopraxy")}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "thanatopraxy" ? "bg-purple-600/15 text-purple-400 border border-purple-500/30" : "text-slate-400 hover:bg-slate-800"}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>🔬</span> Tanatopraxia
+                      </div>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">
+                        {thanatopraxyRecords.length}
+                      </span>
                     </button>
                   )}
-                  {isTabAllowed(userRole, 'chapel') && (
-                    <button onClick={() => setActiveTab('chapel')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'chapel' ? 'bg-amber-600/15 text-amber-400 border border-amber-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                      <div className="flex items-center gap-2"><span>⛪</span> Capelas & Velórios</div>
+                  {isTabAllowed(userRole, "chapel") && (
+                    <button
+                      onClick={() => setActiveTab("chapel")}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "chapel" ? "bg-amber-600/15 text-amber-400 border border-amber-500/30" : "text-slate-400 hover:bg-slate-800"}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>⛪</span> Capelas & Velórios
+                      </div>
                     </button>
                   )}
                 </div>
@@ -861,32 +1212,65 @@ export default function MasterEternityOS() {
             )}
 
             {/* LOGÍSTICA & SUPORTE */}
-            {(isTabAllowed(userRole, 'fleet') || isTabAllowed(userRole, 'inventory') || isTabAllowed(userRole, 'convalescence') || isTabAllowed(userRole, 'benefits')) && (
+            {(isTabAllowed(userRole, "fleet") ||
+              isTabAllowed(userRole, "inventory") ||
+              isTabAllowed(userRole, "convalescence") ||
+              isTabAllowed(userRole, "benefits")) && (
               <div>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1">LOGÍSTICA & SUPORTE</p>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-1">
+                  LOGÍSTICA & SUPORTE
+                </p>
                 <div className="space-y-0.5">
-                  {isTabAllowed(userRole, 'fleet') && (
-                    <button onClick={() => setActiveTab('fleet')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'fleet' ? 'bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                      <div className="flex items-center gap-2"><span>🚐</span> Frota & Veículos</div>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{vehicles.length}</span>
+                  {isTabAllowed(userRole, "fleet") && (
+                    <button
+                      onClick={() => setActiveTab("fleet")}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "fleet" ? "bg-blue-600/15 text-blue-400 border border-blue-500/30" : "text-slate-400 hover:bg-slate-800"}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>🚐</span> Frota & Veículos
+                      </div>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">
+                        {vehicles.length}
+                      </span>
                     </button>
                   )}
-                  {isTabAllowed(userRole, 'inventory') && (
-                    <button onClick={() => setActiveTab('inventory')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'inventory' ? 'bg-amber-600/15 text-amber-400 border border-amber-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                      <div className="flex items-center gap-2"><span>📦</span> Estoque & Urnas</div>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{inventory.length}</span>
+                  {isTabAllowed(userRole, "inventory") && (
+                    <button
+                      onClick={() => setActiveTab("inventory")}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "inventory" ? "bg-amber-600/15 text-amber-400 border border-amber-500/30" : "text-slate-400 hover:bg-slate-800"}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>📦</span> Estoque & Urnas
+                      </div>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">
+                        {inventory.length}
+                      </span>
                     </button>
                   )}
-                  {isTabAllowed(userRole, 'convalescence') && (
-                    <button onClick={() => setActiveTab('convalescence')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'convalescence' ? 'bg-emerald-600/15 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                      <div className="flex items-center gap-2"><span>♿</span> Convalescença</div>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{convalescence.length}</span>
+                  {isTabAllowed(userRole, "convalescence") && (
+                    <button
+                      onClick={() => setActiveTab("convalescence")}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "convalescence" ? "bg-emerald-600/15 text-emerald-400 border border-emerald-500/30" : "text-slate-400 hover:bg-slate-800"}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>♿</span> Convalescença
+                      </div>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">
+                        {convalescence.length}
+                      </span>
                     </button>
                   )}
-                  {isTabAllowed(userRole, 'benefits') && (
-                    <button onClick={() => setActiveTab('benefits')} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === 'benefits' ? 'bg-cyan-600/15 text-cyan-400 border border-cyan-500/30' : 'text-slate-400 hover:bg-slate-800'}`}>
-                      <div className="flex items-center gap-2"><span>🤝</span> Clube de Convênios</div>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">{partners.length}</span>
+                  {isTabAllowed(userRole, "benefits") && (
+                    <button
+                      onClick={() => setActiveTab("benefits")}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "benefits" ? "bg-cyan-600/15 text-cyan-400 border border-cyan-500/30" : "text-slate-400 hover:bg-slate-800"}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>🤝</span> Clube de Convênios
+                      </div>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">
+                        {partners.length}
+                      </span>
                     </button>
                   )}
                 </div>
@@ -902,22 +1286,48 @@ export default function MasterEternityOS() {
               {userRole.substring(0, 2).toUpperCase()}
             </div>
             <div className="truncate">
-              <p className="text-xs font-semibold text-white capitalize truncate">{userRole}</p>
+              <p className="text-xs font-semibold text-white capitalize truncate">
+                {userRole}
+              </p>
               <p className="text-[10px] text-emerald-400">● Conectado</p>
             </div>
           </div>
           <div className="flex items-center gap-1">
-            {hasPermission(userRole, 'canManageFinancial') && (
+            {hasPermission(userRole, "canManageFinancial") && (
               <>
-                <button onClick={() => setIsAsaasConfigOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-cyan-400" title="Gateway Asaas">⚡</button>
-                <button onClick={() => setIsDREOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-emerald-400" title="Ver DRE">📈</button>
+                <button
+                  onClick={() => setIsAsaasConfigOpen(true)}
+                  className="p-1.5 text-xs text-slate-400 hover:text-cyan-400"
+                  title="Gateway Asaas"
+                >
+                  ⚡
+                </button>
+                <button
+                  onClick={() => setIsDREOpen(true)}
+                  className="p-1.5 text-xs text-slate-400 hover:text-emerald-400"
+                  title="Ver DRE"
+                >
+                  📈
+                </button>
               </>
             )}
-            {hasPermission(userRole, 'canManageUsers') && (
-              <button onClick={() => setIsRBACOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-blue-400" title="Permissões RBAC">🛡️</button>
+            {hasPermission(userRole, "canManageUsers") && (
+              <button
+                onClick={() => setIsRBACOpen(true)}
+                className="p-1.5 text-xs text-slate-400 hover:text-blue-400"
+                title="Permissões RBAC"
+              >
+                🛡️
+              </button>
             )}
-            {hasPermission(userRole, 'canManageSettings') && (
-              <button onClick={() => setIsSettingsOpen(true)} className="p-1.5 text-xs text-slate-400 hover:text-cyan-400" title="Configurações da Empresa (logo, cores, dados)">⚙️</button>
+            {hasPermission(userRole, "canManageSettings") && (
+              <button
+                onClick={() => setIsSettingsOpen(true)}
+                className="p-1.5 text-xs text-slate-400 hover:text-cyan-400"
+                title="Configurações da Empresa (logo, cores, dados)"
+              >
+                ⚙️
+              </button>
             )}
             <button
               onClick={handleLogout}
@@ -934,30 +1344,40 @@ export default function MasterEternityOS() {
       <main className="flex-1 flex flex-col overflow-hidden bg-[#070a11]">
         <header className="p-4 border-b border-slate-800 bg-[#0d111a] flex items-center justify-between gap-2 flex-wrap sm:gap-4 sm:flex-nowrap shrink-0">
           <div className="flex items-center gap-2 min-w-0">
-            <button onClick={() => setIsSidebarOpen(true)} className="md:hidden p-2 bg-slate-900 border border-slate-800 rounded-lg text-slate-300 leading-none" aria-label="Abrir menu">&#9776;</button>
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              className="md:hidden p-2 bg-slate-900 border border-slate-800 rounded-lg text-slate-300 leading-none"
+              aria-label="Abrir menu"
+            >
+              &#9776;
+            </button>
             <h2 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider truncate">
-            {activeTab === 'executive' && 'Painel Executivo & Indicadores'}
-            {activeTab === 'holders' && 'Gestão de Associados & Planos'}
-            {activeTab === 'burials' && 'Central de Plantão 24h & Óbitos'}
-            {activeTab === 'thanatopraxy' && 'Laboratório de Tanatopraxia'}
-            {activeTab === 'chapel' && 'Salas de Velório & Capelas'}
-            {activeTab === 'fleet' && 'Frota & Veículos'}
-            {activeTab === 'inventory' && 'Estoque de Urnas & Insumos'}
-            {activeTab === 'convalescence' && 'Aparelhos Convalescentes'}
-            {activeTab === 'benefits' && 'Clube de Convênios & Descontos'}
-            {activeTab === 'financial' && 'Gestão Financeira & Livro Caixa'}
-          </h2></div>
+              {activeTab === "executive" && "Painel Executivo & Indicadores"}
+              {activeTab === "holders" && "Gestão de Associados & Planos"}
+              {activeTab === "burials" && "Central de Plantão 24h & Óbitos"}
+              {activeTab === "thanatopraxy" && "Laboratório de Tanatopraxia"}
+              {activeTab === "chapel" && "Salas de Velório & Capelas"}
+              {activeTab === "fleet" && "Frota & Veículos"}
+              {activeTab === "inventory" && "Estoque de Urnas & Insumos"}
+              {activeTab === "convalescence" && "Aparelhos Convalescentes"}
+              {activeTab === "benefits" && "Clube de Convênios & Descontos"}
+              {activeTab === "financial" && "Gestão Financeira & Livro Caixa"}
+            </h2>
+          </div>
 
           <div className="flex items-center gap-2.5">
-            {hasPermission(userRole, 'canManageBurials') && (
+            {hasPermission(userRole, "canManageBurials") && (
               <button
                 onClick={() => setIsNewBurialOpen(true)}
-                className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition shadow shrink-0">
-                <span className="hidden sm:inline">🚨 Novo Atendimento / Óbito</span>
+                className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition shadow shrink-0"
+              >
+                <span className="hidden sm:inline">
+                  🚨 Novo Atendimento / Óbito
+                </span>
                 <span className="sm:hidden">🚨 Óbito</span>
               </button>
             )}
-            {hasPermission(userRole, 'canManageContracts') && (
+            {hasPermission(userRole, "canManageContracts") && (
               <button
                 onClick={() => setIsNewHolderOpen(true)}
                 className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow"
@@ -965,9 +1385,13 @@ export default function MasterEternityOS() {
                 <span>+</span> Novo Titular
               </button>
             )}
-            {hasPermission(userRole, 'canManageContracts') && (
+            {hasPermission(userRole, "canManageContracts") && (
               <button
-                onClick={() => { setImportText(''); setImportResult(null); setIsImportOpen(true); }}
+                onClick={() => {
+                  setImportText("");
+                  setImportResult(null);
+                  setIsImportOpen(true);
+                }}
                 className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-slate-700 hover:bg-slate-600 rounded-lg transition shadow"
               >
                 <span>CSV</span> Importar
@@ -980,41 +1404,86 @@ export default function MasterEternityOS() {
               className="inline-flex items-center gap-1 px-2 sm:px-3 py-1.5 text-xs font-bold text-slate-300 hover:text-rose-400 shrink-0 hover:bg-rose-950/40 bg-slate-900 border border-slate-800 rounded-lg transition shadow-sm"
               title="Encerrar Sessão"
             >
-              <span>🚪</span><span className="hidden sm:inline">Sair</span></button>
+              <span>🚪</span>
+              <span className="hidden sm:inline">Sair</span>
+            </button>
           </div>
         </header>
 
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
           {/* PAINEL EXECUTIVO */}
-          {activeTab === 'executive' && isTabAllowed(userRole, 'executive') && (
+          {activeTab === "executive" && isTabAllowed(userRole, "executive") && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                  <p className="text-xs text-slate-400 uppercase font-semibold">MRR Recorrente</p>
-                  <p className="text-2xl font-bold text-white mt-2">{fmtBRL(holders.length * 69.90)}</p>
-                  <p className="text-[11px] text-slate-400 mt-1">Receita Mensal Prevista</p>
+                  <p className="text-xs text-slate-400 uppercase font-semibold">
+                    MRR Recorrente
+                  </p>
+                  <p className="text-2xl font-bold text-white mt-2">
+                    {fmtBRL(computeMRR(holders))}
+                  </p>
+                  <p className="text-[11px] text-slate-400 mt-1">
+                    {activeHoldersCount} contratos ativos
+                  </p>
                 </div>
                 <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                  <p className="text-xs text-slate-400 uppercase font-semibold">Associados Ativos</p>
-                  <p className="text-2xl font-bold text-white mt-2">{holders.length}</p>
-                  <p className="text-[11px] text-emerald-400 mt-1">Contratos na base</p>
+                  <p className="text-xs text-slate-400 uppercase font-semibold">
+                    Associados Ativos
+                  </p>
+                  <p className="text-2xl font-bold text-white mt-2">
+                    {activeHoldersCount}
+                  </p>
+                  <p className="text-[11px] text-slate-500 mt-1">
+                    {holders.length} cadastrados (ativo/filtrado)
+                  </p>
                 </div>
                 <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                  <p className="text-xs text-slate-400 uppercase font-semibold">Missões em Aberto</p>
-                  <p className="text-2xl font-bold text-white mt-2">{burials.length}</p>
-                  <p className="text-[11px] text-slate-400 mt-1">Plantão em atendimento</p>
+                  <p className="text-xs text-slate-400 uppercase font-semibold">
+                    Missões em Aberto
+                  </p>
+                  <p className="text-2xl font-bold text-white mt-2">
+                    {openBurials}
+                  </p>
+                  <p className="text-[11px] text-slate-400 mt-1">
+                    Plantão em atendimento
+                  </p>
                 </div>
                 <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                  <p className="text-xs text-slate-400 uppercase font-semibold">Veículos Disponíveis</p>
-                  <p className="text-2xl font-bold text-white mt-2">{vehicles.length}</p>
-                  <p className="text-[11px] text-slate-400 mt-1">Frota pronta</p>
+                  <p className="text-xs text-slate-400 uppercase font-semibold">
+                    Veículos Disponíveis
+                  </p>
+                  <p className="text-2xl font-bold text-white mt-2">
+                    {availableVehicles}
+                  </p>
+                  <p className="text-[11px] text-slate-400 mt-1">
+                    {vehicles.length} veículos na frota
+                  </p>
                 </div>
+              </div>
+              <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
+                <p className="text-xs font-semibold text-slate-400 uppercase mb-2">Receita vs Despesa (mês)</p>
+                {monthlySeries.length === 0 ? (
+                  <p className="text-[11px] text-slate-500">Sem movimentação financeira neste período.</p>
+                ) : (
+                  <ResponsiveContainer width="100%" height={220}>
+                    <ComposedChart data={monthlySeries}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                      <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "#94a3a9", fontSize: 11 }} />
+                      <YAxis axisLine={false} tickLine={false} tick={{ fill: "#94a3a9", fontSize: 10 }} tickFormatter={fmtBRL} />
+                      <Tooltip contentStyle={{ backgroundColor: "#0d121f", border: "1px solid #33415b", borderRadius: 6 }} formatter={(value: any) => [fmtBRL(Number(value)), ""]} />
+                      <Legend wrapperStyle={{ color: "#94a3a9" }} />
+                      <Bar dataKey="income" name="Receitas" fill="#16a34a" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="expense" name="Despesas" fill="#dc2626" radius={[4, 4, 0, 0]} />
+                      <Line type="monotone" dataKey="net" name="Resultado" stroke="#06b6d6" strokeWidth={2} dot={{ r: 3 }} />
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                )}
               </div>
             </div>
           )}
 
           {/* ASSOCIADOS & CONTRATOS */}
-          {activeTab === 'holders' && isTabAllowed(userRole, 'holders') && (
+          {activeTab === "holders" && isTabAllowed(userRole, "holders") && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-sm">
                 <div className="flex-1 min-w-[280px]">
@@ -1028,17 +1497,50 @@ export default function MasterEternityOS() {
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs">
-                    <button onClick={() => setStatusFilter('all')} className={`px-2.5 py-1 rounded ${statusFilter === 'all' ? 'bg-slate-800 text-white font-bold' : 'text-slate-400'}`}>Todos ({holders.length})</button>
-                    <button onClick={() => setStatusFilter('active')} className={`px-2.5 py-1 rounded ${statusFilter === 'active' ? 'bg-emerald-950 text-emerald-300 font-bold border border-emerald-800' : 'text-slate-400'}`}>Ativos</button>
-                    <button onClick={() => setStatusFilter('defaulted')} className={`px-2.5 py-1 rounded ${statusFilter === 'defaulted' ? 'bg-rose-950 text-rose-300 font-bold border border-rose-800' : 'text-slate-400'}`}>Inadimplentes</button>
+                    <button
+                      onClick={() => setStatusFilter("all")}
+                      className={`px-2.5 py-1 rounded ${statusFilter === "all" ? "bg-slate-800 text-white font-bold" : "text-slate-400"}`}
+                    >
+                      Todos ({holders.length})
+                    </button>
+                    <button
+                      onClick={() => setStatusFilter("active")}
+                      className={`px-2.5 py-1 rounded ${statusFilter === "active" ? "bg-emerald-950 text-emerald-300 font-bold border border-emerald-800" : "text-slate-400"}`}
+                    >
+                      Ativos
+                    </button>
+                    <button
+                      onClick={() => setStatusFilter("defaulted")}
+                      className={`px-2.5 py-1 rounded ${statusFilter === "defaulted" ? "bg-rose-950 text-rose-300 font-bold border border-rose-800" : "text-slate-400"}`}
+                    >
+                      Inadimplentes
+                    </button>
                   </div>
-                  {hasPermission(userRole, 'canManageContracts') && (
-                    <button onClick={() => setIsNewHolderOpen(true)} className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg transition shadow">+ Novo Titular</button>
+                  {hasPermission(userRole, "canManageContracts") && (
+                    <button
+                      onClick={() => setIsNewHolderOpen(true)}
+                      className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg transition shadow"
+                    >
+                      + Novo Titular
+                    </button>
                   )}
-                  {hasPermission(userRole, 'canManageContracts') && (
-                    <button onClick={() => { setImportText(''); setImportResult(null); setIsImportOpen(true); }} className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition">CSV Importar</button>
+                  {hasPermission(userRole, "canManageContracts") && (
+                    <button
+                      onClick={() => {
+                        setImportText("");
+                        setImportResult(null);
+                        setIsImportOpen(true);
+                      }}
+                      className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition"
+                    >
+                      CSV Importar
+                    </button>
                   )}
-                                    <button onClick={handleExportCSV} className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition" title="Exportar para Excel / CSV">
+                  <button
+                    onClick={handleExportCSV}
+                    className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition"
+                    title="Exportar para Excel / CSV"
+                  >
                     📥 Exportar CSV
                   </button>
                 </div>
@@ -1059,31 +1561,106 @@ export default function MasterEternityOS() {
                   <tbody className="divide-y divide-slate-800">
                     {filteredHolders.map((h) => {
                       const contract = h.contracts?.[0];
-                      const status = contract?.status || 'active';
-                      const planName = contract?.plans?.name || 'Familiar Ouro';
-                      const rawCpf = h.cpf?.replace(/\D/g, '') || '';
-                      const waUrl = formatWhatsAppMessage({ holderName: h.full_name, phone: h.phone, planName, amount: 69.90, dueDate: '10/09', cpf: h.cpf });
+                      const status = contract?.status || "active";
+                      const planName = contract?.plans?.name || "Familiar Ouro";
+                      const rawCpf = h.cpf?.replace(/\D/g, "") || "";
+                      const fee = Number(contract?.plans?.monthly_fee) || 0;
+                      const waUrl = formatWhatsAppMessage({
+                        holderName: h.full_name,
+                        phone: h.phone,
+                        planName,
+                        amount: fee,
+                        dueDate: "10/09",
+                        cpf: h.cpf,
+                      });
 
                       return (
-                        <tr key={h.id} className="hover:bg-slate-800/30 transition">
-                          <td className="py-3 px-4 font-bold text-white">{h.full_name} <span className="block text-[10px] text-slate-500 font-normal">({h.dependents?.length || 0} dependentes)</span></td>
-                          <td className="py-3 px-4 font-mono text-slate-300">{h.cpf}</td>
-                          <td className="py-3 px-4 text-slate-300">{h.phone}</td>
-                          <td className="py-3 px-4 text-blue-400 font-semibold">{planName}</td>
-                          <td className="py-3 px-4"><span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-950 text-emerald-400 border border-emerald-800">{status === 'active' ? '● Ativo' : status}</span></td>
+                        <tr
+                          key={h.id}
+                          className="hover:bg-slate-800/30 transition"
+                        >
+                          <td className="py-3 px-4 font-bold text-white">
+                            {h.full_name}{" "}
+                            <span className="block text-[10px] text-slate-500 font-normal">
+                              ({h.dependents?.length || 0} dependentes)
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 font-mono text-slate-300">
+                            {h.cpf}
+                          </td>
+                          <td className="py-3 px-4 text-slate-300">
+                            {h.phone}
+                          </td>
+                          <td className="py-3 px-4 text-blue-400 font-semibold">
+                            {planName}
+                          </td>
+                          <td className="py-3 px-4">
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-950 text-emerald-400 border border-emerald-800">
+                              {status === "active" ? "● Ativo" : status}
+                            </span>
+                          </td>
                           <td className="py-3 px-4 text-right">
                             <div className="inline-flex items-center gap-1.5">
-                              <a href={waUrl} target="_blank" rel="noreferrer" className="px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 rounded text-[11px] font-bold">💬 Cobrar</a>
-                              <a href={`/carteirinha/${rawCpf}`} target="_blank" rel="noreferrer" className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] border border-slate-700">🪪 Carteirinha</a>
-                              <button onClick={() => setPrintHolderContract(h)} className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded text-[11px]" title="Imprimir Contrato / Termo">📄 Termo</button>
-                              <button onClick={() => openEditHolder(h)} className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded text-[11px]" title="Editar Associado">Editar</button><button onClick={() => setSelectedHolder(h)} className="px-2 py-1 bg-blue-950/60 hover:bg-blue-900/60 text-blue-300 border border-blue-800/60 rounded text-[11px]">👥 Dependentes</button><button onClick={() => handleDeleteHolder(h)} disabled={deletingHolderId === h.id} className="px-2 py-1 bg-red-950/60 hover:bg-red-900/60 text-red-300 border border-red-800/60 rounded text-[11px]" title="Excluir Associado">{deletingHolderId === h.id ? 'Excluindo...' : 'Excluir'}</button>
+                              <a
+                                href={waUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 rounded text-[11px] font-bold"
+                              >
+                                💬 Cobrar
+                              </a>
+                              <a
+                                href={`/carteirinha/${rawCpf}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] border border-slate-700"
+                              >
+                                🪪 Carteirinha
+                              </a>
+                              <button
+                                onClick={() => setPrintHolderContract(h)}
+                                className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded text-[11px]"
+                                title="Imprimir Contrato / Termo"
+                              >
+                                📄 Termo
+                              </button>
+                              <button
+                                onClick={() => openEditHolder(h)}
+                                className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded text-[11px]"
+                                title="Editar Associado"
+                              >
+                                Editar
+                              </button>
+                              <button
+                                onClick={() => setSelectedHolder(h)}
+                                className="px-2 py-1 bg-blue-950/60 hover:bg-blue-900/60 text-blue-300 border border-blue-800/60 rounded text-[11px]"
+                              >
+                                👥 Dependentes
+                              </button>
+                              <button
+                                onClick={() => handleDeleteHolder(h)}
+                                disabled={deletingHolderId === h.id}
+                                className="px-2 py-1 bg-red-950/60 hover:bg-red-900/60 text-red-300 border border-red-800/60 rounded text-[11px]"
+                                title="Excluir Associado"
+                              >
+                                {deletingHolderId === h.id
+                                  ? "Excluindo..."
+                                  : "Excluir"}
+                              </button>
                             </div>
                           </td>
                         </tr>
                       );
                     })}
                     {filteredHolders.length === 0 && !loading && (
-                      <tr><td colSpan={6} className="py-8 text-center text-slate-500">Nenhum associado cadastrado no momento.</td></tr>
+                      <tr>
+                        <td
+                          colSpan={6}
+                          className="py-8 text-center text-slate-500"
+                        >
+                          Nenhum associado cadastrado no momento.
+                        </td>
+                      </tr>
                     )}
                   </tbody>
                 </table>
@@ -1092,26 +1669,56 @@ export default function MasterEternityOS() {
           )}
 
           {/* PLANTÃO 24H & ÓBITOS */}
-          {activeTab === 'burials' && isTabAllowed(userRole, 'burials') && (
+          {activeTab === "burials" && isTabAllowed(userRole, "burials") && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-x-auto">
                 <table className="w-full min-w-[640px] text-left text-xs">
                   <thead className="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase text-[11px]">
-                    <tr><th className="py-3 px-4">Pessoa Falecida</th><th className="py-3 px-4">Local / Cemitério</th><th className="py-3 px-4">Data e Hora</th><th className="py-3 px-4">Status</th><th className="py-3 px-4 text-right">Guia</th></tr>
+                    <tr>
+                      <th className="py-3 px-4">Pessoa Falecida</th>
+                      <th className="py-3 px-4">Local / Cemitério</th>
+                      <th className="py-3 px-4">Data e Hora</th>
+                      <th className="py-3 px-4">Status</th>
+                      <th className="py-3 px-4 text-right">Guia</th>
+                    </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800 text-slate-200">
                     {burials.map((b) => (
                       <tr key={b.id} className="hover:bg-slate-800/30">
-                        <td className="py-3 px-4 font-bold text-white">{b.deceased_name}</td>
-                        <td className="py-3 px-4 text-slate-300">{b.cemetery_location || 'Em traslado'}</td>
-                        <td className="py-3 px-4 font-mono">{new Date(b.burial_date).toLocaleString('pt-BR')}</td>
-                        <td className="py-3 px-4"><span className="px-2.5 py-0.5 rounded bg-blue-950 text-blue-300 text-[10px] font-bold">{b.status || 'Agendado'}</span></td>
+                        <td className="py-3 px-4 font-bold text-white">
+                          {b.deceased_name}
+                        </td>
+                        <td className="py-3 px-4 text-slate-300">
+                          {b.cemetery_location || "Em traslado"}
+                        </td>
+                        <td className="py-3 px-4 font-mono">
+                          {new Date(b.burial_date).toLocaleString("pt-BR")}
+                        </td>
+                        <td className="py-3 px-4">
+                          <span className="px-2.5 py-0.5 rounded bg-blue-950 text-blue-300 text-[10px] font-bold">
+                            {b.status || "Agendado"}
+                          </span>
+                        </td>
                         <td className="py-3 px-4 text-right">
-                          <button onClick={() => setPrintBurialGuide(b)} className="px-2.5 py-1 bg-slate-800 text-slate-200 rounded border border-slate-700 text-[11px] font-semibold">🖨️ Imprimir Guia</button>
+                          <button
+                            onClick={() => setPrintBurialGuide(b)}
+                            className="px-2.5 py-1 bg-slate-800 text-slate-200 rounded border border-slate-700 text-[11px] font-semibold"
+                          >
+                            🖨️ Imprimir Guia
+                          </button>
                         </td>
                       </tr>
                     ))}
-                    {burials.length === 0 && <tr><td colSpan={5} className="py-8 text-center text-slate-500">Nenhum chamado no momento.</td></tr>}
+                    {burials.length === 0 && (
+                      <tr>
+                        <td
+                          colSpan={5}
+                          className="py-8 text-center text-slate-500"
+                        >
+                          Nenhum chamado no momento.
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -1119,89 +1726,169 @@ export default function MasterEternityOS() {
           )}
 
           {/* TANATOPRAXIA */}
-          {activeTab === 'thanatopraxy' && isTabAllowed(userRole, 'thanatopraxy') && (
-            <div className="space-y-4">
-              <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
-                <div>
-                  <h3 className="font-bold text-white text-sm">Laboratório de Tanatopraxia & Preparação</h3>
-                  <p className="text-xs text-slate-400">Controle de conservação e fichas de tanatólogos</p>
+          {activeTab === "thanatopraxy" &&
+            isTabAllowed(userRole, "thanatopraxy") && (
+              <div className="space-y-4">
+                <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
+                  <div>
+                    <h3 className="font-bold text-white text-sm">
+                      Laboratório de Tanatopraxia & Preparação
+                    </h3>
+                    <p className="text-xs text-slate-400">
+                      Controle de conservação e fichas de tanatólogos
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setIsNewThanatoOpen(true)}
+                    className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold shadow"
+                  >
+                    + Novo Procedimento
+                  </button>
                 </div>
-                <button onClick={() => setIsNewThanatoOpen(true)} className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold shadow">
-                  + Novo Procedimento
-                </button>
-              </div>
 
-              <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-x-auto">
-                <table className="w-full min-w-[640px] text-left text-xs">
-                  <thead className="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase text-[11px]">
-                    <tr><th className="py-3 px-4">Falecido</th><th className="py-3 px-4">Tanatólogo Responsável</th><th className="py-3 px-4">Procedimento Realizado</th><th className="py-3 px-4">Conclusão</th><th className="py-3 px-4">Status</th></tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-800 text-slate-200">
-                    {thanatopraxyRecords.map((t) => (
-                      <tr key={t.id} className="hover:bg-slate-800/30">
-                        <td className="py-3 px-4 font-bold text-white">{t.deceased_name}</td>
-                        <td className="py-3 px-4 text-purple-400 font-semibold">{t.technician || t.technician_name}</td>
-                        <td className="py-3 px-4 text-slate-300">{t.procedure || t.procedure_notes}</td>
-                        <td className="py-3 px-4 font-mono text-slate-400">{t.completed_at ? new Date(t.completed_at).toLocaleString('pt-BR') : 'Concluído'}</td>
-                        <td className="py-3 px-4"><span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 text-[10px] font-bold">✓ Concluído</span></td>
+                <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-x-auto">
+                  <table className="w-full min-w-[640px] text-left text-xs">
+                    <thead className="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase text-[11px]">
+                      <tr>
+                        <th className="py-3 px-4">Falecido</th>
+                        <th className="py-3 px-4">Tanatólogo Responsável</th>
+                        <th className="py-3 px-4">Procedimento Realizado</th>
+                        <th className="py-3 px-4">Conclusão</th>
+                        <th className="py-3 px-4">Status</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800 text-slate-200">
+                      {thanatopraxyRecords.map((t) => (
+                        <tr key={t.id} className="hover:bg-slate-800/30">
+                          <td className="py-3 px-4 font-bold text-white">
+                            {t.deceased_name}
+                          </td>
+                          <td className="py-3 px-4 text-purple-400 font-semibold">
+                            {t.technician || t.technician_name}
+                          </td>
+                          <td className="py-3 px-4 text-slate-300">
+                            {t.procedure || t.procedure_notes}
+                          </td>
+                          <td className="py-3 px-4 font-mono text-slate-400">
+                            {t.completed_at
+                              ? new Date(t.completed_at).toLocaleString("pt-BR")
+                              : "Concluído"}
+                          </td>
+                          <td className="py-3 px-4">
+                            <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 text-[10px] font-bold">
+                              ✓ Concluído
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-                    {/* SALAS DE VELÓRIO - agenda real via /api/chapel-bookings */}
-          {activeTab === 'chapel' && isTabAllowed(userRole, 'chapel') && (
+          {/* SALAS DE VELÓRIO - agenda real via /api/chapel-bookings */}
+          {activeTab === "chapel" && isTabAllowed(userRole, "chapel") && (
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <div>
-                  <h3 className="font-bold text-sm text-white">Salas de Velório & Capelas</h3>
-                  <p className="text-xs text-slate-400">{chapels.length} reserva(s) agendada(s)</p>
+                  <h3 className="font-bold text-sm text-white">
+                    Salas de Velório & Capelas
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    {chapels.length} reserva(s) agendada(s)
+                  </p>
                 </div>
-                <button onClick={() => setIsNewChapelBookingOpen(true)} className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold shadow">
+                <button
+                  onClick={() => setIsNewChapelBookingOpen(true)}
+                  className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold shadow"
+                >
                   + Nova Reserva
                 </button>
               </div>
 
               {chapels.length === 0 ? (
                 <div className="text-xs text-slate-400 bg-[#0d121f] border border-slate-800 rounded-xl p-6 text-center">
-                  Nenhuma reserva. Clique em “+ Nova Reserva” para agendar uma sala.
+                  Nenhuma reserva. Clique em “+ Nova Reserva” para agendar uma
+                  sala.
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {chapels.map((b) => {
-                    const statusLabel = b.status === 'reservado' ? 'Reservada' : b.status === 'em_velorio' ? 'Velório em andamento' : 'Concluída';
-                    const statusColor = b.status === 'reservado' ? 'text-amber-400' : b.status === 'em_velorio' ? 'text-rose-400' : 'text-emerald-400';
-                    const nextStatus = b.status === 'reservado' ? 'em_velorio' : b.status === 'em_velorio' ? 'concluido' : 'reservado';
-                    const toggleLabel = b.status === 'reservado' ? 'Iniciar Velório' : b.status === 'em_velorio' ? 'Liberar Sala' : 'Reabrir Reserva';
+                    const statusLabel =
+                      b.status === "reservado"
+                        ? "Reservada"
+                        : b.status === "em_velorio"
+                          ? "Velório em andamento"
+                          : "Concluída";
+                    const statusColor =
+                      b.status === "reservado"
+                        ? "text-amber-400"
+                        : b.status === "em_velorio"
+                          ? "text-rose-400"
+                          : "text-emerald-400";
+                    const nextStatus =
+                      b.status === "reservado"
+                        ? "em_velorio"
+                        : b.status === "em_velorio"
+                          ? "concluido"
+                          : "reservado";
+                    const toggleLabel =
+                      b.status === "reservado"
+                        ? "Iniciar Velório"
+                        : b.status === "em_velorio"
+                          ? "Liberar Sala"
+                          : "Reabrir Reserva";
                     return (
-                      <div key={b.id} className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex flex-col justify-between">
+                      <div
+                        key={b.id}
+                        className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex flex-col justify-between"
+                      >
                         <div>
                           <div className="flex justify-between items-center text-xs font-bold uppercase mb-2">
                             <span className="text-white">{b.chapel_name}</span>
                             <span className={statusColor}>● {statusLabel}</span>
                           </div>
-                          <p className="text-xs text-slate-400">Falecido: {b.deceased_name || '—'}</p>
-                          {b.family_contact && <p className="text-xs text-slate-400">Contato: {b.family_contact}</p>}
                           <p className="text-xs text-slate-400">
-                            Início: {b.start_time ? new Date(b.start_time).toLocaleString('pt-BR') : '—'}
+                            Falecido: {b.deceased_name || "—"}
+                          </p>
+                          {b.family_contact && (
+                            <p className="text-xs text-slate-400">
+                              Contato: {b.family_contact}
+                            </p>
+                          )}
+                          <p className="text-xs text-slate-400">
+                            Início:{" "}
+                            {b.start_time
+                              ? new Date(b.start_time).toLocaleString("pt-BR")
+                              : "—"}
                           </p>
                           <p className="text-xs text-slate-400">
-                            Fim: {b.end_time ? new Date(b.end_time).toLocaleString('pt-BR') : '—'}
+                            Fim:{" "}
+                            {b.end_time
+                              ? new Date(b.end_time).toLocaleString("pt-BR")
+                              : "—"}
                           </p>
                         </div>
                         <div className="mt-4 pt-3 border-t border-slate-800 flex gap-2">
                           <button
                             onClick={async () => {
-                              const res = await authFetch('/api/chapel-bookings', {
-                                method: 'PATCH',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ id: b.id, status: nextStatus }),
-                              });
+                              const res = await authFetch(
+                                "/api/chapel-bookings",
+                                {
+                                  method: "PATCH",
+                                  headers: {
+                                    "Content-Type": "application/json",
+                                  },
+                                  body: JSON.stringify({
+                                    id: b.id,
+                                    status: nextStatus,
+                                  }),
+                                },
+                              );
                               if (res.ok) loadData();
-                              else alert('Não foi possível atualizar o status.');
+                              else
+                                alert("Não foi possível atualizar o status.");
                             }}
                             className="flex-1 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] font-semibold"
                           >
@@ -1209,10 +1896,13 @@ export default function MasterEternityOS() {
                           </button>
                           <button
                             onClick={async () => {
-                              if (!confirm('Remover esta reserva?')) return;
-                              const res = await authFetch(`/api/chapel-bookings?id=${encodeURIComponent(b.id)}`, { method: 'DELETE' });
+                              if (!confirm("Remover esta reserva?")) return;
+                              const res = await authFetch(
+                                `/api/chapel-bookings?id=${encodeURIComponent(b.id)}`,
+                                { method: "DELETE" },
+                              );
                               if (res.ok) loadData();
-                              else alert('Não foi possível remover a reserva.');
+                              else alert("Não foi possível remover a reserva.");
                             }}
                             className="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded text-[11px] font-semibold"
                           >
@@ -1228,43 +1918,79 @@ export default function MasterEternityOS() {
           )}
 
           {/* FROTA */}
-          {activeTab === 'fleet' && isTabAllowed(userRole, 'fleet') && (
+          {activeTab === "fleet" && isTabAllowed(userRole, "fleet") && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
                 <div>
-                  <h3 className="font-bold text-sm text-white">Controle de Frota & Logística</h3>
-                  <p className="text-xs text-slate-400">Veículos de cortejo, remoção e apoio familiar</p>
+                  <h3 className="font-bold text-sm text-white">
+                    Controle de Frota & Logística
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    Veículos de cortejo, remoção e apoio familiar
+                  </p>
                 </div>
-                <button onClick={() => setIsNewVehicleOpen(true)} className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold shadow">
+                <button
+                  onClick={() => setIsNewVehicleOpen(true)}
+                  className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold shadow"
+                >
                   + Novo Veículo
                 </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {vehicles.map((v) => (
-                  <div key={v.id} className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex flex-col justify-between">
+                  <div
+                    key={v.id}
+                    className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex flex-col justify-between"
+                  >
                     <div>
                       <div className="flex justify-between items-center text-slate-400 text-xs uppercase font-bold">
                         <span>{v.plate}</span>
-                        <span className={v.status === 'Disponível' ? 'text-emerald-400' : 'text-amber-400'}>● {v.status}</span>
+                        <span
+                          className={
+                            v.status === "Disponível"
+                              ? "text-emerald-400"
+                              : "text-amber-400"
+                          }
+                        >
+                          ● {v.status}
+                        </span>
                       </div>
-                      <h4 className="font-bold text-white text-sm mt-2">{v.model}</h4>
-                      <p className="text-xs text-slate-400 mt-1">Tipo: {v.type}</p>
-                      <p className="text-xs text-blue-400 mt-1">Motorista: {v.driver_name}</p>
+                      <h4 className="font-bold text-white text-sm mt-2">
+                        {v.model}
+                      </h4>
+                      <p className="text-xs text-slate-400 mt-1">
+                        Tipo: {v.type}
+                      </p>
+                      <p className="text-xs text-blue-400 mt-1">
+                        Motorista: {v.driver_name}
+                      </p>
                     </div>
-                                        <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center">
+                    <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center">
                       <button
                         onClick={async () => {
-                          const newStatus = v.status === 'Disponível' ? 'Em Missão' : 'Disponível';
-                          const res = await authFetch('/api/vehicles', {
-                            method: 'PATCH',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ id: v.id, status: newStatus }),
+                          const newStatus =
+                            v.status === "Disponível"
+                              ? "Em Missão"
+                              : "Disponível";
+                          const res = await authFetch("/api/vehicles", {
+                            method: "PATCH",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                              id: v.id,
+                              status: newStatus,
+                            }),
                           });
                           if (res.ok) {
-                            setVehicles((prev) => prev.map((item) => (item.id === v.id ? { ...item, status: newStatus } : item)));
+                            setVehicles((prev) =>
+                              prev.map((item) =>
+                                item.id === v.id
+                                  ? { ...item, status: newStatus }
+                                  : item,
+                              ),
+                            );
                           } else {
-                            alert('Não foi possível alterar o status.');
+                            alert("Não foi possível alterar o status.");
                           }
                         }}
                         className="px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-[11px]"
@@ -1273,10 +1999,17 @@ export default function MasterEternityOS() {
                       </button>
                       <button
                         onClick={async () => {
-                          if (!confirm('Remover este veículo da frota?')) return;
-                          const res = await authFetch(`/api/vehicles?id=${encodeURIComponent(v.id)}`, { method: 'DELETE' });
-                          if (res.ok) setVehicles((prev) => prev.filter((item) => item.id !== v.id));
-                          else alert('Não foi possível remover o veículo.');
+                          if (!confirm("Remover este veículo da frota?"))
+                            return;
+                          const res = await authFetch(
+                            `/api/vehicles?id=${encodeURIComponent(v.id)}`,
+                            { method: "DELETE" },
+                          );
+                          if (res.ok)
+                            setVehicles((prev) =>
+                              prev.filter((item) => item.id !== v.id),
+                            );
+                          else alert("Não foi possível remover o veículo.");
                         }}
                         className="text-xs text-rose-400 hover:underline"
                       >
@@ -1290,38 +2023,81 @@ export default function MasterEternityOS() {
           )}
 
           {/* ESTOQUE */}
-          {activeTab === 'inventory' && isTabAllowed(userRole, 'inventory') && (
+          {activeTab === "inventory" && isTabAllowed(userRole, "inventory") && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
                 <div>
-                  <h3 className="font-bold text-sm text-white">Inventário de Urnas & Insumos</h3>
-                  <p className="text-xs text-slate-400">Controle de saldo, entrada e saída em 1 clique</p>
+                  <h3 className="font-bold text-sm text-white">
+                    Inventário de Urnas & Insumos
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    Controle de saldo, entrada e saída em 1 clique
+                  </p>
                 </div>
-                <button onClick={() => setIsNewInventoryOpen(true)} className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold shadow">
+                <button
+                  onClick={() => setIsNewInventoryOpen(true)}
+                  className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold shadow"
+                >
                   + Novo Item
                 </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {inventory.map((item) => (
-                  <div key={item.id} className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex flex-col justify-between">
+                  <div
+                    key={item.id}
+                    className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex flex-col justify-between"
+                  >
                     <div>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase">{item.category}</p>
-                      <h4 className="font-bold text-white text-sm mt-1">{item.item_name}</h4>
-                      <p className="text-2xl font-bold text-slate-100 mt-2">{item.stock_quantity} un</p>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase">
+                        {item.category}
+                      </p>
+                      <h4 className="font-bold text-white text-sm mt-1">
+                        {item.item_name}
+                      </h4>
+                      <p className="text-2xl font-bold text-slate-100 mt-2">
+                        {item.stock_quantity} un
+                      </p>
                     </div>
                     <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
-                      <span className="text-[10px] text-slate-500">Mínimo: {item.min_threshold} un</span>
+                      <span className="text-[10px] text-slate-500">
+                        Mínimo: {item.min_threshold} un
+                      </span>
                       <div className="flex gap-1">
                         <button
-                          onClick={() => setInventory((prev) => prev.map((i) => (i.id === item.id ? { ...i, stock_quantity: Math.max(0, i.stock_quantity - 1) } : i)))}
+                          onClick={() =>
+                            setInventory((prev) =>
+                              prev.map((i) =>
+                                i.id === item.id
+                                  ? {
+                                      ...i,
+                                      stock_quantity: Math.max(
+                                        0,
+                                        i.stock_quantity - 1,
+                                      ),
+                                    }
+                                  : i,
+                              ),
+                            )
+                          }
                           className="w-7 h-7 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded flex items-center justify-center text-xs"
                           title="Dar baixa (-1)"
                         >
                           -
                         </button>
                         <button
-                          onClick={() => setInventory((prev) => prev.map((i) => (i.id === item.id ? { ...i, stock_quantity: i.stock_quantity + 1 } : i)))}
+                          onClick={() =>
+                            setInventory((prev) =>
+                              prev.map((i) =>
+                                i.id === item.id
+                                  ? {
+                                      ...i,
+                                      stock_quantity: i.stock_quantity + 1,
+                                    }
+                                  : i,
+                              ),
+                            )
+                          }
                           className="w-7 h-7 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded flex items-center justify-center text-xs"
                           title="Adicionar (+1)"
                         >
@@ -1336,73 +2112,141 @@ export default function MasterEternityOS() {
           )}
 
           {/* CONVALESCENÇA */}
-          {activeTab === 'convalescence' && isTabAllowed(userRole, 'convalescence') && (
-            <div className="space-y-4">
-              <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
-                <div>
-                  <h3 className="font-bold text-sm text-white">Central de Empréstimo Convalescente</h3>
-                  <p className="text-xs text-slate-400">Empréstimo gratuito de equipamentos ortopédicos</p>
+          {activeTab === "convalescence" &&
+            isTabAllowed(userRole, "convalescence") && (
+              <div className="space-y-4">
+                <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
+                  <div>
+                    <h3 className="font-bold text-sm text-white">
+                      Central de Empréstimo Convalescente
+                    </h3>
+                    <p className="text-xs text-slate-400">
+                      Empréstimo gratuito de equipamentos ortopédicos
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setIsNewConvalescenceOpen(true)}
+                    className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow"
+                  >
+                    + Novo Empréstimo
+                  </button>
                 </div>
-                <button onClick={() => setIsNewConvalescenceOpen(true)} className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow">
-                  + Novo Empréstimo
-                </button>
-              </div>
 
-              <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-x-auto">
-                <table className="w-full min-w-[640px] text-left text-xs">
-                  <thead className="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase text-[11px]">
-                    <tr><th className="py-3 px-4">Equipamento</th><th className="py-3 px-4">Associado</th><th className="py-3 px-4">Data Empréstimo</th><th className="py-3 px-4">Status</th><th className="py-3 px-4 text-right">Ação</th></tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-800 text-slate-200">
-                    {convalescence.map((c) => (
-                      <tr key={c.id} className="hover:bg-slate-800/30">
-                        <td className="py-3 px-4 font-bold text-emerald-400">{c.item_name}</td>
-                        <td className="py-3 px-4 text-white font-medium">{c.holder_name}</td>
-                        <td className="py-3 px-4 font-mono text-slate-400">{c.loan_date}</td>
-                        <td className="py-3 px-4"><span className={`px-2 py-0.5 rounded text-[10px] font-bold ${c.status === 'Ativo' ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-slate-800 text-slate-400'}`}>{c.status}</span></td>
-                        <td className="py-3 px-4 text-right">
-                          <button
-                            onClick={() => setConvalescence((prev) => prev.map((item) => item.id === c.id ? { ...item, status: item.status === 'Ativo' ? 'Devolvido' : 'Ativo' } : item))}
-                            className="px-2.5 py-1 bg-slate-800 text-slate-300 hover:text-white rounded text-[11px]"
-                          >
-                            {c.status === 'Ativo' ? 'Dar Baixa' : 'Reativar'}
-                          </button>
-                        </td>
+                <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-x-auto">
+                  <table className="w-full min-w-[640px] text-left text-xs">
+                    <thead className="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase text-[11px]">
+                      <tr>
+                        <th className="py-3 px-4">Equipamento</th>
+                        <th className="py-3 px-4">Associado</th>
+                        <th className="py-3 px-4">Data Empréstimo</th>
+                        <th className="py-3 px-4">Status</th>
+                        <th className="py-3 px-4 text-right">Ação</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800 text-slate-200">
+                      {convalescence.map((c) => (
+                        <tr key={c.id} className="hover:bg-slate-800/30">
+                          <td className="py-3 px-4 font-bold text-emerald-400">
+                            {c.item_name}
+                          </td>
+                          <td className="py-3 px-4 text-white font-medium">
+                            {c.holder_name}
+                          </td>
+                          <td className="py-3 px-4 font-mono text-slate-400">
+                            {c.loan_date}
+                          </td>
+                          <td className="py-3 px-4">
+                            <span
+                              className={`px-2 py-0.5 rounded text-[10px] font-bold ${c.status === "Ativo" ? "bg-emerald-950 text-emerald-300 border border-emerald-800" : "bg-slate-800 text-slate-400"}`}
+                            >
+                              {c.status}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 text-right">
+                            <button
+                              onClick={() =>
+                                setConvalescence((prev) =>
+                                  prev.map((item) =>
+                                    item.id === c.id
+                                      ? {
+                                          ...item,
+                                          status:
+                                            item.status === "Ativo"
+                                              ? "Devolvido"
+                                              : "Ativo",
+                                        }
+                                      : item,
+                                  ),
+                                )
+                              }
+                              className="px-2.5 py-1 bg-slate-800 text-slate-300 hover:text-white rounded text-[11px]"
+                            >
+                              {c.status === "Ativo" ? "Dar Baixa" : "Reativar"}
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
           {/* CLUBE DE CONVÊNIOS */}
-          {activeTab === 'benefits' && isTabAllowed(userRole, 'benefits') && (
+          {activeTab === "benefits" && isTabAllowed(userRole, "benefits") && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex justify-between items-center">
                 <div>
-                  <h3 className="font-bold text-sm text-white">Rede Conveniada & Clube de Benefícios</h3>
-                  <p className="text-xs text-slate-400">Parceiros com descontos exclusivos para associados</p>
+                  <h3 className="font-bold text-sm text-white">
+                    Rede Conveniada & Clube de Benefícios
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    Parceiros com descontos exclusivos para associados
+                  </p>
                 </div>
-                <button onClick={() => setIsNewPartnerOpen(true)} className="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg text-xs font-bold shadow">
+                <button
+                  onClick={() => setIsNewPartnerOpen(true)}
+                  className="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg text-xs font-bold shadow"
+                >
                   + Novo Parceiro
                 </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {partners.map((p) => (
-                  <div key={p.id} className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex justify-between items-start">
+                {partners.map((p) => (
+                  <div
+                    key={p.id}
+                    className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl flex justify-between items-start"
+                  >
                     <div>
-                      <span className="text-[10px] font-bold text-cyan-400 uppercase">{p.category}</span>
-                      <h4 className="font-bold text-white text-sm mt-1">{p.partner_name}</h4>
-                      <p className="text-xs text-slate-400 mt-1">Contato: {p.contact_info}</p>
+                      <span className="text-[10px] font-bold text-cyan-400 uppercase">
+                        {p.category}
+                      </span>
+                      <h4 className="font-bold text-white text-sm mt-1">
+                        {p.partner_name}
+                      </h4>
+                      <p className="text-xs text-slate-400 mt-1">
+                        Contato: {p.contact_info}
+                      </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-extrabold text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-800">
                         {p.discount_percentage}% OFF
                       </span>
-                      <button onClick={() => openEditPartner(p)} className="p-1 text-sky-400 hover:bg-sky-500/10 rounded" title="Editar parceiro">✎</button>
-                      <button onClick={() => handleDeletePartner(p.id)} className="p-1 text-rose-400 hover:bg-rose-500/10 rounded" title="Excluir parceiro">✕</button>
+                      <button
+                        onClick={() => openEditPartner(p)}
+                        className="p-1 text-sky-400 hover:bg-sky-500/10 rounded"
+                        title="Editar parceiro"
+                      >
+                        ✎
+                      </button>
+                      <button
+                        onClick={() => handleDeletePartner(p.id)}
+                        className="p-1 text-rose-400 hover:bg-rose-500/10 rounded"
+                        title="Excluir parceiro"
+                      >
+                        ✕
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -1411,46 +2255,84 @@ export default function MasterEternityOS() {
           )}
 
           {/* FINANCEIRO & LIVRO CAIXA COMPLETO */}
-          {activeTab === 'financial' && isTabAllowed(userRole, 'financial') && (
+          {activeTab === "financial" && isTabAllowed(userRole, "financial") && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                  <p className="text-xs font-semibold text-slate-400 uppercase">Receita Recorrente (MRR)</p>
-                  <p className="text-xl font-bold text-emerald-400 mt-1">{fmtBRL(holders.length * 69.90)}</p>
-                  <p className="text-[10px] text-slate-500 mt-1">{holders.length} associados ativos</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase">
+                    Receita Recorrente (MRR)
+                  </p>
+                  <p className="text-xl font-bold text-emerald-400 mt-1">
+                    {fmtBRL(computeMRR(holders))}
+                  </p>
+                  <p className="text-[10px] text-slate-500 mt-1">
+                    {activeHoldersCount} contratos ativos
+                  </p>
                 </div>
                 <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                  <p className="text-xs font-semibold text-slate-400 uppercase">Reserva Legal 15% (Lei 13.261)</p>
-                  <p className="text-xl font-bold text-blue-400 mt-1">{fmtBRL(holders.length * 69.90 * 0.15)}</p>
-                  <p className="text-[10px] text-blue-400/80 mt-1">Garantia Técnica Contábil</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase">
+                    Reserva Legal 15% (Lei 13.261)
+                  </p>
+                  <p className="text-xl font-bold text-blue-400 mt-1">
+                    {fmtBRL(computeMRR(holders) * 0.15)}
+                  </p>
+                  <p className="text-[10px] text-blue-400/80 mt-1">
+                    Garantia Técnica Contábil
+                  </p>
                 </div>
                 <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                  <p className="text-xs font-semibold text-slate-400 uppercase">Total Entradas (Mês)</p>
-                  <p className="text-xl font-bold text-emerald-400 mt-1">{fmtBRL(totalIncome)}</p>
-                  <p className="text-[10px] text-slate-500 mt-1">Livro Caixa Atual</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase">
+                    Total Entradas (Mês)
+                  </p>
+                  <p className="text-xl font-bold text-emerald-400 mt-1">
+                    {fmtBRL(totalIncome)}
+                  </p>
+                  <p className="text-[10px] text-slate-500 mt-1">
+                    Livro Caixa Atual
+                  </p>
                 </div>
                 <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-                  <p className="text-xs font-semibold text-slate-400 uppercase">Saldo Líquido Operacional</p>
-                  <p className={`text-xl font-bold mt-1 ${netBalance >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{fmtBRL(netBalance)}</p>
-                  <p className="text-[10px] text-slate-500 mt-1">Receitas menos Despesas</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase">
+                    Saldo Líquido Operacional
+                  </p>
+                  <p
+                    className={`text-xl font-bold mt-1 ${netBalance >= 0 ? "text-emerald-400" : "text-rose-400"}`}
+                  >
+                    {fmtBRL(netBalance)}
+                  </p>
+                  <p className="text-[10px] text-slate-500 mt-1">
+                    Receitas menos Despesas
+                  </p>
                 </div>
               </div>
 
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-4 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
-                  <button onClick={() => setIsNewTxOpen(true)} className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow">
+                  <button
+                    onClick={() => setIsNewTxOpen(true)}
+                    className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow"
+                  >
                     + Novo Lançamento
                   </button>
-                  <button onClick={handleGenerateAsaasBatch} className="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5">
+                  <button
+                    onClick={handleGenerateAsaasBatch}
+                    className="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5"
+                  >
                     <span>⚡</span> Gerar Lote Asaas
                   </button>
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <button onClick={() => setIsAsaasConfigOpen(true)} className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg text-xs font-semibold border border-slate-700">
+                  <button
+                    onClick={() => setIsAsaasConfigOpen(true)}
+                    className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg text-xs font-semibold border border-slate-700"
+                  >
                     ⚙️ Gateway Asaas
                   </button>
-                  <button onClick={() => setIsDREOpen(true)} className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-emerald-300 rounded-lg text-xs font-semibold border border-slate-700">
+                  <button
+                    onClick={() => setIsDREOpen(true)}
+                    className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-emerald-300 rounded-lg text-xs font-semibold border border-slate-700"
+                  >
                     📊 DRE Oficial
                   </button>
                 </div>
@@ -1458,8 +2340,12 @@ export default function MasterEternityOS() {
 
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-x-auto shadow-sm">
                 <div className="p-3 bg-slate-950 border-b border-slate-800 flex justify-between items-center">
-                  <h4 className="font-bold text-xs text-white uppercase tracking-wider">Extrato de Movimentações (Livro Caixa)</h4>
-                  <span className="text-[10px] text-slate-400">{transactions.length} registros</span>
+                  <h4 className="font-bold text-xs text-white uppercase tracking-wider">
+                    Extrato de Movimentações (Livro Caixa)
+                  </h4>
+                  <span className="text-[10px] text-slate-400">
+                    {transactions.length} registros
+                  </span>
                 </div>
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
@@ -1474,16 +2360,26 @@ export default function MasterEternityOS() {
                   <tbody className="divide-y divide-slate-800">
                     {transactions.map((tx) => (
                       <tr key={tx.id} className="hover:bg-slate-800/30">
-                        <td className="py-3 px-4 font-mono text-slate-400">{tx.transaction_date}</td>
-                        <td className="py-3 px-4 font-semibold text-white">{tx.description}</td>
-                        <td className="py-3 px-4 text-slate-300">{tx.category}</td>
+                        <td className="py-3 px-4 font-mono text-slate-400">
+                          {tx.transaction_date}
+                        </td>
+                        <td className="py-3 px-4 font-semibold text-white">
+                          {tx.description}
+                        </td>
+                        <td className="py-3 px-4 text-slate-300">
+                          {tx.category}
+                        </td>
                         <td className="py-3 px-4">
-                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${tx.type === 'income' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-rose-950 text-rose-400 border border-rose-800'}`}>
-                            {tx.type === 'income' ? 'ENTRADA' : 'SAÍDA'}
+                          <span
+                            className={`px-2 py-0.5 rounded text-[10px] font-bold ${tx.type === "income" ? "bg-emerald-950 text-emerald-400 border border-emerald-800" : "bg-rose-950 text-rose-400 border border-rose-800"}`}
+                          >
+                            {tx.type === "income" ? "ENTRADA" : "SAÍDA"}
                           </span>
                         </td>
-                        <td className={`py-3 px-4 text-right font-bold ${tx.type === 'income' ? 'text-emerald-400' : 'text-rose-400'}`}>
-                          {tx.type === 'income' ? '+' : '-'} {fmtBRL(tx.amount)}
+                        <td
+                          className={`py-3 px-4 text-right font-bold ${tx.type === "income" ? "text-emerald-400" : "text-rose-400"}`}
+                        >
+                          {tx.type === "income" ? "+" : "-"} {fmtBRL(tx.amount)}
                         </td>
                       </tr>
                     ))}
@@ -1499,18 +2395,106 @@ export default function MasterEternityOS() {
       {isNewHolderOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
-            <h3 className="font-bold text-sm text-emerald-400 mb-4">{editingHolder ? ('Editar Associado: ' + editingHolder.full_name) : '+ Cadastrar Novo Titular'}</h3>
+            <h3 className="font-bold text-sm text-emerald-400 mb-4">
+              {editingHolder
+                ? "Editar Associado: " + editingHolder.full_name
+                : "+ Cadastrar Novo Titular"}
+            </h3>
             <form onSubmit={handleSaveHolder} className="space-y-3 text-xs">
-              <div><label className="block text-slate-400 font-semibold mb-1">Nome Completo:</label><input type="text" required value={holderForm.full_name} onChange={(e) => setHolderForm({ ...holderForm, full_name: e.target.value })} placeholder="Nome do titular..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
-              <div className="grid grid-cols-2 gap-2">
-                <div><label className="block text-slate-400 font-semibold mb-1">CPF {editingHolder ? '(bloqueado na edicao)' : ''}:</label><input type="text" required disabled={!!editingHolder} value={holderForm.cpf} onChange={(e) => setHolderForm({ ...holderForm, cpf: e.target.value })} placeholder="000.000.000-00" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
-                <div><label className="block text-slate-400 font-semibold mb-1">Telefone:</label><input type="text" required value={holderForm.phone} onChange={(e) => setHolderForm({ ...holderForm, phone: e.target.value })} placeholder="(86) 99999-9999" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
-              <div><label className="block text-slate-400 font-semibold mb-1">Email:</label><input type="email" value={holderForm.email} onChange={(e) => setHolderForm({ ...holderForm, email: e.target.value })} placeholder="email@dominio.com" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Nome Completo:
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={holderForm.full_name}
+                  onChange={(e) =>
+                    setHolderForm({ ...holderForm, full_name: e.target.value })
+                  }
+                  placeholder="Nome do titular..."
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                />
               </div>
-              <div><label className="block text-slate-400 font-semibold mb-1">Endereço:</label><input type="text" value={holderForm.address} onChange={(e) => setHolderForm({ ...holderForm, address: e.target.value })} placeholder="Rua, Número..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">
+                    CPF {editingHolder ? "(bloqueado na edicao)" : ""}:
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    disabled={!!editingHolder}
+                    value={holderForm.cpf}
+                    onChange={(e) =>
+                      setHolderForm({ ...holderForm, cpf: e.target.value })
+                    }
+                    placeholder="000.000.000-00"
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">
+                    Telefone:
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={holderForm.phone}
+                    onChange={(e) =>
+                      setHolderForm({ ...holderForm, phone: e.target.value })
+                    }
+                    placeholder="(86) 99999-9999"
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">
+                    Email:
+                  </label>
+                  <input
+                    type="email"
+                    value={holderForm.email}
+                    onChange={(e) =>
+                      setHolderForm({ ...holderForm, email: e.target.value })
+                    }
+                    placeholder="email@dominio.com"
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Endereço:
+                </label>
+                <input
+                  type="text"
+                  value={holderForm.address}
+                  onChange={(e) =>
+                    setHolderForm({ ...holderForm, address: e.target.value })
+                  }
+                  placeholder="Rua, Número..."
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                />
+              </div>
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
-                <button type="button" onClick={() => { setIsNewHolderOpen(false); setEditingHolder(null); }} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
-                <button type="submit" disabled={savingHolder} className="px-4 py-1.5 bg-emerald-600 font-bold rounded">{savingHolder ? 'Gravando...' : 'Salvar Titular'}</button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsNewHolderOpen(false);
+                    setEditingHolder(null);
+                  }}
+                  className="px-3 py-1.5 bg-slate-800 rounded"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={savingHolder}
+                  className="px-4 py-1.5 bg-emerald-600 font-bold rounded"
+                >
+                  {savingHolder ? "Gravando..." : "Salvar Titular"}
+                </button>
               </div>
             </form>
           </div>
@@ -1518,36 +2502,72 @@ export default function MasterEternityOS() {
       )}
 
       {/* MODAL ÓBITO */}
-            {/* MODAL IMPORTAR CSV */}
+      {/* MODAL IMPORTAR CSV */}
       {isImportOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-lg w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
-            <h3 className="font-bold text-sm text-sky-400 mb-1">Importar Associados via CSV</h3>
-            <p className="text-[10px] text-slate-400 mb-3">Cole os dados do Excel/CSV: uma linha por associado, separados por ponto-e-virgula. Formato: <span className="font-mono text-slate-300">Nome;CPF;Telefone;Email;Endereco</span>. Cabecalho na primeira linha e ignorado automaticamente.</p>
+            <h3 className="font-bold text-sm text-sky-400 mb-1">
+              Importar Associados via CSV
+            </h3>
+            <p className="text-[10px] text-slate-400 mb-3">
+              Cole os dados do Excel/CSV: uma linha por associado, separados por
+              ponto-e-virgula. Formato:{" "}
+              <span className="font-mono text-slate-300">
+                Nome;CPF;Telefone;Email;Endereco
+              </span>
+              . Cabecalho na primeira linha e ignorado automaticamente.
+            </p>
             <textarea
               rows={8}
               value={importText}
               onChange={(e) => setImportText(e.target.value)}
-              placeholder={'Maria da Silva;12345678900;(86) 98811-7925;maria@email.com;Rua A, 123' + '\n' + 'Joao Souza;98765432100;(86) 99999-0000'}
+              placeholder={
+                "Maria da Silva;12345678900;(86) 98811-7925;maria@email.com;Rua A, 123" +
+                "\n" +
+                "Joao Souza;98765432100;(86) 99999-0000"
+              }
               className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-xs font-mono text-white"
             />
             {importResult && (
               <div className="mt-3 p-3 rounded border text-[11px] bg-slate-950 border-slate-800 space-y-1">
-                <p className="text-emerald-400 font-bold">Importados com sucesso: {importResult.imported}</p>
-                <p className="text-amber-400">Ignorados (duplicados): {importResult.skipped_duplicates}</p>
+                <p className="text-emerald-400 font-bold">
+                  Importados com sucesso: {importResult.imported}
+                </p>
+                <p className="text-amber-400">
+                  Ignorados (duplicados): {importResult.skipped_duplicates}
+                </p>
                 {importResult.invalid && importResult.invalid.length > 0 && (
                   <div className="text-rose-400">
-                    <p className="font-bold">Linhas invalidas: {importResult.invalid.length}</p>
+                    <p className="font-bold">
+                      Linhas invalidas: {importResult.invalid.length}
+                    </p>
                     <ul className="list-disc list-inside max-h-24 overflow-y-auto">
-                      {importResult.invalid.map((r, i) => <li key={i}>Linha {r.line}: {r.reason}</li>)}
+                      {importResult.invalid.map((r, i) => (
+                        <li key={i}>
+                          Linha {r.line}: {r.reason}
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 )}
               </div>
             )}
             <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
-              <button type="button" onClick={() => setIsImportOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Fechar</button>
-              <button type="button" disabled={importing || !importText.trim()} onClick={handleImportCsv} className="px-4 py-1.5 bg-sky-600 font-bold rounded disabled:opacity-50">{importing ? 'Importando...' : 'Importar Agora'}</button>
+              <button
+                type="button"
+                onClick={() => setIsImportOpen(false)}
+                className="px-3 py-1.5 bg-slate-800 rounded"
+              >
+                Fechar
+              </button>
+              <button
+                type="button"
+                disabled={importing || !importText.trim()}
+                onClick={handleImportCsv}
+                className="px-4 py-1.5 bg-sky-600 font-bold rounded disabled:opacity-50"
+              >
+                {importing ? "Importando..." : "Importar Agora"}
+              </button>
             </div>
           </div>
         </div>
@@ -1555,14 +2575,77 @@ export default function MasterEternityOS() {
       {isNewBurialOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
-            <h3 className="font-bold text-sm text-rose-400 mb-4">🚨 Registrar Chamado de Plantão / Óbito</h3>
+            <h3 className="font-bold text-sm text-rose-400 mb-4">
+              🚨 Registrar Chamado de Plantão / Óbito
+            </h3>
             <form onSubmit={handleSaveBurial} className="space-y-3 text-xs">
-              <div><label className="block text-slate-400 font-semibold mb-1">Nome do Falecido:</label><input type="text" required value={burialForm.deceased_name} onChange={(e) => setBurialForm({ ...burialForm, deceased_name: e.target.value })} placeholder="Nome da pessoa falecida..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
-              <div><label className="block text-slate-400 font-semibold mb-1">Cemitério / Local do Sepultamento:</label><input type="text" value={burialForm.cemetery_location} onChange={(e) => setBurialForm({ ...burialForm, cemetery_location: e.target.value })} placeholder="Cemitério da Saudade..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
-              <div><label className="block text-slate-400 font-semibold mb-1">Data e Horário:</label><input type="datetime-local" required value={burialForm.burial_date} onChange={(e) => setBurialForm({ ...burialForm, burial_date: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Nome do Falecido:
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={burialForm.deceased_name}
+                  onChange={(e) =>
+                    setBurialForm({
+                      ...burialForm,
+                      deceased_name: e.target.value,
+                    })
+                  }
+                  placeholder="Nome da pessoa falecida..."
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Cemitério / Local do Sepultamento:
+                </label>
+                <input
+                  type="text"
+                  value={burialForm.cemetery_location}
+                  onChange={(e) =>
+                    setBurialForm({
+                      ...burialForm,
+                      cemetery_location: e.target.value,
+                    })
+                  }
+                  placeholder="Cemitério da Saudade..."
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Data e Horário:
+                </label>
+                <input
+                  type="datetime-local"
+                  required
+                  value={burialForm.burial_date}
+                  onChange={(e) =>
+                    setBurialForm({
+                      ...burialForm,
+                      burial_date: e.target.value,
+                    })
+                  }
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                />
+              </div>
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
-                <button type="button" onClick={() => setIsNewBurialOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
-                <button type="submit" disabled={savingBurial} className="px-4 py-1.5 bg-rose-600 font-bold rounded">{savingBurial ? 'Registrando...' : 'Confirmar Chamado'}</button>
+                <button
+                  type="button"
+                  onClick={() => setIsNewBurialOpen(false)}
+                  className="px-3 py-1.5 bg-slate-800 rounded"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={savingBurial}
+                  className="px-4 py-1.5 bg-rose-600 font-bold rounded"
+                >
+                  {savingBurial ? "Registrando..." : "Confirmar Chamado"}
+                </button>
               </div>
             </form>
           </div>
@@ -1573,31 +2656,101 @@ export default function MasterEternityOS() {
       {isNewTxOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
-            <h3 className="font-bold text-sm text-emerald-400 mb-4">+ Novo Lançamento no Livro Caixa</h3>
-            <form onSubmit={handleSaveTransaction} className="space-y-3 text-xs">
-              <div><label className="block text-slate-400 font-semibold mb-1">Descrição do Lançamento:</label><input type="text" required value={txForm.description} onChange={(e) => setTxForm({ ...txForm, description: e.target.value })} placeholder="ex: Venda de Urna Avulsa, Manutenção..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+            <h3 className="font-bold text-sm text-emerald-400 mb-4">
+              + Novo Lançamento no Livro Caixa
+            </h3>
+            <form
+              onSubmit={handleSaveTransaction}
+              className="space-y-3 text-xs"
+            >
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Descrição do Lançamento:
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={txForm.description}
+                  onChange={(e) =>
+                    setTxForm({ ...txForm, description: e.target.value })
+                  }
+                  placeholder="ex: Venda de Urna Avulsa, Manutenção..."
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                />
+              </div>
               <div className="grid grid-cols-2 gap-2">
-                <div><label className="block text-slate-400 font-semibold mb-1">Tipo:</label>
-                  <select value={txForm.type} onChange={(e) => setTxForm({ ...txForm, type: e.target.value as any })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white">
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">
+                    Tipo:
+                  </label>
+                  <select
+                    value={txForm.type}
+                    onChange={(e) =>
+                      setTxForm({ ...txForm, type: e.target.value as any })
+                    }
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                  >
                     <option value="income">Entrada (Receita)</option>
                     <option value="expense">Saída (Despesa)</option>
                   </select>
                 </div>
-                <div><label className="block text-slate-400 font-semibold mb-1">Valor (R$):</label><input type="number" step="0.01" required value={txForm.amount} onChange={(e) => setTxForm({ ...txForm, amount: Number(e.target.value) })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">
+                    Valor (R$):
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    required
+                    value={txForm.amount}
+                    onChange={(e) =>
+                      setTxForm({ ...txForm, amount: Number(e.target.value) })
+                    }
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                  />
+                </div>
               </div>
-              <div><label className="block text-slate-400 font-semibold mb-1">Categoria:</label>
-                <select value={txForm.category} onChange={(e) => setTxForm({ ...txForm, category: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white">
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Categoria:
+                </label>
+                <select
+                  value={txForm.category}
+                  onChange={(e) =>
+                    setTxForm({ ...txForm, category: e.target.value })
+                  }
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                >
                   <option value="Mensalidade Plano">Mensalidade Plano</option>
-                  <option value="Serviço Funeral Avulso">Serviço Funeral Avulso</option>
-                  <option value="Combustível / Frota">Combustível / Frota</option>
-                  <option value="Insumos Tanatopraxia">Insumos Tanatopraxia</option>
+                  <option value="Serviço Funeral Avulso">
+                    Serviço Funeral Avulso
+                  </option>
+                  <option value="Combustível / Frota">
+                    Combustível / Frota
+                  </option>
+                  <option value="Insumos Tanatopraxia">
+                    Insumos Tanatopraxia
+                  </option>
                   <option value="Cemitério & Taxas">Cemitério & Taxas</option>
-                  <option value="Despesas Administrativas">Despesas Administrativas</option>
+                  <option value="Despesas Administrativas">
+                    Despesas Administrativas
+                  </option>
                 </select>
               </div>
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
-                <button type="button" onClick={() => setIsNewTxOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
-                <button type="submit" className="px-4 py-1.5 bg-emerald-600 font-bold rounded">Salvar Lançamento</button>
+                <button
+                  type="button"
+                  onClick={() => setIsNewTxOpen(false)}
+                  className="px-3 py-1.5 bg-slate-800 rounded"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-1.5 bg-emerald-600 font-bold rounded"
+                >
+                  Salvar Lançamento
+                </button>
               </div>
             </form>
           </div>
@@ -1612,31 +2765,49 @@ export default function MasterEternityOS() {
               <h3 className="font-bold text-sm text-cyan-400 flex items-center gap-2">
                 <span>⚡</span> Configuração Gateway de Pagamento Asaas
               </h3>
-              <button onClick={() => setIsAsaasConfigOpen(false)} className="text-slate-400 hover:text-white font-bold">✕</button>
+              <button
+                onClick={() => setIsAsaasConfigOpen(false)}
+                className="text-slate-400 hover:text-white font-bold"
+              >
+                ✕
+              </button>
             </div>
 
             <div className="space-y-4 text-xs">
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Chave de API do Asaas (API Key):</label>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Chave de API do Asaas (API Key):
+                </label>
                 <input
                   type="password"
                   value={asaasApiKey}
                   onChange={(e) => setAsaasApiKey(e.target.value)}
                   className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white font-mono"
                 />
-                <p className="text-[10px] text-slate-500 mt-1">Ambiente de produção conectado via webhook oficial idempotente.</p>
+                <p className="text-[10px] text-slate-500 mt-1">
+                  Ambiente de produção conectado via webhook oficial
+                  idempotente.
+                </p>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-400 font-semibold mb-1">Ambiente:</label>
-                  <select value={asaasEnv} onChange={(e) => setAsaasEnv(e.target.value as any)} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white">
+                  <label className="block text-slate-400 font-semibold mb-1">
+                    Ambiente:
+                  </label>
+                  <select
+                    value={asaasEnv}
+                    onChange={(e) => setAsaasEnv(e.target.value as any)}
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                  >
                     <option value="production">Produção Oficial</option>
                     <option value="sandbox">Sandbox (Testes)</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-slate-400 font-semibold mb-1">Status Webhook:</label>
+                  <label className="block text-slate-400 font-semibold mb-1">
+                    Status Webhook:
+                  </label>
                   <div className="p-2.5 bg-emerald-950 border border-emerald-800 rounded text-emerald-400 font-bold flex items-center gap-1.5">
                     <span>●</span> Webhook Ativo
                   </div>
@@ -1644,15 +2815,28 @@ export default function MasterEternityOS() {
               </div>
 
               <div className="p-3 bg-slate-950 border border-slate-800 rounded-lg">
-                <p className="text-[11px] font-bold text-slate-300 mb-1">URL de Webhook Notificações:</p>
-                <code className="text-[10px] text-cyan-400 break-all">https://eternitysos.vercel.app/api/webhooks/asaas</code>
+                <p className="text-[11px] font-bold text-slate-300 mb-1">
+                  URL de Webhook Notificações:
+                </p>
+                <code className="text-[10px] text-cyan-400 break-all">
+                  https://eternitysos.vercel.app/api/webhooks/asaas
+                </code>
               </div>
 
               <div className="pt-2 flex justify-between items-center border-t border-slate-800">
-                <button onClick={handleGenerateAsaasBatch} className="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded text-xs">
+                <button
+                  onClick={handleGenerateAsaasBatch}
+                  className="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded text-xs"
+                >
                   ⚡ Disparar Carnês em Lote Agora
                 </button>
-                <button onClick={() => { setIsAsaasConfigOpen(false); alert('Configurações salvas!'); }} className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded text-xs">
+                <button
+                  onClick={() => {
+                    setIsAsaasConfigOpen(false);
+                    alert("Configurações salvas!");
+                  }}
+                  className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded text-xs"
+                >
                   Salvar Configurações
                 </button>
               </div>
@@ -1665,23 +2849,91 @@ export default function MasterEternityOS() {
       {isNewVehicleOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
-            <h3 className="font-bold text-sm text-blue-400 mb-4">+ Cadastrar Novo Veículo</h3>
+            <h3 className="font-bold text-sm text-blue-400 mb-4">
+              + Cadastrar Novo Veículo
+            </h3>
             <form onSubmit={handleSaveVehicle} className="space-y-3 text-xs">
-              <div><label className="block text-slate-400 font-semibold mb-1">Modelo do Veículo:</label><input type="text" required value={vehicleForm.model} onChange={(e) => setVehicleForm({ ...vehicleForm, model: e.target.value })} placeholder="ex: Mercedes Vito Cortejo" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Modelo do Veículo:
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={vehicleForm.model}
+                  onChange={(e) =>
+                    setVehicleForm({ ...vehicleForm, model: e.target.value })
+                  }
+                  placeholder="ex: Mercedes Vito Cortejo"
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                />
+              </div>
               <div className="grid grid-cols-2 gap-2">
-                <div><label className="block text-slate-400 font-semibold mb-1">Placa:</label><input type="text" required value={vehicleForm.plate} onChange={(e) => setVehicleForm({ ...vehicleForm, plate: e.target.value })} placeholder="PI-XXX-0000" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
-                <div><label className="block text-slate-400 font-semibold mb-1">Tipo:</label>
-                  <select value={vehicleForm.type} onChange={(e) => setVehicleForm({ ...vehicleForm, type: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white">
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">
+                    Placa:
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={vehicleForm.plate}
+                    onChange={(e) =>
+                      setVehicleForm({ ...vehicleForm, plate: e.target.value })
+                    }
+                    placeholder="PI-XXX-0000"
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">
+                    Tipo:
+                  </label>
+                  <select
+                    value={vehicleForm.type}
+                    onChange={(e) =>
+                      setVehicleForm({ ...vehicleForm, type: e.target.value })
+                    }
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                  >
                     <option value="Cortejo Fúnebre">Cortejo Fúnebre</option>
-                    <option value="Remoção Hospitalar">Remoção Hospitalar</option>
+                    <option value="Remoção Hospitalar">
+                      Remoção Hospitalar
+                    </option>
                     <option value="Apoio Familiar">Apoio Familiar</option>
                   </select>
                 </div>
               </div>
-              <div><label className="block text-slate-400 font-semibold mb-1">Motorista Responsável:</label><input type="text" value={vehicleForm.driver_name} onChange={(e) => setVehicleForm({ ...vehicleForm, driver_name: e.target.value })} placeholder="Nome do motorista..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Motorista Responsável:
+                </label>
+                <input
+                  type="text"
+                  value={vehicleForm.driver_name}
+                  onChange={(e) =>
+                    setVehicleForm({
+                      ...vehicleForm,
+                      driver_name: e.target.value,
+                    })
+                  }
+                  placeholder="Nome do motorista..."
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                />
+              </div>
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
-                <button type="button" onClick={() => setIsNewVehicleOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
-                <button type="submit" className="px-4 py-1.5 bg-blue-600 font-bold rounded">Salvar Veículo</button>
+                <button
+                  type="button"
+                  onClick={() => setIsNewVehicleOpen(false)}
+                  className="px-3 py-1.5 bg-slate-800 rounded"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-1.5 bg-blue-600 font-bold rounded"
+                >
+                  Salvar Veículo
+                </button>
               </div>
             </form>
           </div>
@@ -1692,11 +2944,42 @@ export default function MasterEternityOS() {
       {isNewInventoryOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
-            <h3 className="font-bold text-sm text-amber-400 mb-4">+ Adicionar Item ao Estoque</h3>
+            <h3 className="font-bold text-sm text-amber-400 mb-4">
+              + Adicionar Item ao Estoque
+            </h3>
             <form onSubmit={handleSaveInventory} className="space-y-3 text-xs">
-              <div><label className="block text-slate-400 font-semibold mb-1">Nome do Item / Urna:</label><input type="text" required value={inventoryForm.item_name} onChange={(e) => setInventoryForm({ ...inventoryForm, item_name: e.target.value })} placeholder="ex: Urna Sextavada Carvalho" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
-              <div><label className="block text-slate-400 font-semibold mb-1">Categoria:</label>
-                <select value={inventoryForm.category} onChange={(e) => setInventoryForm({ ...inventoryForm, category: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white">
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Nome do Item / Urna:
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={inventoryForm.item_name}
+                  onChange={(e) =>
+                    setInventoryForm({
+                      ...inventoryForm,
+                      item_name: e.target.value,
+                    })
+                  }
+                  placeholder="ex: Urna Sextavada Carvalho"
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Categoria:
+                </label>
+                <select
+                  value={inventoryForm.category}
+                  onChange={(e) =>
+                    setInventoryForm({
+                      ...inventoryForm,
+                      category: e.target.value,
+                    })
+                  }
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                >
                   <option value="Urna Adulto">Urna Adulto</option>
                   <option value="Urna Infantil">Urna Infantil</option>
                   <option value="Ornamentação">Ornamentação & Véus</option>
@@ -1704,12 +2987,55 @@ export default function MasterEternityOS() {
                 </select>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <div><label className="block text-slate-400 font-semibold mb-1">Qtd Inicial:</label><input type="number" required value={inventoryForm.stock_quantity} onChange={(e) => setInventoryForm({ ...inventoryForm, stock_quantity: Number(e.target.value) })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
-                <div><label className="block text-slate-400 font-semibold mb-1">Estoque Mínimo:</label><input type="number" required value={inventoryForm.min_threshold} onChange={(e) => setInventoryForm({ ...inventoryForm, min_threshold: Number(e.target.value) })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">
+                    Qtd Inicial:
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    value={inventoryForm.stock_quantity}
+                    onChange={(e) =>
+                      setInventoryForm({
+                        ...inventoryForm,
+                        stock_quantity: Number(e.target.value),
+                      })
+                    }
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">
+                    Estoque Mínimo:
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    value={inventoryForm.min_threshold}
+                    onChange={(e) =>
+                      setInventoryForm({
+                        ...inventoryForm,
+                        min_threshold: Number(e.target.value),
+                      })
+                    }
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                  />
+                </div>
               </div>
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
-                <button type="button" onClick={() => setIsNewInventoryOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
-                <button type="submit" className="px-4 py-1.5 bg-amber-600 font-bold rounded">Adicionar Item</button>
+                <button
+                  type="button"
+                  onClick={() => setIsNewInventoryOpen(false)}
+                  className="px-3 py-1.5 bg-slate-800 rounded"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-1.5 bg-amber-600 font-bold rounded"
+                >
+                  Adicionar Item
+                </button>
               </div>
             </form>
           </div>
@@ -1720,22 +3046,90 @@ export default function MasterEternityOS() {
       {isNewConvalescenceOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
-            <h3 className="font-bold text-sm text-emerald-400 mb-4">+ Registrar Empréstimo Convalescente</h3>
-            <form onSubmit={handleSaveConvalescence} className="space-y-3 text-xs">
-              <div><label className="block text-slate-400 font-semibold mb-1">Equipamento:</label>
-                <select value={convalescenceForm.item_name} onChange={(e) => setConvalescenceForm({ ...convalescenceForm, item_name: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white">
-                  <option value="Cadeira de Rodas Dobrável">Cadeira de Rodas Dobrável</option>
+            <h3 className="font-bold text-sm text-emerald-400 mb-4">
+              + Registrar Empréstimo Convalescente
+            </h3>
+            <form
+              onSubmit={handleSaveConvalescence}
+              className="space-y-3 text-xs"
+            >
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Equipamento:
+                </label>
+                <select
+                  value={convalescenceForm.item_name}
+                  onChange={(e) =>
+                    setConvalescenceForm({
+                      ...convalescenceForm,
+                      item_name: e.target.value,
+                    })
+                  }
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                >
+                  <option value="Cadeira de Rodas Dobrável">
+                    Cadeira de Rodas Dobrável
+                  </option>
                   <option value="Cadeira de Banho">Cadeira de Banho</option>
-                  <option value="Par de Muletas Canadenses">Par de Muletas Canadenses</option>
-                  <option value="Andador de Alumínio">Andador de Alumínio</option>
-                  <option value="Cama Hospitalar Articulada">Cama Hospitalar Articulada</option>
+                  <option value="Par de Muletas Canadenses">
+                    Par de Muletas Canadenses
+                  </option>
+                  <option value="Andador de Alumínio">
+                    Andador de Alumínio
+                  </option>
+                  <option value="Cama Hospitalar Articulada">
+                    Cama Hospitalar Articulada
+                  </option>
                 </select>
               </div>
-              <div><label className="block text-slate-400 font-semibold mb-1">Associado / Titular Beneficiado:</label><input type="text" required value={convalescenceForm.holder_name} onChange={(e) => setConvalescenceForm({ ...convalescenceForm, holder_name: e.target.value })} placeholder="Nome do associado..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
-              <div><label className="block text-slate-400 font-semibold mb-1">Data do Empréstimo:</label><input type="date" value={convalescenceForm.loan_date} onChange={(e) => setConvalescenceForm({ ...convalescenceForm, loan_date: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Associado / Titular Beneficiado:
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={convalescenceForm.holder_name}
+                  onChange={(e) =>
+                    setConvalescenceForm({
+                      ...convalescenceForm,
+                      holder_name: e.target.value,
+                    })
+                  }
+                  placeholder="Nome do associado..."
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Data do Empréstimo:
+                </label>
+                <input
+                  type="date"
+                  value={convalescenceForm.loan_date}
+                  onChange={(e) =>
+                    setConvalescenceForm({
+                      ...convalescenceForm,
+                      loan_date: e.target.value,
+                    })
+                  }
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                />
+              </div>
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
-                <button type="button" onClick={() => setIsNewConvalescenceOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
-                <button type="submit" className="px-4 py-1.5 bg-emerald-600 font-bold rounded">Confirmar Empréstimo</button>
+                <button
+                  type="button"
+                  onClick={() => setIsNewConvalescenceOpen(false)}
+                  className="px-3 py-1.5 bg-slate-800 rounded"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-1.5 bg-emerald-600 font-bold rounded"
+                >
+                  Confirmar Empréstimo
+                </button>
               </div>
             </form>
           </div>
@@ -1746,38 +3140,184 @@ export default function MasterEternityOS() {
       {isNewPartnerOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
-                        <h3 className={`font-bold text-sm text-cyan-400 mb-4`}>{editingPartnerId ? 'Editar Parceiro' : '+ Credenciar Novo Parceiro'}</h3>
+            <h3 className={`font-bold text-sm text-cyan-400 mb-4`}>
+              {editingPartnerId
+                ? "Editar Parceiro"
+                : "+ Credenciar Novo Parceiro"}
+            </h3>
             <form onSubmit={handleSavePartner} className="space-y-3 text-xs">
-              <div><label className="block text-slate-400 font-semibold mb-1">Nome da Empresa / Parceiro:</label><input type="text" required value={partnerForm.partner_name} onChange={(e) => setPartnerForm({ ...partnerForm, partner_name: e.target.value })} placeholder="ex: Ótica Central" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
-              <div className="grid grid-cols-2 gap-2">
-                <div><label className="block text-slate-400 font-semibold mb-1">Categoria:</label><input type="text" value={partnerForm.category} onChange={(e) => setPartnerForm({ ...partnerForm, category: e.target.value })} placeholder="ex: Farmácia, Ótica..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
-                <div><label className="block text-slate-400 font-semibold mb-1">% de Desconto:</label><input type="number" required value={partnerForm.discount_percentage} onChange={(e) => setPartnerForm({ ...partnerForm, discount_percentage: Number(e.target.value) })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Nome da Empresa / Parceiro:
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={partnerForm.partner_name}
+                  onChange={(e) =>
+                    setPartnerForm({
+                      ...partnerForm,
+                      partner_name: e.target.value,
+                    })
+                  }
+                  placeholder="ex: Ótica Central"
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                />
               </div>
-              <div><label className="block text-slate-400 font-semibold mb-1">Telefone / Contato:</label><input type="text" value={partnerForm.contact_info} onChange={(e) => setPartnerForm({ ...partnerForm, contact_info: e.target.value })} placeholder="(86) 3000-0000" className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">
+                    Categoria:
+                  </label>
+                  <input
+                    type="text"
+                    value={partnerForm.category}
+                    onChange={(e) =>
+                      setPartnerForm({
+                        ...partnerForm,
+                        category: e.target.value,
+                      })
+                    }
+                    placeholder="ex: Farmácia, Ótica..."
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">
+                    % de Desconto:
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    value={partnerForm.discount_percentage}
+                    onChange={(e) =>
+                      setPartnerForm({
+                        ...partnerForm,
+                        discount_percentage: Number(e.target.value),
+                      })
+                    }
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Telefone / Contato:
+                </label>
+                <input
+                  type="text"
+                  value={partnerForm.contact_info}
+                  onChange={(e) =>
+                    setPartnerForm({
+                      ...partnerForm,
+                      contact_info: e.target.value,
+                    })
+                  }
+                  placeholder="(86) 3000-0000"
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                />
+              </div>
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
-                                <button type="button" onClick={closePartnerModal} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
-                <button type="submit" className="px-4 py-1.5 bg-cyan-600 font-bold rounded">{editingPartnerId ? 'Salvar Alterações' : 'Credenciar Parceiro'}</button>
+                <button
+                  type="button"
+                  onClick={closePartnerModal}
+                  className="px-3 py-1.5 bg-slate-800 rounded"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-1.5 bg-cyan-600 font-bold rounded"
+                >
+                  {editingPartnerId
+                    ? "Salvar Alterações"
+                    : "Credenciar Parceiro"}
+                </button>
               </div>
             </form>
           </div>
         </div>
-            )}
+      )}
 
       {/* MODAL NOVA RESERVA DE SALA DE VELÓRIO */}
-      <ModalChapel isOpen={isNewChapelBookingOpen} onClose={() => setIsNewChapelBookingOpen(false)} onSuccess={loadData} />
+      <ModalChapel
+        isOpen={isNewChapelBookingOpen}
+        onClose={() => setIsNewChapelBookingOpen(false)}
+        onSuccess={loadData}
+      />
 
       {/* MODAL NOVO PROCEDIMENTO TANATOPRAXIA */}
       {isNewThanatoOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
-            <h3 className="font-bold text-sm text-purple-400 mb-4">+ Registrar Procedimento de Tanatopraxia</h3>
+            <h3 className="font-bold text-sm text-purple-400 mb-4">
+              + Registrar Procedimento de Tanatopraxia
+            </h3>
             <form onSubmit={handleSaveThanato} className="space-y-3 text-xs">
-              <div><label className="block text-slate-400 font-semibold mb-1">Nome do Falecido:</label><input type="text" required value={thanatoForm.deceased_name} onChange={(e) => setThanatoForm({ ...thanatoForm, deceased_name: e.target.value })} placeholder="Nome do falecido..." className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
-              <div><label className="block text-slate-400 font-semibold mb-1">Tanatólogo / Técnico Responsável:</label><input type="text" value={thanatoForm.technician} onChange={(e) => setThanatoForm({ ...thanatoForm, technician: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
-              <div><label className="block text-slate-400 font-semibold mb-1">Procedimento Realizado:</label><input type="text" value={thanatoForm.procedure} onChange={(e) => setThanatoForm({ ...thanatoForm, procedure: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white" /></div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Nome do Falecido:
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={thanatoForm.deceased_name}
+                  onChange={(e) =>
+                    setThanatoForm({
+                      ...thanatoForm,
+                      deceased_name: e.target.value,
+                    })
+                  }
+                  placeholder="Nome do falecido..."
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Tanatólogo / Técnico Responsável:
+                </label>
+                <input
+                  type="text"
+                  value={thanatoForm.technician}
+                  onChange={(e) =>
+                    setThanatoForm({
+                      ...thanatoForm,
+                      technician: e.target.value,
+                    })
+                  }
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Procedimento Realizado:
+                </label>
+                <input
+                  type="text"
+                  value={thanatoForm.procedure}
+                  onChange={(e) =>
+                    setThanatoForm({
+                      ...thanatoForm,
+                      procedure: e.target.value,
+                    })
+                  }
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                />
+              </div>
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
-                <button type="button" onClick={() => setIsNewThanatoOpen(false)} className="px-3 py-1.5 bg-slate-800 rounded">Cancelar</button>
-                <button type="submit" className="px-4 py-1.5 bg-purple-600 font-bold rounded">Gravar Procedimento</button>
+                <button
+                  type="button"
+                  onClick={() => setIsNewThanatoOpen(false)}
+                  className="px-3 py-1.5 bg-slate-800 rounded"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-1.5 bg-purple-600 font-bold rounded"
+                >
+                  Gravar Procedimento
+                </button>
               </div>
             </form>
           </div>
@@ -1790,51 +3330,101 @@ export default function MasterEternityOS() {
           <div className="bg-white text-slate-900 rounded-xl max-w-2xl w-full p-8 shadow-2xl">
             <div className="border-b-2 border-slate-900 pb-4 mb-4 flex justify-between items-center">
               <div>
-                <h2 className="text-xl font-extrabold tracking-wider uppercase">ETERNITY OS - PLANO FUNERÁRIO</h2>
-                <p className="text-xs text-slate-600">TERMO DE ADESÃO E CONTRATO DE PRESTAÇÃO DE SERVIÇOS FUNERÁRIOS</p>
+                <h2 className="text-xl font-extrabold tracking-wider uppercase">
+                  ETERNITY OS - PLANO FUNERÁRIO
+                </h2>
+                <p className="text-xs text-slate-600">
+                  TERMO DE ADESÃO E CONTRATO DE PRESTAÇÃO DE SERVIÇOS FUNERÁRIOS
+                </p>
               </div>
               <div className="text-right text-xs">
-                <p className="font-bold">Contrato Nº {printHolderContract.id.substring(0, 8).toUpperCase()}</p>
-                <p>{new Date().toLocaleDateString('pt-BR')}</p>
+                <p className="font-bold">
+                  Contrato Nº{" "}
+                  {printHolderContract.id.substring(0, 8).toUpperCase()}
+                </p>
+                <p>{new Date().toLocaleDateString("pt-BR")}</p>
               </div>
             </div>
 
             <div className="space-y-4 text-xs">
               <div className="bg-slate-100 p-3 rounded">
-                <p className="font-bold uppercase text-[11px] mb-1">1. DADOS DO TITULAR CONTRATANTE</p>
-                <p><strong>Nome:</strong> {printHolderContract.full_name}</p>
-                <p><strong>CPF:</strong> {printHolderContract.cpf} | <strong>Telefone:</strong> {printHolderContract.phone}</p>
-                <p><strong>Endereço:</strong> {printHolderContract.address || 'Não informado'}</p>
+                <p className="font-bold uppercase text-[11px] mb-1">
+                  1. DADOS DO TITULAR CONTRATANTE
+                </p>
+                <p>
+                  <strong>Nome:</strong> {printHolderContract.full_name}
+                </p>
+                <p>
+                  <strong>CPF:</strong> {printHolderContract.cpf} |{" "}
+                  <strong>Telefone:</strong> {printHolderContract.phone}
+                </p>
+                <p>
+                  <strong>Endereço:</strong>{" "}
+                  {printHolderContract.address || "Não informado"}
+                </p>
               </div>
 
               <div className="bg-slate-100 p-3 rounded">
-                <p className="font-bold uppercase text-[11px] mb-1">2. DEPENDENTES COBERTOS ({printHolderContract.dependents?.length || 0})</p>
+                <p className="font-bold uppercase text-[11px] mb-1">
+                  2. DEPENDENTES COBERTOS (
+                  {printHolderContract.dependents?.length || 0})
+                </p>
                 {(printHolderContract.dependents || []).map((dep, idx) => (
-                  <p key={dep.id}>{idx + 1}. {dep.full_name} ({dep.relation})</p>
+                  <p key={dep.id}>
+                    {idx + 1}. {dep.full_name} ({dep.relation})
+                  </p>
                 ))}
-                {(!printHolderContract.dependents || printHolderContract.dependents.length === 0) && <p>Nenhum dependente adicional.</p>}
+                {(!printHolderContract.dependents ||
+                  printHolderContract.dependents.length === 0) && (
+                  <p>Nenhum dependente adicional.</p>
+                )}
               </div>
 
               <div className="bg-slate-100 p-3 rounded">
-                <p className="font-bold uppercase text-[11px] mb-1">3. COBERTURAS INCLUSAS DO PLANO</p>
-                <p>Urna fúnebre sextavada envernizada, ornamentação completa com véu e flores, preparação do corpo/higienização, sala de velório climatizada, cortejo fúnebre até o cemitério municipal e suporte administrativo para certidão de óbito.</p>
+                <p className="font-bold uppercase text-[11px] mb-1">
+                  3. COBERTURAS INCLUSAS DO PLANO
+                </p>
+                <p>
+                  Urna fúnebre sextavada envernizada, ornamentação completa com
+                  véu e flores, preparação do corpo/higienização, sala de
+                  velório climatizada, cortejo fúnebre até o cemitério municipal
+                  e suporte administrativo para certidão de óbito.
+                </p>
               </div>
 
               <div className="pt-8 grid grid-cols-2 gap-8 text-center text-xs border-t border-slate-300 mt-6">
                 <div>
-                  <div className="border-t border-slate-900 pt-1">Assinatura do Titular Contratante</div>
-                  <p className="text-[10px] text-slate-500">{printHolderContract.full_name}</p>
+                  <div className="border-t border-slate-900 pt-1">
+                    Assinatura do Titular Contratante
+                  </div>
+                  <p className="text-[10px] text-slate-500">
+                    {printHolderContract.full_name}
+                  </p>
                 </div>
                 <div>
-                  <div className="border-t border-slate-900 pt-1">Assinatura da Funerária / Administradora</div>
-                  <p className="text-[10px] text-slate-500">Eternity Assistência Familiar</p>
+                  <div className="border-t border-slate-900 pt-1">
+                    Assinatura da Funerária / Administradora
+                  </div>
+                  <p className="text-[10px] text-slate-500">
+                    Eternity Assistência Familiar
+                  </p>
                 </div>
               </div>
             </div>
 
             <div className="mt-6 flex justify-end gap-2 border-t pt-4">
-              <button onClick={() => setPrintHolderContract(null)} className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded font-semibold text-xs">Fechar</button>
-              <button onClick={() => window.print()} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-bold text-xs shadow">🖨️ Imprimir Termo</button>
+              <button
+                onClick={() => setPrintHolderContract(null)}
+                className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded font-semibold text-xs"
+              >
+                Fechar
+              </button>
+              <button
+                onClick={() => window.print()}
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-bold text-xs shadow"
+              >
+                🖨️ Imprimir Termo
+              </button>
             </div>
           </div>
         </div>
@@ -1846,19 +3436,38 @@ export default function MasterEternityOS() {
           <div className="bg-white text-slate-900 rounded-xl max-w-xl w-full p-8 shadow-2xl">
             <div className="border-b-2 border-slate-900 pb-3 mb-4 flex justify-between items-center">
               <div>
-                <h2 className="text-lg font-extrabold uppercase">GUIA DE ATENDIMENTO E SEPULTAMENTO</h2>
-                <p className="text-xs text-slate-600">ETERNITY OS - CENTRAL DE PLANTÃO 24H</p>
+                <h2 className="text-lg font-extrabold uppercase">
+                  GUIA DE ATENDIMENTO E SEPULTAMENTO
+                </h2>
+                <p className="text-xs text-slate-600">
+                  ETERNITY OS - CENTRAL DE PLANTÃO 24H
+                </p>
               </div>
-              <p className="font-bold text-xs">Nº {printBurialGuide.id.substring(0, 6).toUpperCase()}</p>
+              <p className="font-bold text-xs">
+                Nº {printBurialGuide.id.substring(0, 6).toUpperCase()}
+              </p>
             </div>
 
             <div className="space-y-3 text-xs">
-              <p><strong>Nome da Pessoa Falecida:</strong> {printBurialGuide.deceased_name}</p>
-              <p><strong>Cemitério / Local Previsto:</strong> {printBurialGuide.cemetery_location || 'A definir'}</p>
-              <p><strong>Data e Hora do Atendimento:</strong> {new Date(printBurialGuide.burial_date).toLocaleString('pt-BR')}</p>
-              <p><strong>Status:</strong> {printBurialGuide.status || 'Agendado'}</p>
+              <p>
+                <strong>Nome da Pessoa Falecida:</strong>{" "}
+                {printBurialGuide.deceased_name}
+              </p>
+              <p>
+                <strong>Cemitério / Local Previsto:</strong>{" "}
+                {printBurialGuide.cemetery_location || "A definir"}
+              </p>
+              <p>
+                <strong>Data e Hora do Atendimento:</strong>{" "}
+                {new Date(printBurialGuide.burial_date).toLocaleString("pt-BR")}
+              </p>
+              <p>
+                <strong>Status:</strong> {printBurialGuide.status || "Agendado"}
+              </p>
               <div className="bg-slate-100 p-3 rounded mt-3">
-                <p className="font-bold text-[11px] mb-1">Checklist de Liberação:</p>
+                <p className="font-bold text-[11px] mb-1">
+                  Checklist de Liberação:
+                </p>
                 <p>[ x ] Urna Mortuária separada e preparada</p>
                 <p>[ x ] Veículo de cortejo escalado</p>
                 <p>[ x ] Ornamentação e véu florido inclusos</p>
@@ -1866,8 +3475,18 @@ export default function MasterEternityOS() {
             </div>
 
             <div className="mt-6 flex justify-end gap-2 border-t pt-4">
-              <button onClick={() => setPrintBurialGuide(null)} className="px-4 py-2 bg-slate-200 text-slate-800 rounded font-semibold text-xs">Fechar</button>
-              <button onClick={() => window.print()} className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded font-bold text-xs shadow">🖨️ Imprimir Guia</button>
+              <button
+                onClick={() => setPrintBurialGuide(null)}
+                className="px-4 py-2 bg-slate-200 text-slate-800 rounded font-semibold text-xs"
+              >
+                Fechar
+              </button>
+              <button
+                onClick={() => window.print()}
+                className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded font-bold text-xs shadow"
+              >
+                🖨️ Imprimir Guia
+              </button>
             </div>
           </div>
         </div>
@@ -1879,39 +3498,90 @@ export default function MasterEternityOS() {
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-lg w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
             <div className="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
               <div>
-                <h3 className="text-sm font-bold text-white">{selectedHolder.full_name}</h3>
-                <p className="text-xs text-slate-400">CPF: {selectedHolder.cpf}</p>
+                <h3 className="text-sm font-bold text-white">
+                  {selectedHolder.full_name}
+                </h3>
+                <p className="text-xs text-slate-400">
+                  CPF: {selectedHolder.cpf}
+                </p>
               </div>
-              <button onClick={() => setSelectedHolder(null)} className="text-slate-400 hover:text-white font-bold">✕</button>
+              <button
+                onClick={() => setSelectedHolder(null)}
+                className="text-slate-400 hover:text-white font-bold"
+              >
+                ✕
+              </button>
             </div>
             <div className="space-y-4 text-xs">
               <div>
-                <p className="font-semibold text-slate-300 uppercase text-[11px] mb-2">Dependentes Cobertos no Plano:</p>
+                <p className="font-semibold text-slate-300 uppercase text-[11px] mb-2">
+                  Dependentes Cobertos no Plano:
+                </p>
                 <div className="space-y-1.5 max-h-44 overflow-y-auto">
                   {(selectedHolder.dependents || []).map((dep) => (
-                    <div key={dep.id} className="p-2.5 bg-slate-950 rounded border border-slate-800 flex justify-between">
-                      <span className="font-medium text-slate-200">{dep.full_name}</span>
-                      <span className="text-[10px] px-2 py-0.5 bg-slate-800 text-slate-300 rounded">{dep.relation}</span>
+                    <div
+                      key={dep.id}
+                      className="p-2.5 bg-slate-950 rounded border border-slate-800 flex justify-between"
+                    >
+                      <span className="font-medium text-slate-200">
+                        {dep.full_name}
+                      </span>
+                      <span className="text-[10px] px-2 py-0.5 bg-slate-800 text-slate-300 rounded">
+                        {dep.relation}
+                      </span>
                     </div>
                   ))}
-                  {(!selectedHolder.dependents || selectedHolder.dependents.length === 0) && (
-                    <p className="text-slate-500 py-3 text-center">Nenhum dependente cadastrado.</p>
+                  {(!selectedHolder.dependents ||
+                    selectedHolder.dependents.length === 0) && (
+                    <p className="text-slate-500 py-3 text-center">
+                      Nenhum dependente cadastrado.
+                    </p>
                   )}
                 </div>
               </div>
-              <form onSubmit={handleAddDep} className="bg-slate-950 p-3 rounded border border-slate-800 space-y-2">
-                <p className="text-[11px] font-bold text-blue-400 uppercase">+ Adicionar Dependente</p>
+              <form
+                onSubmit={handleAddDep}
+                className="bg-slate-950 p-3 rounded border border-slate-800 space-y-2"
+              >
+                <p className="text-[11px] font-bold text-blue-400 uppercase">
+                  + Adicionar Dependente
+                </p>
                 <div className="flex gap-2">
-                  <input type="text" required value={depName} onChange={(e) => setDepName(e.target.value)} placeholder="Nome do dependente..." className="flex-1 bg-[#0d121f] border border-slate-800 rounded p-2 text-white" />
-                  <select value={depRelation} onChange={(e) => setDepRelation(e.target.value)} className="bg-[#0d121f] border border-slate-800 rounded p-2 text-white">
-                    <option value="Cônjuge">Cônjuge</option><option value="Filho(a)">Filho(a)</option><option value="Pai/Mãe">Pai/Mãe</option><option value="Outro">Outro</option>
+                  <input
+                    type="text"
+                    required
+                    value={depName}
+                    onChange={(e) => setDepName(e.target.value)}
+                    placeholder="Nome do dependente..."
+                    className="flex-1 bg-[#0d121f] border border-slate-800 rounded p-2 text-white"
+                  />
+                  <select
+                    value={depRelation}
+                    onChange={(e) => setDepRelation(e.target.value)}
+                    className="bg-[#0d121f] border border-slate-800 rounded p-2 text-white"
+                  >
+                    <option value="Cônjuge">Cônjuge</option>
+                    <option value="Filho(a)">Filho(a)</option>
+                    <option value="Pai/Mãe">Pai/Mãe</option>
+                    <option value="Outro">Outro</option>
                   </select>
-                  <button type="submit" disabled={savingDep} className="px-3 py-2 bg-blue-600 text-white font-bold rounded">{savingDep ? '...' : 'Adicionar'}</button>
+                  <button
+                    type="submit"
+                    disabled={savingDep}
+                    className="px-3 py-2 bg-blue-600 text-white font-bold rounded"
+                  >
+                    {savingDep ? "..." : "Adicionar"}
+                  </button>
                 </div>
               </form>
             </div>
             <div className="flex justify-end pt-4 border-t border-slate-800 mt-4">
-              <button onClick={() => setSelectedHolder(null)} className="px-4 py-2 bg-slate-800 text-white rounded text-xs">Fechar</button>
+              <button
+                onClick={() => setSelectedHolder(null)}
+                className="px-4 py-2 bg-slate-800 text-white rounded text-xs"
+              >
+                Fechar
+              </button>
             </div>
           </div>
         </div>
