@@ -250,13 +250,21 @@ export default function MasterEternityOS() {
   } | null>(null);
   const [importing, setImporting] = useState(false);
 
-  const [burialForm, setBurialForm] = useState({
+  const [savingBurial, setSavingBurial] = useState(false);
+
+  // INTEGRACAO: Ordem de Servico completa (obito + contrato + veiculo + estoque)
+  const [serviceOrderForm, setServiceOrderForm] = useState({
+    deceased_type: "holder" as "holder" | "dependent" | "free",
+    contract_id: "",
     deceased_name: "",
     cemetery_location: "",
     burial_date: "",
-    urn_name: "Urna Luxo Sextavada Mogno",
+    vehicle_id: "",
+    notes: "",
   });
-  const [savingBurial, setSavingBurial] = useState(false);
+  const [selectedItems, setSelectedItems] = useState<{ inventory_id: string; quantity: number }[]>([]);
+  const [serviceOrders, setServiceOrders] = useState<any[]>([]);
+  const [loadingServiceOrders, setLoadingServiceOrders] = useState(false);
 
   const [vehicleForm, setVehicleForm] = useState({
     plate: "",
@@ -369,6 +377,13 @@ export default function MasterEternityOS() {
       if (capRes.ok) {
         const capData = await capRes.json();
         if (Array.isArray(capData)) setChapels(capData);
+      }
+
+      // 9. Ordens de Serviço integradas (óbito + contrato + veículo + estoque)
+      const soRes = await authFetch("/api/service-orders");
+      if (soRes.ok) {
+        const soData = await soRes.json();
+        if (Array.isArray(soData)) setServiceOrders(soData);
       }
     } catch (e) {
       console.warn("Erro ao carregar dados do ERP:", e);
@@ -624,43 +639,117 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Salvar Óbito no Supabase e Atualizar Tela
+  // Salvar Óbito como ORDEM DE SERVIÇO INTEGRADA (óbito + contrato + veículo + estoque)
   const handleSaveBurial = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingBurial(true);
     try {
-      const res = await authFetch("/api/chapel/burials", {
+      const isLinked = serviceOrderForm.deceased_type !== "free";
+      const payload: any = {
+        deceased_name: serviceOrderForm.deceased_name,
+        deceased_type: serviceOrderForm.deceased_type,
+        deceased_id: isLinked ? serviceOrderForm.contract_id : crypto.randomUUID(),
+        contract_id: isLinked ? serviceOrderForm.contract_id : null,
+        cemetery_location: serviceOrderForm.cemetery_location,
+        burial_date: serviceOrderForm.burial_date
+          ? new Date(serviceOrderForm.burial_date).toISOString()
+          : new Date().toISOString(),
+        vehicle_id: serviceOrderForm.vehicle_id || null,
+        notes: serviceOrderForm.notes,
+        items: selectedItems,
+      };
+
+      const res = await authFetch("/api/service-orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          deceased_name: burialForm.deceased_name,
-          cemetery_location: burialForm.cemetery_location,
-          burial_date: burialForm.burial_date || new Date().toISOString(),
-        }),
+        body: JSON.stringify(payload),
       });
 
       if (res.ok) {
-        const newBurial = await res.json();
-        setBurials((prev) => [newBurial, ...prev]);
+        const data = await res.json();
+        setServiceOrders((prev) => [data.service_order, ...prev]);
         setIsNewBurialOpen(false);
-        setBurialForm({
+        setServiceOrderForm({
+          deceased_type: "holder",
+          contract_id: "",
           deceased_name: "",
           cemetery_location: "",
           burial_date: "",
-          urn_name: "Urna Luxo Sextavada Mogno",
+          vehicle_id: "",
+          notes: "",
         });
+        setSelectedItems([]);
         setActiveTab("burials");
-        alert("✓ Atendimento de óbito gravado com sucesso no Supabase!");
+        const integracoes: string[] = ["Registro de óbito criado"];
+        if (serviceOrderForm.contract_id && isLinked) integracoes.push("contrato vinculado");
+        if (serviceOrderForm.vehicle_id) integracoes.push("veículo em missão");
+        if (selectedItems.length > 0) integracoes.push(`${selectedItems.length} item(ns) baixado(s) do estoque`);
+        alert("✓ Ordem de Serviço criada!\n\n" + integracoes.join("\n• "));
         loadData();
+        loadServiceOrders();
       } else {
         const j = await res.json();
-        alert(`Erro ao salvar óbito: ${j.error || "Falha no registro"}`);
+        alert(`Erro ao criar ordem de serviço: ${j.error || "Falha no registro"}`);
       }
     } catch {
-      alert("Erro de conexão ao registrar chamado.");
+      alert("Erro de conexão ao registrar ordem de serviço.");
     } finally {
       setSavingBurial(false);
     }
+  };
+
+  // Carregar Ordens de Serviço integradas
+  const loadServiceOrders = async () => {
+    setLoadingServiceOrders(true);
+    try {
+      const res = await authFetch("/api/service-orders");
+      if (res.ok) {
+        const data = await res.json();
+        setServiceOrders(Array.isArray(data) ? data : []);
+      }
+    } catch {
+      // silencioso
+    } finally {
+      setLoadingServiceOrders(false);
+    }
+  };
+
+  // Alterar status da Ordem de Serviço (integra com veiculo)
+  const handleUpdateServiceOrderStatus = async (id: string, newStatus: string) => {
+    try {
+      const res = await authFetch("/api/service-orders", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status: newStatus }),
+      });
+      if (res.ok) {
+        setServiceOrders((prev) =>
+          prev.map((s) => (s.id === id ? { ...s, status: newStatus } : s)),
+        );
+        // Atualiza status do veiculo na lista local
+        const so = serviceOrders.find((s) => s.id === id);
+        if (so?.vehicle_id) {
+          const vStatus = newStatus === "completed" ? "Disponível" : "Em Missão";
+          setVehicles((prev) =>
+            prev.map((v) => (v.id === so.vehicle_id ? { ...v, status: vStatus } : v)),
+          );
+        }
+      } else {
+        const j = await res.json();
+        alert(`Erro: ${j.error || "Falha ao atualizar"}`);
+      }
+    } catch {
+      alert("Erro de conexão.");
+    }
+  };
+
+  // Toggle de item do estoque na ordem de servico
+  const toggleServiceItem = (inventoryId: string) => {
+    setSelectedItems((prev) => {
+      const exists = prev.find((i) => i.inventory_id === inventoryId);
+      if (exists) return prev.filter((i) => i.inventory_id !== inventoryId);
+      return [...prev, { inventory_id: inventoryId, quantity: 1 }];
+    });
   };
 
   // Disparar Carnês em Lote no Asaas
@@ -1683,7 +1772,111 @@ export default function MasterEternityOS() {
           {/* PLANTÃO 24H & ÓBITOS */}
           {activeTab === "burials" && isTabAllowed(userRole, "burials") && (
             <div className="space-y-4">
+              {/* ORDENS DE SERVICO INTEGRADAS */}
               <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-x-auto">
+                <div className="px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+                  <h3 className="text-xs font-bold text-slate-300">
+                    🔗 Ordens de Serviço Integradas ({serviceOrders.length})
+                  </h3>
+                  {loadingServiceOrders && (
+                    <span className="text-[10px] text-slate-500">carregando...</span>
+                  )}
+                </div>
+                <table className="w-full min-w-[720px] text-left text-xs">
+                  <thead className="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase text-[11px]">
+                    <tr>
+                      <th className="py-3 px-4">Falecido</th>
+                      <th className="py-3 px-4">Integrações</th>
+                      <th className="py-3 px-4">Data</th>
+                      <th className="py-3 px-4">Status</th>
+                      <th className="py-3 px-4 text-right">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800 text-slate-200">
+                    {serviceOrders.map((so) => (
+                      <tr key={so.id} className="hover:bg-slate-800/30">
+                        <td className="py-3 px-4">
+                          <span className="font-bold text-white">{so.deceased_name}</span>
+                          <span className="block text-[10px] text-slate-500">
+                            {so.deceased_type === "holder"
+                              ? "Titular"
+                              : so.deceased_type === "dependent"
+                                ? "Dependente"
+                                : "Público geral"}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="flex flex-wrap gap-1">
+                            {so.contract && (
+                              <span className="px-1.5 py-0.5 rounded bg-blue-950 text-blue-300 text-[10px]">
+                                📋 Contrato
+                              </span>
+                            )}
+                            {so.vehicle && (
+                              <span className="px-1.5 py-0.5 rounded bg-amber-950 text-amber-300 text-[10px]">
+                                🚐 {so.vehicle.model}
+                              </span>
+                            )}
+                            {so.items?.map((it: any) => (
+                              <span
+                                key={it.id}
+                                className="px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 text-[10px]"
+                              >
+                                📦 {it.quantity}× {it.inventory?.item_name || "item"}
+                              </span>
+                            ))}
+                            {!so.contract && !so.vehicle && !so.items?.length && (
+                              <span className="text-[10px] text-slate-500">sem integrações</span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="py-3 px-4 font-mono text-[11px]">
+                          {so.burial_date
+                            ? new Date(so.burial_date).toLocaleString("pt-BR")
+                            : "—"}
+                        </td>
+                        <td className="py-3 px-4">
+                          <select
+                            value={so.status}
+                            onChange={(e) => handleUpdateServiceOrderStatus(so.id, e.target.value)}
+                            className="bg-slate-950 border border-slate-700 rounded px-1.5 py-1 text-[11px] text-white"
+                          >
+                            <option value="pending">⏳ Pendente</option>
+                            <option value="in_progress">🔄 Em andamento</option>
+                            <option value="completed">✅ Concluído</option>
+                            <option value="cancelled">❌ Cancelado</option>
+                          </select>
+                        </td>
+                        <td className="py-3 px-4 text-right">
+                          {so.burial && (
+                            <button
+                              onClick={() => setPrintBurialGuide(so.burial)}
+                              className="px-2.5 py-1 bg-slate-800 text-slate-200 rounded border border-slate-700 text-[11px] font-semibold"
+                            >
+                              🖨️ Guia
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                    {serviceOrders.length === 0 && !loadingServiceOrders && (
+                      <tr>
+                        <td colSpan={5} className="py-8 text-center text-slate-500">
+                          Nenhuma ordem de serviço. Use “+ Novo Atendimento” para registrar.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* REGISTROS DE OBITO (plantao) */}
+              <div className="bg-[#0d121f] border border-slate-800 rounded-xl overflow-x-auto">
+                <div className="px-4 py-3 border-b border-slate-800">
+                  <h3 className="text-xs font-bold text-slate-300">
+                    📋 Registros de Óbito ({burials.length})
+                  </h3>
+                </div>
                 <table className="w-full min-w-[640px] text-left text-xs">
                   <thead className="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase text-[11px]">
                     <tr>
@@ -2500,6 +2693,7 @@ export default function MasterEternityOS() {
                   className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
                 />
               </div>
+
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
                 <button
                   type="button"
@@ -2597,11 +2791,92 @@ export default function MasterEternityOS() {
       )}
       {isNewBurialOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
-          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
-            <h3 className="font-bold text-sm text-rose-400 mb-4">
-              🚨 Registrar Chamado de Plantão / Óbito
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-2xl w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
+            <h3 className="font-bold text-sm text-rose-400 mb-1">
+              🚨 Nova Ordem de Serviço — Óbito Integrado
             </h3>
+            <p className="text-[10px] text-slate-500 mb-4">
+              Registra o óbito, vincula ao contrato, designa veículo da frota e dá baixa no estoque em uma única operação.
+            </p>
             <form onSubmit={handleSaveBurial} className="space-y-3 text-xs">
+              {/* TIPO DE FALECIDO */}
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  Quem faleceu:
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setServiceOrderForm({ ...serviceOrderForm, deceased_type: "holder", contract_id: "" })
+                    }
+                    className={`px-2 py-2 rounded border text-[11px] font-semibold transition ${
+                      serviceOrderForm.deceased_type === "holder"
+                        ? "bg-rose-600/20 border-rose-500 text-rose-300"
+                        : "bg-slate-900 border-slate-700 text-slate-400"
+                    }`}
+                  >
+                    Titular (Associado)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setServiceOrderForm({ ...serviceOrderForm, deceased_type: "dependent", contract_id: "" })
+                    }
+                    className={`px-2 py-2 rounded border text-[11px] font-semibold transition ${
+                      serviceOrderForm.deceased_type === "dependent"
+                        ? "bg-rose-600/20 border-rose-500 text-rose-300"
+                        : "bg-slate-900 border-slate-700 text-slate-400"
+                    }`}
+                  >
+                    Dependente
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setServiceOrderForm({ ...serviceOrderForm, deceased_type: "free" })
+                    }
+                    className={`px-2 py-2 rounded border text-[11px] font-semibold transition ${
+                      serviceOrderForm.deceased_type === "free"
+                        ? "bg-amber-600/20 border-amber-500 text-amber-300"
+                        : "bg-slate-900 border-slate-700 text-slate-400"
+                    }`}
+                  >
+                    Público Geral
+                  </button>
+                </div>
+              </div>
+
+              {/* VINCULO COM CONTRATO */}
+              {serviceOrderForm.deceased_type !== "free" && (
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">
+                    Vincular ao contrato do associado:
+                  </label>
+                  <select
+                    value={serviceOrderForm.contract_id}
+                    onChange={(e) => {
+                      const cid = e.target.value;
+                      const holder = holders.find((h) => h.contracts?.[0]?.id === cid);
+                      setServiceOrderForm({
+                        ...serviceOrderForm,
+                        contract_id: cid,
+                        deceased_name: holder?.full_name || serviceOrderForm.deceased_name,
+                      });
+                    }}
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                  >
+                    <option value="">— Selecione o associado —</option>
+                    {holders.map((h) => (
+                      <option key={h.id} value={h.contracts?.[0]?.id || ""}>
+                        {h.full_name}
+                        {h.contracts?.[0]?.status === "defaulted" ? " (⚠ inadimplente)" : ""}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              {/* NOME DO FALECIDO */}
               <div>
                 <label className="block text-slate-400 font-semibold mb-1">
                   Nome do Falecido:
@@ -2609,51 +2884,133 @@ export default function MasterEternityOS() {
                 <input
                   type="text"
                   required
-                  value={burialForm.deceased_name}
+                  value={serviceOrderForm.deceased_name}
                   onChange={(e) =>
-                    setBurialForm({
-                      ...burialForm,
-                      deceased_name: e.target.value,
-                    })
+                    setServiceOrderForm({ ...serviceOrderForm, deceased_name: e.target.value })
                   }
                   placeholder="Nome da pessoa falecida..."
                   className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
                 />
               </div>
+
+              {/* LOCAL E DATA */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">
+                    Cemitério / Local:
+                  </label>
+                  <input
+                    type="text"
+                    value={serviceOrderForm.cemetery_location}
+                    onChange={(e) =>
+                      setServiceOrderForm({ ...serviceOrderForm, cemetery_location: e.target.value })
+                    }
+                    placeholder="Cemitério da Saudade..."
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">
+                    Data e Horário:
+                  </label>
+                  <input
+                    type="datetime-local"
+                    required
+                    value={serviceOrderForm.burial_date}
+                    onChange={(e) =>
+                      setServiceOrderForm({ ...serviceOrderForm, burial_date: e.target.value })
+                    }
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                  />
+                </div>
+              </div>
+              {/* ITENS DO ESTOQUE */}
               <div>
                 <label className="block text-slate-400 font-semibold mb-1">
-                  Cemitério / Local do Sepultamento:
+                  📦 Itens do estoque (caixão, urna, insumos):
                 </label>
-                <input
-                  type="text"
-                  value={burialForm.cemetery_location}
+                <div className="bg-slate-950 border border-slate-800 rounded p-2 max-h-32 overflow-y-auto space-y-1">
+                  {inventory.length === 0 && (
+                    <p className="text-slate-500 text-[10px] p-1">Nenhum item no estoque.</p>
+                  )}
+                  {inventory.map((item) => {
+                    const sel = selectedItems.find((i) => i.inventory_id === item.id);
+                    return (
+                      <label
+                        key={item.id}
+                        className={`flex items-center justify-between p-1.5 rounded cursor-pointer text-[11px] ${
+                          sel ? "bg-emerald-900/30 border border-emerald-700" : "hover:bg-slate-900"
+                        }`}
+                      >
+                        <span className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={!!sel}
+                            onChange={() => toggleServiceItem(item.id)}
+                            className="accent-emerald-500"
+                          />
+                          <span className="text-slate-200">{item.item_name}</span>
+                          <span className="text-slate-500">({item.stock_quantity} em estoque)</span>
+                        </span>
+                        {sel && (
+                          <input
+                            type="number"
+                            min={1}
+                            max={item.stock_quantity}
+                            value={sel.quantity}
+                            onChange={(e) =>
+                              setSelectedItems((prev) =>
+                                prev.map((i) =>
+                                  i.inventory_id === item.id
+                                    ? { ...i, quantity: parseInt(e.target.value) || 1 }
+                                    : i,
+                                ),
+                              )
+                            }
+                            className="w-14 bg-slate-900 border border-slate-700 rounded px-1 py-0.5 text-white text-[11px]"
+                          />
+                        )}
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* VEICULO DA FROTA */}
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">
+                  🚐 Designar veículo da frota:
+                </label>
+                <select
+                  value={serviceOrderForm.vehicle_id}
                   onChange={(e) =>
-                    setBurialForm({
-                      ...burialForm,
-                      cemetery_location: e.target.value,
-                    })
+                    setServiceOrderForm({ ...serviceOrderForm, vehicle_id: e.target.value })
                   }
-                  placeholder="Cemitério da Saudade..."
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
+                >
+                  <option value="">— Nenhum (sem transporte) —</option>
+                  {vehicles.map((v) => (
+                    <option key={v.id} value={v.id} disabled={v.status === "Em Missão"}>
+                      {v.model} — {v.plate} {v.status === "Em Missão" ? "(em missão)" : "(disponível)"}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* OBSERVACOES */}
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">Observações:</label>
+                <textarea
+                  value={serviceOrderForm.notes}
+                  onChange={(e) =>
+                    setServiceOrderForm({ ...serviceOrderForm, notes: e.target.value })
+                  }
+                  placeholder="Ex: família solicita capela no Cemitério Parque..."
+                  rows={2}
                   className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
                 />
               </div>
-              <div>
-                <label className="block text-slate-400 font-semibold mb-1">
-                  Data e Horário:
-                </label>
-                <input
-                  type="datetime-local"
-                  required
-                  value={burialForm.burial_date}
-                  onChange={(e) =>
-                    setBurialForm({
-                      ...burialForm,
-                      burial_date: e.target.value,
-                    })
-                  }
-                  className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-white"
-                />
-              </div>
+
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-4">
                 <button
                   type="button"
@@ -2667,7 +3024,7 @@ export default function MasterEternityOS() {
                   disabled={savingBurial}
                   className="px-4 py-1.5 bg-rose-600 font-bold rounded"
                 >
-                  {savingBurial ? "Registrando..." : "Confirmar Chamado"}
+                  {savingBurial ? "Registrando..." : "Confirmar Ordem de Serviço"}
                 </button>
               </div>
             </form>
