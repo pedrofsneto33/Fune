@@ -3650,27 +3650,29 @@ export default function MasterEternityOS() {
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
+                if (!editingBurial) return;
                 try {
                   const res = await authFetch('/api/chapel/burials', {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                      id: editingBurial?.id,
-                      deceased_name: editingBurial?.deceased_name || '',
-                      cemetery_location: editingBurial?.cemetery_location || '',
-                      burial_date: editingBurial?.burial_date || new Date().toISOString(),
-                      status: editingBurial?.status || 'Agendado',
+                      id: editingBurial.id,
+                      deceased_name: editingBurial.deceased_name || '',
+                      cemetery_location: editingBurial.cemetery_location || '',
+                      burial_date: editingBurial.burial_date || new Date().toISOString(),
+                      status: editingBurial.status || 'Agendado',
                     }),
                   });
                   if (res.ok) {
+                    const updated = await res.json().catch(() => editingBurial);
                     setBurials((prev) =>
                       prev.map((b) =>
-                        b.id === editingBurial?.id ? { ...editingBurial } : b
+                        b.id === editingBurial.id ? (updated || editingBurial) : b
                       )
                     );
                     setEditingBurial(null);
                   } else {
-                    const j = await res.json();
+                    const j = await res.json().catch(() => ({}));
                     alert(`Erro ao atualizar: ${j.error || 'Falha na atualização'}`);
                   }
                 } catch {
@@ -3685,7 +3687,7 @@ export default function MasterEternityOS() {
                   type="text"
                   required
                   value={editingBurial?.deceased_name || ''}
-                  onChange={(e) => setEditingBurial({ ...editingBurial, deceased_name: e.target.value })}
+                  onChange={(e) => editingBurial && setEditingBurial({ ...editingBurial, deceased_name: e.target.value })}
                   className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white"
                 />
               </div>
@@ -3694,7 +3696,7 @@ export default function MasterEternityOS() {
                 <input
                   type="text"
                   value={editingBurial?.cemetery_location || ''}
-                  onChange={(e) => setEditingBurial({ ...editingBurial, cemetery_location: e.target.value })}
+                  onChange={(e) => editingBurial && setEditingBurial({ ...editingBurial, cemetery_location: e.target.value })}
                   className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white"
                 />
               </div>
@@ -3702,8 +3704,21 @@ export default function MasterEternityOS() {
                 <label className="text-xs text-zinc-400 block mb-1">Data do Sepultamento</label>
                 <input
                   type="datetime-local"
-                  value={editingBurial?.burial_date ? new Date(editingBurial.burial_date).toISOString().slice(0, 16) : ''}
-                  onChange={(e) => setEditingBurial({ ...editingBurial, burial_date: new Date(e.target.value).toISOString() })}
+                  value={editingBurial?.burial_date ? (() => {
+                    try {
+                      return new Date(editingBurial.burial_date).toISOString().slice(0, 16);
+                    } catch {
+                      return '';
+                    }
+                  })() : ''}
+                  onChange={(e) => {
+                    try {
+                      const val = e.target.value ? new Date(e.target.value).toISOString() : editingBurial?.burial_date || new Date().toISOString();
+                      setEditingBurial({ ...editingBurial, burial_date: val });
+                    } catch {
+                      // ignore invalid date input
+                    }
+                  }}
                   className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white"
                 />
               </div>
@@ -3711,7 +3726,7 @@ export default function MasterEternityOS() {
                 <label className="text-xs text-zinc-400 block mb-1">Status</label>
                 <select
                   value={editingBurial?.status || 'Agendado'}
-                  onChange={(e) => setEditingBurial({ ...editingBurial, status: e.target.value })}
+                  onChange={(e) => editingBurial && setEditingBurial({ ...editingBurial, status: e.target.value })}
                   className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white"
                 >
                   <option value="Agendado">Agendado</option>
