@@ -1,7 +1,7 @@
 ﻿'use client';
 import React, { useEffect, useState } from 'react';
 import { X, DollarSign, PlusCircle, CheckCircle, AlertCircle } from 'lucide-react';
-import { supabase } from '@/lib/supabaseClient';
+import { authFetch } from '@/lib/authFetch';
 
 export function ModalAccountsPayable({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [bills, setBills] = useState<any[]>([]);
@@ -17,8 +17,9 @@ export function ModalAccountsPayable({ isOpen, onClose }: { isOpen: boolean; onC
   const fetchBills = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.from('accounts_payable').select('*').order('due_date', { ascending: true });
-      if (error) throw error;
+      const res = await authFetch('/api/accounts-payable');
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Erro ao carregar contas');
       setBills(data || []);
     } catch (err) {
       console.error(err);
@@ -30,10 +31,16 @@ export function ModalAccountsPayable({ isOpen, onClose }: { isOpen: boolean; onC
   const handleAddBill = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const { error } = await supabase.from('accounts_payable').insert([
-        { description, amount: parseFloat(amount), due_date: dueDate, status: 'pendente' }
-      ]);
-      if (error) throw error;
+      const res = await authFetch('/api/accounts-payable', {
+        method: 'POST',
+        body: JSON.stringify({
+          description,
+          amount: parseFloat(amount),
+          due_date: dueDate,
+          status: 'pendente',
+        }),
+      });
+      if (!res.ok) throw new Error('Erro ao cadastrar despesa');
       setDescription('');
       setAmount('');
       setDueDate('');
@@ -45,8 +52,11 @@ export function ModalAccountsPayable({ isOpen, onClose }: { isOpen: boolean; onC
 
   const handleMarkAsPaid = async (id: string) => {
     try {
-      const { error } = await supabase.from('accounts_payable').update({ status: 'pago' }).eq('id', id);
-      if (error) throw error;
+      const res = await authFetch(`/api/accounts-payable?id=${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ status: 'pago' }),
+      });
+      if (!res.ok) throw new Error('Erro ao atualizar status');
       fetchBills();
     } catch (err: any) {
       alert('Erro ao atualizar status: ' + err.message);

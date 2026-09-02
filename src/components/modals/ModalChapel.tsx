@@ -1,7 +1,7 @@
 ﻿'use client';
 import React, { useState } from 'react';
 import { X, Building2 } from 'lucide-react';
-import { supabase } from '@/lib/supabaseClient';
+import { authFetch } from '@/lib/authFetch';
 
 export function ModalChapel({ isOpen, onClose, onSuccess }: { isOpen: boolean; onClose: () => void; onSuccess?: () => void }) {
   const [chapelName, setChapelName] = useState('Capela Memorial 01');
@@ -17,10 +17,18 @@ export function ModalChapel({ isOpen, onClose, onSuccess }: { isOpen: boolean; o
     try {
       const start = new Date();
       const end = new Date(start.getTime() + 24 * 60 * 60 * 1000); // 24h
-      const { error } = await supabase.from('chapel_bookings').insert([
-        { chapel_name: chapelName, deceased_name: deceasedName, family_contact: familyContact, start_time: start.toISOString(), end_time: end.toISOString(), status: 'reservado' }
-      ]);
-      if (error) throw error;
+      const res = await authFetch('/api/chapel-bookings', {
+        method: 'POST',
+        body: JSON.stringify({
+          chapel_name: chapelName,
+          deceased_name: deceasedName,
+          family_contact: familyContact,
+          start_time: start.toISOString(),
+          end_time: end.toISOString(),
+          status: 'reservado',
+        }),
+      });
+      if (!res.ok) throw new Error("Erro ao agendar capela");
       if (onSuccess) onSuccess();
       onClose();
     } catch (err: any) {

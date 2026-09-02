@@ -1,7 +1,7 @@
 ﻿'use client';
 import React, { useState } from 'react';
 import { X, FileCheck, Send, ShieldCheck, CreditCard } from 'lucide-react';
-import { supabase } from '@/lib/supabaseClient';
+import { authFetch } from '@/lib/authFetch';
 
 export function ModalContractEngine({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [loading, setLoading] = useState(false);
@@ -19,23 +19,26 @@ export function ModalContractEngine({ isOpen, onClose }: { isOpen: boolean; onCl
 
     try {
       // 1. Cria o contrato no Supabase
-      const { data: contract, error: contractErr } = await supabase.from('contracts').insert([
-        { holder_name: holderName, cpf: cpf, status: 'active' }
-      ]).select().single();
-
-      if (contractErr) throw contractErr;
+      const res = await authFetch('/api/contracts', {
+        method: 'POST',
+        body: JSON.stringify({ holder_name: holderName, cpf, status: 'active' })
+      });
+      if (!res.ok) throw new Error('Erro ao criar contrato');
+      const contract = await res.json();
 
       // 2. Simula o disparo de integração com a API Asaas para gerar a primeira cobrança
       await new Promise(r => setTimeout(r, 1000));
       
-      await supabase.from('asaas_customers').insert([
-        { contract_id: contract.id, asaas_customer_id: 'cus_' + Math.random().toString(36).substring(7), billing_type: 'BOLETO' }
-      ]);
+      await authFetch('/api/asaas/customers', {
+        method: 'POST',
+        body: JSON.stringify({ contract_id: contract.id, billing_type: 'BOLETO' })
+      });
 
       // 3. Registra na trilha de auditoria
-      await supabase.from('audit_logs').insert([
-        { action: 'CONTRACT_AND_ASAAS_GENERATE', user_email: 'sistema@eternitysos.com', details: `Contrato gerado e faturamento Asaas configurado para ${holderName}` }
-      ]);
+      await authFetch('/api/audit-logs', {
+        method: 'POST',
+        body: JSON.stringify({ action: 'CONTRACT_AND_ASAAS_GENERATE', details: 'Contrato gerado e faturamento Asaas configurado para ' + holderName })
+      });
 
       setSuccess(true);
       setTimeout(() => {

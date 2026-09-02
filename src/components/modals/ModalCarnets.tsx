@@ -1,7 +1,7 @@
 ﻿'use client';
 import React, { useEffect, useState } from 'react';
 import { X, FileText, Barcode, CheckCircle2, RefreshCw } from 'lucide-react';
-import { supabase } from '@/lib/supabaseClient';
+import { authFetch } from '@/lib/authFetch';
 
 export function ModalCarnets({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [carnets, setCarnets] = useState<any[]>([]);
@@ -14,8 +14,8 @@ export function ModalCarnets({ isOpen, onClose }: { isOpen: boolean; onClose: ()
   const fetchCarnets = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.from('payment_carnets').select('*, contracts(id, holder_name)').order('due_date', { ascending: true }).limit(50);
-      if (error) throw error;
+      const res = await authFetch('/api/payment-carnets'); const data = await res.json(); if (!res.ok) throw new Error(data.error || 'Erro ao carregar carnês');
+      
       setCarnets(data || []);
     } catch (err) {
       console.error(err);
@@ -27,7 +27,7 @@ export function ModalCarnets({ isOpen, onClose }: { isOpen: boolean; onClose: ()
   const handleGenerateCarnetBatch = async () => {
     try {
       // Simulação de geração de carnê de 12 meses para contratos ativos
-      const { data: activeContracts } = await supabase.from('contracts').select('id, holder_name').eq('status', 'active');
+      const res0 = await authFetch('/api/contracts?status=active'); const activeContracts = await res0.json();
       if (!activeContracts || activeContracts.length === 0) {
         alert('Nenhum contrato ativo encontrado para gerar carnê.');
         return;
@@ -47,7 +47,7 @@ export function ModalCarnets({ isOpen, onClose }: { isOpen: boolean; onClose: ()
             status: 'pendente'
           });
         }
-        await supabase.from('payment_carnets').insert(batch);
+        await authFetch('/api/payment-carnets/batch', { method: 'POST', body: JSON.stringify(batch) });
       }
 
       alert('Lote de carnês gerado com sucesso para todos os titulares ativos!');

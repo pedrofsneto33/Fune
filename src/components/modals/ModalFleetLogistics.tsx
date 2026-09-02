@@ -1,7 +1,7 @@
 ﻿'use client';
 import React, { useState } from 'react';
 import { X, Truck, Navigation, CheckCircle2, AlertTriangle } from 'lucide-react';
-import { supabase } from '@/lib/supabaseClient';
+import { authFetch } from '@/lib/authFetch';
 
 export function ModalFleetLogistics({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [vehicle, setVehicle] = useState('Furgão Fatorial 01 (Placa: ABC-1234)');
@@ -19,12 +19,13 @@ export function ModalFleetLogistics({ isOpen, onClose }: { isOpen: boolean; onCl
 
     try {
       // Atualiza status do veículo na tabela de frota ou registra missão logística
-      const { error } = await supabase.from('fleet_vehicles').update({ status: 'em_missao' }).eq('plate', 'ABC-1234');
+      const res = await authFetch('/api/vehicles', { method: 'PATCH', body: JSON.stringify({ plate: 'ABC-1234', status: 'em_missao' }) });
       
       // Registra log de auditoria da alocação
-      await supabase.from('audit_logs').insert([
-        { action: 'FLEET_MISSION_ASSIGN', user_email: 'plantao@eternitysos.com', details: `Veículo ${vehicle} alocado para motorista ${driver}` }
-      ]);
+      await authFetch('/api/audit-logs', {
+        method: 'POST',
+        body: JSON.stringify({ action: 'FLEET_MISSION_ASSIGN', details: 'Veiculo ' + vehicle + ' alocado para motorista ' + driver })
+      });
 
       setSuccess(true);
       setTimeout(() => {

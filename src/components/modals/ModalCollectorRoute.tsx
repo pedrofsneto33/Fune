@@ -1,7 +1,7 @@
 ﻿'use client';
 import React, { useState } from 'react';
 import { X, MapPin } from 'lucide-react';
-import { supabase } from '@/lib/supabaseClient';
+import { authFetch } from '@/lib/authFetch';
 
 export function ModalCollectorRoute({ isOpen, onClose, onSuccess }: { isOpen: boolean; onClose: () => void; onSuccess?: () => void }) {
   const [collectorName, setCollectorName] = useState('');
@@ -14,10 +14,16 @@ export function ModalCollectorRoute({ isOpen, onClose, onSuccess }: { isOpen: bo
     e.preventDefault();
     setLoading(true);
     try {
-      const { error } = await supabase.from('collector_routes').insert([
-        { collector_name: collectorName, zone: zone, status: 'ativo', total_receipts: 0 }
-      ]);
-      if (error) throw error;
+      const res = await authFetch('/api/collector-routes', {
+        method: 'POST',
+        body: JSON.stringify({
+          collector_name: collectorName,
+          zone: zone,
+          status: 'ativo',
+          total_receipts: 0,
+        }),
+      });
+      if (!res.ok) throw new Error("Erro ao criar rota");
       if (onSuccess) onSuccess();
       onClose();
     } catch (err: any) {

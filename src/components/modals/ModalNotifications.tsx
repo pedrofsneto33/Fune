@@ -1,7 +1,7 @@
 ﻿'use client';
 import React, { useState } from 'react';
 import { X, MessageSquare, Send, Bell, CheckCircle } from 'lucide-react';
-import { supabase } from '@/lib/supabaseClient';
+import { authFetch } from '@/lib/authFetch';
 
 export function ModalNotifications({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [phone, setPhone] = useState('');
@@ -19,12 +19,11 @@ export function ModalNotifications({ isOpen, onClose }: { isOpen: boolean; onClo
     try {
       // Simula disparo via API de WhatsApp ou gateway conectado
       // Aqui integrará com a Evolution API / Supabase Edge Functions no ambiente de prod
-      await new Promise(r => setTimeout(r, 1200));
-      
-      // Registra log do disparo
-      await supabase.from('audit_logs').insert([
-        { action: 'WHATSAPP_DISPATCH', user_email: 'sistema@eternitysos.com', details: `Mensagem enviada para ${phone}` }
-      ]).select();
+      const res = await authFetch('/api/whatsapp/send', {
+        method: 'POST',
+        body: JSON.stringify({ phone, message })
+      });
+      if (!res.ok) throw new Error('Erro ao enviar via WhatsApp');
 
       setSuccess(true);
       setTimeout(() => {
