@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 /**
  * Initialize user endpoint - Returns user's current role status
  * SECURITY: Does NOT auto-create roles. Users must be assigned by an admin.
  */
+
 export async function POST(req: NextRequest) {
   try {
     const authHeader = req.headers.get('authorization');
@@ -36,7 +38,6 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // SECURITY FIX: Return pending status instead of auto-creating role
     return NextResponse.json({
       success: false,
       userId: user.id,
@@ -51,14 +52,21 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET(req: NextRequest) {
-  const { data: tenants } = await supabaseAdmin.from('tenants').select('id, name').limit(5);
-  const { count: userCount } = await supabaseAdmin.from('user_roles').select('*', { count: 'exact', head: true });
+// SECURITY: GET agora exige autenticacao + perfil superadmin
+// Antes vazava lista de tenants + total de user_roles publicamente
+export const GET = withAuth(async (req: NextRequest, { auth }) => {
+  const { data: tenants } = await supabaseAdmin
+    .from('tenants')
+    .select('id, name')
+    .limit(5);
+
+  const { count: userCount } = await supabaseAdmin
+    .from('user_roles')
+    .select('*', { count: 'exact', head: true });
 
   return NextResponse.json({
     tenants: tenants || [],
     userRoles: userCount || 0,
     serviceRole: true,
   });
-}
-
+}, ['superadmin']);

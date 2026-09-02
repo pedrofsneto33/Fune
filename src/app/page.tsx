@@ -125,11 +125,7 @@ export default function MasterEternityOS() {
 
   const [thanatopraxyRecords, setThanatopraxyRecords] = useState<any[]>([]);
 
-  const [vehicles, setVehicles] = useState<Vehicle[]>([
-    { id: '1', plate: 'PI-FUN-2026', model: 'Mercedes-Benz Vito Cortejo', type: 'Cortejo Fúnebre', status: 'Disponível', driver_name: 'Marcos Plantão' },
-    { id: '2', plate: 'PI-REM-0099', model: 'Fiat Fiorino Remoção 24h', type: 'Remoção Hospitalar', status: 'Disponível', driver_name: 'João Silva' },
-    { id: '3', plate: 'PI-SUP-4040', model: 'Chevrolet Spin Apoio', type: 'Apoio Familiar', status: 'Disponível', driver_name: 'Disponível' },
-  ]);
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
   const [convalescence, setConvalescence] = useState<ConvalescenceItem[]>([
     { id: '1', item_name: 'Cadeira de Rodas Dobrável', holder_name: 'Carlos Eduardo Silva', loan_date: '15/08/2026', status: 'Ativo' },
@@ -143,13 +139,7 @@ export default function MasterEternityOS() {
     { id: '3', name: 'Capela Standard 03', capacity: '40 pessoas', status: 'Livre', deceased: '', time: '' },
   ]);
 
-  const [transactions, setTransactions] = useState<FinancialTransaction[]>([
-    { id: '1', description: 'Mensalidade Plano Familiar - Pedro', amount: 69.90, type: 'income', category: 'Mensalidade Plano', transaction_date: '2026-08-28' },
-    { id: '2', description: 'Mensalidade Plano Prata - Mariana Costa', amount: 49.90, type: 'income', category: 'Mensalidade Plano', transaction_date: '2026-08-27' },
-    { id: '3', description: 'Combustível Carro Cortejo (Mercedes)', amount: 150.00, type: 'expense', category: 'Combustível / Frota', transaction_date: '2026-08-29' },
-    { id: '4', description: 'Compra de Formol e Insumos Tanato', amount: 320.00, type: 'expense', category: 'Insumos Tanatopraxia', transaction_date: '2026-08-25' },
-    { id: '5', description: 'Taxa Cemitério Municipal', amount: 180.00, type: 'expense', category: 'Cemitério & Taxas', transaction_date: '2026-08-29' },
-  ]);
+  const [transactions, setTransactions] = useState<FinancialTransaction[]>([]);
 
   // Filtros
   const [searchQuery, setSearchQuery] = useState('');
@@ -245,11 +235,18 @@ export default function MasterEternityOS() {
         if (Array.isArray(partData) && partData.length > 0) setPartners(partData);
       }
 
-      // 5. Tanatopraxia
-      const tanRes = await authFetch('/api/thanatopraxy');
-      if (tanRes.ok) {
-        const tanData = await tanRes.json();
-        if (Array.isArray(tanData) && tanData.length > 0) setThanatopraxyRecords(tanData);
+      // 6. Veículos
+      const vehRes = await authFetch('/api/vehicles');
+      if (vehRes.ok) {
+        const vehData = await vehRes.json();
+        if (Array.isArray(vehData)) setVehicles(vehData);
+      }
+
+      // 7. Transações Financeiras
+      const txRes = await authFetch('/api/financial/transactions');
+      if (txRes.ok) {
+        const txData = await txRes.json();
+        if (Array.isArray(txData)) setTransactions(txData);
       }
     } catch (e) {
       console.warn('Erro ao carregar dados do ERP:', e);
@@ -507,33 +504,51 @@ export default function MasterEternityOS() {
   };
 
   // Salvar Lançamento Financeiro
-  const handleSaveTransaction = (e: React.FormEvent) => {
+  const handleSaveTransaction = async (e: React.FormEvent) => {
     e.preventDefault();
-    setTransactions((prev) => [
-      {
-        id: String(Date.now()),
-        description: txForm.description,
-        amount: Number(txForm.amount),
-        type: txForm.type,
-        category: txForm.category,
-        transaction_date: new Date().toISOString().split('T')[0],
-      },
-      ...prev,
-    ]);
-    setIsNewTxOpen(false);
-    setTxForm({ description: '', amount: 100, type: 'income', category: 'Mensalidade Plano' });
-    alert('Lançamento registrado no Livro Caixa!');
+    try {
+      const res = await authFetch('/api/financial/transactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(txForm),
+      });
+      if (res.ok) {
+        const newTx = await res.json();
+        setTransactions((prev) => [newTx, ...prev]);
+        setIsNewTxOpen(false);
+        setTxForm({ description: '', amount: 100, type: 'income', category: 'Mensalidade Plano' });
+        alert('Lançamento registrado no Livro Caixa!');
+      } else {
+        const err = await res.json();
+        alert(`Erro: ${err.error || 'Falha ao salvar lançamento'}`);
+      }
+    } catch {
+      alert('Erro de conexão ao salvar lançamento.');
+    }
   };
 
   // Salvar Novo Veículo
-  const handleSaveVehicle = (e: React.FormEvent) => {
+  const handleSaveVehicle = async (e: React.FormEvent) => {
     e.preventDefault();
-    setVehicles((prev) => [
-      ...prev,
-      { id: String(Date.now()), plate: vehicleForm.plate, model: vehicleForm.model, type: vehicleForm.type, status: 'Disponível', driver_name: vehicleForm.driver_name || 'A escalar' },
-    ]);
-    setIsNewVehicleOpen(false);
-    setVehicleForm({ plate: '', model: '', type: 'Cortejo Fúnebre', driver_name: '' });
+    try {
+      const res = await authFetch('/api/vehicles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(vehicleForm),
+      });
+      if (res.ok) {
+        const newVeh = await res.json();
+        setVehicles((prev) => [...prev, newVeh]);
+        setIsNewVehicleOpen(false);
+        setVehicleForm({ plate: '', model: '', type: 'Cortejo Fúnebre', driver_name: '' });
+        alert('Veículo cadastrado na frota!');
+      } else {
+        const err = await res.json();
+        alert(`Erro: ${err.error || 'Falha ao salvar veículo'}`);
+      }
+    } catch {
+      alert('Erro de conexão ao salvar veículo.');
+    }
   };
 
   // Salvar Item de Estoque
