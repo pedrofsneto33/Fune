@@ -1381,9 +1381,11 @@ export default function MasterEternityOS() {
             {hasPermission(userRole, "canManageContracts") && (
               <button
                 onClick={() => setIsNewHolderOpen(true)}
-                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow"
+                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow"
               >
-                <span>+</span> Novo Titular
+                <span className="sm:hidden">+</span>
+                <span className="hidden sm:inline">+ Novo Titular</span>
+                <span className="sm:hidden">Titular</span>
               </button>
             )}
             {hasPermission(userRole, "canManageContracts") && (
@@ -1393,11 +1395,20 @@ export default function MasterEternityOS() {
                   setImportResult(null);
                   setIsImportOpen(true);
                 }}
-                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-slate-700 hover:bg-slate-600 rounded-lg transition shadow"
+                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-white bg-slate-700 hover:bg-slate-600 rounded-lg transition shadow"
               >
-                <span>CSV</span> Importar
+                <span className="sm:hidden">CSV</span>
+                <span className="hidden sm:inline">CSV Importar</span>
+                <span className="sm:hidden">Importar</span>
               </button>
             )}
+            <button
+              onClick={handleExportCSV}
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-white bg-slate-700 hover:bg-slate-600 rounded-lg transition shadow sm:hidden"
+              title="Exportar CSV"
+            >
+              📥
+            </button>
 
             {/* BOTÃO DE LOGOUT SUPERIOR DESTACADO */}
             <button
@@ -1520,7 +1531,7 @@ export default function MasterEternityOS() {
                   {hasPermission(userRole, "canManageContracts") && (
                     <button
                       onClick={() => setIsNewHolderOpen(true)}
-                      className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg transition shadow"
+                      className="hidden sm:inline-flex px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg transition shadow"
                     >
                       + Novo Titular
                     </button>
@@ -1532,14 +1543,14 @@ export default function MasterEternityOS() {
                         setImportResult(null);
                         setIsImportOpen(true);
                       }}
-                      className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition"
+                      className="hidden sm:inline-flex px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition"
                     >
                       CSV Importar
                     </button>
                   )}
                   <button
                     onClick={handleExportCSV}
-                    className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition"
+                    className="hidden sm:inline-flex px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition"
                     title="Exportar para Excel / CSV"
                   >
                     📥 Exportar CSV
