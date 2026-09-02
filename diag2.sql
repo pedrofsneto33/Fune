@@ -1,0 +1,1 @@
+SELECT ur.user_id, ur.role, ur.tenant_id, u.email FROM user_roles ur JOIN auth.users u ON u.id = ur.user_id WHERE u.email = 'qa.cliente@exemplo.com';

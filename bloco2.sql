@@ -1,0 +1,1 @@
+SELECT tablename, policyname, cmd, qual, with_check FROM pg_policies WHERE schemaname='public' AND tablename IN ('tenants','user_roles','holders','plans') ORDER BY tablename;
