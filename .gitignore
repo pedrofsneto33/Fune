@@ -45,3 +45,6 @@ next-env.d.ts
 build-check.log
 deploy.log
 build-check.log
+
+# logs locais
+dev-server.log
