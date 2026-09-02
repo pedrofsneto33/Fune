@@ -46,7 +46,7 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
 
     const { data, error } = await supabaseAdmin
       .from('chapel_burials')
-      .update({ ...updates, updated_at: new Date().toISOString() })
+      .update(updates)
       .eq('id', id)
       .eq('tenant_id', auth.tenantId)
       .select('id, deceased_name, burial_date, cemetery_location, status, created_at')

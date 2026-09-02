@@ -83,7 +83,7 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
   }
   const { data, error } = await supabaseAdmin
     .from("vehicles")
-    .update({ ...updates, updated_at: new Date().toISOString() })
+    .update(updates)
     .eq("id", id)
     .eq("tenant_id", tenantId)
     .select()
