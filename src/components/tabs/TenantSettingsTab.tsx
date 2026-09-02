@@ -155,7 +155,10 @@ export function TenantSettingsTab() {
           asaas_environment: asaasEnv,
           asaas_api_key: apiKey.trim() || undefined,
           asaas_webhook_token: webhookToken.trim() || undefined,
-          commercial_plan: commercialPlan
+          // SECURITY: plano comercial so e enviado quando o usuario tem permissao
+          // (can_manage_plan = true apenas para superadmin). Para admins, o campo
+          // nem vai no payload - a API retorna 403 se tentarem trocar de plano.
+          ...(canManagePlan ? { commercial_plan: commercialPlan } : {}),
         })
       });
 
