@@ -22,17 +22,17 @@ const PLANS = [
   {
     code: 'essencial', name: 'Essencial', price: 'R$ 297', period: '/mês', badge: null as string | null,
     desc: 'Para funerárias de pequeno porte começando a digitalizar a operação.',
-    items: ['Até 100 associados ativos', 'Até 5 usuários no sistema', 'Associados, dependentes e contratos', 'Carteirinha digital + cobrança PIX/boleto', 'Plantão 24h e registro de óbitos', 'Suporte por WhatsApp'],
+    items: ['Até 200 associados ativos', 'Até 5 usuários no sistema', 'Até 4 dependentes por titular', 'Associados, dependentes e contratos', 'Carteirinha digital + cobrança PIX/boleto', 'Plantão 24h e registro de óbitos', 'Suporte por WhatsApp'],
   },
   {
     code: 'profissional', name: 'Profissional', price: 'R$ 497', period: '/mês', badge: 'Mais escolhido',
     desc: 'Para operações em crescimento que precisam de BI e financeiro completo.',
-    items: ['Até 500 associados ativos', 'Até 20 usuários no sistema', 'Tudo do Essencial', 'Frota, estoque e tanatopraxia', 'Financeiro completo com DRE', 'Relatórios em PDF e comissões', 'Suporte prioritário'],
+    items: ['Até 1.000 associados ativos', 'Até 20 usuários no sistema', 'Até 8 dependentes por titular', 'Tudo do Essencial', 'Frota, estoque e tanatopraxia', 'Financeiro completo com DRE', 'Relatórios em PDF e comissões', 'Suporte prioritário'],
   },
   {
     code: 'enterprise', name: 'Enterprise', price: 'Sob consulta', period: '', badge: null as string | null,
     desc: 'Para grupos funerários com múltiplas filiais e alta demanda.',
-    items: ['Associados e usuários ilimitados', 'Tudo do Profissional', 'Filiais ilimitadas (multi-empresa)', 'Personalização de marca (logo e cores)', 'Integrações sob demanda', 'Gerente de conta dedicado'],
+    items: ['Associados e usuários ilimitados', 'Até 20 dependentes por titular', 'Tudo do Profissional', 'Filiais ilimitadas (multi-empresa)', 'Personalização de marca (logo e cores)', 'Integrações sob demanda', 'Gerente de conta dedicado'],
   },
 ];
 
