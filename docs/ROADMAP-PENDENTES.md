@@ -54,6 +54,27 @@
 - [ ] Tabela `leads` + kanban simples + WhatsApp pra follow-up automatico
 - [ ] Sem passo manual
 
+## 6. BUSCA + CADASTRO DE TITULARES (Novo) - CONCLUIDO
+
+### Busca de Associados (Demanda do usuario)
+- [x] Problema: a busca no `/holders` só bateia CPF formatado e `phone` sem
+      normalizacao, entao nome/WhatsApp sem formatação nao encontravam.
+- [x] Corrigido em `src/app/page.tsx` (filteredHolders): normaliza acentos (NFD),
+      remove não-numericos do phone (como faz no CPF) e expande para Cidade/UF.
+      Agora busca por **nome (com/sem acento), CPF, WhatsApp, Cidade, UF**.
+- [x] `next build` OK.
+
+### Formulario "Novo Titular" + API
+- [x] Formulario enriquecido (`page.tsx`, `holderForm` + JSX): campos
+      **Cidade, UF, Data Nascimento, Gênero (select), Observações** — todos
+      com direcionamento preciso via API (`POST/PATCH /api/holders`).
+- [x] `src/app/api/holders/route.ts`: parse + insert dos novos campos com
+      **retry defensivo** (se a coluna nao existir no DB, refaz insert sem
+      extras) -> cadastro de titular nunca quebra.
+- [x] Migration `scripts/holders-enrich-columns.sql` (ADD COLUMN IF NOT EXISTS,
+      idempotent) para rodar no Supabase SQL Editor.
+- [x] Interface `Holder` tipada com os novos campos.
+
 ## 5. TRANSMISSAO AO VIVO - ADIADO (decisao de roadmap)
 
 - [ ] Cortado do roadmap atual. Exige infra de streaming (custo).
