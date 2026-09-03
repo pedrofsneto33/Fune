@@ -78,3 +78,28 @@
 ## 5. TRANSMISSAO AO VIVO - ADIADO (decisao de roadmap)
 
 - [ ] Cortado do roadmap atual. Exige infra de streaming (custo).
+
+## 7. PENDÊNCIAS TÉCNICAS / FOLLOW-UP (memoria de sessao)
+
+### A. Dependentes via API server (hardening)
+- [ ] Criar `src/app/api/dependent/route.ts` (POST/PATCH/DELETE) usando `supabaseAdmin`
+      (hoje `handleAddDep` no page.tsx salva via cliente browser, dependento de RLS).
+- [ ] Migrar page.tsx `handleAddDep` → `authFetch("/api/dependent")`.
+- [ ] Rodar `scripts/holders-enrich-columns.sql` no Supabase para ativar
+      cidade/uf/birth_date/gender/observations no DB.
+
+### B. Revisão visual do theme claro no monólito page.tsx
+- [ ] O `scripts/convert-theme.js` converteu as classes principais; validar
+      estilos de `select`, `input[type=date]`, e botões coloridos (text-white
+      preservado) em modo claro — ajustes manuais se houver contraste baixo.
+- [ ] Garantir que o ThemeToggle apareça em mobile (header collapsado).
+
+### C. Agente WhatsApp (continua em andamento)
+- [ ] Painel Plantão 24h: listar chamados (GET /api/emergency-dispatches) + PATCH status.
+- [ ] Formulário "Conectar WhatsApp" nas Configurações (gravar `tenant_whatsapp_numbers`).
+- [ ] Infra do cliente: instalar Evolution API (Docker/VPS) + webhook Vercel env vars.
+
+### D. NFS-e
+- [ ] AGUARDA decisão do gateway (Focus NFe / FastNFe / Nota Carioca API / outro).
+- [ ] Criar tabela `nfse_invoices` + rotas GET/POST /api/nfse quando gateway definido.
+- [ ] Prazo: IBS/CBS obrigatório a partir de out/2026.
