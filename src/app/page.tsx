@@ -1373,7 +1373,7 @@ export default function MasterEternityOS() {
                   {isTabAllowed(userRole, "executive") && (
                     <button
                       onClick={() => setActiveTab("executive")}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "executive" ? "bg-blue-600/15 text-blue-400 border border-blue-500/30" : "text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800"}`}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "executive" ? "bg-blue-600/15 text-blue-400 border border-blue-500/30" : "text-white dark:text-white dark:text-white dark:text-white dark:text-white dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800"}`}
                     >
                       <div className="flex items-center gap-2">
                         <span>📊</span> Painel Executivo
@@ -1383,7 +1383,7 @@ export default function MasterEternityOS() {
                   {isTabAllowed(userRole, "holders") && (
                     <button
                       onClick={() => setActiveTab("holders")}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "holders" ? "bg-blue-600/15 text-blue-400 border border-blue-500/30" : "text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800"}`}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "holders" ? "bg-blue-600/15 text-blue-400 border border-blue-500/30" : "text-white dark:text-white dark:text-white dark:text-white dark:text-white dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800"}`}
                     >
                       <div className="flex items-center gap-2">
                         <span>👥</span> Associados & Contratos
@@ -1396,7 +1396,7 @@ export default function MasterEternityOS() {
                   {isTabAllowed(userRole, "financial") && (
                     <button
                       onClick={() => setActiveTab("financial")}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "financial" ? "bg-emerald-600/15 text-emerald-400 border border-emerald-500/30" : "text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800"}`}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "financial" ? "bg-emerald-600/15 text-emerald-400 border border-emerald-500/30" : "text-white dark:text-white dark:text-white dark:text-white dark:text-white dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800"}`}
                     >
                       <div className="flex items-center gap-2">
                         <span>💰</span> Financeiro & DRE
@@ -1419,7 +1419,7 @@ export default function MasterEternityOS() {
                   {isTabAllowed(userRole, "burials") && (
                     <button
                       onClick={() => setActiveTab("burials")}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "burials" ? "bg-rose-600/15 text-rose-400 border border-rose-500/30" : "text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800"}`}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "burials" ? "bg-rose-600/15 text-rose-400 border border-rose-500/30" : "text-white dark:text-white dark:text-white dark:text-white dark:text-white dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800"}`}
                     >
                       <div className="flex items-center gap-2">
                         <span>🚨</span> Plantão 24h & Óbitos
@@ -1445,7 +1445,7 @@ export default function MasterEternityOS() {
                   {isTabAllowed(userRole, "chapel") && (
                     <button
                       onClick={() => setActiveTab("chapel")}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "chapel" ? "bg-amber-600/15 text-amber-400 border border-amber-500/30" : "text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800"}`}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "chapel" ? "bg-amber-600/15 text-amber-400 border border-amber-500/30" : "text-white dark:text-white dark:text-white dark:text-white dark:text-white dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800"}`}
                     >
                       <div className="flex items-center gap-2">
                         <span>⛪</span> Capelas & Velórios
@@ -1469,7 +1469,7 @@ export default function MasterEternityOS() {
                   {isTabAllowed(userRole, "fleet") && (
                     <button
                       onClick={() => setActiveTab("fleet")}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "fleet" ? "bg-blue-600/15 text-blue-400 border border-blue-500/30" : "text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800"}`}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "fleet" ? "bg-blue-600/15 text-blue-400 border border-blue-500/30" : "text-white dark:text-white dark:text-white dark:text-white dark:text-white dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800"}`}
                     >
                       <div className="flex items-center gap-2">
                         <span>🚐</span> Frota & Veículos
@@ -1482,7 +1482,7 @@ export default function MasterEternityOS() {
                   {isTabAllowed(userRole, "inventory") && (
                     <button
                       onClick={() => setActiveTab("inventory")}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "inventory" ? "bg-amber-600/15 text-amber-400 border border-amber-500/30" : "text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800"}`}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "inventory" ? "bg-amber-600/15 text-amber-400 border border-amber-500/30" : "text-white dark:text-white dark:text-white dark:text-white dark:text-white dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800"}`}
                     >
                       <div className="flex items-center gap-2">
                         <span>📦</span> Estoque & Urnas
@@ -1495,7 +1495,7 @@ export default function MasterEternityOS() {
                   {isTabAllowed(userRole, "convalescence") && (
                     <button
                       onClick={() => setActiveTab("convalescence")}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "convalescence" ? "bg-emerald-600/15 text-emerald-400 border border-emerald-500/30" : "text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800"}`}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "convalescence" ? "bg-emerald-600/15 text-emerald-400 border border-emerald-500/30" : "text-white dark:text-white dark:text-white dark:text-white dark:text-white dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800"}`}
                     >
                       <div className="flex items-center gap-2">
                         <span>♿</span> Convalescença
@@ -1614,7 +1614,7 @@ export default function MasterEternityOS() {
             {hasPermission(userRole, "canManageBurials") && (
               <button
                 onClick={() => setIsNewBurialOpen(true)}
-                className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-slate-900 dark:text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition shadow shrink-0"
+                className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition shadow shrink-0"
               >
                 <span className="hidden sm:inline">
                   🚨 Novo Atendimento / Óbito
@@ -1625,7 +1625,7 @@ export default function MasterEternityOS() {
             {hasPermission(userRole, "canManageContracts") && (
               <button
                 onClick={() => setIsNewHolderOpen(true)}
-                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-slate-900 dark:text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow"
+                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shadow"
               >
                 <span className="sm:hidden">+</span>
                 <span className="hidden sm:inline">+ Novo Titular</span>
@@ -1635,7 +1635,7 @@ export default function MasterEternityOS() {
             {hasPermission(userRole, "canManageFinancial") && (
               <button
                 onClick={() => setIsCarnetsOpen(true)}
-                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-slate-900 dark:text-white bg-violet-600 hover:bg-violet-700 rounded-lg transition shadow"
+                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-white bg-violet-600 hover:bg-violet-700 rounded-lg transition shadow"
               >
                 <span className="sm:hidden">💳</span>
                 <span className="hidden sm:inline">+ Gerar Carnê</span>
@@ -1875,7 +1875,7 @@ export default function MasterEternityOS() {
                                 href={waUrl}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 rounded text-[11px] font-bold"
+                                className="px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 rounded text-[11px] font-bold text-white dark:text-white"
                               >
                                 💬 Cobrar
                               </a>
@@ -2307,7 +2307,7 @@ export default function MasterEternityOS() {
                               if (res.ok) loadData();
                               else notifyError("Não foi possível remover a reserva.");
                             }}
-                            className="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded text-[11px] font-semibold"
+                            className="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded text-[11px] font-semibold text-white dark:text-white"
                           >
                             Excluir
                           </button>
@@ -2988,7 +2988,7 @@ export default function MasterEternityOS() {
                 <button
                   type="submit"
                   disabled={savingHolder}
-                  className="px-4 py-1.5 bg-emerald-600 font-bold rounded"
+                  className="px-4 py-1.5 bg-emerald-600 font-bold rounded text-white dark:text-white"
                 >
                   {savingHolder ? "Gravando..." : "Salvar Titular"}
                 </button>
@@ -3063,7 +3063,7 @@ export default function MasterEternityOS() {
                 type="button"
                 disabled={importing || !importText.trim()}
                 onClick={handleImportCsv}
-                className="px-4 py-1.5 bg-sky-600 font-bold rounded disabled:opacity-50"
+                className="px-4 py-1.5 bg-sky-600 font-bold rounded disabled:opacity-50 text-white dark:text-white"
               >
                 {importing ? "Importando..." : "Importar Agora"}
               </button>
@@ -3304,7 +3304,7 @@ export default function MasterEternityOS() {
                 <button
                   type="submit"
                   disabled={savingBurial}
-                  className="px-4 py-1.5 bg-rose-600 font-bold rounded"
+                  className="px-4 py-1.5 bg-rose-600 font-bold rounded text-white dark:text-white"
                 >
                   {savingBurial ? "Registrando..." : "Confirmar Ordem de Serviço"}
                 </button>
@@ -3409,7 +3409,7 @@ export default function MasterEternityOS() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-emerald-600 font-bold rounded"
+                  className="px-4 py-1.5 bg-emerald-600 font-bold rounded text-white dark:text-white"
                 >
                   Salvar Lançamento
                 </button>
@@ -3629,7 +3629,7 @@ export default function MasterEternityOS() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-blue-600 font-bold rounded"
+                  className="px-4 py-1.5 bg-blue-600 font-bold rounded text-white dark:text-white"
                 >
                   Salvar Veículo
                 </button>
@@ -3731,7 +3731,7 @@ export default function MasterEternityOS() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-amber-600 font-bold rounded"
+                  className="px-4 py-1.5 bg-amber-600 font-bold rounded text-white dark:text-white"
                 >
                   Adicionar Item
                 </button>
@@ -3825,7 +3825,7 @@ export default function MasterEternityOS() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-emerald-600 font-bold rounded"
+                  className="px-4 py-1.5 bg-emerald-600 font-bold rounded text-white dark:text-white"
                 >
                   Confirmar Empréstimo
                 </button>
