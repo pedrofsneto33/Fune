@@ -130,7 +130,7 @@ export function GlobalSearch({
   return (
     <div className="fixed inset-0 z-[80] bg-black/80 backdrop-blur-sm p-4" onClick={onClose}>
       <div
-        className="max-w-lg mx-auto mt-16 sm:mt-24 bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-2xl"
+        className="max-w-lg mx-auto mt-16 sm:mt-24 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <input
@@ -138,7 +138,7 @@ export function GlobalSearch({
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Buscar associado, óbito, OS ou veículo..."
-          className="w-full bg-transparent px-4 py-4 text-sm text-white outline-none border-b border-zinc-800 placeholder:text-zinc-600"
+          className="w-full bg-transparent px-4 py-4 text-sm text-slate-900 dark:text-white outline-none border-b border-zinc-200 dark:border-zinc-800 placeholder:text-zinc-600"
         />
         <div className="max-h-80 overflow-y-auto divide-y divide-zinc-800/70">
           {q.trim().length < 2 && (
@@ -155,9 +155,9 @@ export function GlobalSearch({
             <button
               key={`${it.tab}-${i}`}
               onClick={() => onGo(it.tab, it.query)}
-              className="w-full text-left px-4 py-3 hover:bg-zinc-800/60 flex items-center justify-between gap-3 transition"
+              className="w-full text-left px-4 py-3 hover:bg-zinc-200 dark:hover:bg-zinc-800/60 flex items-center justify-between gap-3 transition"
             >
-              <span className="text-xs font-bold text-white truncate">{it.label}</span>
+              <span className="text-xs font-bold text-slate-900 dark:text-white truncate">{it.label}</span>
               <span className="text-[10px] text-zinc-500 shrink-0">
                 {it.type}
                 {it.sub ? ` • ${it.sub}` : ''}
@@ -165,7 +165,7 @@ export function GlobalSearch({
             </button>
           ))}
         </div>
-        <p className="px-4 py-2 text-[10px] text-zinc-600 border-t border-zinc-800">
+        <p className="px-4 py-2 text-[10px] text-zinc-600 border-t border-zinc-200 dark:border-zinc-800">
           Ctrl+K abre/fecha • ESC fecha • o resultado leva direto para a aba correspondente
         </p>
       </div>

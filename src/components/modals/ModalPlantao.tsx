@@ -92,20 +92,20 @@ export function ModalPlantao({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-      <div className="relative w-full max-w-2xl bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="relative w-full max-w-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         
         {/* Header */}
-        <div className="p-5 border-b border-zinc-800 flex items-center justify-between bg-zinc-950/40">
+        <div className="p-5 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between bg-slate-50 dark:bg-zinc-950/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400">
               <Siren className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-white tracking-wide">Acionamento de Emergência 24h</h2>
+              <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-wide">Acionamento de Emergência 24h</h2>
               <p className="text-xs text-zinc-400">Abertura de Ordem de Serviço e Despacho Funerário</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 rounded-lg transition">
+          <button onClick={onClose} className="p-2 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg transition">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -127,7 +127,7 @@ export function ModalPlantao({
                   setFamilyContactPhone(found.phone);
                 }
               }}
-              className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+              className="w-full bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-red-500"
             >
               <option value="">Selecione o titular...</option>
               {payments.map(p => (
@@ -147,7 +147,7 @@ export function ModalPlantao({
                 placeholder="Nome completo do falecido"
                 value={deceasedName}
                 onChange={(e) => setDeceasedName(e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+                className="w-full bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-red-500"
               />
             </div>
 
@@ -159,7 +159,7 @@ export function ModalPlantao({
                 placeholder="Ex: Hospital Getúlio Vargas / Residência"
                 value={deathLocation}
                 onChange={(e) => setDeathLocation(e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+                className="w-full bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-red-500"
               />
             </div>
           </div>
@@ -172,7 +172,7 @@ export function ModalPlantao({
               placeholder="Rua, Número, Bairro, Cidade"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+              className="w-full bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-red-500"
             />
           </div>
 
@@ -182,7 +182,7 @@ export function ModalPlantao({
               <select
                 value={selectedVehicleId}
                 onChange={(e) => setSelectedVehicleId(e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+                className="w-full bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-red-500"
               >
                 <option value="">Selecione o veículo...</option>
                 {vehicles.map(v => (
@@ -198,7 +198,7 @@ export function ModalPlantao({
               <select
                 value={urnModel}
                 onChange={(e) => setUrnModel(e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+                className="w-full bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-red-500"
               >
                 <option value="Sextavada Luxo Ouro (Ref. 102)">Sextavada Luxo Ouro (Ref. 102)</option>
                 {inventory.map(item => (
@@ -217,7 +217,7 @@ export function ModalPlantao({
                 type="text"
                 value={driverAgent}
                 onChange={(e) => setDriverAgent(e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+                className="w-full bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-red-500"
               />
             </div>
             <div>
@@ -226,7 +226,7 @@ export function ModalPlantao({
                 type="text"
                 value={driverPhone}
                 onChange={(e) => setDriverPhone(e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+                className="w-full bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-red-500"
               />
             </div>
           </div>
@@ -238,7 +238,7 @@ export function ModalPlantao({
                 type="text"
                 value={familyContactName}
                 onChange={(e) => setFamilyContactName(e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+                className="w-full bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-red-500"
               />
             </div>
             <div>
@@ -247,23 +247,23 @@ export function ModalPlantao({
                 type="text"
                 value={familyContactPhone}
                 onChange={(e) => setFamilyContactPhone(e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-red-500"
+                className="w-full bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-red-500"
               />
             </div>
           </div>
 
-          <div className="p-4 border-t border-zinc-800 flex justify-end gap-3 pt-4">
+          <div className="p-4 border-t border-zinc-200 dark:border-zinc-800 flex justify-end gap-3 pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg text-xs font-medium transition"
+              className="px-4 py-2 bg-slate-100 dark:bg-zinc-800 hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 rounded-lg text-xs font-medium transition"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="px-5 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg text-xs font-semibold flex items-center gap-2 shadow-lg shadow-red-950/40 transition disabled:opacity-50"
+              className="px-5 py-2 bg-red-600 hover:bg-red-500 text-white dark:text-white rounded-lg text-xs font-semibold flex items-center gap-2 shadow-lg shadow-red-950/40 transition disabled:opacity-50"
             >
               <Siren className="w-4 h-4" />
               {saving ? 'Gerando OS...' : 'Gerar Ordem e Despachar'}

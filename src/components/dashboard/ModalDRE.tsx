@@ -42,22 +42,22 @@ export function ModalDRE({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-      <div className="w-full max-w-4xl bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-        <div className="p-5 border-b border-zinc-800 flex items-center justify-between bg-zinc-950/40">
+      <div className="w-full max-w-4xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+        <div className="p-5 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between bg-slate-50 dark:bg-zinc-950/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400">
               <TrendingUp className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-white tracking-wide">DRE - Demonstração de Resultados</h2>
+              <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-wide">DRE - Demonstração de Resultados</h2>
               <p className="text-xs text-zinc-400">Análise financeira detalhada</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <select value={year} onChange={e => setYear(parseInt(e.target.value))} className="bg-zinc-800 border border-zinc-700 rounded-lg px-2 py-1 text-xs text-white">
+            <select value={year} onChange={e => setYear(parseInt(e.target.value))} className="bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-2 py-1 text-xs text-slate-900 dark:text-white">
               {[2024, 2025, 2026].map(y => <option key={y} value={y}>{y}</option>)}
             </select>
-            <button onClick={onClose} className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition">
+            <button onClick={onClose} className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg transition">
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -68,21 +68,21 @@ export function ModalDRE({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
           ) : data ? (
             <>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-4">
+                <div className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <DollarSign className="w-4 h-4 text-emerald-400" />
                     <span className="text-[10px] uppercase font-bold text-zinc-400">Receita Total</span>
                   </div>
                   <p className="text-xl font-bold text-emerald-400">R$ {data.totalIncome.toLocaleString('pt-BR')}</p>
                 </div>
-                <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-4">
+                <div className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <DollarSign className="w-4 h-4 text-red-400" />
                     <span className="text-[10px] uppercase font-bold text-zinc-400">Despesa Total</span>
                   </div>
                   <p className="text-xl font-bold text-red-400">R$ {data.totalExpense.toLocaleString('pt-BR')}</p>
                 </div>
-                <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-4">
+                <div className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <TrendingUp className="w-4 h-4 text-blue-400" />
                     <span className="text-[10px] uppercase font-bold text-zinc-400">Lucro Líquido</span>
@@ -90,8 +90,8 @@ export function ModalDRE({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                   <p className={`text-xl font-bold ${data.netProfit >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>R$ {data.netProfit.toLocaleString('pt-BR')}</p>
                 </div>
               </div>
-              <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-4">
-                <h3 className="text-xs font-bold text-zinc-300 uppercase tracking-wider mb-4">Evolução Mensal</h3>
+              <div className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4">
+                <h3 className="text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-4">Evolução Mensal</h3>
                 <ResponsiveContainer width="100%" height={200}>
                   <BarChart data={data.monthlyData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -103,8 +103,8 @@ export function ModalDRE({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                   </BarChart>
                 </ResponsiveContainer>
               </div>
-              <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-4">
-                <h3 className="text-xs font-bold text-zinc-300 uppercase tracking-wider mb-4">Despesas por Categoria</h3>
+              <div className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4">
+                <h3 className="text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-4">Despesas por Categoria</h3>
                 <ResponsiveContainer width="100%" height={200}>
                   <PieChart>
                     <Pie data={data.categoryData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
@@ -119,8 +119,8 @@ export function ModalDRE({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
             <div className="text-center text-xs text-zinc-500 py-12">Nenhum dado financeiro encontrado.</div>
           )}
         </div>
-        <div className="p-4 border-t border-zinc-800 bg-zinc-950/40 flex justify-end">
-          <button onClick={onClose} className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg text-xs font-medium transition">Fechar</button>
+        <div className="p-4 border-t border-zinc-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950/40 flex justify-end">
+          <button onClick={onClose} className="px-4 py-2 bg-slate-100 dark:bg-zinc-800 hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 rounded-lg text-xs font-medium transition">Fechar</button>
         </div>
       </div>
     </div>

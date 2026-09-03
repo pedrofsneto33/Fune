@@ -212,9 +212,9 @@ export function ModalCarnets({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-3 sm:p-4">
-      <div className="w-full max-w-2xl bg-zinc-900 border border-zinc-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-2xl max-h-[92vh] overflow-y-auto">
-        <div className="flex justify-between items-center border-b border-zinc-800 pb-3">
-          <h3 className="text-white font-bold text-sm flex items-center gap-2">
+      <div className="w-full max-w-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-2xl max-h-[92vh] overflow-y-auto">
+        <div className="flex justify-between items-center border-b border-zinc-200 dark:border-zinc-800 pb-3">
+          <h3 className="text-slate-900 dark:text-white font-bold text-sm flex items-center gap-2">
             <CreditCard className="w-4 h-4 text-violet-400" /> Carnês de Pagamento — Visão Compilada
           </h3>
           <div className="flex items-center gap-2">
@@ -229,19 +229,19 @@ export function ModalCarnets({
 
         {/* TOTAIS GERAIS */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
-          <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-2">
+          <div className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2">
             <p className="text-[10px] text-zinc-500 uppercase font-bold">Titulares c/ carnê</p>
-            <p className="text-sm font-bold text-white">{grandTotals.holders}</p>
+            <p className="text-sm font-bold text-slate-900 dark:text-white">{grandTotals.holders}</p>
           </div>
-          <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-2">
+          <div className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2">
             <p className="text-[10px] text-zinc-500 uppercase font-bold">Valor Total</p>
             <p className="text-sm font-bold text-violet-400">{brl(grandTotals.total)}</p>
           </div>
-          <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-2">
+          <div className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2">
             <p className="text-[10px] text-zinc-500 uppercase font-bold">Pago</p>
             <p className="text-sm font-bold text-emerald-400">{brl(grandTotals.paidTotal)}</p>
           </div>
-          <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-2">
+          <div className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2">
             <p className="text-[10px] text-zinc-500 uppercase font-bold">Atrasado</p>
             <p className="text-sm font-bold text-red-400">
               {grandTotals.late} {grandTotals.late === 1 ? 'parcela' : 'parcelas'}
@@ -266,10 +266,10 @@ export function ModalCarnets({
           )}
           {!loading &&
             compiled.map((g) => (
-              <div key={g.name} className="bg-zinc-950 border border-zinc-800 rounded-xl p-3 space-y-2">
+              <div key={g.name} className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 space-y-2">
                 <div className="flex justify-between items-start gap-2">
                   <div>
-                    <p className="text-xs font-bold text-white">{g.name}</p>
+                    <p className="text-xs font-bold text-slate-900 dark:text-white">{g.name}</p>
                     <p className="text-[10px] text-zinc-500">
                       {g.cpf ? `CPF: ${g.cpf}` : 'Sem CPF vinculado'}
                       {g.plan ? ` • ${g.plan}` : ''}
@@ -294,7 +294,7 @@ export function ModalCarnets({
                     {g.late} atrasada(s)
                   </span>
                   {g.nextDue && (
-                    <span className="px-2 py-0.5 rounded-full border bg-zinc-500/15 text-zinc-300 border-zinc-500/30">
+                    <span className="px-2 py-0.5 rounded-full border bg-zinc-500/15 text-zinc-700 dark:text-zinc-300 border-zinc-500/30">
                       Próx.: {new Date(g.nextDue + 'T00:00:00').toLocaleDateString('pt-BR')}
                     </span>
                   )}
@@ -305,14 +305,14 @@ export function ModalCarnets({
                     {g.active.map((c) => (
                       <div
                         key={c.id}
-                        className="flex justify-between items-center bg-zinc-900 rounded-lg px-2 py-1.5 text-[11px]"
+                        className="flex justify-between items-center bg-white dark:bg-zinc-900 rounded-lg px-2 py-1.5 text-[11px]"
                       >
                         <span className="text-zinc-400">
                           {c.installment_number}/{c.total_installments} •{' '}
                           {new Date(c.due_date + 'T00:00:00').toLocaleDateString('pt-BR')}
                         </span>
                         <span className="flex items-center gap-1.5">
-                          <span className="text-zinc-200 font-semibold">{brl(Number(c.amount))}</span>
+                          <span className="text-zinc-800 dark:text-zinc-200 font-semibold">{brl(Number(c.amount))}</span>
                           <span
                             className={`px-1.5 py-0.5 rounded-full border ${STATUS_STYLE[c.status] || STATUS_STYLE.pendente}`}
                           >
@@ -322,7 +322,7 @@ export function ModalCarnets({
                             <button
                               onClick={() => updateStatus(c.id, 'pago')}
                               disabled={busyId === c.id}
-                              className="px-1.5 py-0.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded font-bold disabled:opacity-50"
+                              className="px-1.5 py-0.5 bg-emerald-600 hover:bg-emerald-500 text-white dark:text-white rounded font-bold disabled:opacity-50"
                               title="Marcar como pago"
                             >
                               {busyId === c.id ? '...' : '✓'}
@@ -340,7 +340,7 @@ export function ModalCarnets({
         {/* FORM GERAR NOVO CARNE */}
         <form
           onSubmit={handleSubmit}
-          className="bg-zinc-950 border border-zinc-800 rounded-xl p-3 space-y-3 border-t-2 border-t-violet-600/50"
+          className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 space-y-3 border-t-2 border-t-violet-600/50"
         >
           <p className="text-[11px] font-bold text-violet-400 uppercase flex items-center gap-1.5">
             <PlusCircle className="w-3.5 h-3.5" /> Gerar Novo Carnê
@@ -351,7 +351,7 @@ export function ModalCarnets({
               required
               value={formHolderId}
               onChange={(e) => setFormHolderId(e.target.value)}
-              className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white"
+              className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white"
             >
               <option value="">— Selecione o titular credenciado —</option>
               {holders.map((h) => (
@@ -368,7 +368,7 @@ export function ModalCarnets({
               <select
                 value={installments}
                 onChange={(e) => setInstallments(e.target.value)}
-                className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white"
+                className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white"
               >
                 {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
                   <option key={n} value={String(n)}>
@@ -386,7 +386,7 @@ export function ModalCarnets({
                 min="0.01"
                 value={totalValue}
                 onChange={(e) => setTotalValue(e.target.value)}
-                className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white"
+                className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white"
               />
             </div>
             <div>
@@ -396,14 +396,14 @@ export function ModalCarnets({
                 type="date"
                 value={firstDue}
                 onChange={(e) => setFirstDue(e.target.value)}
-                className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white"
+                className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white"
               />
             </div>
           </div>
           {parcelValue > 0 && selectedHolder && (
             <p className="text-[11px] text-zinc-400">
               {numInstallments}x de <span className="font-bold text-violet-400">{brl(parcelValue)}</span> para{' '}
-              <span className="font-bold text-white">{selectedHolder.full_name}</span>
+              <span className="font-bold text-slate-900 dark:text-white">{selectedHolder.full_name}</span>
               {selectedContract?.plans?.name
                 ? ` • contrato ${selectedContract.id.substring(0, 8)} (${selectedContract.plans.name})`
                 : selectedHolder.contracts && selectedHolder.contracts.length === 0
@@ -413,7 +413,7 @@ export function ModalCarnets({
           )}
           <button
             disabled={saving || !formHolderId}
-            className="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 disabled:opacity-50"
+            className="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white dark:text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 disabled:opacity-50"
           >
             <PlusCircle className="w-4 h-4" /> {saving ? 'Gerando carnê...' : 'Gerar Carnê'}
           </button>

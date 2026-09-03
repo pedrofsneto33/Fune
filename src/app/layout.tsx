@@ -25,13 +25,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className="dark">
-      <body className={`${inter.className} bg-zinc-950 text-zinc-100 antialiased`}>
+    <html lang="pt-BR" className="dark" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){
+              try {
+                var t = localStorage.getItem('theme');
+                if (t === 'light') {
+                  document.documentElement.classList.remove('dark');
+                } else {
+                  document.documentElement.classList.add('dark');
+                }
+              } catch(e) {
+                document.documentElement.classList.add('dark');
+              }
+            })();`,
+          }}
+        />
+      </head>
+      <body className={`${inter.className} bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 antialiased`}>
         <ServiceWorkerRegister />
         <AuthGuard>
           {children}
         </AuthGuard>
-        <Toaster theme="dark" position="top-center" richColors closeButton />
+        <Toaster theme="system" position="top-center" richColors closeButton />
       </body>
     </html>
   );

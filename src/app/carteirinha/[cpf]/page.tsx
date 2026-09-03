@@ -90,11 +90,11 @@ export default async function CarteirinhaPage({ params }: Props) {
           <h1 className="text-lg font-bold text-slate-800 mb-2">
             Carteirinha nao localizada
           </h1>
-          <p className="text-sm text-slate-500 mb-6">
+          <p className="text-sm text-slate-600 dark:text-slate-500 mb-6">
             {lookupError ||
               'Verifique se o link esta correto ou se o cadastro esta ativo.'}
           </p>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-600 dark:text-slate-500 dark:text-slate-400">
             EternityOS by PrimeX Sistemas
           </p>
         </div>
@@ -147,13 +147,13 @@ export default async function CarteirinhaPage({ params }: Props) {
             // eslint-disable-next-line @next/next/no-img-element
             <img src={tenant.logo_url} alt={tenantName} className="w-11 h-11 rounded-full bg-white object-contain p-1" />
           ) : (
-            <div className="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center text-white font-bold">
+            <div className="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center text-slate-900 dark:text-white font-bold">
               {tenantName.slice(0, 1)}
             </div>
           )}
           <div className="min-w-0">
-            <p className="text-white font-bold leading-tight truncate">{tenantName}</p>
-            <p className="text-white/70 text-xs">Carteirinha Digital</p>
+            <p className="text-slate-900 dark:text-white font-bold leading-tight truncate">{tenantName}</p>
+            <p className="text-slate-900 dark:text-white/70 text-xs">Carteirinha Digital</p>
           </div>
         </div>
 
@@ -164,7 +164,7 @@ export default async function CarteirinhaPage({ params }: Props) {
                 {initials}
               </div>
               <h1 className="text-lg font-bold text-slate-800 leading-tight">{holder.full_name}</h1>
-              <p className="text-sm text-slate-500 font-mono mt-0.5">{maskedCpf}</p>
+              <p className="text-sm text-slate-600 dark:text-slate-500 font-mono mt-0.5">{maskedCpf}</p>
               <div className="flex flex-wrap gap-2 mt-3">
                 <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-100 text-blue-700">{planName}</span>
                 <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${st.cls}`}>{st.label}</span>
@@ -178,12 +178,12 @@ export default async function CarteirinhaPage({ params }: Props) {
 
           {dependents.length > 0 && (
             <div className="mt-5 border-t border-slate-100 pt-4">
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">Dependentes</p>
+              <p className="text-xs font-semibold text-slate-600 dark:text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Dependentes</p>
               <ul className="space-y-1.5">
                 {dependents.map((dependent: any, index: number) => (
                   <li key={`${dependent.full_name}-${index}`} className="flex items-center justify-between text-sm">
                     <span className="text-slate-700 truncate">{dependent.full_name}</span>
-                    <span className="text-xs text-slate-400 shrink-0 ml-2">{dependent.relation || 'Dependente'}</span>
+                    <span className="text-xs text-slate-600 dark:text-slate-500 dark:text-slate-400 shrink-0 ml-2">{dependent.relation || 'Dependente'}</span>
                   </li>
                 ))}
               </ul>
@@ -192,19 +192,19 @@ export default async function CarteirinhaPage({ params }: Props) {
 
           <div className="mt-6 grid grid-cols-1 gap-2">
             {emergencyPhone && (
-              <a href={`tel:${emergencyPhone}`} className="flex items-center justify-center rounded-xl py-3 text-sm font-bold text-white" style={{ backgroundColor: accent }}>
+              <a href={`tel:${emergencyPhone}`} className="flex items-center justify-center rounded-xl py-3 text-sm font-bold text-slate-900 dark:text-white" style={{ backgroundColor: accent }}>
                 Plantão 24h — ligar agora
               </a>
             )}
-            <a href={waLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center rounded-xl py-3 text-sm font-bold bg-emerald-500 text-white">
+            <a href={waLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center rounded-xl py-3 text-sm font-bold bg-emerald-500 text-white dark:text-white">
               Compartilhar no WhatsApp
             </a>
           </div>
         </div>
 
         <div className="px-6 pb-4 text-center">
-          <p className="text-[11px] text-slate-400">Documento digital de identificação do associado</p>
-          <p className="text-[11px] text-slate-300 mt-0.5">EternityOS by PrimeX Sistemas</p>
+          <p className="text-[11px] text-slate-600 dark:text-slate-500 dark:text-slate-400">Documento digital de identificação do associado</p>
+          <p className="text-[11px] text-slate-600 dark:text-slate-300 mt-0.5">EternityOS by PrimeX Sistemas</p>
         </div>
       </div>
     </main>

@@ -14,7 +14,7 @@ interface BIStats {
 
 function StatCard({ icon, label, value, color }: { icon: React.ReactNode; label: string; value: string; color: string }) {
   return (
-    <div className="bg-zinc-950 border border-zinc-800 p-4 rounded-xl space-y-1">
+    <div className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-4 rounded-xl space-y-1">
       <span className="text-[10px] uppercase font-bold text-zinc-400 block">{label}</span>
       <span className={`text-xl font-extrabold font-mono flex items-center gap-2 ${color}`}>
         {icon} {value}
@@ -77,20 +77,20 @@ export function ModalBIReports({ isOpen, onClose }: { isOpen: boolean; onClose: 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-      <div className="w-full max-w-4xl bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
-        <div className="p-5 border-b border-zinc-800 flex items-center justify-between bg-zinc-950/40">
+      <div className="w-full max-w-4xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+        <div className="p-5 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between bg-slate-50 dark:bg-zinc-950/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-indigo-500/10 border border-indigo-500/20 rounded-xl text-indigo-400"><BarChart3 className="w-5 h-5" /></div>
             <div>
-              <h2 className="text-base font-bold text-white tracking-wide">Business Intelligence & Relatórios Executivos</h2>
+              <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-wide">Business Intelligence & Relatórios Executivos</h2>
               <p className="text-xs text-zinc-400">Indicadores de desempenho operacional, financeiro e atuarial</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={handleExportCSV} className="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+            <button onClick={handleExportCSV} className="px-3 py-2 bg-slate-100 dark:bg-zinc-800 hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
               <Download className="w-3.5 h-3.5" /> Exportar BI
             </button>
-            <button onClick={onClose} className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition"><X className="w-5 h-5" /></button>
+            <button onClick={onClose} className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg transition"><X className="w-5 h-5" /></button>
           </div>
         </div>
         <div className="p-6 overflow-y-auto space-y-5">
@@ -101,20 +101,20 @@ export function ModalBIReports({ isOpen, onClose }: { isOpen: boolean; onClose: 
           ) : (
             <>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-                <StatCard icon={<Users className="w-4 h-4 text-indigo-400" />} label="Titulares Ativos" value={String(stats.activeContracts)} color="text-white" />
+                <StatCard icon={<Users className="w-4 h-4 text-indigo-400" />} label="Titulares Ativos" value={String(stats.activeContracts)} color="text-slate-900 dark:text-white" />
                 <StatCard icon={<Activity className="w-4 h-4 text-emerald-400" />} label="Ordens de Serviço" value={String(stats.totalMissions)} color="text-emerald-400" />
                 <StatCard icon={<TrendingUp className="w-4 h-4 text-blue-400" />} label="MRR Projetado" value={`R$ ${stats.projectedRevenue.toFixed(2).replace('.', ',')}`} color="text-blue-400" />
                 <StatCard icon={null} label="Taxa de Inadimplência" value={stats.defaultRate} color="text-amber-400" />
               </div>
-              <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-5">
-                <h3 className="text-xs font-bold text-zinc-300 uppercase tracking-wider border-b border-zinc-800 pb-2">Distribuição de Sinistralidade e Custos Atuariais</h3>
+              <div className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5">
+                <h3 className="text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider border-b border-zinc-200 dark:border-zinc-800 pb-2">Distribuição de Sinistralidade e Custos Atuariais</h3>
                 <p className="text-xs text-zinc-500 italic mt-3">* Dados atuariais serão populados quando houver registros financeiros suficientes.</p>
               </div>
             </>
           )}
         </div>
-        <div className="p-4 border-t border-zinc-800 bg-zinc-950/40 flex justify-end">
-          <button onClick={onClose} className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg text-xs font-medium transition">Fechar</button>
+        <div className="p-4 border-t border-zinc-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950/40 flex justify-end">
+          <button onClick={onClose} className="px-4 py-2 bg-slate-100 dark:bg-zinc-800 hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 rounded-lg text-xs font-medium transition">Fechar</button>
         </div>
       </div>
     </div>

@@ -24,11 +24,11 @@ export function ModalPix({
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className="bg-zinc-900 border border-emerald-500/40 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4">
-        <div className="flex justify-between items-center pb-3 border-b border-zinc-800">
+      <div className="bg-white dark:bg-zinc-900 border border-emerald-500/40 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4">
+        <div className="flex justify-between items-center pb-3 border-b border-zinc-200 dark:border-zinc-800">
           <div className="flex items-center gap-2">
             <QrCode className="w-5 h-5 text-emerald-400" />
-            <h3 className="text-base font-bold text-white">Cobrança PIX</h3>
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">Cobrança PIX</h3>
           </div>
           <button onClick={onClose} className="text-zinc-400 hover:text-white">
             <X className="w-5 h-5" />
@@ -36,7 +36,7 @@ export function ModalPix({
         </div>
 
         <div className="text-xs space-y-1">
-          <p className="text-zinc-400">Titular: <strong className="text-white">{selectedPixRow.holder}</strong></p>
+          <p className="text-zinc-400">Titular: <strong className="text-slate-900 dark:text-white">{selectedPixRow.holder}</strong></p>
           <p className="text-zinc-400">Valor: <strong className="text-emerald-400">{selectedPixRow.amount}</strong></p>
         </div>
 
@@ -60,7 +60,7 @@ export function ModalPix({
                   setCopied(true);
                   setTimeout(() => setCopied(false), 2000);
                 }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white dark:text-white text-xs font-semibold transition"
               >
                 {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                 <span>{copied ? 'PIX Copiado!' : 'Copiar Chave PIX Copia e Cola'}</span>
@@ -69,11 +69,11 @@ export function ModalPix({
           </div>
         ) : null}
 
-        <div className="flex justify-end pt-3 border-t border-zinc-800">
+        <div className="flex justify-end pt-3 border-t border-zinc-200 dark:border-zinc-800">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg transition"
+            className="px-4 py-2 text-xs bg-slate-100 dark:bg-zinc-800 hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 rounded-lg transition"
           >
             Fechar
           </button>

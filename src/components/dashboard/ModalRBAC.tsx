@@ -83,30 +83,30 @@ export function ModalRBAC({ isOpen, onClose, currentRole = 'admin' }: { isOpen: 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-      <div className="w-full max-w-2xl bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
-        <div className="p-5 border-b border-zinc-800 flex items-center justify-between bg-zinc-950/40">
+      <div className="w-full max-w-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+        <div className="p-5 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between bg-slate-50 dark:bg-zinc-950/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-violet-500/10 border border-violet-500/20 rounded-xl text-violet-400">
               <Shield className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-white tracking-wide">Controle de Acesso (RBAC)</h2>
+              <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-wide">Controle de Acesso (RBAC)</h2>
               <p className="text-xs text-zinc-400">Gerenciar permissões de usuários</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition">
+          <button onClick={onClose} className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg transition">
             <X className="w-5 h-5" />
           </button>
         </div>
         <div className="p-6 overflow-y-auto space-y-4">
-          <form onSubmit={handleAddRole} className="bg-zinc-950 p-4 border border-zinc-800 rounded-xl grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
+          <form onSubmit={handleAddRole} className="bg-slate-50 dark:bg-zinc-950 p-4 border border-zinc-200 dark:border-zinc-800 rounded-xl grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
             <div>
               <label className="text-[10px] uppercase font-bold text-zinc-400 block mb-1">E-mail do Usuário</label>
-              <input required type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="email@empresa.com" className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white" />
+              <input required type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="email@empresa.com" className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white" />
             </div>
             <div>
               <label className="text-[10px] uppercase font-bold text-zinc-400 block mb-1">Permissão</label>
-              <select value={role} onChange={e => setRole(e.target.value)} className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white">
+              <select value={role} onChange={e => setRole(e.target.value)} className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white">
                 <option value="admin">Administrador</option>
                 <option value="manager">Gerente</option>
                 <option value="financial">Financeiro</option>
@@ -114,25 +114,25 @@ export function ModalRBAC({ isOpen, onClose, currentRole = 'admin' }: { isOpen: 
                 {isSuper && <option value="superadmin">Super Administrador (Dono)</option>}
               </select>
             </div>
-            <button type="submit" className="w-full py-2 bg-violet-600 hover:bg-violet-500 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 h-[34px]">
+            <button type="submit" className="w-full py-2 bg-violet-600 hover:bg-violet-500 text-white dark:text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 h-[34px]">
               <Plus className="w-4 h-4" /> Adicionar
             </button>
           </form>
           <div className="space-y-2">
-            <h3 className="text-xs font-bold text-zinc-300 uppercase tracking-wider">Usuários com Acesso</h3>
+            <h3 className="text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">Usuários com Acesso</h3>
             {loading ? (
               <div className="py-8 text-center text-xs text-zinc-500 animate-pulse">Carregando...</div>
             ) : roles.length === 0 ? (
-              <div className="py-8 text-center text-xs text-zinc-500 bg-zinc-950/40 rounded-xl border border-zinc-800">Nenhum usuário vinculado.</div>
+              <div className="py-8 text-center text-xs text-zinc-500 bg-slate-50 dark:bg-zinc-950/40 rounded-xl border border-zinc-200 dark:border-zinc-800">Nenhum usuário vinculado.</div>
             ) : (
               roles.map(r => {
                 const isSelf = r.user_id === currentUserId;
                 const isSuperRow = r.role === 'superadmin';
                 const canDelete = !isSelf && (isSuper ? true : !isSuperRow);
                 return (
-                  <div key={r.id} className="bg-zinc-950 border border-zinc-800 p-3.5 rounded-xl flex items-center justify-between text-xs">
+                  <div key={r.id} className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-3.5 rounded-xl flex items-center justify-between text-xs">
                     <div>
-                      <span className="text-white font-bold">{r.email || r.user_id} {isSelf && <span className="ml-1 text-emerald-400 font-bold">(voce)</span>}</span>
+                      <span className="text-slate-900 dark:text-white font-bold">{r.email || r.user_id} {isSelf && <span className="ml-1 text-emerald-400 font-bold">(voce)</span>}</span>
                       <span className={`ml-2 px-2 py-0.5 bg-violet-500/10 text-violet-400 rounded-full text-[10px] font-bold uppercase ${isSuperRow ? 'bg-amber-500/10 text-amber-400' : ''}`}>{r.role}{isSuperRow && ' (Dono)'}</span>
                     </div>
                     <button
@@ -149,8 +149,8 @@ export function ModalRBAC({ isOpen, onClose, currentRole = 'admin' }: { isOpen: 
             )}
           </div>
         </div>
-        <div className="p-4 border-t border-zinc-800 bg-zinc-950/40 flex justify-end">
-          <button onClick={onClose} className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg text-xs font-medium transition">Fechar</button>
+        <div className="p-4 border-t border-zinc-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950/40 flex justify-end">
+          <button onClick={onClose} className="px-4 py-2 bg-slate-100 dark:bg-zinc-800 hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 rounded-lg text-xs font-medium transition">Fechar</button>
         </div>
       </div>
     </div>

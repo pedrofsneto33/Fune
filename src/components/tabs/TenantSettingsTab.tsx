@@ -254,13 +254,13 @@ export function TenantSettingsTab() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-zinc-900 border border-zinc-800 p-5 rounded-2xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 rounded-2xl">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20">
             <Settings className="w-5 h-5 text-blue-400" />
           </div>
           <div>
-            <h2 className="text-base font-bold text-white">Configuracoes da Empresa & Gateway</h2>
+            <h2 className="text-base font-bold text-slate-900 dark:text-white">Configuracoes da Empresa & Gateway</h2>
             <p className="text-xs text-zinc-400">Identidade visual, dados cadastrais e integracao com Asaas</p>
           </div>
         </div>
@@ -270,7 +270,7 @@ export function TenantSettingsTab() {
             <button
               type="button"
               onClick={() => setIsNewTenantOpen(true)}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold transition shadow-lg shadow-violet-950/30"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white dark:text-white text-xs font-semibold transition shadow-lg shadow-violet-950/30"
             >
               <Building2 className="w-4 h-4" />
               + Nova Funeraria
@@ -282,7 +282,7 @@ export function TenantSettingsTab() {
               <select
                 value={selectedTenantId}
                 onChange={(e) => handleTenantChange(e.target.value)}
-                className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500"
+                className="bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
               >
                 {tenants.map(t => (
                   <option key={t.id} value={t.id}>{t.trade_name} ({t.cnpj})</option>
@@ -295,15 +295,15 @@ export function TenantSettingsTab() {
 
       <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-        <div className="bg-zinc-900 border border-zinc-800 p-5 rounded-2xl space-y-4 lg:col-span-2">
-          <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-zinc-800 text-sm font-semibold text-white">
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 rounded-2xl space-y-4 lg:col-span-2">
+          <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-zinc-200 dark:border-zinc-800 text-sm font-semibold text-slate-900 dark:text-white">
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               <span>Plano Comercial e Limites de Uso</span>
             </div>
             {canManagePlan ? (
               <select value={commercialPlan} onChange={(e) => setCommercialPlan(e.target.value)}
-                className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+                className="bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
                 <option value="essencial">Essencial - {formatPlanPrice(COMMERCIAL_PLANS.essencial)}/mes</option>
                 <option value="profissional">Profissional - {formatPlanPrice(COMMERCIAL_PLANS.profissional)}/mes</option>
                 <option value="enterprise">Enterprise - Sob consulta</option>
@@ -317,20 +317,20 @@ export function TenantSettingsTab() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div className="space-y-1.5">
-              <div className="flex justify-between text-zinc-300">
+              <div className="flex justify-between text-zinc-700 dark:text-zinc-300">
                 <span>Titulares cadastrados</span>
-                <span className="font-mono text-white">{usage.holders} / {holdersLimit === Infinity ? 'Ilimitado' : holdersLimit}</span>
+                <span className="font-mono text-slate-900 dark:text-white">{usage.holders} / {holdersLimit === Infinity ? 'Ilimitado' : holdersLimit}</span>
               </div>
-              <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
+              <div className="h-2 bg-slate-100 dark:bg-zinc-800 rounded-full overflow-hidden">
                 <div className={"h-full rounded-full " + (holdersPct >= 100 ? 'bg-red-500' : holdersPct >= 80 ? 'bg-amber-400' : 'bg-emerald-500')} style={{ width: holdersPct + '%' }} />
               </div>
             </div>
             <div className="space-y-1.5">
-              <div className="flex justify-between text-zinc-300">
+              <div className="flex justify-between text-zinc-700 dark:text-zinc-300">
                 <span>Usuarios do sistema</span>
-                <span className="font-mono text-white">{usage.users} / {usersLimit === Infinity ? 'Ilimitado' : usersLimit}</span>
+                <span className="font-mono text-slate-900 dark:text-white">{usage.users} / {usersLimit === Infinity ? 'Ilimitado' : usersLimit}</span>
               </div>
-              <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
+              <div className="h-2 bg-slate-100 dark:bg-zinc-800 rounded-full overflow-hidden">
                 <div className={"h-full rounded-full " + (usersPct >= 100 ? 'bg-red-500' : usersPct >= 80 ? 'bg-amber-400' : 'bg-emerald-500')} style={{ width: usersPct + '%' }} />
               </div>
             </div>
@@ -341,13 +341,13 @@ export function TenantSettingsTab() {
           </p>
         </div>
 
-        <div className="bg-zinc-900 border border-zinc-800 p-5 rounded-2xl space-y-4 lg:col-span-2">
-          <div className="flex items-center gap-2 pb-3 border-b border-zinc-800 text-sm font-semibold text-white">
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 rounded-2xl space-y-4 lg:col-span-2">
+          <div className="flex items-center gap-2 pb-3 border-b border-zinc-200 dark:border-zinc-800 text-sm font-semibold text-slate-900 dark:text-white">
             <ImageIcon className="w-4 h-4 text-purple-400" />
             <span>Identidade Visual</span>
           </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-            <div className="w-20 h-20 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center overflow-hidden shrink-0">
+            <div className="w-20 h-20 rounded-xl bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center overflow-hidden shrink-0">
               {logoUrl ? (
                 <img src={logoUrl} alt="Logo da empresa" className="w-full h-full object-contain" />
               ) : (
@@ -355,7 +355,7 @@ export function TenantSettingsTab() {
               )}
             </div>
             <div className="space-y-2">
-              <label className="flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-white cursor-pointer transition w-fit">
+              <label className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-slate-900 dark:text-white cursor-pointer transition w-fit">
                 {uploadingLogo ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
                 <span>{uploadingLogo ? 'Enviando...' : 'Enviar Logo'}</span>
                 <input type="file" accept="image/*" className="hidden" onChange={handleLogoUpload} disabled={uploadingLogo} />
@@ -363,95 +363,95 @@ export function TenantSettingsTab() {
               <p className="text-[10px] text-zinc-500">PNG ou JPG, ate 2MB. Aparece na carteirinha e nos relatorios.</p>
             </div>
             <div className="flex items-center gap-2 sm:ml-auto">
-              <label className="text-xs font-medium text-zinc-300">Cor Principal</label>
+              <label className="text-xs font-medium text-zinc-700 dark:text-zinc-300">Cor Principal</label>
               <input
                 type="color"
                 value={primaryColor}
                 onChange={(e) => setPrimaryColor(e.target.value)}
-                className="w-9 h-9 rounded-lg border border-zinc-700 bg-zinc-800 cursor-pointer"
+                className="w-9 h-9 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-slate-100 dark:bg-zinc-800 cursor-pointer"
               />
             </div>
           </div>
         </div>
 
-        <div className="bg-zinc-900 border border-zinc-800 p-5 rounded-2xl space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-zinc-800 text-sm font-semibold text-white">
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 rounded-2xl space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-zinc-200 dark:border-zinc-800 text-sm font-semibold text-slate-900 dark:text-white">
             <Building2 className="w-4 h-4 text-blue-400" />
             <span>Dados da Funeraria / Filial</span>
           </div>
 
           <div className="space-y-3 text-xs">
             <div>
-              <label className="block font-medium text-zinc-300 mb-1">Nome Fantasia</label>
+              <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Nome Fantasia</label>
               <input type="text" value={tradeName} onChange={(e) => setTradeName(e.target.value)} required
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:border-blue-500 focus:outline-none" />
+                className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:border-blue-500 focus:outline-none" />
             </div>
             <div>
-              <label className="block font-medium text-zinc-300 mb-1">Razao Social</label>
+              <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Razao Social</label>
               <input type="text" value={legalName} onChange={(e) => setLegalName(e.target.value)} required
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:border-blue-500 focus:outline-none" />
+                className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:border-blue-500 focus:outline-none" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block font-medium text-zinc-300 mb-1">CNPJ</label>
+                <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">CNPJ</label>
                 <input type="text" value={cnpj} onChange={(e) => setCnpj(e.target.value)} required
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:border-blue-500 focus:outline-none" />
+                  className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:border-blue-500 focus:outline-none" />
               </div>
               <div>
-                <label className="block font-medium text-zinc-300 mb-1">Telefone Plantao / WhatsApp</label>
+                <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Telefone Plantao / WhatsApp</label>
                 <input type="text" value={phoneEmergency} onChange={(e) => setPhoneEmergency(e.target.value)}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:border-blue-500 focus:outline-none" />
+                  className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:border-blue-500 focus:outline-none" />
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block font-medium text-zinc-300 mb-1">Cidade / UF</label>
+                <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Cidade / UF</label>
                 <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="Ex: Teresina - PI"
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:border-blue-500 focus:outline-none" />
+                  className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:border-blue-500 focus:outline-none" />
               </div>
               <div>
-                <label className="block font-medium text-zinc-300 mb-1">Responsavel Tecnico</label>
+                <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Responsavel Tecnico</label>
                 <input type="text" value={manager} onChange={(e) => setManager(e.target.value)} placeholder="Nome do Diretor / Gestor"
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:border-blue-500 focus:outline-none" />
+                  className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:border-blue-500 focus:outline-none" />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="bg-zinc-900 border border-zinc-800 p-5 rounded-2xl space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-zinc-800 text-sm font-semibold text-white">
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 rounded-2xl space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-zinc-200 dark:border-zinc-800 text-sm font-semibold text-slate-900 dark:text-white">
             <Key className="w-4 h-4 text-emerald-400" />
             <span>Configuracoes Asaas (PIX & Boleto)</span>
           </div>
 
           <div className="space-y-3 text-xs">
             <div>
-              <label className="block font-medium text-zinc-300 mb-1">Ambiente Operacional</label>
+              <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Ambiente Operacional</label>
               <select value={asaasEnv} onChange={(e: any) => setAsaasEnv(e.target.value)}
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:border-emerald-500 focus:outline-none">
+                className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:border-emerald-500 focus:outline-none">
                 <option value="sandbox">Sandbox (Ambiente de Testes / Homologacao)</option>
                 <option value="production">Producao (Cobranca Real)</option>
               </select>
             </div>
             <div>
-              <label className="block font-medium text-zinc-300 mb-1">
+              <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                 Chave de API do Asaas ($aact_...) {hasApiKey && <span className="text-emerald-400">(ja configurada)</span>}
               </label>
               <input type="password" placeholder={hasApiKey ? 'Deixe em branco para manter a atual' : 'Insira a API Key do Asaas da filial'}
                 value={apiKey} onChange={(e) => setApiKey(e.target.value)}
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:border-emerald-500 focus:outline-none font-mono" />
+                className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:border-emerald-500 focus:outline-none font-mono" />
             </div>
             <div>
-              <label className="block font-medium text-zinc-300 mb-1">
+              <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                 Token de Validacao do Webhook {hasWebhookToken && <span className="text-emerald-400">(ja configurado)</span>}
               </label>
               <input type="text" placeholder={hasWebhookToken ? 'Deixe em branco para manter o atual' : 'Token configurado no Asaas'}
                 value={webhookToken} onChange={(e) => setWebhookToken(e.target.value)}
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:border-emerald-500 focus:outline-none font-mono" />
+                className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:border-emerald-500 focus:outline-none font-mono" />
             </div>
             <div className="pt-2">
               <label className="block font-medium text-zinc-400 mb-1 text-[11px]">URL do Webhook para cadastrar no Asaas:</label>
-              <div className="flex items-center gap-2 bg-zinc-950 p-2.5 rounded-lg border border-zinc-800">
+              <div className="flex items-center gap-2 bg-slate-50 dark:bg-zinc-950 p-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800">
                 <code className="text-[11px] text-emerald-400 font-mono flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
                   {webhookUrl}
                 </code>
@@ -459,7 +459,7 @@ export function TenantSettingsTab() {
                   navigator.clipboard.writeText(webhookUrl);
                   setCopiedWebhook(true);
                   setTimeout(() => setCopiedWebhook(false), 2000);
-                }} className="p-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-300 transition" title="Copiar URL">
+                }} className="p-1.5 rounded-md bg-slate-100 dark:bg-zinc-800 hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 transition" title="Copiar URL">
                   {copiedWebhook ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                 </button>
               </div>
@@ -469,7 +469,7 @@ export function TenantSettingsTab() {
 
         <div className="lg:col-span-2 flex justify-end">
           <button type="submit" disabled={saving}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition disabled:opacity-50 shadow-lg shadow-blue-950/30">
+            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white dark:text-white font-semibold text-xs transition disabled:opacity-50 shadow-lg shadow-blue-950/30">
             {saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
             <span>{saving ? 'Gravando Parametros...' : 'Salvar Alteracoes'}</span>
           </button>
@@ -479,7 +479,7 @@ export function TenantSettingsTab() {
       {/* MODAL ONBOARDING: NOVA FUNERARIA (superadmin) */}
       {isNewTenantOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-[70]">
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full p-6 max-h-[92vh] overflow-y-auto text-white shadow-2xl">
+          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl max-w-lg w-full p-6 max-h-[92vh] overflow-y-auto text-slate-900 dark:text-white shadow-2xl">
             <h3 className="font-bold text-sm text-violet-400 mb-1 flex items-center gap-2">
               <Building2 className="w-4 h-4" />
               Cadastrar Nova Funeraria Cliente
@@ -490,60 +490,60 @@ export function TenantSettingsTab() {
             <form onSubmit={handleCreateTenant} className="space-y-3 text-xs">
               <div className="grid grid-cols-2 gap-3">
                 <div className="col-span-2">
-                  <label className="block font-medium text-zinc-300 mb-1">Razao Social *</label>
+                  <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Razao Social *</label>
                   <input type="text" required value={newTenantForm.name}
                     onChange={(e) => setNewTenantForm({ ...newTenantForm, name: e.target.value })}
                     placeholder="ex: Funeraria Sao Judas Tadeu LTDA"
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none" />
+                    className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none" />
                 </div>
                 <div className="col-span-2">
-                  <label className="block font-medium text-zinc-300 mb-1">Nome Fantasia</label>
+                  <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Nome Fantasia</label>
                   <input type="text" value={newTenantForm.trade_name}
                     onChange={(e) => setNewTenantForm({ ...newTenantForm, trade_name: e.target.value })}
                     placeholder="ex: Sao Judas Tadeu"
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none" />
+                    className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none" />
                 </div>
                 <div>
-                  <label className="block font-medium text-zinc-300 mb-1">CNPJ *</label>
+                  <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">CNPJ *</label>
                   <input type="text" required value={newTenantForm.cnpj}
                     onChange={(e) => setNewTenantForm({ ...newTenantForm, cnpj: e.target.value })}
                     placeholder="00.000.000/0000-00"
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none font-mono" />
+                    className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none font-mono" />
                 </div>
                 <div>
-                  <label className="block font-medium text-zinc-300 mb-1">Tel. Plantao 24h</label>
+                  <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Tel. Plantao 24h</label>
                   <input type="text" value={newTenantForm.phone_emergency}
                     onChange={(e) => setNewTenantForm({ ...newTenantForm, phone_emergency: e.target.value })}
                     placeholder="(86) 99999-0000"
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none font-mono" />
+                    className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none font-mono" />
                 </div>
                 <div>
-                  <label className="block font-medium text-zinc-300 mb-1">Cidade de Atuacao</label>
+                  <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Cidade de Atuacao</label>
                   <input type="text" value={newTenantForm.issuance_city}
                     onChange={(e) => setNewTenantForm({ ...newTenantForm, issuance_city: e.target.value })}
                     placeholder="ex: Teresina - PI"
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none" />
+                    className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none" />
                 </div>
                 <div>
-                  <label className="block font-medium text-zinc-300 mb-1">Cor da Marca</label>
+                  <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Cor da Marca</label>
                   <input type="color" value={newTenantForm.primary_color}
                     onChange={(e) => setNewTenantForm({ ...newTenantForm, primary_color: e.target.value })}
-                    className="w-full h-9 bg-zinc-800 border border-zinc-700 rounded-lg px-1 cursor-pointer" />
+                    className="w-full h-9 bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-1 cursor-pointer" />
                 </div>
                 <div className="col-span-2">
-                  <label className="block font-medium text-zinc-300 mb-1">Plano Comercial *</label>
+                  <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Plano Comercial *</label>
                   <select value={newTenantForm.commercial_plan}
                     onChange={(e) => setNewTenantForm({ ...newTenantForm, commercial_plan: e.target.value })}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none">
+                    className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none">
                     <option value="essencial">Essencial - {formatPlanPrice(COMMERCIAL_PLANS.essencial)}/mes</option>
                     <option value="profissional">Profissional - {formatPlanPrice(COMMERCIAL_PLANS.profissional)}/mes</option>
                     <option value="enterprise">Enterprise - Sob consulta</option>
                   </select>
                 </div>
               </div>
-              <div className="flex justify-end gap-2 pt-3 border-t border-zinc-800 mt-4">
+              <div className="flex justify-end gap-2 pt-3 border-t border-zinc-200 dark:border-zinc-800 mt-4">
                 <button type="button" onClick={() => setIsNewTenantOpen(false)}
-                  className="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold">
+                  className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-zinc-800 hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 font-semibold">
                   Cancelar
                 </button>
                 <button type="submit" disabled={creatingTenant}

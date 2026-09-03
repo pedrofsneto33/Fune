@@ -33,7 +33,7 @@ export function WhatsAppChargeButton({
       onClick={handleOpenWhatsApp}
       className={
         className ||
-        'inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-md transition-colors shadow-sm'
+        'inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-900 dark:text-white bg-emerald-600 hover:bg-emerald-700 rounded-md transition-colors shadow-sm'
       }
       title="Enviar cobrança via WhatsApp"
     >

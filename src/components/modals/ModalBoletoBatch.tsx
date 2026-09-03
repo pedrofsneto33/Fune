@@ -271,20 +271,20 @@ export function ModalBoletoBatch({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-      <div className="relative w-full max-w-2xl bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="relative w-full max-w-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         
         {/* Header */}
-        <div className="p-5 border-b border-zinc-800 flex items-center justify-between bg-zinc-950/40">
+        <div className="p-5 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between bg-slate-50 dark:bg-zinc-950/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400">
               <Printer className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-white tracking-wide">Central de Emissão de Carnês & Boletos</h2>
+              <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-wide">Central de Emissão de Carnês & Boletos</h2>
               <p className="text-xs text-zinc-400">Emissão gráfica física ou registro bancário automatizado</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 rounded-lg transition">
+          <button onClick={onClose} className="p-2 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg transition">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -302,7 +302,7 @@ export function ModalBoletoBatch({
                 setAsaasMessage(null);
                 setExpandedParcel(null);
               }}
-              className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500"
+              className="w-full bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
             >
               {holders.map((h) => (
                 <option key={h.id} value={h.id}>
@@ -319,7 +319,7 @@ export function ModalBoletoBatch({
               <select
                 value={installments}
                 onChange={(e) => setInstallments(Number(e.target.value))}
-                className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
+                className="w-full bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
               >
                 <option value={6}>6 Parcelas (Semestral)</option>
                 <option value={12}>12 Parcelas (Anual)</option>
@@ -332,7 +332,7 @@ export function ModalBoletoBatch({
               <select
                 value={startMonth}
                 onChange={(e) => setStartMonth(Number(e.target.value))}
-                className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
+                className="w-full bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
               >
                 {Array.from({ length: 12 }, (_, i) => (
                   <option key={i + 1} value={i + 1}>
@@ -348,17 +348,17 @@ export function ModalBoletoBatch({
                 type="number"
                 value={year}
                 onChange={(e) => setYear(Number(e.target.value))}
-                className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
+                className="w-full bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
               />
             </div>
           </div>
 
           {/* Resumo do Contrato */}
           {currentHolder && (
-            <div className="bg-zinc-950/60 border border-zinc-800 p-4 rounded-xl space-y-1.5">
+            <div className="bg-slate-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 p-4 rounded-xl space-y-1.5">
               <div className="flex justify-between text-xs">
                 <span className="text-zinc-400">Titular:</span>
-                <span className="font-bold text-white">{currentHolder.holder}</span>
+                <span className="font-bold text-slate-900 dark:text-white">{currentHolder.holder}</span>
               </div>
               <div className="flex justify-between text-xs">
                 <span className="text-zinc-400">Valor Unitário:</span>
@@ -366,7 +366,7 @@ export function ModalBoletoBatch({
               </div>
               <div className="flex justify-between text-xs">
                 <span className="text-zinc-400">Total do Bloco ({installments} parcelas):</span>
-                <span className="font-bold text-zinc-100 font-mono">
+                <span className="font-bold text-zinc-900 dark:text-zinc-100 font-mono">
                   R$ {(parseFloat((currentHolder.amount || '').replace(/[^0-9,-]/g, '').replace(',', '.') || 0) * installments).toFixed(2).replace('.', ',')}
                 </span>
               </div>
@@ -408,7 +408,7 @@ export function ModalBoletoBatch({
                     return (
                       <div
                         key={b.installment}
-                        className="bg-zinc-950 border border-emerald-900/60 rounded-xl overflow-hidden transition"
+                        className="bg-slate-50 dark:bg-zinc-950 border border-emerald-900/60 rounded-xl overflow-hidden transition"
                       >
                         {/* Linha Resumo da Parcela */}
                         <div
@@ -420,7 +420,7 @@ export function ModalBoletoBatch({
                               {String(b.installment).padStart(2, '0')}
                             </span>
                             <div>
-                              <p className="font-bold text-white text-xs">Parcela {b.installment} de {installments}</p>
+                              <p className="font-bold text-slate-900 dark:text-white text-xs">Parcela {b.installment} de {installments}</p>
                               <p className="text-[10px] text-zinc-400">Vencimento: {b.dueDate.split('-').reverse().join('/')}</p>
                             </div>
                           </div>
@@ -439,7 +439,7 @@ export function ModalBoletoBatch({
 
                         {/* Bloco Expandido com QR Code e Copia e Cola */}
                         {isExpanded && (
-                          <div className="p-4 border-t border-emerald-900/40 bg-zinc-950/80 flex flex-col md:flex-row items-center gap-4 animate-fadeIn">
+                          <div className="p-4 border-t border-emerald-900/40 bg-slate-50 dark:bg-zinc-950/80 flex flex-col md:flex-row items-center gap-4 animate-fadeIn">
                             {/* Imagem do QR Code */}
                             <div className="bg-white p-2 rounded-xl shadow-md shrink-0">
                               <img
@@ -455,7 +455,7 @@ export function ModalBoletoBatch({
                                 <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 block mb-1">
                                   PIX Copia e Cola
                                 </span>
-                                <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-2 font-mono text-[10px] text-zinc-300 break-all select-all">
+                                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-2 font-mono text-[10px] text-zinc-700 dark:text-zinc-300 break-all select-all">
                                   {b.pixQrCode}
                                 </div>
                               </div>
@@ -463,7 +463,7 @@ export function ModalBoletoBatch({
                               <div className="flex gap-2">
                                 <button
                                   onClick={() => handleCopyPix(b.pixQrCode, `pix-${b.installment}`)}
-                                  className="flex-1 py-1.5 px-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition"
+                                  className="flex-1 py-1.5 px-3 bg-emerald-600 hover:bg-emerald-500 text-white dark:text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition"
                                 >
                                   {copiedKey === `pix-${b.installment}` ? (
                                     <>
@@ -489,12 +489,12 @@ export function ModalBoletoBatch({
 
           {/* Modalidades de Emissão */}
           <div className="space-y-3 pt-2">
-            <h3 className="text-xs font-bold text-zinc-300 uppercase tracking-wider">Opções de Processamento:</h3>
+            <h3 className="text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">Opções de Processamento:</h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <button
                 onClick={handlePrintPhysicalCarne}
-                className="p-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-left transition shadow-lg shadow-blue-950/30 flex flex-col justify-between"
+                className="p-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white dark:text-white text-left transition shadow-lg shadow-blue-950/30 flex flex-col justify-between"
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-bold text-xs flex items-center gap-1.5">
@@ -509,13 +509,13 @@ export function ModalBoletoBatch({
 
               <button
                 onClick={handlePrintStatement}
-                className="p-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-left transition border border-zinc-700 flex flex-col justify-between"
+                className="p-4 rounded-xl bg-slate-100 dark:bg-zinc-800 hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 text-left transition border border-zinc-200 dark:border-zinc-700 flex flex-col justify-between"
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className="font-bold text-xs flex items-center gap-1.5 text-white">
+                  <span className="font-bold text-xs flex items-center gap-1.5 text-slate-900 dark:text-white">
                     <FileText className="w-4 h-4 text-emerald-400" /> Extrato Financeiro
                   </span>
-                  <span className="text-[10px] bg-zinc-700 px-2 py-0.5 rounded font-mono text-zinc-300">PDF</span>
+                  <span className="text-[10px] bg-slate-300 dark:bg-zinc-700 px-2 py-0.5 rounded font-mono text-zinc-700 dark:text-zinc-300">PDF</span>
                 </div>
                 <p className="text-[11px] text-zinc-400">
                   Demonstrativo com o cronograma das parcelas para prestação de contas.
@@ -526,7 +526,7 @@ export function ModalBoletoBatch({
             <button
               onClick={handleGenerateAsaasBatch}
               disabled={asaasLoading}
-              className="w-full p-3.5 rounded-xl bg-zinc-950 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 hover:text-white transition flex items-center justify-between text-xs disabled:opacity-50"
+              className="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-zinc-950 hover:bg-zinc-200 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:text-white transition flex items-center justify-between text-xs disabled:opacity-50"
             >
               <div className="flex items-center gap-2">
                 <QrCode className="w-4 h-4 text-emerald-400" />
@@ -541,10 +541,10 @@ export function ModalBoletoBatch({
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-zinc-800 bg-zinc-950/40 flex justify-end">
+        <div className="p-4 border-t border-zinc-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950/40 flex justify-end">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg text-xs font-medium transition"
+            className="px-4 py-2 bg-slate-100 dark:bg-zinc-800 hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 rounded-lg text-xs font-medium transition"
           >
             Fechar
           </button>
