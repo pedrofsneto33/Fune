@@ -267,6 +267,7 @@ export default function MasterEternityOS() {
   const [selectedItems, setSelectedItems] = useState<{ inventory_id: string; quantity: number }[]>([]);
   const [serviceOrders, setServiceOrders] = useState<any[]>([]);
   const [loadingServiceOrders, setLoadingServiceOrders] = useState(false);
+  const [savingStatusId, setSavingStatusId] = useState<string | undefined>(undefined);
 
   const [vehicleForm, setVehicleForm] = useState({
     plate: "",
@@ -720,8 +721,9 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Alterar status da Ordem de Serviço (integra com veiculo)
+  // Alterar status da Ordem de Serviço (integra com veiculo E registro de óbito)
   const handleUpdateServiceOrderStatus = async (id: string, newStatus: string) => {
+    setSavingStatusId(id);
     try {
       const res = await authFetch("/api/service-orders", {
         method: "PATCH",
@@ -729,11 +731,30 @@ export default function MasterEternityOS() {
         body: JSON.stringify({ id, status: newStatus }),
       });
       if (res.ok) {
+        const updated = await res.json().catch(() => null);
         setServiceOrders((prev) =>
-          prev.map((s) => (s.id === id ? { ...s, status: newStatus } : s)),
+          prev.map((s) =>
+            s.id === id ? { ...s, ...(updated || {}), status: newStatus } : s,
+          ),
         );
-        // Atualiza status do veiculo na lista local
+        // Sincroniza o status do óbito vinculado na tabela local
+        const burialStatusMap: Record<string, string> = {
+          pending: "Agendado",
+          in_progress: "Em traslado",
+          completed: "Concluído",
+          cancelled: "Cancelado",
+        };
+        const mappedBurialStatus = burialStatusMap[newStatus];
         const so = serviceOrders.find((s) => s.id === id);
+        const burialId = updated?.burial_id || so?.burial_id || so?.burial?.id;
+        if (mappedBurialStatus && burialId) {
+          setBurials((prev) =>
+            prev.map((b) =>
+              b.id === burialId ? { ...b, status: mappedBurialStatus } : b,
+            ),
+          );
+        }
+        // Atualiza status do veiculo na lista local
         if (so?.vehicle_id) {
           const vStatus = newStatus === "completed" ? "Disponível" : "Em Missão";
           setVehicles((prev) =>
@@ -741,11 +762,13 @@ export default function MasterEternityOS() {
           );
         }
       } else {
-        const j = await res.json();
+        const j = await res.json().catch(() => ({}));
         alert(`Erro: ${j.error || "Falha ao atualizar"}`);
       }
     } catch {
-      alert("Erro de conexão.");
+      alert("Erro de conexão ao atualizar status da ordem de serviço.");
+    } finally {
+      setSavingStatusId(undefined);
     }
   };
 
@@ -1853,8 +1876,9 @@ export default function MasterEternityOS() {
                         <td className="py-3 px-4">
                           <select
                             value={so.status}
+                            disabled={savingStatusId === so.id}
                             onChange={(e) => handleUpdateServiceOrderStatus(so.id, e.target.value)}
-                            className="bg-slate-950 border border-slate-700 rounded px-1.5 py-1 text-[11px] text-white"
+                            className={`bg-slate-950 border border-slate-700 rounded px-1.5 py-1 text-[11px] text-white disabled:opacity-50 ${savingStatusId === so.id ? "animate-pulse" : ""}`}
                           >
                             <option value="pending">⏳ Pendente</option>
                             <option value="in_progress">🔄 Em andamento</option>

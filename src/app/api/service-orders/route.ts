@@ -171,6 +171,23 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
     if (error) {
       return NextResponse.json({ error: 'Erro ao atualizar serviço' }, { status: 500 });
     }
+    // Sincroniza o registro de óbito vinculado com o status da OS
+    if (status && data?.burial_id) {
+      const burialStatusMap: Record<string, string> = {
+        pending: 'Agendado',
+        in_progress: 'Em traslado',
+        completed: 'Concluído',
+        cancelled: 'Cancelado',
+      };
+      const mapped = burialStatusMap[status];
+      if (mapped) {
+        await supabaseAdmin
+          .from('chapel_burials')
+          .update({ status: mapped })
+          .eq('id', data.burial_id)
+          .eq('tenant_id', auth.tenantId);
+      }
+    }
     if (status === 'completed' && data.vehicle_id) {
       await supabaseAdmin.from('vehicles').update({ status: 'Disponível' }).eq('id', data.vehicle_id).eq('tenant_id', auth.tenantId);
     }
