@@ -9,7 +9,8 @@ import { isTabAllowed, hasPermission, UserRole } from "@/config/permissions";
 import { ModalRBAC } from "@/components/dashboard/ModalRBAC";
 import { ModalDRE } from "@/components/dashboard/ModalDRE";
 import { TenantSettingsTab } from "@/components/tabs/TenantSettingsTab";
-import { ModalChapel } from "@/components/modals/ModalChapel";`nimport { ModalCarnets } from "@/components/modals/ModalCarnets";
+import { ModalChapel } from "@/components/modals/ModalChapel";
+import { ModalCarnets } from "@/components/modals/ModalCarnets";
 
 // Interfaces
 interface Dependent {
@@ -206,7 +207,8 @@ export default function MasterEternityOS() {
 
   // Modais
   const [isNewHolderOpen, setIsNewHolderOpen] = useState(false);
-  const [isNewBurialOpen, setIsNewBurialOpen] = useState(false);`n  const [isCarnetsOpen, setIsCarnetsOpen] = useState(false);
+  const [isNewBurialOpen, setIsNewBurialOpen] = useState(false);
+  const [isCarnetsOpen, setIsCarnetsOpen] = useState(false);
   const [isNewVehicleOpen, setIsNewVehicleOpen] = useState(false);
   const [isNewInventoryOpen, setIsNewInventoryOpen] = useState(false);
   const [isNewConvalescenceOpen, setIsNewConvalescenceOpen] = useState(false);
@@ -3639,7 +3641,7 @@ export default function MasterEternityOS() {
         onSuccess={loadData}
       />
 
-      {/* MODAL DE CARNEES DE PAGAMENTO */}
+      {/* MODAL DE CARNÊS DE PAGAMENTO */}
       <ModalCarnets
         isOpen={isCarnetsOpen}
         onClose={() => setIsCarnetsOpen(false)}

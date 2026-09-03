@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import React, { useState } from 'react';
 import { X, CreditCard, PlusCircle } from 'lucide-react';
 import { authFetch } from '@/lib/authFetch';

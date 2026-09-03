@@ -13,7 +13,7 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
       .eq('tenant_id', auth.tenantId)
       .order('due_date', { ascending: true })
       .limit(500);
-    if (error) return NextResponse.json({ error: 'Erro ao buscar carnês' }, { status: 500 });
+    if (error) return NextResponse.json({ error: 'Erro ao buscar carnÃªs' }, { status: 500 });
     return NextResponse.json(data || []);
   } catch (err: any) {
     return NextResponse.json({ error: 'Erro interno' }, { status: 500 });
@@ -24,17 +24,17 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const rl = checkRateLimit(`carnet:${auth.userId}`, { maxAttempts: 10, windowMs: 60000 });
     if (!rl.allowed) {
-      return NextResponse.json({ error: 'Muitos carnês em sequência. Aguarde um minuto.' }, { status: 429 });
+      return NextResponse.json({ error: 'Muitos carnÃªs em sequÃªncia. Aguarde um minuto.' }, { status: 429 });
     }
     const body = await req.json();
     const { contract_id, holder_name, amount, due_date, installments } = body;
     if (!holder_name || !amount || Number(amount) <= 0) {
-      return NextResponse.json({ error: 'Nome do associado e valor são obrigatórios.' }, { status: 400 });
+      return NextResponse.json({ error: 'Nome do associado e valor sÃ£o obrigatÃ³rios.' }, { status: 400 });
     }
     const numInstallments = Math.min(Math.max(installments || 1, 1), 12);
     const installmentValue = Number((Number(amount) / numInstallments).toFixed(2));
     if (contract_id && !isValidUUID(contract_id)) {
-      return NextResponse.json({ error: 'Contrato inválido.' }, { status: 400 });
+      return NextResponse.json({ error: 'Contrato invÃ¡lido.' }, { status: 400 });
     }
     const asaasConfig = await getAsaasConfigForTenant(auth.tenantId);
     const baseUrl = asaasConfig.baseUrl;
@@ -59,7 +59,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       .insert(carnetRows)
       .select();
     if (carnetError) {
-      return NextResponse.json({ error: 'Erro ao criar carnê: ' + carnetError.message }, { status: 500 });
+      return NextResponse.json({ error: 'Erro ao criar carnÃª: ' + carnetError.message }, { status: 500 });
     }
     const paymentResults = [];
     if (apiKey && contract_id) {
@@ -75,7 +75,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
               billingType: 'BOLETO',
               value: installmentValue,
               dueDate: dueDateStr,
-              description: `Carnê ${holder_name} - Parcela ${i + 1}/${numInstallments}`,
+              description: `CarnÃª ${holder_name} - Parcela ${i + 1}/${numInstallments}`,
               externalReference: `${createdCarnets[i]?.id || 'carnet'}_${i + 1}`,
             }),
           });
@@ -91,18 +91,20 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     return NextResponse.json({ success: true, carnets: createdCarnets, payments: paymentResults, totalInstallments: numInstallments, installmentValue, totalAmount: Number(amount) }, { status: 201 });
   } catch (err: any) {
     console.error('Erro na rota payment-carnets:', err);
-    return NextResponse.json({ error: 'Erro interno ao processar carnê.' }, { status: 500 });
+    return NextResponse.json({ error: 'Erro interno ao processar carnÃª.' }, { status: 500 });
   }
-}, ['superadmin', 'admin', 'financial', 'manager']);export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
+}, ['superadmin', 'admin', 'financial', 'manager']);
+
+export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const body = await req.json();
     const { id, status } = body;
     if (!id || !isValidUUID(id)) {
-      return NextResponse.json({ error: 'ID inválido.' }, { status: 400 });
+      return NextResponse.json({ error: 'ID invÃ¡lido.' }, { status: 400 });
     }
     const validStatuses = ['pendente', 'pago', 'atrasado', 'cancelado'];
     if (status && !validStatuses.includes(status)) {
-      return NextResponse.json({ error: 'Status inválido.' }, { status: 400 });
+      return NextResponse.json({ error: 'Status invÃ¡lido.' }, { status: 400 });
     }
     const updateData: any = {};
     if (status) updateData.status = status;
@@ -127,7 +129,7 @@ export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
     if (!id || !isValidUUID(id)) {
-      return NextResponse.json({ error: 'ID inválido.' }, { status: 400 });
+      return NextResponse.json({ error: 'ID invÃ¡lido.' }, { status: 400 });
     }
     const { error } = await supabaseAdmin
       .from('payment_carnets')
