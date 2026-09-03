@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { X, FileText, PlusCircle } from 'lucide-react';
 import { authFetch } from '@/lib/authFetch';
+import { notifyError } from '@/lib/notify';
 
 export function ModalContractEngine({ isOpen, onClose, onSuccess }: { isOpen: boolean; onClose: () => void; onSuccess?: () => void }) {
   const [loading, setLoading] = useState(false);

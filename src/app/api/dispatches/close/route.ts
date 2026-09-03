@@ -1,6 +1,7 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { serverError } from '@/lib/http-error';
 
 export const dynamic = 'force-dynamic';
 
@@ -67,7 +68,11 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       .single();
 
     if (updateErr) {
-      return NextResponse.json({ error: updateErr.message }, { status: 500 });
+      console.error('[API_ERROR] dispatches/close', updateErr);
+      return NextResponse.json(
+        { error: 'Erro interno ao fechar despacho.' },
+        { status: 500 }
+      );
     }
 
     const targetVehicleId = vehicle_id || dispatch?.vehicle_id;
@@ -110,6 +115,6 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       km_traveled: kmTraveled
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Erro interno ao fechar despacho.' }, { status: 500 });
+    return serverError(err);
   }
 }, ['superadmin', 'admin', 'manager', 'driver']);

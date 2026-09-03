@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { X, Building2 } from 'lucide-react';
 import { authFetch } from '@/lib/authFetch';
+import { notifyError } from '@/lib/notify';
 
 /**
  * LIMITAÇÃO conhecida: a lista de salas é fixa (hardcoded).

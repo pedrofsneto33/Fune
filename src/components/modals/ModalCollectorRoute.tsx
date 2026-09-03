@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { X, MapPin } from 'lucide-react';
 import { authFetch } from '@/lib/authFetch';
+import { notifyError } from '@/lib/notify';
 
 export function ModalCollectorRoute({ isOpen, onClose, onSuccess }: { isOpen: boolean; onClose: () => void; onSuccess?: () => void }) {
   const [collectorName, setCollectorName] = useState('');

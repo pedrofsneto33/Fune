@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { serverError } from '@/lib/http-error';
 
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
@@ -34,6 +35,6 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     if (updateError) return NextResponse.json({ error: updateError.message }, { status: 500 });
     return NextResponse.json({ success: true, item: data });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return serverError(err);
   }
 }, ['superadmin', 'admin', 'manager']);

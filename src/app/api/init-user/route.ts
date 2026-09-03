@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { serverError } from '@/lib/http-error';
 
 /**
  * Initialize user endpoint - Returns user's current role status
@@ -48,7 +49,7 @@ export async function POST(req: NextRequest) {
     }, { status: 200 });
 
   } catch (err: any) {
-    return NextResponse.json({ error: 'Erro: ' + err.message }, { status: 500 });
+    return serverError(err, 'init-user');
   }
 }
 

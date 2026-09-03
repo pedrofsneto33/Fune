@@ -2,6 +2,7 @@
 import { withAuth } from '@/lib/api-handler';
 import { getAsaasConfigForTenant } from '@/lib/asaasClient';
 import { checkRateLimit } from '@/lib/rate-limiter';
+import { serverError } from '@/lib/http-error';
 
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
@@ -115,9 +116,6 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
   } catch (err: any) {
     console.error('Erro na rota PIX:', err);
-    return NextResponse.json(
-      { error: 'Erro interno ao processar cobranca PIX.', details: err.message },
-      { status: 500 }
-    );
+    return serverError(err, 'pix');
   }
 }, ['superadmin', 'admin', 'manager', 'attendant', 'financial']);

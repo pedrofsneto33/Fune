@@ -54,6 +54,25 @@ export function ModalBIReports({ isOpen, onClose }: { isOpen: boolean; onClose: 
     }
   };
 
+  const handleExportCSV = () => {
+    const rows = [
+      ['Indicador', 'Valor'],
+      ['Titulares Ativos', String(stats.activeContracts)],
+      ['Ordens de Servico', String(stats.totalMissions)],
+      ['MRR Projetado (R$)', stats.projectedRevenue.toFixed(2).replace('.', ',')],
+      ['Taxa de Inadimplencia', stats.defaultRate],
+    ];
+    const csv = '\uFEFF' + rows.map((r) => r.join(';')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `eternityos_bi_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    notifySuccess('Relatorio BI exportado em CSV.');
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -68,7 +87,7 @@ export function ModalBIReports({ isOpen, onClose }: { isOpen: boolean; onClose: 
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={() => notifySuccess('Relatório exportado em formato PDF com sucesso!')} className="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+            <button onClick={handleExportCSV} className="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
               <Download className="w-3.5 h-3.5" /> Exportar BI
             </button>
             <button onClick={onClose} className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition"><X className="w-5 h-5" /></button>

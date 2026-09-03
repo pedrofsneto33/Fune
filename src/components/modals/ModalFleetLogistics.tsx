@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Truck, PlusCircle, RefreshCw } from 'lucide-react';
 import { authFetch } from '@/lib/authFetch';
+import { notifyError } from '@/lib/notify';
 
 interface Vehicle {
   id: string;

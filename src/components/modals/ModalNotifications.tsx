@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { X, MessageCircle, Send } from 'lucide-react';
 import { formatWhatsAppMessage } from '@/lib/whatsapp';
+import { notifyError } from '@/lib/notify';
 
 export function ModalNotifications({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [loading, setLoading] = useState(false);

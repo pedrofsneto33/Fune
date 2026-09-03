@@ -1,6 +1,7 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { serverError } from '@/lib/http-error';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,6 +19,6 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
 
     return NextResponse.json({ success: true, commissions: commissions || [] });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return serverError(err);
   }
 }, ['superadmin', 'admin', 'manager', 'financial']);

@@ -1,6 +1,7 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { serverError } from '@/lib/http-error';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,7 +23,7 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
       loans: loansRes.data || []
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Erro ao carregar comodato.' }, { status: 500 });
+    return serverError(err);
   }
 });
 
@@ -120,6 +121,6 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     return NextResponse.json({ error: 'Acao invalida.' }, { status: 400 });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Erro ao processar operacao de comodato.' }, { status: 500 });
+    return serverError(err);
   }
 }, ['superadmin', 'admin', 'manager', 'attendant']);

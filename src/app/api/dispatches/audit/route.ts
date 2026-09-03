@@ -1,6 +1,7 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { serverError } from '@/lib/http-error';
 
 export const dynamic = 'force-dynamic';
 
@@ -49,7 +50,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     return NextResponse.json({ success: true, log: data });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Erro ao registrar log' }, { status: 500 });
+    return serverError(err);
   }
 }, ['superadmin', 'admin', 'manager', 'attendant', 'driver', 'financial']);
 
@@ -75,6 +76,6 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
 
     return NextResponse.json({ logs: data || [] });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Erro ao consultar logs' }, { status: 500 });
+    return serverError(err);
   }
 }, ['superadmin', 'admin', 'manager', 'attendant', 'driver', 'financial']);

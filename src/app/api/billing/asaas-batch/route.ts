@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { serverError } from '@/lib/http-error';
 import { checkRateLimit } from '@/lib/rate-limiter';
 import { getAsaasConfigForTenant } from '@/lib/asaasClient';
 
@@ -170,6 +171,6 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       results,
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Erro interno' }, { status: 500 });
+    return serverError(err);
   }
 }, ['superadmin', 'admin', 'financial']);

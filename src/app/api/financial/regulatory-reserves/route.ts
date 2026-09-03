@@ -1,6 +1,7 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { serverError } from '@/lib/http-error';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,7 +21,11 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
       .lte('created_at', endOfMonth);
 
     if (txErr) {
-      return NextResponse.json({ error: txErr.message }, { status: 400 });
+      console.error('[API_ERROR] regulatory-reserves/transactions', txErr);
+      return NextResponse.json(
+        { error: 'Erro ao consultar transacoes financeiras.' },
+        { status: 400 }
+      );
     }
 
     let grossRevenue = 0;
@@ -62,6 +67,6 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
       }
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return serverError(err);
   }
 }, ['superadmin', 'admin', 'financial']);

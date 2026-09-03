@@ -169,17 +169,21 @@ export function TenantSettingsTab() {
 
     setUploadingLogo(true);
     try {
-      const ext = file.name.split('.').pop();
-      const path = `${selectedTenantId}/logo-${Date.now()}.${ext}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('tenant-logos')
-        .upload(path, file, { upsert: true });
-
-      if (uploadError) throw uploadError;
-
-      const { data: urlData } = supabase.storage.from('tenant-logos').getPublicUrl(path);
-      setLogoUrl(urlData.publicUrl);
+      // Upload via API: validacao de tamanho/conteudo no servidor (service role)
+      const headers = await getAuthHeaders();
+      const form = new FormData();
+      form.append('file', file);
+      const res = await fetch('/api/tenants/logo', {
+        method: 'POST',
+        headers,
+        body: form,
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || 'Falha no upload.');
+      }
+      setLogoUrl(data.url);
+      notifySuccess('Logo atualizada com sucesso!');
     } catch (err: any) {
       notifyError('Erro ao enviar logo: ' + err.message);
     } finally {

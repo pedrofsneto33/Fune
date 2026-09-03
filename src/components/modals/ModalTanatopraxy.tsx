@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { X, Scissors, CheckCircle2 } from 'lucide-react';
 import { supabase } from '@/lib/supabaseClient';
+import { notifyError } from '@/lib/notify';
 
 export function ModalTanatopraxy({ isOpen, onClose, onSuccess }: { isOpen: boolean; onClose: () => void; onSuccess?: () => void }) {
   const [deceasedName, setdeceasedName] = useState('');

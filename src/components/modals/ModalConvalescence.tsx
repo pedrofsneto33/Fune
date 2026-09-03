@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { X, HeartHandshake } from 'lucide-react';
 import { supabase } from '@/lib/supabaseClient';
+import { notifyError } from '@/lib/notify';
 
 export function ModalConvalescence({ isOpen, onClose, onSuccess }: { isOpen: boolean; onClose: () => void; onSuccess?: () => void }) {
   const [equipment, setEquipment] = useState('Cadeira de Rodas');

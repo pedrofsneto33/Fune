@@ -1,6 +1,7 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { serverError } from '@/lib/http-error';
 import { getAsaasConfigForTenant } from '@/lib/asaasClient';
 
 export const dynamic = 'force-dynamic';
@@ -118,6 +119,6 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       invoiceUrl: chargeData.invoiceUrl
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return serverError(err);
   }
 }, ['superadmin', 'admin', 'manager', 'attendant', 'financial']);
