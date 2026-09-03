@@ -535,7 +535,9 @@ export default function MasterEternityOS() {
         !q ||
         norm(h.full_name).includes(norm(q)) ||
         h.cpf?.replace(/\D/g, "").includes(q.replace(/\D/g, "")) ||
-                (h.phone && h.phone.replace(/\D/g, "").includes(onlyNums));
+                (h.phone && h.phone.replace(/\D/g, "").includes(onlyNums)) ||
+        norm(h.city).includes(norm(q)) ||
+        norm(h.state).includes(norm(q));
 
       const status = h.contracts?.[0]?.status || "active";
       const matchS = statusFilter === "all" || status === statusFilter;
@@ -2887,7 +2889,7 @@ export default function MasterEternityOS() {
               {/* Novos campos opcionais — direcionamento preciso via API /holders */}
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-slate-600 dark:text-slate-600 dark:text-slate-400 font-semibold mb-1">
+                  <label className="block text-slate-600 dark:text-slate-500 dark:text-slate-400 font-semibold mb-1">
                     Cidade:
                   </label>
                   <input
