@@ -52,7 +52,7 @@ export function ModalFleetLogistics({ isOpen, onClose, onSuccess }: { isOpen: bo
       if (onSuccess) onSuccess();
       onClose();
     } catch (err: any) {
-      alert('Erro ao atualizar: ' + err.message);
+      notifyError('Erro ao atualizar: ' + err.message);
     } finally {
       setLoading(false);
     }

@@ -1,5 +1,7 @@
 'use client';
 
+
+import { notifySuccess, notifyError, notifyInfo } from '@/lib/notify';
 import React, { useState, useEffect } from 'react';
 import { Settings, ShieldCheck, Key, RefreshCw, Copy, Check, Building2, Upload, Image as ImageIcon } from 'lucide-react';
 import { getPlanByCode, formatPlanPrice, COMMERCIAL_PLANS } from '@/lib/planLimits';
@@ -120,7 +122,7 @@ export function TenantSettingsTab() {
   const handleCreateTenant = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTenantForm.name.trim() || !newTenantForm.cnpj.trim()) {
-      alert('Nome da empresa e CNPJ sao obrigatorios.');
+      notifyInfo('Nome da empresa e CNPJ sao obrigatorios.');
       return;
     }
     setCreatingTenant(true);
@@ -135,8 +137,7 @@ export function TenantSettingsTab() {
       if (data.success) {
         setIsNewTenantOpen(false);
         await loadTenants();
-        alert(
-          'Funeraria cadastrada com sucesso!\n\n' +
+        notifySuccess('Funeraria cadastrada com sucesso!\n\n' +
           'PROXIMOS PASSOS:\n' +
           '1. O dono da funeraria cria a conta dele na tela de login (Cadastro).\n' +
           '2. Va em Permissoes, insira o e-mail dele, cargo Admin, e selecione esta funeraria.\n' +
@@ -148,10 +149,10 @@ export function TenantSettingsTab() {
           issuance_city: '', primary_color: '#7c3aed', commercial_plan: 'essencial',
         });
       } else {
-        alert('Erro ao criar funeraria: ' + (data.error || 'Falha na requisicao.'));
+        notifyError('Erro ao criar funeraria: ' + (data.error || 'Falha na requisicao.'));
       }
     } catch (err: any) {
-      alert('Erro ao conectar com a API: ' + err.message);
+      notifyError('Erro ao conectar com a API: ' + err.message);
     } finally {
       setCreatingTenant(false);
     }
@@ -162,7 +163,7 @@ export function TenantSettingsTab() {
     if (!file || !selectedTenantId) return;
 
     if (file.size > 2 * 1024 * 1024) {
-      alert('A imagem deve ter no maximo 2MB.');
+      notifyError('A imagem deve ter no maximo 2MB.');
       return;
     }
 
@@ -180,7 +181,7 @@ export function TenantSettingsTab() {
       const { data: urlData } = supabase.storage.from('tenant-logos').getPublicUrl(path);
       setLogoUrl(urlData.publicUrl);
     } catch (err: any) {
-      alert('Erro ao enviar logo: ' + err.message);
+      notifyError('Erro ao enviar logo: ' + err.message);
     } finally {
       setUploadingLogo(false);
     }
@@ -218,13 +219,13 @@ export function TenantSettingsTab() {
 
       const data = await res.json();
       if (data.success) {
-        alert('Configuracoes salvas com sucesso!');
+        notifySuccess('Configuracoes salvas com sucesso!');
         await loadTenants();
       } else {
-        alert('Erro ao salvar: ' + (data.error || 'Falha na requisicao.'));
+        notifyError('Erro ao salvar: ' + (data.error || 'Falha na requisicao.'));
       }
     } catch (err: any) {
-      alert('Erro ao conectar com a API: ' + err.message);
+      notifyError('Erro ao conectar com a API: ' + err.message);
     } finally {
       setSaving(false);
     }

@@ -1,4 +1,6 @@
 'use client';
+
+import { notifySuccess, notifyError, notifyInfo } from '@/lib/notify';
 import React, { useEffect, useState } from 'react';
 import { X, BarChart3, TrendingUp, Users, Activity, Download } from 'lucide-react';
 import { authFetch } from '@/lib/authFetch';
@@ -66,7 +68,7 @@ export function ModalBIReports({ isOpen, onClose }: { isOpen: boolean; onClose: 
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={() => alert('Relatório exportado em formato PDF com sucesso!')} className="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+            <button onClick={() => notifySuccess('Relatório exportado em formato PDF com sucesso!')} className="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
               <Download className="w-3.5 h-3.5" /> Exportar BI
             </button>
             <button onClick={onClose} className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition"><X className="w-5 h-5" /></button>

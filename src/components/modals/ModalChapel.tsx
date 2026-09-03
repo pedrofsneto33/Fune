@@ -47,7 +47,7 @@ export function ModalChapel({ isOpen, onClose, onSuccess }: { isOpen: boolean; o
       if (onSuccess) onSuccess();
       onClose();
     } catch (err: any) {
-      alert('Erro ao agendar capela: ' + err.message);
+      notifyError('Erro ao agendar capela: ' + err.message);
     } finally {
       setLoading(false);
     }

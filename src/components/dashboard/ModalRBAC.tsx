@@ -1,4 +1,5 @@
-﻿'use client';
+﻿'use client';import { notifySuccess, notifyError, notifyInfo } from '@/lib/notify';
+
 import React, { useState, useEffect } from 'react';
 import { X, Shield, Plus, Trash2, Edit2 } from 'lucide-react';
 import { authFetch } from '@/lib/authFetch';
@@ -36,7 +37,7 @@ export function ModalRBAC({ isOpen, onClose, currentRole = 'admin' }: { isOpen: 
       setRoles(list);
     } catch (err: any) {
       console.error('Erro ao carregar roles:', err);
-      alert('Erro ao carregar acessos: ' + (err.message || 'tente novamente.'));
+      notifyError('Erro ao carregar acessos: ' + (err.message || 'tente novamente.'));
       setRoles([]);
     } finally {
       setLoading(false);
@@ -58,7 +59,7 @@ export function ModalRBAC({ isOpen, onClose, currentRole = 'admin' }: { isOpen: 
       setEmail('');
       loadRoles();
     } catch (err: any) {
-      alert('Erro: ' + (err.message || 'Não foi possível adicionar o acesso.'));
+      notifyError('Erro: ' + (err.message || 'Não foi possível adicionar o acesso.'));
     } finally {
       setLoading(false);
     }
@@ -74,7 +75,7 @@ export function ModalRBAC({ isOpen, onClose, currentRole = 'admin' }: { isOpen: 
       }
       loadRoles();
     } catch (err: any) {
-      alert('Erro: ' + (err.message || 'Não foi possível remover o acesso.'));
+      notifyError('Erro: ' + (err.message || 'Não foi possível remover o acesso.'));
     }
   };
 

@@ -27,7 +27,7 @@ export function ModalCollectorRoute({ isOpen, onClose, onSuccess }: { isOpen: bo
       if (onSuccess) onSuccess();
       onClose();
     } catch (err: any) {
-      alert('Erro ao criar rota: ' + err.message);
+      notifyError('Erro ao criar rota: ' + err.message);
     } finally {
       setLoading(false);
     }

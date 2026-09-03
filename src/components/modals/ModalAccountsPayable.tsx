@@ -1,4 +1,5 @@
-﻿'use client';
+﻿'use client';import { notifySuccess, notifyError, notifyInfo } from '@/lib/notify';
+
 import React, { useEffect, useState } from 'react';
 import { X, DollarSign, PlusCircle, CheckCircle, AlertCircle } from 'lucide-react';
 import { authFetch } from '@/lib/authFetch';
@@ -46,7 +47,7 @@ export function ModalAccountsPayable({ isOpen, onClose }: { isOpen: boolean; onC
       setDueDate('');
       fetchBills();
     } catch (err: any) {
-      alert('Erro ao cadastrar despesa: ' + err.message);
+      notifyError('Erro ao cadastrar despesa: ' + err.message);
     }
   };
 
@@ -59,7 +60,7 @@ export function ModalAccountsPayable({ isOpen, onClose }: { isOpen: boolean; onC
       if (!res.ok) throw new Error('Erro ao atualizar status');
       fetchBills();
     } catch (err: any) {
-      alert('Erro ao atualizar status: ' + err.message);
+      notifyError('Erro ao atualizar status: ' + err.message);
     }
   };
 

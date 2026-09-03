@@ -18,7 +18,7 @@ export function ModalNotifications({ isOpen, onClose }: { isOpen: boolean; onClo
       window.open(url, '_blank');
       onClose();
     } catch (err: any) {
-      alert('Erro ao enviar: ' + err.message);
+      notifyError('Erro ao enviar: ' + err.message);
     } finally {
       setLoading(false);
     }

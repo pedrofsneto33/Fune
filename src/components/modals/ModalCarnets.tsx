@@ -1,4 +1,6 @@
 'use client';
+
+import { notifySuccess, notifyError, notifyInfo } from '@/lib/notify';
 import React, { useState, useEffect, useMemo } from 'react';
 import { X, CreditCard, PlusCircle, RefreshCw } from 'lucide-react';
 import { authFetch } from '@/lib/authFetch';
@@ -102,7 +104,7 @@ export function ModalCarnets({
       await loadAll();
       if (onSuccess) onSuccess();
     } catch (e) {
-      alert('Erro ao atualizar parcela: ' + (e as Error).message);
+      notifyError('Erro ao atualizar parcela: ' + (e as Error).message);
     } finally {
       setBusyId(undefined);
     }
@@ -202,7 +204,7 @@ export function ModalCarnets({
       setFirstDue('');
       await loadAll();
     } catch (err) {
-      alert('Erro ao gerar carnê: ' + (err as Error).message);
+      notifyError('Erro ao gerar carnê: ' + (err as Error).message);
     } finally {
       setSaving(false);
     }

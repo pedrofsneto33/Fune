@@ -1,5 +1,7 @@
 "use client";
 
+
+import { notifySuccess, notifyError, notifyInfo } from '@/lib/notify';
 import React, { useState, useEffect, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
 import { formatWhatsAppMessage } from "@/lib/whatsapp";
@@ -489,11 +491,10 @@ export default function MasterEternityOS() {
           setLoginError(error.message);
         } else if (data.session) {
           setSession(data.session);
-          alert(
-            "✓ Conta criada com sucesso! Você está conectado como Administrador.",
+          notifySuccess("✓ Conta criada com sucesso! Você está conectado como Administrador.",
           );
         } else {
-          alert("✓ Cadastro realizado! Faça login com o seu e-mail e senha.");
+          notifySuccess("✓ Cadastro realizado! Faça login com o seu e-mail e senha.");
           setAuthMode("login");
         }
       }
@@ -529,7 +530,7 @@ export default function MasterEternityOS() {
 
   // Exportar Associados para CSV
   const handleExportCSV = () => {
-    if (holders.length === 0) return alert("Nenhum associado para exportar.");
+    if (holders.length === 0) return notifyInfo("Nenhum associado para exportar.");
     let csv = "Nome;CPF;Telefone;Email;Endereco;Status;Plano\n";
     holders.forEach((h) => {
       const plan = h.contracts?.[0]?.plans?.name || "Familiar Ouro";
@@ -572,10 +573,10 @@ export default function MasterEternityOS() {
           setHolders((prev) =>
             prev.map((x) => (x.id === j.holder.id ? { ...x, ...j.holder } : x)),
           );
-          alert("Associado atualizado com sucesso!");
+          notifySuccess("Associado atualizado com sucesso!");
         } else {
           if (j.holder) setHolders((prev) => [j.holder, ...prev]);
-          alert("Associado cadastrado com sucesso!");
+          notifySuccess("Associado cadastrado com sucesso!");
         }
         setIsNewHolderOpen(false);
         setEditingHolder(null);
@@ -590,10 +591,10 @@ export default function MasterEternityOS() {
         });
         loadData();
       } else {
-        alert(`Erro ao salvar titular: ${j.error || "Verifique os dados"}`);
+        notifyError(`Erro ao salvar titular: ${j.error || "Verifique os dados"}`);
       }
     } catch {
-      alert("Erro de conexÃ£o ao salvar titular.");
+      notifyError("Erro de conexÃ£o ao salvar titular.");
     } finally {
       setSavingHolder(false);
     }
@@ -632,10 +633,10 @@ export default function MasterEternityOS() {
         setImportResult(j);
         if (j.imported > 0) loadData();
       } else {
-        alert("Erro na importacao: " + (j.error || "Tente novamente"));
+        notifyError("Erro na importacao: " + (j.error || "Tente novamente"));
       }
     } catch {
-      alert("Erro de conexao ao importar.");
+      notifyError("Erro de conexao ao importar.");
     } finally {
       setImporting(false);
     }
@@ -657,13 +658,13 @@ export default function MasterEternityOS() {
       });
       if (res.ok) {
         setHolders((prev) => prev.filter((x) => x.id !== h.id));
-        alert("Associado excluido com sucesso!");
+        notifySuccess("Associado excluido com sucesso!");
       } else {
         const j = await res.json();
-        alert("Erro ao excluir: " + (j.error || "Tente novamente"));
+        notifyError("Erro ao excluir: " + (j.error || "Tente novamente"));
       }
     } catch {
-      alert("Erro de conexao ao excluir associado.");
+      notifyError("Erro de conexao ao excluir associado.");
     } finally {
       setDeletingHolderId(null);
     }
@@ -714,15 +715,15 @@ export default function MasterEternityOS() {
         if (serviceOrderForm.contract_id && isLinked) integracoes.push("contrato vinculado");
         if (serviceOrderForm.vehicle_id) integracoes.push("veículo em missão");
         if (selectedItems.length > 0) integracoes.push(`${selectedItems.length} item(ns) baixado(s) do estoque`);
-        alert("✓ Ordem de Serviço criada!\n\n" + integracoes.join("\n• "));
+        notifySuccess("✓ Ordem de Serviço criada!\n\n" + integracoes.join("\n• "));
         loadData();
         loadServiceOrders();
       } else {
         const j = await res.json();
-        alert(`Erro ao criar ordem de serviço: ${j.error || "Falha no registro"}`);
+        notifyError(`Erro ao criar ordem de serviço: ${j.error || "Falha no registro"}`);
       }
     } catch {
-      alert("Erro de conexão ao registrar ordem de serviço.");
+      notifyError("Erro de conexão ao registrar ordem de serviço.");
     } finally {
       setSavingBurial(false);
     }
@@ -786,10 +787,10 @@ export default function MasterEternityOS() {
         }
       } else {
         const j = await res.json().catch(() => ({}));
-        alert(`Erro: ${j.error || "Falha ao atualizar"}`);
+        notifyError(`Erro: ${j.error || "Falha ao atualizar"}`);
       }
     } catch {
-      alert("Erro de conexão ao atualizar status da ordem de serviço.");
+      notifyError("Erro de conexão ao atualizar status da ordem de serviço.");
     } finally {
       setSavingStatusId(undefined);
     }
@@ -830,13 +831,13 @@ export default function MasterEternityOS() {
               .map((r: any) => `• ${r.holder}: ${r.error}`)
               .join("\n");
         }
-        alert(`✓ Asaas: ${data.message || "Lote processado!"}${extra}`);
+        notifySuccess(`✓ Asaas: ${data.message || "Lote processado!"}${extra}`);
         loadData();
       } else {
-        alert(`Erro Asaas: ${data.error || "Falha ao processar lote"}`);
+        notifyError(`Erro Asaas: ${data.error || "Falha ao processar lote"}`);
       }
     } catch {
-      alert("Erro de conexão ao processar lote Asaas.");
+      notifyError("Erro de conexão ao processar lote Asaas.");
     } finally {
       setAsaasBatchRunning(false);
     }
@@ -860,10 +861,10 @@ export default function MasterEternityOS() {
         setEditingBurial(null);
       } else {
         const j = await res.json().catch(() => ({}));
-        alert(`Erro: ${j.error || "Falha ao excluir"}`);
+        notifyError(`Erro: ${j.error || "Falha ao excluir"}`);
       }
     } catch {
-      alert("Erro de conexão ao excluir registro.");
+      notifyError("Erro de conexão ao excluir registro.");
     }
   };
 
@@ -886,10 +887,10 @@ export default function MasterEternityOS() {
         const hint = /column|coluna/i.test(j.error || "")
           ? " Rode o script scripts/add-holder-status.sql no Supabase primeiro."
           : "";
-        alert(`Erro: ${j.error || "Falha ao atualizar status"}.${hint}`);
+        notifyError(`Erro: ${j.error || "Falha ao atualizar status"}.${hint}`);
       }
     } catch {
-      alert("Erro de conexão ao atualizar status do associado.");
+      notifyError("Erro de conexão ao atualizar status do associado.");
     } finally {
       setTogglingStatusId(undefined);
     }
@@ -914,13 +915,13 @@ export default function MasterEternityOS() {
           type: "income",
           category: "Mensalidade Plano",
         });
-        alert("Lançamento registrado no Livro Caixa!");
+        notifyInfo("Lançamento registrado no Livro Caixa!");
       } else {
         const err = await res.json();
-        alert(`Erro: ${err.error || "Falha ao salvar lançamento"}`);
+        notifyError(`Erro: ${err.error || "Falha ao salvar lançamento"}`);
       }
     } catch {
-      alert("Erro de conexão ao salvar lançamento.");
+      notifyError("Erro de conexão ao salvar lançamento.");
     }
   };
 
@@ -943,13 +944,13 @@ export default function MasterEternityOS() {
           type: "Cortejo Fúnebre",
           driver_name: "",
         });
-        alert("Veículo cadastrado na frota!");
+        notifyInfo("Veículo cadastrado na frota!");
       } else {
         const err = await res.json();
-        alert(`Erro: ${err.error || "Falha ao salvar veículo"}`);
+        notifyError(`Erro: ${err.error || "Falha ao salvar veículo"}`);
       }
     } catch {
-      alert("Erro de conexão ao salvar veículo.");
+      notifyError("Erro de conexão ao salvar veículo.");
     }
   };
 
@@ -972,11 +973,11 @@ export default function MasterEternityOS() {
           stock_quantity: 10,
           min_threshold: 3,
         });
-        alert("Item de estoque adicionado!");
+        notifyInfo("Item de estoque adicionado!");
         loadData();
       }
     } catch {
-      alert("Erro ao salvar item.");
+      notifyError("Erro ao salvar item.");
     }
   };
 
@@ -1046,7 +1047,7 @@ export default function MasterEternityOS() {
         } else {
           setPartners((prev) => [...prev, saved]);
         }
-        alert(
+        notifySuccess(
           editingPartnerId
             ? "Parceiro atualizado com sucesso!"
             : "Parceiro credenciado com sucesso!",
@@ -1055,10 +1056,10 @@ export default function MasterEternityOS() {
         loadData();
       } else {
         const err = await res.json();
-        alert(`Erro: ${err.error || "Falha ao salvar parceiro"}`);
+        notifyError(`Erro: ${err.error || "Falha ao salvar parceiro"}`);
       }
     } catch {
-      alert("Erro de conexão ao salvar parceiro.");
+      notifyError("Erro de conexão ao salvar parceiro.");
     }
   };
 
@@ -1072,13 +1073,13 @@ export default function MasterEternityOS() {
       );
       if (res.ok) {
         setPartners((prev) => prev.filter((p) => p.id !== id));
-        alert("Parceiro removido.");
+        notifyInfo("Parceiro removido.");
       } else {
         const err = await res.json();
-        alert(`Erro: ${err.error || "Falha ao remover parceiro"}`);
+        notifyError(`Erro: ${err.error || "Falha ao remover parceiro"}`);
       }
     } catch {
-      alert("Erro de conexão ao remover parceiro.");
+      notifyError("Erro de conexão ao remover parceiro.");
     }
   };
 
@@ -1100,11 +1101,11 @@ export default function MasterEternityOS() {
           technician: "Dr. Roberto Tanatólogo",
           procedure: "Aspiração e Formolização Padrão",
         });
-        alert("Procedimento de tanatopraxia registrado!");
+        notifyInfo("Procedimento de tanatopraxia registrado!");
         loadData();
       }
     } catch {
-      alert("Erro ao gravar procedimento.");
+      notifyError("Erro ao gravar procedimento.");
     }
   };
 
@@ -2260,7 +2261,7 @@ export default function MasterEternityOS() {
                               );
                               if (res.ok) loadData();
                               else
-                                alert("Não foi possível atualizar o status.");
+                                notifyError("Não foi possível atualizar o status.");
                             }}
                             className="flex-1 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] font-semibold"
                           >
@@ -2274,7 +2275,7 @@ export default function MasterEternityOS() {
                                 { method: "DELETE" },
                               );
                               if (res.ok) loadData();
-                              else alert("Não foi possível remover a reserva.");
+                              else notifyError("Não foi possível remover a reserva.");
                             }}
                             className="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded text-[11px] font-semibold"
                           >
@@ -2364,10 +2365,10 @@ export default function MasterEternityOS() {
                               );
                             } else {
                               const errData = await res.json().catch(() => ({}));
-                              alert(`Erro: ${errData.error || "Falha ao alterar status"}`);
+                              notifyError(`Erro: ${errData.error || "Falha ao alterar status"}`);
                             }
                           } catch (err) {
-                            alert("Erro de conexão ao alterar status do veículo.");
+                            notifyError("Erro de conexão ao alterar status do veículo.");
                           }
                         }}
                         className="px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-[11px]"
@@ -2386,7 +2387,7 @@ export default function MasterEternityOS() {
                             setVehicles((prev) =>
                               prev.filter((item) => item.id !== v.id),
                             );
-                          else alert("Não foi possível remover o veículo.");
+                          else notifyError("Não foi possível remover o veículo.");
                         }}
                         className="text-xs text-rose-400 hover:underline"
                       >
@@ -3407,7 +3408,7 @@ export default function MasterEternityOS() {
                   <button
                     onClick={() => {
                       setIsAsaasConfigOpen(false);
-                      alert("Configurações salvas!");
+                      notifyInfo("Configurações salvas!");
                     }}
                     className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded text-xs"
                   >
@@ -4237,10 +4238,10 @@ export default function MasterEternityOS() {
                     setEditingBurial(null);
                   } else {
                     const j = await res.json().catch(() => ({}));
-                    alert(`Erro ao atualizar: ${j.error || 'Falha na atualização'}`);
+                    notifyError(`Erro ao atualizar: ${j.error || 'Falha na atualização'}`);
                   }
                 } catch {
-                  alert('Erro de conexão ao atualizar óbito.');
+                  notifyError('Erro de conexão ao atualizar óbito.');
                 }
               }}
               className="space-y-3"

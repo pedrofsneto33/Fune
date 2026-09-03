@@ -1,5 +1,7 @@
 'use client';
 
+
+import { notifySuccess, notifyError, notifyInfo } from '@/lib/notify';
 import React, { useState } from 'react';
 
 interface HolderSearchResult {
@@ -138,7 +140,7 @@ export function HeaderQuickSearch() {
               </button>
               <button
                 onClick={() => {
-                  alert(`Iniciando atendimento para ${selectedHolder.full_name}`);
+                  notifyInfo(`Iniciando atendimento para ${selectedHolder.full_name}`);
                   setSelectedHolder(null);
                 }}
                 className="px-4 py-2 text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white rounded shadow"

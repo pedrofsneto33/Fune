@@ -22,7 +22,7 @@ export function ModalConvalescence({ isOpen, onClose, onSuccess }: { isOpen: boo
       if (onSuccess) onSuccess();
       onClose();
     } catch (err: any) {
-      alert('Erro ao registrar empréstimo: ' + err.message);
+      notifyError('Erro ao registrar empréstimo: ' + err.message);
     } finally {
       setLoading(false);
     }

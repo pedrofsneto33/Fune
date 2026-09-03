@@ -22,7 +22,7 @@ export function ModalTanatopraxy({ isOpen, onClose, onSuccess }: { isOpen: boole
       if (onSuccess) onSuccess();
       onClose();
     } catch (err: any) {
-      alert('Erro ao salvar registro: ' + err.message);
+      notifyError('Erro ao salvar registro: ' + err.message);
     } finally {
       setLoading(false);
     }
