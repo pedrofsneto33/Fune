@@ -57,10 +57,15 @@ export const POST = withAuth(
 
       lines.forEach((line: string, idx: number) => {
         const lineNo = idx + 1;
+        const tabCount = (line.match(/\t/g) || []).length;
+        const semiCount = (line.match(/;/g) || []).length;
+        const commaCount = (line.match(/,/g) || []).length;
         const delim =
-          (line.match(/;/g) || []).length >= (line.match(/,/g) || []).length
-            ? ";"
-            : ",";
+          tabCount >= semiCount && tabCount >= commaCount
+            ? "\t"
+            : semiCount >= commaCount
+              ? ";"
+              : ",";
         const cols = line.split(delim).map((c: string) => c.trim());
 
         // Pula cabecalho (ex: Nome;CPF;Telefone;Email;Endereco)

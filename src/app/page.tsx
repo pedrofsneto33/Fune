@@ -33,6 +33,7 @@ interface Holder {
   phone: string;
   email?: string;
   address?: string;
+  status?: string;
   created_at: string;
   contracts?: Contract[];
   dependents?: Dependent[];
@@ -100,6 +101,24 @@ interface FinancialTransaction {
   category: string;
   transaction_date: string;
 }
+
+// Cores de status de óbito (badge) e de OS (texto do select)
+const BURIAL_STATUS_STYLE: Record<string, string> = {
+  Agendado: "bg-blue-950 text-blue-300 border border-blue-800",
+  "Em traslado": "bg-amber-950 text-amber-300 border border-amber-800",
+  "Concluído": "bg-emerald-950 text-emerald-400 border border-emerald-800",
+  Cancelado: "bg-red-950 text-red-300 border border-red-800",
+};
+const burialStatusClass = (s?: string) =>
+  BURIAL_STATUS_STYLE[s || "Agendado"] || BURIAL_STATUS_STYLE["Agendado"];
+
+const SO_STATUS_TEXT: Record<string, string> = {
+  pending: "text-slate-300",
+  in_progress: "text-amber-300",
+  completed: "text-emerald-300",
+  cancelled: "text-red-300",
+};
+const soStatusClass = (s?: string) => SO_STATUS_TEXT[s || "pending"] || "text-white";
 
 export default function MasterEternityOS() {
   // 1. Estado de Autenticação
@@ -268,6 +287,10 @@ export default function MasterEternityOS() {
   const [serviceOrders, setServiceOrders] = useState<any[]>([]);
   const [loadingServiceOrders, setLoadingServiceOrders] = useState(false);
   const [savingStatusId, setSavingStatusId] = useState<string | undefined>(undefined);
+  const [togglingStatusId, setTogglingStatusId] = useState<string | undefined>(undefined);
+  const [asaasDueDate, setAsaasDueDate] = useState("");
+  const [asaasBillingType, setAsaasBillingType] = useState("BOLETO");
+  const [asaasBatchRunning, setAsaasBatchRunning] = useState(false);
 
   const [vehicleForm, setVehicleForm] = useState({
     plate: "",
@@ -781,22 +804,94 @@ export default function MasterEternityOS() {
     });
   };
 
-  // Disparar Carnês em Lote no Asaas
+  // Disparar Cobranças em Lote no Asaas (com data de vencimento escolhida)
   const handleGenerateAsaasBatch = async () => {
+    setAsaasBatchRunning(true);
     try {
       const res = await authFetch("/api/billing/asaas-batch", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          dueDate: asaasDueDate || undefined,
+          billingType: asaasBillingType,
+        }),
       });
-      const data = await res.json();
-      if (res.ok) {
-        alert(
-          `✓ Sucesso Asaas: ${data.message || "Lote de cobranças gerado com sucesso!"}`,
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success) {
+        const erros = (data.results || []).filter(
+          (r: any) => r.status !== "created",
         );
+        let extra = "";
+        if (erros.length > 0) {
+          extra =
+            "\n\nAtenção:\n" +
+            erros
+              .slice(0, 5)
+              .map((r: any) => `• ${r.holder}: ${r.error}`)
+              .join("\n");
+        }
+        alert(`✓ Asaas: ${data.message || "Lote processado!"}${extra}`);
+        loadData();
       } else {
         alert(`Erro Asaas: ${data.error || "Falha ao processar lote"}`);
       }
     } catch {
-      alert("Lote Asaas gerado com sucesso para todos os associados em dia!");
+      alert("Erro de conexão ao processar lote Asaas.");
+    } finally {
+      setAsaasBatchRunning(false);
+    }
+  };
+
+  // Excluir definitivamente o registro de óbito em edição
+  const handleDeleteBurial = async () => {
+    if (!editingBurial?.id) return;
+    if (
+      !window.confirm(
+        `Excluir definitivamente o registro de óbito de ${editingBurial.deceased_name}? Esta ação não pode ser desfeita.`,
+      )
+    )
+      return;
+    try {
+      const res = await authFetch(`/api/chapel/burials?id=${editingBurial.id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setBurials((prev) => prev.filter((b) => b.id !== editingBurial.id));
+        setEditingBurial(null);
+      } else {
+        const j = await res.json().catch(() => ({}));
+        alert(`Erro: ${j.error || "Falha ao excluir"}`);
+      }
+    } catch {
+      alert("Erro de conexão ao excluir registro.");
+    }
+  };
+
+  // Alternar situacao do associado (ativo/inativo) sem excluir historico
+  const handleToggleHolderStatus = async (h: any) => {
+    const newStatus = h.status === "inativo" ? "ativo" : "inativo";
+    setTogglingStatusId(h.id);
+    try {
+      const res = await authFetch("/api/holders", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: h.id, status: newStatus }),
+      });
+      if (res.ok) {
+        setHolders((prev) =>
+          prev.map((x) => (x.id === h.id ? { ...x, status: newStatus } : x)),
+        );
+      } else {
+        const j = await res.json().catch(() => ({}));
+        const hint = /column|coluna/i.test(j.error || "")
+          ? " Rode o script scripts/add-holder-status.sql no Supabase primeiro."
+          : "";
+        alert(`Erro: ${j.error || "Falha ao atualizar status"}.${hint}`);
+      }
+    } catch {
+      alert("Erro de conexão ao atualizar status do associado.");
+    } finally {
+      setTogglingStatusId(undefined);
     }
   };
 
@@ -1720,6 +1815,11 @@ export default function MasterEternityOS() {
                         >
                           <td className="py-3 px-4 font-bold text-white">
                             {h.full_name}{" "}
+                            {h.status === "inativo" && (
+                              <span className="ml-1 align-middle px-1.5 py-0.5 rounded text-[9px] font-bold bg-red-950 text-red-300 border border-red-800">
+                                INATIVO
+                              </span>
+                            )}
                             <span className="block text-[10px] text-slate-500 font-normal">
                               ({h.dependents?.length || 0} dependentes)
                             </span>
@@ -1775,6 +1875,26 @@ export default function MasterEternityOS() {
                                 className="px-2 py-1 bg-blue-950/60 hover:bg-blue-900/60 text-blue-300 border border-blue-800/60 rounded text-[11px]"
                               >
                                 👥 Dependentes
+                              </button>
+                              <button
+                                onClick={() => handleToggleHolderStatus(h)}
+                                disabled={togglingStatusId === h.id}
+                                className={`px-2 py-1 rounded text-[11px] border ${
+                                  h.status === "inativo"
+                                    ? "bg-emerald-950/60 hover:bg-emerald-900/60 text-emerald-300 border-emerald-800/60"
+                                    : "bg-amber-950/60 hover:bg-amber-900/60 text-amber-300 border-amber-800/60"
+                                }`}
+                                title={
+                                  h.status === "inativo"
+                                    ? "Reativar associado"
+                                    : "Marcar como inativo (mantém todo o histórico)"
+                                }
+                              >
+                                {togglingStatusId === h.id
+                                  ? "..."
+                                  : h.status === "inativo"
+                                    ? "Ativar"
+                                    : "Inativar"}
                               </button>
                               <button
                                 onClick={() => handleDeleteHolder(h)}
@@ -1878,7 +1998,7 @@ export default function MasterEternityOS() {
                             value={so.status}
                             disabled={savingStatusId === so.id}
                             onChange={(e) => handleUpdateServiceOrderStatus(so.id, e.target.value)}
-                            className={`bg-slate-950 border border-slate-700 rounded px-1.5 py-1 text-[11px] text-white disabled:opacity-50 ${savingStatusId === so.id ? "animate-pulse" : ""}`}
+                            className={`bg-slate-950 border border-slate-700 rounded px-1.5 py-1 text-[11px] font-semibold disabled:opacity-50 ${savingStatusId === so.id ? "animate-pulse" : ""} ${soStatusClass(so.status)}`}
                           >
                             <option value="pending">⏳ Pendente</option>
                             <option value="in_progress">🔄 Em andamento</option>
@@ -1939,7 +2059,9 @@ export default function MasterEternityOS() {
                           {new Date(b.burial_date).toLocaleString("pt-BR")}
                         </td>
                         <td className="py-3 px-4">
-                          <span className="px-2.5 py-0.5 rounded bg-blue-950 text-blue-300 text-[10px] font-bold">
+                          <span
+                            className={`px-2.5 py-0.5 rounded text-[10px] font-bold ${burialStatusClass(b.status)}`}
+                          >
                             {b.status || "Agendado"}
                           </span>
                         </td>
@@ -2766,12 +2888,14 @@ export default function MasterEternityOS() {
               Importar Associados via CSV
             </h3>
             <p className="text-[10px] text-slate-400 mb-3">
-              Cole os dados do Excel/CSV: uma linha por associado, separados por
-              ponto-e-virgula. Formato:{" "}
+              Abra a planilha no Excel/Google Sheets, selecione as linhas e cole
+              aqui (Ctrl+V) — colunas separadas por TAB, ponto-e-virgula ou
+              virgula sao detectadas automaticamente. Formato:{" "}
               <span className="font-mono text-slate-300">
                 Nome;CPF;Telefone;Email;Endereco
               </span>
-              . Cabecalho na primeira linha e ignorado automaticamente.
+              . Cabecalho na primeira linha e ignorado. Cada importado ja ganha
+              contrato ativo no plano padrao.
             </p>
             <textarea
               rows={8}
@@ -3242,22 +3366,59 @@ export default function MasterEternityOS() {
                 </code>
               </div>
 
-              <div className="pt-2 flex justify-between items-center border-t border-slate-800">
-                <button
-                  onClick={handleGenerateAsaasBatch}
-                  className="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded text-xs"
-                >
-                  ⚡ Disparar Carnês em Lote Agora
-                </button>
-                <button
-                  onClick={() => {
-                    setIsAsaasConfigOpen(false);
-                    alert("Configurações salvas!");
-                  }}
-                  className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded text-xs"
-                >
-                  Salvar Configurações
-                </button>
+              <div className="pt-2 space-y-2 border-t border-slate-800">
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="text-[10px] text-slate-400 block mb-1 font-bold uppercase">
+                      Vencimento das cobranças
+                    </label>
+                    <input
+                      type="date"
+                      value={asaasDueDate}
+                      onChange={(e) => setAsaasDueDate(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-700 rounded p-2 text-xs text-white"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] text-slate-400 block mb-1 font-bold uppercase">
+                      Forma de pagamento
+                    </label>
+                    <select
+                      value={asaasBillingType}
+                      onChange={(e) => setAsaasBillingType(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-700 rounded p-2 text-xs text-white"
+                    >
+                      <option value="BOLETO">Boleto</option>
+                      <option value="PIX">PIX</option>
+                      <option value="UNDEFINED">Cliente escolhe</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center">
+                  <button
+                    onClick={handleGenerateAsaasBatch}
+                    disabled={asaasBatchRunning}
+                    className="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded text-xs disabled:opacity-50"
+                  >
+                    {asaasBatchRunning
+                      ? "Processando lote no Asaas..."
+                      : "⚡ Disparar Cobranças em Lote Agora"}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsAsaasConfigOpen(false);
+                      alert("Configurações salvas!");
+                    }}
+                    className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded text-xs"
+                  >
+                    Salvar Configurações
+                  </button>
+                </div>
+                <p className="text-[10px] text-slate-500">
+                  Sem data informada, usa o dia 10 do próximo mês. Para vencimentos
+                  diferentes por cliente, gere carnês individuais em Financeiro → +
+                  Gerar Carnê.
+                </p>
               </div>
             </div>
           </div>
@@ -4139,6 +4300,13 @@ export default function MasterEternityOS() {
                 </select>
               </div>
               <div className="flex gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={handleDeleteBurial}
+                  className="flex-1 py-2.5 bg-red-950/70 hover:bg-red-900/70 text-red-300 border border-red-800/60 rounded-xl text-xs font-bold transition"
+                >
+                  🗑️ Excluir Registro
+                </button>
                 <button
                   type="button"
                   onClick={() => setEditingBurial(null)}

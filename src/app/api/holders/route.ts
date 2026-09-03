@@ -250,6 +250,16 @@ export const PATCH = withAuth(
 
       const updateData: Record<string, unknown> = {};
 
+      if (body.status !== undefined) {
+        if (!["ativo", "inativo"].includes(body.status)) {
+          return NextResponse.json(
+            { error: "Status invalido (use ativo ou inativo)." },
+            { status: 400 },
+          );
+        }
+        updateData.status = body.status;
+      }
+
       if (body.full_name !== undefined) {
         const full_name = sanitizeString(body.full_name, 255);
         if (!full_name || full_name.length < 2) {

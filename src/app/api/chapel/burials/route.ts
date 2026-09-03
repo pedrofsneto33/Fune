@@ -107,3 +107,30 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
   }
 }, ['superadmin', 'admin', 'manager', 'attendant', 'driver']);
 
+export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get('id');
+
+    if (!id || !isValidUUID(id)) {
+      return NextResponse.json({ error: 'ID inválido.' }, { status: 400 });
+    }
+
+    const { error } = await supabaseAdmin
+      .from('chapel_burials')
+      .delete()
+      .eq('id', id)
+      .eq('tenant_id', auth.tenantId);
+
+    if (error) {
+      return NextResponse.json(
+        { error: 'Erro ao excluir registro: ' + error.message },
+        { status: 500 },
+      );
+    }
+    return NextResponse.json({ success: true, message: 'Registro de óbito excluído.' });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: 'Erro interno ao processar requisição' }, { status: 500 });
+  }
+}, ['superadmin', 'admin', 'manager']);
+
