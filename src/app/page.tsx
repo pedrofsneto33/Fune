@@ -9,7 +9,7 @@ import { isTabAllowed, hasPermission, UserRole } from "@/config/permissions";
 import { ModalRBAC } from "@/components/dashboard/ModalRBAC";
 import { ModalDRE } from "@/components/dashboard/ModalDRE";
 import { TenantSettingsTab } from "@/components/tabs/TenantSettingsTab";
-import { ModalChapel } from "@/components/modals/ModalChapel";
+import { ModalChapel } from "@/components/modals/ModalChapel";`nimport { ModalCarnets } from "@/components/modals/ModalCarnets";
 
 // Interfaces
 interface Dependent {
@@ -206,7 +206,7 @@ export default function MasterEternityOS() {
 
   // Modais
   const [isNewHolderOpen, setIsNewHolderOpen] = useState(false);
-  const [isNewBurialOpen, setIsNewBurialOpen] = useState(false);
+  const [isNewBurialOpen, setIsNewBurialOpen] = useState(false);`n  const [isCarnetsOpen, setIsCarnetsOpen] = useState(false);
   const [isNewVehicleOpen, setIsNewVehicleOpen] = useState(false);
   const [isNewInventoryOpen, setIsNewInventoryOpen] = useState(false);
   const [isNewConvalescenceOpen, setIsNewConvalescenceOpen] = useState(false);
@@ -1479,6 +1479,15 @@ export default function MasterEternityOS() {
                 <span className="sm:hidden">+</span>
                 <span className="hidden sm:inline">+ Novo Titular</span>
                 <span className="sm:hidden">Titular</span>
+              </button>
+            )}
+            {hasPermission(userRole, "canManageFinancial") && (
+              <button
+                onClick={() => setIsCarnetsOpen(true)}
+                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-white bg-violet-600 hover:bg-violet-700 rounded-lg transition shadow"
+              >
+                <span className="sm:hidden">💳</span>
+                <span className="hidden sm:inline">+ Gerar Carnê</span>
               </button>
             )}
             {hasPermission(userRole, "canManageContracts") && (
@@ -3627,6 +3636,13 @@ export default function MasterEternityOS() {
       <ModalChapel
         isOpen={isNewChapelBookingOpen}
         onClose={() => setIsNewChapelBookingOpen(false)}
+        onSuccess={loadData}
+      />
+
+      {/* MODAL DE CARNEES DE PAGAMENTO */}
+      <ModalCarnets
+        isOpen={isCarnetsOpen}
+        onClose={() => setIsCarnetsOpen(false)}
         onSuccess={loadData}
       />
 
