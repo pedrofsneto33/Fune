@@ -1,11 +1,20 @@
-﻿'use client';
+'use client';
 import React, { useEffect, useState } from 'react';
-import { X, ShieldAlert, History, Terminal } from 'lucide-react';
-import { supabase } from '@/lib/supabaseClient';
+import { X, ShieldAlert, History } from 'lucide-react';
+import { authFetch } from '@/lib/authFetch';
+
+interface AuditLog {
+  id: string;
+  action: string;
+  user_email: string;
+  details: string;
+  created_at: string;
+}
 
 export function ModalAuditLogs({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const [logs, setLogs] = useState<any[]>([]);
+  const [logs, setLogs] = useState<AuditLog[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (isOpen) fetchLogs();
@@ -13,21 +22,20 @@ export function ModalAuditLogs({ isOpen, onClose }: { isOpen: boolean; onClose: 
 
   const fetchLogs = async () => {
     setLoading(true);
+    setError(null);
     try {
-      // Simula ou busca tabela de auditoria se existir
-      const { data, error } = await supabase.from('audit_logs').select('*').order('created_at', { ascending: false }).limit(50);
-      if (error) {
-        // Fallback de logs simulados caso a tabela ainda não tenha sido criada
-        setLogs([
-          { id: '1', action: 'LOGIN_SUCCESS', user_email: 'admin@eternitysos.com', details: 'Acesso autenticado no sistema', created_at: new Date().toISOString() },
-          { id: '2', action: 'ASAAS_BATCH_GENERATE', user_email: 'financeiro@eternitysos.com', details: 'Geração de 12 parcelas em lote', created_at: new Date(Date.now() - 3600000).toISOString() },
-          { id: '3', action: 'EMERGENCY_DISPATCH_CLOSE', user_email: 'plantao@eternitysos.com', details: 'Baixa de missão com abatimento de urna', created_at: new Date(Date.now() - 7200000).toISOString() }
-        ]);
-      } else {
-        setLogs(data || []);
+      const res = await authFetch('/api/audit-logs');
+      if (!res.ok) {
+        setError('Não foi possível carregar os logs de auditoria.');
+        setLogs([]);
+        return;
       }
+      const data = await res.json();
+      setLogs(data.logs || data || []);
     } catch (err) {
-      console.error(err);
+      console.error('Erro ao carregar logs:', err);
+      setError('Erro ao carregar logs de auditoria.');
+      setLogs([]);
     } finally {
       setLoading(false);
     }
@@ -38,8 +46,6 @@ export function ModalAuditLogs({ isOpen, onClose }: { isOpen: boolean; onClose: 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
       <div className="w-full max-w-3xl bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
-        
-        {/* Header */}
         <div className="p-5 border-b border-zinc-800 flex items-center justify-between bg-zinc-950/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-amber-500/10 border border-amber-500/20 rounded-xl text-amber-400">
@@ -54,11 +60,13 @@ export function ModalAuditLogs({ isOpen, onClose }: { isOpen: boolean; onClose: 
             <X className="w-5 h-5" />
           </button>
         </div>
-
-        {/* Content */}
         <div className="p-6 overflow-y-auto space-y-3">
           {loading ? (
             <div className="py-12 text-center text-xs text-zinc-400 animate-pulse">Carregando registros de auditoria...</div>
+          ) : error ? (
+            <div className="py-12 text-center text-xs text-amber-400">{error}</div>
+          ) : logs.length === 0 ? (
+            <div className="py-12 text-center text-xs text-zinc-500">Nenhum registro de auditoria encontrado.</div>
           ) : (
             <div className="space-y-2">
               {logs.map((log) => (
@@ -80,14 +88,9 @@ export function ModalAuditLogs({ isOpen, onClose }: { isOpen: boolean; onClose: 
             </div>
           )}
         </div>
-
-        {/* Footer */}
         <div className="p-4 border-t border-zinc-800 bg-zinc-950/40 flex justify-end">
-          <button onClick={onClose} className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg text-xs font-medium transition">
-            Fechar
-          </button>
+          <button onClick={onClose} className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg text-xs font-medium transition">Fechar</button>
         </div>
-
       </div>
     </div>
   );

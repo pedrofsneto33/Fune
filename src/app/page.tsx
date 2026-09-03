@@ -397,18 +397,22 @@ export default function MasterEternityOS() {
     supabase.auth.getSession().then(({ data: { session: initialSession } }) => {
       setSession(initialSession);
       if (initialSession) {
-        supabase
-          .from("user_roles")
-          .select("role, tenant_id, tenants(name)")
-          .eq("user_id", initialSession.user.id)
-          .maybeSingle()
-          .then(({ data: roleRecord }) => {
-            if (roleRecord) {
-              setUserRole(roleRecord.role as UserRole);
-              if ((roleRecord as any).tenants?.name) {
-                setTenantName((roleRecord as any).tenants.name);
-              }
+        // SECURITY: Use API instead of direct query to bypass RLS
+        // user_roles table has RLS enabled without policies for anon key
+        fetch('/api/init-user', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${initialSession.access_token}`
+          }
+        })
+          .then(res => res.json())
+          .then((data) => {
+            if (data.role) {
+              setUserRole(data.role as UserRole);
             }
+            loadData();
+          })
+          .catch(() => {
             loadData();
           });
       }

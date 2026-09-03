@@ -1,4 +1,4 @@
--- PARTE 2: Remove policies permissivas (tabelas S-W) + verificação
+-- PARTE 2: Remove policies permissivas (tabelas S-W) + verificação-- PARTE 2: Remove policies permissivas (tabelas S-W) + verificação
 DROP POLICY IF EXISTS "auth_full_access_sales_commissions" ON sales_commissions;
 DROP POLICY IF EXISTS "tenant_isolation_policy" ON sales_commissions;
 DROP POLICY IF EXISTS "auth_full_access_stock_items" ON stock_items;

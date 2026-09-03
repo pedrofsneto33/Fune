@@ -350,10 +350,55 @@ CREATE TABLE IF NOT EXISTS public.regulatory_reserves (
     UNIQUE (tenant_id, reference_month)
 );
 
+
+-- 28. Ordens de Serviço
+CREATE TABLE IF NOT EXISTS public.service_orders (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    contract_id UUID REFERENCES public.contracts(id) ON DELETE SET NULL,
+    burial_id UUID REFERENCES public.chapel_burials(id) ON DELETE SET NULL,
+    vehicle_id UUID REFERENCES public.vehicles(id) ON DELETE SET NULL,
+    deceased_name TEXT NOT NULL,
+    deceased_type TEXT NOT NULL CHECK (deceased_type IN ('holder', 'dependent')),
+    deceased_id UUID NOT NULL,
+    status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'in_progress', 'completed', 'cancelled')),
+    burial_date TIMESTAMPTZ,
+    cemetery_location TEXT,
+    notes TEXT,
+    total_amount NUMERIC(10,2) DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 29. Itens da Ordem de Serviço
+CREATE TABLE IF NOT EXISTS public.service_order_items (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    service_order_id UUID REFERENCES public.service_orders(id) ON DELETE CASCADE,
+    inventory_id UUID REFERENCES public.inventory(id) ON DELETE SET NULL,
+    quantity INTEGER DEFAULT 1 CHECK (quantity > 0),
+    unit_price NUMERIC(10,2) DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Índices para performance
+CREATE INDEX IF NOT EXISTS idx_service_orders_tenant ON public.service_orders(tenant_id);
+CREATE INDEX IF NOT EXISTS idx_service_orders_contract ON public.service_orders(contract_id);
+CREATE INDEX IF NOT EXISTS idx_service_orders_burial ON public.service_orders(burial_id);
+CREATE INDEX IF NOT EXISTS idx_service_order_items_service ON public.service_order_items(service_order_id);
 -- ==========================================
 -- ROW LEVEL SECURITY (RLS)
 -- ==========================================
 
+
+-- Function to decrement stock
+CREATE OR REPLACE FUNCTION public.decrement_stock(item_id uuid, qty integer)
+RETURNS void AS $$
+BEGIN
+  UPDATE public.inventory
+  SET stock_quantity = stock_quantity - qty
+  WHERE id = item_id AND stock_quantity >= qty;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE OR REPLACE FUNCTION public.get_user_tenant_id()
 RETURNS UUID AS $$
     SELECT tenant_id FROM public.user_roles 
@@ -396,7 +441,11 @@ ALTER TABLE public.dispatches ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.dispatch_audit_logs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.emergency_dispatches ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.payment_carnets ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.service_orders ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.service_order_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.regulatory_reserves ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.service_orders ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.service_order_items ENABLE ROW LEVEL SECURITY;
 
 -- Politicas de Isolamento por Tenant
 DO $$
@@ -410,7 +459,7 @@ DECLARE
         'chapel_bookings', 'collector_routes', 'commissions',
         'convalescence_items', 'convalescence_loans', 'vehicles',
         'fleet_vehicles', 'dispatches', 'dispatch_audit_logs',
-        'emergency_dispatches', 'payment_carnets', 'regulatory_reserves'
+        'emergency_dispatches', 'payment_carnets', 'service_orders', 'service_order_items', 'regulatory_reserves', 'service_orders', 'service_order_items'
     ];
 BEGIN
     FOREACH t IN ARRAY tables_list LOOP
