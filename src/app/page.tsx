@@ -33,8 +33,13 @@ interface Holder {
   full_name: string;
   cpf: string;
   phone: string;
-  email?: string;
+    email?: string;
   address?: string;
+  city?: string;
+  state?: string;
+  birth_date?: string;
+  gender?: string;
+  observations?: string;
   status?: string;
   created_at: string;
   contracts?: Contract[];
@@ -257,6 +262,11 @@ export default function MasterEternityOS() {
     phone: "",
     email: "",
     address: "",
+    city: "",
+    state: "",
+    birth_date: "",
+    gender: "",
+    observations: "",
     plan_name: "Familiar Ouro",
     monthly_fee: "",
   });
@@ -514,12 +524,18 @@ export default function MasterEternityOS() {
   // Filtragem de Associados
   const filteredHolders = useMemo(() => {
     return holders.filter((h) => {
-      const q = searchQuery.toLowerCase().trim();
+            const q = searchQuery.toLowerCase().trim();
+      const onlyNums = q.replace(/\D/g, "");
+      const norm = (s: string | undefined) =>
+        (s || "")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase();
       const matchQ =
         !q ||
-        h.full_name?.toLowerCase().includes(q) ||
+        norm(h.full_name).includes(norm(q)) ||
         h.cpf?.replace(/\D/g, "").includes(q.replace(/\D/g, "")) ||
-        h.phone?.includes(q);
+                (h.phone && h.phone.replace(/\D/g, "").includes(onlyNums));
 
       const status = h.contracts?.[0]?.status || "active";
       const matchS = statusFilter === "all" || status === statusFilter;
@@ -584,8 +600,13 @@ export default function MasterEternityOS() {
           full_name: "",
           cpf: "",
           phone: "",
-          email: "",
+                    email: "",
           address: "",
+          city: "",
+          state: "",
+          birth_date: "",
+          gender: "",
+          observations: "",
           plan_name: "Familiar Ouro",
           monthly_fee: "",
         });
@@ -608,8 +629,15 @@ export default function MasterEternityOS() {
       full_name: h.full_name,
       cpf: h.cpf,
       phone: h.phone,
-      email: (h as any).email || "",
+            email: (h as any).email || "",
       address: (h as any).address || "",
+      city: (h as any).city || "",
+      state: (h as any).state || "",
+      birth_date: (h as any).birth_date
+        ? String((h as any).birth_date).slice(0, 10)
+        : "",
+      gender: (h as any).gender || "",
+      observations: (h as any).observations || "",
       plan_name: contract?.plans?.name || "Familiar Ouro",
       monthly_fee: contract?.plans?.monthly_fee
         ? String(contract.plans.monthly_fee)
@@ -2853,6 +2881,94 @@ export default function MasterEternityOS() {
                   }
                   placeholder="Rua, Número..."
                   className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
+                />
+              </div>
+
+              {/* Novos campos opcionais — direcionamento preciso via API /holders */}
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-slate-600 dark:text-slate-600 dark:text-slate-400 font-semibold mb-1">
+                    Cidade:
+                  </label>
+                  <input
+                    type="text"
+                    value={holderForm.city}
+                    onChange={(e) =>
+                      setHolderForm({ ...holderForm, city: e.target.value })
+                    }
+                    placeholder="Cidade..."
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-600 dark:text-slate-500 dark:text-slate-400 font-semibold mb-1">
+                    UF:
+                  </label>
+                  <input
+                    type="text"
+                    maxLength={2}
+                    value={holderForm.state}
+                    onChange={(e) =>
+                      setHolderForm({
+                        ...holderForm,
+                        state: e.target.value.toUpperCase(),
+                      })
+                    }
+                    placeholder="UF"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-600 dark:text-slate-500 dark:text-slate-400 font-semibold mb-1">
+                    Data Nascimento:
+                  </label>
+                  <input
+                    type="date"
+                    value={holderForm.birth_date}
+                    onChange={(e) =>
+                      setHolderForm({
+                        ...holderForm,
+                        birth_date: e.target.value,
+                      })
+                    }
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-600 dark:text-slate-500 dark:text-slate-400 font-semibold mb-1">
+                    Gênero:
+                  </label>
+                  <select
+                    value={holderForm.gender}
+                    onChange={(e) =>
+                      setHolderForm({
+                        ...holderForm,
+                        gender: e.target.value,
+                      })
+                    }
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
+                  >
+                    <option value="">Selecione</option>
+                    <option value="masculino">Masculino</option>
+                    <option value="feminino">Feminino</option>
+                    <option value="outro">Outro</option>
+                    <option value="nao_informar">Prefiro não informar</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-slate-600 dark:text-slate-500 dark:text-slate-400 font-semibold mb-1">
+                  Observações:
+                </label>
+                <textarea
+                  value={holderForm.observations}
+                  onChange={(e) =>
+                    setHolderForm({ ...holderForm, observations: e.target.value })
+                  }
+                  placeholder="Alergias, contato de emergência..."
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
+                  rows={3}
                 />
               </div>
 

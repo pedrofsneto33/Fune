@@ -156,20 +156,52 @@ export const POST = withAuth(
         );
       }
 
-      const { data: holder, error: holderError } = await supabaseAdmin
+            const city = body.city ? sanitizeString(body.city, 100) : null;
+      const state = body.state ? sanitizeString(body.state, 2).toUpperCase() : null;
+      const birth_date = body.birth_date ? body.birth_date : null;
+      const gender = body.gender ? sanitizeString(body.gender, 20) : null;
+      const observations = body.observations
+        ? sanitizeString(body.observations, 1000)
+        : null;
+
+      const baseInsert = {
+        tenant_id: auth.tenantId,
+        full_name: full_name.trim(),
+        cpf: cpf.trim(),
+        phone: phone.trim(),
+        email: email ? email.trim() : null,
+        address: address ? address.trim() : null,
+      };
+
+      // Campos enriquecidos (cidade, uf, nascimento, genero, obs) — direcionamento preciso via API.
+      // Retry defensivo: se a migracao ainda nao foi rodada e a coluna nao existir,
+      // refaz o insert sem os campos extras para NUNCA quebrar o cadastro de titular.
+      let insertResult = await supabaseAdmin
         .from("holders")
         .insert([
-          {
-            tenant_id: auth.tenantId,
-            full_name: full_name.trim(),
-            cpf: cpf.trim(),
-            phone: phone.trim(),
-            email: email ? email.trim() : null,
-            address: address ? address.trim() : null,
-          },
+          { ...baseInsert, city, state, birth_date, gender, observations },
         ])
         .select()
         .single();
+
+      let { data: holder, error: holderError } = insertResult;
+
+      if (holderError) {
+        const msg = String(holderError.message || "");
+        if (
+          msg.toLowerCase().includes("does not exist") ||
+          msg.toLowerCase().includes("column")
+        ) {
+          const fb = await supabaseAdmin
+            .from("holders")
+            .insert([baseInsert])
+            .select()
+            .single();
+          holder = fb.data;
+          holderError = fb.error;
+        }
+      }
+
 
       if (holderError)
         return NextResponse.json(
