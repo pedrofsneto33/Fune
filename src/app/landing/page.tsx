@@ -20,12 +20,12 @@ const MODULES = [
 
 const PLANS = [
   {
-    code: 'essencial', name: 'Essencial', price: 'R$ 297', period: '/mês', badge: null as string | null,
+    code: 'essencial', name: 'Essencial', price: 'R$ 397', period: '/mês', badge: null as string | null,
     desc: 'Para funerárias de pequeno porte começando a digitalizar a operação.',
     items: ['Até 200 associados ativos', 'Até 5 usuários no sistema', 'Até 4 dependentes por titular', 'Associados, dependentes e contratos', 'Carteirinha digital + cobrança PIX/boleto', 'Plantão 24h e registro de óbitos', 'Suporte por WhatsApp'],
   },
   {
-    code: 'profissional', name: 'Profissional', price: 'R$ 497', period: '/mês', badge: 'Mais escolhido',
+    code: 'profissional', name: 'Profissional', price: 'R$ 597', period: '/mês', badge: 'Mais escolhido',
     desc: 'Para operações em crescimento que precisam de BI e financeiro completo.',
     items: ['Até 1.000 associados ativos', 'Até 20 usuários no sistema', 'Até 8 dependentes por titular', 'Tudo do Essencial', 'Frota, estoque e tanatopraxia', 'Financeiro completo com DRE', 'Relatórios em PDF e comissões', 'Suporte prioritário'],
   },

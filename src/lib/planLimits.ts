@@ -24,7 +24,7 @@ export const COMMERCIAL_PLANS: Record<CommercialPlanCode, CommercialPlan> = {
   essencial: {
     code: 'essencial',
     name: 'Essencial',
-    priceMonthly: 297,
+    priceMonthly: 397,
     maxHolders: 200,
     maxUsers: 5,
     maxDependentsPerHolder: 4,
@@ -41,7 +41,7 @@ export const COMMERCIAL_PLANS: Record<CommercialPlanCode, CommercialPlan> = {
   profissional: {
     code: 'profissional',
     name: 'Profissional',
-    priceMonthly: 497,
+    priceMonthly: 597,
     maxHolders: 1000,
     maxUsers: 20,
     maxDependentsPerHolder: 8,
