@@ -4,7 +4,7 @@ import * as path from 'path';
 const API_DIR = path.join(process.cwd(), 'src/app/api');
 
 // Rotas que por design nao usam withAuth (validacao propria, ex.: webhook de pagamento)
-const ALLOWLIST = ['webhooks/asaas'];
+const ALLOWLIST = ['webhooks/asaas', 'webhooks/whatsapp'];
 
 function listRouteFiles(dir: string): string[] {
   const found: string[] = [];

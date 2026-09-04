@@ -188,11 +188,14 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
           .eq('tenant_id', auth.tenantId);
       }
     }
-    if (status === 'completed' && data.vehicle_id) {
-      await supabaseAdmin.from('vehicles').update({ status: 'Disponível' }).eq('id', data.vehicle_id).eq('tenant_id', auth.tenantId);
-    }
-    if (vehicle_id) {
-      await supabaseAdmin.from('vehicles').update({ status: 'Em Missão' }).eq('id', vehicle_id).eq('tenant_id', auth.tenantId);
+    // Sincroniza o veículo vinculado: in_progress = Em Missão; pending/completed/cancelled = Disponível
+    if (status && data?.vehicle_id) {
+      const vehicleStatus = status === 'in_progress' ? 'Em Missão' : 'Disponível';
+      await supabaseAdmin
+        .from('vehicles')
+        .update({ status: vehicleStatus })
+        .eq('id', data.vehicle_id)
+        .eq('tenant_id', auth.tenantId);
     }
     return NextResponse.json(data);
   } catch (err: unknown) {
