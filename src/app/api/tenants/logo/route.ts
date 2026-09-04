@@ -18,18 +18,18 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
   }
 
   if (file.size > MAX_SIZE) {
-    return NextResponse.json({ error: 'A imagem deve ter no maximo 2MB.' }, { status: 400 });
+    return NextResponse.json({ error: 'A imagem deve ter no máximo 2MB.' }, { status: 400 });
   }
 
   const mime = (file.type || '').toLowerCase();
   if (!ALLOWED_TYPES.includes(mime)) {
     return NextResponse.json(
-      { error: 'Formato de imagem nao suportado. Use PNG, JPEG ou WebP.' },
+      { error: 'Formato de imagem não suportado. Use PNG, JPEG ou WebP.' },
       { status: 400 }
     );
   }
 
-  // Validacao de conteudo real (magic bytes) — o MIME do navegador e facil de falsificar
+  // Validação de conteudo real (magic bytes) — o MIME do navegador e fácil de falsificar
   const buf = Buffer.from(await file.arrayBuffer());
   const isPng =
     buf.length > 8 &&
@@ -42,7 +42,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
   if (!isPng && !isJpeg && !isWebp) {
     return NextResponse.json(
-      { error: 'Conteudo do arquivo nao corresponde a uma imagem valida.' },
+      { error: 'Conteudo do arquivo não corresponde a uma imagem valida.' },
       { status: 400 }
     );
   }

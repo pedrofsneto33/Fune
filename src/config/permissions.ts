@@ -4,14 +4,14 @@ export type UserRole = AppRole;
 // ============================================
 // HIERARQUIA DE PAPÉIS (RBAC)
 // --------------------------------------------
-// superadmin  -> DONO DO SISTEMA (multi-tenant). Vê e gerencia TODOS os
+// superadmin  -> DONO DO SISTEMA (multi-tenant). Vê e gerência TODOS os
 //                tenants, cria novos tenants/clientes, altera plano comercial,
 //                concede/revoga qualquer papel. Nunca pode ficar lockout.
 //                Atribuído APENAS por outro superadmin (uso exclusivo do dono).
 // admin       -> Dono/Gestor de UMA funerária (tenant). Opera 100% do próprio
 //                tenant (config, financeiro, RBAC local, etc.), mas NÃO pode:
 //                criar outros tenants, alterar plano comercial, conceder
-//                superadmin, nem rebaixar/remover um superadmin.
+//                superadmin, nem rebaixar/removeráá um superadmin.
 // manager     -> Nível operacional elevado (contratos, capela, operações).
 // financial   -> Financeiro.
 // attendant   -> Atendimento (contratos, capela, convalescença).

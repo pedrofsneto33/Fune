@@ -14,13 +14,13 @@ export async function POST(req: NextRequest) {
     const token = authHeader?.startsWith('Bearer ') ? authHeader.substring(7) : null;
 
     if (!token) {
-      return NextResponse.json({ error: 'Token necessario' }, { status: 401 });
+      return NextResponse.json({ error: 'Token necessário' }, { status: 401 });
     }
 
     const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
 
     if (authError || !user) {
-      return NextResponse.json({ error: 'Token invalido' }, { status: 401 });
+      return NextResponse.json({ error: 'Token inválido' }, { status: 401 });
     }
 
     const { data: roleRecord } = await supabaseAdmin
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
         userId: user.id,
         role: roleRecord.role,
         tenantId: roleRecord.tenant_id,
-        message: 'Usuario ja configurado',
+        message: 'Usuário ja configurado',
       });
     }
 
@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// SECURITY: GET agora exige autenticacao + perfil superadmin
+// SECURITY: GET agora exige autenticação + perfil superadmin
 // Antes vazava lista de tenants + total de user_roles publicamente
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   const { data: tenants } = await supabaseAdmin

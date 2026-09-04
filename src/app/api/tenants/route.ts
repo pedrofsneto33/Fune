@@ -6,7 +6,7 @@ const PUBLIC_COLUMNS = 'id, name, trade_name, cnpj, phone_emergency, primary_col
 
 const VALID_PLAN_CODES = ['essencial', 'profissional', 'enterprise'];
 
-// Uso atual do tenant x limites do plano comercial (para exibicao no painel)
+// Uso atual do tenant x limites do plano comercial (para exibição no painel)
 async function getTenantUsage(tenantId: string) {
   const [holdersRes, usersRes] = await Promise.all([
     supabaseAdmin.from('holders').select('*', { count: 'exact', head: true }).eq('tenant_id', tenantId),
@@ -61,7 +61,7 @@ export const POST = withAuth(async (req: NextRequest) => {
   } = body;
 
   if (!name || !cnpj) {
-    return NextResponse.json({ error: 'Campos obrigatorios: name, cnpj' }, { status: 400 });
+    return NextResponse.json({ error: 'Campos obrigatórios: name, cnpj' }, { status: 400 });
   }
 
   const { data, error } = await supabaseAdmin
@@ -100,15 +100,15 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
   const destinationTenantId = auth.role === 'superadmin' ? (tenant_id || auth.tenantId) : auth.tenantId;
 
   if (!destinationTenantId) {
-    return NextResponse.json({ error: 'Tenant ID nao fornecido' }, { status: 400 });
+    return NextResponse.json({ error: 'Tenant ID não fornecido' }, { status: 400 });
   }
 
-  // SECURITY: 'updated_at' removido - a coluna nao existe na tabela tenants
-  // (causava erro 500 em TODO save de configuracoes)
+  // SECURITY: 'updated_at' removido - a coluna não existe na tabela tenants
+  // (causava erro 500 em TODO save de configurações)
   const updateData: Record<string, any> = {};
 
 
-  // Plano comercial: SOMENTE superadmin pode alterar (impacta cobranca)
+  // Plano comercial: SOMENTE superadmin pode alterar (impacta cobrança)
   if (commercial_plan !== undefined) {
     if (auth.role !== 'superadmin') {
       return NextResponse.json(
@@ -118,7 +118,7 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
     }
     if (!VALID_PLAN_CODES.includes(commercial_plan)) {
       return NextResponse.json(
-        { error: 'Plano comercial invalido. Use: ' + VALID_PLAN_CODES.join(', ') },
+        { error: 'Plano comercial inválido. Use: ' + VALID_PLAN_CODES.join(', ') },
         { status: 400 }
       );
     }
@@ -146,5 +146,5 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
     .eq('id', destinationTenantId);
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ success: true, message: 'Configuracoes do tenant atualizadas.' });
+  return NextResponse.json({ success: true, message: 'Configurações do tenant atualizadas.' });
 }, ['superadmin', 'admin']);

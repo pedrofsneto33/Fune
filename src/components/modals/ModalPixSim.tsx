@@ -54,7 +54,7 @@ export function ModalPixSim({
           </div>
 
           <p className="text-[11px] text-zinc-400">
-            Esta ação dispara uma notificação assíncrona fingindo a confirmação bancária do Asaas para testar baixa automática e reserva atuarial.
+            Esta ação dispara uma notificação assíncrona fingindo a confirmação bancária do Asaas para testar baixa automáóótica e reserva atuarial.
           </p>
 
           <div className="flex justify-end gap-3 pt-3 border-t border-zinc-200 dark:border-zinc-800">

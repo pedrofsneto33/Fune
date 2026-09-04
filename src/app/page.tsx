@@ -109,7 +109,7 @@ interface FinancialTransaction {
   transaction_date: string;
 }
 
-// Cores de status de óbito (badge) e de OS (texto do select)
+// Cores de status de óóóbito (badge) e de OS (texto do select)
 const BURIAL_STATUS_STYLE: Record<string, string> = {
   Agendado: "bg-blue-950 text-blue-300 border border-blue-800",
   "Em traslado": "bg-amber-950 text-amber-300 border border-amber-800",
@@ -128,7 +128,7 @@ const SO_STATUS_TEXT: Record<string, string> = {
 const soStatusClass = (s?: string) => SO_STATUS_TEXT[s || "pending"] || "text-slate-900 dark:text-white";
 
 export default function MasterEternityOS() {
-  // 1. Estado de Autenticao
+  // 1. Estado de Autenticação
   const [session, setSession] = useState<any>(null);
   const [authChecking, setAuthChecking] = useState(true);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
@@ -247,7 +247,7 @@ export default function MasterEternityOS() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isNewChapelBookingOpen, setIsNewChapelBookingOpen] = useState(false);
 
-  // Impresses e Dependentes
+  // Impressões e Dependentes
   const [selectedHolder, setSelectedHolder] = useState<Holder | null>(null);
   const [printHolderContract, setPrintHolderContract] = useState<Holder | null>(
     null,
@@ -286,7 +286,7 @@ export default function MasterEternityOS() {
 
   const [savingBurial, setSavingBurial] = useState(false);
 
-  // INTEGRAÇÃO: Ordem de Serviço completa (óbito + contrato + veículo + estoque)
+  // INTEGRAÇÃO: Ordem de Serviço completa (óóóbito + contrato + veículo + estoque)
   const [serviceOrderForm, setServiceOrderForm] = useState({
     deceased_type: "holder" as "holder" | "dependent" | "free",
     contract_id: "",
@@ -376,7 +376,7 @@ export default function MasterEternityOS() {
         if (Array.isArray(data)) setHolders(data);
       }
 
-      // 2. óbitos
+      // 2. óóóbitos
       const bRes = await authFetch("/api/chapel/burials");
       if (bRes.ok) {
         const bData = await bRes.json();
@@ -418,7 +418,7 @@ export default function MasterEternityOS() {
         if (Array.isArray(capData)) setChapels(capData);
       }
 
-      // 9. Ordens de Serviço integradas (óbito + contrato + veículo + estoque)
+      // 9. Ordens de Serviço integradas (óóóbito + contrato + veículo + estoque)
       const soRes = await authFetch("/api/service-orders");
       if (soRes.ok) {
         const soData = await soRes.json();
@@ -624,7 +624,7 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Abrir modal de edição preenchido (CPF bloqueado - e a chave de identificacao)
+  // Abrir modal de edição preenchido (CPF bloqueado - e a chave de identificação)
   const openEditHolder = (h: Holder) => {
     const contract = h.contracts?.[0];
     setEditingHolder(h);
@@ -664,7 +664,7 @@ export default function MasterEternityOS() {
         setImportResult(j);
         if (j.imported > 0) loadData();
       } else {
-        notifyError("Erro na importacao: " + (j.error || "Tente novamente"));
+        notifyError("Erro na importação: " + (j.error || "Tente novamente"));
       }
     } catch {
       notifyError("Erro de conexão ao importar.");
@@ -678,7 +678,7 @@ export default function MasterEternityOS() {
       !confirm(
         'Excluir o associado "' +
           h.full_name +
-          '"?⚠️\n\nEsta ação não pode ser desfeita e removerá também os dependentes e contratos vinculados.',
+          '"?⚠️\n\nEsta ação não pode ser desfeita e removerááá também os dependentes e contratos vinculados.',
       )
     )
       return;
@@ -689,7 +689,7 @@ export default function MasterEternityOS() {
       });
       if (res.ok) {
         setHolders((prev) => prev.filter((x) => x.id !== h.id));
-        notifySuccess("Associado excluido com sucesso!");
+        notifySuccess("Associado excluído com sucesso!");
       } else {
         const j = await res.json();
         notifyError("Erro ao excluir: " + (j.error || "Tente novamente"));
@@ -701,7 +701,7 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Salvar óbito como ORDEM DE SERVIÇO INTEGRADA (óbito + contrato + veículo + estoque)
+  // Salvar óóóbito como ORDEM DE SERVIÇO INTEGRADA (óóóbito + contrato + veículo + estoque)
   const handleSaveBurial = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingBurial(true);
@@ -742,7 +742,7 @@ export default function MasterEternityOS() {
         });
         setSelectedItems([]);
         setActiveTab("burials");
-        const integrações: string[] = ["Registro de óbito criado"];
+        const integrações: string[] = ["Registro de óóóbito criado"];
         if (serviceOrderForm.contract_id && isLinked) integrações.push("contrato vinculado");
         if (serviceOrderForm.vehicle_id) integrações.push("veículo em missão");
         if (selectedItems.length > 0) integrações.push(`${selectedItems.length} item(ns) baixado(s) do estoque`);
@@ -776,7 +776,7 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Alterar status da Ordem de Serviço (integra com veículo E registro de óbito)
+  // Alterar status da Ordem de Serviço (integra com veículo E registro de óóóbito)
   const handleUpdateServiceOrderStatus = async (id: string, newStatus: string) => {
     setSavingStatusId(id);
     try {
@@ -793,7 +793,7 @@ export default function MasterEternityOS() {
             s.id === id ? { ...s, ...(updated || {}), status: newStatus } : s,
           ),
         );
-        // Sincroniza o status do óbito vinculado na tabela local
+        // Sincroniza o status do óóóbito vinculado na tabela local
         const burialStatusMap: Record<string, string> = {
           pending: "Agendado",
           in_progress: "Em traslado",
@@ -875,12 +875,12 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Excluir definitivamente o registro de óbito em edio
+  // Excluir definitivamente o registro de óóóbito em edio
   const handleDeleteBurial = async () => {
     if (!editingBurial?.id) return;
     if (
       !window.confirm(
-        `Excluir definitivamente o registro de óbito de ${editingBurial.deceased_name}? Esta ao não pode ser desfeita.`,
+        `Excluir definitivamente o registro de óóóbito de ${editingBurial.deceased_name}? Esta ao não pode ser desfeita.`,
       )
     )
       return;
@@ -900,7 +900,7 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Alternar situacao do associado (ativo/inativo) sem excluir historico
+  // Alternar situação do associado (ativo/inativo) sem excluir histórico
   const handleToggleHolderStatus = async (h: any) => {
     const newStatus = h.status === "inativo" ? "ativo" : "inativo";
     setTogglingStatusId(h.id);
@@ -1013,7 +1013,7 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Salvar Empréstimo Convalescena
+  // Salvar Empréstimo Convalescença
   const handleSaveConvalescence = (e: React.FormEvent) => {
     e.preventDefault();
     setConvalescence((prev) => [
@@ -1095,9 +1095,9 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Remover Parceiro de Convênio
+  // Removerá Parceiro de Convênio
   const handleDeletePartner = async (id: string) => {
-    if (!confirm("Remover este parceiro da rede de convênios?")) return;
+    if (!confirm("Removerá este parceiro da rede de convênios?")) return;
     try {
       const res = await authFetch(
         `/api/benefits/partners?id=${encodeURIComponent(id)}`,
@@ -1108,10 +1108,10 @@ export default function MasterEternityOS() {
         notifyInfo("Parceiro removido.");
       } else {
         const err = await res.json();
-        notifyError(`Erro: ${err.error || "Falha ao remover parceiro"}`);
+        notifyError(`Erro: ${err.error || "Falha ao removeráá parceiro"}`);
       }
     } catch {
-      notifyError("Erro de conexão ao remover parceiro.");
+      notifyError("Erro de conexão ao removeráá parceiro.");
     }
   };
 
@@ -1226,7 +1226,7 @@ export default function MasterEternityOS() {
       });
   }, [transactions]);
 
-  // Missões em Aberto = sepultamentos que no esto concluídos/cancelados
+  // Missões em Aberto = sepultamentos que no estão concluídos/cancelados
   const openBurials = burials.filter(
     (b) =>
       !["concluído", "concluido", "cancelado"].includes(
@@ -1234,7 +1234,7 @@ export default function MasterEternityOS() {
       ),
   ).length;
 
-  // Veículos Disponveis = no em missão e no em manuteno (case/acentuao robusta)
+  // Veículos Disponíveis = no em missão e no em manuteno (case/acentuao robusta)
   const availableVehicles = vehicles.filter((v) => {
     const s = (v.status || "").toLowerCase();
     return s.length > 0 && s !== "em missão" && s !== "manuteno";
@@ -1363,13 +1363,13 @@ export default function MasterEternityOS() {
           </div>
 
           <nav className="p-3 space-y-3 overflow-y-auto max-h-[calc(100vh-170px)]">
-            {/* GESTO & FINANAS */}
+            {/* GESTÃO & FINANAS */}
             {(isTabAllowed(userRole, "executive") ||
               isTabAllowed(userRole, "holders") ||
               isTabAllowed(userRole, "financial")) && (
               <div>
                 <p className="text-[10px] font-bold text-slate-600 dark:text-slate-500 dark:text-slate-400 uppercase tracking-wider px-2 mb-1">
-                  GESTO & FINANAS
+                  GESTÃO & FINANAS
                 </p>
                 <div className="space-y-0.5">
                   {isTabAllowed(userRole, "executive") && (
@@ -1424,7 +1424,7 @@ export default function MasterEternityOS() {
                       className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "burials" ? "bg-rose-600/15 text-rose-400 border border-rose-500/30" : "text-white dark:text-white dark:text-white dark:text-white dark:text-white dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800"}`}
                     >
                       <div className="flex items-center gap-2">
-                        <span>🚨</span> Plantão 24h & Óbitos
+                        <span>🚨</span> Plantão 24h & Óóóbitos
                       </div>
                       <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 font-bold">
                         {burials.length}
@@ -1500,7 +1500,7 @@ export default function MasterEternityOS() {
                       className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "convalescence" ? "bg-emerald-600/15 text-emerald-400 border border-emerald-500/30" : "text-white dark:text-white dark:text-white dark:text-white dark:text-white dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800"}`}
                     >
                       <div className="flex items-center gap-2">
-                        <span>?</span> Convalescena
+                        <span>?</span> Convalescença
                       </div>
                       <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold">
                         {convalescence.length}
@@ -1536,7 +1536,7 @@ export default function MasterEternityOS() {
               <p className="text-xs font-semibold text-slate-900 dark:text-white capitalize truncate">
                 {userRole}
               </p>
-              <p className="text-[10px] text-emerald-400">? Conectado</p>
+              <p className="text-[10px] text-emerald-400">🟢 Conectado</p>
             </div>
           </div>
           <div className="flex items-center gap-1">
@@ -1596,15 +1596,15 @@ export default function MasterEternityOS() {
             </button>
             <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider truncate">
               {activeTab === "executive" && "Painel Executivo & Indicadores"}
-              {activeTab === "holders" && "Gesto de Associados & Planos"}
-              {activeTab === "burials" && "Central de Plantão 24h & Óbitos"}
+              {activeTab === "holders" && "Gestão de Associados & Planos"}
+              {activeTab === "burials" && "Central de Plantão 24h & Óóóbitos"}
               {activeTab === "thanatopraxy" && "Laboratrio de Tanatopraxia"}
               {activeTab === "chapel" && "Salas de Velório & Capelas"}
               {activeTab === "fleet" && "Frota & Veículos"}
               {activeTab === "inventory" && "Estoque de Urnas & Insumos"}
               {activeTab === "convalescence" && "Aparelhos Convalescentes"}
               {activeTab === "benefits" && "Clube de Convênios & Descontos"}
-              {activeTab === "financial" && "Gesto Financeira & Livro Caixa"}
+              {activeTab === "financial" && "Gestão Financeira & Livro Caixa"}
             </h2>
           </div>
 
@@ -1615,9 +1615,9 @@ export default function MasterEternityOS() {
                 className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition shadow shrink-0"
               >
                 <span className="hidden sm:inline">
-                  ⚰️ Novo Atendimento / Óbito
+                  ⚰️ Novo Atendimento / Óóóbito
                 </span>
-                <span className="sm:hidden">⚰️ óbito</span>
+                <span className="sm:hidden">⚰️ óóóbito</span>
               </button>
             )}
             {hasPermission(userRole, "canManageContracts") && (
@@ -1636,7 +1636,7 @@ export default function MasterEternityOS() {
                 className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-white bg-violet-600 hover:bg-violet-700 rounded-lg transition shadow"
               >
                 <span className="sm:hidden">💳</span>
-                <span className="hidden sm:inline">+ Gerar Carn</span>
+                <span className="hidden sm:inline">+ Gerar Carnê</span>
               </button>
             )}
             {hasPermission(userRole, "canManageContracts") && (
@@ -1712,7 +1712,7 @@ export default function MasterEternityOS() {
                 </div>
                 <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
                   <p className="text-xs text-slate-600 dark:text-slate-500 dark:text-slate-400 uppercase font-semibold">
-                    Veículos Disponveis
+                    Veículos Disponíveis
                   </p>
                   <p className="text-2xl font-bold text-slate-900 dark:text-white mt-2">
                     {availableVehicles}
@@ -1989,7 +1989,7 @@ export default function MasterEternityOS() {
                               ? "Titular"
                               : so.deceased_type === "dependent"
                                 ? "Dependente"
-                                : "Pblico geral"}
+                                : "Público geral"}
                           </span>
                         </td>
                         <td className="py-3 px-4">
@@ -2062,7 +2062,7 @@ export default function MasterEternityOS() {
               <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl overflow-x-auto">
                 <div className="px-4 py-3 border-b border-slate-200 dark:border-slate-800">
                   <h3 className="text-xs font-bold text-slate-600 dark:text-slate-300">
-                    ⚰️ Registros de Óbito ({burials.length})
+                    ⚰️ Registros de Óóóbito ({burials.length})
                   </h3>
                 </div>
                 <table className="w-full min-w-[640px] text-left text-xs">
@@ -2289,7 +2289,7 @@ export default function MasterEternityOS() {
                               );
                               if (res.ok) loadData();
                               else
-                                notifyError("Não foi possvel atualizar o status.");
+                                notifyError("Não foi possível atualizar o status.");
                             }}
                             className="flex-1 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded text-[11px] font-semibold"
                           >
@@ -2297,13 +2297,13 @@ export default function MasterEternityOS() {
                           </button>
                           <button
                             onClick={async () => {
-                              if (!confirm("Remover esta reserva?")) return;
+                              if (!confirm("Removerá esta reserva?")) return;
                               const res = await authFetch(
                                 `/api/chapel-bookings?id=${encodeURIComponent(b.id)}`,
                                 { method: "DELETE" },
                               );
                               if (res.ok) loadData();
-                              else notifyError("Não foi possvel remover a reserva.");
+                              else notifyError("Não foi possível removeráá a reserva.");
                             }}
                             className="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded text-[11px] font-semibold text-white dark:text-white"
                           >
@@ -2405,7 +2405,7 @@ export default function MasterEternityOS() {
                       </button>
                       <button
                         onClick={async () => {
-                          if (!confirm("Remover este veículo da frota?"))
+                          if (!confirm("Removerá este veículo da frota?"))
                             return;
                           const res = await authFetch(
                             `/api/vehicles?id=${encodeURIComponent(v.id)}`,
@@ -2415,11 +2415,11 @@ export default function MasterEternityOS() {
                             setVehicles((prev) =>
                               prev.filter((item) => item.id !== v.id),
                             );
-                          else notifyError("Não foi possvel remover o veículo.");
+                          else notifyError("Não foi possível removeráá o veículo.");
                         }}
                         className="text-xs text-rose-400 hover:underline"
                       >
-                        Remover
+                        Removerá
                       </button>
                     </div>
                   </div>
@@ -2517,7 +2517,7 @@ export default function MasterEternityOS() {
             </div>
           )}
 
-          {/* CONVALESCENA */}
+          {/* CONVALESCENÇA */}
           {activeTab === "convalescence" &&
             isTabAllowed(userRole, "convalescence") && (
               <div className="space-y-4">
@@ -2598,13 +2598,13 @@ export default function MasterEternityOS() {
               </div>
             )}
 
-          {/* CLUBE DE CONVNIOS */}
+          {/* CLUBE DE CONVÊNIOS */}
           {activeTab === "benefits" && isTabAllowed(userRole, "benefits") && (
             <div className="space-y-4">
               <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex justify-between items-center">
                 <div>
                   <h3 className="font-bold text-sm text-slate-900 dark:text-white">
-                    Rede Conveniada & Clube de Benefcios
+                    Rede Conveniada & Clube de Benefícios
                   </h3>
                   <p className="text-xs text-slate-600 dark:text-slate-500 dark:text-slate-400">
                     Parceiros com descontos exclusivos para associados
@@ -2683,7 +2683,7 @@ export default function MasterEternityOS() {
                     {fmtBRL(computeMRR(holders) * 0.15)}
                   </p>
                   <p className="text-[10px] text-blue-400/80 mt-1">
-                    Garantia Tcnica Contbil
+                    Garantia Técnica Contbil
                   </p>
                 </div>
                 <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
@@ -2966,7 +2966,7 @@ export default function MasterEternityOS() {
                   onChange={(e) =>
                     setHolderForm({ ...holderForm, observations: e.target.value })
                   }
-                  placeholder="Alergias, contato de emergncia..."
+                  placeholder="Alergias, contato de emergência..."
                   className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
                   rows={3}
                 />
@@ -3007,12 +3007,12 @@ export default function MasterEternityOS() {
             <p className="text-[10px] text-slate-600 dark:text-slate-500 dark:text-slate-400 mb-3">
               Abra a planilha no Excel/Google Sheets, selecione as linhas e cole
               aqui (Ctrl+V)  colunas separadas por TAB, ponto-e-virgula ou
-              virgula sao detectadas automaticamente. Formato:{" "}
+              virgula são detectadas automaticamente. Formato:{" "}
               <span className="font-mono text-slate-600 dark:text-slate-300">
                 Nome;CPF;Telefone;Email;Endereco
               </span>
               . Cabecalho na primeira linha e ignorado. Cada importado ja ganha
-              contrato ativo no plano padrao.
+              contrato ativo no plano padrão.
             </p>
             <textarea
               rows={8}
@@ -3073,10 +3073,10 @@ export default function MasterEternityOS() {
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
           <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl max-w-2xl w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-slate-900 dark:text-white shadow-2xl">
             <h3 className="font-bold text-sm text-rose-400 mb-1">
-              📋 Nova Ordem de Serviço  óbito Integrado
+              📋 Nova Ordem de Serviço  óóóbito Integrado
             </h3>
             <p className="text-[10px] text-slate-600 dark:text-slate-500 mb-4">
-              Registra o óbito, vincula ao contrato, designa veículo da frota e d baixa no estoque em uma nica operao.
+              Registra o óóóbito, vincula ao contrato, designa veículo da frota e d baixa no estoque em uma nica operao.
             </p>
             <form onSubmit={handleSaveBurial} className="space-y-3 text-xs">
               {/* TIPO DE FALECIDO */}
@@ -3122,7 +3122,7 @@ export default function MasterEternityOS() {
                         : "bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-500 dark:text-slate-400"
                     }`}
                   >
-                    Pblico Geral
+                    Público Geral
                   </button>
                 </div>
               </div>
@@ -3191,7 +3191,7 @@ export default function MasterEternityOS() {
                 </div>
                 <div>
                   <label className="block text-slate-600 dark:text-slate-500 dark:text-slate-400 font-semibold mb-1">
-                    Data e Horrio:
+                    Data e Horário:
                   </label>
                   <input
                     type="datetime-local"
@@ -3285,7 +3285,7 @@ export default function MasterEternityOS() {
                   onChange={(e) =>
                     setServiceOrderForm({ ...serviceOrderForm, notes: e.target.value })
                   }
-                  placeholder="Ex: famlia solicita capela no Cemitério Parque..."
+                  placeholder="Ex: família solicita capela no Cemitério Parque..."
                   rows={2}
                   className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
                 />
@@ -3312,7 +3312,7 @@ export default function MasterEternityOS() {
         </div>
       )}
 
-      {/* MODAL LANAMENTO FINANCEIRO */}
+      {/* MODAL LANÇAMENTO FINANCEIRO */}
       {isNewTxOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
           <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-slate-900 dark:text-white shadow-2xl">
@@ -3385,8 +3385,8 @@ export default function MasterEternityOS() {
                   <option value="Serviço Funeral Avulso">
                     Serviço Funeral Avulso
                   </option>
-                  <option value="Combustvel / Frota">
-                    Combustvel / Frota
+                  <option value="Combustível / Frota">
+                    Combustível / Frota
                   </option>
                   <option value="Insumos Tanatopraxia">
                     Insumos Tanatopraxia
@@ -3533,7 +3533,7 @@ export default function MasterEternityOS() {
                 </div>
                 <p className="text-[10px] text-slate-600 dark:text-slate-500">
                   Sem data informada, usa o dia 10 do próximo mês. Para vencimentos
-                  diferentes por cliente, gere carns individuais em Financeiro ? +
+                  diferentes por cliente, gere carnêês individuais em Financeiro ? +
                   Gerar Carnê.
                 </p>
               </div>
@@ -3739,7 +3739,7 @@ export default function MasterEternityOS() {
         </div>
       )}
 
-      {/* MODAL NOVO EMPRSTIMO CONVALESCENA */}
+      {/* MODAL NOVO EMPRÉSTIMO CONVALESCENÇA */}
       {isNewConvalescenceOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
           <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-slate-900 dark:text-white shadow-2xl">
@@ -3833,7 +3833,7 @@ export default function MasterEternityOS() {
         </div>
       )}
 
-      {/* MODAL NOVO PARCEIRO CONVNIO */}
+      {/* MODAL NOVO PARCEIRO CONVÊNIO */}
       {isNewPartnerOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
           <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl max-w-md w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-slate-900 dark:text-white shadow-2xl">
@@ -3857,7 +3857,7 @@ export default function MasterEternityOS() {
                       partner_name: e.target.value,
                     })
                   }
-                  placeholder="ex: ótica Central"
+                  placeholder="ex: óóótica Central"
                   className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
                 />
               </div>
@@ -3875,7 +3875,7 @@ export default function MasterEternityOS() {
                         category: e.target.value,
                       })
                     }
-                    placeholder="ex: Farmácia, ótica..."
+                    placeholder="ex: Farmácia, óóótica..."
                     className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
                   />
                 </div>
@@ -3943,7 +3943,7 @@ export default function MasterEternityOS() {
         onSuccess={loadData}
       />
 
-      {/* MODAL DE CARNS DE PAGAMENTO */}
+      {/* MODAL DE CARNÊS DE PAGAMENTO */}
       <ModalCarnets
         isOpen={isCarnetsOpen}
         onClose={() => setIsCarnetsOpen(false)}
@@ -4028,7 +4028,7 @@ export default function MasterEternityOS() {
         </div>
       )}
 
-      {/* MODAL IMPRESSO TERMO DE ADESÃO */}
+      {/* MODAL IMPRESSÃO TERMO DE ADESÃO */}
       {printHolderContract && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur flex items-center justify-center p-4 z-50 overflow-y-auto">
           <div className="bg-white text-slate-900 rounded-xl max-w-2xl w-full p-8 shadow-2xl">
@@ -4092,7 +4092,7 @@ export default function MasterEternityOS() {
                   Urna fúnebre sextavada envernizada, ornamentao completa com
                   véu e flores, preparação do corpo/higienização, sala de
                   velório climatizada, cortejo fúnebre até o cemitério municipal
-                  e suporte administrativo para certidão de óbito.
+                  e suporte administrativo para certidão de óóóbito.
                 </p>
               </div>
 
@@ -4134,7 +4134,7 @@ export default function MasterEternityOS() {
         </div>
       )}
 
-      {/* MODAL IMPRESSO GUIA DE SEPULTAMENTO */}
+      {/* MODAL IMPRESSÃO GUIA DE SEPULTAMENTO */}
       {printBurialGuide && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur flex items-center justify-center p-4 z-50 overflow-y-auto">
           <div className="bg-white text-slate-900 rounded-xl max-w-xl w-full p-8 shadow-2xl">
@@ -4324,7 +4324,7 @@ export default function MasterEternityOS() {
           <div className="w-full max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 space-y-4 shadow-2xl">
             <div className="flex justify-between items-center border-b border-zinc-200 dark:border-zinc-800 pb-3">
               <h3 className="text-slate-900 dark:text-white font-bold text-sm flex items-center gap-2">
-                ✏️ Editar Óbito
+                ✏️ Editar Óóóbito
               </h3>
               <button onClick={() => setEditingBurial(null)} className="text-zinc-400 hover:text-white text-lg">?</button>
             </div>
@@ -4357,7 +4357,7 @@ export default function MasterEternityOS() {
                     notifyError(`Erro ao atualizar: ${j.error || 'Falha na atualizao'}`);
                   }
                 } catch {
-                  notifyError('Erro de conexão ao atualizar óbito.');
+                  notifyError('Erro de conexão ao atualizar óóóbito.');
                 }
               }}
               className="space-y-3"

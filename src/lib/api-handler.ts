@@ -48,7 +48,7 @@ export function withAuth(
 
       if (!token) {
         return NextResponse.json(
-          { error: 'Nao autorizado: cabecalho de autenticacao ausente ou invalido.' },
+          { error: 'Não autorizado: cabecalho de autenticação ausente ou inválido.' },
           { status: 401 }
         );
       }
@@ -57,7 +57,7 @@ export function withAuth(
 
       if (authError || !user) {
         return NextResponse.json(
-          { error: 'Sessao invalida ou expirada.' },
+          { error: 'Sessão invalida ou expirada.' },
           { status: 401 }
         );
       }
@@ -83,7 +83,7 @@ export function withAuth(
 
       if (!roleRecord) {
         return NextResponse.json(
-          { error: 'Acesso negado: seu usuario ainda nao foi vinculado a nenhuma unidade.' },
+          { error: 'Acesso negado: seu usuário ainda não foi vinculado a nenhuma unidade.' },
           { status: 403 }
         );
       }
@@ -91,7 +91,7 @@ export function withAuth(
       if (allowedRoles && allowedRoles.length > 0) {
         if (!allowedRoles.includes(roleRecord.role) && roleRecord.role !== 'superadmin') {
           return NextResponse.json(
-            { error: 'Acesso negado: seu perfil nao tem permissao para realizar esta acao.' },
+            { error: 'Acesso negado: seu perfil não tem permissão para realizar esta ação.' },
             { status: 403 }
           );
         }

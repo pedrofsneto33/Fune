@@ -88,9 +88,9 @@ export function ModalExpense({
                 className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:border-amber-500 focus:outline-none"
               >
                 <option value="Abastecimento">Abastecimento</option>
-                <option value="Manutencao Preventiva">Manutenção Preventiva</option>
-                <option value="Manutencao Corretiva">Manutenção Corretiva</option>
-                <option value="Lavagem e Higienizacao">Lavagem e Higienização</option>
+                <option value="Manutenção Preventiva">Manutenção Preventiva</option>
+                <option value="Manutenção Corretiva">Manutenção Corretiva</option>
+                <option value="Lavagem e Higienização">Lavagem e Higienização</option>
                 <option value="Pedagio">Pedágio</option>
               </select>
             </div>

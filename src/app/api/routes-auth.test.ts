@@ -3,7 +3,7 @@ import * as path from 'path';
 
 const API_DIR = path.join(process.cwd(), 'src/app/api');
 
-// Rotas que por design nao usam withAuth (validacao propria, ex.: webhook de pagamento)
+// Rotas que por design não usam withAuth (validação propria, ex.: webhook de pagamento)
 const ALLOWLIST = ['webhooks/asaas', 'webhooks/whatsapp'];
 
 function listRouteFiles(dir: string): string[] {
@@ -19,7 +19,7 @@ function listRouteFiles(dir: string): string[] {
   return found;
 }
 
-describe('Seguranca: toda rota de API exige autenticacao', () => {
+describe('Segurança: toda rota de API exige autenticação', () => {
   const routeFiles = listRouteFiles(API_DIR);
 
   it('encontra rotas suficientes para testar (>= 20)', () => {
@@ -36,9 +36,9 @@ describe('Seguranca: toda rota de API exige autenticacao', () => {
 
     const whitelisted = ALLOWLIST.some((w) => rel.startsWith(w));
 
-    it(`exige autenticacao em ${rel}`, () => {
+    it(`exige autenticação em ${rel}`, () => {
       expect(exportedMethods).toBeGreaterThan(0);
-      if (whitelisted) return; // validacao propria (HMAC/secret), aceita
+      if (whitelisted) return; // validação propria (HMAC/secret), aceita
       const usesWithAuth = /withAuth\s*\(/g.test(src);
       const manualTokenCheck = /auth\.getUser\(/g.test(src);
       expect(usesWithAuth || manualTokenCheck).toBe(true);

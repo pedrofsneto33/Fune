@@ -48,7 +48,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       } = body;
 
       if (!item_id || !holder_name || !expected_return_date) {
-        return NextResponse.json({ error: 'Item, titular e data de devolucao sao obrigatorios.' }, { status: 400 });
+        return NextResponse.json({ error: 'Item, titular e data de devolução são obrigatórios.' }, { status: 400 });
       }
 
       const { data: loan, error: loanErr } = await supabaseAdmin
@@ -87,7 +87,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       const { loan_id, item_id, return_condition = 'Bom', observations } = body;
 
       if (!loan_id || !item_id) {
-        return NextResponse.json({ error: 'Identificadores do emprestimo e item sao obrigatorios.' }, { status: 400 });
+        return NextResponse.json({ error: 'Identificadores do empréstimo e item são obrigatórios.' }, { status: 400 });
       }
 
       const todayStr = new Date().toISOString().split('T')[0];
@@ -110,7 +110,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       await supabaseAdmin
         .from('convalescence_items')
         .update({
-          status: return_condition === 'Manutencao' ? 'Manutencao' : 'Disponivel',
+          status: return_condition === 'Manutenção' ? 'Manutenção' : 'Disponível',
           condition: return_condition
         })
         .eq('id', item_id)
@@ -119,7 +119,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       return NextResponse.json({ success: true, loan });
     }
 
-    return NextResponse.json({ error: 'Acao invalida.' }, { status: 400 });
+    return NextResponse.json({ error: 'Ação invalida.' }, { status: 400 });
   } catch (err: any) {
     return serverError(err);
   }

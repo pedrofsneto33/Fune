@@ -33,7 +33,7 @@ export function calculateEligibility(params: {
   const diffTime = Math.max(0, now.getTime() - startDate.getTime());
   const daysActive = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-  // 1. Checar Inadimplência Crítica (> 0 parcelas atrasadas)
+  // 1. Checar Inadimplência Críóótica (> 0 parcelas atrasadas)
   const overdueCount = unpaidOverduePayments.length;
   const totalOverdue = unpaidOverduePayments.reduce((acc, p) => acc + (Number(p.amount) || 0), 0);
 

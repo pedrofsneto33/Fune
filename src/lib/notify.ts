@@ -2,8 +2,8 @@
 import { toast } from 'sonner';
 
 /**
- * Notificacoes nao-bloqueantes (sonner) para substituir alert().
- * Notificacoes no canto da tela nao travam a operacao do plantao.
+ * Notificações não-bloqueantes (sonner) para substituir alert().
+ * Notificações no canto da tela não travam a operação do plantao.
  */
 export function notifySuccess(message: string): void {
   toast.success(message, { duration: 5000 });

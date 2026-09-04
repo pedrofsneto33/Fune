@@ -23,7 +23,7 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
     if (txErr) {
       console.error('[API_ERROR] regulatory-reserves/transactions', txErr);
       return NextResponse.json(
-        { error: 'Erro ao consultar transacoes financeiras.' },
+        { error: 'Erro ao consultar transações financeiras.' },
         { status: 400 }
       );
     }

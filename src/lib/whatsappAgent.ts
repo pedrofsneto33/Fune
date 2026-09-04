@@ -2,7 +2,7 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 // ============================================================
 // AGENTE DE TRIAGEM WHATSAPP - Evolution API (self-hosted, gratis)
-// Maquina de estado por telefone de origem + numero de destino (tenant)
+// Maquina de estado por telefone de origem + número de destino (tenant)
 // ============================================================
 
 const EVOLUTION_API_URL = process.env.EVOLUTION_API_URL || '';
@@ -55,7 +55,7 @@ export async function sendWhatsApp(
 }
 
 /**
- * Resolve o tenant a partir do numero de WhatsApp de DESTINO (que recebeu a msg).
+ * Resolve o tenant a partir do número de WhatsApp de DESTINO (que recebeu a msg).
  */
 export async function findTenantByWhatsAppNumber(toNumber: string): Promise<{ tenantId: string; instance: string } | null> {
   const clean = toNumber.replace(/\D/g, '');
@@ -70,7 +70,7 @@ export async function findTenantByWhatsAppNumber(toNumber: string): Promise<{ te
 }
 
 /**
- * Processa uma mensagem recebida: cria/atualiza sessao e devolve a resposta.
+ * Processa uma mensagem recebida: cria/atualiza sessão e devolve a resposta.
  */
 export async function processIncomingMessage(
   tenantId: string,
@@ -80,7 +80,7 @@ export async function processIncomingMessage(
 ): Promise<{ reply: string; done: boolean }> {
   const cleanFrom = from.replace(/\D/g, '');
 
-  // Busca sessao existente
+  // Busca sessão existente
   let { data: session, error: sErr } = await supabaseAdmin
     .from('whatsapp_agent_sessions')
     .select('*')
@@ -88,7 +88,7 @@ export async function processIncomingMessage(
     .eq('phone', cleanFrom)
     .maybeSingle();
 
-  // Nova sessao: inicia fluxo
+  // Nova sessão: inicia fluxo
   if (!session || sErr) {
     const { data: newSession, error: createErr } = await supabaseAdmin
       .from('whatsapp_agent_sessions')
@@ -108,7 +108,7 @@ export async function processIncomingMessage(
   if (step === 'location') data.deceasedName = text;
   if (step === 'family') data.location = text;
 
-  // Fluxo concluido: grava despacho de emergencia
+  // Fluxo concluido: grava despacho de emergência
   if (step === 'family') {
     data.familyContact = text;
     data.callerPhone = cleanFrom;
@@ -117,11 +117,11 @@ export async function processIncomingMessage(
     const { error: insertErr } = await supabaseAdmin.from('emergency_dispatches').insert([
       {
         tenant_id: tenantId,
-        deceased_name: data.deceasedName || 'Nao informado',
+        deceased_name: data.deceasedName || 'Não informado',
         location: data.location || '',
         family_contact: data.familyContact || '',
         caller_phone: cleanFrom,
-        status: 'Aguardando veiculo',
+        status: 'Aguardando veículo',
         source: 'whatsapp',
         created_at: new Date().toISOString(),
       },
@@ -141,7 +141,7 @@ export async function processIncomingMessage(
         '*Chamado registrado com sucesso!*\n\n' +
         `*Falecido:* ${data.deceasedName}\n` +
         `*Local:* ${data.location}\n` +
-        `*Contato da familia:* ${data.familyContact}\n\n` +
+        `*Contato da família:* ${data.familyContact}\n\n` +
         'Uma equipe entrará em contato em instantes.',
       done: true,
     };

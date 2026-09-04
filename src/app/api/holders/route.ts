@@ -134,7 +134,7 @@ export const POST = withAuth(
         );
       }
 
-      // VERIFICACAO DE LIMITE DO PLANO COMERCIAL
+      // VERIFICAÇÃO DE LIMITE DO PLANO COMERCIAL
       const { data: tenantRow } = await supabaseAdmin
         .from("tenants")
         .select("commercial_plan")
@@ -177,7 +177,7 @@ export const POST = withAuth(
       };
 
       // Campos enriquecidos (cidade, uf, nascimento, genero, obs) — direcionamento preciso via API.
-      // Retry defensivo: se a migracao ainda nao foi rodada e a coluna nao existir,
+      // Retry defensivo: se a migração ainda não foi rodada e a coluna não existir,
       // refaz o insert sem os campos extras para NUNCA quebrar o cadastro de titular.
       let insertResult = await supabaseAdmin
         .from("holders")
@@ -264,7 +264,7 @@ export const POST = withAuth(
   ["superadmin", "admin", "manager", "attendant"],
 );
 
-// SECURITY: Edicao de titular - CPF imutavel (e a chave de identificacao/busca), restrito ao tenant
+// SECURITY: Edição de titular - CPF imutável (e a chave de identificação/busca), restrito ao tenant
 export const PATCH = withAuth(
   async (req: NextRequest, { auth }) => {
     try {
@@ -278,7 +278,7 @@ export const PATCH = withAuth(
         )
       ) {
         return NextResponse.json(
-          { error: "ID do titular invalido ou ausente." },
+          { error: "ID do titular inválido ou ausente." },
           { status: 400 },
         );
       }
@@ -288,7 +288,7 @@ export const PATCH = withAuth(
       if (body.status !== undefined) {
         if (!["ativo", "inativo"].includes(body.status)) {
           return NextResponse.json(
-            { error: "Status invalido (use ativo ou inativo)." },
+            { error: "Status inválido (use ativo ou inativo)." },
             { status: 400 },
           );
         }
@@ -299,7 +299,7 @@ export const PATCH = withAuth(
         const full_name = sanitizeString(body.full_name, 255);
         if (!full_name || full_name.length < 2) {
           return NextResponse.json(
-            { error: "Nome completo invalido (minimo 2 caracteres)." },
+            { error: "Nome completo inválido (mínimo 2 caracteres)." },
             { status: 400 },
           );
         }
@@ -310,7 +310,7 @@ export const PATCH = withAuth(
         const phone = sanitizeString(body.phone, 20);
         if (!phone || phone.length < 10) {
           return NextResponse.json(
-            { error: "Telefone invalido." },
+            { error: "Telefone inválido." },
             { status: 400 },
           );
         }
@@ -321,7 +321,7 @@ export const PATCH = withAuth(
         const email = body.email ? sanitizeString(body.email, 254) : null;
         if (email && !isValidEmail(email)) {
           return NextResponse.json(
-            { error: "E-mail invalido." },
+            { error: "E-mail inválido." },
             { status: 400 },
           );
         }
@@ -336,7 +336,7 @@ export const PATCH = withAuth(
 
       if (Object.keys(updateData).length === 0) {
         return NextResponse.json(
-          { error: "Nenhum campo valido para atualizar." },
+          { error: "Nenhum campo válido para atualizar." },
           { status: 400 },
         );
       }
@@ -353,7 +353,7 @@ export const PATCH = withAuth(
         return NextResponse.json({ error: error.message }, { status: 500 });
       if (!holder)
         return NextResponse.json(
-          { error: "Titular nao encontrado." },
+          { error: "Titular não encontrado." },
           { status: 404 },
         );
 
@@ -368,7 +368,7 @@ export const PATCH = withAuth(
   ["superadmin", "admin", "manager", "attendant"],
 );
 
-// SECURITY: Exclusao destrutiva - somente superadmin/admin, sempre restrita ao tenant
+// SECURITY: Exclusão destrutiva - somente superadmin/admin, sempre restrita ao tenant
 export const DELETE = withAuth(
   async (req: NextRequest, { auth }) => {
     try {
@@ -382,12 +382,12 @@ export const DELETE = withAuth(
         )
       ) {
         return NextResponse.json(
-          { error: "ID do titular invalido ou ausente." },
+          { error: "ID do titular inválido ou ausente." },
           { status: 400 },
         );
       }
 
-      // Garante que o titular pertence ao tenant do usuario autenticado
+      // Garante que o titular pertence ao tenant do usuário autenticado
       const { data: holder, error: findError } = await supabaseAdmin
         .from("holders")
         .select("id, full_name")
@@ -402,12 +402,12 @@ export const DELETE = withAuth(
         );
       if (!holder)
         return NextResponse.json(
-          { error: "Titular nao encontrado." },
+          { error: "Titular não encontrado." },
           { status: 404 },
         );
 
       // contracts tem ON DELETE RESTRICT em holder_id: remove contratos primeiro
-      // (payments/payment_carnets caem por CASCADE; demais referencias ficam SET NULL)
+      // (payments/payment_carnets caem por CASCADE; demais referências ficam SET NULL)
       const { error: contractsError } = await supabaseAdmin
         .from("contracts")
         .delete()
@@ -418,7 +418,7 @@ export const DELETE = withAuth(
         return NextResponse.json(
           {
             error:
-              "Erro ao remover contratos vinculados: " + contractsError.message,
+              "Erro ao removeráá contratos vinculados: " + contractsError.message,
           },
           { status: 500 },
         );
@@ -440,7 +440,7 @@ export const DELETE = withAuth(
 
       return NextResponse.json({
         success: true,
-        message: "Associado " + holder.full_name + " excluido com sucesso.",
+        message: "Associado " + holder.full_name + " excluído com sucesso.",
       });
     } catch (err: unknown) {
       return NextResponse.json(

@@ -5,9 +5,9 @@ import { checkRateLimit } from '@/lib/rate-limiter';
 import { sanitizeString, sanitizeCPF, isValidEmail } from '@/lib/validation';
 import { getPlanByCode, checkHolderLimit } from '@/lib/planLimits';
 
-// Importacao de associados via CSV colado no painel.
+// Importação de associados via CSV colado no painel.
 // Formato por linha: Nome;CPF;Telefone;Email;Endereco  (delimitador ; ou ,)
-// Seguranca: autenticado + restrito ao tenant + respeita limite do plano comercial.
+// Segurança: autenticado + restrito ao tenant + respeita limite do plano comercial.
 const MAX_LINES = 1000;
 const CHUNK_SIZE = 200;
 
@@ -23,11 +23,11 @@ interface ParsedRow {
 export const POST = withAuth(
   async (req: NextRequest, { auth }) => {
     try {
-      // SECURITY: rate limit por usuario (importacao e operacao pesada)
+      // SECURITY: rate limit por usuário (importação e operação pesada)
       const rl = checkRateLimit(`import:${auth.userId}`, { maxAttempts: 5, windowMs: 60000 });
       if (!rl.allowed) {
         return NextResponse.json(
-          { error: 'Muitas importacoes seguidas. Aguarde um minuto.' },
+          { error: 'Muitas importações seguidas. Aguarde um minuto.' },
           { status: 429 },
         );
       }
@@ -46,7 +46,7 @@ export const POST = withAuth(
         .filter((l: string) => l.trim().length > 0);
       if (lines.length > MAX_LINES) {
         return NextResponse.json(
-          { error: "Limite de 1000 linhas por importacao." },
+          { error: "Limite de 1000 linhas por importação." },
           { status: 400 },
         );
       }
@@ -84,22 +84,22 @@ export const POST = withAuth(
         const address = rawAddress ? sanitizeString(rawAddress, 500) : null;
 
         if (!full_name || full_name.length < 2) {
-          invalid.push({ line: lineNo, reason: "Nome invalido ou ausente" });
+          invalid.push({ line: lineNo, reason: "Nome inválido ou ausente" });
           return;
         }
         if (cpf.length !== 11) {
           invalid.push({
             line: lineNo,
-            reason: "CPF invalido (precisa ter 11 digitos)",
+            reason: "CPF inválido (precisa ter 11 digitos)",
           });
           return;
         }
         if (!phone || phone.length < 10) {
-          invalid.push({ line: lineNo, reason: "Telefone invalido" });
+          invalid.push({ line: lineNo, reason: "Telefone inválido" });
           return;
         }
         if (email && !isValidEmail(email)) {
-          invalid.push({ line: lineNo, reason: "E-mail invalido" });
+          invalid.push({ line: lineNo, reason: "E-mail inválido" });
           return;
         }
         if (batchCpfs.has(cpf)) {
@@ -169,7 +169,7 @@ export const POST = withAuth(
       overflow.forEach((p) => {
         invalid.push({
           line: p.line,
-          reason: "Nao importado: limite do plano atingido",
+          reason: "Não importado: limite do plano atingido",
         });
       });
 

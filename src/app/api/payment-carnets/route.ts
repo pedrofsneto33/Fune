@@ -13,7 +13,7 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
       .eq('tenant_id', auth.tenantId)
       .order('due_date', { ascending: true })
       .limit(500);
-    if (error) return NextResponse.json({ error: 'Erro ao buscar carnês' }, { status: 500 });
+    if (error) return NextResponse.json({ error: 'Erro ao buscar carnêêês' }, { status: 500 });
     return NextResponse.json(data || []);
   } catch (err: any) {
     return NextResponse.json({ error: 'Erro interno' }, { status: 500 });
@@ -24,7 +24,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const rl = checkRateLimit(`carnet:${auth.userId}`, { maxAttempts: 10, windowMs: 60000 });
     if (!rl.allowed) {
-      return NextResponse.json({ error: 'Muitos carnês em sequência. Aguarde um minuto.' }, { status: 429 });
+      return NextResponse.json({ error: 'Muitos carnêêês em sequência. Aguarde um minuto.' }, { status: 429 });
     }
     const body = await req.json();
     const { contract_id, holder_name, amount, due_date, installments } = body;
@@ -59,7 +59,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       .insert(carnetRows)
       .select();
     if (carnetError) {
-      return NextResponse.json({ error: 'Erro ao criar carnê: ' + carnetError.message }, { status: 500 });
+      return NextResponse.json({ error: 'Erro ao criar carnêêê: ' + carnetError.message }, { status: 500 });
     }
     const paymentResults = [];
     if (apiKey && contract_id) {
@@ -91,7 +91,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     return NextResponse.json({ success: true, carnets: createdCarnets, payments: paymentResults, totalInstallments: numInstallments, installmentValue, totalAmount: Number(amount) }, { status: 201 });
   } catch (err: any) {
     console.error('Erro na rota payment-carnets:', err);
-    return NextResponse.json({ error: 'Erro interno ao processar carnê.' }, { status: 500 });
+    return NextResponse.json({ error: 'Erro interno ao processar carnêêê.' }, { status: 500 });
   }
 }, ['superadmin', 'admin', 'financial', 'manager']);
 

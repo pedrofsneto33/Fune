@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
   }
 
   // SECURITY: fail-closed - se o segredo HMAC estiver configurado, a assinatura
-  // e OBRIGATORIA. Ausencia de assinatura tambem rejeita (401), nao apenas
+  // e OBRIGATORIA. Ausência de assinatura também rejeita (401), não apenas
   // assinatura invalida. Para ativar: configure ASAAS_WEBHOOK_SECRET no painel
   // do Asaas e na Vercel.
   const webhookSecret = process.env.ASAAS_WEBHOOK_SECRET;

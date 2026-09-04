@@ -53,7 +53,7 @@ export default async function CarteirinhaPage({ params }: Props) {
     }
   }
 
-  const tenantName = tenant?.trade_name || tenant?.name || 'Assistencia Funeraria';
+  const tenantName = tenant?.trade_name || tenant?.name || 'Assistência Funerária';
   const accent = tenant?.primary_color || '#1e40af';
 
   let shareUrl = '/';
@@ -66,7 +66,7 @@ export default async function CarteirinhaPage({ params }: Props) {
     // fallback: URL relativa
   }
 
-  // Gera QR Code com o link publico da carteirinha
+  // Gera QR Code com o link público da carteirinha
   let qrDataUrl: string | null = null;
   try {
     qrDataUrl = await QRCode.toDataURL(shareUrl, {
@@ -79,7 +79,7 @@ export default async function CarteirinhaPage({ params }: Props) {
     qrDataUrl = null;
   }
 
-  // ---------- Pagina de erro amigavel (sem 404 em ingles) ----------
+  // ---------- Página de erro amigável (sem 404 em ingles) ----------
   if (!holder) {
     return (
       <main className="min-h-screen bg-slate-100 flex items-center justify-center p-4">
@@ -88,7 +88,7 @@ export default async function CarteirinhaPage({ params }: Props) {
             <ShieldAlert className="text-amber-600" size={28} />
           </div>
           <h1 className="text-lg font-bold text-slate-800 mb-2">
-            Carteirinha nao localizada
+            Carteirinha não localizada
           </h1>
           <p className="text-sm text-slate-600 dark:text-slate-500 mb-6">
             {lookupError ||

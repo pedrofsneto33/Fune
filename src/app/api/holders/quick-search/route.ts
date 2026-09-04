@@ -4,7 +4,7 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { checkRateLimit } from '@/lib/rate-limiter';
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
-  // SECURITY: rate limit por usuario (autocomplete pode ser abusado)
+  // SECURITY: rate limit por usuário (autocomplete pode ser abusado)
   const rl = checkRateLimit(`qsearch:${auth.userId}`, { maxAttempts: 60, windowMs: 60000 });
   if (!rl.allowed) {
     return NextResponse.json({ error: 'Muitas buscas. Tente novamente em instantes.' }, { status: 429 });

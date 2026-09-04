@@ -88,7 +88,7 @@ export function ModalPlantao({
 }: ModalPlantaoProps) {
   if (!isOpen) return null;
 
-  const availableVehicles = vehicles.filter(v => v.status === 'disponivel');
+  const availableVehicles = vehicles.filter(v => v.status === 'disponível');
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
@@ -152,7 +152,7 @@ export function ModalPlantao({
             </div>
 
             <div>
-              <label className="text-[11px] font-semibold text-zinc-400 mb-1 block">Local do Óbito *</label>
+              <label className="text-[11px] font-semibold text-zinc-400 mb-1 block">Local do Óóóbito *</label>
               <input
                 type="text"
                 required
@@ -186,8 +186,8 @@ export function ModalPlantao({
               >
                 <option value="">Selecione o veículo...</option>
                 {vehicles.map(v => (
-                  <option key={v.id} value={v.id} disabled={v.status !== 'disponivel'}>
-                    {v.model} ({v.plate}) {v.status !== 'disponivel' ? '- [EM USO]' : '- [LIVRE]'}
+                  <option key={v.id} value={v.id} disabled={v.status !== 'disponível'}>
+                    {v.model} ({v.plate}) {v.status !== 'disponível' ? '- [EM USO]' : '- [LIVRE]'}
                   </option>
                 ))}
               </select>

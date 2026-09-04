@@ -58,9 +58,9 @@ export function ModalBIReports({ isOpen, onClose }: { isOpen: boolean; onClose: 
     const rows = [
       ['Indicador', 'Valor'],
       ['Titulares Ativos', String(stats.activeContracts)],
-      ['Ordens de Servico', String(stats.totalMissions)],
+      ['Ordens de Serviço', String(stats.totalMissions)],
       ['MRR Projetado (R$)', stats.projectedRevenue.toFixed(2).replace('.', ',')],
-      ['Taxa de Inadimplencia', stats.defaultRate],
+      ['Taxa de Inadimplência', stats.defaultRate],
     ];
     const csv = '\uFEFF' + rows.map((r) => r.join(';')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -70,7 +70,7 @@ export function ModalBIReports({ isOpen, onClose }: { isOpen: boolean; onClose: 
     a.download = `eternityos_bi_${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     URL.revokeObjectURL(url);
-    notifySuccess('Relatorio BI exportado em CSV.');
+    notifySuccess('Relatório BI exportado em CSV.');
   };
 
   if (!isOpen) return null;

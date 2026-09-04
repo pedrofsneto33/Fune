@@ -4,7 +4,7 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { isValidUUID } from '@/lib/validation';
 
 // ============================================================
-// Despachos de emergencia criados pelo agente de WhatsApp
+// Despachos de emergência criados pelo agente de WhatsApp
 // GET  - listar chamados do tenant
 // PATCH- atualizar status (assumido/rejeitado/encerrado)
 // ============================================================
@@ -30,15 +30,15 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
 export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
   const body = await req.json().catch(() => null);
   if (!body?.id) {
-    return NextResponse.json({ error: 'ID obrigatorio' }, { status: 400 });
+    return NextResponse.json({ error: 'ID obrigatório' }, { status: 400 });
   }
   if (!isValidUUID(body.id)) {
-    return NextResponse.json({ error: 'ID invalido' }, { status: 400 });
+    return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
   }
 
-  const allowedStatus = ['Aguardando veiculo', 'Veiculo a caminho', 'Em atendimento', 'Concluido', 'Cancelado'];
+  const allowedStatus = ['Aguardando veículo', 'Veículo a caminho', 'Em atendimento', 'Concluido', 'Cancelado'];
   if (body.status && !allowedStatus.includes(body.status)) {
-    return NextResponse.json({ error: 'Status invalido' }, { status: 400 });
+    return NextResponse.json({ error: 'Status inválido' }, { status: 400 });
   }
 
   const updateData: Record<string, any> = {};
@@ -54,7 +54,7 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
 
   if (error || !data) {
     console.error('[emergency-dispatches PATCH]', error?.message);
-    return NextResponse.json({ error: 'Nao foi possivel atualizar o chamado' }, { status: 404 });
+    return NextResponse.json({ error: 'Não foi possível atualizar o chamado' }, { status: 404 });
   }
   return NextResponse.json(data);
 });

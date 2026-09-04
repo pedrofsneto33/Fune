@@ -49,7 +49,7 @@ export function TenantSettingsTab() {
   const [commercialPlan, setCommercialPlan] = useState('essencial');
   const [canManagePlan, setCanManagePlan] = useState(false);
 
-  // ONBOARDING: Cadastro de nova funeraria cliente (superadmin apenas)
+  // ONBOARDING: Cadastro de nova funerária cliente (superadmin apenas)
   const [isNewTenantOpen, setIsNewTenantOpen] = useState(false);
   const [creatingTenant, setCreatingTenant] = useState(false);
   const [newTenantForm, setNewTenantForm] = useState({
@@ -118,11 +118,11 @@ export function TenantSettingsTab() {
     if (found) selectTenantData(found);
   };
 
-  // ONBOARDING: cria a funeraria do cliente novo (POST /api/tenants - superadmin)
+  // ONBOARDING: cria a funerária do cliente novo (POST /api/tenants - superadmin)
   const handleCreateTenant = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTenantForm.name.trim() || !newTenantForm.cnpj.trim()) {
-      notifyInfo('Nome da empresa e CNPJ sao obrigatorios.');
+      notifyInfo('Nome da empresa e CNPJ são obrigatórios.');
       return;
     }
     setCreatingTenant(true);
@@ -137,19 +137,19 @@ export function TenantSettingsTab() {
       if (data.success) {
         setIsNewTenantOpen(false);
         await loadTenants();
-        notifySuccess('Funeraria cadastrada com sucesso!\n\n' +
-          'PROXIMOS PASSOS:\n' +
-          '1. O dono da funeraria cria a conta dele na tela de login (Cadastro).\n' +
-          '2. Va em Permissoes, insira o e-mail dele, cargo Admin, e selecione esta funeraria.\n' +
-          '3. Ele passara a administrar apenas os dados da funeraria dele.\n\n' +
-          'ID da funeraria: ' + (data.id || '')
+        notifySuccess('Funerária cadastrada com sucesso!\n\n' +
+          'PRÓXIMOS PASSOS:\n' +
+          '1. O dono da funerária cria a conta dele na tela de login (Cadastro).\n' +
+          '2. Va em Permissões, insira o e-mail dele, cargo Admin, e selecione esta funerária.\n' +
+          '3. Ele passara a administrar apenas os dados da funerária dele.\n\n' +
+          'ID da funerária: ' + (data.id || '')
         );
         setNewTenantForm({
           name: '', trade_name: '', cnpj: '', phone_emergency: '',
           issuance_city: '', primary_color: '#7c3aed', commercial_plan: 'essencial',
         });
       } else {
-        notifyError('Erro ao criar funeraria: ' + (data.error || 'Falha na requisicao.'));
+        notifyError('Erro ao criar funerária: ' + (data.error || 'Falha na requisição.'));
       }
     } catch (err: any) {
       notifyError('Erro ao conectar com a API: ' + err.message);
@@ -163,13 +163,13 @@ export function TenantSettingsTab() {
     if (!file || !selectedTenantId) return;
 
     if (file.size > 2 * 1024 * 1024) {
-      notifyError('A imagem deve ter no maximo 2MB.');
+      notifyError('A imagem deve ter no máximo 2MB.');
       return;
     }
 
     setUploadingLogo(true);
     try {
-      // Upload via API: validacao de tamanho/conteudo no servidor (service role)
+      // Upload via API: validação de tamanho/conteudo no servidor (service role)
       const headers = await getAuthHeaders();
       const form = new FormData();
       form.append('file', file);
@@ -214,7 +214,7 @@ export function TenantSettingsTab() {
           asaas_environment: asaasEnv,
           asaas_api_key: apiKey.trim() || undefined,
           asaas_webhook_token: webhookToken.trim() || undefined,
-          // SECURITY: plano comercial so e enviado quando o usuario tem permissao
+          // SECURITY: plano comercial so e enviado quando o usuário tem permissão
           // (can_manage_plan = true apenas para superadmin). Para admins, o campo
           // nem vai no payload - a API retorna 403 se tentarem trocar de plano.
           ...(canManagePlan ? { commercial_plan: commercialPlan } : {}),
@@ -223,10 +223,10 @@ export function TenantSettingsTab() {
 
       const data = await res.json();
       if (data.success) {
-        notifySuccess('Configuracoes salvas com sucesso!');
+        notifySuccess('Configurações salvas com sucesso!');
         await loadTenants();
       } else {
-        notifyError('Erro ao salvar: ' + (data.error || 'Falha na requisicao.'));
+        notifyError('Erro ao salvar: ' + (data.error || 'Falha na requisição.'));
       }
     } catch (err: any) {
       notifyError('Erro ao conectar com a API: ' + err.message);
@@ -260,8 +260,8 @@ export function TenantSettingsTab() {
             <Settings className="w-5 h-5 text-blue-400" />
           </div>
           <div>
-            <h2 className="text-base font-bold text-slate-900 dark:text-white">Configuracoes da Empresa & Gateway</h2>
-            <p className="text-xs text-zinc-400">Identidade visual, dados cadastrais e integracao com Asaas</p>
+            <h2 className="text-base font-bold text-slate-900 dark:text-white">Configurações da Empresa & Gateway</h2>
+            <p className="text-xs text-zinc-400">Identidade visual, dados cadastrais e integração com Asaas</p>
           </div>
         </div>
 
@@ -273,7 +273,7 @@ export function TenantSettingsTab() {
               className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white dark:text-white text-xs font-semibold transition shadow-lg shadow-violet-950/30"
             >
               <Building2 className="w-4 h-4" />
-              + Nova Funeraria
+              + Nova Funerária
             </button>
           )}
           {tenants.length > 1 && (
@@ -310,7 +310,7 @@ export function TenantSettingsTab() {
               </select>
             ) : (
               <span className="text-[11px] font-normal text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full">
-                Plano {getPlanByCode(commercialPlan).name} - alteravel apenas pelo Super Admin
+                Plano {getPlanByCode(commercialPlan).name} - alterável apenas pelo Super Admin
               </span>
             )}
           </div>
@@ -327,7 +327,7 @@ export function TenantSettingsTab() {
             </div>
             <div className="space-y-1.5">
               <div className="flex justify-between text-zinc-700 dark:text-zinc-300">
-                <span>Usuarios do sistema</span>
+                <span>Usuários do sistema</span>
                 <span className="font-mono text-slate-900 dark:text-white">{usage.users} / {usersLimit === Infinity ? 'Ilimitado' : usersLimit}</span>
               </div>
               <div className="h-2 bg-slate-100 dark:bg-zinc-800 rounded-full overflow-hidden">
@@ -336,8 +336,8 @@ export function TenantSettingsTab() {
             </div>
           </div>
           <p className="text-[10px] text-zinc-500">
-            Ao atingir o limite do plano, o cadastro de novos titulares e usuarios e bloqueado automaticamente.
-            O plano selecionado e aplicado por filial (tenant) ao salvar as configuracoes.
+            Ao atingir o limite do plano, o cadastro de novos titulares e usuários e bloqueado automaticamente.
+            O plano selecionado e aplicado por filial (tenant) ao salvar as configurações.
           </p>
         </div>
 
@@ -360,7 +360,7 @@ export function TenantSettingsTab() {
                 <span>{uploadingLogo ? 'Enviando...' : 'Enviar Logo'}</span>
                 <input type="file" accept="image/*" className="hidden" onChange={handleLogoUpload} disabled={uploadingLogo} />
               </label>
-              <p className="text-[10px] text-zinc-500">PNG ou JPG, ate 2MB. Aparece na carteirinha e nos relatorios.</p>
+              <p className="text-[10px] text-zinc-500">PNG ou JPG, ate 2MB. Aparece na carteirinha e nos relatórios.</p>
             </div>
             <div className="flex items-center gap-2 sm:ml-auto">
               <label className="text-xs font-medium text-zinc-700 dark:text-zinc-300">Cor Principal</label>
@@ -377,7 +377,7 @@ export function TenantSettingsTab() {
         <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 rounded-2xl space-y-4">
           <div className="flex items-center gap-2 pb-3 border-b border-zinc-200 dark:border-zinc-800 text-sm font-semibold text-slate-900 dark:text-white">
             <Building2 className="w-4 h-4 text-blue-400" />
-            <span>Dados da Funeraria / Filial</span>
+            <span>Dados da Funerária / Filial</span>
           </div>
 
           <div className="space-y-3 text-xs">
@@ -410,7 +410,7 @@ export function TenantSettingsTab() {
                   className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:border-blue-500 focus:outline-none" />
               </div>
               <div>
-                <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Responsavel Tecnico</label>
+                <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Responsável Técnico</label>
                 <input type="text" value={manager} onChange={(e) => setManager(e.target.value)} placeholder="Nome do Diretor / Gestor"
                   className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:border-blue-500 focus:outline-none" />
               </div>
@@ -421,7 +421,7 @@ export function TenantSettingsTab() {
         <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 rounded-2xl space-y-4">
           <div className="flex items-center gap-2 pb-3 border-b border-zinc-200 dark:border-zinc-800 text-sm font-semibold text-slate-900 dark:text-white">
             <Key className="w-4 h-4 text-emerald-400" />
-            <span>Configuracoes Asaas (PIX & Boleto)</span>
+            <span>Configurações Asaas (PIX & Boleto)</span>
           </div>
 
           <div className="space-y-3 text-xs">
@@ -429,8 +429,8 @@ export function TenantSettingsTab() {
               <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Ambiente Operacional</label>
               <select value={asaasEnv} onChange={(e: any) => setAsaasEnv(e.target.value)}
                 className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:border-emerald-500 focus:outline-none">
-                <option value="sandbox">Sandbox (Ambiente de Testes / Homologacao)</option>
-                <option value="production">Producao (Cobranca Real)</option>
+                <option value="sandbox">Sandbox (Ambiente de Testes / Homologação)</option>
+                <option value="production">Produção (Cobrança Real)</option>
               </select>
             </div>
             <div>
@@ -443,7 +443,7 @@ export function TenantSettingsTab() {
             </div>
             <div>
               <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">
-                Token de Validacao do Webhook {hasWebhookToken && <span className="text-emerald-400">(ja configurado)</span>}
+                Token de Validação do Webhook {hasWebhookToken && <span className="text-emerald-400">(ja configurado)</span>}
               </label>
               <input type="text" placeholder={hasWebhookToken ? 'Deixe em branco para manter o atual' : 'Token configurado no Asaas'}
                 value={webhookToken} onChange={(e) => setWebhookToken(e.target.value)}
@@ -471,21 +471,21 @@ export function TenantSettingsTab() {
           <button type="submit" disabled={saving}
             className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white dark:text-white font-semibold text-xs transition disabled:opacity-50 shadow-lg shadow-blue-950/30">
             {saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
-            <span>{saving ? 'Gravando Parametros...' : 'Salvar Alteracoes'}</span>
+            <span>{saving ? 'Gravando Parametros...' : 'Salvar Alterações'}</span>
           </button>
         </div>
       </form>
 
-      {/* MODAL ONBOARDING: NOVA FUNERARIA (superadmin) */}
+      {/* MODAL ONBOARDING: NOVA FUNERÁRIA (superadmin) */}
       {isNewTenantOpen && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-[70]">
           <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl max-w-lg w-full p-6 max-h-[92vh] overflow-y-auto text-slate-900 dark:text-white shadow-2xl">
             <h3 className="font-bold text-sm text-violet-400 mb-1 flex items-center gap-2">
               <Building2 className="w-4 h-4" />
-              Cadastrar Nova Funeraria Cliente
+              Cadastrar Nova Funerária Cliente
             </h3>
             <p className="text-[11px] text-zinc-500 mb-4">
-              Cada funeraria opera em ambiente 100% isolado. Os dados jamais se misturam entre clientes.
+              Cada funerária opera em ambiente 100% isolado. Os dados jamais se misturam entre clientes.
             </p>
             <form onSubmit={handleCreateTenant} className="space-y-3 text-xs">
               <div className="grid grid-cols-2 gap-3">
@@ -493,14 +493,14 @@ export function TenantSettingsTab() {
                   <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Razao Social *</label>
                   <input type="text" required value={newTenantForm.name}
                     onChange={(e) => setNewTenantForm({ ...newTenantForm, name: e.target.value })}
-                    placeholder="ex: Funeraria Sao Judas Tadeu LTDA"
+                    placeholder="ex: Funerária São Judas Tadeu LTDA"
                     className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none" />
                 </div>
                 <div className="col-span-2">
                   <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Nome Fantasia</label>
                   <input type="text" value={newTenantForm.trade_name}
                     onChange={(e) => setNewTenantForm({ ...newTenantForm, trade_name: e.target.value })}
-                    placeholder="ex: Sao Judas Tadeu"
+                    placeholder="ex: São Judas Tadeu"
                     className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none" />
                 </div>
                 <div>
@@ -518,7 +518,7 @@ export function TenantSettingsTab() {
                     className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 focus:border-violet-500 focus:outline-none font-mono" />
                 </div>
                 <div>
-                  <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Cidade de Atuacao</label>
+                  <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Cidade de Atuação</label>
                   <input type="text" value={newTenantForm.issuance_city}
                     onChange={(e) => setNewTenantForm({ ...newTenantForm, issuance_city: e.target.value })}
                     placeholder="ex: Teresina - PI"
@@ -549,7 +549,7 @@ export function TenantSettingsTab() {
                 <button type="submit" disabled={creatingTenant}
                   className="flex items-center gap-2 px-5 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 font-bold disabled:opacity-50">
                   {creatingTenant ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Building2 className="w-3.5 h-3.5" />}
-                  {creatingTenant ? 'Cadastrando...' : 'Cadastrar Funeraria'}
+                  {creatingTenant ? 'Cadastrando...' : 'Cadastrar Funerária'}
                 </button>
               </div>
             </form>

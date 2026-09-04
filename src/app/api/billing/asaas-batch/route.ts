@@ -17,11 +17,11 @@ interface BatchResult {
 
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
-    // SECURITY: rate limit por usuario - operacao em lote de cobrancas reais
+    // SECURITY: rate limit por usuário - operação em lote de cobranças reais
     const rl = checkRateLimit(`asabatch:${auth.userId}`, { maxAttempts: 3, windowMs: 60000 });
     if (!rl.allowed) {
       return NextResponse.json(
-        { error: 'Muitos lotes em sequencia. Aguarde um minuto.' },
+        { error: 'Muitos lotes em sequência. Aguarde um minuto.' },
         { status: 429 },
       );
     }
@@ -45,7 +45,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     const asaasConfig = await getAsaasConfigForTenant(auth.tenantId);
     if (!asaasConfig.apiKey) {
       return NextResponse.json(
-        { error: 'Chave de API do Asaas nao configurada para esta unidade. Configure em Configuracoes.' },
+        { error: 'Chave de API do Asaas não configurada para esta unidade. Configure em Configurações.' },
         { status: 400 },
       );
     }
@@ -71,7 +71,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       const amount = Number(plan?.monthly_fee) || 0;
 
       if (!cleanCpf || cleanCpf.length !== 11) {
-        results.push({ contract_id: c.id, holder: name, status: 'skipped', error: 'CPF invalido ou ausente' });
+        results.push({ contract_id: c.id, holder: name, status: 'skipped', error: 'CPF inválido ou ausente' });
         continue;
       }
       if (amount <= 0) {
@@ -104,7 +104,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
           customerId = createData.id;
         }
 
-        // 2. Cria a cobranca no Asaas
+        // 2. Cria a cobrança no Asaas
         const paymentRes = await fetch(`${baseUrl}/payments`, {
           method: 'POST',
           headers,
@@ -123,7 +123,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
             contract_id: c.id,
             holder: name,
             status: 'error',
-            error: paymentData.errors?.[0]?.description || 'Falha na cobranca',
+            error: paymentData.errors?.[0]?.description || 'Falha na cobrança',
           });
           continue;
         }
@@ -161,7 +161,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     return NextResponse.json({
       success: true,
-      message: `Cobrancas ${billingType} no Asaas: ${created} criada(s), ${skipped} ignorada(s), ${failed} com erro. Vencimento: ${dueDate}.`,
+      message: `Cobranças ${billingType} no Asaas: ${created} criada(s), ${skipped} ignorada(s), ${failed} com erro. Vencimento: ${dueDate}.`,
       totalProcessed: created,
       created,
       failed,

@@ -12,7 +12,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     const { payment_id } = body;
 
     if (!payment_id) {
-      return NextResponse.json({ error: 'payment_id e obrigatorio.' }, { status: 400 });
+      return NextResponse.json({ error: 'payment_id e obrigatório.' }, { status: 400 });
     }
 
     const { data: payment, error: payError } = await supabaseAdmin
@@ -37,13 +37,13 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       .single();
 
     if (payError || !payment) {
-      return NextResponse.json({ error: 'Pagamento nao localizado.' }, { status: 404 });
+      return NextResponse.json({ error: 'Pagamento não localizado.' }, { status: 404 });
     }
 
     const asaasConfig = await getAsaasConfigForTenant(auth.tenantId);
 
     if (!asaasConfig.apiKey) {
-      return NextResponse.json({ error: 'Chave do Asaas nao configurada para esta unidade.' }, { status: 400 });
+      return NextResponse.json({ error: 'Chave do Asaas não configurada para esta unidade.' }, { status: 400 });
     }
 
     const holder = (payment.contracts as any)?.holders;
@@ -93,7 +93,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     const chargeData = await chargeRes.json();
     if (!chargeRes.ok || !chargeData.id) {
-      return NextResponse.json({ error: chargeData.errors?.[0]?.description || 'Erro ao gerar cobranca no Asaas.' }, { status: 400 });
+      return NextResponse.json({ error: chargeData.errors?.[0]?.description || 'Erro ao gerar cobrança no Asaas.' }, { status: 400 });
     }
 
     const qrRes = await fetch(`${asaasConfig.baseUrl}/payments/${chargeData.id}/pixQrCode`, {

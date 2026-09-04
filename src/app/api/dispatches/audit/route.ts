@@ -20,7 +20,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     if (!dispatch_id || !action || !actor_name) {
       return NextResponse.json(
-        { error: 'Campos obrigatorios: dispatch_id, action, actor_name' },
+        { error: 'Campos obrigatórios: dispatch_id, action, actor_name' },
         { status: 400 }
       );
     }

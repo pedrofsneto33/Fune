@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 
 /**
- * Loga o erro completo no servidor (sem dados sensiveis) e devolve uma
+ * Loga o erro completo no servidor (sem dados sensíveis) e devolve uma
  * resposta generica ao cliente. Evita vazar detalhes internos (mensagens de
- * banco, constraints, stack traces) atraves da API.
+ * banco, constraints, stack traces) através da API.
  */
 export function logError(err: unknown, context?: string): void {
   console.error(`[API_ERROR]${context ? ` ${context}` : ''}`, {
@@ -22,7 +22,7 @@ export function serverError(
       error:
         status === 500
           ? 'Erro interno no servidor. Tente novamente.'
-          : 'Nao foi possivel concluir a operacao.',
+          : 'Não foi possível concluir a operação.',
     },
     { status }
   );

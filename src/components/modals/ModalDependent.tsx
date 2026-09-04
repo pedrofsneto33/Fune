@@ -170,7 +170,7 @@ export function ModalDependent({
                       <button
                         onClick={() => onDeleteDependent(dep.id)}
                         className="p-1.5 text-zinc-500 hover:text-red-400 hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg transition"
-                        title="Remover dependente"
+                        title="Removerá dependente"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>

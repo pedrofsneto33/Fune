@@ -3,8 +3,8 @@
 import { useEffect } from 'react';
 
 /**
- * Registra o service worker (PWA offline) apenas em producao.
- * O sw.js cacheia assets estaticos; chamadas /api/ sao sempre rede.
+ * Registra o service worker (PWA offline) apenas em produção.
+ * O sw.js cacheia assets estaticos; chamadas /api/ são sempre rede.
  */
 export function ServiceWorkerRegister() {
   useEffect(() => {
@@ -14,7 +14,7 @@ export function ServiceWorkerRegister() {
       process.env.NODE_ENV === 'production'
     ) {
       navigator.serviceWorker.register('/sw.js').catch(() => {
-        // silencioso: PWA é progressivo, falha de registro nao afeta o app
+        // silencioso: PWA é progressivo, falha de registro não afeta o app
       });
     }
   }, []);

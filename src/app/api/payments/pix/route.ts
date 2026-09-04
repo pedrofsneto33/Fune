@@ -6,11 +6,11 @@ import { serverError } from '@/lib/http-error';
 
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
-    // SECURITY: rate limit por usuario - criacao de cobranca tem custo financeiro
+    // SECURITY: rate limit por usuário - criação de cobrança tem custo financeiro
     const rl = checkRateLimit(`pix:${auth.userId}`, { maxAttempts: 20, windowMs: 60000 });
     if (!rl.allowed) {
       return NextResponse.json(
-        { error: 'Muitas cobrancas em sequencia. Aguarde um minuto.' },
+        { error: 'Muitas cobranças em sequência. Aguarde um minuto.' },
         { status: 429 }
       );
     }
@@ -20,7 +20,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     if (!amount || Number(amount) <= 0) {
       return NextResponse.json(
-        { error: 'Valor da cobranca (amount) e obrigatorio e deve ser maior que zero.' },
+        { error: 'Valor da cobrança (amount) e obrigatório e deve ser maior que zero.' },
         { status: 400 }
       );
     }
@@ -28,7 +28,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     const asaasConfig = await getAsaasConfigForTenant(auth.tenantId);
     if (!asaasConfig.apiKey) {
       return NextResponse.json(
-        { error: 'Chave de API do Asaas nao configurada para esta unidade.' },
+        { error: 'Chave de API do Asaas não configurada para esta unidade.' },
         { status: 400 }
       );
     }
@@ -38,7 +38,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     const cleanCpf = (customerCpf || '').replace(/\D/g, '');
     if (!cleanCpf || cleanCpf.length !== 11) {
       return NextResponse.json(
-        { error: 'CPF invalido ou nao informado. O Asaas exige CPF regular para emissao de PIX.' },
+        { error: 'CPF inválido ou não informado. O Asaas exige CPF regular para emissao de PIX.' },
         { status: 400 }
       );
     }
@@ -95,7 +95,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     if (paymentData.errors) {
       return NextResponse.json(
-        { error: 'Erro ao gerar cobranca no Asaas', details: paymentData.errors },
+        { error: 'Erro ao gerar cobrança no Asaas', details: paymentData.errors },
         { status: 400 }
       );
     }

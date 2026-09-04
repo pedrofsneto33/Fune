@@ -12,17 +12,17 @@ import {
 // ============================================================
 
 export async function POST(req: NextRequest) {
-  // 1) Validar token (configurado como EVOLUTION_SERVER_WEBHOOK_SECRET na instancia)
+  // 1) Validar token (configurado como EVOLUTION_SERVER_WEBHOOK_SECRET na instância)
   const token = req.headers.get('x-webhook-token') || (req.headers.get('webhook-token') as string);
   if (!validateWebhookToken(token)) {
-    return NextResponse.json({ error: 'Token invalido' }, { status: 401 });
+    return NextResponse.json({ error: 'Token inválido' }, { status: 401 });
   }
 
   let body: any;
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ error: 'Payload invalido' }, { status: 400 });
+    return NextResponse.json({ error: 'Payload inválido' }, { status: 400 });
   }
 
   // 2) Extrair dados da mensagem (formato Evolution API v2)
@@ -35,18 +35,18 @@ export async function POST(req: NextRequest) {
     data?.message?.imageMessage?.caption ||
     '';
 
-  // Apenas mensagens de texto de numeros externos
+  // Apenas mensagens de texto de números externos
   if (!from || !text || !from.includes('@s.whatsapp.net') || to) {
     return NextResponse.json({ ok: true }); // ignora silenciosamente
   }
 
   const fromNumber = from.split('@')[0] || '';
 
-  // 3) Resolver tenant pelo numero de DESTINO (remetente da instancia)
-  //    Na Evolution, o numero do bot da instancia esta na mensagem quando e group/lida;
-  //    para 1:1, usamos o numero da instancia cadastrado no tenant_whatsapp_numbers.
-  //    Como o webhook nao traz o numero destino em mensagens 1:1, buscamos a instancia
-  //    pelo token (se configurado multiplas instancias, cada uma aponta para a propria rota).
+  // 3) Resolver tenant pelo número de DESTINO (remetente da instância)
+  //    Na Evolution, o número do bot da instância esta na mensagem quando e group/lida;
+  //    para 1:1, usamos o número da instância cadastrado no tenant_whatsapp_numbers.
+  //    Como o webhook não traz o número destino em mensagens 1:1, buscamos a instância
+  //    pelo token (se configurado multiplas instâncias, cada uma aponta para a propria rota).
   const { data: numberRows, error: numErr } = await (
     await import('@/lib/supabaseAdmin')
   ).supabaseAdmin
@@ -58,8 +58,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true });
   }
 
-  // 4) Processar: usa a primeira instancia ativa como tenant destino (MVP).
-  //    Para multi-instancia por tenant, o token deve identificar a instancia.
+  // 4) Processar: usa a primeira instância ativa como tenant destino (MVP).
+  //    Para multi-instância por tenant, o token deve identificar a instância.
   const target = numberRows[0];
   const result = await processIncomingMessage(
     target.tenant_id,

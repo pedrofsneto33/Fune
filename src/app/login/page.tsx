@@ -47,7 +47,7 @@ export default function LoginPage() {
       if (error) throw error;
       setResetSent(true);
     } catch (err: any) {
-      setError(err.message || 'Falha ao enviar e-mail de recuperacao.');
+      setError(err.message || 'Falha ao enviar e-mail de recuperação.');
     } finally {
       setLoading(false);
     }
@@ -73,7 +73,7 @@ export default function LoginPage() {
 
         {resetSent && (
           <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400 text-xs font-medium">
-            E-mail de recuperacao enviado! Verifique sua caixa de entrada e o spam.
+            E-mail de recuperação enviado! Verifique sua caixa de entrada e o spam.
           </div>
         )}
 
@@ -115,7 +115,7 @@ export default function LoginPage() {
             className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white dark:text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20"
           >
             {resetMode
-              ? (loading ? 'Enviando...' : 'Enviar Link de Recuperacao')
+              ? (loading ? 'Enviando...' : 'Enviar Link de Recuperação')
               : (loading ? 'Validando Acesso...' : 'Entrar no Sistema')}
             <ArrowRight className="w-4 h-4" />
           </button>

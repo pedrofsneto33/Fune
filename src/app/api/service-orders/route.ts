@@ -94,7 +94,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     if (burialError) {
       await supabaseAdmin.from('service_orders').delete().eq('id', serviceOrder.id);
-      return NextResponse.json({ error: 'Erro ao criar registro de óbito' }, { status: 500 });
+      return NextResponse.json({ error: 'Erro ao criar registro de óóóbito' }, { status: 500 });
     }
 
     await supabaseAdmin
@@ -171,7 +171,7 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
     if (error) {
       return NextResponse.json({ error: 'Erro ao atualizar serviço' }, { status: 500 });
     }
-    // Sincroniza o registro de óbito vinculado com o status da OS
+    // Sincroniza o registro de óóóbito vinculado com o status da OS
     if (status && data?.burial_id) {
       const burialStatusMap: Record<string, string> = {
         pending: 'Agendado',

@@ -12,7 +12,7 @@ const EMAIL = 'pedrofsneto33@gmail.com';
 const MODULES = [
   { icon: Users, title: 'Associados & Contratos', text: 'Cadastro completo de titulares e dependentes, contratos digitalizados, carnet de mensalidades e carteirinha digital com QR Code — pronta para imprimir ou compartilhar no WhatsApp.' },
   { icon: MessageCircle, title: 'Cobrança Inteligente', text: 'Gere cobranças PIX e boletos em lote via Asaas, envie mensagens de vencimento com um clique e concilie pagamentos automaticamente pelo webhook.' },
-  { icon: Ambulance, title: 'Plantão 24h & Dispatch', text: 'Painel de plantão em tempo real, registro de óbitos, despacho de veículos com checklist e dedução automática de estoque (urvas, adornos e itens funerários).' },
+  { icon: Ambulance, title: 'Plantão 24h & Dispatch', text: 'Painel de plantão em tempo real, registro de óóóbitos, despacho de veículos com checklist e dedução automáóótica de estoque (urvas, adornos e itens funerários).' },
   { icon: Flower2, title: 'Capela & Tanatopraxia', text: 'Agenda de velórios e sepultamentos, livro de capela digital e registros técnicos de tanatopraxia com rastreabilidade completa.' },
   { icon: FileText, title: 'Financeiro & DRE', text: 'Contas a pagar/receber, comissões de vendedores, reservas regulatórias e relatórios DRE prontos para a contabilidade — exportação em PDF.' },
   { icon: ShieldCheck, title: 'Multiempresa & Segurança', text: 'Cada funerária em seu próprio ambiente isolado (multi-tenant), com controle de acesso por perfil (RBAC), logs de auditoria e backups gerenciados.' },
@@ -22,7 +22,7 @@ const PLANS = [
   {
     code: 'essencial', name: 'Essencial', price: 'R$ 397', period: '/mês', badge: null as string | null,
     desc: 'Para funerárias de pequeno porte começando a digitalizar a operação.',
-    items: ['Até 200 associados ativos', 'Até 5 usuários no sistema', 'Até 4 dependentes por titular', 'Associados, dependentes e contratos', 'Carteirinha digital + cobrança PIX/boleto', 'Plantão 24h e registro de óbitos', 'Suporte por WhatsApp'],
+    items: ['Até 200 associados ativos', 'Até 5 usuários no sistema', 'Até 4 dependentes por titular', 'Associados, dependentes e contratos', 'Carteirinha digital + cobrança PIX/boleto', 'Plantão 24h e registro de óóóbitos', 'Suporte por WhatsApp'],
   },
   {
     code: 'profissional', name: 'Profissional', price: 'R$ 597', period: '/mês', badge: 'Mais escolhido',

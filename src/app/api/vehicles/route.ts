@@ -5,7 +5,7 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   const tenantId = auth.tenantId;
   if (!tenantId) {
-    return NextResponse.json({ error: "Tenant nao identificado" }, { status: 400 });
+    return NextResponse.json({ error: "Tenant não identificado" }, { status: 400 });
   }
   const { data, error } = await supabaseAdmin
     .from("vehicles")
@@ -21,12 +21,12 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   const tenantId = auth.tenantId;
   if (!tenantId) {
-    return NextResponse.json({ error: "Tenant nao identificado" }, { status: 400 });
+    return NextResponse.json({ error: "Tenant não identificado" }, { status: 400 });
   }
   const body = await req.json();
   const { plate, model, type, driver_name, status } = body;
   if (!plate || !model) {
-    return NextResponse.json({ error: "Placa e modelo sao obrigatorios" }, { status: 400 });
+    return NextResponse.json({ error: "Placa e modelo são obrigatórios" }, { status: 400 });
   }
   const { data, error } = await supabaseAdmin
     .from("vehicles")
@@ -34,7 +34,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       tenant_id: tenantId,
       plate: plate.toUpperCase(),
       model,
-      type: type || "Cortejo Funerario",
+      type: type || "Cortejo Funerário",
       driver_name: driver_name || null,
       status: status || "Disponível",
       created_at: new Date().toISOString(),
@@ -53,12 +53,12 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
   const tenantId = auth.tenantId;
   if (!tenantId) {
-    return NextResponse.json({ error: "Tenant nao identificado" }, { status: 400 });
+    return NextResponse.json({ error: "Tenant não identificado" }, { status: 400 });
   }
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
   if (!id) {
-    return NextResponse.json({ error: "ID e obrigatorio" }, { status: 400 });
+    return NextResponse.json({ error: "ID e obrigatório" }, { status: 400 });
   }
   const { error } = await supabaseAdmin
     .from("vehicles")
@@ -74,12 +74,12 @@ export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
 export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
   const tenantId = auth.tenantId;
   if (!tenantId) {
-    return NextResponse.json({ error: "Tenant nao identificado" }, { status: 400 });
+    return NextResponse.json({ error: "Tenant não identificado" }, { status: 400 });
   }
   const body = await req.json();
   const { id, ...updates } = body;
   if (!id) {
-    return NextResponse.json({ error: "ID e obrigatorio" }, { status: 400 });
+    return NextResponse.json({ error: "ID e obrigatório" }, { status: 400 });
   }
   const { data, error } = await supabaseAdmin
     .from("vehicles")

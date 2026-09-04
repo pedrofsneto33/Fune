@@ -27,7 +27,7 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
       .order('created_at', { ascending: true });
 
     if (error) {
-      return NextResponse.json({ error: 'Erro ao listar permissoes' }, { status: 500 });
+      return NextResponse.json({ error: 'Erro ao listar permissões' }, { status: 500 });
     }
 
     const { data: usersData } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 });
@@ -35,7 +35,7 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
 
     const enriched = (roles || []).map(r => ({
       ...r,
-      email: emailById.get(r.user_id) || '(nao encontrado)',
+      email: emailById.get(r.user_id) || '(não encontrado)',
     }));
 
     return NextResponse.json({
@@ -45,13 +45,13 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
       roles: enriched,
     });
   } catch (err: any) {
-    return NextResponse.json({ error: 'Erro ao listar permissoes' }, { status: 500 });
+    return NextResponse.json({ error: 'Erro ao listar permissões' }, { status: 500 });
   }
 }, ['superadmin', 'admin']);
 
-// POST: Conceder ou atualizar a permissao de um colaborador por e-mail.
+// POST: Conceder ou atualizar a permissão de um colaborador por e-mail.
 // Um superadmin pode informar tenant_id explicitamente para convidar o
-// primeiro usuario de uma empresa recem-cadastrada (onboarding). Qualquer
+// primeiro usuário de uma empresa recem-cadastrada (onboarding). Qualquer
 // outro perfil sempre concede acesso dentro do proprio tenant, mesmo que
 // tente enviar um tenant_id diferente.
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
@@ -66,33 +66,33 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     const validRoles = ['superadmin', 'admin', 'manager', 'attendant', 'driver', 'financial'];
 
     if (!email || !role) {
-      return NextResponse.json({ error: 'E-mail e cargo sao obrigatorios.' }, { status: 400 });
+      return NextResponse.json({ error: 'E-mail e cargo são obrigatórios.' }, { status: 400 });
     }
     
     if (!isValidEmail(email)) {
-      return NextResponse.json({ error: 'E-mail invalido.' }, { status: 400 });
+      return NextResponse.json({ error: 'E-mail inválido.' }, { status: 400 });
     }
     
     if (!validRoles.includes(role)) {
-      return NextResponse.json({ error: 'Cargo invalido.' }, { status: 400 });
+      return NextResponse.json({ error: 'Cargo inválido.' }, { status: 400 });
     }
 
     if (role === 'superadmin' && auth.role !== 'superadmin') {
-      return NextResponse.json({ error: 'Somente um Super Administrador pode conceder este nivel de acesso.' }, { status: 403 });
+      return NextResponse.json({ error: 'Somente um Super Administrador pode conceder este nível de acesso.' }, { status: 403 });
     }
 
     // SECURITY: Validate UUID format
     let targetTenantId = auth.tenantId;
     if (auth.role === 'superadmin' && tenant_id) {
       if (!isValidUUID(tenant_id)) {
-        return NextResponse.json({ error: 'tenant_id invalido.' }, { status: 400 });
+        return NextResponse.json({ error: 'tenant_id inválido.' }, { status: 400 });
       }
       targetTenantId = tenant_id;
     }
 
     const { data: usersData, error: listErr } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 });
     if (listErr) {
-      return NextResponse.json({ error: 'Erro ao consultar usuarios cadastrados.' }, { status: 500 });
+      return NextResponse.json({ error: 'Erro ao consultar usuários cadastrados.' }, { status: 500 });
     }
 
     const targetUser = (usersData?.users || []).find(
@@ -101,12 +101,12 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     if (!targetUser) {
       return NextResponse.json(
-        { error: 'Nenhuma conta encontrada com este e-mail. O colaborador precisa criar a conta (fazer o primeiro login) antes de receber uma permissao.' },
+        { error: 'Nenhuma conta encontrada com este e-mail. O colaborador precisa criar a conta (fazer o primeiro login) antes de receber uma permissão.' },
         { status: 404 }
       );
     }
 
-    // SECURITY: Um nao-superadmin NUNCA pode alterar (rebaixar ou trocar) o papel de um superadmin.
+    // SECURITY: Um não-superadmin NUNCA pode alterar (rebaixar ou trocar) o papel de um superadmin.
     // Se o alvo ja e superadmin neste tenant, somente outro superadmin pode tocar nesse registro.
     if (auth.role !== 'superadmin') {
       const { data: existingSuper } = await supabaseAdmin
@@ -118,7 +118,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
       if (existingSuper?.role === 'superadmin') {
         return NextResponse.json(
-          { error: 'Somente um Super Administrador pode alterar a permissao de um Super Administrador.' },
+          { error: 'Somente um Super Administrador pode alterar a permissão de um Super Administrador.' },
           { status: 403 }
         );
       }
@@ -142,16 +142,16 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
         if (count !== undefined && (count ?? 0) <= 1) {
           return NextResponse.json(
-            { error: 'Nao e possivel rebaixar o unico Super Administrador do sistema.' },
+            { error: 'Não e possível rebaixar o unico Super Administrador do sistema.' },
             { status: 400 }
           );
         }
       }
     }
 
-    // VERIFICACAO DE LIMITE DE USUARIOS DO PLANO COMERCIAL
-    // Se o usuario ja possui role neste tenant, trata-se de ATUALIZACAO de
-    // cargo e nao conta como novo usuario (o upsert abaixo faz update).
+    // VERIFICAÇÃO DE LIMITE DE USUÁRIOS DO PLANO COMERCIAL
+    // Se o usuário ja possui role neste tenant, trata-se de ATUALIZAÇÃO de
+    // cargo e não conta como novo usuário (o upsert abaixo faz update).
     const { data: existingRole } = await supabaseAdmin
       .from('user_roles')
       .select('id')
@@ -191,27 +191,27 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       .single();
 
     if (upsertErr) {
-      return NextResponse.json({ error: 'Erro ao salvar permissao' }, { status: 500 });
+      return NextResponse.json({ error: 'Erro ao salvar permissão' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, roleRecord: saved });
   } catch (err: any) {
-    return NextResponse.json({ error: 'Erro ao salvar permissao' }, { status: 500 });
+    return NextResponse.json({ error: 'Erro ao salvar permissão' }, { status: 500 });
   }
 }, ['superadmin', 'admin']);
 
-// DELETE: Remover a permissao de acesso de um colaborador.
-// Regras de seguranca:
-//  - Admin gerencia apenas o proprio tenant; superadmin pode gerenciar qualquer tenant.
-//  - Ninguem pode remover o proprio acesso (evita lockout acidental).
-//  - Somente superadmin pode remover outro superadmin.
+// DELETE: Removerá a permissão de acesso de um colaborador.
+// Regras de segurança:
+//  - Admin gerência apenas o proprio tenant; superadmin pode gerenciar qualquer tenant.
+//  - Ninguém pode removeráá o proprio acesso (evita lockout acidental).
+//  - Somente superadmin pode removeráá outro superadmin.
 export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
 
     if (!id || !isValidUUID(id)) {
-      return NextResponse.json({ error: 'ID invalido.' }, { status: 400 });
+      return NextResponse.json({ error: 'ID inválido.' }, { status: 400 });
     }
 
     const { data: target, error: findErr } = await supabaseAdmin
@@ -221,7 +221,7 @@ export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
       .maybeSingle();
 
     if (findErr || !target) {
-      return NextResponse.json({ error: 'Permissao nao encontrada.' }, { status: 404 });
+      return NextResponse.json({ error: 'Permissão não encontrada.' }, { status: 404 });
     }
 
     // Escopo por tenant (admin so mexe no proprio; superadmin pode gerenciar outro)
@@ -231,15 +231,15 @@ export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
 
     // Protege contra lockout acidental
     if (target.user_id === auth.userId) {
-      return NextResponse.json({ error: 'Voce nao pode remover seu proprio acesso.' }, { status: 400 });
+      return NextResponse.json({ error: 'Você não pode removeráá seu proprio acesso.' }, { status: 400 });
     }
 
     // Somente superadmin remove outro superadmin
     if (target.role === 'superadmin' && auth.role !== 'superadmin') {
-      return NextResponse.json({ error: 'Somente um Super Administrador pode remover este nivel de acesso.' }, { status: 403 });
+      return NextResponse.json({ error: 'Somente um Super Administrador pode removeráá este nível de acesso.' }, { status: 403 });
     }
 
-    // SECURITY: Nunca remover o UNICO superadmin restante (evita lockout total do sistema)
+    // SECURITY: Nunca removeráá o UNICO superadmin restante (evita lockout total do sistema)
     if (target.role === 'superadmin') {
       const { count } = await supabaseAdmin
         .from('user_roles')
@@ -249,7 +249,7 @@ export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
 
       if (count !== undefined && (count ?? 0) <= 1) {
         return NextResponse.json(
-          { error: 'Nao e possivel remover o unico Super Administrador do sistema.' },
+          { error: 'Não e possível removeráá o unico Super Administrador do sistema.' },
           { status: 400 }
         );
       }
@@ -261,11 +261,11 @@ export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
       .eq('id', id);
 
     if (delErr) {
-      return NextResponse.json({ error: 'Erro ao remover permissao.' }, { status: 500 });
+      return NextResponse.json({ error: 'Erro ao removeráá permissão.' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
   } catch (err: any) {
-    return NextResponse.json({ error: 'Erro ao remover permissao.' }, { status: 500 });
+    return NextResponse.json({ error: 'Erro ao removeráá permissão.' }, { status: 500 });
   }
 }, ['superadmin', 'admin']);

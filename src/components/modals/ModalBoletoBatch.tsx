@@ -70,7 +70,7 @@ export function ModalBoletoBatch({
       const parcelNumber = `${String(i + 1).padStart(2, '0')}/${String(installments).padStart(2, '0')}`;
 
       slipsHtml += `
-        <div class="carne-slip">
+        <div class="carnêêê-slip">
           <div class="stub">
             <div class="brand">ETERNITY OS</div>
             <div class="title">RECIBO DO CAIXA</div>
@@ -116,7 +116,7 @@ export function ModalBoletoBatch({
                 • Pagável nos escritórios da empresa, com cobradores autorizados ou via Chave PIX.<br/>
                 • O não pagamento até o vencimento sujeita a suspensão temporária dos benefícios previstos em contrato.
               </div>
-              <div class="code-area">
+              <div class="code-área">
                 <div class="pix-tag">CHAVE PIX CNPJ</div>
                 <div style="font-size: 9px; font-family: monospace;">00.000.000/0001-00</div>
               </div>
@@ -134,7 +134,7 @@ export function ModalBoletoBatch({
         <style>
           @page { size: A4 portrait; margin: 8mm; }
           body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background: #fff; color: #111; }
-          .carne-slip {
+          .carnêêê-slip {
             display: flex;
             border: 1px dashed #444;
             margin-bottom: 8mm;
@@ -173,7 +173,7 @@ export function ModalBoletoBatch({
           .text-red { color: #b91c1c; font-size: 12px; }
           .text-green { color: #047857; font-size: 12px; }
           .footer-slip { display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid #eee; padding-top: 4px; }
-          .code-area { border: 1px solid #047857; background: #ecfdf5; padding: 4px 8px; border-radius: 4px; text-align: center; }
+          .code-área { border: 1px solid #047857; background: #ecfdf5; padding: 4px 8px; border-radius: 4px; text-align: center; }
           .pix-tag { font-size: 8px; font-weight: bold; color: #047857; }
         </style>
       </head>

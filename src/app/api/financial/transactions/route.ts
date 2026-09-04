@@ -5,7 +5,7 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   const tenantId = auth.tenantId;
   if (!tenantId) {
-    return NextResponse.json({ error: "Tenant nao identificado" }, { status: 400 });
+    return NextResponse.json({ error: "Tenant não identificado" }, { status: 400 });
   }
   const { data, error } = await supabaseAdmin
     .from("financial_transactions")
@@ -22,12 +22,12 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   const tenantId = auth.tenantId;
   if (!tenantId) {
-    return NextResponse.json({ error: "Tenant nao identificado" }, { status: 400 });
+    return NextResponse.json({ error: "Tenant não identificado" }, { status: 400 });
   }
   const body = await req.json();
   const { description, amount, type, category, transaction_date } = body;
   if (!description || !amount || !type) {
-    return NextResponse.json({ error: "Descricao, valor e tipo sao obrigatorios" }, { status: 400 });
+    return NextResponse.json({ error: "Descrição, valor e tipo são obrigatórios" }, { status: 400 });
   }
   if (!["income", "expense"].includes(type)) {
     return NextResponse.json({ error: "Tipo deve ser 'income' ou 'expense'" }, { status: 400 });
@@ -54,12 +54,12 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
   const tenantId = auth.tenantId;
   if (!tenantId) {
-    return NextResponse.json({ error: "Tenant nao identificado" }, { status: 400 });
+    return NextResponse.json({ error: "Tenant não identificado" }, { status: 400 });
   }
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
   if (!id) {
-    return NextResponse.json({ error: "ID e obrigatorio" }, { status: 400 });
+    return NextResponse.json({ error: "ID e obrigatório" }, { status: 400 });
   }
   const { error } = await supabaseAdmin
     .from("financial_transactions")

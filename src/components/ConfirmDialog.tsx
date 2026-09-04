@@ -11,8 +11,8 @@ export interface ConfirmRequest {
 }
 
 /**
- * Modal de confirmacao customizado para substituir window.confirm().
- * Bloqueia a operacao de forma intencional, porem com a identidade visual do sistema.
+ * Modal de confirmação customizado para substituir window.confirm().
+ * Bloqueia a operação de forma intencional, porém com a identidade visual do sistema.
  */
 export function ConfirmDialog({
   request,

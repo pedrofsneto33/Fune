@@ -23,7 +23,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     if (!dispatch_id || odometer_end === undefined || odometer_end === null) {
       return NextResponse.json(
-        { error: 'Parametros obrigatorios ausentes (dispatch_id, odometer_end).' },
+        { error: 'Parametros obrigatórios ausentes (dispatch_id, odometer_end).' },
         { status: 400 }
       );
     }
@@ -36,7 +36,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       .single();
 
     if (dErr || !dispatch) {
-      return NextResponse.json({ error: 'Despacho nao localizado nesta unidade.' }, { status: 404 });
+      return NextResponse.json({ error: 'Despacho não localizado nesta unidade.' }, { status: 404 });
     }
 
     const odometerStart = Number(dispatch?.odometer_start || 0);
@@ -44,7 +44,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     if (odometerStart > 0 && odometerEndNum < odometerStart) {
       return NextResponse.json(
-        { error: `Odometro final (${odometerEndNum} km) nao pode ser menor que o inicial (${odometerStart} km).` },
+        { error: `Odômetro final (${odometerEndNum} km) não pode ser menor que o inicial (${odometerStart} km).` },
         { status: 400 }
       );
     }
@@ -81,7 +81,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         .from('vehicles')
         .update({
           odometer: odometerEndNum,
-          status: 'Disponivel',
+          status: 'Disponível',
           last_maintenance_check: new Date().toISOString()
         })
         .eq('id', targetVehicleId)

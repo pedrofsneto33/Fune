@@ -66,16 +66,16 @@ export function ModalRBAC({ isOpen, onClose, currentRole = 'admin' }: { isOpen: 
   };
 
   const handleDeleteRole = async (id: string) => {
-    if (!confirm('Remover este acesso?')) return;
+    if (!confirm('Removerá este acesso?')) return;
     try {
       const res = await authFetch(`/api/users/roles?id=${id}`, { method: 'DELETE' });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error((body && body.error) || 'Erro ao remover');
+        throw new Error((body && body.error) || 'Erro ao removeráá');
       }
       loadRoles();
     } catch (err: any) {
-      notifyError('Erro: ' + (err.message || 'Não foi possível remover o acesso.'));
+      notifyError('Erro: ' + (err.message || 'Não foi possível removeráá o acesso.'));
     }
   };
 
@@ -132,13 +132,13 @@ export function ModalRBAC({ isOpen, onClose, currentRole = 'admin' }: { isOpen: 
                 return (
                   <div key={r.id} className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-3.5 rounded-xl flex items-center justify-between text-xs">
                     <div>
-                      <span className="text-slate-900 dark:text-white font-bold">{r.email || r.user_id} {isSelf && <span className="ml-1 text-emerald-400 font-bold">(voce)</span>}</span>
+                      <span className="text-slate-900 dark:text-white font-bold">{r.email || r.user_id} {isSelf && <span className="ml-1 text-emerald-400 font-bold">(você)</span>}</span>
                       <span className={`ml-2 px-2 py-0.5 bg-violet-500/10 text-violet-400 rounded-full text-[10px] font-bold uppercase ${isSuperRow ? 'bg-amber-500/10 text-amber-400' : ''}`}>{r.role}{isSuperRow && ' (Dono)'}</span>
                     </div>
                     <button
                       onClick={() => handleDeleteRole(r.id)}
                       disabled={!canDelete}
-                      title={isSelf ? 'Voce nao pode remover seu proprio acesso' : !canDelete ? 'Apenas Super Admin gerencia Super Admin' : 'Remover acesso'}
+                      title={isSelf ? 'Você não pode removeráá seu proprio acesso' : !canDelete ? 'Apenas Super Admin gerência Super Admin' : 'Removerá acesso'}
                       className={`p-1.5 rounded-lg transition ${canDelete ? 'text-red-400 hover:bg-red-500/10' : 'text-zinc-700 cursor-not-allowed'}`}
                     >
                       <Trash2 className="w-4 h-4" />

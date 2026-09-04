@@ -54,7 +54,7 @@ export function ModalCarnets({
   const [busyId, setBusyId] = useState<string | undefined>(undefined);
   const [saving, setSaving] = useState(false);
 
-  // formulario de geracao
+  // formulario de geração
   const [formHolderId, setFormHolderId] = useState('');
   const [totalValue, setTotalValue] = useState('');
   const [installments, setInstallments] = useState('1');
@@ -118,7 +118,7 @@ export function ModalCarnets({
   const numInstallments = Math.min(Math.max(parseInt(installments, 10) || 1, 1), 12);
   const parcelValue = Number(totalValue) > 0 ? Number(totalValue) / numInstallments : 0;
 
-  // Compilado por usuario credenciado: cada titular (com ou sem carnes) com seus numeros
+  // Compilado por usuário credenciado: cada titular (com ou sem carnêês) com seus números
   const compiled = useMemo(() => {
     const byName = new Map<string, CarnetRow[]>();
     for (const c of carnets) {
@@ -197,14 +197,14 @@ export function ModalCarnets({
         }),
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || 'Erro ao gerar carnê');
+      if (!res.ok) throw new Error(data.error || 'Erro ao gerar carnêêê');
       if (onSuccess) onSuccess();
       setTotalValue('');
       setInstallments('1');
       setFirstDue('');
       await loadAll();
     } catch (err) {
-      notifyError('Erro ao gerar carnê: ' + (err as Error).message);
+      notifyError('Erro ao gerar carnêêê: ' + (err as Error).message);
     } finally {
       setSaving(false);
     }
@@ -230,7 +230,7 @@ export function ModalCarnets({
         {/* TOTAIS GERAIS */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
           <div className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2">
-            <p className="text-[10px] text-zinc-500 uppercase font-bold">Titulares c/ carnê</p>
+            <p className="text-[10px] text-zinc-500 uppercase font-bold">Titulares c/ carnêêê</p>
             <p className="text-sm font-bold text-slate-900 dark:text-white">{grandTotals.holders}</p>
           </div>
           <div className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2">
@@ -249,19 +249,19 @@ export function ModalCarnets({
           </div>
         </div>
 
-        {/* COMPILADO POR USUARIO CREDENCIADO */}
+        {/* COMPILADO POR USUÁRIO CREDENCIADO */}
         <div className="space-y-2">
           <p className="text-[11px] font-bold text-zinc-400 uppercase">
             Compilado por Usuário Credenciado
           </p>
           {loading && (
             <p className="text-xs text-zinc-500 py-4 text-center">
-              Carregando carnês e titulares credenciados...
+              Carregando carnêêês e titulares credenciados...
             </p>
           )}
           {!loading && compiled.length === 0 && (
             <p className="text-xs text-zinc-500 py-4 text-center">
-              Nenhum titular credenciado ou carnê cadastrado ainda.
+              Nenhum titular credenciado ou carnêêê cadastrado ainda.
             </p>
           )}
           {!loading &&
@@ -337,7 +337,7 @@ export function ModalCarnets({
             ))}
         </div>
 
-        {/* FORM GERAR NOVO CARNE */}
+        {/* FORM GERAR NOVO CARNÊ */}
         <form
           onSubmit={handleSubmit}
           className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 space-y-3 border-t-2 border-t-violet-600/50"
@@ -415,7 +415,7 @@ export function ModalCarnets({
             disabled={saving || !formHolderId}
             className="w-full py-2.5 bg-violet-600 hover:bg-violet-500 text-white dark:text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 disabled:opacity-50"
           >
-            <PlusCircle className="w-4 h-4" /> {saving ? 'Gerando carnê...' : 'Gerar Carnê'}
+            <PlusCircle className="w-4 h-4" /> {saving ? 'Gerando carnêêê...' : 'Gerar Carnê'}
           </button>
         </form>
       </div>
