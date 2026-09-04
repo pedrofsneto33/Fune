@@ -21,6 +21,30 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     return NextResponse.json({ error: 'holder_id e plan_id são obrigatórios.' }, { status: 400 });
   }
 
+  // Validar que o holder pertence ao tenant
+  const { data: h, error: hErr } = await supabaseAdmin
+    .from('holders')
+    .select('id')
+    .eq('id', holder_id)
+    .eq('tenant_id', auth.tenantId)
+    .single();
+
+  if (hErr || !h) {
+    return NextResponse.json({ error: 'Titular não encontrado para este tenant.' }, { status: 404 });
+  }
+
+  // Validar que o plan pertence ao tenant
+  const { data: p, error: pErr } = await supabaseAdmin
+    .from('plans')
+    .select('id')
+    .eq('id', plan_id)
+    .eq('tenant_id', auth.tenantId)
+    .single();
+
+  if (pErr || !p) {
+    return NextResponse.json({ error: 'Plano não encontrado para este tenant.' }, { status: 404 });
+  }
+
   const { data, error } = await supabaseAdmin
     .from('contracts')
     .insert([{

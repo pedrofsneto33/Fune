@@ -75,7 +75,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
               billingType: 'BOLETO',
               value: installmentValue,
               dueDate: dueDateStr,
-              description: `Carnê ${holder_name} - Parcela ${i + 1}/${numInstallments}`,
+              description: `Carnê ${sanitizeString(holder_name || '')} - Parcela ${i + 1}/${numInstallments}`,
               externalReference: `${createdCarnets[i]?.id || 'carnet'}_${i + 1}`,
             }),
           });

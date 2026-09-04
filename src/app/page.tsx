@@ -275,6 +275,7 @@ export default function MasterEternityOS() {
   const [savingHolder, setSavingHolder] = useState(false);
   const [editingHolder, setEditingHolder] = useState<Holder | null>(null);
   const [isImportOpen, setIsImportOpen] = useState(false);
+  const [showActions, setShowActions] = useState<string | null>(null);
   const [importText, setImportText] = useState("");
   const [importResult, setImportResult] = useState<{
     imported: number;
@@ -1872,72 +1873,73 @@ export default function MasterEternityOS() {
                           </td>
                           <td className="py-3 px-4 text-right">
                             <div className="inline-flex items-center gap-1.5">
+                              {/* Botões visíveis: apenas as 2 mais usadas */}
                               <a
                                 href={waUrl}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 rounded text-[11px] font-bold text-white dark:text-white"
+                                className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white dark:text-white rounded text-[11px] font-bold shadow"
                               >
-                                ?? Cobrar
+                                💬 Cobrar
                               </a>
-                              <a
-                                href={`/carteirinha/${rawCpf}`}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="px-2.5 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded text-[11px] border border-slate-300 dark:border-slate-700"
-                              >
-                                ?? Carteirinha
-                              </a>
-                              <button
-                                onClick={() => setPrintHolderContract(h)}
-                                className="px-2 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-700 rounded text-[11px]"
-                                title="Imprimir Contrato / Termo"
-                              >
-                                ?? Termo
-                              </button>
                               <button
                                 onClick={() => openEditHolder(h)}
-                                className="px-2 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 rounded text-[11px]"
+                                className="px-2 py-1 bg-slate-700 hover:bg-slate-600 text-slate-200 border border-slate-700 rounded text-[11px]"
                                 title="Editar Associado"
                               >
-                                Editar
+                                ✏️ Editar
                               </button>
-                              <button
-                                onClick={() => setSelectedHolder(h)}
-                                className="px-2 py-1 bg-blue-950/60 hover:bg-blue-900/60 text-blue-300 border border-blue-800/60 rounded text-[11px]"
-                              >
-                                ?? Dependentes
-                              </button>
-                              <button
-                                onClick={() => handleToggleHolderStatus(h)}
-                                disabled={togglingStatusId === h.id}
-                                className={`px-2 py-1 rounded text-[11px] border ${
-                                  h.status === "inativo"
-                                    ? "bg-emerald-950/60 hover:bg-emerald-900/60 text-emerald-300 border-emerald-800/60"
-                                    : "bg-amber-950/60 hover:bg-amber-900/60 text-amber-300 border-amber-800/60"
-                                }`}
-                                title={
-                                  h.status === "inativo"
-                                    ? "Reativar associado"
-                                    : "Marcar como inativo (mant�m todo o hist�rico)"
-                                }
-                              >
-                                {togglingStatusId === h.id
-                                  ? "..."
-                                  : h.status === "inativo"
-                                    ? "Ativar"
-                                    : "Inativar"}
-                              </button>
-                              <button
-                                onClick={() => handleDeleteHolder(h)}
-                                disabled={deletingHolderId === h.id}
-                                className="px-2 py-1 bg-red-950/60 hover:bg-red-900/60 text-red-300 border border-red-800/60 rounded text-[11px]"
-                                title="Excluir Associado"
-                              >
-                                {deletingHolderId === h.id
-                                  ? "Excluindo..."
-                                  : "Excluir"}
-                              </button>
+                              {/* Dropdown de ações - as 5 restantes */}
+                              <div className="relative">
+                                <button
+                                  onClick={() => setShowActions(showActions === h.id ? null : h.id)}
+                                  className="p-1 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-800"
+                                  title="Mais ações"
+                                >
+                                  ⋮
+                                </button>
+                                {showActions === h.id && (
+                                  <div
+                                    className="absolute right-0 mt-1 w-44 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-lg rounded text-[11px] z-20 animate-fade-in"
+                                    onClick={() => setTimeout(() => setShowActions(null), 200)}
+                                  >
+                                    <a
+                                      href={`/carteirinha/${rawCpf}`}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                      className="block px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                    >
+                                      🪪 Carteirinha
+                                    </a>
+                                    <button
+                                      onClick={() => { setShowActions(null); setPrintHolderContract(h); }}
+                                      className="block w-full text-left px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                    >
+                                      📄 Termo
+                                    </button>
+                                    <button
+                                      onClick={() => { setShowActions(null); setSelectedHolder(h); }}
+                                      className="block w-full text-left px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                    >
+                                      👥 Dependentes
+                                    </button>
+                                    <button
+                                      onClick={() => { setShowActions(null); handleToggleHolderStatus(h); }}
+                                      disabled={togglingStatusId === h.id}
+                                      className="block w-full text-left px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-50"
+                                    >
+                                      🔄 {h.status === "inativo" ? "Ativar" : "Inativar"}
+                                    </button>
+                                    <button
+                                      onClick={() => { setShowActions(null); handleDeleteHolder(h); }}
+                                      disabled={deletingHolderId === h.id}
+                                      className="block w-full text-left px-3 py-2 text-red-400 hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-50"
+                                    >
+                                      🗑️ Excluir
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           </td>
                         </tr>

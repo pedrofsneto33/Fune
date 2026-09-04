@@ -42,9 +42,21 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
   if (!id) return NextResponse.json({ error: 'id é obrigatório.' }, { status: 400 });
 
   const body = await req.json();
+
+  // Allowlist de campos para evitar overwrite de tenant_id e outros
+  const { description, amount, due_date, status, payment_method, notes } = body;
+  const updateData: Record<string, any> = {};
+
+  if (description !== undefined) updateData.description = description;
+  if (amount !== undefined) updateData.amount = parseFloat(amount);
+  if (due_date !== undefined) updateData.due_date = due_date;
+  if (status !== undefined) updateData.status = status;
+  if (payment_method !== undefined) updateData.payment_method = payment_method;
+  if (notes !== undefined) updateData.notes = notes;
+
   const { data, error } = await supabaseAdmin
     .from('accounts_payable')
-    .update(body)
+    .update(updateData)
     .eq('id', id)
     .eq('tenant_id', auth.tenantId)
     .select()

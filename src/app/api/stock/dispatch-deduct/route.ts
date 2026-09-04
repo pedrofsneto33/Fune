@@ -29,6 +29,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       .from('inventory')
       .update({ stock_quantity: newQty })
       .eq('id', itemId)
+      .eq('tenant_id', auth.tenantId)
       .select()
       .single();
 

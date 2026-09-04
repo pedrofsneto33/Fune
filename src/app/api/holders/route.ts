@@ -12,7 +12,10 @@ import { getPlanByCode, checkHolderLimit } from "@/lib/planLimits";
 export const GET = withAuth(
   async (req: NextRequest, { auth }) => {
     try {
-      // SECURITY: Select columns based on role to limit sensitive data exposure
+      // SECURITY: query returns all columns (select *). Role-based field filtering
+      // is planned for future hardening — currently all authenticated users
+      // within the tenant can read holder data. Revisit if sensitive PII exposure
+      // rules are introduced.
       const isPrivilegedRole = ["superadmin", "admin", "financial"].includes(
         auth.role,
       );
