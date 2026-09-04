@@ -351,7 +351,7 @@ CREATE TABLE IF NOT EXISTS public.regulatory_reserves (
 );
 
 
--- 28. Ordens de Serviço
+-- 28. Ordens de Serviï¿½o
 CREATE TABLE IF NOT EXISTS public.service_orders (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
@@ -369,7 +369,7 @@ CREATE TABLE IF NOT EXISTS public.service_orders (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 29. Itens da Ordem de Serviço
+-- 29. Itens da Ordem de Serviï¿½o
 CREATE TABLE IF NOT EXISTS public.service_order_items (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
@@ -380,7 +380,7 @@ CREATE TABLE IF NOT EXISTS public.service_order_items (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Índices para performance
+-- ï¿½ndices para performance
 CREATE INDEX IF NOT EXISTS idx_service_orders_tenant ON public.service_orders(tenant_id);
 CREATE INDEX IF NOT EXISTS idx_service_orders_contract ON public.service_orders(contract_id);
 CREATE INDEX IF NOT EXISTS idx_service_orders_burial ON public.service_orders(burial_id);
@@ -417,6 +417,15 @@ $$ LANGUAGE SQL STABLE SECURITY DEFINER;
 -- Habilitar RLS em todas as tabelas
 ALTER TABLE public.tenants ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
+
+-- SECURITY: Policy para permitir que cada usuÃ¡rio veja seu prÃ³prio role
+DROP POLICY IF EXISTS "user_roles_self_read" ON public.user_roles;
+CREATE POLICY "user_roles_self_read" 
+ON public.user_roles 
+FOR SELECT 
+TO authenticated 
+USING (auth.uid() = user_roles.user_id);
+
 ALTER TABLE public.plans ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.holders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.dependents ENABLE ROW LEVEL SECURITY;
