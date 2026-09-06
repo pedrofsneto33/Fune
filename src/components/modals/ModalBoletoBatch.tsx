@@ -1,6 +1,7 @@
 ﻿'use client';
 
 import React, { useState } from 'react';
+import { authFetch } from '@/lib/authFetch';
 import {
   X,
   Printer,
@@ -241,9 +242,8 @@ export function ModalBoletoBatch({
     setAsaasMessage(null);
 
     try {
-      const res = await fetch('/api/billing/asaas-batch', {
+      const res = await authFetch('/api/billing/asaas-batch', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           holderId: currentHolder.holderId || currentHolder.id,
           installments,

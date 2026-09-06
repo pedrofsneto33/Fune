@@ -1,6 +1,7 @@
 ﻿'use client';
 
 import React, { useState } from 'react';
+import { authFetch } from '@/lib/authFetch';
 import { Truck, X, Gauge, Fuel, CheckCircle, AlertCircle, Calculator } from 'lucide-react';
 import { useTenant } from '@/contexts/TenantContext';
 
@@ -44,9 +45,8 @@ export function ModalCloseDispatch({
 
     setLoading(true);
     try {
-      const res = await fetch('/api/dispatches/close', {
+      const res = await authFetch('/api/dispatches/close', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           dispatch_id: dispatch.id,
           tenant_id: currentTenant?.id || dispatch.tenant_id,
