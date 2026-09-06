@@ -2,6 +2,7 @@
 
 
 import { notifySuccess, notifyError, notifyInfo } from '@/lib/notify';
+import { authFetch } from '@/lib/authFetch';
 import React, { useState } from 'react';
 
 interface HolderSearchResult {
@@ -32,11 +33,7 @@ export function HeaderQuickSearch() {
 
     setLoading(true);
     try {
-      const res = await fetch(`/api/holders/quick-search?q=${encodeURIComponent(val)}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('supabase_token') || ''}`,
-        },
-      });
+      const res = await authFetch(`/api/holders/quick-search?q=${encodeURIComponent(val)}`);
       if (res.ok) {
         const data = await res.json();
         setResults(data);

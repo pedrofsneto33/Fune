@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { checkRateLimit } from '@/lib/rate-limiter';
 import {
   validateWebhookToken,
   findTenantByWhatsAppNumber,
@@ -12,6 +13,19 @@ import {
 // ============================================================
 
 export async function POST(req: NextRequest) {
+  // SECURITY: rate limit por IP — webhooks nao passam pelo withAuth
+  const clientIP =
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    req.headers.get('x-real-ip') ||
+    'unknown';
+  const rl = checkRateLimit(`webhook:whatsapp:${clientIP}`, { maxAttempts: 60, windowMs: 60000 });
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: 'Muitas requisições. Tente novamente em instantes.' },
+      { status: 429 },
+    );
+  }
+
   // 1) Validar token (configurado como EVOLUTION_SERVER_WEBHOOK_SECRET na instância)
   const token = req.headers.get('x-webhook-token') || (req.headers.get('webhook-token') as string);
   if (!validateWebhookToken(token)) {

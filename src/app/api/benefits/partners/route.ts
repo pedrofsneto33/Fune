@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { sanitizeString, isValidUUID } from '@/lib/validation';
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   const { data, error } = await supabaseAdmin
@@ -25,10 +26,10 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       .from('benefits_partners')
       .insert([{
         tenant_id: auth.tenantId,
-        partner_name: partner_name.trim(),
-        category: category || 'Comércio Geral',
+        partner_name: sanitizeString(partner_name, 150),
+        category: sanitizeString(category || 'Comércio Geral', 100),
         discount_percentage: Number(discount_percentage || 10),
-        contact_info: contact_info ? contact_info.trim() : null,
+        contact_info: contact_info ? sanitizeString(contact_info, 255) : null,
         active: true,
       }])
       .select()
@@ -46,13 +47,15 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
     const body = await req.json();
     const { id, partner_name, category, discount_percentage, contact_info, active } = body;
 
-    if (!id) return NextResponse.json({ error: 'id é obrigatório.' }, { status: 400 });
+    
+
+    if (!id || !isValidUUID(id)) return NextResponse.json({ error: 'id inválido.' }, { status: 400 });
 
     const updateData: Record<string, any> = {};
-    if (partner_name !== undefined) updateData.partner_name = partner_name;
-    if (category !== undefined) updateData.category = category;
+    if (partner_name !== undefined) updateData.partner_name = sanitizeString(partner_name, 150);
+    if (category !== undefined) updateData.category = sanitizeString(category, 100);
     if (discount_percentage !== undefined) updateData.discount_percentage = Number(discount_percentage);
-    if (contact_info !== undefined) updateData.contact_info = contact_info;
+    if (contact_info !== undefined) updateData.contact_info = contact_info ? sanitizeString(contact_info, 255) : null;
     if (active !== undefined) updateData.active = active;
 
     const { data, error } = await supabaseAdmin
@@ -77,7 +80,7 @@ export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
-    if (!id) return NextResponse.json({ error: 'id é obrigatório.' }, { status: 400 });
+    if (!id || !isValidUUID(id)) return NextResponse.json({ error: 'id inválido.' }, { status: 400 });
 
     const { data, error } = await supabaseAdmin
       .from('benefits_partners')

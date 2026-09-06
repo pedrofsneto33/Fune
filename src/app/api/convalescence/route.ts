@@ -2,6 +2,7 @@
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { serverError } from '@/lib/http-error';
+import { isValidUUID, sanitizeString } from '@/lib/validation';
 
 export const dynamic = 'force-dynamic';
 
@@ -51,22 +52,71 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         return NextResponse.json({ error: 'Item, titular e data de devolução são obrigatórios.' }, { status: 400 });
       }
 
+      // SECURITY: validar formato UUID das referencias vindas do cliente
+
+      if (!isValidUUID(item_id)) {
+
+        return NextResponse.json({ error: 'Item invalido.' }, { status: 400 });
+
+      }
+
+      if (contract_id && !isValidUUID(contract_id)) {
+
+        return NextResponse.json({ error: 'Contrato invalido.' }, { status: 400 });
+
+      }
+
+      
+
+      // SECURITY: o item deve pertencer a este tenant
+
+      const { data: ownedItem, error: itemFindErr } = await supabaseAdmin
+
+        .from('convalescence_items')
+
+        .select('id')
+
+        .eq('id', item_id)
+
+        .eq('tenant_id', tenant_id)
+
+        .maybeSingle();
+
+      if (itemFindErr || !ownedItem) {
+
+        return NextResponse.json({ error: 'Item nao encontrado para esta unidade.' }, { status: 404 });
+
+      }
+
+      
+
       const { data: loan, error: loanErr } = await supabaseAdmin
         .from('convalescence_loans')
         .insert([
           {
             tenant_id,
+
             item_id,
-            contract_id,
-            holder_name,
-            holder_cpf,
-            holder_phone,
-            beneficiary_name,
+
+            contract_id: contract_id || null,
+
+            holder_name: sanitizeString(holder_name, 255),
+
+            holder_cpf: String(holder_cpf || '').replace(/\D/g, '').slice(0, 11) || null,
+
+            holder_phone: sanitizeString(holder_phone || '', 20),
+
+            beneficiary_name: beneficiary_name ? sanitizeString(beneficiary_name, 255) : null,
+
             expected_return_date,
+
             deposit_amount: Number(deposit_amount),
+
             cleaning_fee: Number(cleaning_fee),
+
             status: 'Ativo',
-            observations
+
+            observations: observations ? sanitizeString(observations, 1000) : null
           }
         ])
         .select()
@@ -90,6 +140,16 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         return NextResponse.json({ error: 'Identificadores do empréstimo e item são obrigatórios.' }, { status: 400 });
       }
 
+      // SECURITY: validar formato UUID das referencias vindas do cliente
+
+      if (!isValidUUID(loan_id) || !isValidUUID(item_id)) {
+
+        return NextResponse.json({ error: 'Identificador invalido.' }, { status: 400 });
+
+      }
+
+      
+
       const todayStr = new Date().toISOString().split('T')[0];
 
       const { data: loan, error: lErr } = await supabaseAdmin
@@ -97,8 +157,8 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         .update({
           status: 'Devolvido',
           actual_return_date: todayStr,
-          return_condition,
-          observations: observations || undefined
+          return_condition: sanitizeString(return_condition, 50),
+          observations: observations ? sanitizeString(observations, 1000) : undefined
         })
         .eq('id', loan_id)
         .eq('tenant_id', tenant_id)
@@ -111,7 +171,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         .from('convalescence_items')
         .update({
           status: return_condition === 'Manutenção' ? 'Manutenção' : 'Disponível',
-          condition: return_condition
+          condition: sanitizeString(return_condition, 50)
         })
         .eq('id', item_id)
         .eq('tenant_id', tenant_id);

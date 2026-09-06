@@ -12,20 +12,13 @@ import { getPlanByCode, checkHolderLimit } from "@/lib/planLimits";
 export const GET = withAuth(
   async (req: NextRequest, { auth }) => {
     try {
-      // SECURITY: query returns all columns (select *). Role-based field filtering
-      // is planned for future hardening — currently all authenticated users
-      // within the tenant can read holder data. Revisit if sensitive PII exposure
-      // rules are introduced.
+      // SECURITY: restricao de campos por role (defesa em profundidade).
+      // Superadmin/admin/financial recebem dados completos (incl. CPF,
+      // endereco, email e dados financeiros); manager/attendant recebem apenas
+      // a visao operacional, sem campos sensiveis.
       const isPrivilegedRole = ["superadmin", "admin", "financial"].includes(
         auth.role,
       );
-      const isManagerRole = [
-        "superadmin",
-        "admin",
-        "manager",
-        "attendant",
-        "financial",
-      ].includes(auth.role);
 
       const { data: holdersList, error } = await supabaseAdmin
         .from("holders")
@@ -40,13 +33,16 @@ export const GET = withAuth(
         );
       }
 
-      // Only fetch related data for roles that need it
-      if (isManagerRole && holdersList) {
+      if (!holdersList || holdersList.length === 0) {
+        return NextResponse.json([]);
+      }
+
+      if (isPrivilegedRole) {
         const fullData = await Promise.all(
           holdersList.map(async (h) => {
             const { data: deps } = await supabaseAdmin
               .from("dependents")
-              .select("id, full_name, relation")
+              .select("id, full_name, cpf, relation")
               .eq("holder_id", h.id)
               .eq("tenant_id", auth.tenantId);
 
@@ -66,18 +62,34 @@ export const GET = withAuth(
         return NextResponse.json(fullData);
       }
 
-      // For non-privileged roles, return limited data
-      if (!isPrivilegedRole && holdersList) {
-        const limitedData = holdersList.map((h) => ({
-          id: h.id,
-          full_name: h.full_name,
-          phone: h.phone,
-          created_at: h.created_at,
-        }));
-        return NextResponse.json(limitedData);
-      }
+      // Roles nao-privilegiadas (manager/attendant): visao operacional minima —
+      // sem CPF/endereco/email do titular, sem CPF dos dependentes e sem
+      // mensalidade do plano (dado financeiro reservado a admin/financial).
+      const limitedData = await Promise.all(
+        holdersList.map(async (h) => {
+          const { data: deps } = await supabaseAdmin
+            .from("dependents")
+            .select("id, full_name, relation")
+            .eq("holder_id", h.id)
+            .eq("tenant_id", auth.tenantId);
 
-      return NextResponse.json(holdersList || []);
+          const { data: contracts } = await supabaseAdmin
+            .from("contracts")
+            .select("id, status, start_date, plans(name)")
+            .eq("holder_id", h.id)
+            .eq("tenant_id", auth.tenantId);
+
+          return {
+            id: h.id,
+            full_name: h.full_name,
+            phone: h.phone,
+            created_at: h.created_at,
+            dependents: deps || [],
+            contracts: contracts || [],
+          };
+        }),
+      );
+      return NextResponse.json(limitedData);
     } catch (err: unknown) {
       return NextResponse.json(
         { error: "Erro interno ao processar requisição" },

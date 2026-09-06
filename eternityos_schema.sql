@@ -1,4 +1,4 @@
--- ==========================================
+﻿-- ==========================================
 -- ETERNITYOS - SCHEMA COMPLETO COM RLS E MULTI-TENANCY
 -- ==========================================
 
@@ -385,20 +385,42 @@ CREATE INDEX IF NOT EXISTS idx_service_orders_tenant ON public.service_orders(te
 CREATE INDEX IF NOT EXISTS idx_service_orders_contract ON public.service_orders(contract_id);
 CREATE INDEX IF NOT EXISTS idx_service_orders_burial ON public.service_orders(burial_id);
 CREATE INDEX IF NOT EXISTS idx_service_order_items_service ON public.service_order_items(service_order_id);
+
+-- 21. Agente WhatsApp — numeros por tenant e sessoes de triagem
+CREATE TABLE IF NOT EXISTS public.tenant_whatsapp_numbers (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    whatsapp_number VARCHAR(30) NOT NULL,
+    evolution_instance VARCHAR(150) NOT NULL,
+    active BOOLEAN DEFAULT true,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE (tenant_id, whatsapp_number)
+);
+
+CREATE TABLE IF NOT EXISTS public.whatsapp_agent_sessions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    phone VARCHAR(30) NOT NULL,
+    step VARCHAR(50) DEFAULT 'init',
+    data JSONB DEFAULT '{}',
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE (tenant_id, phone)
+);
 -- ==========================================
 -- ROW LEVEL SECURITY (RLS)
 -- ==========================================
 
 
--- Function to decrement stock
-CREATE OR REPLACE FUNCTION public.decrement_stock(item_id uuid, qty integer)
-RETURNS void AS $$
-BEGIN
-  UPDATE public.inventory
-  SET stock_quantity = stock_quantity - qty
-  WHERE id = item_id AND stock_quantity >= qty;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+  -- Function to decrement stock (defesa em profundidade: exige tenant explicito)
+  CREATE OR REPLACE FUNCTION public.decrement_stock(p_item_id uuid, p_tenant_id uuid, qty integer)
+  RETURNS void AS $$
+  BEGIN
+    UPDATE public.inventory
+    SET stock_quantity = stock_quantity - qty
+    WHERE id = p_item_id AND tenant_id = p_tenant_id AND stock_quantity >= qty;
+  END;
+  $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE OR REPLACE FUNCTION public.get_user_tenant_id()
 RETURNS UUID AS $$
     SELECT tenant_id FROM public.user_roles 
@@ -418,6 +440,11 @@ $$ LANGUAGE SQL STABLE SECURITY DEFINER;
 ALTER TABLE public.tenants ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
 
+-- SECURITY: tenants e user_roles NAO recebem a politica de tenant_isolation de proposito:
+--  - tenants: contem segredos (asaas_api_key/asaas_webhook_token). Acesso apenas via
+--    service role (rotas de API). Sem politica = fail-closed para chaves anon/client.
+--  - user_roles: leitura da propria linha via user_roles_self_read; escrita apenas
+--    via service role (rotas /api/users/roles com withAuth).
 -- SECURITY: Policy para permitir que cada usuário veja seu próprio role
 DROP POLICY IF EXISTS "user_roles_self_read" ON public.user_roles;
 CREATE POLICY "user_roles_self_read" 
@@ -453,8 +480,8 @@ ALTER TABLE public.payment_carnets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.service_orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.service_order_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.regulatory_reserves ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.service_orders ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.service_order_items ENABLE ROW LEVEL SECURITY;
+  ALTER TABLE public.tenant_whatsapp_numbers ENABLE ROW LEVEL SECURITY;
+  ALTER TABLE public.whatsapp_agent_sessions ENABLE ROW LEVEL SECURITY;
 
 -- Politicas de Isolamento por Tenant
 DO $$
@@ -468,7 +495,8 @@ DECLARE
         'chapel_bookings', 'collector_routes', 'commissions',
         'convalescence_items', 'convalescence_loans', 'vehicles',
         'fleet_vehicles', 'dispatches', 'dispatch_audit_logs',
-        'emergency_dispatches', 'payment_carnets', 'service_orders', 'service_order_items', 'regulatory_reserves', 'service_orders', 'service_order_items'
+        'emergency_dispatches', 'payment_carnets', 'service_orders', 'service_order_items', 'regulatory_reserves',
+        'tenant_whatsapp_numbers', 'whatsapp_agent_sessions'
     ];
 BEGIN
     FOREACH t IN ARRAY tables_list LOOP

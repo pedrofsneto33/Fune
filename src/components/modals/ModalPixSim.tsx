@@ -1,5 +1,13 @@
 ﻿'use client';
 
+/**
+ * ATENÇÃO: componente ÓRFÃO — nenhum arquivo importa ModalPixSim hoje.
+ * Era o simulador de webhook PIX usado no desenvolvimento inicial.
+ * Decisão pendente (ver relatório de segurança, Bloco B): deletar ou
+ * reativar com fluxo autenticado próprio. NÃO remover este aviso antes
+ * de decidir o destino do arquivo.
+ */
+
 import React from 'react';
 import { Zap, X } from 'lucide-react';
 

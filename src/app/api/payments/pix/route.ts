@@ -3,6 +3,8 @@ import { withAuth } from '@/lib/api-handler';
 import { getAsaasConfigForTenant } from '@/lib/asaasClient';
 import { checkRateLimit } from '@/lib/rate-limiter';
 import { serverError } from '@/lib/http-error';
+import { isValidUUID, sanitizeString } from '@/lib/validation';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
@@ -35,6 +37,23 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     const baseUrl = asaasConfig.baseUrl;
     const apiKey = asaasConfig.apiKey;
 
+    const safeCustomerName = customerName ? sanitizeString(customerName, 150) : 'Associado Saad Fune';
+    
+    if (contractId && !isValidUUID(contractId)) {
+      return NextResponse.json({ error: 'Contrato inválido.' }, { status: 400 });
+    }
+    if (contractId) {
+      // SECURITY: o contrato referenciado deve pertencer a este tenant
+      const { data: ownedContract } = await supabaseAdmin
+        .from('contracts')
+        .select('id')
+        .eq('id', contractId)
+        .eq('tenant_id', auth.tenantId)
+        .maybeSingle();
+      if (!ownedContract) {
+        return NextResponse.json({ error: 'Contrato não encontrado para esta unidade.' }, { status: 404 });
+      }
+    }
     const cleanCpf = (customerCpf || '').replace(/\D/g, '');
     if (!cleanCpf || cleanCpf.length !== 11) {
       return NextResponse.json(
@@ -58,7 +77,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
           'access_token': apiKey
         },
         body: JSON.stringify({
-          name: customerName || 'Associado Saad Fune',
+          name: safeCustomerName,
           cpfCnpj: cleanCpf,
           mobilePhone: customerPhone ? customerPhone.replace(/\D/g, '') : undefined
         })

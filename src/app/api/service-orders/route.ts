@@ -58,6 +58,50 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       return NextResponse.json({ error: 'Veículo inválido' }, { status: 400 });
     }
 
+    if (contract_id) {
+
+      const { data: ownedContract } = await supabaseAdmin
+
+        .from('contracts')
+
+        .select('id')
+
+        .eq('id', contract_id)
+
+        .eq('tenant_id', auth.tenantId)
+
+        .maybeSingle();
+
+      if (!ownedContract) {
+
+        return NextResponse.json({ error: 'Contrato não encontrado para esta unidade.' }, { status: 404 });
+
+      }
+
+    }
+
+    if (vehicle_id) {
+
+      const { data: ownedVehicle } = await supabaseAdmin
+
+        .from('vehicles')
+
+        .select('id')
+
+        .eq('id', vehicle_id)
+
+        .eq('tenant_id', auth.tenantId)
+
+        .maybeSingle();
+
+      if (!ownedVehicle) {
+
+        return NextResponse.json({ error: 'Veículo não encontrado para esta unidade.' }, { status: 404 });
+
+      }
+
+    }
+
     const { data: serviceOrder, error: soError } = await supabaseAdmin
       .from('service_orders')
       .insert({
@@ -65,7 +109,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         contract_id: contract_id || null,
         deceased_name: sanitizeString(deceased_name, 255),
         deceased_type,
-        deceased_id,
+        deceased_id: sanitizeString(deceased_id, 50),
         burial_date: burial_date || null,
         cemetery_location: sanitizeString(cemetery_location || '', 255),
         vehicle_id: vehicle_id || null,
@@ -100,7 +144,10 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     await supabaseAdmin
       .from('service_orders')
       .update({ burial_id: burial.id })
-      .eq('id', serviceOrder.id);
+
+      .eq('id', serviceOrder.id)
+
+      .eq('tenant_id', auth.tenantId);
 
     if (vehicle_id) {
       await supabaseAdmin
@@ -111,6 +158,22 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     }
 
     if (items && Array.isArray(items) && items.length > 0) {
+      // SECURITY: validar UUID + ownership de cada item de estoque antes de usar
+      for (const item of items) {
+        if (!item.inventory_id || !isValidUUID(item.inventory_id)) {
+          return NextResponse.json({ error: 'Item de estoque inválido.' }, { status: 400 });
+        }
+        const { data: ownedInventory } = await supabaseAdmin
+          .from('inventory')
+          .select('id')
+          .eq('id', item.inventory_id)
+          .eq('tenant_id', auth.tenantId)
+          .maybeSingle();
+        if (!ownedInventory) {
+          return NextResponse.json({ error: 'Item de estoque não encontrado para esta unidade.' }, { status: 404 });
+        }
+      }
+      
       const orderItems = items.map((item: any) => ({
         tenant_id: auth.tenantId,
         service_order_id: serviceOrder.id,
@@ -124,9 +187,10 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       for (const item of items) {
         if (item.inventory_id) {
           await supabaseAdmin.rpc('decrement_stock', {
-            item_id: item.inventory_id,
-            qty: item.quantity || 1,
-          });
+            p_item_id: item.inventory_id,
+            p_tenant_id: auth.tenantId,
+         qty: item.quantity || 1,
+         });
         }
       }
     }

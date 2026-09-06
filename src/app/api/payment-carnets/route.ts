@@ -36,6 +36,30 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     if (contract_id && !isValidUUID(contract_id)) {
       return NextResponse.json({ error: 'Contrato inválido.' }, { status: 400 });
     }
+    if (contract_id) {
+
+      // SECURITY: o contrato referenciado deve pertencer a este tenant
+
+      const { data: ownedContract } = await supabaseAdmin
+
+        .from('contracts')
+
+        .select('id')
+
+        .eq('id', contract_id)
+
+        .eq('tenant_id', auth.tenantId)
+
+        .maybeSingle();
+
+      if (!ownedContract) {
+
+        return NextResponse.json({ error: 'Contrato não encontrado para esta unidade.' }, { status: 404 });
+
+      }
+
+    }
+
     const asaasConfig = await getAsaasConfigForTenant(auth.tenantId);
     const baseUrl = asaasConfig.baseUrl;
     const apiKey = asaasConfig.apiKey;

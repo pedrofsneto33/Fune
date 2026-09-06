@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
-import { isValidUUID } from '@/lib/validation';
+import { isValidUUID, sanitizeString } from '@/lib/validation';
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   const { searchParams } = new URL(req.url);
@@ -34,14 +34,38 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       return NextResponse.json({ error: 'ID de sepultamento inválido.' }, { status: 400 });
     }
 
+    if (burial_id) {
+
+      // SECURITY: o sepultamento referenciado deve pertencer a este tenant
+
+      const { data: ownedBurial } = await supabaseAdmin
+
+        .from('chapel_burials')
+
+        .select('id')
+
+        .eq('id', burial_id)
+
+        .eq('tenant_id', auth.tenantId)
+
+        .maybeSingle();
+
+      if (!ownedBurial) {
+
+        return NextResponse.json({ error: 'Sepultamento não encontrado para esta unidade.' }, { status: 404 });
+
+      }
+
+    }
+
     const { data, error } = await supabaseAdmin
       .from('thanatopraxy_records')
       .insert([{
         tenant_id: auth.tenantId,
         burial_id: burial_id || null,
-        deceased_name: deceased_name?.trim() || 'Não informado',
-        technician: technician?.trim() || 'Dr. Roberto Tanatólogo',
-        procedure: procedure?.trim() || 'Aspiração e Formolização',
+        deceased_name: sanitizeString(deceased_name || 'Não informado', 255),
+        technician: sanitizeString(technician || 'Dr. Roberto Tanatólogo', 100),
+        procedure: sanitizeString(procedure || 'Aspiração e Formolização', 150),
         status: 'Concluído',
         completed_at: new Date().toISOString(),
       }])

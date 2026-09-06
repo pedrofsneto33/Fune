@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { authFetch } from '@/lib/authFetch';
 
 interface KPIData {
   totalLives: number;
@@ -18,11 +19,7 @@ export function DashboardKPIs() {
   useEffect(() => {
     async function loadKPIs() {
       try {
-        const res = await fetch('/api/dashboard/kpis', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('supabase_token') || ''}`,
-          },
-        });
+        const res = await authFetch('/api/dashboard/kpis');
         if (res.ok) {
           const json = await res.json();
           setData(json);

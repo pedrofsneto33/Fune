@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { sanitizeString } from '@/lib/validation';
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   const { data, error } = await supabaseAdmin
@@ -26,8 +27,8 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       .from('inventory')
       .insert([{
         tenant_id: auth.tenantId,
-        item_name: item_name.trim(),
-        category: category || 'Urna Adulto',
+        item_name: sanitizeString(item_name, 150),
+        category: sanitizeString(category || 'Urna Adulto', 100),
         stock_quantity: Number(stock_quantity || 0),
         min_threshold: Number(min_threshold || 2),
       }])

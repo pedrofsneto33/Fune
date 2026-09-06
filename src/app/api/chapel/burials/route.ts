@@ -24,29 +24,36 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
 export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const body = await req.json();
-    const { id, ...updates } = body;
+    const { id, deceased_name, cemetery_location, status, burial_date } = body;
 
     if (!id || !isValidUUID(id)) {
       return NextResponse.json({ error: 'ID inválido.' }, { status: 400 });
     }
 
+    // SECURITY: allowlist de campos — nunca aplicar o body inteiro no update
+    const updateData: Record<string, unknown> = {};
+
     // Sanitize string fields
-    if (updates.deceased_name) updates.deceased_name = sanitizeString(updates.deceased_name, 255);
-    if (updates.cemetery_location) updates.cemetery_location = sanitizeString(updates.cemetery_location, 255);
-    if (updates.status) updates.status = sanitizeString(updates.status, 50);
+    if (deceased_name !== undefined) updateData.deceased_name = sanitizeString(deceased_name, 255);
+    if (cemetery_location !== undefined) updateData.cemetery_location = sanitizeString(cemetery_location, 255);
+    if (status !== undefined) updateData.status = sanitizeString(status, 50);
 
     // Validate burial_date if provided
-    if (updates.burial_date) {
-      const parsedDate = new Date(updates.burial_date);
+    if (burial_date) {
+      const parsedDate = new Date(burial_date);
       if (isNaN(parsedDate.getTime())) {
         return NextResponse.json({ error: 'Data de sepultamento inválida.' }, { status: 400 });
       }
-      updates.burial_date = parsedDate.toISOString();
+      updateData.burial_date = parsedDate.toISOString();
+    }
+
+    if (Object.keys(updateData).length === 0) {
+      return NextResponse.json({ error: 'Nenhum campo válido para atualizar.' }, { status: 400 });
     }
 
     const { data, error } = await supabaseAdmin
       .from('chapel_burials')
-      .update(updates)
+      .update(updateData)
       .eq('id', id)
       .eq('tenant_id', auth.tenantId)
       .select('id, deceased_name, burial_date, cemetery_location, status, created_at')
@@ -68,7 +75,23 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     // SECURITY: Sanitize inputs
     const deceased_name = sanitizeString(body.deceased_name, 255);
     const cemetery_location = sanitizeString(body.cemetery_location || 'Cemitério Municipal', 255);
-    const contract_id = body.contract_id && isValidUUID(body.contract_id) ? body.contract_id : null;
+    const contract_id = body.contract_id || null;
+
+    if (contract_id && !isValidUUID(contract_id)) {
+      return NextResponse.json({ error: 'Contrato inválido.' }, { status: 400 });
+    }
+    if (contract_id) {
+      // SECURITY: o contrato referenciado deve pertencer a este tenant
+      const { data: ownedContract } = await supabaseAdmin
+        .from('contracts')
+        .select('id')
+        .eq('id', contract_id)
+        .eq('tenant_id', auth.tenantId)
+        .maybeSingle();
+      if (!ownedContract) {
+        return NextResponse.json({ error: 'Contrato não encontrado para esta unidade.' }, { status: 404 });
+      }
+    }
 
     // Validation
     if (!deceased_name || deceased_name.length < 2) {

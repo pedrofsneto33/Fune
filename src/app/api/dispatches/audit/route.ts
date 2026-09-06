@@ -2,6 +2,7 @@
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { serverError } from '@/lib/http-error';
+import { isValidUUID, sanitizeString } from '@/lib/validation';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,6 +19,18 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       driver_name
     } = body;
 
+    if (dispatch_id && !isValidUUID(dispatch_id)) {
+
+      return NextResponse.json(
+
+        { error: 'Despacho invalido.' },
+
+        { status: 400 }
+
+      );
+
+    }
+
     if (!dispatch_id || !action || !actor_name) {
       return NextResponse.json(
         { error: 'Campos obrigatórios: dispatch_id, action, actor_name' },
@@ -31,12 +44,12 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         {
           tenant_id: auth.tenantId,
           dispatch_id,
-          action,
-          actor_name,
-          actor_role: actor_role || 'atendente',
+          action: sanitizeString(action, 50),
+          actor_name: sanitizeString(actor_name, 100),
+          actor_role: sanitizeString(actor_role || 'atendente', 50),
           details: details || {},
-          vehicle_plate: vehicle_plate || null,
-          driver_name: driver_name || null,
+          vehicle_plate: vehicle_plate ? sanitizeString(vehicle_plate, 20) : null,
+          driver_name: driver_name ? sanitizeString(driver_name, 100) : null,
           created_at: new Date().toISOString()
         }
       ])

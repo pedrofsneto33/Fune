@@ -109,7 +109,8 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         pix_copy_paste: qrData.payload,
         boleto_url: chargeData.bankSlipUrl || chargeData.invoiceUrl
       })
-      .eq('id', payment.id);
+      .eq('id', payment.id)
+      .eq('tenant_id', auth.tenantId); // defesa em profundidade: escopo por tenant
 
     return NextResponse.json({
       success: true,

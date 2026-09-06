@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { sanitizeString } from '@/lib/validation';
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   const { data, error } = await supabaseAdmin
@@ -25,8 +26,8 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     .from('collector_routes')
     .insert([{
       tenant_id: auth.tenantId,
-      collector_name,
-      zone,
+      collector_name: sanitizeString(collector_name, 150),
+      zone: sanitizeString(zone, 150),
       status,
       total_receipts: parseInt(total_receipts) || 0,
     }])

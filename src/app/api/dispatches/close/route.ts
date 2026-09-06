@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { serverError } from '@/lib/http-error';
+import { isValidUUID, sanitizeString } from '@/lib/validation';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,6 +27,32 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         { error: 'Parametros obrigatórios ausentes (dispatch_id, odometer_end).' },
         { status: 400 }
       );
+    }
+
+    // SECURITY: validar formato UUID das referencias vindas do cliente
+
+    if (!isValidUUID(dispatch_id)) {
+
+      return NextResponse.json(
+
+        { error: 'Despacho invalido.' },
+
+        { status: 400 }
+
+      );
+
+    }
+
+    if (vehicle_id && !isValidUUID(vehicle_id)) {
+
+      return NextResponse.json(
+
+        { error: 'Veiculo invalido.' },
+
+        { status: 400 }
+
+      );
+
     }
 
     const { data: dispatch, error: dErr } = await supabaseAdmin
@@ -60,7 +87,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         fuel_liters_added: Number(fuel_liters_added),
         fuel_cost: Number(fuel_cost),
         closed_at: new Date().toISOString(),
-        closure_notes: notes || null
+        closure_notes: notes ? sanitizeString(notes, 500) : null
       })
       .eq('id', dispatch_id)
       .eq('tenant_id', tenant_id)
@@ -93,8 +120,8 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         tenant_id,
         dispatch_id,
         action: 'FINALIZADO',
-        actor_name: closed_by || 'Operador',
-        actor_role: user_role || 'atendente',
+        actor_name: sanitizeString(closed_by || 'Operador', 100),
+        actor_role: sanitizeString(user_role || 'atendente', 50),
         vehicle_plate: dispatch?.vehicle_plate || null,
         driver_name: dispatch?.driver_agent || dispatch?.driver_name || null,
         details: {
@@ -103,7 +130,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
           km_traveled: kmTraveled,
           fuel_liters_added: Number(fuel_liters_added),
           fuel_cost: Number(fuel_cost),
-          closure_notes: notes
+          closure_notes: notes ? sanitizeString(notes, 500) : null
         },
         created_at: new Date().toISOString()
       }

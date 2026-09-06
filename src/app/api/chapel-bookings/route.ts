@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { sanitizeString, isValidUUID } from '@/lib/validation';
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   const { data, error } = await supabaseAdmin
@@ -17,6 +18,14 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
   const body = await req.json();
   const { chapel_name, deceased_name, family_contact, start_time, end_time, status = 'reservado' } = body;
 
+  const VALID_BOOKING_STATUSES = ['reservado', 'em_velorio', 'concluido'];
+
+  if (status !== undefined && !VALID_BOOKING_STATUSES.includes(status)) {
+
+    return NextResponse.json({ error: 'Status inválido.' }, { status: 400 });
+
+  }
+
   if (!chapel_name || !deceased_name || !start_time || !end_time) {
     return NextResponse.json({ error: 'chapel_name, deceased_name, start_time e end_time são obrigatórios.' }, { status: 400 });
   }
@@ -25,9 +34,9 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     .from('chapel_bookings')
     .insert([{
       tenant_id: auth.tenantId,
-      chapel_name,
-      deceased_name,
-      family_contact,
+      chapel_name: sanitizeString(chapel_name, 150),
+      deceased_name: sanitizeString(deceased_name, 255),
+      family_contact: family_contact ? sanitizeString(family_contact, 100) : null,
       start_time,
       end_time,
       status,
@@ -44,7 +53,9 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
     const body = await req.json();
     const { id, chapel_name, deceased_name, family_contact, start_time, end_time, status } = body;
 
-    if (!id) return NextResponse.json({ error: 'id é obrigatório.' }, { status: 400 });
+    
+
+    if (!id || !isValidUUID(id)) return NextResponse.json({ error: 'id inválido.' }, { status: 400 });
 
     const VALID_STATUSES = ['reservado', 'em_velorio', 'concluido'] as const;
     const updateData: Record<string, any> = {};
@@ -80,7 +91,7 @@ export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
-    if (!id) return NextResponse.json({ error: 'id é obrigatório.' }, { status: 400 });
+    if (!id || !isValidUUID(id)) return NextResponse.json({ error: 'id inválido.' }, { status: 400 });
 
     const { data, error } = await supabaseAdmin
       .from('chapel_bookings')

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "@/lib/api-handler";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { isValidUUID, sanitizeString } from "@/lib/validation";
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   const tenantId = auth.tenantId;
@@ -36,10 +37,10 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     .from("financial_transactions")
     .insert({
       tenant_id: tenantId,
-      description,
+      description: sanitizeString(description, 255),
       amount: parseFloat(amount),
       type,
-      category: category || "Outros",
+      category: category ? sanitizeString(category, 50) : "Outros",
       transaction_date: transaction_date || new Date().toISOString().split("T")[0],
       created_at: new Date().toISOString(),
     })
@@ -58,8 +59,8 @@ export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
   }
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
-  if (!id) {
-    return NextResponse.json({ error: "ID e obrigatório" }, { status: 400 });
+  if (!id || !isValidUUID(id)) {
+    return NextResponse.json({ error: "ID inválido" }, { status: 400 });
   }
   const { error } = await supabaseAdmin
     .from("financial_transactions")

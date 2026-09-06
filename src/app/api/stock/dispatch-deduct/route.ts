@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { serverError } from '@/lib/http-error';
+import { isValidUUID } from '@/lib/validation';
 
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
@@ -10,6 +11,12 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     if (!itemId) {
       return NextResponse.json({ error: 'itemId é obrigatório.' }, { status: 400 });
+    }
+
+    if (!isValidUUID(itemId)) {
+
+      return NextResponse.json({ error: 'Item inválido.' }, { status: 400 });
+
     }
 
     const { data: item, error: findError } = await supabaseAdmin

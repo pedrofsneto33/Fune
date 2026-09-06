@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { sanitizeString } from '@/lib/validation';
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   const { data, error } = await supabaseAdmin
@@ -21,14 +22,18 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     return NextResponse.json({ error: 'description, amount e due_date são obrigatórios.' }, { status: 400 });
   }
 
+  const VALID_STATUSES = ['pendente', 'pago', 'atrasado', 'cancelado'];
+
+  const safeStatus = VALID_STATUSES.includes(status) ? status : 'pendente';
+
   const { data, error } = await supabaseAdmin
     .from('accounts_payable')
     .insert([{
       tenant_id: auth.tenantId,
-      description,
+      description: sanitizeString(description, 255),
       amount: parseFloat(amount),
       due_date,
-      status,
+      status: safeStatus,
     }])
     .select()
     .single();
@@ -47,12 +52,12 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
   const { description, amount, due_date, status, payment_method, notes } = body;
   const updateData: Record<string, any> = {};
 
-  if (description !== undefined) updateData.description = description;
+  if (description !== undefined) updateData.description = sanitizeString(description, 255);
   if (amount !== undefined) updateData.amount = parseFloat(amount);
   if (due_date !== undefined) updateData.due_date = due_date;
-  if (status !== undefined) updateData.status = status;
+  if (status !== undefined) updateData.status = ['pendente', 'pago', 'atrasado', 'cancelado'].includes(status) ? status : updateData.status;
   if (payment_method !== undefined) updateData.payment_method = payment_method;
-  if (notes !== undefined) updateData.notes = notes;
+  if (notes !== undefined) updateData.notes = sanitizeString(notes, 1000);
 
   const { data, error } = await supabaseAdmin
     .from('accounts_payable')

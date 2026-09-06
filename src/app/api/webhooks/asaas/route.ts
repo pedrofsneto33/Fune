@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { checkRateLimit } from '@/lib/rate-limiter';
 import crypto from 'crypto';
 
 /**
@@ -22,6 +23,19 @@ function verifyWebhookSignature(payload: string, signature: string, secret: stri
 }
 
 export async function POST(req: NextRequest) {
+  // SECURITY: rate limit por IP — webhooks nao passam pelo withAuth
+  const clientIP =
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    req.headers.get('x-real-ip') ||
+    'unknown';
+  const rl = checkRateLimit(`webhook:asaas:${clientIP}`, { maxAttempts: 60, windowMs: 60000 });
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: 'Muitas requisições. Tente novamente em instantes.' },
+      { status: 429 },
+    );
+  }
+
   const webhookToken = req.headers.get('asaas-access-token');
   const webhookSignature = req.headers.get('x-asaas-signature');
 
