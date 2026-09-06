@@ -1450,7 +1450,7 @@ export default function MasterEternityOS() {
                       className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "chapel" ? "bg-amber-600/15 text-amber-400 border border-amber-500/30" : "text-white dark:text-white dark:text-white dark:text-white dark:text-white dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800"}`}
                     >
                       <div className="flex items-center gap-2">
-                        <span>?</span> Capelas & Velórios
+                        <span>⚰️</span> Capelas & Velórios
                       </div>
                     </button>
                   )}
@@ -1500,7 +1500,7 @@ export default function MasterEternityOS() {
                       className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "convalescence" ? "bg-emerald-600/15 text-emerald-400 border border-emerald-500/30" : "text-white dark:text-white dark:text-white dark:text-white dark:text-white dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800"}`}
                     >
                       <div className="flex items-center gap-2">
-                        <span>?</span> Convalescença
+                        <span>🛏️</span> Convalescença
                       </div>
                       <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold">
                         {convalescence.length}
@@ -1547,7 +1547,7 @@ export default function MasterEternityOS() {
                   className="p-1.5 text-xs text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:text-cyan-400"
                   title="Gateway Asaas"
                 >
-                  ?
+                  ⚙️
                 </button>
                 <button
                   onClick={() => setIsDREOpen(true)}
@@ -2644,14 +2644,14 @@ export default function MasterEternityOS() {
                         className="p-1 text-sky-400 hover:bg-sky-500/10 rounded"
                         title="Editar parceiro"
                       >
-                        ?
+                        ✏️
                       </button>
                       <button
                         onClick={() => handleDeletePartner(p.id)}
                         className="p-1 text-rose-400 hover:bg-rose-500/10 rounded"
                         title="Excluir parceiro"
                       >
-                        ?
+                        🗑️
                       </button>
                     </div>
                   </div>
@@ -2724,7 +2724,7 @@ export default function MasterEternityOS() {
                     onClick={handleGenerateAsaasBatch}
                     className="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white dark:text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5"
                   >
-                    <span>?</span> Gerar Lote Asaas
+                    <span>🧾</span> Gerar Lote Asaas
                   </button>
                 </div>
 
@@ -3423,13 +3423,13 @@ export default function MasterEternityOS() {
           <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl max-w-lg w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-slate-900 dark:text-white shadow-2xl">
             <div className="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3 mb-4">
               <h3 className="font-bold text-sm text-cyan-400 flex items-center gap-2">
-                <span>?</span> Configurações Gateway de Pagamento Asaas
+                <span>💳</span> Configurações Gateway de Pagamento Asaas
               </h3>
               <button
                 onClick={() => setIsAsaasConfigOpen(false)}
                 className="text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:text-white font-bold"
               >
-                ?
+                ✕
               </button>
             </div>
 
@@ -3469,7 +3469,7 @@ export default function MasterEternityOS() {
                     Status Webhook:
                   </label>
                   <div className="p-2.5 bg-emerald-950 border border-emerald-800 rounded text-emerald-400 font-bold flex items-center gap-1.5">
-                    <span>?</span> Webhook Ativo
+                    <span>🔔</span> Webhook Ativo
                   </div>
                 </div>
               </div>
@@ -4213,7 +4213,7 @@ export default function MasterEternityOS() {
                 onClick={() => setSelectedHolder(null)}
                 className="text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:text-white font-bold"
               >
-                ?
+                ✕
               </button>
             </div>
             <div className="space-y-4 text-xs">
@@ -4308,11 +4308,11 @@ export default function MasterEternityOS() {
                 className="text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:text-white font-bold text-lg"
                 title="Fechar"
               >
-                ?
+                ✕
               </button>
             </div>
             <div className="max-h-[80vh] overflow-y-auto">
-              <TenantSettingsTab />
+              <TenantSettingsTab onClose={() => setIsSettingsOpen(false)} />
             </div>
           </div>
         </div>

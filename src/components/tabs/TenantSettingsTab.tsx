@@ -25,7 +25,7 @@ interface Tenant {
   usage?: { holders: number; users: number };
 }
 
-export function TenantSettingsTab() {
+export function TenantSettingsTab({ onClose }: { onClose?: () => void }) {
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [selectedTenantId, setSelectedTenantId] = useState<string>('');
   const [loading, setLoading] = useState(true);
@@ -255,6 +255,14 @@ export function TenantSettingsTab() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 rounded-2xl">
+        <button
+          type="button"
+          onClick={() => onClose?.()}
+          className="btn-close-tab text-zinc-400 hover:text-white text-xs flex items-center gap-1 px-3 py-1.5 rounded-lg border border-zinc-600 hover:border-zinc-400 transition"
+          title="Fechar"
+        >
+          ✕ Fechar
+        </button>
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20">
             <Settings className="w-5 h-5 text-blue-400" />
