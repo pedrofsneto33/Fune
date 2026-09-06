@@ -142,7 +142,7 @@ export function HeaderQuickSearch() {
                 }}
                 className="px-4 py-2 text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white dark:text-white rounded shadow"
               >
-                🚨 Iniciar Atendimento / Óóóbito
+                🚨 Iniciar Atendimento / Óbito
               </button>
             </div>
           </div>

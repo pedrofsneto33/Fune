@@ -152,7 +152,7 @@ export function ModalPlantao({
             </div>
 
             <div>
-              <label className="text-[11px] font-semibold text-zinc-400 mb-1 block">Local do Óóóbito *</label>
+              <label className="text-[11px] font-semibold text-zinc-400 mb-1 block">Local do Óbito *</label>
               <input
                 type="text"
                 required

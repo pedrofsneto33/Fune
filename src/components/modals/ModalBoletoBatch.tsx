@@ -71,7 +71,7 @@ export function ModalBoletoBatch({
       const parcelNumber = `${String(i + 1).padStart(2, '0')}/${String(installments).padStart(2, '0')}`;
 
       slipsHtml += `
-        <div class="carnêêê-slip">
+        <div class="carnê-slip">
           <div class="stub">
             <div class="brand">ETERNITY OS</div>
             <div class="title">RECIBO DO CAIXA</div>
@@ -135,7 +135,7 @@ export function ModalBoletoBatch({
         <style>
           @page { size: A4 portrait; margin: 8mm; }
           body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background: #fff; color: #111; }
-          .carnêêê-slip {
+          .carnê-slip {
             display: flex;
             border: 1px dashed #444;
             margin-bottom: 8mm;

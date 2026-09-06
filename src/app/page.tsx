@@ -109,7 +109,7 @@ interface FinancialTransaction {
   transaction_date: string;
 }
 
-// Cores de status de óóóbito (badge) e de OS (texto do select)
+// Cores de status de óbito (badge) e de OS (texto do select)
 const BURIAL_STATUS_STYLE: Record<string, string> = {
   Agendado: "bg-blue-950 text-blue-300 border border-blue-800",
   "Em traslado": "bg-amber-950 text-amber-300 border border-amber-800",
@@ -228,7 +228,7 @@ export default function MasterEternityOS() {
   // Filtros
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<
-    "all" | "active" | "defaulted"
+    "all" | "ativo" | "inativo"
   >("all");
 
   // Modais
@@ -286,7 +286,7 @@ export default function MasterEternityOS() {
 
   const [savingBurial, setSavingBurial] = useState(false);
 
-  // INTEGRAÇÃO: Ordem de Serviço completa (óóóbito + contrato + veículo + estoque)
+  // INTEGRAÇÃO: Ordem de Serviço completa (óbito + contrato + veículo + estoque)
   const [serviceOrderForm, setServiceOrderForm] = useState({
     deceased_type: "holder" as "holder" | "dependent" | "free",
     contract_id: "",
@@ -376,7 +376,7 @@ export default function MasterEternityOS() {
         if (Array.isArray(data)) setHolders(data);
       }
 
-      // 2. óóóbitos
+      // 2. óbitos
       const bRes = await authFetch("/api/chapel/burials");
       if (bRes.ok) {
         const bData = await bRes.json();
@@ -418,7 +418,7 @@ export default function MasterEternityOS() {
         if (Array.isArray(capData)) setChapels(capData);
       }
 
-      // 9. Ordens de Serviço integradas (óóóbito + contrato + veículo + estoque)
+      // 9. Ordens de Serviço integradas (óbito + contrato + veículo + estoque)
       const soRes = await authFetch("/api/service-orders");
       if (soRes.ok) {
         const soData = await soRes.json();
@@ -540,7 +540,8 @@ export default function MasterEternityOS() {
         norm(h.city).includes(norm(q)) ||
         norm(h.state).includes(norm(q));
 
-      const status = h.contracts?.[0]?.status || "active";
+      const rawStatus = h.status || h.contracts?.[0]?.status || "ativo";
+      const status = rawStatus === "inactive" || rawStatus === "inativo" ? "inativo" : "ativo";
       const matchS = statusFilter === "all" || status === statusFilter;
 
       return matchQ && matchS;
@@ -553,7 +554,7 @@ export default function MasterEternityOS() {
     let csv = "Nome;CPF;Telefone;Email;Endereco;Status;Plano\n";
     holders.forEach((h) => {
       const plan = h.contracts?.[0]?.plans?.name || "Familiar Ouro";
-      const status = h.contracts?.[0]?.status || "Ativo";
+      const status = (h.status === "inativo") ? "Inativo" : "Ativo";
       csv += `"${h.full_name}";"${h.cpf}";"${h.phone}";"${h.email || ""}";"${h.address || ""}";"${status}";"${plan}"\n`;
     });
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -678,7 +679,7 @@ export default function MasterEternityOS() {
       !confirm(
         'Excluir o associado "' +
           h.full_name +
-          '"?⚠️\n\nEsta ação não pode ser desfeita e removerááá também os dependentes e contratos vinculados.',
+          '"⚠️\n\nEsta ação não pode ser desfeita e remover também os dependentes e contratos vinculados.',
       )
     )
       return;
@@ -701,7 +702,7 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Salvar óóóbito como ORDEM DE SERVIÇO INTEGRADA (óóóbito + contrato + veículo + estoque)
+  // Salvar óbito como ORDEM DE SERVIÇO INTEGRADA (óbito + contrato + veículo + estoque)
   const handleSaveBurial = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingBurial(true);
@@ -742,7 +743,7 @@ export default function MasterEternityOS() {
         });
         setSelectedItems([]);
         setActiveTab("burials");
-        const integrações: string[] = ["Registro de óóóbito criado"];
+        const integrações: string[] = ["Registro de óbito criado"];
         if (serviceOrderForm.contract_id && isLinked) integrações.push("contrato vinculado");
         if (serviceOrderForm.vehicle_id) integrações.push("veículo em missão");
         if (selectedItems.length > 0) integrações.push(`${selectedItems.length} item(ns) baixado(s) do estoque`);
@@ -776,7 +777,7 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Alterar status da Ordem de Serviço (integra com veículo E registro de óóóbito)
+  // Alterar status da Ordem de Serviço (integra com veículo E registro de óbito)
   const handleUpdateServiceOrderStatus = async (id: string, newStatus: string) => {
     setSavingStatusId(id);
     try {
@@ -793,7 +794,7 @@ export default function MasterEternityOS() {
             s.id === id ? { ...s, ...(updated || {}), status: newStatus } : s,
           ),
         );
-        // Sincroniza o status do óóóbito vinculado na tabela local
+        // Sincroniza o status do óbito vinculado na tabela local
         const burialStatusMap: Record<string, string> = {
           pending: "Agendado",
           in_progress: "Em traslado",
@@ -875,12 +876,12 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Excluir definitivamente o registro de óóóbito em edio
+  // Excluir definitivamente o registro de óbito em edio
   const handleDeleteBurial = async () => {
     if (!editingBurial?.id) return;
     if (
       !window.confirm(
-        `Excluir definitivamente o registro de óóóbito de ${editingBurial.deceased_name}? Esta ao não pode ser desfeita.`,
+        `Excluir definitivamente o registro de óbito de ${editingBurial.deceased_name}? Esta ao não pode ser desfeita.`,
       )
     )
       return;
@@ -900,9 +901,13 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Alternar situação do associado (ativo/inativo) sem excluir histórico
+    // Alternar situação do associado (ativo/inativo) sem excluir histórico
+  // Backend aceita APENAS "ativo" ou "inativo" (definido em /api/holders PATCH)
   const handleToggleHolderStatus = async (h: any) => {
-    const newStatus = h.status === "inativo" ? "ativo" : "inativo";
+    // O status fica em holders.status (não em contracts) — fallback legado
+    const currentStatus = h.status || h.contracts?.[0]?.status || "ativo";
+    const normalized = currentStatus === "inactive" || currentStatus === "inativo" ? "inativo" : "ativo";
+    const newStatus = normalized === "ativo" ? "inativo" : "ativo";
     setTogglingStatusId(h.id);
     try {
       const res = await authFetch("/api/holders", {
@@ -911,8 +916,22 @@ export default function MasterEternityOS() {
         body: JSON.stringify({ id: h.id, status: newStatus }),
       });
       if (res.ok) {
+        // Atualiza holders[].status (fonte da verdade) e replica nos contracts
+        // para que a UI continue coerente com qualquer consumidor legado.
         setHolders((prev) =>
-          prev.map((x) => (x.id === h.id ? { ...x, status: newStatus } : x)),
+          prev.map((x) => {
+            if (x.id !== h.id) return x;
+            const updatedContracts = (x.contracts || []).map((c: any) => ({
+              ...c,
+              status: newStatus,
+            }));
+            return { ...x, status: newStatus, contracts: updatedContracts };
+          }),
+        );
+        notifySuccess(
+          newStatus === "inativo"
+            ? `${h.full_name?.split(" ")[0] || "Titular"} inativado.`
+            : `${h.full_name?.split(" ")[0] || "Titular"} reativado.`,
         );
       } else {
         const j = await res.json().catch(() => ({}));
@@ -1095,9 +1114,9 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Removerá Parceiro de Convênio
+  // Remover Parceiro de Convênio
   const handleDeletePartner = async (id: string) => {
-    if (!confirm("Removerá este parceiro da rede de convênios?")) return;
+    if (!confirm("Remover este parceiro da rede de convênios?")) return;
     try {
       const res = await authFetch(
         `/api/benefits/partners?id=${encodeURIComponent(id)}`,
@@ -1108,10 +1127,10 @@ export default function MasterEternityOS() {
         notifyInfo("Parceiro removido.");
       } else {
         const err = await res.json();
-        notifyError(`Erro: ${err.error || "Falha ao removeráá parceiro"}`);
+        notifyError(`Erro: ${err.error || "Falha ao remover parceiro"}`);
       }
     } catch {
-      notifyError("Erro de conexão ao removeráá parceiro.");
+      notifyError("Erro de conexão ao remover parceiro.");
     }
   };
 
@@ -1424,7 +1443,7 @@ export default function MasterEternityOS() {
                       className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "burials" ? "bg-rose-600/15 text-rose-400 border border-rose-500/30" : "text-white dark:text-white dark:text-white dark:text-white dark:text-white dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800"}`}
                     >
                       <div className="flex items-center gap-2">
-                        <span>🚨</span> Plantão 24h & Óóóbitos
+                        <span>🚨</span> Plantão 24h & Óbitos
                       </div>
                       <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 font-bold">
                         {burials.length}
@@ -1570,7 +1589,7 @@ export default function MasterEternityOS() {
                 onClick={() => setIsSettingsOpen(true)}
                 className="p-1.5 text-xs text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:text-cyan-400"
                 title="Configurações da Empresa (logo, cores, dados)">
-                  ⚙️
+                  🏢
               </button>
             )}
             <button
@@ -1597,8 +1616,8 @@ export default function MasterEternityOS() {
             <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider truncate">
               {activeTab === "executive" && "Painel Executivo & Indicadores"}
               {activeTab === "holders" && "Gestão de Associados & Planos"}
-              {activeTab === "burials" && "Central de Plantão 24h & Óóóbitos"}
-              {activeTab === "thanatopraxy" && "Laboratrio de Tanatopraxia"}
+              {activeTab === "burials" && "Central de Plantão 24h & Óbitos"}
+              {activeTab === "thanatopraxy" && "Laboratório de Tanatopraxia"}
               {activeTab === "chapel" && "Salas de Velório & Capelas"}
               {activeTab === "fleet" && "Frota & Veículos"}
               {activeTab === "inventory" && "Estoque de Urnas & Insumos"}
@@ -1615,9 +1634,9 @@ export default function MasterEternityOS() {
                 className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition shadow shrink-0"
               >
                 <span className="hidden sm:inline">
-                  ⚰️ Novo Atendimento / Óóóbito
+                  ⚰️ Novo Atendimento / Óbito
                 </span>
-                <span className="sm:hidden">⚰️ óóóbito</span>
+                <span className="sm:hidden">⚰️ óbito</span>
               </button>
             )}
             {hasPermission(userRole, "canManageContracts") && (
@@ -1766,14 +1785,14 @@ export default function MasterEternityOS() {
                       Todos ({holders.length})
                     </button>
                     <button
-                      onClick={() => setStatusFilter("active")}
-                      className={`px-2.5 py-1 rounded ${statusFilter === "active" ? "bg-emerald-950 text-emerald-300 font-bold border border-emerald-800" : "text-slate-600 dark:text-slate-500 dark:text-slate-400"}`}
+                      onClick={() => setStatusFilter("ativo")}
+                      className={`px-2.5 py-1 rounded ${statusFilter === "ativo" ? "bg-emerald-950 text-emerald-300 font-bold border border-emerald-800" : "text-slate-600 dark:text-slate-500 dark:text-slate-400"}`}
                     >
                       Ativos
                     </button>
                     <button
-                      onClick={() => setStatusFilter("defaulted")}
-                      className={`px-2.5 py-1 rounded ${statusFilter === "defaulted" ? "bg-rose-950 text-rose-300 font-bold border border-rose-800" : "text-slate-600 dark:text-slate-500 dark:text-slate-400"}`}
+                      onClick={() => setStatusFilter("inativo")}
+                      className={`px-2.5 py-1 rounded ${statusFilter === "inativo" ? "bg-rose-950 text-rose-300 font-bold border border-rose-800" : "text-slate-600 dark:text-slate-500 dark:text-slate-400"}`}
                     >
                       Inadimplentes
                     </button>
@@ -1823,7 +1842,13 @@ export default function MasterEternityOS() {
                   <tbody className="divide-y divide-slate-800">
                     {filteredHolders.map((h) => {
                       const contract = h.contracts?.[0];
-                      const status = contract?.status || "active";
+                      // Fonte da verdade: holders.status (escrito pelo PATCH)
+                      // Fallback: contract.status (legado). Normalizado para "ativo"/"inativo".
+                      const rawStatus = h.status || contract?.status || "ativo";
+                      const status =
+                        rawStatus === "inactive" || rawStatus === "inativo"
+                          ? "inativo"
+                          : "ativo";
                       const planName = contract?.plans?.name || "Familiar Ouro";
                       const rawCpf = h.cpf?.replace(/\D/g, "") || "";
                       const fee = Number(contract?.plans?.monthly_fee) || 0;
@@ -1843,11 +1868,7 @@ export default function MasterEternityOS() {
                         >
                           <td className="py-3 px-4 font-bold text-slate-900 dark:text-white">
                             {h.full_name}{" "}
-                            {h.status === "inativo" && (
-                              <span className="ml-1 align-middle px-1.5 py-0.5 rounded text-[9px] font-bold bg-red-950 text-red-300 border border-red-800">
-                                INATIVO
-                              </span>
-                            )}
+
                             <span className="block text-[10px] text-slate-600 dark:text-slate-500 font-normal">
                               ({h.dependents?.length || 0} dependentes)
                             </span>
@@ -1862,8 +1883,9 @@ export default function MasterEternityOS() {
                             {planName}
                           </td>
                           <td className="py-3 px-4">
-                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-950 text-emerald-400 border border-emerald-800">
-                              {status === "active" ? "? Ativo" : status}
+                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase border ${status === "ativo" ? "bg-emerald-950 text-emerald-400 border-emerald-800" : "bg-rose-950 text-rose-300 border-rose-800"}`}
+                              data-testid={`holder-status-${h.id}`}>
+                              {status === "ativo" ? "🟢 Ativo" : "🔴 Inativo"}
                             </span>
                           </td>
                           <td className="py-3 px-4 text-right">
@@ -1923,7 +1945,7 @@ export default function MasterEternityOS() {
                                       disabled={togglingStatusId === h.id}
                                       className="block w-full text-left px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-50"
                                     >
-                                      🔄 {h.status === "inativo" ? "Ativar" : "Inativar"}
+                                      🔄 {h.status === "inativo" ? "🔓 Reativar" : "🔒 Inativar"}
                                     </button>
                                     <button
                                       onClick={() => { setShowActions(null); handleDeleteHolder(h); }}
@@ -1973,7 +1995,7 @@ export default function MasterEternityOS() {
                   <thead className="bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-500 dark:text-slate-400 uppercase text-[11px]">
                     <tr>
                       <th className="py-3 px-4">Falecido</th>
-                      <th className="py-3 px-4">Integraes</th>
+                      <th className="py-3 px-4">Integrações</th>
                       <th className="py-3 px-4">Data</th>
                       <th className="py-3 px-4">Status</th>
                       <th className="py-3 px-4 text-right">Ações</th>
@@ -2062,7 +2084,7 @@ export default function MasterEternityOS() {
               <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl overflow-x-auto">
                 <div className="px-4 py-3 border-b border-slate-200 dark:border-slate-800">
                   <h3 className="text-xs font-bold text-slate-600 dark:text-slate-300">
-                    ⚰️ Registros de Óóóbito ({burials.length})
+                    ⚰️ Registros de Óbito ({burials.length})
                   </h3>
                 </div>
                 <table className="w-full min-w-[640px] text-left text-xs">
@@ -2133,7 +2155,7 @@ export default function MasterEternityOS() {
                 <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex justify-between items-center">
                   <div>
                     <h3 className="font-bold text-slate-900 dark:text-white text-sm">
-                      Laboratrio de Tanatopraxia & Preparao
+                      Laboratório de Tanatopraxia & Preparao
                     </h3>
                     <p className="text-xs text-slate-600 dark:text-slate-500 dark:text-slate-400">
                       Controle de conservao e fichas de tanatólogos
@@ -2297,13 +2319,13 @@ export default function MasterEternityOS() {
                           </button>
                           <button
                             onClick={async () => {
-                              if (!confirm("Removerá esta reserva?")) return;
+                              if (!confirm("Remover esta reserva?")) return;
                               const res = await authFetch(
                                 `/api/chapel-bookings?id=${encodeURIComponent(b.id)}`,
                                 { method: "DELETE" },
                               );
                               if (res.ok) loadData();
-                              else notifyError("Não foi possível removeráá a reserva.");
+                              else notifyError("Não foi possível remover a reserva.");
                             }}
                             className="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded text-[11px] font-semibold text-white dark:text-white"
                           >
@@ -2405,7 +2427,7 @@ export default function MasterEternityOS() {
                       </button>
                       <button
                         onClick={async () => {
-                          if (!confirm("Removerá este veículo da frota?"))
+                          if (!confirm("Remover este veículo da frota?"))
                             return;
                           const res = await authFetch(
                             `/api/vehicles?id=${encodeURIComponent(v.id)}`,
@@ -2415,11 +2437,11 @@ export default function MasterEternityOS() {
                             setVehicles((prev) =>
                               prev.filter((item) => item.id !== v.id),
                             );
-                          else notifyError("Não foi possível removeráá o veículo.");
+                          else notifyError("Não foi possível remover o veículo.");
                         }}
                         className="text-xs text-rose-400 hover:underline"
                       >
-                        Removerá
+                        Remover
                       </button>
                     </div>
                   </div>
@@ -3073,10 +3095,10 @@ export default function MasterEternityOS() {
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[60]">
           <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl max-w-2xl w-full p-5 sm:p-6 max-h-[92vh] overflow-y-auto text-slate-900 dark:text-white shadow-2xl">
             <h3 className="font-bold text-sm text-rose-400 mb-1">
-              📋 Nova Ordem de Serviço  óóóbito Integrado
+              📋 Nova Ordem de Serviço  óbito Integrado
             </h3>
             <p className="text-[10px] text-slate-600 dark:text-slate-500 mb-4">
-              Registra o óóóbito, vincula ao contrato, designa veículo da frota e d baixa no estoque em uma nica operao.
+              Registra o óbito, vincula ao contrato, designa veículo da frota e d baixa no estoque em uma nica operao.
             </p>
             <form onSubmit={handleSaveBurial} className="space-y-3 text-xs">
               {/* TIPO DE FALECIDO */}
@@ -3533,7 +3555,7 @@ export default function MasterEternityOS() {
                 </div>
                 <p className="text-[10px] text-slate-600 dark:text-slate-500">
                   Sem data informada, usa o dia 10 do próximo mês. Para vencimentos
-                  diferentes por cliente, gere carnêês individuais em Financeiro ? +
+                  diferentes por cliente, gere carnês individuais em Financeiro ? +
                   Gerar Carnê.
                 </p>
               </div>
@@ -3857,7 +3879,7 @@ export default function MasterEternityOS() {
                       partner_name: e.target.value,
                     })
                   }
-                  placeholder="ex: óóótica Central"
+                  placeholder="ex: óptica Central"
                   className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
                 />
               </div>
@@ -3875,7 +3897,7 @@ export default function MasterEternityOS() {
                         category: e.target.value,
                       })
                     }
-                    placeholder="ex: Farmácia, óóótica..."
+                    placeholder="ex: Farmácia, óptica..."
                     className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
                   />
                 </div>
@@ -3927,7 +3949,7 @@ export default function MasterEternityOS() {
                   className="px-4 py-1.5 bg-cyan-600 font-bold rounded"
                 >
                   {editingPartnerId
-                    ? "Salvar Alteraes"
+                    ? "Salvar Alterações"
                     : "Credenciar Parceiro"}
                 </button>
               </div>
@@ -4092,7 +4114,7 @@ export default function MasterEternityOS() {
                   Urna fúnebre sextavada envernizada, ornamentao completa com
                   véu e flores, preparação do corpo/higienização, sala de
                   velório climatizada, cortejo fúnebre até o cemitério municipal
-                  e suporte administrativo para certidão de óóóbito.
+                  e suporte administrativo para certidão de óbito.
                 </p>
               </div>
 
@@ -4324,9 +4346,9 @@ export default function MasterEternityOS() {
           <div className="w-full max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 space-y-4 shadow-2xl">
             <div className="flex justify-between items-center border-b border-zinc-200 dark:border-zinc-800 pb-3">
               <h3 className="text-slate-900 dark:text-white font-bold text-sm flex items-center gap-2">
-                ✏️ Editar Óóóbito
+                ✏️ Editar Óbito
               </h3>
-              <button onClick={() => setEditingBurial(null)} className="text-zinc-400 hover:text-white text-lg">?</button>
+              <button onClick={() => setEditingBurial(null)} className="text-zinc-400 hover:text-white text-lg">✕</button>
             </div>
             <form
               onSubmit={async (e) => {
@@ -4357,7 +4379,7 @@ export default function MasterEternityOS() {
                     notifyError(`Erro ao atualizar: ${j.error || 'Falha na atualizao'}`);
                   }
                 } catch {
-                  notifyError('Erro de conexão ao atualizar óóóbito.');
+                  notifyError('Erro de conexão ao atualizar óbito.');
                 }
               }}
               className="space-y-3"
@@ -4435,7 +4457,7 @@ export default function MasterEternityOS() {
                   type="submit"
                   className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-500 text-white dark:text-white rounded-xl text-xs font-bold transition"
                 >
-                  Salvar Alteraes
+                  Salvar Alterações
                 </button>
               </div>
             </form>

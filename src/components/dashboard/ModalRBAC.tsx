@@ -71,11 +71,11 @@ export function ModalRBAC({ isOpen, onClose, currentRole = 'admin' }: { isOpen: 
       const res = await authFetch(`/api/users/roles?id=${id}`, { method: 'DELETE' });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error((body && body.error) || 'Erro ao removeráá');
+        throw new Error((body && body.error) || 'Erro ao removerá');
       }
       loadRoles();
     } catch (err: any) {
-      notifyError('Erro: ' + (err.message || 'Não foi possível removeráá o acesso.'));
+      notifyError('Erro: ' + (err.message || 'Não foi possível removerá o acesso.'));
     }
   };
 
@@ -138,7 +138,7 @@ export function ModalRBAC({ isOpen, onClose, currentRole = 'admin' }: { isOpen: 
                     <button
                       onClick={() => handleDeleteRole(r.id)}
                       disabled={!canDelete}
-                      title={isSelf ? 'Você não pode removeráá seu proprio acesso' : !canDelete ? 'Apenas Super Admin gerência Super Admin' : 'Removerá acesso'}
+                      title={isSelf ? 'Você não pode removerá seu proprio acesso' : !canDelete ? 'Apenas Super Admin gerência Super Admin' : 'Removerá acesso'}
                       className={`p-1.5 rounded-lg transition ${canDelete ? 'text-red-400 hover:bg-red-500/10' : 'text-zinc-700 cursor-not-allowed'}`}
                     >
                       <Trash2 className="w-4 h-4" />
