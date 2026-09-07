@@ -14,6 +14,7 @@ import { TenantSettingsTab } from "@/components/tabs/TenantSettingsTab";
 import { ModalChapel } from "@/components/modals/ModalChapel";
 import { ModalCarnets } from "@/components/modals/ModalCarnets";
 import ThemeToggle from "@/components/ThemeToggle";
+import SellersTab from "@/components/tabs/SellersTab";
 
 // Interfaces
 interface Dependent {
@@ -154,6 +155,7 @@ export default function MasterEternityOS() {
     | "inventory"
     | "convalescence"
     | "benefits"
+    | "sellers"
     | "financial"
   >("holders");
 
@@ -226,6 +228,8 @@ export default function MasterEternityOS() {
   const [chapels, setChapels] = useState<ChapelBooking[]>([]);
 
   const [transactions, setTransactions] = useState<FinancialTransaction[]>([]);
+
+  const [sellersList, setSellersList] = useState<any[]>([]);
 
   // Filtros
   const [searchQuery, setSearchQuery] = useState("");
@@ -432,6 +436,14 @@ export default function MasterEternityOS() {
         if (Array.isArray(plData)) setPlans(plData);
       }
 
+      // 4b2. Vendedores (usado no select do cadastro de associado + aba sellers)
+      const slRes = await authFetch("/api/sellers");
+      if (slRes.ok) {
+        const slData = await slRes.json();
+        const list = Array.isArray(slData) ? slData : (slData.sellers || []);
+        setSellersList(list);
+      }
+
       // 4c. Comissoes por vendedor
       const comRes = await authFetch("/api/sales/commission");
       if (comRes.ok) {
@@ -519,6 +531,26 @@ export default function MasterEternityOS() {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  // PATCH status de comissao (pago/estornado/pendente) - chama API e recarrega
+  const updateCommissionStatus = async (id: string, status: 'pendente' | 'pago' | 'estornado') => {
+    try {
+      const r = await authFetch('/api/sales/commission', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status }),
+      });
+      if (r.ok) {
+        notifySuccess('Status da comissão atualizado.');
+        await loadData();
+      } else {
+        const j = await r.json().catch(() => ({}));
+        notifyError('Erro: ' + (j.error || 'falha'));
+      }
+    } catch {
+      notifyError('Erro de conexão ao atualizar comissão.');
+    }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -1588,6 +1620,21 @@ export default function MasterEternityOS() {
                       </span>
                     </button>
                   )}
+
+                  {/* VENDEDORES */}
+                  {isTabAllowed(userRole, "sellers") && (
+                    <button
+                      onClick={() => setActiveTab("sellers")}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "sellers" ? "bg-cyan-600/15 text-cyan-400 border border-cyan-500/30" : "text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800"}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>🧑‍💼</span> Vendedores & Comissões
+                      </div>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold">
+                        {(sellersList || []).filter((s: any) => s.active).length}
+                      </span>
+                    </button>
+                  )}
                 </div>
               </div>
             )}
@@ -1672,6 +1719,7 @@ export default function MasterEternityOS() {
               {activeTab === "inventory" && "Estoque de Urnas & Insumos"}
               {activeTab === "convalescence" && "Aparelhos Convalescentes"}
               {activeTab === "benefits" && "Clube de Convênios & Descontos"}
+              {activeTab === "sellers" && "Vendedores & Comissões"}
               {activeTab === "financial" && "Gestão Financeira & Livro Caixa"}
             </h2>
           </div>
@@ -2743,6 +2791,11 @@ export default function MasterEternityOS() {
             </div>
           )}
 
+          {/* VENDEDORES & COMISSÕES */}
+          {activeTab === "sellers" && isTabAllowed(userRole, "sellers") && (
+            <SellersTab />
+          )}
+
           {/* FINANCEIRO & LIVRO CAIXA COMPLETO */}
           {activeTab === "financial" && isTabAllowed(userRole, "financial") && (
             <div className="space-y-6">
@@ -2797,8 +2850,11 @@ export default function MasterEternityOS() {
 
               {/* COMISSOES POR VENDEDOR (GET /api/sales/commission) */}
               <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-4">
-                <h3 className="text-xs font-bold text-cyan-400 uppercase mb-3">
-                  💰 Comissões por Vendedor
+                <h3 className="text-xs font-bold text-cyan-400 uppercase mb-3 flex items-center justify-between">
+                  <span>💰 Comissões por Vendedor</span>
+                  <span className="text-[10px] text-slate-500 normal-case font-normal">
+                    Gerencie vendedores na aba <button onClick={() => setActiveTab("sellers")} className="underline text-cyan-400 hover:text-cyan-300">Vendedores & Comissões</button>
+                  </span>
                 </h3>
                 {commissions.length === 0 ? (
                   <p className="text-xs text-slate-500">
@@ -2813,6 +2869,7 @@ export default function MasterEternityOS() {
                           <th className="pb-2 pr-3">Associado</th>
                           <th className="pb-2 pr-3">Valor</th>
                           <th className="pb-2">Status</th>
+                          <th className="pb-2 text-right">Ações</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -2835,11 +2892,44 @@ export default function MasterEternityOS() {
                                 className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                                   c.status === "pago"
                                     ? "bg-emerald-900/40 text-emerald-400"
+                                    : c.status === "estornado"
+                                    ? "bg-rose-900/40 text-rose-400"
                                     : "bg-amber-900/40 text-amber-400"
                                 }`}
                               >
                                 {c.status}
                               </span>
+                            </td>
+                            <td className="py-2 text-right">
+                              <div className="inline-flex gap-1">
+                                {c.status !== "pago" && (
+                                  <button
+                                    onClick={() => updateCommissionStatus(c.id, "pago")}
+                                    className="px-2 py-1 rounded bg-emerald-700 hover:bg-emerald-600 text-white text-[10px] font-bold"
+                                    title="Marcar como paga"
+                                  >
+                                    Pagar
+                                  </button>
+                                )}
+                                {c.status !== "estornado" && (
+                                  <button
+                                    onClick={() => updateCommissionStatus(c.id, "estornado")}
+                                    className="px-2 py-1 rounded bg-rose-700 hover:bg-rose-600 text-white text-[10px] font-bold"
+                                    title="Estornar"
+                                  >
+                                    Estornar
+                                  </button>
+                                )}
+                                {(c.status === "pago" || c.status === "estornado") && (
+                                  <button
+                                    onClick={() => updateCommissionStatus(c.id, "pendente")}
+                                    className="px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-white text-[10px] font-bold"
+                                    title="Reabrir"
+                                  >
+                                    Reabrir
+                                  </button>
+                                )}
+                              </div>
                             </td>
                           </tr>
                         ))}
@@ -3163,16 +3253,36 @@ export default function MasterEternityOS() {
               </div>
 
               <div>
-                <label className="block text-slate-600 dark:text-slate-500 font-semibold mb-1">Vendedor (Comissão):</label>
-                <input
-                  type="text"
-                  value={holderForm.seller_name || ""}
-                  onChange={(e) =>
-                    setHolderForm({ ...holderForm, seller_name: e.target.value })
-                  }
-                  placeholder="Nome do vendedor responsável pela venda"
-                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
-                />
+                <label className="block text-slate-600 dark:text-slate-500 font-semibold mb-1">Vendedor Responsável:</label>
+                <div className="flex gap-2">
+                  <select
+                    value={holderForm.seller_name || ""}
+                    onChange={(e) =>
+                      setHolderForm({ ...holderForm, seller_name: e.target.value })
+                    }
+                    className="flex-1 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
+                  >
+                    <option value="">Sem vendedor</option>
+                    {(sellersList || [])
+                      .filter((s: any) => s.active)
+                      .map((s: any) => (
+                        <option key={s.id} value={s.name}>
+                          {s.name} ({s.commission_percent || 0}%)
+                        </option>
+                      ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() => { setActiveTab("sellers"); setIsNewHolderOpen(false); }}
+                    className="px-2 py-1 bg-cyan-700 hover:bg-cyan-600 text-white rounded text-xs"
+                    title="Ir para cadastro de vendedores"
+                  >
+                    + Vendedor
+                  </button>
+                </div>
+                <p className="text-[10px] text-slate-500 mt-1">
+                  A comissão é calculada pelo percentual configurado no plano (commission_rate_initial/recurring).
+                </p>
               </div>
 <label className="block text-slate-600 dark:text-slate-500 dark:text-slate-400 font-semibold mb-1">
                   Observações:
