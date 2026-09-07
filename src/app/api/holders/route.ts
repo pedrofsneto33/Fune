@@ -6,6 +6,7 @@ import {
   sanitizeCPF,
   isValidEmail,
   clampNumber,
+  isValidUUID,
 } from "@/lib/validation";
 import { getPlanByCode, checkHolderLimit } from "@/lib/planLimits";
 
@@ -48,7 +49,7 @@ export const GET = withAuth(
 
             const { data: contracts } = await supabaseAdmin
               .from("contracts")
-              .select("id, status, start_date, plans(name, monthly_fee)")
+              .select("id, status, start_date, plan_id, plans(name, monthly_fee)")
               .eq("holder_id", h.id)
               .eq("tenant_id", auth.tenantId);
 
@@ -75,7 +76,7 @@ export const GET = withAuth(
 
           const { data: contracts } = await supabaseAdmin
             .from("contracts")
-            .select("id, status, start_date, plans(name)")
+            .select("id, status, start_date, plan_id, plans(name)")
             .eq("holder_id", h.id)
             .eq("tenant_id", auth.tenantId);
 
@@ -111,14 +112,18 @@ export const POST = withAuth(
       const phone = sanitizeString(body.phone, 20);
       const email = body.email ? sanitizeString(body.email, 254) : null;
       const address = body.address ? sanitizeString(body.address, 500) : null;
-      const plan_name = sanitizeString(
-        body.plan_name || "Plano Familiar Master",
-        150,
-      );
-      const bodyFee = parseFloat(body.monthly_fee);
-      const monthly_fee = Number.isFinite(bodyFee)
-        ? clampNumber(bodyFee, 0, 10000)
-        : 0;
+      // SECURITY: plan_id obrigatorio (fonte unica de verdade em public.plans).
+      // Removida a auto-criacao de plano por .ilike(name) — ela gerava duplicatas
+      // ("Familiar Ouro" vs "familiar ouro" etc) toda vez que o atendente digitava
+      // o nome de um jeito diferente. Criacao de plano deve acontecer via
+      // /api/plans (POST) explicitamente.
+      const planIdRaw = body.plan_id;
+      if (!planIdRaw || typeof planIdRaw !== "string" || !isValidUUID(planIdRaw)) {
+        return NextResponse.json(
+          { error: "Selecione um plano funerario do catalogo antes de cadastrar o titular." },
+          { status: 400 },
+        );
+      }
 
       // Validation
       if (!full_name || full_name.length < 2) {
@@ -224,41 +229,33 @@ export const POST = withAuth(
           { status: 500 },
         );
 
-      let planId = null;
-      // Reusa plano pelo NOME informado pelo formulario (nunca mais pega o primeiro aleatorio)
-      const { data: existingPlan } = await supabaseAdmin
+      // SECURITY: valida que o plan_id existe E pertence a este tenant
+      // (mesmo padrao de checagem de ownership usado em /api/contracts para holder_id/plan_id).
+      const { data: planRow, error: planErr } = await supabaseAdmin
         .from("plans")
-        .select("id")
+        .select("id, max_dependents")
+        .eq("id", planIdRaw)
         .eq("tenant_id", auth.tenantId)
-        .ilike("name", plan_name)
-        .limit(1)
         .maybeSingle();
-      if (existingPlan?.id) {
-        planId = existingPlan.id;
-      } else {
-        // Cria o plano com a mensalidade real informada (nunca inventada)
-        const fee = monthly_fee > 0 ? monthly_fee : 0;
-        const { data: newP } = await supabaseAdmin
-          .from("plans")
-          .insert([
-            {
-              tenant_id: auth.tenantId,
-              name: plan_name || "Plano Familiar Master",
-              monthly_fee: fee,
-              max_dependents: 6,
-            },
-          ])
-          .select("id")
-          .single();
-        planId = newP?.id;
+      if (planErr) {
+        return NextResponse.json(
+          { error: "Erro ao validar plano selecionado." },
+          { status: 500 },
+        );
+      }
+      if (!planRow) {
+        return NextResponse.json(
+          { error: "Plano funerario invalido ou nao pertence a este tenant." },
+          { status: 404 },
+        );
       }
 
-      if (planId && holder) {
+      if (holder) {
         await supabaseAdmin.from("contracts").insert([
           {
             tenant_id: auth.tenantId,
             holder_id: holder.id,
-            plan_id: planId,
+            plan_id: planRow.id,
             status: "active",
             start_date: new Date().toISOString().split("T")[0],
           },

@@ -13,6 +13,7 @@ import { ModalDRE } from "@/components/dashboard/ModalDRE";
 import { TenantSettingsTab } from "@/components/tabs/TenantSettingsTab";
 import { ModalChapel } from "@/components/modals/ModalChapel";
 import { ModalCarnets } from "@/components/modals/ModalCarnets";
+import ThemeToggle from "@/components/ThemeToggle";
 
 // Interfaces
 interface Dependent {
@@ -25,6 +26,7 @@ interface Contract {
   id: string;
   status: string;
   start_date: string;
+  plan_id?: string;
   plans?: { id: string; name: string; monthly_fee: number };
 }
 
@@ -185,7 +187,7 @@ export default function MasterEternityOS() {
     {
       id: "4",
       item_name: "Véu de Renda Especial com Flores",
-      category: "Ornamentao",
+      category: "Ornamentação",
       stock_quantity: 25,
       min_threshold: 10,
     },
@@ -267,9 +269,34 @@ export default function MasterEternityOS() {
     birth_date: "",
     gender: "",
     observations: "",
-    plan_name: "Familiar Ouro",
-    monthly_fee: "",
+    plan_id: "",
   });
+  // Catalogo de planos funerarios do tenant (fonte: GET /api/plans).
+  const [plans, setPlans] = useState<
+    { id: string; name: string; monthly_fee: number | string }[]
+  >([]);
+  // Comissoes por vendedor (fonte: GET /api/sales/commission).
+  const [commissions, setCommissions] = useState<
+    {
+      id: string;
+      seller_name: string;
+      amount: number;
+      status: string;
+      created_at: string;
+      contracts?: { holders?: { name: string } };
+    }[]
+  >([]);
+  // Reserva Regulatoria (fonte: GET /api/financial/regulatory-reserves, Lei 13.261/2016).
+  const [regReserve, setRegReserve] = useState<{
+    referenceMonth: string;
+    grossRevenue: number;
+    netRevenue: number;
+    solvencyTarget: number;
+    technicalTarget: number;
+    totalRequiredProvision: number;
+    appliedAmount: number;
+    status: string;
+  } | null>(null);
   const [deletingHolderId, setDeletingHolderId] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [savingHolder, setSavingHolder] = useState(false);
@@ -397,6 +424,28 @@ export default function MasterEternityOS() {
         if (Array.isArray(partData)) setPartners(partData);
       }
 
+      // 4b. Catalogo de planos funerarios (select do cadastro de associado)
+      const plRes = await authFetch("/api/plans");
+      if (plRes.ok) {
+        const plData = await plRes.json();
+        if (Array.isArray(plData)) setPlans(plData);
+      }
+
+      // 4c. Comissoes por vendedor
+      const comRes = await authFetch("/api/sales/commission");
+      if (comRes.ok) {
+        const comData = await comRes.json();
+        if (Array.isArray(comData?.commissions))
+          setCommissions(comData.commissions);
+      }
+
+      // 4d. Reserva Regulatoria (Lei 13.261/2016)
+      const rrRes = await authFetch("/api/financial/regulatory-reserves");
+      if (rrRes.ok) {
+        const rrData = await rrRes.json();
+        if (rrData?.data) setRegReserve(rrData.data);
+      }
+
       // 6. Veículos
       const vehRes = await authFetch("/api/vehicles");
       if (vehRes.ok) {
@@ -404,7 +453,7 @@ export default function MasterEternityOS() {
         if (Array.isArray(vehData)) setVehicles(vehData);
       }
 
-      // 7. Transaes Financeiras
+      // 7. Transações Financeiras
       const txRes = await authFetch("/api/financial/transactions");
       if (txRes.ok) {
         const txData = await txRes.json();
@@ -557,7 +606,8 @@ export default function MasterEternityOS() {
       const status = (h.status === "inativo") ? "Inativo" : "Ativo";
       csv += `"${h.full_name}";"${h.cpf}";"${h.phone}";"${h.email || ""}";"${h.address || ""}";"${status}";"${plan}"\n`;
     });
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    // BOM UTF-8: Excel no Windows assume ANSI sem ele e acentos viram "?"
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -577,13 +627,7 @@ export default function MasterEternityOS() {
         body: JSON.stringify(
           isEdit
             ? { id: editingHolder!.id, ...holderForm }
-            : {
-                ...holderForm,
-                monthly_fee:
-                  holderForm.monthly_fee === ""
-                    ? undefined
-                    : Number(holderForm.monthly_fee),
-              },
+            : { ...holderForm },
         ),
       });
 
@@ -611,8 +655,7 @@ export default function MasterEternityOS() {
           birth_date: "",
           gender: "",
           observations: "",
-          plan_name: "Familiar Ouro",
-          monthly_fee: "",
+          plan_id: "",
         });
         loadData();
       } else {
@@ -626,7 +669,7 @@ export default function MasterEternityOS() {
   };
 
   // Abrir modal de edição preenchido (CPF bloqueado - e a chave de identificação)
-  const openEditHolder = (h: Holder) => {
+  const openEditHolder = async (h: Holder) => {
     const contract = h.contracts?.[0];
     setEditingHolder(h);
     setHolderForm({
@@ -642,12 +685,15 @@ export default function MasterEternityOS() {
         : "",
       gender: (h as any).gender || "",
       observations: (h as any).observations || "",
-      plan_name: contract?.plans?.name || "Familiar Ouro",
-      monthly_fee: contract?.plans?.monthly_fee
-        ? String(contract.plans.monthly_fee)
-        : "",
+      plan_id: contract?.plan_id
+        ? String(contract.plan_id)
+        : (contract as any)?.plans?.id
+          ? String((contract as any).plans.id)
+          : "",
     });
-    setIsNewHolderOpen(true);
+    const plansRes=await authFetch("/api/plans");
+      if(plansRes.ok){const pd=await plansRes.json();setPlans(Array.isArray(pd)?pd:[]);}
+      setIsNewHolderOpen(true);
   };
 
   // Importar associados via CSV (Nome;CPF;Telefone;Email;Endereco)
@@ -1678,6 +1724,9 @@ export default function MasterEternityOS() {
               title="Exportar CSV">
               📥
             </button>
+
+            {/* ALTERNANCIA DE TEMA CLARO/ESCURO (persiste em localStorage) */}
+            <ThemeToggle compact />
 
             {/* BOTO DE LOGOUT SUPERIOR DESTACADO */}
             <button
@@ -2734,6 +2783,115 @@ export default function MasterEternityOS() {
                 </div>
               </div>
 
+              {/* COMISSOES POR VENDEDOR (GET /api/sales/commission) */}
+              <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-4">
+                <h3 className="text-xs font-bold text-cyan-400 uppercase mb-3">
+                  💰 Comissões por Vendedor
+                </h3>
+                {commissions.length === 0 ? (
+                  <p className="text-xs text-slate-500">
+                    Nenhuma comissão registrada.
+                  </p>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr className="text-left text-slate-500 uppercase">
+                          <th className="pb-2 pr-3">Vendedor</th>
+                          <th className="pb-2 pr-3">Associado</th>
+                          <th className="pb-2 pr-3">Valor</th>
+                          <th className="pb-2">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {commissions.map((c) => (
+                          <tr
+                            key={c.id}
+                            className="border-t border-slate-200 dark:border-slate-800"
+                          >
+                            <td className="py-2 pr-3 font-semibold text-slate-100">
+                              {c.seller_name || "—"}
+                            </td>
+                            <td className="py-2 pr-3 text-slate-400">
+                              {c.contracts?.holders?.name || "—"}
+                            </td>
+                            <td className="py-2 pr-3 font-bold text-emerald-400">
+                              {fmtBRL(Number(c.amount) || 0)}
+                            </td>
+                            <td className="py-2">
+                              <span
+                                className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                                  c.status === "pago"
+                                    ? "bg-emerald-900/40 text-emerald-400"
+                                    : "bg-amber-900/40 text-amber-400"
+                                }`}
+                              >
+                                {c.status}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+
+              {/* RESERVA REGULATORIA (Lei 13.261/2016 — GET /api/financial/regulatory-reserves) */}
+              {regReserve && (
+                <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-4">
+                  <h3 className="text-xs font-bold text-blue-400 uppercase mb-3">
+                    🛡️ Reserva Regulatória — {regReserve.referenceMonth}
+                  </h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                    <div>
+                      <p className="text-[10px] text-slate-500 uppercase font-semibold">
+                        Receita Bruta
+                      </p>
+                      <p className="text-sm font-bold text-slate-100">
+                        {fmtBRL(regReserve.grossRevenue)}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-slate-500 uppercase font-semibold">
+                        Receita Líquida
+                      </p>
+                      <p className="text-sm font-bold text-slate-100">
+                        {fmtBRL(regReserve.netRevenue)}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-slate-500 uppercase font-semibold">
+                        Provisão Solvência (10%)
+                      </p>
+                      <p className="text-sm font-bold text-blue-400">
+                        {fmtBRL(regReserve.solvencyTarget)}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-slate-500 uppercase font-semibold">
+                        Provisão Técnica (12%)
+                      </p>
+                      <p className="text-sm font-bold text-blue-400">
+                        {fmtBRL(regReserve.technicalTarget)}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-slate-500 uppercase font-semibold">
+                        Total Exigido
+                      </p>
+                      <p className="text-sm font-bold text-rose-400">
+                        {fmtBRL(regReserve.totalRequiredProvision)}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-[10px] text-slate-500 mt-2">
+                    Aplicado atualmente: {fmtBRL(regReserve.appliedAmount)} ·
+                    Status: {regReserve.status} · Lei 13.261/2016
+                  </p>
+                </div>
+              )}
+
               <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
                   <button
@@ -2974,14 +3132,25 @@ export default function MasterEternityOS() {
                     <option value="masculino">Masculino</option>
                     <option value="feminino">Feminino</option>
                     <option value="outro">Outro</option>
-                    <option value="nao_informar">Prefiro no informar</option>
+                    <option value="nao_informar">Prefiro não informar</option>
                   </select>
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-600 dark:text-slate-500 dark:text-slate-400 font-semibold mb-1">
-                  Observaes:
+                
+              <div>
+                <label className="block text-slate-600 dark:text-slate-500 font-semibold mb-1">Plano Funerário:</label>
+                <div className="flex gap-2">
+                  <select value={holderForm.plan_id||""} onChange={e=>setHolderForm({...holderForm,plan_id:e.target.value})} className="flex-1 bg-slate-50 dark:bg-slate-950 border rounded p-2 text-sm text-slate-900 dark:text-white">
+                    <option value="">Selecione um plano...</option>
+                    {plans.map((p:any)=>(<option key={p.id} value={p.id}>{p.name} - R$ {p.monthly_fee}</option>))}
+                  </select>
+                  <button type="button" onClick={async()=>{const name=window.prompt("Nome do plano:");if(!name)return;const fee=window.prompt("Mensalidade (R$):","69.90");if(!fee)return;const res=await authFetch("/api/plans",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,monthly_fee:Number(fee),max_dependents:5})});if(res.ok){const p=await res.json();setPlans(prev=>[...prev,p]);setHolderForm(prev=>({...prev,plan_id:p.id}));notifySuccess("Plano criado: "+name);}else{notifyError("Erro ao criar plano.");}}} className="px-2 py-1 bg-slate-700 hover:bg-slate-600 text-white rounded text-xs">+ Plano</button>
+                </div>
+              </div>
+<label className="block text-slate-600 dark:text-slate-500 dark:text-slate-400 font-semibold mb-1">
+                  Observações:
                 </label>
                 <textarea
                   value={holderForm.observations}
