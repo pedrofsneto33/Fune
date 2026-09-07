@@ -183,6 +183,10 @@ export const POST = withAuth(
       const observations = body.observations
         ? sanitizeString(body.observations, 1000)
         : null;
+      // Vendedor responsavel pela venda (comissao) - texto livre sanitizado
+      const seller_name = body.seller_name
+        ? sanitizeString(body.seller_name, 150)
+        : null;
 
       const baseInsert = {
         tenant_id: auth.tenantId,
@@ -258,6 +262,7 @@ export const POST = withAuth(
             plan_id: planRow.id,
             status: "active",
             start_date: new Date().toISOString().split("T")[0],
+            seller_name,
           },
         ]);
       }
@@ -365,6 +370,19 @@ export const PATCH = withAuth(
           { error: "Titular não encontrado." },
           { status: 404 },
         );
+
+      // Sincronizar seller_name no contrato ativo (comission por vendedor)
+      if (body.seller_name !== undefined) {
+        const seller = body.seller_name
+          ? sanitizeString(body.seller_name, 150)
+          : null;
+        await supabaseAdmin
+          .from("contracts")
+          .update({ seller_name: seller })
+          .eq("holder_id", id)
+          .eq("tenant_id", auth.tenantId)
+          .eq("status", "active");
+      }
 
       return NextResponse.json({ success: true, holder });
     } catch (err: unknown) {

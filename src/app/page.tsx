@@ -270,6 +270,7 @@ export default function MasterEternityOS() {
     gender: "",
     observations: "",
     plan_id: "",
+    seller_name: "",
   });
   // Catalogo de planos funerarios do tenant (fonte: GET /api/plans).
   const [plans, setPlans] = useState<
@@ -656,6 +657,7 @@ export default function MasterEternityOS() {
           gender: "",
           observations: "",
           plan_id: "",
+          seller_name: "",
         });
         loadData();
       } else {
@@ -690,6 +692,7 @@ export default function MasterEternityOS() {
         : (contract as any)?.plans?.id
           ? String((contract as any).plans.id)
           : "",
+      seller_name: (contract as any)?.seller_name || "",
     });
     const plansRes=await authFetch("/api/plans");
       if(plansRes.ok){const pd=await plansRes.json();setPlans(Array.isArray(pd)?pd:[]);}
@@ -3157,6 +3160,19 @@ export default function MasterEternityOS() {
                   </select>
                   <button type="button" onClick={async()=>{const name=window.prompt("Nome do plano:");if(!name)return;const fee=window.prompt("Mensalidade (R$):","69.90");if(!fee)return;const res=await authFetch("/api/plans",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,monthly_fee:Number(fee),max_dependents:5})});if(res.ok){const p=await res.json();setPlans(prev=>[...prev,p]);setHolderForm(prev=>({...prev,plan_id:p.id}));notifySuccess("Plano criado: "+name);}else{notifyError("Erro ao criar plano.");}}} className="px-2 py-1 bg-slate-700 hover:bg-slate-600 text-white rounded text-xs">+ Plano</button>
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-slate-600 dark:text-slate-500 font-semibold mb-1">Vendedor (Comissão):</label>
+                <input
+                  type="text"
+                  value={holderForm.seller_name || ""}
+                  onChange={(e) =>
+                    setHolderForm({ ...holderForm, seller_name: e.target.value })
+                  }
+                  placeholder="Nome do vendedor responsável pela venda"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
+                />
               </div>
 <label className="block text-slate-600 dark:text-slate-500 dark:text-slate-400 font-semibold mb-1">
                   Observações:

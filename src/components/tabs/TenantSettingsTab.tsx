@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 
 import { notifySuccess, notifyError, notifyInfo } from '@/lib/notify';
@@ -57,7 +57,7 @@ export function TenantSettingsTab({ onClose }: { onClose?: () => void }) {
     { id: string; name: string; monthly_fee: number; max_dependents: number; description: string | null }[]
   >([]);
   const [editingPlan, setEditingPlan] = useState<string | null>(null);
-  const [planForm, setPlanForm] = useState({ name: "", monthly_fee: "", max_dependents: 5, description: "" });
+  const [planForm, setPlanForm] = useState({ name: "", monthly_fee: "", max_dependents: 5, description: "", commission_rate_initial: "", commission_rate_recurring: "" });
   const [savingPlan, setSavingPlan] = useState(false);
   const [isNewPlanOpen, setIsNewPlanOpen] = useState(false);
 
@@ -93,12 +93,14 @@ export function TenantSettingsTab({ onClose }: { onClose?: () => void }) {
           monthly_fee: Number(planForm.monthly_fee),
           max_dependents: Number(planForm.max_dependents) || 5,
           description: planForm.description.trim() || null,
+          commission_rate_initial: planForm.commission_rate_initial === "" ? 0 : Number(planForm.commission_rate_initial),
+          commission_rate_recurring: planForm.commission_rate_recurring === "" ? 0 : Number(planForm.commission_rate_recurring),
         }),
       });
       if (res.ok) {
         notifySuccess(editingPlan ? "Plano atualizado!" : "Plano criado!");
         setEditingPlan(null);
-        setPlanForm({ name: "", monthly_fee: "", max_dependents: 5, description: "" });
+        setPlanForm({ name: "", monthly_fee: "", max_dependents: 5, description: "", commission_rate_initial: "", commission_rate_recurring: "" });
         setIsNewPlanOpen(false);
         loadPlans();
       } else {
@@ -563,7 +565,7 @@ export function TenantSettingsTab({ onClose }: { onClose?: () => void }) {
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               <span>Planos Funerários do Catálogo</span>
             </div>
-            <button type="button" onClick={() => { setEditingPlan(null); setPlanForm({ name: "", monthly_fee: "", max_dependents: 5, description: "" }); setIsNewPlanOpen(true); }}
+            <button type="button" onClick={() => { setEditingPlan(null); setPlanForm({ name: "", monthly_fee: "", max_dependents: 5, description: "", commission_rate_initial: "", commission_rate_recurring: "" }); setIsNewPlanOpen(true); }}
               className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition">
               + Novo Plano
             </button>
@@ -591,7 +593,7 @@ export function TenantSettingsTab({ onClose }: { onClose?: () => void }) {
                       <td className="py-2 pr-3 text-slate-600 dark:text-zinc-300">{p.max_dependents}</td>
                       <td className="py-2 pr-3 text-zinc-500 max-w-[200px] truncate">{p.description || '—'}</td>
                       <td className="py-2 text-right whitespace-nowrap">
-                        <button type="button" onClick={() => { setEditingPlan(p.id); setPlanForm({ name: p.name, monthly_fee: String(p.monthly_fee), max_dependents: p.max_dependents, description: p.description || "" }); setIsNewPlanOpen(true); }}
+                        <button type="button" onClick={() => { setEditingPlan(p.id); setPlanForm({ name: p.name, monthly_fee: String(p.monthly_fee), max_dependents: p.max_dependents, description: p.description || "", commission_rate_initial: (p as any).commission_rate_initial !== undefined && (p as any).commission_rate_initial !== null ? String((p as any).commission_rate_initial) : "", commission_rate_recurring: (p as any).commission_rate_recurring !== undefined && (p as any).commission_rate_recurring !== null ? String((p as any).commission_rate_recurring) : "" }); setIsNewPlanOpen(true); }}
                           className="px-2 py-1 bg-slate-100 dark:bg-zinc-800 hover:bg-zinc-700 text-blue-400 rounded text-[11px] font-semibold mr-1">Editar</button>
                         <button type="button" onClick={() => handleDeletePlan(p.id, p.name)}
                           className="px-2 py-1 bg-slate-100 dark:bg-zinc-800 hover:bg-zinc-700 text-rose-400 rounded text-[11px] font-semibold">Excluir</button>
@@ -628,6 +630,16 @@ export function TenantSettingsTab({ onClose }: { onClose?: () => void }) {
                 <div>
                   <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Descrição</label>
                   <input type="text" value={planForm.description} onChange={(e) => setPlanForm({ ...planForm, description: e.target.value })} placeholder="O que dá direito"
+                    className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:border-emerald-500 focus:outline-none" />
+                </div>
+                <div>
+                  <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Comissão Inicial (%)</label>
+                  <input type="number" step="0.01" min="0" max="100" value={planForm.commission_rate_initial} onChange={(e) => setPlanForm({ ...planForm, commission_rate_initial: e.target.value })} placeholder="0 (1ª mensualidade paga)"
+                    className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:border-emerald-500 focus:outline-none" />
+                </div>
+                <div>
+                  <label className="block font-medium text-zinc-700 dark:text-zinc-300 mb-1">Comisión Recorrente (%)</label>
+                  <input type="number" step="0.01" min="0" max="100" value={planForm.commission_rate_recurring} onChange={(e) => setPlanForm({ ...planForm, commission_rate_recurring: e.target.value })} placeholder="0 (mensualidades seguintes)"
                     className="w-full bg-slate-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:border-emerald-500 focus:outline-none" />
                 </div>
                 <div className="sm:col-span-2 flex justify-end gap-2">
