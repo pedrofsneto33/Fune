@@ -20,11 +20,15 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const body = await req.json();
-    const { name, monthly_fee, max_dependents, description } = body;
+    const { name, monthly_fee, max_dependents, description, commission_rate_initial, commission_rate_recurring } = body;
     if (!name || name.trim().length < 2) return NextResponse.json({ error: 'Nome do plano e obrigatório (mínimo 2 caracteres)' }, { status: 400 });
     if (monthly_fee === undefined || monthly_fee === null || Number(monthly_fee) < 0) return NextResponse.json({ error: 'Mensalidade deve ser um valor positivo' }, { status: 400 });
     if (max_dependents !== undefined && (!Number.isInteger(Number(max_dependents)) || Number(max_dependents) < 0)) return NextResponse.json({ error: 'Limite de dependentes deve ser um número inteiro positivo' }, { status: 400 });
-    const { data, error } = await supabaseAdmin.from('plans').insert({ tenant_id: auth.tenantId, name: sanitizeString(name, 150), monthly_fee: Number(monthly_fee), max_dependents: max_dependents !== undefined ? Number(max_dependents) : 4, description: description ? sanitizeString(description, 500) : null }).select().single();
+    const cRateInit = commission_rate_initial !== undefined ? Number(commission_rate_initial) : 0;
+    const cRateRec = commission_rate_recurring !== undefined ? Number(commission_rate_recurring) : 0;
+    if (cRateInit < 0 || cRateInit > 100) return NextResponse.json({ error: 'Comissão inicial deve ser entre 0 e 100' }, { status: 400 });
+    if (cRateRec < 0 || cRateRec > 100) return NextResponse.json({ error: 'Comissão recorrente deve ser entre 0 e 100' }, { status: 400 });
+    const { data, error } = await supabaseAdmin.from('plans').insert({ tenant_id: auth.tenantId, name: sanitizeString(name, 150), monthly_fee: Number(monthly_fee), max_dependents: max_dependents !== undefined ? Number(max_dependents) : 4, description: description ? sanitizeString(description, 500) : null, commission_rate_initial: cRateInit, commission_rate_recurring: cRateRec }).select().single();
     if (error) { if ((error as any).code === '23505') return NextResponse.json({ error: 'Ja existe um plano com este nome' }, { status: 409 }); return NextResponse.json({ error: 'Erro ao criar plano' }, { status: 500 }); }
     return NextResponse.json(data, { status: 201 });
   } catch { return NextResponse.json({ error: 'Erro interno' }, { status: 500 }); }
@@ -33,12 +37,14 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const body = await req.json();
-    const { id, name, monthly_fee, max_dependents, description } = body;
+    const { id, name, monthly_fee, max_dependents, description, commission_rate_initial, commission_rate_recurring } = body;
     if (!id || !isValidUUID(id)) return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
     const updateData: Record<string, any> = {};
     if (name !== undefined) { if (name.trim().length < 2) return NextResponse.json({ error: 'Nome deve ter pelo menos 2 caracteres' }, { status: 400 }); updateData.name = sanitizeString(name, 150); }
     if (monthly_fee !== undefined) { if (Number(monthly_fee) < 0) return NextResponse.json({ error: 'Mensalidade deve ser positiva' }, { status: 400 }); updateData.monthly_fee = Number(monthly_fee); }
     if (max_dependents !== undefined) { if (!Number.isInteger(Number(max_dependents)) || Number(max_dependents) < 0) return NextResponse.json({ error: 'Dependentes deve ser inteiro positivo' }, { status: 400 }); updateData.max_dependents = Number(max_dependents); }
+    if (commission_rate_initial !== undefined) { const v = Number(commission_rate_initial); if (v < 0 || v > 100) return NextResponse.json({ error: "Comissão inicial deve ser entre 0 e 100" }, { status: 400 }); updateData.commission_rate_initial = v; }
+    if (commission_rate_recurring !== undefined) { const v = Number(commission_rate_recurring); if (v < 0 || v > 100) return NextResponse.json({ error: "Comissão recorrente deve ser entre 0 e 100" }, { status: 400 }); updateData.commission_rate_recurring = v; }
     if (description !== undefined) { updateData.description = description ? sanitizeString(description, 500) : null; }
     if (Object.keys(updateData).length === 0) return NextResponse.json({ error: 'Nenhum campo para atualizar' }, { status: 400 });
     const { data, error } = await supabaseAdmin.from('plans').update(updateData).eq('id', id).eq('tenant_id', auth.tenantId).select().single();
