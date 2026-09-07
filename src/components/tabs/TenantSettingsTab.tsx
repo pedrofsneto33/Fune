@@ -5,6 +5,7 @@ import { notifySuccess, notifyError, notifyInfo } from '@/lib/notify';
 import React, { useState, useEffect } from 'react';
 import { Settings, ShieldCheck, Key, RefreshCw, Copy, Check, Building2, Upload, Image as ImageIcon } from 'lucide-react';
 import { getPlanByCode, formatPlanPrice, COMMERCIAL_PLANS } from '@/lib/planLimits';
+import FiscalSettingsSection from '@/components/tabs/FiscalSettingsSection';
 import { supabase } from '@/lib/supabaseClient';
 
 interface Tenant {
@@ -744,6 +745,9 @@ export function TenantSettingsTab({ onClose }: { onClose?: () => void }) {
           </div>
         </div>
       )}
+
+      {/* SECAO: CONFIGURACAO FISCAL (NFS-e) */}
+      <FiscalSettingsSection />
     </div>
   );
 }

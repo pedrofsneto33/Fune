@@ -15,6 +15,7 @@ import { ModalChapel } from "@/components/modals/ModalChapel";
 import { ModalCarnets } from "@/components/modals/ModalCarnets";
 import ThemeToggle from "@/components/ThemeToggle";
 import SellersTab from "@/components/tabs/SellersTab";
+import FiscalTab from "@/components/tabs/FiscalTab";
 
 // Interfaces
 interface Dependent {
@@ -156,6 +157,7 @@ export default function MasterEternityOS() {
     | "convalescence"
     | "benefits"
     | "sellers"
+    | "fiscal"
     | "financial"
   >("holders");
 
@@ -1635,6 +1637,18 @@ export default function MasterEternityOS() {
                       </span>
                     </button>
                   )}
+
+                  {/* FISCAL (NFS-e) */}
+                  {isTabAllowed(userRole, "financial") && (
+                    <button
+                      onClick={() => setActiveTab("fiscal")}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "fiscal" ? "bg-blue-600/15 text-blue-400 border border-blue-500/30" : "text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800"}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>📄</span> Fiscal (NFS-e)
+                      </div>
+                    </button>
+                  )}
                 </div>
               </div>
             )}
@@ -1720,6 +1734,7 @@ export default function MasterEternityOS() {
               {activeTab === "convalescence" && "Aparelhos Convalescentes"}
               {activeTab === "benefits" && "Clube de Convênios & Descontos"}
               {activeTab === "sellers" && "Vendedores & Comissões"}
+              {activeTab === "fiscal" && "Notas Fiscais (NFS-e)"}
               {activeTab === "financial" && "Gestão Financeira & Livro Caixa"}
             </h2>
           </div>
@@ -2794,6 +2809,11 @@ export default function MasterEternityOS() {
           {/* VENDEDORES & COMISSÕES */}
           {activeTab === "sellers" && isTabAllowed(userRole, "sellers") && (
             <SellersTab />
+          )}
+
+          {/* FISCAL (NFS-e) */}
+          {activeTab === "fiscal" && isTabAllowed(userRole, "financial") && (
+            <FiscalTab />
           )}
 
           {/* FINANCEIRO & LIVRO CAIXA COMPLETO */}
