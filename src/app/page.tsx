@@ -910,7 +910,7 @@ export default function MasterEternityOS() {
               .map((r: any) => `• ${r.holder}: ${r.error}`)
               .join("\n");
         }
-        notifySuccess(`? Asaas: ${data.message || "Lote processado!"}${extra}`);
+        notifySuccess(`✅ Asaas: ${data.message || "Lote processado!"}${extra}`);
         loadData();
       } else {
         notifyError(`Erro Asaas: ${data.error || "Falha ao processar lote"}`);
@@ -922,12 +922,12 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Excluir definitivamente o registro de óbito em edio
+  // Excluir definitivamente o registro de óbito em edição
   const handleDeleteBurial = async () => {
     if (!editingBurial?.id) return;
     if (
       !window.confirm(
-        `Excluir definitivamente o registro de óbito de ${editingBurial.deceased_name}? Esta ao não pode ser desfeita.`,
+        `Excluir definitivamente o registro de óbito de ${editingBurial.deceased_name}? Esta ação não pode ser desfeita.`,
       )
     )
       return;
@@ -1726,7 +1726,13 @@ export default function MasterEternityOS() {
             </button>
 
             {/* ALTERNANCIA DE TEMA CLARO/ESCURO (persiste em localStorage) */}
-            <ThemeToggle compact />
+            {/* ⚠️ ESCONDIDO até o modo claro ser completado (item 11).
+                Hoje apenas alguns botoes foram ajustados — expor o toggle
+                com paleta parcial gera experiencia inacabada.
+                Para reativar: revisar sistematicamente bg-slate-950,
+                bg-[#0d121f], text-slate-400 (usado como claro) e definir
+                o par claro/escuro componente por componente. */}
+            {/* <ThemeToggle compact /> */}
 
             {/* BOTO DE LOGOUT SUPERIOR DESTACADO */}
             <button
@@ -2100,10 +2106,10 @@ export default function MasterEternityOS() {
                             onChange={(e) => handleUpdateServiceOrderStatus(so.id, e.target.value)}
                             className={`bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded px-1.5 py-1 text-[11px] font-semibold disabled:opacity-50 ${savingStatusId === so.id ? "animate-pulse" : ""} ${soStatusClass(so.status)}`}
                           >
-                            <option value="pending">? Pendente</option>
+                            <option value="pending">⏳ Pendente</option>
                             <option value="in_progress">🔄 Em andamento</option>
-                            <option value="completed">? Concluído</option>
-                            <option value="cancelled">? Cancelado</option>
+                            <option value="completed">✅ Concluído</option>
+                            <option value="cancelled">❌ Cancelado</option>
                           </select>
                         </td>
                         <td className="py-3 px-4 text-right">
@@ -2248,7 +2254,7 @@ export default function MasterEternityOS() {
                           </td>
                           <td className="py-3 px-4">
                             <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 text-[10px] font-bold">
-                              ? Concluído
+                              ✅ Concluído
                             </span>
                           </td>
                         </tr>
@@ -2292,7 +2298,7 @@ export default function MasterEternityOS() {
                         ? "Reservada"
                         : b.status === "em_velorio"
                           ? "Velório em andamento"
-                          : "Concluda";
+                          : "Concluída";
                     const statusColor =
                       b.status === "reservado"
                         ? "text-amber-400"
@@ -2319,7 +2325,10 @@ export default function MasterEternityOS() {
                         <div>
                           <div className="flex justify-between items-center text-xs font-bold uppercase mb-2">
                             <span className="text-slate-900 dark:text-white">{b.chapel_name}</span>
-                            <span className={statusColor}>? {statusLabel}</span>
+                            <span className={statusColor}>
+                              {b.status === "reservado" ? "📅" : b.status === "em_velorio" ? "⚰️" : "✅"}{" "}
+                              {statusLabel}
+                            </span>
                           </div>
                           <p className="text-xs text-slate-600 dark:text-slate-500 dark:text-slate-400">
                             Falecido: {b.deceased_name || ""}
@@ -2425,7 +2434,7 @@ export default function MasterEternityOS() {
                               : "text-amber-400"
                           }
                         >
-                          ? {v.status}
+                          {v.status === "Disponível" ? "🟢" : "🟡"} {v.status}
                         </span>
                       </div>
                       <h4 className="font-bold text-slate-900 dark:text-white text-sm mt-2">

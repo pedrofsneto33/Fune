@@ -96,7 +96,7 @@ export function GlobalSearch({
       .filter((b) => b.deceased_name?.toLowerCase().includes(term))
       .slice(0, 4)
       .forEach((b) =>
-        out.push({ type: '📋 Óóóbito', tab: 'burials', label: b.deceased_name, sub: b.status || 'Agendado' }),
+        out.push({ type: '📋 Óbito', tab: 'burials', label: b.deceased_name, sub: b.status || 'Agendado' }),
       );
 
     serviceOrders
