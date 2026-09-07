@@ -12,7 +12,7 @@
  *   GET    https://api.focusnfe.com.br/v2/nfse/{ref}/pdf     - download PDF
  *   GET    https://api.focusnfe.com.br/v2/nfse/{ref}/xml     - download XML
  *
- * Autenticacao: Bearer Token (Authorization: Bearer {access_token}). O access_token e obtido no painel FocusNFe em "API" - "Token de Acesso". NAO use client_secret ou client_id.
+ * Autenticacao: Basic Auth estrito: Authorization: Basic base64(token + colon). Token como username, senha vazia. No painel FocusNFe - API - gerar Token de Acesso.
  *
  * Cada funeraria cadastra a conta dela direto no FocusNFe,
  * pega o token e cola em "Configuracao Fiscal" no TenantSettingsTab.
@@ -23,8 +23,8 @@ import { FiscalConfig, FiscalEmitInput } from './index';
 
 const FOCUSNFE_BASE = 'https://api.focusnfe.com.br/v2';
 
-function bearerAuth(token: string): string {
-  return 'Bearer ' + token;
+function basicAuth(token: string): string {
+  return 'Basic ' + Buffer.from(token + ':').toString('base64')
 }
 
 function detectEnvironment(environment: string): string {
@@ -154,7 +154,7 @@ export async function focusnfeEmit(
   const res = await fetch(baseUrl + '/nfse', {
     method: 'POST',
     headers: {
-      'Authorization': bearerAuth(config.apiKey),
+      'Authorization': basicAuth(config.apiKey),
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
@@ -187,7 +187,7 @@ export async function focusnfeGet(
   const baseUrl = detectEnvironment(config.environment);
   const res = await fetch(baseUrl + '/nfse/' + encodeURIComponent(ref), {
     method: 'GET',
-    headers: { 'Authorization': bearerAuth(config.apiKey) },
+    headers: { 'Authorization': basicAuth(config.apiKey) },
   });
   const text = await res.text();
   const json: FocusNFeResponse = JSON.parse(text);
@@ -214,7 +214,7 @@ export async function focusnfeCancel(
   const res = await fetch(baseUrl + '/nfse/' + encodeURIComponent(ref), {
     method: 'DELETE',
     headers: {
-      'Authorization': bearerAuth(config.apiKey),
+      'Authorization': basicAuth(config.apiKey),
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ justificativa: reason }),
@@ -262,7 +262,7 @@ export async function focusnfeTest(
     const res = await fetch(baseUrl + '/nfse', {
       method: 'POST',
       headers: {
-        'Authorization': bearerAuth(config.apiKey),
+        'Authorization': basicAuth(config.apiKey),
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
