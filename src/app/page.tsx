@@ -16,6 +16,7 @@ import { ModalCarnets } from "@/components/modals/ModalCarnets";
 import ThemeToggle from "@/components/ThemeToggle";
 import SellersTab from "@/components/tabs/SellersTab";
 import FiscalTab from "@/components/tabs/FiscalTab";
+import PlansTab from "@/components/tabs/PlansTab";
 
 // Interfaces
 interface Dependent {
@@ -157,6 +158,7 @@ export default function MasterEternityOS() {
     | "convalescence"
     | "benefits"
     | "sellers"
+    | "plans"
     | "fiscal"
     | "financial"
   >("holders");
@@ -1497,6 +1499,14 @@ export default function MasterEternityOS() {
                       </span>
                     </button>
                   )}
+                  {isTabAllowed(userRole, "plans") && (
+                    <button
+                      onClick={() => setActiveTab("plans")}
+                      className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "plans" ? "bg-emerald-600/15 text-emerald-400 border border-emerald-500/30" : "text-white dark:text-white dark:text-white dark:text-white dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800"}`}
+                    >
+                      <span>📋</span> Planos Funerários
+                    </button>
+                  )}
                   {isTabAllowed(userRole, "financial") && (
                     <button
                       onClick={() => setActiveTab("financial")}
@@ -1734,6 +1744,7 @@ export default function MasterEternityOS() {
               {activeTab === "convalescence" && "Aparelhos Convalescentes"}
               {activeTab === "benefits" && "Clube de Convênios & Descontos"}
               {activeTab === "sellers" && "Vendedores & Comissões"}
+              {activeTab === "plans" && "Catálogo de Planos Funerários"}
               {activeTab === "fiscal" && "Notas Fiscais (NFS-e)"}
               {activeTab === "financial" && "Gestão Financeira & Livro Caixa"}
             </h2>
@@ -2818,6 +2829,9 @@ export default function MasterEternityOS() {
           {activeTab === "fiscal" && isTabAllowed(userRole, "financial") && (
             <FiscalTab />
           )}
+
+          {/* PLANOS FUNERÁRIOS */}
+          {activeTab === "plans" && isTabAllowed(userRole, "plans") && <PlansTab />}
 
           {/* FINANCEIRO & LIVRO CAIXA COMPLETO */}
           {activeTab === "financial" && isTabAllowed(userRole, "financial") && (

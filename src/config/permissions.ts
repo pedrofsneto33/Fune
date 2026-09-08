@@ -34,27 +34,28 @@ export type Permission =
   | 'canManageInventory'
   | 'canManageConvalescence'
   | 'canManageBenefits'
-  | 'canManageSellers';
+  | 'canManageSellers'
+  | 'canManagePlans';
 
 export const ROLE_PERMISSIONS: Record<AppRole, Permission[]> = {
   superadmin: [
     'canManageSettings', 'canManageUsers', 'canManageFinancial', 'canManageContracts',
     'canViewBurials', 'canManageBurials', 'canManageThanato', 'canManageChapel',
     'canManageFleet', 'canManageInventory', 'canManageConvalescence', 'canManageBenefits',
-    'canManageSellers',
+    'canManageSellers', 'canManagePlans',
   ],
   admin: [
     'canManageSettings', 'canManageUsers', 'canManageFinancial', 'canManageContracts',
     'canViewBurials', 'canManageBurials', 'canManageThanato', 'canManageChapel',
     'canManageFleet', 'canManageInventory', 'canManageConvalescence', 'canManageBenefits',
-    'canManageSellers',
+    'canManageSellers', 'canManagePlans',
   ],
   manager: [
     'canManageContracts', 'canViewBurials', 'canManageBurials', 'canManageThanato',
     'canManageChapel', 'canManageFleet', 'canManageInventory', 'canManageConvalescence', 'canManageBenefits',
     'canManageSellers',
   ],
-  financial: ['canManageFinancial', 'canManageContracts', 'canManageBenefits', 'canManageSellers'],
+  financial: ['canManageFinancial', 'canManageContracts', 'canManageBenefits', 'canManageSellers', 'canManagePlans'],
   attendant: ['canManageContracts', 'canViewBurials', 'canManageChapel', 'canManageConvalescence', 'canManageBenefits'],
   driver: ['canViewBurials', 'canManageFleet'],
 };
@@ -80,6 +81,7 @@ export function isTabAllowed(role: AppRole | undefined | null, tab: string): boo
     case 'convalescence': return hasPermission(role, 'canManageConvalescence');
     case 'benefits': return hasPermission(role, 'canManageBenefits');
     case 'sellers': return hasPermission(role, 'canManageSellers');
+    case 'plans': return hasPermission(role, 'canManagePlans');
     default: return false;
   }
 }
