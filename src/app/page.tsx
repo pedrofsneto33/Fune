@@ -17,6 +17,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import SellersTab from "@/components/tabs/SellersTab";
 import FiscalTab from "@/components/tabs/FiscalTab";
 import PlansTab from "@/components/tabs/PlansTab";
+import { validateField } from "@/lib/formValidation";
 
 // Interfaces
 interface Dependent {
@@ -141,6 +142,7 @@ export default function MasterEternityOS() {
   const [loginPassword, setLoginPassword] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
+  const [loginErrors, setLoginErrors] = useState<{ email?: string; password?: string }>({});
 
   // 2. Perfil e Tenant
   const [userRole, setUserRole] = useState<UserRole>("admin");
@@ -290,6 +292,9 @@ export default function MasterEternityOS() {
     plan_id: "",
     seller_name: "",
   });
+
+  // Validação de erros do formulário de holders
+  const [holderErrors, setHolderErrors] = useState<Record<string, string>>({});
   // Catalogo de planos funerarios do tenant (fonte: GET /api/plans).
   const [plans, setPlans] = useState<
     { id: string; name: string; monthly_fee: number | string }[]
@@ -575,8 +580,16 @@ export default function MasterEternityOS() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoginLoading(true);
     setLoginError("");
+
+    // Validação customizada com mensagens em PT-BR
+    const emailErr = validateField(loginEmail, { required: true, email: true }, "Email");
+    const passwordErr = validateField(loginPassword, { required: true }, "Senha");
+    const errors = { email: emailErr || undefined, password: passwordErr || undefined };
+    setLoginErrors(errors);
+    if (emailErr || passwordErr) return;
+
+    setLoginLoading(true);
     try {
       if (authMode === "login") {
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -672,6 +685,18 @@ export default function MasterEternityOS() {
   // Salvar Titular (novo ou edição) no Supabase
   const handleSaveHolder = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validação customizada com mensagens em PT-BR
+    const errors: Record<string, string> = {};
+    const fullNameErr = validateField(holderForm.full_name, { required: true, minLength: 3 }, "Nome completo");
+    const cpfErr = validateField(holderForm.cpf, { required: true, cpf: true }, "CPF");
+    const phoneErr = validateField(holderForm.phone, { required: true, phone: true }, "Telefone");
+    if (fullNameErr) errors.full_name = fullNameErr;
+    if (cpfErr) errors.cpf = cpfErr;
+    if (phoneErr) errors.phone = phoneErr;
+    setHolderErrors(errors);
+    if (Object.keys(errors).length > 0) return;
+
     setSavingHolder(true);
     const isEdit = !!editingHolder;
     try {
@@ -807,6 +832,13 @@ export default function MasterEternityOS() {
   // Salvar óbito como ORDEM DE SERVIÇO INTEGRADA (óbito + contrato + veículo + estoque)
   const handleSaveBurial = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Validação customizada PT-BR
+    const deceasedNameErr = validateField(serviceOrderForm.deceased_name, { required: true, minLength: 3 }, "Nome do Falecido");
+    const burialDateErr = validateField(serviceOrderForm.burial_date, { required: true }, "Data do Sepultamento");
+    if (deceasedNameErr || burialDateErr) {
+      notifyError([deceasedNameErr, burialDateErr].filter(Boolean).join("\n"));
+      return;
+    }
     setSavingBurial(true);
     try {
       const isLinked = serviceOrderForm.deceased_type !== "free";
@@ -1052,6 +1084,13 @@ export default function MasterEternityOS() {
   // Salvar Lançamento Financeiro
   const handleSaveTransaction = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Validação customizada PT-BR
+    const descErr = validateField(txForm.description, { required: true, minLength: 3 }, "Descrição do Lançamento");
+    const amountErr = validateField(String(txForm.amount), { required: true, numeric: true, min: 0.01 }, "Valor");
+    if (descErr || amountErr) {
+      notifyError([descErr, amountErr].filter(Boolean).join("\n"));
+      return;
+    }
     try {
       const res = await authFetch("/api/financial/transactions", {
         method: "POST",
@@ -1081,6 +1120,13 @@ export default function MasterEternityOS() {
   // Salvar Novo Veículo
   const handleSaveVehicle = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Validação customizada PT-BR
+    const modelErr = validateField(vehicleForm.model, { required: true, minLength: 2 }, "Modelo do Veículo");
+    const plateErr = validateField(vehicleForm.plate, { required: true, minLength: 7 }, "Placa");
+    if (modelErr || plateErr) {
+      notifyError([modelErr, plateErr].filter(Boolean).join("\n"));
+      return;
+    }
     try {
       const res = await authFetch("/api/vehicles", {
         method: "POST",
@@ -1110,6 +1156,14 @@ export default function MasterEternityOS() {
   // Salvar Item de Estoque
   const handleSaveInventory = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Validação customizada PT-BR
+    const nameErr = validateField(inventoryForm.item_name, { required: true, minLength: 2 }, "Nome do Item");
+    const qtyErr = validateField(String(inventoryForm.stock_quantity), { required: true, numeric: true, min: 0 }, "Quantidade Inicial");
+    const minErr = validateField(String(inventoryForm.min_threshold), { required: true, numeric: true, min: 0 }, "Estoque Mínimo");
+    if (nameErr || qtyErr || minErr) {
+      notifyError([nameErr, qtyErr, minErr].filter(Boolean).join("\n"));
+      return;
+    }
     try {
       const res = await authFetch("/api/inventory", {
         method: "POST",
@@ -1137,6 +1191,12 @@ export default function MasterEternityOS() {
   // Salvar Empréstimo Convalescença
   const handleSaveConvalescence = (e: React.FormEvent) => {
     e.preventDefault();
+    // Validação customizada PT-BR
+    const holderErr = validateField(convalescenceForm.holder_name, { required: true, minLength: 3 }, "Associado / Titular");
+    if (holderErr) {
+      notifyError(holderErr);
+      return;
+    }
     setConvalescence((prev) => [
       ...prev,
       {
@@ -1182,6 +1242,13 @@ export default function MasterEternityOS() {
   // Salvar Parceiro de Convênio (cria ou edita)
   const handleSavePartner = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Validação customizada PT-BR
+    const nameErr = validateField(partnerForm.partner_name, { required: true, minLength: 2 }, "Nome do Parceiro");
+    const discountErr = validateField(String(partnerForm.discount_percentage), { required: true, numeric: true, min: 0, max: 100 }, "% de Desconto");
+    if (nameErr || discountErr) {
+      notifyError([nameErr, discountErr].filter(Boolean).join("\n"));
+      return;
+    }
     try {
       const res = await authFetch("/api/benefits/partners", {
         method: editingPartnerId ? "PATCH" : "POST",
@@ -1239,6 +1306,12 @@ export default function MasterEternityOS() {
   // Salvar Procedimento Tanatopraxia
   const handleSaveThanato = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Validação customizada PT-BR
+    const deceasedErr = validateField(thanatoForm.deceased_name, { required: true, minLength: 3 }, "Nome do Falecido");
+    if (deceasedErr) {
+      notifyError(deceasedErr);
+      return;
+    }
     try {
       const res = await authFetch("/api/thanatopraxy", {
         method: "POST",
@@ -1265,7 +1338,13 @@ export default function MasterEternityOS() {
   // Adicionar Dependente
   const handleAddDep = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedHolder || !depName) return;
+    // Validação customizada PT-BR
+    const depNameErr = validateField(depName, { required: true, minLength: 3 }, "Nome do Dependente");
+    if (depNameErr) {
+      notifyError(depNameErr);
+      return;
+    }
+    if (!selectedHolder) return;
     setSavingDep(true);
     try {
       const { data, error } = await supabase
@@ -1397,12 +1476,17 @@ export default function MasterEternityOS() {
               </label>
               <input
                 type="email"
-                required
                 value={loginEmail}
-                onChange={(e) => setLoginEmail(e.target.value)}
+                onChange={(e) => {
+                  setLoginEmail(e.target.value);
+                  if (loginErrors.email) setLoginErrors((p) => ({ ...p, email: undefined }));
+                }}
                 placeholder="seuemail@exemplo.com"
-                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-3 text-slate-900 dark:text-white placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-emerald-500 text-xs"
+                className={`w-full bg-slate-50 dark:bg-slate-950 border ${loginErrors.email ? "border-red-500" : "border-slate-200 dark:border-slate-800"} rounded-lg p-3 text-slate-900 dark:text-white placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-emerald-500 text-xs`}
               />
+              {loginErrors.email && (
+                <p className="mt-1 text-xs text-red-500">{loginErrors.email}</p>
+              )}
             </div>
 
             <div>
@@ -1411,12 +1495,17 @@ export default function MasterEternityOS() {
               </label>
               <input
                 type="password"
-                required
                 value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
+                onChange={(e) => {
+                  setLoginPassword(e.target.value);
+                  if (loginErrors.password) setLoginErrors((p) => ({ ...p, password: undefined }));
+                }}
                 placeholder=""
-                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-3 text-slate-900 dark:text-white placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-emerald-500 text-xs"
+                className={`w-full bg-slate-50 dark:bg-slate-950 border ${loginErrors.password ? "border-red-500" : "border-slate-200 dark:border-slate-800"} rounded-lg p-3 text-slate-900 dark:text-white placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-emerald-500 text-xs`}
               />
+              {loginErrors.password && (
+                <p className="mt-1 text-xs text-red-500">{loginErrors.password}</p>
+              )}
             </div>
 
             <button
@@ -3140,14 +3229,17 @@ export default function MasterEternityOS() {
                 </label>
                 <input
                   type="text"
-                  required
                   value={holderForm.full_name}
-                  onChange={(e) =>
-                    setHolderForm({ ...holderForm, full_name: e.target.value })
-                  }
+                  onChange={(e) => {
+                    setHolderForm({ ...holderForm, full_name: e.target.value });
+                    if (holderErrors.full_name) setHolderErrors((p) => ({ ...p, full_name: "" }));
+                  }}
                   placeholder="Nome do titular..."
-                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
+                  className={`w-full bg-slate-50 dark:bg-slate-950 border ${holderErrors.full_name ? "border-red-500" : "border-slate-200 dark:border-slate-800"} rounded p-2.5 text-slate-900 dark:text-white`}
                 />
+                {holderErrors.full_name && (
+                  <p className="mt-1 text-xs text-red-500">{holderErrors.full_name}</p>
+                )}
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
@@ -3156,15 +3248,18 @@ export default function MasterEternityOS() {
                   </label>
                   <input
                     type="text"
-                    required
                     disabled={!!editingHolder}
                     value={holderForm.cpf}
-                    onChange={(e) =>
-                      setHolderForm({ ...holderForm, cpf: e.target.value })
-                    }
+                    onChange={(e) => {
+                      setHolderForm({ ...holderForm, cpf: e.target.value });
+                      if (holderErrors.cpf) setHolderErrors((p) => ({ ...p, cpf: "" }));
+                    }}
                     placeholder="000.000.000-00"
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
+                    className={`w-full bg-slate-50 dark:bg-slate-950 border ${holderErrors.cpf ? "border-red-500" : "border-slate-200 dark:border-slate-800"} rounded p-2.5 text-slate-900 dark:text-white`}
                   />
+                  {holderErrors.cpf && (
+                    <p className="mt-1 text-xs text-red-500">{holderErrors.cpf}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-slate-600 dark:text-slate-500 dark:text-slate-400 font-semibold mb-1">
@@ -3172,14 +3267,17 @@ export default function MasterEternityOS() {
                   </label>
                   <input
                     type="text"
-                    required
                     value={holderForm.phone}
-                    onChange={(e) =>
-                      setHolderForm({ ...holderForm, phone: e.target.value })
-                    }
+                    onChange={(e) => {
+                      setHolderForm({ ...holderForm, phone: e.target.value });
+                      if (holderErrors.phone) setHolderErrors((p) => ({ ...p, phone: "" }));
+                    }}
                     placeholder="(86) 99999-9999"
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
+                    className={`w-full bg-slate-50 dark:bg-slate-950 border ${holderErrors.phone ? "border-red-500" : "border-slate-200 dark:border-slate-800"} rounded p-2.5 text-slate-900 dark:text-white`}
                   />
+                  {holderErrors.phone && (
+                    <p className="mt-1 text-xs text-red-500">{holderErrors.phone}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-slate-600 dark:text-slate-500 dark:text-slate-400 font-semibold mb-1">
@@ -3534,7 +3632,6 @@ export default function MasterEternityOS() {
                 </label>
                 <input
                   type="text"
-                  required
                   value={serviceOrderForm.deceased_name}
                   onChange={(e) =>
                     setServiceOrderForm({ ...serviceOrderForm, deceased_name: e.target.value })
@@ -3566,7 +3663,6 @@ export default function MasterEternityOS() {
                   </label>
                   <input
                     type="datetime-local"
-                    required
                     value={serviceOrderForm.burial_date}
                     onChange={(e) =>
                       setServiceOrderForm({ ...serviceOrderForm, burial_date: e.target.value })
@@ -3700,7 +3796,6 @@ export default function MasterEternityOS() {
                 </label>
                 <input
                   type="text"
-                  required
                   value={txForm.description}
                   onChange={(e) =>
                     setTxForm({ ...txForm, description: e.target.value })
@@ -3732,7 +3827,6 @@ export default function MasterEternityOS() {
                   <input
                     type="number"
                     step="0.01"
-                    required
                     value={txForm.amount}
                     onChange={(e) =>
                       setTxForm({ ...txForm, amount: Number(e.target.value) })
@@ -3927,7 +4021,6 @@ export default function MasterEternityOS() {
                 </label>
                 <input
                   type="text"
-                  required
                   value={vehicleForm.model}
                   onChange={(e) =>
                     setVehicleForm({ ...vehicleForm, model: e.target.value })
@@ -3943,7 +4036,6 @@ export default function MasterEternityOS() {
                   </label>
                   <input
                     type="text"
-                    required
                     value={vehicleForm.plate}
                     onChange={(e) =>
                       setVehicleForm({ ...vehicleForm, plate: e.target.value })
@@ -4022,7 +4114,6 @@ export default function MasterEternityOS() {
                 </label>
                 <input
                   type="text"
-                  required
                   value={inventoryForm.item_name}
                   onChange={(e) =>
                     setInventoryForm({
@@ -4061,7 +4152,6 @@ export default function MasterEternityOS() {
                   </label>
                   <input
                     type="number"
-                    required
                     value={inventoryForm.stock_quantity}
                     onChange={(e) =>
                       setInventoryForm({
@@ -4078,7 +4168,6 @@ export default function MasterEternityOS() {
                   </label>
                   <input
                     type="number"
-                    required
                     value={inventoryForm.min_threshold}
                     onChange={(e) =>
                       setInventoryForm({
@@ -4156,7 +4245,6 @@ export default function MasterEternityOS() {
                 </label>
                 <input
                   type="text"
-                  required
                   value={convalescenceForm.holder_name}
                   onChange={(e) =>
                     setConvalescenceForm({
@@ -4220,7 +4308,6 @@ export default function MasterEternityOS() {
                 </label>
                 <input
                   type="text"
-                  required
                   value={partnerForm.partner_name}
                   onChange={(e) =>
                     setPartnerForm({
@@ -4256,7 +4343,6 @@ export default function MasterEternityOS() {
                   </label>
                   <input
                     type="number"
-                    required
                     value={partnerForm.discount_percentage}
                     onChange={(e) =>
                       setPartnerForm({
@@ -4335,7 +4421,6 @@ export default function MasterEternityOS() {
                 </label>
                 <input
                   type="text"
-                  required
                   value={thanatoForm.deceased_name}
                   onChange={(e) =>
                     setThanatoForm({
@@ -4624,7 +4709,6 @@ export default function MasterEternityOS() {
                 <div className="flex gap-2">
                   <input
                     type="text"
-                    required
                     value={depName}
                     onChange={(e) => setDepName(e.target.value)}
                     placeholder="Nome do dependente..."
@@ -4737,7 +4821,6 @@ export default function MasterEternityOS() {
                 <label className="text-xs text-zinc-400 block mb-1">Nome do Falecido</label>
                 <input
                   type="text"
-                  required
                   value={editingBurial?.deceased_name || ''}
                   onChange={(e) => editingBurial && setEditingBurial({ ...editingBurial, deceased_name: e.target.value })}
                   className="w-full bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white"
