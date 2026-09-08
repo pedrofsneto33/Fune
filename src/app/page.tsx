@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 
 import { notifySuccess, notifyError, notifyInfo } from '@/lib/notify';
@@ -164,6 +164,16 @@ export default function MasterEternityOS() {
   >("holders");
 
   const [loading, setLoading] = useState<boolean>(false);
+
+  // 4. KPIs consolidados (fonte única: GET /api/dashboard/kpis)
+  const [kpis, setKpis] = useState<{
+    totalLives: number;
+    activeContracts: number;
+    monthlyRevenue: number;
+    overdueAmount: number;
+    overdueCount: number;
+    burialsThisMonth: number;
+  } | null>(null);
 
   // 4. Colees de Dados
   const [holders, setHolders] = useState<Holder[]>([]);
@@ -489,6 +499,13 @@ export default function MasterEternityOS() {
       if (soRes.ok) {
         const soData = await soRes.json();
         if (Array.isArray(soData)) setServiceOrders(soData);
+      }
+
+      // 10. KPIs consolidados (fonte única de métricas)
+      const kpisRes = await authFetch("/api/dashboard/kpis");
+      if (kpisRes.ok) {
+        const kpisData = await kpisRes.json();
+        setKpis(kpisData);
       }
     } catch (e) {
       console.warn("Erro ao carregar dados do ERP:", e);
@@ -1288,17 +1305,8 @@ export default function MasterEternityOS() {
     .reduce((acc, t) => acc + t.amount, 0);
   const netBalance = totalIncome - totalExpenses;
 
-  // ---- Mtricas Reais (sem números inventados) ----
-  // MRR = soma das mensalidades dos planos dos contratos ATIVOS de cada titular
-  const computeMRR = (hs: Holder[]): number =>
-    hs.reduce(
-      (sum, h) =>
-        sum +
-        (h.contracts || [])
-          .filter((c) => c.status === "active")
-          .reduce((s, c) => s + (Number(c.plans?.monthly_fee) || 0), 0),
-      0,
-    );
+  // ---- Métricas Reais (sem números inventados) ----
+  // MRR = fonte única via API /api/dashboard/kpis (monthlyRevenue)
 
   // Titulares considerados "Ativos" = com contrato ativo (fallback 'active' pra quem traz sem contrato)
   const activeHoldersCount = holders.filter(
@@ -1833,7 +1841,7 @@ export default function MasterEternityOS() {
                     MRR Recorrente
                   </p>
                   <p className="text-2xl font-bold text-slate-900 dark:text-white mt-2">
-                    {fmtBRL(computeMRR(holders))}
+                    {fmtBRL(kpis?.monthlyRevenue || 0)}
                   </p>
                   <p className="text-[11px] text-slate-600 dark:text-slate-500 dark:text-slate-400 mt-1">
                     {activeHoldersCount} contratos ativos
@@ -2842,7 +2850,7 @@ export default function MasterEternityOS() {
                     Receita Recorrente (MRR)
                   </p>
                   <p className="text-xl font-bold text-emerald-400 mt-1">
-                    {fmtBRL(computeMRR(holders))}
+                    {fmtBRL(kpis?.monthlyRevenue || 0)}
                   </p>
                   <p className="text-[10px] text-slate-600 dark:text-slate-500 mt-1">
                     {activeHoldersCount} contratos ativos
@@ -2853,7 +2861,7 @@ export default function MasterEternityOS() {
                     Reserva Legal 15% (Lei 13.261)
                   </p>
                   <p className="text-xl font-bold text-blue-400 mt-1">
-                    {fmtBRL(computeMRR(holders) * 0.15)}
+                    {fmtBRL(kpis?.monthlyRevenue || 0 * 0.15)}
                   </p>
                   <p className="text-[10px] text-blue-400/80 mt-1">
                     Garantia Técnica Contbil
