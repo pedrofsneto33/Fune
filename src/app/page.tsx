@@ -1994,64 +1994,88 @@ export default function MasterEternityOS() {
 
           {/* ASSOCIADOS & CONTRATOS */}
           {activeTab === "holders" && isTabAllowed(userRole, "holders") && (
-            <div className="space-y-4">
-              <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-sm">
-                <div className="flex-1 min-w-[280px]">
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="🔍 Buscar por Nome do Titular, CPF ou WhatsApp..."
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
+            <div className="space-y-3 sm:space-y-4">
+              {/* Cards de Resumo - Mobile First */}
+              <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-2.5 sm:p-4 text-center">
+                  <div className="text-xl sm:text-3xl font-bold text-slate-900 dark:text-white">{holders.length}</div>
+                  <div className="text-[9px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5 sm:mt-1">Total</div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-950 p-1 rounded-lg border border-slate-200 dark:border-slate-800 text-xs">
-                    <button
-                      onClick={() => setStatusFilter("all")}
-                      className={`px-2.5 py-1 rounded ${statusFilter === "all" ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white font-bold" : "text-slate-600 dark:text-slate-500 dark:text-slate-400"}`}
-                    >
-                      Todos ({holders.length})
-                    </button>
-                    <button
-                      onClick={() => setStatusFilter("ativo")}
-                      className={`px-2.5 py-1 rounded ${statusFilter === "ativo" ? "bg-emerald-950 text-emerald-300 font-bold border border-emerald-800" : "text-slate-600 dark:text-slate-500 dark:text-slate-400"}`}
-                    >
-                      Ativos
-                    </button>
-                    <button
-                      onClick={() => setStatusFilter("inativo")}
-                      className={`px-2.5 py-1 rounded ${statusFilter === "inativo" ? "bg-rose-950 text-rose-300 font-bold border border-rose-800" : "text-slate-600 dark:text-slate-500 dark:text-slate-400"}`}
-                    >
-                      Inadimplentes
-                    </button>
+                <div className="bg-[#0d121f] border border-emerald-800 rounded-xl p-2.5 sm:p-4 text-center">
+                  <div className="text-xl sm:text-3xl font-bold text-emerald-400">
+                    {holders.filter(h => (h.status || h.contracts?.[0]?.status || "ativo") !== "inativo").length}
                   </div>
+                  <div className="text-[9px] sm:text-xs text-emerald-400 font-medium mt-0.5 sm:mt-1">Ativos</div>
+                </div>
+                <div className="bg-[#0d121f] border border-rose-800 rounded-xl p-2.5 sm:p-4 text-center">
+                  <div className="text-xl sm:text-3xl font-bold text-rose-400">
+                    {holders.filter(h => (h.status || h.contracts?.[0]?.status || "ativo") === "inativo").length}
+                  </div>
+                  <div className="text-[9px] sm:text-xs text-rose-400 font-medium mt-0.5 sm:mt-1">Inativos</div>
+                </div>
+              </div>
+
+              {/* Barra de Busca e Filtros - Mobile First */}
+              <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-2.5 sm:p-4 shadow-sm">
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                  <div className="flex-1">
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="🔍 Buscar por nome, CPF..."
+                      className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 sm:py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <select
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value as "all" | "ativo" | "inativo")}
+                    className="w-full sm:w-36 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 sm:py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="all">Todos</option>
+                    <option value="ativo">Ativos</option>
+                    <option value="inativo">Inativos</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Ações Rápidas - Mobile First com ícones e labels claros */}
+              <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-2.5 sm:p-4 shadow-sm">
+                <div className="flex items-center justify-between mb-2 sm:mb-3">
+                  <span className="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400">Ações Rápidas</span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {hasPermission(userRole, "canManageContracts") && (
                     <button
                       onClick={() => setIsNewHolderOpen(true)}
-                      className="hidden sm:inline-flex px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white dark:text-white text-xs font-bold rounded-lg transition shadow"
+                      className="flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-2 sm:py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold rounded-lg transition active:scale-95"
                     >
-                      + Novo Titular
+                      <span className="text-sm sm:text-base">➕</span>
+                      <span>Novo Titular</span>
                     </button>
                   )}
                   {hasPermission(userRole, "canManageContracts") && (
                     <button
-                      onClick={() => {
-                        setImportText("");
-                        setImportResult(null);
-                        setIsImportOpen(true);
-                      }}
-                      className="hidden sm:inline-flex px-3 py-1.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-lg border border-slate-300 dark:border-slate-700 transition"
+                      onClick={() => { setImportText(""); setImportResult(null); setIsImportOpen(true); }}
+                      className="flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-2 sm:py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold rounded-lg transition active:scale-95"
                     >
-                      CSV Importar
+                      <span className="text-sm sm:text-base">📥</span>
+                      <span>Importar</span>
                     </button>
                   )}
                   <button
                     onClick={handleExportCSV}
-                    className="hidden sm:inline-flex px-3 py-1.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-lg border border-slate-300 dark:border-slate-700 transition"
-                    title="Exportar para Excel / CSV"
+                    className="flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-2 sm:py-2.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold rounded-lg transition active:scale-95"
                   >
-                    📥 Exportar CSV
+                    <span className="text-sm sm:text-base">📤</span>
+                    <span>Exportar</span>
+                  </button>
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-2 sm:py-2.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold rounded-lg transition active:scale-95"
+                  >
+                    <span className="text-sm sm:text-base">🔄</span>
+                    <span>Limpar</span>
                   </button>
                 </div>
               </div>

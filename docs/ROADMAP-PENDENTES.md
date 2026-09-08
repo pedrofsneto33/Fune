@@ -2,25 +2,28 @@
 
 > Mantido para nao perder nada entre sessoes. Atualizar sempre que concluir um item.
 
-## 1. AGENTE DE TRIAGEM WHATSAPP (Evolution API) - EM ANDAMENTO
+## 1. AGENTE DE TRIAGEM WHATSAPP (Evolution API) - MODULO EXTRA (COBRADO À PARTE)
 
-### Ja feito (commit `ed3b35b`, no GitHub)
-- [x] Backend completo: `src/lib/whatsappAgent.ts` (maquina de estado), webhook
-      `src/app/api/webhooks/whatsapp/route.ts`, API `src/app/api/emergency-dispatches/route.ts`,
-      migracao `scripts/agente-whatsapp.sql`
+> **Decisao de negocio:** Implementacao do painel WhatsApp sera cobrada como modulo extra.
+> Backend ja esta pronto. Frontend sera implementado quando cliente contratar.
+
+### Ja feito (backend completo, commit `ed3b35b`)
+- [x] `src/lib/whatsappAgent.ts` — maquina de estado (triagem em 3 passos: nome falecido → local → contato família)
+- [x] `src/app/api/webhooks/whatsapp/route.ts` — recebe mensagens da Evolution API
+- [x] `src/app/api/emergency-dispatches/route.ts` — lista/cria chamados de emergencia
+- [x] `scripts/agente-whatsapp.sql` — tabelas: emergency_dispatches, whatsapp_agent_sessions, tenant_whatsapp_numbers
 - [x] .env.example atualizado com EVOLUTION_API_URL / EVOLUTION_API_KEY / WHATSAPP_WEBHOOK_TOKEN
-- [x] SQL ja rodado pelo usuario no Supabase SQL Editor
-- [x] tsc/build passando
+- [x] SQL ja rodado no Supabase
 
-### Falta (passo a passo, proximas sessoes)
-- [ ] Painel no frontend: aba Plantao 24h deve listar os chamados do bot
-      (fetch GET /api/emergency-dispatches) com status e acoes (PATCH status)
-- [ ] Formulario "Conectar numero WhatsApp" nas Configuracoes da Empresa
-      (grava tenant_whatsapp_numbers: numero + evolution_instance + active)
-- [ ] Infra do cliente (manual): instalar Evolution API (Docker/VPS),
-      criar instancia, conectar numero, configurar webhook para
-      https://eternityos.vercel.app/api/webhooks/whatsapp, setar variaveis
-      na Vercel: EVOLUTION_API_URL, EVOLUTION_API_KEY, WHATSAPP_WEBHOOK_TOKEN
+### Falta (quando cliente contratar o modulo)
+- [ ] **Painel Plantao 24h** (frontend): aba com lista de chamados do bot, status (Aguardando veículo, Em atendimento, Concluído), ações de PATCH status
+- [ ] **Formulario "Conectar WhatsApp"** (frontend): tela nas Configuracoes da Empresa pra registrar numero + evolution_instance
+- [ ] **Infra do cliente** (manual): instalar Evolution API (Docker/VPS), criar instancia, conectar numero, apontar webhook pra `https://eternityos.vercel.app/api/webhooks/whatsapp`, setar envs na Vercel
+
+### Infra necessaria (por conta do cliente)
+- VPS (DigitalOcean, ContaCloud, etc.) ~R$ 30-50/mês
+- Chip dedicado pro WhatsApp ~R$ 10-20/mês
+- Evolution API (gratuito, open-source)
 
 ## 2. TEMA CLARO (dark/light) - CONCLUIDO
 
@@ -34,32 +37,29 @@
 - [x] Default: escuro (nao altera UX atual); usuarios escolhem claro via toggle
 
 
-## 3. NFS-e (Nota Fiscal de Servico) - FASE 1 FEITA (commit `bb2e2a0`)
+## 3. NFS-e (Nota Fiscal de Servico) - FOCUSNFe IMPLEMENTADO (commit `33d0f09`)
 
-### FASE 1 - Estrutura preparada OK
+### FASE 1 - Estrutura ✅ CONCLUIDA
 - [x] Tabela `public.fiscal_invoices` - historico completo de tentativas, com isolamento por tenant
-- [x] Colunas Reforma Tributaria (IBS/CBS) ja criadas (cst, c_class_trib, ind_natureza_op, v_bc_ibs_cbs, p_ibs_cbs, v_ibs, v_cbs)
+- [x] Colunas Reforma Tributaria (IBS/CBS) ja criadas
 - [x] RLS com isolamento por tenant
-- [x] Indices para performance (tenant, status, data, numero, service_order)
+- [x] Indices para performance
 - [x] Colunas em `service_orders`: `nfse_id`, `nfse_status`, `nfse_required`
 - [x] Colunas de config em `tenants`: provedor, env, api_key, CNPJ, endereco, IBGE, CNAE, regime, codigo servico, aliquota ISS, auto_emit
-- [x] View `public.v_service_orders_without_nfse` (OS concluidas sem NFS-e)
-- [x] Stub em `src/lib/fiscal/index.ts` - funcoes `getFiscalConfig`, `emitNfse`, `cancelNfse`, `testFiscalConnection` (lancam erro amigavel ate provedor ser escolhido)
-- [x] Migration `scripts/nfse_migration.sql` (idempotente) - ainda nao rodada no Supabase
+- [x] Migration `scripts/nfse_migration.sql` — **RODADA NO SUPABASE** ✅
 
-### FASE 2 - Escolha do provedor (PROXIMO PASSO quando decidir)
-- NFE.io (recomendado: REST moderna, ~R$ 0,30/NFS-e)
-- eNotas (~R$ 0,15, UI propria)
-- FocusNFe (barato, 100+ prefeituras)
-- Tecnospeed (padrao de mercado, 60% share)
+### FASE 2 - Provedor escolhido: **FocusNFe** ✅
+- [x] `src/lib/fiscal/focusnfe.ts` — 4 funcoes (emit, get, cancel, test) com Basic Auth estrito
+- [x] 5 rotas de API: `/api/fiscal/emit`, `/api/fiscal/cancel`, `/api/fiscal/list`, `/api/fiscal/config`, `/api/fiscal/test`
+- [x] `src/components/tabs/FiscalTab.tsx` — aba "📄 Fiscal (NFS-e)" com cards, tabela, modal de cancelamento
+- [x] `src/components/tabs/FiscalSettingsSection.tsx` — formulario completo em Configurações da Empresa
+- [x] Integração no menu lateral e header do `page.tsx`
 
-### FASE 3 - Implementacao do provedor (depois da FASE 2)
-- [ ] Criar `src/lib/fiscal/<provider>.ts` com a chamada HTTP real
-- [ ] Criar rotas `src/app/api/fiscal/emit`, `cancel`, `[id]`, `webhooks/fiscal`
-- [ ] Adicionar bloco "Configuracao Fiscal" no `TenantSettingsTab`
-- [ ] Criar aba "Fiscal" no menu lateral
-- [ ] Testes em sandbox do provedor
-- [ ] Homologacao com contador
+### FASE 3 - Aguardando habilitação externa ⏳
+- [ ] **FocusNFe precisa habilitar o CNPJ da funerária** (email já foi enviado pedindo)
+- [ ] Sandbox não disponível para Teresina (PI) — limitação da prefeitura (provedor Dsf)
+- [ ] Teste em produção com valor baixo + cancelamento (recomendação da FocusNFe)
+- [ ] Token de produção: `7TaSTZhSJ9A2opektRmqDwSKCiFHeNZs` (aguardando habilitação)
 
 ## 4. CRM DE LEADS / PIPELINE - NAO INICIADO (so codigo)
 

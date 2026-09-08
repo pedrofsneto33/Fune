@@ -51,13 +51,29 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     }
     const { baseUrl, apiKey } = asaasConfig;
 
-    const { data: contracts, error } = await supabaseAdmin
+    // Filtra por contrato específico se holderId for enviado, senão pega todos ativos
+    let contractsQuery = supabaseAdmin
       .from('contracts')
-      .select('id, holders(full_name, cpf, phone), plans(name, monthly_fee)')
+      .select('id, holder_id, holders(id, full_name, cpf, phone), plans(name, monthly_fee)')
       .eq('tenant_id', auth.tenantId)
       .eq('status', 'active');
 
+    // Se um holderId específico foi enviado, filtra apenas o contrato desse titular
+    // Usamos holder_id (FK real na tabela contracts) para evitar problemas com filtro em relacionamento
+    if (body.holderId) {
+      contractsQuery = contractsQuery.eq('holder_id', body.holderId);
+    }
+
+    const { data: contracts, error } = await contractsQuery;
+
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    if (!contracts || contracts.length === 0) {
+      return NextResponse.json(
+        { error: 'Nenhum contrato ativo encontrado para o titular selecionado.' },
+        { status: 404 },
+      );
+    }
 
     const results: BatchResult[] = [];
 
