@@ -6,42 +6,60 @@ import { serverError } from "@/lib/http-error";
 export const GET = withAuth(
   async (req: NextRequest, { auth }) => {
     try {
-      const { count: holdersCount } = await supabaseAdmin
-        .from("holders")
-        .select("*", { count: "exact", head: true })
-        .eq("tenant_id", auth.tenantId);
+      const today = new Date();
+      const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1).toISOString();
 
-      const { count: depsCount } = await supabaseAdmin
-        .from("dependents")
-        .select("*", { count: "exact", head: true })
-        .eq("tenant_id", auth.tenantId);
-
-      const { count: burialsCount } = await supabaseAdmin
-        .from("chapel_burials")
-        .select("*", { count: "exact", head: true })
-        .eq("tenant_id", auth.tenantId);
+      // --- Contagens básicas (paralelas) ---
+      const [
+        { count: holdersCount },
+        { count: depsCount },
+        { count: burialsCount },
+        { count: totalMissions },
+        { data: activeContracts },
+        { data: allContracts },
+        { data: overduePayments },
+      ] = await Promise.all([
+        supabaseAdmin.from("holders").select("*", { count: "exact", head: true }).eq("tenant_id", auth.tenantId),
+        supabaseAdmin.from("dependents").select("*", { count: "exact", head: true }).eq("tenant_id", auth.tenantId),
+        supabaseAdmin.from("chapel_burials").select("*", { count: "exact", head: true }).eq("tenant_id", auth.tenantId),
+        supabaseAdmin.from("service_orders").select("*", { count: "exact", head: true }).eq("tenant_id", auth.tenantId),
+        supabaseAdmin.from("contracts").select("plans(monthly_fee)").eq("tenant_id", auth.tenantId).eq("status", "active"),
+        supabaseAdmin.from("contracts").select("id, status").eq("tenant_id", auth.tenantId),
+        supabaseAdmin.from("payments").select("amount").eq("tenant_id", auth.tenantId).or(`status.eq.overdue,status.eq.pending`).lt("due_date", today.toISOString()),
+      ]);
 
       const totalLives = (holdersCount || 0) + (depsCount || 0);
 
-      // Receita real: soma das mensalidades dos planos dos contratos ATIVOS
-      const { data: activeContracts, error: contractsErr } = await supabaseAdmin
-        .from("contracts")
-        .select("plans(monthly_fee)")
-        .eq("tenant_id", auth.tenantId)
-        .eq("status", "active");
-
+      // MRR (Monthly Recurring Revenue): soma das mensalidades dos contratos ativos
       const monthlyRevenue = (activeContracts || []).reduce(
         (sum: number, c: any) => sum + (Number(c?.plans?.monthly_fee) || 0),
         0,
       );
 
+      // Inadimplência real: payments vencidos (status=overdue OU status=pending com due_date < hoje)
+      const overdueAmount = (overduePayments || []).reduce(
+        (sum: number, p: any) => sum + (Number(p?.amount) || 0),
+        0,
+      );
+      const overdueCount = overduePayments?.length || 0;
+
+      // Taxa de inadimplência: contratos inativos / total de contratos
+      const totalContractsCount = allContracts?.length || 0;
+      const inactiveContracts = (allContracts || []).filter((c: any) => c.status !== "active").length;
+      const defaultRate = totalContractsCount > 0
+        ? ((inactiveContracts / totalContractsCount) * 100).toFixed(1) + "%"
+        : "0%";
+
       return NextResponse.json({
         totalLives: totalLives || 0,
         activeContracts: activeContracts?.length || 0,
         monthlyRevenue: monthlyRevenue || 0,
-        overdueAmount: 0,
-        overdueCount: 0,
+        projectedRevenue: monthlyRevenue || 0, // MRR projetado = MRR real (contratos ativos)
+        overdueAmount,
+        overdueCount,
         burialsThisMonth: burialsCount || 0,
+        totalMissions: totalMissions || 0,
+        defaultRate,
       });
     } catch (err: any) {
       return serverError(err);

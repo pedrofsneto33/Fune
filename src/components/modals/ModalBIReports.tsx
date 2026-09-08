@@ -32,20 +32,15 @@ export function ModalBIReports({ isOpen, onClose }: { isOpen: boolean; onClose: 
   const fetchBIStats = async () => {
     setLoading(true);
     try {
-      const [contractsRes, missionsRes, allContractsRes] = await Promise.all([
-        authFetch('/api/contracts?status=active&count=exact'),
-        authFetch('/api/service-orders?count=exact'),
-        authFetch('/api/contracts?count=exact')
-      ]);
-      const contractsData = contractsRes.ok ? await contractsRes.json() : null;
-      const missionsData = missionsRes.ok ? await missionsRes.json() : null;
-      const allContractsData = allContractsRes.ok ? await allContractsRes.json() : null;
-      const activeContracts = contractsData?.count ?? contractsData?.contracts?.length ?? 0;
-      const totalMissions = missionsData?.count ?? missionsData?.orders?.length ?? 0;
-      const totalContracts = allContractsData?.count ?? allContractsData?.contracts?.length ?? 0;
-      const projectedRevenue = activeContracts * 59.90;
-      const defaultRate = totalContracts > 0 ? `${((totalContracts - activeContracts) / totalContracts * 100).toFixed(1)}%` : '0%';
-      setStats({ activeContracts, totalMissions, projectedRevenue, defaultRate });
+      const res = await authFetch('/api/dashboard/kpis');
+      if (!res.ok) throw new Error('Falha ao carregar KPIs');
+      const data = await res.json();
+      setStats({
+        activeContracts: data.activeContracts ?? 0,
+        totalMissions: data.totalMissions ?? 0,
+        projectedRevenue: data.projectedRevenue ?? 0,
+        defaultRate: data.defaultRate ?? '0%',
+      });
     } catch (err) {
       console.error('Erro ao carregar dados BI:', err);
       setStats({ activeContracts: 0, totalMissions: 0, projectedRevenue: 0, defaultRate: '0%' });
