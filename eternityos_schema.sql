@@ -335,8 +335,21 @@ CREATE TABLE IF NOT EXISTS public.payment_carnets (
     total_installments INT NOT NULL,
     due_date DATE NOT NULL,
     amount NUMERIC(10,2) NOT NULL CHECK (amount >= 0),
-    status VARCHAR(20) NOT NULL DEFAULT 'pendente',
+        status VARCHAR(20) NOT NULL DEFAULT 'pendente',
     created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 25b. Vendedores / Corretores
+CREATE TABLE IF NOT EXISTS public.sellers (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    name VARCHAR(150) NOT NULL,
+    phone VARCHAR(20),
+    whatsapp VARCHAR(20),
+    commission_percent NUMERIC(5,2) DEFAULT 0,
+    active BOOLEAN DEFAULT true,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ
 );
 
 -- 26. Reservas Regulatorias (Lei 13.261/2016)
@@ -376,11 +389,65 @@ CREATE TABLE IF NOT EXISTS public.service_order_items (
     service_order_id UUID REFERENCES public.service_orders(id) ON DELETE CASCADE,
     inventory_id UUID REFERENCES public.inventory(id) ON DELETE SET NULL,
     quantity INTEGER DEFAULT 1 CHECK (quantity > 0),
-    unit_price NUMERIC(10,2) DEFAULT 0,
+        unit_price NUMERIC(10,2) DEFAULT 0,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- �ndices para performance
+-- 28b. NFS-e (Nota Fiscal de Servico Eletronica) — Historico de emissao
+CREATE TABLE IF NOT EXISTS public.fiscal_invoices (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    service_order_id UUID REFERENCES public.service_orders(id) ON DELETE SET NULL,
+    provider TEXT,
+    provider_invoice_id TEXT,
+    provider_environment TEXT DEFAULT 'sandbox' CHECK (provider_environment IN ('sandbox','production')),
+    nfse_number TEXT,
+    nfse_verification_code TEXT,
+    nfse_status TEXT NOT NULL DEFAULT 'pending'
+        CHECK (nfse_status IN ('pending','processing','authorized','rejected','cancelled','error')),
+    taker_document_type TEXT CHECK (taker_document_type IN ('cpf','cnpj')),
+    taker_document TEXT,
+    taker_name TEXT NOT NULL,
+    taker_email TEXT,
+    taker_phone TEXT,
+    taker_zip_code TEXT,
+    taker_address TEXT,
+    taker_number TEXT,
+    taker_complement TEXT,
+    taker_neighborhood TEXT,
+    taker_city TEXT,
+    taker_state TEXT,
+    service_code TEXT,
+    service_description TEXT NOT NULL,
+    service_amount NUMERIC(12,2) NOT NULL,
+    deduction_amount NUMERIC(12,2) DEFAULT 0,
+    tax_rate NUMERIC(5,2),
+    iss_amount NUMERIC(12,2),
+    taxable_amount NUMERIC(12,2),
+    -- Reforma Tributaria (IBS/CBS)
+    cst TEXT,
+    c_class_trib TEXT,
+    ind_natureza_op TEXT,
+    v_bc_ibs_cbs NUMERIC(12,2),
+    p_ibs_cbs NUMERIC(5,2),
+    v_ibs NUMERIC(12,2),
+    v_cbs NUMERIC(12,2),
+    provider_request_payload JSONB,
+    provider_response_payload JSONB,
+    pdf_url TEXT,
+    xml_url TEXT,
+    provider_error_message TEXT,
+    created_by_user_id TEXT,
+    cancelled_by_user_id TEXT,
+    cancellation_reason TEXT,
+    cancellation_nfse_number TEXT,
+    cancelled_at TIMESTAMPTZ,
+    issued_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ
+);
+
+-- ndices para performance
 CREATE INDEX IF NOT EXISTS idx_service_orders_tenant ON public.service_orders(tenant_id);
 CREATE INDEX IF NOT EXISTS idx_service_orders_contract ON public.service_orders(contract_id);
 CREATE INDEX IF NOT EXISTS idx_service_orders_burial ON public.service_orders(burial_id);
@@ -480,6 +547,8 @@ ALTER TABLE public.payment_carnets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.service_orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.service_order_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.regulatory_reserves ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.sellers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.fiscal_invoices ENABLE ROW LEVEL SECURITY;
   ALTER TABLE public.tenant_whatsapp_numbers ENABLE ROW LEVEL SECURITY;
   ALTER TABLE public.whatsapp_agent_sessions ENABLE ROW LEVEL SECURITY;
 
@@ -495,8 +564,9 @@ DECLARE
         'chapel_bookings', 'collector_routes', 'commissions',
         'convalescence_items', 'convalescence_loans', 'vehicles',
         'fleet_vehicles', 'dispatches', 'dispatch_audit_logs',
-        'emergency_dispatches', 'payment_carnets', 'service_orders', 'service_order_items', 'regulatory_reserves',
-        'tenant_whatsapp_numbers', 'whatsapp_agent_sessions'
+                'emergency_dispatches', 'payment_carnets', 'service_orders', 'service_order_items', 'regulatory_reserves',
+        'tenant_whatsapp_numbers', 'whatsapp_agent_sessions',
+        'sellers', 'fiscal_invoices'
     ];
 BEGIN
     FOREACH t IN ARRAY tables_list LOOP
