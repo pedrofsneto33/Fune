@@ -27,7 +27,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       return NextResponse.json({ error: 'Muitos carnês em sequência. Aguarde um minuto.' }, { status: 429 });
     }
     const body = await req.json();
-    const { contract_id, holder_name, amount, due_date, installments } = body;
+    const { contract_id, holder_name, holder_cpf, amount, due_date, installments } = body;
     if (!holder_name || !amount || Number(amount) <= 0) {
       return NextResponse.json({ error: 'Nome do associado e valor são obrigatórios.' }, { status: 400 });
     }
@@ -71,6 +71,8 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       carnetRows.push({
         tenant_id: auth.tenantId,
         contract_id: contract_id || null,
+        holder_name: holder_name || null,
+        holder_cpf: holder_cpf || null,
         installment_number: i + 1,
         total_installments: numInstallments,
         due_date: installmentDate.toISOString().split('T')[0],

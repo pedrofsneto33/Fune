@@ -8,6 +8,7 @@ import { authFetch } from '@/lib/authFetch';
 interface CarnetRow {
   id: string;
   holder_name: string;
+  holder_cpf: string | null;
   contract_id: string | null;
   installment_number: number;
   total_installments: number;
@@ -139,7 +140,10 @@ export function ModalCarnets({
       };
     });
     for (const [name, list] of byName) {
-      groups.push({ name, cpf: null, plan: null, contractStatus: null, list });
+      // Usa holder_cpf do primeiro carnê se disponível (dados salvos no carnê)
+      const firstCarnet = list[0];
+      const carnetCpf = firstCarnet?.holder_cpf || null;
+      groups.push({ name, cpf: carnetCpf, plan: null, contractStatus: null, list });
     }
     return groups.map((g) => {
       const active = g.list
@@ -191,6 +195,7 @@ export function ModalCarnets({
         body: JSON.stringify({
           contract_id: selectedContract?.id || null,
           holder_name: selectedHolder.full_name,
+          holder_cpf: selectedHolder.cpf || null,
           amount: Number(totalValue),
           due_date: firstDue,
           installments: numInstallments,
