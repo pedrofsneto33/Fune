@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
+import { headers } from "next/headers";
 import "./globals.css";
 import { AuthGuard } from "@/components/AuthGuard";
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
@@ -19,15 +20,20 @@ export const metadata: Metadata = {
   description: "Sistema de Gestão para Empresas Funerárias e Planos de Assistência",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Ler o nonce injetado pelo middleware
+  const headersList = await headers();
+  const nonce = headersList.get('x-nonce') || '';
+
   return (
     <html lang="pt-BR" className="dark" suppressHydrationWarning>
       <head>
         <script
+          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: `(function(){
               try {
