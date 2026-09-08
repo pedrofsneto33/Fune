@@ -112,10 +112,11 @@ export function ModalCarnets({
   };
 
   const selectedHolder = holders.find((h) => h.id === formHolderId);
-  const selectedContract =
-    selectedHolder?.contracts?.find((c) => c.status === 'ativo') ||
-    selectedHolder?.contracts?.[0] ||
-    null;
+  const selectedContract = selectedHolder?.contracts?.find((c) => c.status === 'ativo') || null;
+
+  // Filtra apenas titulares com pelo menos um contrato ativo
+  const activeHolders = holders.filter((h) => h.contracts?.some((c) => c.status === 'ativo'));
+
   const numInstallments = Math.min(Math.max(parseInt(installments, 10) || 1, 1), 12);
   const parcelValue = Number(totalValue) > 0 ? Number(totalValue) / numInstallments : 0;
 
@@ -359,7 +360,7 @@ export function ModalCarnets({
               className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white"
             >
               <option value="">— Selecione o titular credenciado —</option>
-              {holders.map((h) => (
+              {activeHolders.map((h) => (
                 <option key={h.id} value={h.id}>
                   {h.full_name}
                   {h.cpf ? ` — ${h.cpf}` : ''}
