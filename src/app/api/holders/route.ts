@@ -21,11 +21,23 @@ export const GET = withAuth(
         auth.role,
       );
 
-      const { data: holdersList, error } = await supabaseAdmin
-        .from("holders")
-        .select("*")
-        .eq("tenant_id", auth.tenantId)
-        .order("created_at", { ascending: false });
+      // SECURITY: restringe colunas ja na query (defesa em profundidade) —
+      // roles nao-privilegiadas nao buscam do banco campos sensiveis (CPF,
+      // endereco, email, dados financeiros). Branches com literais mantem a
+      // inferencia de tipos do client Supabase funcionando.
+      const holdersQuery = isPrivilegedRole
+        ? supabaseAdmin
+            .from("holders")
+            .select("*")
+            .eq("tenant_id", auth.tenantId)
+            .order("created_at", { ascending: false })
+        : supabaseAdmin
+            .from("holders")
+            .select("id, full_name, phone, created_at")
+            .eq("tenant_id", auth.tenantId)
+            .order("created_at", { ascending: false });
+
+      const { data: holdersList, error } = await holdersQuery;
 
       if (error) {
         return NextResponse.json(

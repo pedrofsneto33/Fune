@@ -61,14 +61,16 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
           provider_response_payload: resp,
           updated_at: new Date().toISOString(),
         })
-        .eq('id', invoice_id);
+        .eq('id', invoice_id)
+        .eq('tenant_id', auth.tenantId); // defesa em profundidade
 
       // Atualiza service_order
       if (invoice.service_order_id) {
         await supabaseAdmin
           .from('service_orders')
           .update({ nfse_status: 'cancelled' })
-          .eq('id', invoice.service_order_id);
+          .eq('id', invoice.service_order_id)
+          .eq('tenant_id', auth.tenantId); // evita atualizar OS de outro tenant
       }
       return NextResponse.json({ success: true, message: 'NFS-e cancelada' });
     } catch (provErr: any) {
@@ -78,7 +80,8 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
           provider_error_message: provErr.message,
           updated_at: new Date().toISOString(),
         })
-        .eq('id', invoice_id);
+        .eq('id', invoice_id)
+        .eq('tenant_id', auth.tenantId); // defesa em profundidade
       return NextResponse.json({ error: 'Erro do provedor: ' + provErr.message }, { status: 502 });
     }
   } catch (e: any) {

@@ -34,7 +34,7 @@ interface SearchItem {
 }
 
 /**
- * Busca global (Ctrl+K): acha associado, óóóbito, ordem de serviço ou veículo
+ * Busca global (Ctrl+K): acha associado, óbito, ordem de serviço ou veículo
  * a partir de qualquer aba e navega para a aba correspondente.
  */
 export function GlobalSearch({
@@ -137,7 +137,7 @@ export function GlobalSearch({
           autoFocus
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Buscar associado, óóóbito, OS ou veículo..."
+          placeholder="Buscar associado, óbito, OS ou veículo..."
           className="w-full bg-transparent px-4 py-4 text-sm text-slate-900 dark:text-white outline-none border-b border-zinc-200 dark:border-zinc-800 placeholder:text-zinc-600"
         />
         <div className="max-h-80 overflow-y-auto divide-y divide-zinc-800/70">

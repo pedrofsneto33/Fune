@@ -110,6 +110,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
           updated_at: new Date().toISOString(),
         })
         .eq('id', fiscalRow.id)
+        .eq('tenant_id', auth.tenantId) // defesa em profundidade: escopo por tenant
         .select()
         .single();
 
@@ -120,7 +121,8 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
           nfse_id: newStatus === 'authorized' ? fiscalRow.id : null,
           nfse_status: newStatus,
         })
-        .eq('id', service_order_id);
+        .eq('id', service_order_id)
+        .eq('tenant_id', auth.tenantId); // evita atualizar OS de outro tenant
 
       return NextResponse.json({
         success: true,
@@ -140,7 +142,8 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
           provider_error_message: provErr.message,
           updated_at: new Date().toISOString(),
         })
-        .eq('id', fiscalRow.id);
+        .eq('id', fiscalRow.id)
+        .eq('tenant_id', auth.tenantId); // defesa em profundidade
       return NextResponse.json({
         error: 'Erro do provedor: ' + provErr.message,
         invoice_id: fiscalRow.id,

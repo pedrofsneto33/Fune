@@ -2016,6 +2016,7 @@ export default function MasterEternityOS() {
                                 href={waUrl}
                                 target="_blank"
                                 rel="noreferrer"
+                                aria-label={`Enviar cobrança por WhatsApp para ${h.full_name}`}
                                 className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white dark:text-white rounded text-[11px] font-bold shadow"
                               >
                                 💬 Cobrar
@@ -2045,11 +2046,13 @@ export default function MasterEternityOS() {
                                       href={`/carteirinha/${rawCpf}`}
                                       target="_blank"
                                       rel="noreferrer"
+                                      aria-label={`Abrir carteirinha de ${h.full_name}`}
                                       className="block px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
                                     >
                                       🪪 Carteirinha
                                     </a>
                                     <button
+                                      aria-label={`Imprimir termo de adesão de ${h.full_name}`}
                                       onClick={() => { setShowActions(null); setPrintHolderContract(h); }}
                                       className="block w-full text-left px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
                                     >
