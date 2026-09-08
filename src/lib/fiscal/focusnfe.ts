@@ -151,7 +151,7 @@ export async function focusnfeEmit(
     },
   };
 
-  const res = await fetch(baseUrl + '/nfse', {
+  const res = await fetch(baseUrl + '/nfse?ref=' + encodeURIComponent(ref), {
     method: 'POST',
     headers: {
       'Authorization': basicAuth(config.apiKey),
@@ -259,7 +259,8 @@ export async function focusnfeTest(
   };
 
   try {
-    const res = await fetch(baseUrl + '/nfse', {
+    const testRef = 'eternityos-teste-' + Date.now();
+    const res = await fetch(baseUrl + '/nfse?ref=' + encodeURIComponent(testRef), {
       method: 'POST',
       headers: {
         'Authorization': basicAuth(config.apiKey),
