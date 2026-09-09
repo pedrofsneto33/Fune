@@ -33,6 +33,13 @@ interface HolderRow {
 const brl = (v: number) =>
   new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(v) || 0);
 
+const holderIsInactive = (h: { status?: string | null }) =>
+  (h.status ?? '').toLowerCase() === 'inativo' ||
+  (h.status ?? '').toLowerCase() === 'inactive';
+
+const contractIsActive = (s: string | null | undefined) =>
+  (s ?? '').toLowerCase() === 'ativo' || (s ?? '').toLowerCase() === 'active';
+
 const STATUS_STYLE: Record<string, string> = {
   pago: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
   pendente: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
@@ -112,7 +119,8 @@ export function ModalCarnets({
   };
 
   const selectedHolder = holders.find((h) => h.id === formHolderId);
-  const selectedContract = selectedHolder?.contracts?.find((c) => c.status === 'ativo') || null;
+  const selectedContract =
+    selectedHolder?.contracts?.find((c) => contractIsActive(c.status)) || null;
 
   // Filtra apenas titulares com pelo menos um contrato ativo
   const activeHolders = holders.filter((h) => h.contracts?.some((c) => c.status === 'ativo'));
@@ -120,7 +128,7 @@ export function ModalCarnets({
   const numInstallments = Math.min(Math.max(parseInt(installments, 10) || 1, 1), 12);
   const parcelValue = Number(totalValue) > 0 ? Number(totalValue) / numInstallments : 0;
 
-  // Compilado por usuário credenciado: cada titular (com ou sem carnês) com seus números
+  // Carnes por associado: cada titular (com ou sem carnes) com seus numeros
   const compiled = useMemo(() => {
     const byName = new Map<string, CarnetRow[]>();
     for (const c of carnets) {
@@ -258,16 +266,16 @@ export function ModalCarnets({
         {/* COMPILADO POR USUÁRIO CREDENCIADO */}
         <div className="space-y-2">
           <p className="text-[11px] font-bold text-zinc-400 uppercase">
-            Compilado por Usuário Credenciado
+            Carnês por Associado
           </p>
           {loading && (
             <p className="text-xs text-zinc-500 py-4 text-center">
-              Carregando carnês e titulares credenciados...
+              Carregando carnês e associados...
             </p>
           )}
           {!loading && compiled.length === 0 && (
             <p className="text-xs text-zinc-500 py-4 text-center">
-              Nenhum titular credenciado ou carnê cadastrado ainda.
+              Nenhum associado ou carnê cadastrado ainda.
             </p>
           )}
           {!loading &&
@@ -352,14 +360,20 @@ export function ModalCarnets({
             <PlusCircle className="w-3.5 h-3.5" /> Gerar Novo Carnê
           </p>
           <div>
-            <label className="text-xs text-zinc-400 block mb-1">Usuário Credenciado (Titular)</label>
+            <label className="text-xs text-zinc-400 block mb-1">Associado — titular ativo</label>
             <select
               required
               value={formHolderId}
               onChange={(e) => setFormHolderId(e.target.value)}
               className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white"
             >
-              <option value="">— Selecione o titular credenciado —</option>
+              <option value="">
+                {holders.length === 0
+                  ? '— Nenhum associado cadastrado —'
+                  : activeHolders.length === 0
+                    ? '— Nenhum associado ativo (reative na aba Associados) —'
+                    : '— Selecione o associado ativo —'}
+              </option>
               {activeHolders.map((h) => (
                 <option key={h.id} value={h.id}>
                   {h.full_name}
