@@ -33,7 +33,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         holder_id,
         plan_id,
         status,
-        holders ( id, full_name, cpf, phone, email ),
+        holders ( id, full_name, cpf, phone, email, status ),
         plans ( id, name, monthly_fee )
       `)
       .eq('tenant_id', auth.tenantId)
@@ -72,6 +72,13 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       const holder = contract.holders;
       const plan = contract.plans;
       const amount = Number(plan?.monthly_fee || 0);
+
+      // REGRA ÚNICA: titular inativo (bilingue) nunca é cobrado, mesmo com contrato ativo
+      const hStatus = String(holder?.status ?? '').toLowerCase();
+      if (hStatus === 'inativo' || hStatus === 'inactive') {
+        skippedCount++;
+        continue;
+      }
 
       if (amount <= 0 || !holder) {
         skippedCount++;

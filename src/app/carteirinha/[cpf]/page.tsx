@@ -30,7 +30,7 @@ export default async function CarteirinhaPage({ params }: Props) {
     const { data, error } = await supabaseAdmin
       .from('holders')
       .select(
-        `id, full_name, cpf, tenant_id,
+        `id, full_name, cpf, tenant_id, status,
          contracts ( status, plans ( name ) ),
          dependents ( full_name, relation )`
       )
@@ -44,6 +44,13 @@ export default async function CarteirinhaPage({ params }: Props) {
       lookupError = 'Nenhum associado encontrado com este CPF.';
     } else {
       holder = data as any;
+      // REGRA ÚNICA: carteirinha só para titular ativo (bilingue)
+      const __hs = String(holder.status || "").toLowerCase();
+      if (__hs === "inativo" || __hs === "inactive") {
+        holder = null;
+        lookupError = "O titular está inativo. Carteirinha disponível apenas para associados ativos.";
+      }
+
       const { data: t } = await supabaseAdmin
         .from('tenants')
         .select('trade_name, name, logo_url, primary_color, phone_emergency')

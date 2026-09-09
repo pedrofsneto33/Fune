@@ -368,6 +368,12 @@ export default function MasterEternityOS() {
     return (h?.contracts || []).some((c: any) => asaasContractIsActive(c.status));
   });
   const asaasSelectedHolder = asaasEligibleHolders.find((h: any) => h.id === asaasBatchHolderId);
+  // Ordem de serviço vinculada: só titular ativo com contrato ativo (mesma regra das carnets/Asaas)
+  const eligibleOSHolders = (holders || []).filter((h: any) => {
+    if (asaasHolderIsInactive(h)) return false;
+    const ct = (h?.contracts || [])[0];
+    return ct && asaasContractIsActive(ct.status);
+  });
 
   const [vehicleForm, setVehicleForm] = useState({
     plate: "",
@@ -3644,7 +3650,7 @@ export default function MasterEternityOS() {
                     value={serviceOrderForm.contract_id}
                     onChange={(e) => {
                       const cid = e.target.value;
-                      const holder = holders.find((h) => h.contracts?.[0]?.id === cid);
+                      const holder = eligibleOSHolders.find((h) => h.contracts?.[0]?.id === cid);
                       setServiceOrderForm({
                         ...serviceOrderForm,
                         contract_id: cid,
@@ -3654,13 +3660,16 @@ export default function MasterEternityOS() {
                     className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
                   >
                     <option value=""> Selecione o associado </option>
-                    {holders.map((h) => (
+                    {eligibleOSHolders.map((h) => (
                       <option key={h.id} value={h.contracts?.[0]?.id || ""}>
                         {h.full_name}
                         {h.contracts?.[0]?.status === "defaulted" ? " (? inadimplente)" : ""}
                       </option>
                     ))}
                   </select>
+                  <p className="text-[10px] text-slate-600 dark:text-slate-500 mt-1">
+                    {eligibleOSHolders.length} associado(s) ativo(s) com contrato ativo.
+                  </p>
                 </div>
               )}
               {/* NOME DO FALECIDO */}

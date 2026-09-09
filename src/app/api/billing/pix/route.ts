@@ -24,11 +24,13 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         tenant_id,
         contracts (
           id,
+          status,
           holders (
             id,
             full_name,
             cpf,
-            phone
+            phone,
+            status
           )
         )
       `)
@@ -38,6 +40,16 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     if (payError || !payment) {
       return NextResponse.json({ error: 'Pagamento não localizado.' }, { status: 404 });
+    }
+
+    // REGRA ÚNICA: só titular ativo com contrato ativo
+    const __contract = (payment.contracts as any);
+    const __hStatus = String((__contract?.holders?.status) ?? '').toLowerCase();
+    const __cStatus = String((__contract?.status) ?? '').toLowerCase();
+    const __contractOk = __cStatus === 'ativo' || __cStatus === 'active';
+    const __holderOk = __hStatus !== 'inativo' && __hStatus !== 'inactive';
+    if (!__contractOk || !__holderOk) {
+      return NextResponse.json({ error: 'Este titular/contrato não está ativo. Reative antes de gerar o PIX.' }, { status: 403 });
     }
 
     const asaasConfig = await getAsaasConfigForTenant(auth.tenantId);

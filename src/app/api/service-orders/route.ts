@@ -60,11 +60,13 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     if (contract_id) {
 
+      // SECURITY: o contrato referenciado deve pertencer a este tenant
+      // E o titular do contrato deve estar ATIVO (regra única: só associados ativos)
       const { data: ownedContract } = await supabaseAdmin
 
         .from('contracts')
 
-        .select('id')
+        .select('id, status, holders(status)')
 
         .eq('id', contract_id)
 
@@ -76,6 +78,21 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
         return NextResponse.json({ error: 'Contrato não encontrado para esta unidade.' }, { status: 404 });
 
+      }
+
+      // Contrato precisa estar ativo/bilingue e o titular ativo
+      const cStatus = ((ownedContract as any).status ?? '').toLowerCase();
+      const hStatus =
+        ((ownedContract as any).holders?.status ?? '').toLowerCase();
+      const contractOk =
+        cStatus === 'ativo' || cStatus === 'active';
+      const holderOk =
+        hStatus !== 'inativo' && hStatus !== 'inactive';
+      if (!contractOk || !holderOk) {
+        return NextResponse.json(
+          { error: 'Este contrato não está ativo ou o titular não está ativo. Reative o titular/contrato antes de registrar a ordem de serviço.' },
+          { status: 403 },
+        );
       }
 
     }

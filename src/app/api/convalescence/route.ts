@@ -62,6 +62,27 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
       if (contract_id && !isValidUUID(contract_id)) {
 
+        // REGRA ÚNICA: empréstimo vinculado a contrato exige titular ativo
+        {
+          const { data: ownedContract } = await supabaseAdmin
+            .from('contracts')
+            .select('id, status, holders(status)')
+            .eq('id', contract_id)
+            .eq('tenant_id', tenant_id)
+            .maybeSingle();
+          if (!ownedContract) {
+            return NextResponse.json({ error: 'Contrato nao encontrado para esta unidade.' }, { status: 404 });
+          }
+          const cSt = String((ownedContract as any).status ?? '').toLowerCase();
+          const hSt = String((ownedContract as any).holders?.status ?? '').toLowerCase();
+          const cOk = cSt === 'ativo' || cSt === 'active';
+          const hOk = hSt !== 'inativo' && hSt !== 'inactive';
+          if (!cOk || !hOk) {
+            return NextResponse.json({ error: 'Este titular/contrato nao esta ativo. Reative antes de liberar o emprestimo.' }, { status: 403 });
+          }
+        }
+
+
         return NextResponse.json({ error: 'Contrato invalido.' }, { status: 400 });
 
       }
