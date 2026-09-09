@@ -134,3 +134,30 @@
       Supabase) + gravar o vinculo no insert da `/api/billing/avulso` (a rota ja
       aceita `service_order_id` no body e valida tenant, mas hoje so inclui o id
       na descricao do lancamento, nao na coluna) + exibir link/OS no painel.
+
+
+## 9. ARQUITETURA — EXECUTADO (commit `4fd38fd`) E PENDENTE
+
+### Fonte unica de receita — FEITO
+- [x] `src/lib/financial.ts` — `recordIncome()` é a ÚNICA porta de escrita de
+      receita em `financial_transactions` (valida valor, trunca categoria p/ 50,
+      nunca lança, prefixa origem na descrição: `[asaas_webhook]`, `[payment_carnets]`,
+      `[billing_avulso]`).
+- [x] Refatorados: webhook Asaas, carnê PATCH 'pago', billing/avulso.
+- [x] AUDITORIA: `webhook_events` (migration `scripts/webhook_events_migration.sql`)
+      registra TODO evento do Asaas com payload + processed/skipped_reason.
+      Código com degradação graciosa (webhook funciona mesmo sem a tabela).
+- [x] TESTES: `tests/lib/eligibility.test.ts` + `tests/lib/financial.test.ts`
+      — 5 suites / 100 testes verdes (`npx jest`).
+
+### AÇÃO MANUAL: rodar `scripts/webhook_events_migration.sql` no Supabase
+- [ ] Sem a tabela, a auditoria fica desligada (o webhook NÃO quebra, só não audita).
+
+### Pendente (próximas sessões, nesta ordem)
+- [ ] **useBilling**: extrair handlers de cobrança do monólito `page.tsx`
+      (~4.500 linhas) para hooks — SÓ DEPOIS DOS TESTES (já estão de pé).
+      Prioridade: handleGenerateAsaasBatch, handlers de carnê e de avulso.
+- [ ] **Agregação no backend**: `avulsoStats`/`monthlySeries` derivam no client
+      de até 500 transações; quando passar disso, view SQL ou endpoint de totais.
+- [ ] Tabela de eventos: evoluir `webhook_events` p/ retry manual de eventos
+      falhos (tela admin lê a tabela).
