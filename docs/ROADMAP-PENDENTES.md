@@ -61,10 +61,29 @@
 - [ ] Teste em produção com valor baixo + cancelamento (recomendação da FocusNFe)
 - [ ] Token de produção: `7TaSTZhSJ9A2opektRmqDwSKCiFHeNZs` (aguardando habilitação)
 
-## 4. CRM DE LEADS / PIPELINE - NAO INICIADO (so codigo)
+## 4. CRM DE LEADS / PIPELINE — MVP IMPLEMENTADO (commit `567de2d`)
 
-- [ ] Tabela `leads` + kanban simples + WhatsApp pra follow-up automatico
-- [ ] Sem passo manual
+### Feito (CRM interno do OPERADOR — vender o próprio SaaS)
+- [x] Tabela `public.leads` (`scripts/crm_leads_migration.sql`) — SEM tenant_id
+      por design: leads são prospects de venda do sistema, não dados de funerária.
+      RLS ativada sem policies (só service role).
+- [x] `src/lib/crm.ts` — fonte única de estágios/origens + nextLeadStage + waLink.
+- [x] `GET/POST/PATCH/DELETE /api/leads` — withAuth superadmin, rate limit, sanitização.
+- [x] `POST /api/leads/landing` — PÚBLICO p/ captação da landing page: rate limit
+      por IP (5/5min) + honeypot anti-bot + sanitização. Allowlist atualizada nos
+      testes de segurança (routes-auth/routes-tenant) documentando as exceções.
+- [x] Aba "🎯 CRM (Vendas)" — SÓ superadmin (gated direto, fora do isTabAllowed):
+      funil em 6 colunas (novo→contato→demo→proposta→ganho/perdido), KPIs
+      (leads no funil, follow-ups atrasados, fechados, MRR estimado), WhatsApp
+      1 clique (wa.me com DDI), avançar/perder estágio, exclusão em 2 cliques.
+- [x] Landing page: seção "Quer ver o sistema funcionando?" → lead cai direto no funil.
+- [x] Testes: `tests/lib/crm.test.ts` (fluxo, validadores, waLink) — 108 testes verdes.
+
+### Falta (evolução do CRM)
+- [ ] Botão "🚀 Virar Cliente" no lead ganho → criar tenant da funerária
+      (integrar com POST /api/tenants) + marcar conversão.
+- [ ] Edição de lead (hoje: criar + avançar/perder + excluir; editar campos via PATCH já suportado na API).
+- [ ] Histórico de interações por lead (tabela lead_notes) em vez de só campo notes.
 
 ## 6. BUSCA + CADASTRO DE TITULARES (Novo) - CONCLUIDO
 
