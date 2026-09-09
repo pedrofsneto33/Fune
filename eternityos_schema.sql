@@ -372,7 +372,7 @@ CREATE TABLE IF NOT EXISTS public.service_orders (
     burial_id UUID REFERENCES public.chapel_burials(id) ON DELETE SET NULL,
     vehicle_id UUID REFERENCES public.vehicles(id) ON DELETE SET NULL,
     deceased_name TEXT NOT NULL,
-    deceased_type TEXT NOT NULL CHECK (deceased_type IN ('holder', 'dependent')),
+    deceased_type TEXT NOT NULL CHECK (deceased_type IN ('holder', 'dependent', 'free')),
     deceased_id UUID NOT NULL,
     status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'in_progress', 'completed', 'cancelled')),
     burial_date TIMESTAMPTZ,

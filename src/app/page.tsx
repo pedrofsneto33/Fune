@@ -13,6 +13,7 @@ import { ModalDRE } from "@/components/dashboard/ModalDRE";
 import { TenantSettingsTab } from "@/components/tabs/TenantSettingsTab";
 import { ModalChapel } from "@/components/modals/ModalChapel";
 import { ModalCarnets } from "@/components/modals/ModalCarnets";
+import { ModalCobrancaAvulsa } from "@/components/modals/ModalCobrancaAvulsa";
 import ThemeToggle from "@/components/ThemeToggle";
 import SellersTab from "@/components/tabs/SellersTab";
 import FiscalTab from "@/components/tabs/FiscalTab";
@@ -355,6 +356,8 @@ export default function MasterEternityOS() {
   const [asaasDueDate, setAsaasDueDate] = useState("");
   const [asaasBillingType, setAsaasBillingType] = useState("BOLETO");
   const [asaasBatchRunning, setAsaasBatchRunning] = useState(false);
+  const [isCobrancaAvulsaOpen, setIsCobrancaAvulsaOpen] = useState(false);
+  const [cobrancaAvulsaNome, setCobrancaAvulsaNome] = useState("");
   // REGRA ÚNICA: cobrança em lote só para titular ativo. "" = todos os ativos.
   const [asaasBatchHolderId, setAsaasBatchHolderId] = useState("");
   const asaasHolderIsInactive = (h: any) =>
@@ -1877,6 +1880,16 @@ export default function MasterEternityOS() {
                   ⚰️ Novo Atendimento / Óbito
                 </span>
                 <span className="sm:hidden">⚰️ óbito</span>
+              </button>
+            )}
+            {hasPermission(userRole, "canManageFinancial") && (
+              <button
+                onClick={() => { setCobrancaAvulsaNome(""); setIsCobrancaAvulsaOpen(true); }}
+                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-black bg-amber-400 hover:bg-amber-300 rounded-lg transition shadow shrink-0"
+                title="Cobrar cliente não-associado (funeral avulso)"
+              >
+                <span className="hidden sm:inline">💸 Cobrança Avulsa</span>
+                <span className="sm:hidden">💸 Avulso</span>
               </button>
             )}
             {hasPermission(userRole, "canManageContracts") && (
@@ -4483,6 +4496,14 @@ export default function MasterEternityOS() {
       <ModalCarnets
         isOpen={isCarnetsOpen}
         onClose={() => setIsCarnetsOpen(false)}
+        onSuccess={loadData}
+      />
+
+      {/* MODAL COBRANÇA AVULSA (não-associado) */}
+      <ModalCobrancaAvulsa
+        isOpen={isCobrancaAvulsaOpen}
+        onClose={() => setIsCobrancaAvulsaOpen(false)}
+        defaultName={cobrancaAvulsaNome}
         onSuccess={loadData}
       />
 
