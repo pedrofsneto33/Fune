@@ -130,6 +130,13 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
           const paymentData = await paymentRes.json();
           if (!paymentData.errors) {
             paymentResults.push({ installment: i + 1, paymentId: paymentData.id, dueDate: dueDateStr, value: installmentValue, status: paymentData.status });
+            if (createdCarnets[i]?.id && paymentData.id) {
+              await supabaseAdmin
+                .from('payment_carnets')
+                .update({ asaas_payment_id: paymentData.id })
+                .eq('id', createdCarnets[i].id);
+            }
+
           }
         } catch (err) {
           console.error(`Erro ao criar parcela ${i + 1} no Asaas:`, err);
