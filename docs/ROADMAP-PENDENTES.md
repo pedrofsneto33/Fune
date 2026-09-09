@@ -154,9 +154,20 @@
 - [ ] Sem a tabela, a auditoria fica desligada (o webhook NÃO quebra, só não audita).
 
 ### Pendente (próximas sessões, nesta ordem)
-- [ ] **useBilling**: extrair handlers de cobrança do monólito `page.tsx`
-      (~4.500 linhas) para hooks — SÓ DEPOIS DOS TESTES (já estão de pé).
-      Prioridade: handleGenerateAsaasBatch, handlers de carnê e de avulso.
+- [ ] **useBilling — DECISÃO DO USUÁRIO (anotado, não urgente)**: extrair handlers
+      de cobrança do monólito `page.tsx` (~4.500 linhas) para hooks. Executar
+      INCREMENTALMENTE, um handler por vez (mover → testes → build → deploy →
+      validar), nunca big-bang. **Piloto sugerido: cobrança avulsa** (mais nova
+      e isolada). Momento ideal: antes da próxima feature grande de cobrança.
+- [ ] **Dependentes via API server** (pendência antiga, seção 7A — CONFIRMADO
+      pendente em 2026-09): `/api/dependent` não existe; `handleAddDep`
+      (page.tsx ~linha 1361) salva pelo client browser (`supabase.from("dependents")`).
+      Criar rota com `supabaseAdmin` + migrar para `authFetch` — é o último
+      fluxo de escrita fora do padrão server-side do sistema.
+- [ ] **Rastreabilidade Asaas ↔ carnê**: persistir `asaas_payment_id` de cada
+      parcela nas linhas de `payment_carnets` (hoje os IDs só voltam na resposta
+      HTTP; se o usuário fecha a tela, a parcela fica 'pendente' eterna mesmo
+      paga). Requer migration (coluna nova) + update pós-criação no Asaas.
 - [ ] **Agregação no backend**: `avulsoStats`/`monthlySeries` derivam no client
       de até 500 transações; quando passar disso, view SQL ou endpoint de totais.
 - [ ] Tabela de eventos: evoluir `webhook_events` p/ retry manual de eventos
