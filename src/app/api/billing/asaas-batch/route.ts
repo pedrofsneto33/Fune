@@ -15,6 +15,17 @@ interface BatchResult {
   error?: string;
 }
 
+// REGRA ÚNICA de elegibilidade: cobra SÓ titular ativo (bilingue ativo/active),
+// independente do que estiver no contrato. Contrato com status ativo de um
+// titular inativo NÃO gera cobrança.
+const holderIsInactive = (h: { status?: string | null } | undefined | null) =>
+  !h ||
+  (h.status ?? '').toLowerCase() === 'inativo' ||
+  (h.status ?? '').toLowerCase() === 'inactive';
+
+const contractIsActive = (s: string | null | undefined) =>
+  (s ?? '').toLowerCase() === 'ativo' || (s ?? '').toLowerCase() === 'active';
+
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     // SECURITY: rate limit por usuário - operação em lote de cobranças reais
@@ -51,12 +62,11 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     }
     const { baseUrl, apiKey } = asaasConfig;
 
-    // Filtra por contrato específico se holderId for enviado, senão pega todos ativos
+    // Filtra por contrato específico se holderId for enviado, senão pega todos
     let contractsQuery = supabaseAdmin
       .from('contracts')
-      .select('id, holder_id, holders(id, full_name, cpf, phone), plans(name, monthly_fee)')
-      .eq('tenant_id', auth.tenantId)
-      .eq('status', 'active');
+      .select('id, holder_id, holders(id, full_name, cpf, phone, status), plans(name, monthly_fee)')
+      .eq('tenant_id', auth.tenantId);
 
     // Se um holderId específico foi enviado, filtra apenas o contrato desse titular
     // Usamos holder_id (FK real na tabela contracts) para evitar problemas com filtro em relacionamento
@@ -64,13 +74,21 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       contractsQuery = contractsQuery.eq('holder_id', body.holderId);
     }
 
-    const { data: contracts, error } = await contractsQuery;
+    const { data: allContracts, error } = await contractsQuery;
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
+    // REGRA ÚNICA de elegibilidade (mesma das carnets):
+    //  1. Contrato ativo (bilingue ativo/active)
+    //  2. Titular ATIVO (bilingue) — nunca cobrar titular inativo mesmo com contrato ativo
+    const contracts = (allContracts || []).filter((c) => {
+      if (!contractIsActive((c as any).status)) return false;
+      return !holderIsInactive((c as any).holders);
+    });
+
     if (!contracts || contracts.length === 0) {
       return NextResponse.json(
-        { error: 'Nenhum contrato ativo encontrado para o titular selecionado.' },
+        { error: 'Nenhum contrato de titular ativo encontrado para o titular selecionado.' },
         { status: 404 },
       );
     }

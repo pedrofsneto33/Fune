@@ -355,6 +355,19 @@ export default function MasterEternityOS() {
   const [asaasDueDate, setAsaasDueDate] = useState("");
   const [asaasBillingType, setAsaasBillingType] = useState("BOLETO");
   const [asaasBatchRunning, setAsaasBatchRunning] = useState(false);
+  // REGRA ÚNICA: cobrança em lote só para titular ativo. "" = todos os ativos.
+  const [asaasBatchHolderId, setAsaasBatchHolderId] = useState("");
+  const asaasHolderIsInactive = (h: any) =>
+    (h?.status ?? "").toLowerCase() === "inativo" ||
+    (h?.status ?? "").toLowerCase() === "inactive";
+  const asaasContractIsActive = (s: string | null | undefined) =>
+    (s ?? "").toLowerCase() === "ativo" || (s ?? "").toLowerCase() === "active";
+  // Associados elegíveis no lote: titular ativo E com contrato ativo (mesmo critério do backend)
+  const asaasEligibleHolders = (holders || []).filter((h: any) => {
+    if (asaasHolderIsInactive(h)) return false;
+    return (h?.contracts || []).some((c: any) => asaasContractIsActive(c.status));
+  });
+  const asaasSelectedHolder = asaasEligibleHolders.find((h: any) => h.id === asaasBatchHolderId);
 
   const [vehicleForm, setVehicleForm] = useState({
     plate: "",
@@ -982,6 +995,7 @@ export default function MasterEternityOS() {
         body: JSON.stringify({
           dueDate: asaasDueDate || undefined,
           billingType: asaasBillingType,
+          holderId: asaasBatchHolderId || undefined,
         }),
       });
       const data = await res.json().catch(() => ({}));
@@ -3970,6 +3984,38 @@ export default function MasterEternityOS() {
                 <code className="text-[10px] text-cyan-400 break-all">
                   https://eternitysos.vercel.app/api/webhooks/asaas
                 </code>
+              </div>
+
+              {/* REGRA ÚNICA: seleção de titular para o lote */}
+              <div className="pt-2 border-t border-slate-200 dark:border-slate-800">
+                <label className="block text-slate-600 dark:text-slate-500 dark:text-slate-400 font-bold uppercase text-[10px] mb-1.5">
+                  Cobrar de
+                </label>
+                <select
+                  value={asaasBatchHolderId}
+                  onChange={(e) => setAsaasBatchHolderId(e.target.value)}
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-xs text-slate-900 dark:text-white"
+                >
+                  <option value="">
+                    {asaasEligibleHolders.length === 0
+                      ? "— Nenhum titular ativo com contrato ativo —"
+                      : "Todos os titulares ativos"}
+                  </option>
+                  {asaasEligibleHolders.map((h: any) => {
+                    const ct = (h.contracts || []).find((c: any) => asaasContractIsActive(c.status));
+                    const val = ct?.plans?.monthly_fee;
+                    return (
+                      <option key={h.id} value={h.id}>
+                        {h.full_name}
+                        {val ? ` — R$ ${Number(val).toFixed(2).replace(".", ",")}` : ""}
+                      </option>
+                    );
+                  })}
+                </select>
+                <p className="text-[10px] text-slate-600 dark:text-slate-500 mt-1">
+                  Só cobramos titulares ativos com contrato ativo.{" "}
+                  {asaasEligibleHolders.length} titular(es) elegível(is).
+                </p>
               </div>
 
               <div className="pt-2 space-y-2 border-t border-slate-200 dark:border-slate-800">
