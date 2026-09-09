@@ -1362,7 +1362,6 @@ export default function MasterEternityOS() {
   // Adicionar Dependente
   const handleAddDep = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Validação customizada PT-BR
     const depNameErr = validateField(depName, { required: true, minLength: 3 }, "Nome do Dependente");
     if (depNameErr) {
       notifyError(depNameErr);
@@ -1371,27 +1370,29 @@ export default function MasterEternityOS() {
     if (!selectedHolder) return;
     setSavingDep(true);
     try {
-      const { data, error } = await supabase
-        .from("dependents")
-        .insert([
-          {
-            holder_id: selectedHolder.id,
-            full_name: depName,
-            relation: depRelation,
-          },
-        ])
-        .select()
-        .single();
-
-      if (!error && data) {
+      const res = await authFetch("/api/dependents", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          holder_id: selectedHolder.id,
+          full_name: depName,
+          relation: depRelation,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.dependent) {
         setDepName("");
         setSelectedHolder((prev) =>
           prev
-            ? { ...prev, dependents: [...(prev.dependents || []), data] }
-            : null,
+            ? { ...prev, dependents: [...(prev.dependents || []), data.dependent] }
+            : null
         );
-        loadData();
+        notifySuccess("Dependente adicionado!");
+      } else {
+        notifyError(data.error || "Erro ao criar dependente");
       }
+    } catch {
+      notifyError("Erro ao criar dependente");
     } finally {
       setSavingDep(false);
     }
