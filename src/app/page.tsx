@@ -1440,6 +1440,20 @@ export default function MasterEternityOS() {
       });
   }, [transactions]);
 
+  // ---- Vendas Avulsas (categoria fixa gravada pela /api/billing/avulso) ----
+  const AVULSO_CATEGORY = "Serviço Funeral Avulso";
+  const avulsoStats = useMemo(() => {
+    const rows = transactions.filter((t) => t.category === AVULSO_CATEGORY);
+    const nowYm = new Date().toISOString().slice(0, 7);
+    const monthRows = rows.filter((t) => (t.transaction_date || "").slice(0, 7) === nowYm);
+    return {
+      rows,
+      total: rows.reduce((acc, t) => acc + (Number(t.amount) || 0), 0),
+      monthCount: monthRows.length,
+      monthTotal: monthRows.reduce((acc, t) => acc + (Number(t.amount) || 0), 0),
+    };
+  }, [transactions]);
+
   // Missões em Aberto = sepultamentos que no estão concluídos/cancelados
   const openBurials = burials.filter(
     (b) =>
@@ -3215,6 +3229,67 @@ export default function MasterEternityOS() {
                     📊 DRE Oficial
                   </button>
                 </div>
+              </div>
+
+              {/* PAINEL VENDAS AVULSAS (não-associado) — fonte: financial_transactions category "Serviço Funeral Avulso" */}
+              <div className="bg-[#0d121f] border border-amber-500/30 rounded-xl p-4 shadow-sm">
+                <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+                  <h4 className="font-bold text-xs text-amber-400 uppercase tracking-wider">
+                    💰 Vendas Avulsas (não-associados)
+                  </h4>
+                  <button
+                    onClick={() => { setCobrancaAvulsaNome(""); setIsCobrancaAvulsaOpen(true); }}
+                    className="px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-black rounded-lg text-xs font-bold shadow"
+                  >
+                    + Nova Cobrança Avulsa
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3">
+                  <div className="bg-slate-950 border border-slate-800 rounded-lg p-3">
+                    <p className="text-[10px] text-slate-500 uppercase font-semibold">Total histórico</p>
+                    <p className="text-sm font-bold text-emerald-400">{fmtBRL(avulsoStats.total)}</p>
+                  </div>
+                  <div className="bg-slate-950 border border-slate-800 rounded-lg p-3">
+                    <p className="text-[10px] text-slate-500 uppercase font-semibold">Este mês</p>
+                    <p className="text-sm font-bold text-emerald-400">{fmtBRL(avulsoStats.monthTotal)}</p>
+                    <p className="text-[10px] text-slate-500">{avulsoStats.monthCount} cobrança(s)</p>
+                  </div>
+                  <div className="bg-slate-950 border border-slate-800 rounded-lg p-3">
+                    <p className="text-[10px] text-slate-500 uppercase font-semibold">Registros</p>
+                    <p className="text-sm font-bold text-slate-200">{avulsoStats.rows.length}</p>
+                  </div>
+                </div>
+                {avulsoStats.rows.length === 0 ? (
+                  <p className="text-[11px] text-slate-500">
+                    Nenhuma venda avulsa registrada ainda. Use &quot;+ Nova Cobrança Avulsa&quot; (ou o botão 💰 no topo) para faturar um funeral de cliente não-associado — boleto ou PIX via Asaas.
+                  </p>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs border-collapse">
+                      <thead>
+                        <tr className="border-b border-slate-800 text-slate-500 uppercase text-[10px]">
+                          <th className="py-2 px-3">Data</th>
+                          <th className="py-2 px-3">Descrição</th>
+                          <th className="py-2 px-3 text-right">Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-800">
+                        {avulsoStats.rows.slice(0, 8).map((tx) => (
+                          <tr key={tx.id} className="hover:bg-slate-800/30">
+                            <td className="py-2 px-3 font-mono text-slate-400 whitespace-nowrap">{tx.transaction_date}</td>
+                            <td className="py-2 px-3 text-slate-200">{tx.description}</td>
+                            <td className="py-2 px-3 text-right font-bold text-emerald-400 whitespace-nowrap">+ {fmtBRL(tx.amount)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    {avulsoStats.rows.length > 8 && (
+                      <p className="text-[10px] text-slate-500 px-3 py-2">
+                        Mostrando as 8 mais recentes de {avulsoStats.rows.length}. Lista completa no Livro Caixa abaixo, filtrando pela categoria &quot;Serviço Funeral Avulso&quot;.
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl overflow-x-auto shadow-sm">
