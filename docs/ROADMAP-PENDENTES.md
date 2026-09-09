@@ -115,3 +115,22 @@
 - [ ] AGUARDA decisÃ£o do gateway (Focus NFe / FastNFe / Nota Carioca API / outro).
 - [ ] Criar tabela `nfse_invoices` + rotas GET/POST /api/nfse quando gateway definido.
 - [ ] Prazo: IBS/CBS obrigatÃ³rio a partir de out/2026.
+
+## 8. VENDAS AVULSAS — MELHORIAS PENDENTES (anotado pelo usuario em 2026-09)
+
+> Contexto: painel "💰 Vendas Avulsas" ja existe na aba Financeiro (commit `aed3fd2`).
+> Fonte dos dados: `financial_transactions` com categoria fixa **"Serviço Funeral Avulso"**,
+> gravada por `POST /api/billing/avulso` (commit `31a1fb4`).
+
+- [ ] **Filtro por período no painel Vendas Avulsas** — seletor de data (início/fim)
+      no painel da aba Financeiro; idealmente aceitar `?from=&to=` no
+      `GET /api/financial/transactions` (hoje a rota nao aceita filtros, so limit 500)
+      e o painel passar a fazer fetch proprio em vez de derivar do estado global.
+- [ ] **Exportar a lista de vendas avulsas em CSV/PDF** — botao no painel; CSV pode
+      ser gerado client-side (Blob + download); PDF reutilizar o padrao de
+      `src/lib/pdf-report.ts`/`printReports.ts` ja usado no projeto.
+- [ ] **Rastreabilidade OS ↔ venda avulsa** — criar coluna `service_order_id UUID
+      REFERENCES service_orders(id)` em `financial_transactions` (migration no
+      Supabase) + gravar o vinculo no insert da `/api/billing/avulso` (a rota ja
+      aceita `service_order_id` no body e valida tenant, mas hoje so inclui o id
+      na descricao do lancamento, nao na coluna) + exibir link/OS no painel.
