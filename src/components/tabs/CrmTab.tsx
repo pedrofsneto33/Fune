@@ -61,6 +61,17 @@ export default function CrmTab() {
   const [saving, setSaving] = useState(false);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [deleteArmId, setDeleteArmId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [convertLead, setConvertLead] = useState<Lead | null>(null);
+  const [convertForm, setConvertForm] = useState({
+    name: "",
+    cnpj: "",
+    trade_name: "",
+    issuance_city: "",
+    phone_emergency: "",
+    commercial_plan: "essencial",
+  });
+  const [converting, setConverting] = useState(false);
 
   const loadLeads = useCallback(async () => {
     setLoading(true);
@@ -155,6 +166,111 @@ export default function CrmTab() {
       notifyError("Erro de conexão");
     } finally {
       setSaving(false);
+    }
+  };
+
+  // ---- Edição de lead (mesmo formulário, PATCH) ----
+  const openEdit = (lead: Lead) => {
+    setEditingId(lead.id);
+    setForm({
+      name: lead.name,
+      company: lead.company || "",
+      city: lead.city || "",
+      uf: lead.uf || "",
+      phone: lead.phone || "",
+      email: lead.email || "",
+      source: lead.source,
+      estimated_monthly: String(lead.estimated_monthly || ""),
+      next_follow_up: lead.next_follow_up || "",
+      notes: lead.notes || "",
+    });
+    setIsNewOpen(true);
+  };
+
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingId) return;
+    setSaving(true);
+    try {
+      const res = await authFetch("/api/leads", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: editingId,
+          ...form,
+          estimated_monthly: Number(form.estimated_monthly) || 0,
+          next_follow_up: form.next_follow_up || null,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        notifyError(data.error || "Erro ao salvar lead");
+        return;
+      }
+      setLeads((prev) =>
+        prev.map((l) => (l.id === editingId ? (data as Lead) : l)),
+      );
+      notifySuccess("Lead atualizado!");
+      setIsNewOpen(false);
+      setEditingId(null);
+      setForm({ ...EMPTY_FORM });
+    } catch {
+      notifyError("Erro de conexão");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // ---- Virar Cliente: lead ganho -> tenant real (POST /api/tenants) ----
+  const openConvert = (lead: Lead) => {
+    setConvertLead(lead);
+    setConvertForm({
+      name: lead.company ? lead.company + " LTDA" : lead.name + " LTDA",
+      cnpj: "",
+      trade_name: lead.company || lead.name,
+      issuance_city: lead.city || "",
+      phone_emergency: lead.phone || "",
+      commercial_plan: "essencial",
+    });
+  };
+
+  const handleConvert = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!convertLead) return;
+    const cnpjDigits = convertForm.cnpj.replace(/\D/g, "");
+    if (cnpjDigits.length !== 14) {
+      notifyError("CNPJ deve ter 14 dígitos.");
+      return;
+    }
+    setConverting(true);
+    try {
+      const res = await authFetch("/api/tenants", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...convertForm, cnpj: cnpjDigits }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        notifyError(data.error || "Erro ao criar a funerária");
+        return;
+      }
+      // Registra a conversão no histórico (anotações) do lead
+      const logLine = `[conversão] Funerária "${convertForm.trade_name || convertForm.name}" criada em ${new Date().toLocaleDateString("pt-BR")}.`;
+      const newNotes = (convertLead.notes ? convertLead.notes + "\n" : "") + logLine;
+      await authFetch("/api/leads", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: convertLead.id, notes: newNotes }),
+      });
+      setLeads((prev) =>
+        prev.map((l) => (l.id === convertLead.id ? { ...l, notes: newNotes } : l)),
+      );
+      notifySuccess(`🎉 ${convertForm.trade_name || convertForm.name} agora é cliente! Funerária criada no sistema.`);
+      setConvertLead(null);
+    } catch {
+      notifyError("Erro de conexão ao converter lead");
+    } finally {
+      setConverting(false);
     }
   };
 
@@ -265,6 +381,22 @@ export default function CrmTab() {
                             💬 Zap
                           </a>
                         )}
+                        {lead.stage === "ganho" && (
+                          <button
+                            onClick={() => openConvert(lead)}
+                            className="px-1.5 py-0.5 rounded bg-violet-950 text-violet-300 border border-violet-700 text-[10px] font-bold"
+                            title="Criar a funerária no sistema (tenant)"
+                          >
+                            🚀 Cliente
+                          </button>
+                        )}
+                        <button
+                          onClick={() => openEdit(lead)}
+                          className="px-1.5 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-bold"
+                          title="Editar lead"
+                        >
+                          ✏️
+                        </button>
                         {nextLeadStage(lead.stage) && (
                           <button
                             disabled={busyId === lead.id}
@@ -304,10 +436,12 @@ export default function CrmTab() {
         <div className="fixed inset-0 z-[60] bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-md w-full max-h-[92vh] overflow-y-auto shadow-2xl">
             <div className="flex items-center justify-between border-b border-slate-800 px-5 py-4">
-              <h3 className="font-bold text-sm text-emerald-400">+ Novo Lead (funerária interessada)</h3>
-              <button onClick={() => setIsNewOpen(false)} className="text-slate-500 hover:text-white text-lg leading-none">✕</button>
+              <h3 className="font-bold text-sm text-emerald-400">
+                {editingId ? "✏️ Editar Lead" : "+ Novo Lead (funerária interessada)"}
+              </h3>
+              <button onClick={() => { setIsNewOpen(false); setEditingId(null); setForm({ ...EMPTY_FORM }); }} className="text-slate-500 hover:text-white text-lg leading-none">✕</button>
             </div>
-            <form onSubmit={handleCreate} className="p-5 space-y-3 text-xs">
+            <form onSubmit={editingId ? handleUpdate : handleCreate} className="p-5 space-y-3 text-xs">
               <div>
                 <label className="block text-slate-400 font-semibold mb-1">Nome do contato *</label>
                 <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Quem decide na funerária" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white" />
@@ -359,7 +493,59 @@ export default function CrmTab() {
                 <textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} placeholder="Contexto, objeções, tamanho da funerária..." className="w-full h-16 bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white" />
               </div>
               <button disabled={saving} className="w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold disabled:opacity-50">
-                {saving ? "Salvando..." : "Criar Lead"}
+                {saving ? "Salvando..." : editingId ? "Salvar Alterações" : "Criar Lead"}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL VIRAR CLIENTE (lead ganho -> tenant real) */}
+      {convertLead && (
+        <div className="fixed inset-0 z-[60] bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-[#0d121f] border border-violet-700/50 rounded-xl max-w-md w-full max-h-[92vh] overflow-y-auto shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-800 px-5 py-4">
+              <h3 className="font-bold text-sm text-violet-400">🚀 Virar Cliente — {convertLead.name}</h3>
+              <button onClick={() => setConvertLead(null)} className="text-slate-500 hover:text-white text-lg leading-none">✕</button>
+            </div>
+            <p className="px-5 pt-3 text-[11px] text-slate-500">
+              Cria a funerária no sistema (tenant) com o plano comercial escolhido. A conversão fica registrada nas anotações do lead.
+            </p>
+            <form onSubmit={handleConvert} className="p-5 space-y-3 text-xs">
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">Razão social *</label>
+                <input required value={convertForm.name} onChange={(e) => setConvertForm({ ...convertForm, name: e.target.value })} placeholder="Razão social da funerária" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white" />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">CNPJ *</label>
+                  <input required value={convertForm.cnpj} onChange={(e) => setConvertForm({ ...convertForm, cnpj: e.target.value })} placeholder="00.000.000/0000-00" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white" />
+                </div>
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">Nome fantasia</label>
+                  <input value={convertForm.trade_name} onChange={(e) => setConvertForm({ ...convertForm, trade_name: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">Cidade do alvará</label>
+                  <input value={convertForm.issuance_city} onChange={(e) => setConvertForm({ ...convertForm, issuance_city: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white" />
+                </div>
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">Tel. emergência</label>
+                  <input value={convertForm.phone_emergency} onChange={(e) => setConvertForm({ ...convertForm, phone_emergency: e.target.value })} placeholder="(86) 99999-0000" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">Plano comercial *</label>
+                <select value={convertForm.commercial_plan} onChange={(e) => setConvertForm({ ...convertForm, commercial_plan: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white">
+                  <option value="essencial">Essencial — até 200 associados</option>
+                  <option value="profissional">Profissional — até 1.000 associados</option>
+                  <option value="enterprise">Enterprise — ilimitado</option>
+                </select>
+              </div>
+              <button disabled={converting} className="w-full py-2.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white font-bold disabled:opacity-50">
+                {converting ? "Criando funerária..." : "🚀 Criar Funerária no Sistema"}
               </button>
             </form>
           </div>

@@ -99,6 +99,36 @@ export const PATCH = withAuth(
       patch.estimated_monthly = Number.isFinite(v) && v > 0 ? v : 0;
     }
 
+    // Edição completa do lead (UI de editar)
+    if (body.name !== undefined) {
+      const name = sanitizeString(String(body.name || ""), 150);
+      if (name.length < 2) {
+        return NextResponse.json({ error: "Nome inválido (mínimo 2 caracteres)." }, { status: 400 });
+      }
+      patch.name = name;
+    }
+    if (body.company !== undefined) {
+      patch.company = body.company ? sanitizeString(String(body.company), 150) : null;
+    }
+    if (body.city !== undefined) {
+      patch.city = body.city ? sanitizeString(String(body.city), 100) : null;
+    }
+    if (body.uf !== undefined) {
+      patch.uf = body.uf ? sanitizeString(String(body.uf), 2).toUpperCase() : null;
+    }
+    if (body.phone !== undefined) {
+      patch.phone = body.phone ? sanitizeString(String(body.phone), 25) : null;
+    }
+    if (body.email !== undefined) {
+      patch.email = body.email ? sanitizeString(String(body.email), 150) : null;
+    }
+    if (body.source !== undefined) {
+      if (!isValidLeadSource(body.source)) {
+        return NextResponse.json({ error: "Origem inválida" }, { status: 400 });
+      }
+      patch.source = body.source;
+    }
+
     const { data, error } = await supabaseAdmin
       .from("leads")
       .update(patch)
