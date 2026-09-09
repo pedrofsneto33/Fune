@@ -3,6 +3,7 @@ import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { serverError } from '@/lib/http-error';
 import { isValidUUID, sanitizeString } from '@/lib/validation';
+import { isHolderActive, isContractActive } from '@/lib/eligibility';
 
 export const dynamic = 'force-dynamic';
 
@@ -75,8 +76,9 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
           }
           const cSt = String((ownedContract as any).status ?? '').toLowerCase();
           const hSt = String((ownedContract as any).holders?.status ?? '').toLowerCase();
-          const cOk = cSt === 'ativo' || cSt === 'active';
-          const hOk = hSt !== 'inativo' && hSt !== 'inactive';
+          // REGRA UNICA centralizada em src/lib/eligibility.ts
+          const cOk = isContractActive(cSt);
+          const hOk = isHolderActive(hSt);
           if (!cOk || !hOk) {
             return NextResponse.json({ error: 'Este titular/contrato nao esta ativo. Reative antes de liberar o emprestimo.' }, { status: 403 });
           }

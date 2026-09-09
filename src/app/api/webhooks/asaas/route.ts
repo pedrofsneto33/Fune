@@ -1,6 +1,7 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { checkRateLimit } from '@/lib/rate-limiter';
+import { logError } from '@/lib/http-error';
 import crypto from 'crypto';
 
 /**
@@ -85,23 +86,40 @@ export async function POST(req: NextRequest) {
   }
 
   if (event === 'PAYMENT_RECEIVED' || event === 'PAYMENT_CONFIRMED') {
-    const { data: updatedPayment, error: paymentError } = await supabaseAdmin
+    // IDEMPOTENCIA: o Asaas envia PAYMENT_CONFIRMED *e* PAYMENT_RECEIVED para o
+    // mesmo pagamento (e pode reenviar eventos). Processa apenas a TRANSICAO
+    // para 'paid' — se ja estava pago, o update nao afeta nenhuma linha e os
+    // side effects (receita + comissao) sao pulados. Sem isso, o Livro Caixa e
+    // as comissoes saem duplicados.
+    const rawMethod = String(payment.billingType || '').toLowerCase();
+    const allowedMethods = new Set(['pix', 'boleto', 'credit_card', 'cash']);
+    const { data: updatedPayments, error: paymentError } = await supabaseAdmin
       .from('payments')
       .update({
         status: 'paid',
         paid_at: payment.confirmedDate || new Date().toISOString(),
-        payment_method: payment.billingType?.toLowerCase() || 'pix',
+        payment_method: allowedMethods.has(rawMethod) ? rawMethod : null,
       })
       .eq('asaas_payment_id', payment.id)
       .eq('tenant_id', tenant.id)
-      .select('id, amount, contract_id')
-      .single();
+      .neq('status', 'paid') // so transicao: de nao-pago para pago
+      .select('id, amount, contract_id');
 
-    if (paymentError || !updatedPayment) {
-      return NextResponse.json({ error: 'Pagamento não localizado para este tenant' }, { status: 404 });
+    if (paymentError) {
+      logError(paymentError, '[asaas-webhook] erro ao marcar pagamento como pago');
+      return NextResponse.json({ error: 'Erro interno ao processar pagamento' }, { status: 500 });
     }
 
-    await supabaseAdmin.from('financial_transactions').insert({
+    if (!updatedPayments || updatedPayments.length === 0) {
+      // Nao e falha: evento duplicado (ja pago) OU cobranca avulsa/carne que nao
+      // vive na tabela payments. Confirma recebimento (200) pro Asaas parar de
+      // reenviar — 404 aqui fazia o Asaas retentar indefinidamente.
+      return NextResponse.json({ received: true, processed: false });
+    }
+
+    const updatedPayment = updatedPayments[0];
+
+    const { error: txError } = await supabaseAdmin.from('financial_transactions').insert({
       tenant_id: tenant.id,
       payment_id: updatedPayment.id,
       type: 'income',
@@ -110,12 +128,20 @@ export async function POST(req: NextRequest) {
       description: `Recebimento Asaas - Pagamento ID ${payment.id}`,
       transaction_date: new Date().toISOString(),
     });
+    if (txError) {
+      // Nao falhar o webhook (pagamento ja esta pago; reenvio cairia na
+      // idempotencia). Registrar para monitoria — receita faltante e grave.
+      logError(txError, '[asaas-webhook] FALHA AO REGISTRAR RECEITA no Livro Caixa');
+    }
 
-    await supabaseAdmin
+    const { error: contractUpdateError } = await supabaseAdmin
       .from('contracts')
       .update({ status: 'active' })
       .eq('id', updatedPayment.contract_id)
       .eq('tenant_id', tenant.id);
+    if (contractUpdateError) {
+      logError(contractUpdateError, '[asaas-webhook] erro ao reativar contrato');
+    }
 
     // PASSO 6: gerar comissão por vendedor no pagamento confirmado
     await generateCommission(supabaseAdmin, tenant.id, updatedPayment);

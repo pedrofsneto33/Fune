@@ -70,6 +70,7 @@ export function ModalCobrancaAvulsa({
         pixCopy: data.pix_qr_code || undefined,
       });
       notifySuccess(`Cobrança avulsa gerada! ${data.message || ""}`);
+      if (data.warning) notifyError(data.warning);
       if (onSuccess) onSuccess();
     } catch (err) {
       notifyError("Erro: " + (err as Error).message);

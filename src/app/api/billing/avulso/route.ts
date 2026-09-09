@@ -140,7 +140,7 @@ export const POST = withAuth(
 
       // 3. Registra receita no financeiro (sem contract_id; rastreável pelo CPF)
       const txRef = sanitizeString(`${desc} — ${nome}` + (service_order_id ? ` (OS ${service_order_id})` : ""), 255);
-      await supabaseAdmin.from("financial_transactions").insert({
+      const { error: txError } = await supabaseAdmin.from("financial_transactions").insert({
         tenant_id: auth.tenantId,
         description: txRef,
         amount,
@@ -148,6 +148,12 @@ export const POST = withAuth(
         category: "Serviço Funeral Avulso",
         transaction_date: dueDate,
       });
+      // A cobranca no Asaas ja existe (sem rollback possivel) — mas a receita
+      // DEVE entrar no Livro Caixa. Se falhar, sinalizar na resposta para o
+      // usuario lancar manualmente em vez de perder o registro em silencio.
+      const financialWarning = txError
+        ? "ATENCAO: a receita nao foi registrada no Livro Caixa (" + txError.message + "). Lance manualmente em Financeiro."
+        : undefined;
 
       let qr: { encodedImage?: string; payload?: string } | null = null;
       if (billingType === "PIX") {
@@ -162,6 +168,7 @@ export const POST = withAuth(
         {
           success: true,
           message: "Cobrança avulsa gerada com sucesso.",
+          warning: financialWarning || null,
           payment_id: paymentData.id,
           invoiceUrl: paymentData.bankSlipUrl || paymentData.invoiceUrl || null,
           status: paymentData.status,

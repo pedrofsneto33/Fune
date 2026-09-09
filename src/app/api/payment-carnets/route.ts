@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { getAsaasConfigForTenant } from '@/lib/asaasClient';
 import { checkRateLimit } from '@/lib/rate-limiter';
 import { sanitizeString, isValidUUID } from '@/lib/validation';
+import { isHolderActive, isContractActive } from '@/lib/eligibility';
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   try {
@@ -60,6 +61,26 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     }
 
+    // REGRA UNICA (src/lib/eligibility.ts): carne so para titular/contrato ativos.
+    // Sem isso, boleto/pix/lote bloqueiam inativos mas o carne deixava passar.
+    if (contract_id) {
+      const { data: eligContract } = await supabaseAdmin
+        .from('contracts')
+        .select('status, holders(status)')
+        .eq('id', contract_id)
+        .eq('tenant_id', auth.tenantId)
+        .maybeSingle();
+      if (eligContract) {
+        const hStatus = String((eligContract as any).holders?.status ?? '').toLowerCase();
+        const cStatus = String((eligContract as any).status ?? '').toLowerCase();
+        if (!isHolderActive(hStatus) || !isContractActive(cStatus)) {
+          return NextResponse.json(
+            { error: 'Este titular/contrato nao esta ativo. Reative antes de gerar o carne.' },
+            { status: 403 },
+          );
+        }
+      }
+    }
     const asaasConfig = await getAsaasConfigForTenant(auth.tenantId);
     const baseUrl = asaasConfig.baseUrl;
     const apiKey = asaasConfig.apiKey;
@@ -134,6 +155,20 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
     }
     const updateData: any = {};
     if (status) updateData.status = status;
+
+    // Sincronizacao financeira: parcela que vira 'pago' gera receita no Livro
+    // Caixa (mesma regra do webhook Asaas para mensalidades). Idempotente:
+    // so grava na transicao pendente/atrasado -> pago.
+    let previousStatus: string | null = null;
+    if (status === 'pago') {
+      const { data: current } = await supabaseAdmin
+        .from('payment_carnets')
+        .select('status')
+        .eq('id', id)
+        .eq('tenant_id', auth.tenantId)
+        .maybeSingle();
+      previousStatus = current?.status ?? null;
+    }
     const { data, error } = await supabaseAdmin
       .from('payment_carnets')
       .update(updateData)
@@ -143,6 +178,19 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
       .single();
     if (error) {
       return NextResponse.json({ error: 'Erro ao atualizar parcela.' }, { status: 500 });
+    }
+    if (status === 'pago' && data && previousStatus !== 'pago') {
+      const { error: txError } = await supabaseAdmin.from('financial_transactions').insert({
+        tenant_id: auth.tenantId,
+        type: 'income',
+        category: 'Carne',
+        amount: data.amount,
+        description: `Carne ${data.holder_name || ''} - parcela ${data.installment_number}/${data.total_installments}`.trim(),
+        transaction_date: new Date().toISOString(),
+      });
+      if (txError) {
+        console.error('[carnets] falha ao registrar receita da parcela:', txError.message);
+      }
     }
     return NextResponse.json({ success: true, data });
   } catch (err: any) {

@@ -458,7 +458,7 @@ export const DELETE = withAuth(
         return NextResponse.json(
           {
             error:
-              "Erro ao removeráá contratos vinculados: " + contractsError.message,
+              "Erro ao remover contratos vinculados: " + contractsError.message,
           },
           { status: 500 },
         );

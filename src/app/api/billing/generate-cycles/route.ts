@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
+import { isHolderActive } from '@/lib/eligibility';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
@@ -75,7 +76,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
       // REGRA ÚNICA: titular inativo (bilingue) nunca é cobrado, mesmo com contrato ativo
       const hStatus = String(holder?.status ?? '').toLowerCase();
-      if (hStatus === 'inativo' || hStatus === 'inactive') {
+      if (!isHolderActive(hStatus)) {
         skippedCount++;
         continue;
       }

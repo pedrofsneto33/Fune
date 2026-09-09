@@ -14,6 +14,7 @@ import { TenantSettingsTab } from "@/components/tabs/TenantSettingsTab";
 import { ModalChapel } from "@/components/modals/ModalChapel";
 import { ModalCarnets } from "@/components/modals/ModalCarnets";
 import { ModalCobrancaAvulsa } from "@/components/modals/ModalCobrancaAvulsa";
+import { isHolderActive, isContractActive } from "@/lib/eligibility";
 import ThemeToggle from "@/components/ThemeToggle";
 import SellersTab from "@/components/tabs/SellersTab";
 import FiscalTab from "@/components/tabs/FiscalTab";
@@ -360,11 +361,9 @@ export default function MasterEternityOS() {
   const [cobrancaAvulsaNome, setCobrancaAvulsaNome] = useState("");
   // REGRA ÚNICA: cobrança em lote só para titular ativo. "" = todos os ativos.
   const [asaasBatchHolderId, setAsaasBatchHolderId] = useState("");
-  const asaasHolderIsInactive = (h: any) =>
-    (h?.status ?? "").toLowerCase() === "inativo" ||
-    (h?.status ?? "").toLowerCase() === "inactive";
-  const asaasContractIsActive = (s: string | null | undefined) =>
-    (s ?? "").toLowerCase() === "ativo" || (s ?? "").toLowerCase() === "active";
+  // REGRA UNICA centralizada em src/lib/eligibility.ts (mesmo criterio do backend)
+  const asaasHolderIsInactive = (h: any) => !isHolderActive(h?.status);
+  const asaasContractIsActive = (s: string | null | undefined) => isContractActive(s);
   // Associados elegíveis no lote: titular ativo E com contrato ativo (mesmo critério do backend)
   const asaasEligibleHolders = (holders || []).filter((h: any) => {
     if (asaasHolderIsInactive(h)) return false;

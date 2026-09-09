@@ -3,6 +3,7 @@ import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { serverError } from '@/lib/http-error';
 import { getAsaasConfigForTenant } from '@/lib/asaasClient';
+import { isHolderActive, isContractActive } from '@/lib/eligibility';
 
 export const dynamic = 'force-dynamic';
 
@@ -46,8 +47,9 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     const __contract = (payment.contracts as any);
     const __hStatus = String((__contract?.holders?.status) ?? '').toLowerCase();
     const __cStatus = String((__contract?.status) ?? '').toLowerCase();
-    const __contractOk = __cStatus === 'ativo' || __cStatus === 'active';
-    const __holderOk = __hStatus !== 'inativo' && __hStatus !== 'inactive';
+    // REGRA UNICA centralizada em src/lib/eligibility.ts
+    const __contractOk = isContractActive(__cStatus);
+    const __holderOk = isHolderActive(__hStatus);
     if (!__contractOk || !__holderOk) {
       return NextResponse.json({ error: 'Este titular/contrato não está ativo. Reative antes de gerar o PIX.' }, { status: 403 });
     }

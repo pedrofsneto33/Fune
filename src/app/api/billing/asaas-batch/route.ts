@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { serverError } from '@/lib/http-error';
 import { checkRateLimit } from '@/lib/rate-limiter';
 import { getAsaasConfigForTenant } from '@/lib/asaasClient';
+import { isHolderActive, isContractActive } from '@/lib/eligibility';
 
 interface BatchResult {
   contract_id: string;
@@ -18,13 +19,11 @@ interface BatchResult {
 // REGRA ÚNICA de elegibilidade: cobra SÓ titular ativo (bilingue ativo/active),
 // independente do que estiver no contrato. Contrato com status ativo de um
 // titular inativo NÃO gera cobrança.
+// REGRA UNICA centralizada em src/lib/eligibility.ts (nao duplicar aqui)
 const holderIsInactive = (h: { status?: string | null } | undefined | null) =>
-  !h ||
-  (h.status ?? '').toLowerCase() === 'inativo' ||
-  (h.status ?? '').toLowerCase() === 'inactive';
+  !h || !isHolderActive(h.status);
 
-const contractIsActive = (s: string | null | undefined) =>
-  (s ?? '').toLowerCase() === 'ativo' || (s ?? '').toLowerCase() === 'active';
+const contractIsActive = (s: string | null | undefined) => isContractActive(s);
 
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {

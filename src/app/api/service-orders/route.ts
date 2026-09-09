@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { sanitizeString, isValidUUID } from '@/lib/validation';
+import { isHolderActive, isContractActive } from '@/lib/eligibility';
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   try {
@@ -84,10 +85,9 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       const cStatus = ((ownedContract as any).status ?? '').toLowerCase();
       const hStatus =
         ((ownedContract as any).holders?.status ?? '').toLowerCase();
-      const contractOk =
-        cStatus === 'ativo' || cStatus === 'active';
-      const holderOk =
-        hStatus !== 'inativo' && hStatus !== 'inactive';
+      // REGRA UNICA centralizada em src/lib/eligibility.ts
+      const contractOk = isContractActive(cStatus);
+      const holderOk = isHolderActive(hStatus);
       if (!contractOk || !holderOk) {
         return NextResponse.json(
           { error: 'Este contrato não está ativo ou o titular não está ativo. Reative o titular/contrato antes de registrar a ordem de serviço.' },

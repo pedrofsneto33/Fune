@@ -123,3 +123,31 @@ export function calculateEligibility(params: {
     totalOverdueAmount: 0
   };
 }
+
+// ============================================================
+// REGRA ÚNICA DE COBRANÇA (fonte única de verdade — NÃO duplicar!)
+// Para cobrar/liberar: titular precisa estar ATIVO e, quando houver
+// contrato vinculado, o contrato precisa estar ATIVO. Bilingue
+// (ativo/active, inativo/inactive) por resiliência de dados legados.
+// Consumidores: boleto, pix, asaas-batch, generate-cycles, payment-carnets,
+// service-orders, convalescence, carteirinha e a UI (page.tsx).
+// ============================================================
+export function isHolderActive(status?: string | null): boolean {
+  const s = String(status ?? '').trim().toLowerCase();
+  return s !== 'inativo' && s !== 'inactive';
+}
+
+export function isContractActive(status?: string | null): boolean {
+  const s = String(status ?? '').trim().toLowerCase();
+  return s === 'ativo' || s === 'active';
+}
+
+export function isBillingEligible(
+  holderStatus?: string | null,
+  contractStatus?: string | null,
+): boolean {
+  return isHolderActive(holderStatus) && isContractActive(contractStatus);
+}
+
+export const BILLING_INELIGIBLE_MESSAGE =
+  'Este titular/contrato não está ativo. Reative o titular e o contrato antes de continuar.';
