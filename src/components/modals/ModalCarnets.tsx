@@ -122,8 +122,10 @@ export function ModalCarnets({
   const selectedContract =
     selectedHolder?.contracts?.find((c) => contractIsActive(c.status)) || null;
 
-  // Filtra apenas titulares com pelo menos um contrato ativo
-  const activeHolders = holders.filter((h) => h.contracts?.some((c) => c.status === 'ativo'));
+  // Carnês só para titulares com pelo menos um contrato ativo (bilingue: 'ativo' | 'active')
+  const activeHolders = holders.filter((h) => h.contracts?.some((c) => contractIsActive(c.status)));
+  const inactiveHolders = holders.filter((h) => h.contracts && h.contracts.length > 0 && !h.contracts.some((c) => contractIsActive(c.status)));
+  const noContractHolders = holders.filter((h) => !h.contracts || h.contracts.length === 0);
 
   const numInstallments = Math.min(Math.max(parseInt(installments, 10) || 1, 1), 12);
   const parcelValue = Number(totalValue) > 0 ? Number(totalValue) / numInstallments : 0;
@@ -197,6 +199,11 @@ export function ModalCarnets({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedHolder) return;
+    // Travas: titular precisa ter contrato ativo (bilingue). Sem contrato -> avisa.
+    if (!selectedContract) {
+      notifyError('Este associado não possui contrato ativo. Carnê só pode ser gerado para titular ativo.');
+      return;
+    }
     setSaving(true);
     try {
       const res = await authFetch('/api/payment-carnets', {
@@ -420,6 +427,23 @@ export function ModalCarnets({
               />
             </div>
           </div>
+          {/* CONTADORES DE ELEGIBILIDADE */}
+          <div className="flex flex-wrap gap-1.5 text-[10px]">
+            <span className="px-2 py-0.5 rounded-full border bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+              {activeHolders.length} associado(s) ativo(s)
+            </span>
+            {inactiveHolders.length > 0 && (
+              <span className="px-2 py-0.5 rounded-full border bg-zinc-500/15 text-zinc-400 border-zinc-500/30" title={inactiveHolders.map((h) => h.full_name).join(', ')}>
+                {inactiveHolders.length} inativo(s) — sem carnê
+              </span>
+            )}
+            {noContractHolders.length > 0 && (
+              <span className="px-2 py-0.5 rounded-full border bg-amber-500/15 text-amber-400 border-amber-500/30" title={noContractHolders.map((h) => h.full_name).join(', ')}>
+                {noContractHolders.length} sem contrato — sem carnê
+              </span>
+            )}
+          </div>
+
           {parcelValue > 0 && selectedHolder && (
             <p className="text-[11px] text-zinc-400">
               {numInstallments}x de <span className="font-bold text-violet-400">{brl(parcelValue)}</span> para{' '}
