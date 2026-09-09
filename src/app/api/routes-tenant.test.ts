@@ -8,6 +8,10 @@ const ALLOWLIST = ['webhooks/asaas', 'webhooks/whatsapp'];
 // tenants/route.ts (PATCH): superadmin pode atualizar outro tenant por id
 // (comportamento intencional de gestao multi-tenant, role-gated).
 const INTENTIONAL_CROSS_TENANT = ['tenants'];
+// leads: CRM INTERNO do operador do SaaS — leads são prospects de VENDA do
+// próprio sistema, não pertencem a nenhuma funerária (tenant). Rota gated
+// superadmin; tabela `leads` com RLS sem policies (só service role).
+const NO_TENANT_SCOPE = ['leads'];
 
 function listRouteFiles(dir: string): string[] {
   const found: string[] = [];
@@ -61,7 +65,8 @@ describe('Segurança: todo update/delete em rota de API é tenant-scoped', () =>
 
     const whitelisted =
       ALLOWLIST.some((w) => rel.startsWith(w)) ||
-      INTENTIONAL_CROSS_TENANT.some((w) => rel.startsWith(w));
+      INTENTIONAL_CROSS_TENANT.some((w) => rel.startsWith(w)) ||
+      NO_TENANT_SCOPE.some((w) => rel.startsWith(w));
 
     it(`filtra por tenant em ${rel}`, () => {
       if (whitelisted) return; // valida por payload/HMAC proprio, aceito

@@ -18,6 +18,7 @@ import { isHolderActive, isContractActive } from "@/lib/eligibility";
 import ThemeToggle from "@/components/ThemeToggle";
 import SellersTab from "@/components/tabs/SellersTab";
 import FiscalTab from "@/components/tabs/FiscalTab";
+import CrmTab from "@/components/tabs/CrmTab";
 import PlansTab from "@/components/tabs/PlansTab";
 import { validateField } from "@/lib/formValidation";
 
@@ -165,6 +166,7 @@ export default function MasterEternityOS() {
     | "plans"
     | "fiscal"
     | "financial"
+    | "crm"
   >("holders");
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -1650,6 +1652,14 @@ export default function MasterEternityOS() {
                       </div>
                     </button>
                   )}
+                  {userRole === "superadmin" && (
+                    <button
+                      onClick={() => setActiveTab("crm")}
+                      className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "crm" ? "bg-violet-600/15 text-violet-400 border border-violet-500/30" : "text-white hover:bg-slate-200 dark:hover:bg-slate-800"}`}
+                    >
+                      <span>🎯</span> CRM (Vendas)
+                    </button>
+                  )}
                 </div>
               </div>
             )}
@@ -2996,6 +3006,9 @@ export default function MasterEternityOS() {
           {activeTab === "fiscal" && isTabAllowed(userRole, "financial") && (
             <FiscalTab />
           )}
+
+          {/* CRM DE VENDAS (interno do operador, superadmin) */}
+          {activeTab === "crm" && userRole === "superadmin" && <CrmTab />}
 
           {/* PLANOS FUNERÁRIOS */}
           {activeTab === "plans" && isTabAllowed(userRole, "plans") && <PlansTab />}

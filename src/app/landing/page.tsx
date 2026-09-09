@@ -59,6 +59,9 @@ const FAQ = [
 
 export default function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [leadForm, setLeadForm] = useState({ name: '', phone: '', city: '', company: '', website: '' });
+  const [leadStatus, setLeadStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [leadError, setLeadError] = useState('');
 
   return (
     <main className="min-h-screen bg-[#070b14] text-slate-900 dark:text-slate-100 selection:bg-blue-500/40">
@@ -185,6 +188,60 @@ export default function LandingPage() {
             <MessageCircle className="w-5 h-5" /> Chamar no WhatsApp
           </a>
         </div>
+      </section>
+
+      {/* CAPTURA DE LEADS → CRM interno do operador (POST /api/leads/landing) */}
+      <section id="contato" className="max-w-3xl mx-auto px-5 py-20">
+        <h2 className="text-2xl sm:text-3xl font-black text-white text-center mb-2">
+          Quer ver o sistema funcionando?
+        </h2>
+        <p className="text-sm text-slate-600 dark:text-slate-500 dark:text-slate-400 text-center mb-8">
+          Deixe seu contato e retornamos pelo WhatsApp com uma demonstração ao vivo — sem compromisso.
+        </p>
+        {leadStatus === 'sent' ? (
+          <p className="text-center text-emerald-400 font-bold text-sm bg-emerald-950/40 border border-emerald-800 rounded-xl p-5">
+            ✅ Recebido! Retornaremos em breve pelo WhatsApp.
+          </p>
+        ) : (
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              setLeadStatus('sending');
+              setLeadError('');
+              try {
+                const res = await fetch('/api/leads/landing', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(leadForm),
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) {
+                  setLeadError(data.error || 'Erro ao enviar.');
+                  setLeadStatus('error');
+                  return;
+                }
+                setLeadStatus('sent');
+              } catch {
+                setLeadError('Erro de conexão.');
+                setLeadStatus('error');
+              }
+            }}
+            className="bg-white/[0.02] border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-3 text-xs"
+          >
+            <input value={leadForm.name} onChange={(e) => setLeadForm({ ...leadForm, name: e.target.value })} required placeholder="Seu nome *" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white" />
+            <div className="grid grid-cols-2 gap-2">
+              <input value={leadForm.phone} onChange={(e) => setLeadForm({ ...leadForm, phone: e.target.value })} required placeholder="WhatsApp com DDD *" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white" />
+              <input value={leadForm.city} onChange={(e) => setLeadForm({ ...leadForm, city: e.target.value })} placeholder="Cidade" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white" />
+            </div>
+            <input value={leadForm.company} onChange={(e) => setLeadForm({ ...leadForm, company: e.target.value })} placeholder="Nome da funerária (opcional)" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white" />
+            {/* honeypot anti-bot: invisível para humanos */}
+            <input tabIndex={-1} autoComplete="off" value={leadForm.website} onChange={(e) => setLeadForm({ ...leadForm, website: e.target.value })} className="hidden" aria-hidden="true" />
+            {leadStatus === 'error' && <p className="text-rose-400 text-[11px]">{leadError}</p>}
+            <button disabled={leadStatus === 'sending'} className="w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold disabled:opacity-50">
+              {leadStatus === 'sending' ? 'Enviando...' : 'Quero uma demonstração gratuita'}
+            </button>
+          </form>
+        )}
       </section>
 
       <footer className="border-t border-white/5 bg-black/30">
