@@ -33,7 +33,7 @@ export const GET = withAuth(
             .order("created_at", { ascending: false })
         : supabaseAdmin
             .from("holders")
-            .select("id, full_name, phone, created_at")
+            .select("id, full_name, phone, status, created_at")
             .eq("tenant_id", auth.tenantId)
             .order("created_at", { ascending: false });
 
@@ -96,6 +96,7 @@ export const GET = withAuth(
             id: h.id,
             full_name: h.full_name,
             phone: h.phone,
+            status: h.status ?? "ativo",
             created_at: h.created_at,
             dependents: deps || [],
             contracts: contracts || [],

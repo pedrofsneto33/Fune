@@ -27,6 +27,7 @@ interface HolderRow {
   id: string;
   full_name: string;
   cpf?: string | null;
+  status?: string | null;
   contracts?: HolderContract[] | null;
 }
 
@@ -122,40 +123,63 @@ export function ModalCarnets({
   const selectedContract =
     selectedHolder?.contracts?.find((c) => contractIsActive(c.status)) || null;
 
-  // Carnês só para titulares com pelo menos um contrato ativo (bilingue: 'ativo' | 'active')
-  const activeHolders = holders.filter((h) => h.contracts?.some((c) => contractIsActive(c.status)));
-  const inactiveHolders = holders.filter((h) => h.contracts && h.contracts.length > 0 && !h.contracts.some((c) => contractIsActive(c.status)));
+  // Ao escolher o associado, puxa do cadastro: valor do plano ativo (se houver)
+  // e preenche no campo "Valor Total". Sem contrato ativo vira carnê avulso.
+  useEffect(() => {
+    if (selectedHolder) {
+      const ct = selectedContract || selectedHolder.contracts?.[0];
+      const fee = Number(ct?.plans?.monthly_fee);
+      if (fee > 0) setTotalValue(fee.toFixed(2));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formHolderId]);
+
+  // REGRA SIMPLES:
+  // - Dropdown "Gerar Novo Carnê": TODOS os titulares com status ativo (cadastrados + ativos).
+  //   Não exige contrato: sem contrato o carnê é gerado avulso (sem boleto Asaas).
+  // - Lista de cima: SÓ quem JÁ TEM carnê (agrupado pelo que está salvo em payment_carnets),
+  //   enriquecido com os dados atuais do cadastro (CPF, plano, status).
+  //   Associado ativo SEM carnê ainda NÃO aparece em cima — só no dropdown. É o normal.
+  const activeHolders = holders.filter((h) => !holderIsInactive(h));
+  const inactiveHolders = holders.filter((h) => holderIsInactive(h));
   const noContractHolders = holders.filter((h) => !h.contracts || h.contracts.length === 0);
 
   const numInstallments = Math.min(Math.max(parseInt(installments, 10) || 1, 1), 12);
   const parcelValue = Number(totalValue) > 0 ? Number(totalValue) / numInstallments : 0;
 
-  // Carnes por associado: cada titular (com ou sem carnes) com seus numeros
+  // Carnês por associado: agrupa o que EXISTE em payment_carnets (por holder_name)
+  // e cruza com o cadastro para mostrar CPF/plano/status atuais.
+  // Quem não tem carnê ainda não aparece aqui (aparece só no dropdown). Quem tem
+  // carnê mas saiu do cadastro (inativo/excluído/nome alterado) aparece marcado
+  // como "Sem vínculo ativo" — nunca some em silêncio.
   const compiled = useMemo(() => {
     const byName = new Map<string, CarnetRow[]>();
     for (const c of carnets) {
-      const key = (c.holder_name || 'Sem titular').trim();
+      const key = (c.holder_name || '').trim();
+      if (!key) continue;
       const arr = byName.get(key) || [];
       arr.push(c);
       byName.set(key, arr);
     }
-    const groups = holders.map((h) => {
-      const list = byName.get(h.full_name.trim()) || [];
-      byName.delete(h.full_name.trim());
-      return {
-        name: h.full_name,
-        cpf: h.cpf || null,
-        plan: h.contracts?.[0]?.plans?.name || null,
-        contractStatus: h.contracts?.[0]?.status || null,
-        list,
-      };
-    });
+    const holderByName = new Map<string, HolderRow>();
+    for (const h of holders) holderByName.set(h.full_name.trim(), h);
+    const groups: Array<{
+      name: string; cpf: string | null; plan: string | null;
+      contractStatus: string | null; list: CarnetRow[]; orphan: boolean;
+    }> = [];
     for (const [name, list] of byName) {
-      // Usa holder_cpf do primeiro carnê se disponível (dados salvos no carnê)
-      const firstCarnet = list[0];
-      const carnetCpf = firstCarnet?.holder_cpf || null;
-      groups.push({ name, cpf: carnetCpf, plan: null, contractStatus: null, list });
+      const h = holderByName.get(name);
+      const activeContract = h?.contracts?.find((ct) => contractIsActive(ct.status)) || null;
+      groups.push({
+        name,
+        cpf: h?.cpf || list[0]?.holder_cpf || null,
+        plan: activeContract?.plans?.name || h?.contracts?.[0]?.plans?.name || null,
+        contractStatus: activeContract?.status || h?.contracts?.[0]?.status || h?.status || null,
+        list,
+        orphan: !h || holderIsInactive(h),
+      });
     }
+    groups.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
     return groups.map((g) => {
       const active = g.list
         .filter((c) => c.status !== 'cancelado')
@@ -199,9 +223,8 @@ export function ModalCarnets({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedHolder) return;
-    // Travas: titular precisa ter contrato ativo (bilingue). Sem contrato -> avisa.
-    if (!selectedContract) {
-      notifyError('Este associado não possui contrato ativo. Carnê só pode ser gerado para titular ativo.');
+    if (!Number(totalValue) || Number(totalValue) <= 0 || !firstDue) {
+      notifyError('Informe o valor total e o primeiro vencimento.');
       return;
     }
     setSaving(true);
@@ -236,7 +259,7 @@ export function ModalCarnets({
       <div className="w-full max-w-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-2xl max-h-[92vh] overflow-y-auto">
         <div className="flex justify-between items-center border-b border-zinc-200 dark:border-zinc-800 pb-3">
           <h3 className="text-slate-900 dark:text-white font-bold text-sm flex items-center gap-2">
-            <CreditCard className="w-4 h-4 text-violet-400" /> Carnês de Pagamento — Visão Compilada
+            <CreditCard className="w-4 h-4 text-violet-400" /> Carnês de Pagamento — por Associado
           </h3>
           <div className="flex items-center gap-2">
             <button onClick={loadAll} title="Recarregar" className="text-zinc-400 hover:text-white">
@@ -270,7 +293,7 @@ export function ModalCarnets({
           </div>
         </div>
 
-        {/* COMPILADO POR USUÁRIO CREDENCIADO */}
+        {/* LISTA AGRUPADA POR ASSOCIADO (só quem tem carnê) */}
         <div className="space-y-2">
           <p className="text-[11px] font-bold text-zinc-400 uppercase">
             Carnês por Associado
@@ -439,7 +462,7 @@ export function ModalCarnets({
             )}
             {noContractHolders.length > 0 && (
               <span className="px-2 py-0.5 rounded-full border bg-amber-500/15 text-amber-400 border-amber-500/30" title={noContractHolders.map((h) => h.full_name).join(', ')}>
-                {noContractHolders.length} sem contrato — sem carnê
+                {noContractHolders.length} sem contrato ativo — carnê avulso (sem boleto)
               </span>
             )}
           </div>
