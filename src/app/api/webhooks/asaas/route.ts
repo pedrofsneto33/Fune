@@ -2,6 +2,7 @@
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { checkRateLimit } from '@/lib/rate-limiter';
 import { logError } from '@/lib/http-error';
+import { recordIncome } from '@/lib/financial';
 import crypto from 'crypto';
 
 /**
@@ -85,6 +86,27 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // AUDITORIA: registra o evento bruto. Degradacao graciosa — se a tabela
+  // webhook_events ainda nao existir (migration pendente), o webhook segue
+  // funcionando normalmente.
+  let webhookEventId: string | null = null;
+  try {
+    const { data: evt } = await supabaseAdmin
+      .from('webhook_events')
+      .insert({
+        tenant_id: tenant.id,
+        provider: 'asaas',
+        event: event ?? null,
+        asaas_payment_id: payment.id,
+        payload: body,
+      })
+      .select('id')
+      .single();
+    webhookEventId = evt?.id ?? null;
+  } catch {
+    /* auditoria e best-effort */
+  }
+
   if (event === 'PAYMENT_RECEIVED' || event === 'PAYMENT_CONFIRMED') {
     // IDEMPOTENCIA: o Asaas envia PAYMENT_CONFIRMED *e* PAYMENT_RECEIVED para o
     // mesmo pagamento (e pode reenviar eventos). Processa apenas a TRANSICAO
@@ -107,6 +129,7 @@ export async function POST(req: NextRequest) {
 
     if (paymentError) {
       logError(paymentError, '[asaas-webhook] erro ao marcar pagamento como pago');
+      await markWebhookEvent(webhookEventId, false, 'erro ao marcar pagamento pago: ' + paymentError.message);
       return NextResponse.json({ error: 'Erro interno ao processar pagamento' }, { status: 500 });
     }
 
@@ -114,24 +137,24 @@ export async function POST(req: NextRequest) {
       // Nao e falha: evento duplicado (ja pago) OU cobranca avulsa/carne que nao
       // vive na tabela payments. Confirma recebimento (200) pro Asaas parar de
       // reenviar — 404 aqui fazia o Asaas retentar indefinidamente.
+      await markWebhookEvent(webhookEventId, true, 'sem transicao: evento duplicado (ja pago) ou pagamento nao rastreado (avulso/carne)');
       return NextResponse.json({ received: true, processed: false });
     }
 
     const updatedPayment = updatedPayments[0];
 
-    const { error: txError } = await supabaseAdmin.from('financial_transactions').insert({
-      tenant_id: tenant.id,
-      payment_id: updatedPayment.id,
-      type: 'income',
+    const income = await recordIncome({
+      tenantId: tenant.id,
+      amount: Number(updatedPayment.amount),
       category: 'plan_subscription',
-      amount: updatedPayment.amount,
       description: `Recebimento Asaas - Pagamento ID ${payment.id}`,
-      transaction_date: new Date().toISOString(),
+      paymentId: updatedPayment.id,
+      source: 'asaas_webhook',
     });
-    if (txError) {
+    if (!income.ok) {
       // Nao falhar o webhook (pagamento ja esta pago; reenvio cairia na
       // idempotencia). Registrar para monitoria — receita faltante e grave.
-      logError(txError, '[asaas-webhook] FALHA AO REGISTRAR RECEITA no Livro Caixa');
+      logError(income.error, '[asaas-webhook] FALHA AO REGISTRAR RECEITA no Livro Caixa');
     }
 
     const { error: contractUpdateError } = await supabaseAdmin
@@ -145,9 +168,34 @@ export async function POST(req: NextRequest) {
 
     // PASSO 6: gerar comissão por vendedor no pagamento confirmado
     await generateCommission(supabaseAdmin, tenant.id, updatedPayment);
+
+    await markWebhookEvent(webhookEventId, true);
   }
 
+  await markWebhookEvent(webhookEventId, true, 'evento nao tratado');
   return NextResponse.json({ received: true });
+}
+
+// Marca o resultado do processamento do evento auditado (best-effort:
+// auditoria nunca pode quebrar o fluxo de cobranca).
+async function markWebhookEvent(
+  id: string | null,
+  processed: boolean,
+  skippedReason?: string,
+) {
+  if (!id) return;
+  try {
+    await supabaseAdmin
+      .from('webhook_events')
+      .update({
+        processed,
+        skipped_reason: skippedReason ?? null,
+        processed_at: new Date().toISOString(),
+      })
+      .eq('id', id);
+  } catch {
+    /* best-effort */
+  }
 }
 
 // Gera comissão por vendedor quando um pagamento é confirmado.

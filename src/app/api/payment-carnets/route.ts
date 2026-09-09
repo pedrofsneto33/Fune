@@ -5,6 +5,7 @@ import { getAsaasConfigForTenant } from '@/lib/asaasClient';
 import { checkRateLimit } from '@/lib/rate-limiter';
 import { sanitizeString, isValidUUID } from '@/lib/validation';
 import { isHolderActive, isContractActive } from '@/lib/eligibility';
+import { recordIncome } from '@/lib/financial';
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   try {
@@ -180,16 +181,15 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
       return NextResponse.json({ error: 'Erro ao atualizar parcela.' }, { status: 500 });
     }
     if (status === 'pago' && data && previousStatus !== 'pago') {
-      const { error: txError } = await supabaseAdmin.from('financial_transactions').insert({
-        tenant_id: auth.tenantId,
-        type: 'income',
+      const income = await recordIncome({
+        tenantId: auth.tenantId,
+        amount: Number(data.amount),
         category: 'Carne',
-        amount: data.amount,
         description: `Carne ${data.holder_name || ''} - parcela ${data.installment_number}/${data.total_installments}`.trim(),
-        transaction_date: new Date().toISOString(),
+        source: 'payment_carnets',
       });
-      if (txError) {
-        console.error('[carnets] falha ao registrar receita da parcela:', txError.message);
+      if (!income.ok) {
+        console.error('[carnets] falha ao registrar receita da parcela:', income.error);
       }
     }
     return NextResponse.json({ success: true, data });

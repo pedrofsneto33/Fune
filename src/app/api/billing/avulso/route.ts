@@ -5,6 +5,7 @@ import { serverError } from "@/lib/http-error";
 import { getAsaasConfigForTenant } from "@/lib/asaasClient";
 import { sanitizeString, sanitizeCPF, isValidUUID } from "@/lib/validation";
 import { checkRateLimit } from "@/lib/rate-limiter";
+import { recordIncome } from "@/lib/financial";
 
 // FASE 1 — COBRANÇA AVULSA (não-associado)
 // Permite faturar um funeral/serviço para um cliente que NÃO é associado.
@@ -140,20 +141,20 @@ export const POST = withAuth(
 
       // 3. Registra receita no financeiro (sem contract_id; rastreável pelo CPF)
       const txRef = sanitizeString(`${desc} — ${nome}` + (service_order_id ? ` (OS ${service_order_id})` : ""), 255);
-      const { error: txError } = await supabaseAdmin.from("financial_transactions").insert({
-        tenant_id: auth.tenantId,
-        description: txRef,
-        amount,
-        type: "income",
-        category: "Serviço Funeral Avulso",
-        transaction_date: dueDate,
-      });
       // A cobranca no Asaas ja existe (sem rollback possivel) — mas a receita
       // DEVE entrar no Livro Caixa. Se falhar, sinalizar na resposta para o
       // usuario lancar manualmente em vez de perder o registro em silencio.
-      const financialWarning = txError
-        ? "ATENCAO: a receita nao foi registrada no Livro Caixa (" + txError.message + "). Lance manualmente em Financeiro."
-        : undefined;
+      const income = await recordIncome({
+        tenantId: auth.tenantId,
+        amount,
+        category: "Serviço Funeral Avulso",
+        description: txRef,
+        transactionDate: dueDate,
+        source: "billing_avulso",
+      });
+      const financialWarning = income.ok
+        ? undefined
+        : "ATENCAO: a receita nao foi registrada no Livro Caixa (" + (income.error || "erro") + "). Lance manualmente em Financeiro.";
 
       let qr: { encodedImage?: string; payload?: string } | null = null;
       if (billingType === "PIX") {
