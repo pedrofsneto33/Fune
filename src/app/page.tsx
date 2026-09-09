@@ -1,7 +1,7 @@
 "use client";
 
 
-import { notifySuccess, notifyError, notifyInfo } from '@/lib/notify';
+import { notifySuccess, notifyError, notifyInfo, notifyWarning } from '@/lib/notify';
 import React, { useState, useEffect, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
 import { formatWhatsAppMessage } from "@/lib/whatsapp";
@@ -1444,8 +1444,12 @@ export default function MasterEternityOS() {
 
   // ---- Vendas Avulsas (categoria fixa gravada pela /api/billing/avulso) ----
   const AVULSO_CATEGORY = "Serviço Funeral Avulso";
+  const [avulsoFilterFrom, setAvulsoFilterFrom] = useState("");
+  const [avulsoFilterTo, setAvulsoFilterTo] = useState("");
   const avulsoStats = useMemo(() => {
-    const rows = transactions.filter((t) => t.category === AVULSO_CATEGORY);
+    let rows = transactions.filter((t) => t.category === AVULSO_CATEGORY);
+    if (avulsoFilterFrom) rows = rows.filter((t) => (t.transaction_date || "") >= avulsoFilterFrom);
+    if (avulsoFilterTo) rows = rows.filter((t) => (t.transaction_date || "") <= avulsoFilterTo);
     const nowYm = new Date().toISOString().slice(0, 7);
     const monthRows = rows.filter((t) => (t.transaction_date || "").slice(0, 7) === nowYm);
     return {
@@ -1454,7 +1458,24 @@ export default function MasterEternityOS() {
       monthCount: monthRows.length,
       monthTotal: monthRows.reduce((acc, t) => acc + (Number(t.amount) || 0), 0),
     };
-  }, [transactions]);
+  }, [transactions, avulsoFilterFrom, avulsoFilterTo]);
+
+  const exportAvulsoCSV = () => {
+    if (avulsoStats.rows.length === 0) {
+      notifyWarning("Nenhuma venda avulsa para exportar.");
+      return;
+    }
+    const header = "Data;Descricao;Valor\n";
+    const lines = avulsoStats.rows.map((t) => `${t.transaction_date || ""};${(t.description || "").replace(/;/g, ",")};${Number(t.amount).toFixed(2)}`).join("\n");
+    const blob = new Blob([header + lines], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `vendas_avulsas_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    notifySuccess("CSV exportado!");
+  };
 
   // Missões em Aberto = sepultamentos que no estão concluídos/cancelados
   const openBurials = burials.filter(
@@ -3250,12 +3271,14 @@ export default function MasterEternityOS() {
                   <h4 className="font-bold text-xs text-amber-400 uppercase tracking-wider">
                     💰 Vendas Avulsas (não-associados)
                   </h4>
-                  <button
-                    onClick={() => { setCobrancaAvulsaNome(""); setIsCobrancaAvulsaOpen(true); }}
-                    className="px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-black rounded-lg text-xs font-bold shadow"
-                  >
-                    + Nova Cobrança Avulsa
-                  </button>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <input type="date" value={avulsoFilterFrom} onChange={(e) => setAvulsoFilterFrom(e.target.value)} className="px-2 py-1 bg-slate-950 border border-slate-700 rounded text-xs text-white" />
+                    <span className="text-slate-500 text-xs">até</span>
+                    <input type="date" value={avulsoFilterTo} onChange={(e) => setAvulsoFilterTo(e.target.value)} className="px-2 py-1 bg-slate-950 border border-slate-700 rounded text-xs text-white" />
+                    <button onClick={() => { setAvulsoFilterFrom(""); setAvulsoFilterTo(""); }} className="px-2 py-1 bg-slate-700 hover:bg-slate-600 text-white rounded text-xs">Limpar</button>
+                    <button onClick={exportAvulsoCSV} className="px-2 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-bold">📥 CSV</button>
+                    <button onClick={() => { setCobrancaAvulsaNome(""); setIsCobrancaAvulsaOpen(true); }} className="px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-black rounded-lg text-xs font-bold shadow">+ Nova Cobrança Avulsa</button>
+                  </div>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3">
                   <div className="bg-slate-950 border border-slate-800 rounded-lg p-3">
