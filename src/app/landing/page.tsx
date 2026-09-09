@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import {
   HeartPulse, Ambulance, Flower2, Users, FileText, ShieldCheck,
-  Phone, Mail, MapPin, Check, ChevronDown, Building2, Clock, MessageCircle,
+  Phone, Mail, MapPin, Check, ChevronDown, Building2, Clock, MessageCircle, Truck, BarChart3, Handshake,
 } from 'lucide-react';
 
 const WHATSAPP_URL = 'https://wa.me/5586988117925?text=' + encodeURIComponent('Olá! Vim pelo site da PrimeX Sistemas e quero conhecer o EternityOS.');
@@ -12,9 +12,12 @@ const EMAIL = 'pedrofsneto33@gmail.com';
 const MODULES = [
   { icon: Users, title: 'Associados & Contratos', text: 'Cadastro completo de titulares e dependentes, contratos digitalizados, carnet de mensalidades e carteirinha digital com QR Code — pronta para imprimir ou compartilhar no WhatsApp.' },
   { icon: MessageCircle, title: 'Cobrança Inteligente', text: 'Gere cobranças PIX e boletos em lote via Asaas, envie mensagens de vencimento com um clique e concilie pagamentos automaticamente pelo webhook.' },
-  { icon: Ambulance, title: 'Plantão 24h & Dispatch', text: 'Painel de plantão em tempo real, registro de óóóbitos, despacho de veículos com checklist e dedução automáóótica de estoque (urvas, adornos e itens funerários).' },
+  { icon: Ambulance, title: 'Plantão 24h & Dispatch', text: 'Painel de plantão em tempo real, registro de óbitos, despacho de veículos com checklist e dedução automática de estoque (urnas, adornos e itens funerários).' },
   { icon: Flower2, title: 'Capela & Tanatopraxia', text: 'Agenda de velórios e sepultamentos, livro de capela digital e registros técnicos de tanatopraxia com rastreabilidade completa.' },
-  { icon: FileText, title: 'Financeiro & DRE', text: 'Contas a pagar/receber, comissões de vendedores, reservas regulatórias e relatórios DRE prontos para a contabilidade — exportação em PDF.' },
+  { icon: Truck, title: 'Frota, Estoque & Convalescentes', text: 'Controle de veículos em missão, estoque de urnas e insumos com baixa automática, além do empréstimo de aparelhos convalescentes (cadeiras, muletas, camas).' },
+  { icon: FileText, title: 'Financeiro, DRE & Fiscal', text: 'Contas a pagar/receber, comissões de vendedores, carnets, comissões de vendedores e relatórios DRE — mais emissão de NFS-e integrada e exportação em PDF.' },
+  { icon: BarChart3, title: 'Painel Executivo & BI', text: 'KPIs em tempo real: vidas cobertas, receita do mês, inadimplência, sepultamentos e catálogo de planos funerários com valores e coberturas.' },
+  { icon: Handshake, title: 'Vendedores & Clube de Convênios', text: 'Gestão de vendedores com comissões e clube de convênios com parceiros locais (farmácias, clínicas, laboratórios) para valorizar o plano.' },
   { icon: ShieldCheck, title: 'Multiempresa & Segurança', text: 'Cada funerária em seu próprio ambiente isolado (multi-tenant), com controle de acesso por perfil (RBAC), logs de auditoria e backups gerenciados.' },
 ];
 
@@ -22,12 +25,12 @@ const PLANS = [
   {
     code: 'essencial', name: 'Essencial', price: 'R$ 397', period: '/mês', badge: null as string | null,
     desc: 'Para funerárias de pequeno porte começando a digitalizar a operação.',
-    items: ['Até 200 associados ativos', 'Até 5 usuários no sistema', 'Até 4 dependentes por titular', 'Associados, dependentes e contratos', 'Carteirinha digital + cobrança PIX/boleto', 'Plantão 24h e registro de óóóbitos', 'Suporte por WhatsApp'],
+    items: ['Até 200 associados ativos', 'Até 5 usuários no sistema', 'Até 4 dependentes por titular', 'Associados, dependentes e contratos', 'Carteirinha digital + cobrança PIX/boleto', 'Plantão 24h e registro de óbitos', 'Suporte por WhatsApp'],
   },
   {
     code: 'profissional', name: 'Profissional', price: 'R$ 597', period: '/mês', badge: 'Mais escolhido',
     desc: 'Para operações em crescimento que precisam de BI e financeiro completo.',
-    items: ['Até 1.000 associados ativos', 'Até 20 usuários no sistema', 'Até 8 dependentes por titular', 'Tudo do Essencial', 'Frota, estoque e tanatopraxia', 'Financeiro completo com DRE', 'Relatórios em PDF e comissões', 'Suporte prioritário'],
+    items: ['Até 1.000 associados ativos', 'Até 20 usuários no sistema', 'Até 8 dependentes por titular', 'Tudo do Essencial', 'Frota completa e tanatopraxia', 'Financeiro com DRE + NFS-e', 'Vendedores, convênios e BI executivo', 'Catálogo de planos + relatórios em PDF', 'Suporte prioritário'],
   },
   {
     code: 'enterprise', name: 'Enterprise', price: 'Sob consulta', period: '', badge: null as string | null,
@@ -36,9 +39,19 @@ const PLANS = [
   },
 ];
 
+const ADDONS = [
+  { title: 'Migração da base legada', text: 'Importamos seus associados de planilhas (Excel/CSV) ou de outro sistema. Taxa única de implantação — consulte o valor conforme o volume.' },
+  { title: 'Personalização de marca', text: 'Logo, cores e carteirinha com a identidade da sua funerária. Incluso no Enterprise; avulso nos demais planos.' },
+  { title: 'Treinamento da equipe', text: 'Capacitação online para atendentes, plantonistas e financeiro. Sessões adicionais sob consulta.' },
+  { title: 'Integrações sob demanda', text: 'Contabilidade, WhatsApp API oficial, Asaas avançado e outras integrações avaliadas caso a caso.' },
+  { title: 'Multi-filiais', text: 'Configuração de filiais adicionais com ambientes isolados e consolidação executiva no Enterprise.' },
+  { title: 'Desenvolvimento sob medida', text: 'Funcionalidade exclusiva para sua operação? Avaliamos escopo, prazo e investimento separadamente.' },
+];
+
 const FAQ = [
   { q: 'Preciso instalar algo?', a: 'Não. O EternityOS é 100% online: funciona no navegador do computador ou celular. Cuidamos da hospedagem, backups e atualizações.' },
-  { q: 'Consigo migrar meus dados atuais?', a: 'Sim. Importamos sua base de associados em planilha (Excel/CSV) e orientamos todo o processo de migração sem custo nos planos anuais.' },
+  { q: 'Quanto custa a implantação (setup)?', a: 'A implantação é cobrada à parte, como taxa única: inclui migração da sua base, configuração inicial e treinamento. O valor varia conforme o volume de dados e o escopo — peça uma proposta fechada no WhatsApp antes de assinar.' },
+  { q: 'Consigo migrar meus dados atuais?', a: 'Sim. Importamos sua base de associados de planilhas (Excel/CSV) ou de outro sistema. A migração faz parte da taxa de implantação — consulte o valor conforme o volume.' },
   { q: 'A carteirinha funciona no celular?', a: 'Sim, cada associado recebe um link único e seguro com a carteirinha digital, que pode ser salva na tela inicial do celular ou impressa.' },
   { q: 'Meus dados ficam seguros?', a: 'Todos os dados são criptografados em trânsito e em repouso, com controle de acesso por perfil e logs de auditoria de todas as operações.' },
   { q: 'Posso testar antes de contratar?', a: 'Sim! Agende uma demonstração guiada pelo WhatsApp e veja o sistema funcionando com dados de exemplo da sua operação.' },
@@ -98,6 +111,7 @@ export default function LandingPage() {
         </div>
       </section>
 
+        <p className="text-center text-xs text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mt-8">Taxa única de implantação (setup): migração da sua base, configuração inicial e treinamento são cobrados à parte — o valor depende do volume de dados e do escopo. Fale com a gente e receba uma proposta fechada antes de assinar.</p>
       <section id="recursos" className="max-w-6xl mx-auto px-5 py-20 border-t border-white/5">
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Tudo o que sua operação precisa</h2>
