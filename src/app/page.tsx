@@ -21,6 +21,7 @@ import FiscalTab from "@/components/tabs/FiscalTab";
 import CrmTab from "@/components/tabs/CrmTab";
 import PlansTab from "@/components/tabs/PlansTab";
 import { validateField } from "@/lib/formValidation";
+import { useBilling } from "@/hooks/useBilling";
 
 // Interfaces
 interface Dependent {
@@ -146,6 +147,9 @@ export default function MasterEternityOS() {
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
   const [loginErrors, setLoginErrors] = useState<{ email?: string; password?: string }>({});
+
+  // Hook de cobrança (piloto: lote Asaas) — extraído do page.tsx incrementalmente
+  const billing = useBilling(loadData);
 
   // 2. Perfil e Tenant
   const [userRole, setUserRole] = useState<UserRole>("admin");
@@ -375,13 +379,8 @@ export default function MasterEternityOS() {
   const [loadingServiceOrders, setLoadingServiceOrders] = useState(false);
   const [savingStatusId, setSavingStatusId] = useState<string | undefined>(undefined);
   const [togglingStatusId, setTogglingStatusId] = useState<string | undefined>(undefined);
-  const [asaasDueDate, setAsaasDueDate] = useState("");
-  const [asaasBillingType, setAsaasBillingType] = useState("BOLETO");
-  const [asaasBatchRunning, setAsaasBatchRunning] = useState(false);
   const [isCobrancaAvulsaOpen, setIsCobrancaAvulsaOpen] = useState(false);
   const [cobrancaAvulsaNome, setCobrancaAvulsaNome] = useState("");
-  // REGRA ÚNICA: cobrança em lote só para titular ativo. "" = todos os ativos.
-  const [asaasBatchHolderId, setAsaasBatchHolderId] = useState("");
   // REGRA UNICA centralizada em src/lib/eligibility.ts (mesmo criterio do backend)
   const asaasHolderIsInactive = (h: any) => !isHolderActive(h?.status);
   const asaasContractIsActive = (s: string | null | undefined) => isContractActive(s);
@@ -390,7 +389,7 @@ export default function MasterEternityOS() {
     if (asaasHolderIsInactive(h)) return false;
     return (h?.contracts || []).some((c: any) => asaasContractIsActive(c.status));
   });
-  const asaasSelectedHolder = asaasEligibleHolders.find((h: any) => h.id === asaasBatchHolderId);
+  const asaasSelectedHolder = asaasEligibleHolders.find((h: any) => h.id === billing.asaasBatchHolderId);
   // Ordem de serviço vinculada: só titular ativo com contrato ativo (mesma regra das carnets/Asaas)
   const eligibleOSHolders = (holders || []).filter((h: any) => {
     if (asaasHolderIsInactive(h)) return false;
@@ -1025,45 +1024,6 @@ export default function MasterEternityOS() {
       if (exists) return prev.filter((i) => i.inventory_id !== inventoryId);
       return [...prev, { inventory_id: inventoryId, quantity: 1 }];
     });
-  };
-
-  // Disparar Cobranças em Lote no Asaas (com data de vencimento escolhida)
-  const handleGenerateAsaasBatch = async () => {
-    setAsaasBatchRunning(true);
-    try {
-      const res = await authFetch("/api/billing/asaas-batch", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          dueDate: asaasDueDate || undefined,
-          billingType: asaasBillingType,
-          holderId: asaasBatchHolderId || undefined,
-        }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (res.ok && data.success) {
-        const erros = (data.results || []).filter(
-          (r: any) => r.status !== "created",
-        );
-        let extra = "";
-        if (erros.length > 0) {
-          extra =
-            "\n\nAteno:\n" +
-            erros
-              .slice(0, 5)
-              .map((r: any) => `• ${r.holder}: ${r.error}`)
-              .join("\n");
-        }
-        notifySuccess(`✅ Asaas: ${data.message || "Lote processado!"}${extra}`);
-        loadData();
-      } else {
-        notifyError(`Erro Asaas: ${data.error || "Falha ao processar lote"}`);
-      }
-    } catch {
-      notifyError("Erro de conexão ao processar lote Asaas.");
-    } finally {
-      setAsaasBatchRunning(false);
-    }
   };
 
   // Excluir definitivamente o registro de óbito em edição
@@ -3331,7 +3291,7 @@ export default function MasterEternityOS() {
                     + Novo Lançamento
                   </button>
                   <button
-                    onClick={handleGenerateAsaasBatch}
+                    onClick={billing.handleGenerateAsaasBatch}
                     className="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white dark:text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5"
                   >
                     <span>🧾</span> Gerar Lote Asaas
@@ -4214,8 +4174,8 @@ export default function MasterEternityOS() {
                   Cobrar de
                 </label>
                 <select
-                  value={asaasBatchHolderId}
-                  onChange={(e) => setAsaasBatchHolderId(e.target.value)}
+                  value={billing.asaasBatchHolderId}
+                  onChange={(e) => billing.setAsaasBatchHolderId(e.target.value)}
                   className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-xs text-slate-900 dark:text-white"
                 >
                   <option value="">
@@ -4248,8 +4208,8 @@ export default function MasterEternityOS() {
                     </label>
                     <input
                       type="date"
-                      value={asaasDueDate}
-                      onChange={(e) => setAsaasDueDate(e.target.value)}
+                      value={billing.asaasDueDate}
+                      onChange={(e) => billing.setAsaasDueDate(e.target.value)}
                       className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded p-2 text-xs text-slate-900 dark:text-white"
                     />
                   </div>
@@ -4258,8 +4218,8 @@ export default function MasterEternityOS() {
                       Forma de pagamento
                     </label>
                     <select
-                      value={asaasBillingType}
-                      onChange={(e) => setAsaasBillingType(e.target.value)}
+                      value={billing.asaasBillingType}
+                      onChange={(e) => billing.setAsaasBillingType(e.target.value)}
                       className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded p-2 text-xs text-slate-900 dark:text-white"
                     >
                       <option value="BOLETO">Boleto</option>
@@ -4270,11 +4230,11 @@ export default function MasterEternityOS() {
                 </div>
                 <div className="flex justify-between items-center">
                   <button
-                    onClick={handleGenerateAsaasBatch}
-                    disabled={asaasBatchRunning}
+                    onClick={billing.handleGenerateAsaasBatch}
+                    disabled={billing.asaasBatchRunning}
                     className="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white dark:text-white font-bold rounded text-xs disabled:opacity-50"
                   >
-                    {asaasBatchRunning
+                    {billing.asaasBatchRunning
                       ? "Processando lote no Asaas..."
                       : "⚡ Disparar Cobranças em Lote Agora"}
                   </button>
