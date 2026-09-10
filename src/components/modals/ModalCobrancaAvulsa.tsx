@@ -96,28 +96,40 @@ export function ModalCobrancaAvulsa({
           </button>
         </div>
 
-        {result && result.invoiceUrl ? (
+        {result ? (
           <div className="p-5 space-y-3 text-sm">
-            <p className="text-emerald-400 font-bold">Boleto gerado com sucesso!</p>
-            <a href={result.invoiceUrl} target="_blank" rel="noreferrer" className="block text-center py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold">
-              Ver boleto
-            </a>
-          </div>
-        ) : result && result.pixCopy ? (
-          <div className="p-5 space-y-3 text-sm">
-            <p className="text-emerald-400 font-bold">PIX gerado com sucesso!</p>
+            <p className="text-emerald-400 font-bold">
+              {result.invoiceUrl || result.pixCopy ? "Cobrança gerada com sucesso!" : "Cobrança registrada com sucesso!"}
+            </p>
+            {result.invoiceUrl && (
+              <a href={result.invoiceUrl} target="_blank" rel="noreferrer" className="block text-center py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold">
+                Ver boleto
+              </a>
+            )}
             {result.pixQr && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={result.pixQr} alt="QR Code PIX" className="w-40 h-40 mx-auto rounded-lg" />
             )}
-            <div className="bg-slate-950 border border-slate-800 rounded-lg p-3 text-[11px] break-all font-mono">
-              {result.pixCopy}
-            </div>
-            <button
-              onClick={() => navigator.clipboard?.writeText(result.pixCopy || "")}
-              className="w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold"
-            >
-              Copiar código PIX
+            {result.pixCopy && (
+              <div className="bg-slate-950 border border-slate-800 rounded-lg p-3 text-[11px] break-all font-mono">
+                {result.pixCopy}
+              </div>
+            )}
+            {result.pixCopy && (
+              <button
+                onClick={() => navigator.clipboard?.writeText(result.pixCopy || "")}
+                className="w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold"
+              >
+                Copiar código PIX
+              </button>
+            )}
+            {!result.invoiceUrl && !result.pixCopy && (
+              <p className="text-[11px] text-slate-400">
+                A cobrança foi criada no Asaas e já aparece no painel de Vendas Avulsas e no Livro Caixa. Para visualizar/compensar o boleto, acesse o painel do Asaas.
+              </p>
+            )}
+            <button onClick={onClose} className="w-full py-2.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-bold">
+              Fechar
             </button>
           </div>
         ) : (
@@ -157,7 +169,7 @@ export function ModalCobrancaAvulsa({
                 </select>
               </div>
             </div>
-            <button disabled={loading} className="w-full py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold disabled:opacity-50">
+            <button type="submit" disabled={loading} className="w-full py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold disabled:opacity-50">
               {loading ? "Gerando cobrança..." : "Gerar Cobrança Avulsa"}
             </button>
             <p className="text-[10px] text-slate-500">

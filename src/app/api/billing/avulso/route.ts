@@ -93,22 +93,43 @@ export const POST = withAuth(
           : new Date().toISOString().split("T")[0];
       const desc = sanitizeString(descricao || "Serviço funerário avulso", 200);
 
+      // Timeout em TODAS as chamadas ao Asaas: se a API externa demora, o
+      // usuário recebe um erro claro em vez de uma espera infinita.
+      const withTimeout = <T>(ms: number, promise: Promise<T>): Promise<T> =>
+        Promise.race([
+          promise,
+          new Promise<never>((_, reject) =>
+            setTimeout(() => reject(new Error("Timeout aguardando resposta do Asaas")), ms)
+          ),
+        ]);
+
+      // Asaas exige formato internacional para mobilePhone (ex: +5586999990000).
+      // Enviar o número nacional cru faz o sandbox devolver 400 (campo inválido).
+      let mobilePhone: string | undefined;
+      if (responsavel_phone) {
+        const digits = String(responsavel_phone).replace(/\D/g, "");
+        if (digits.length >= 10) {
+          const intl = digits.length >= 13 ? digits : digits.startsWith("55") ? digits : `55${digits}`;
+          mobilePhone = `+${intl}`;
+        }
+      }
+
       // 1. Localiza ou cadastra o cliente avulso no Asaas (por CPF)
-      const searchRes = await fetch(`${baseUrl}/customers?cpfCnpj=${cleanCpf}`, {
+      const searchRes = await withTimeout(15000, fetch(`${baseUrl}/customers?cpfCnpj=${cleanCpf}`, {
         headers: { access_token: apiKey },
-      });
+      }));
       const searchData = await searchRes.json().catch(() => ({}));
       let customerId = searchData?.data?.[0]?.id;
       if (!customerId) {
-        const createCustRes = await fetch(`${baseUrl}/customers`, {
+        const createCustRes = await withTimeout(15000, fetch(`${baseUrl}/customers`, {
           method: "POST",
           headers,
           body: JSON.stringify({
             name: nome,
             cpfCnpj: cleanCpf,
-            mobilePhone: responsavel_phone ? String(responsavel_phone).replace(/\D/g, "") : undefined,
+            mobilePhone,
           }),
-        });
+        }));
         const createCustData = await createCustRes.json().catch(() => ({}));
         if (createCustData.errors || !createCustData.id) {
           return NextResponse.json(
@@ -120,7 +141,7 @@ export const POST = withAuth(
       }
 
       // 2. Cria a cobrança no Asaas
-      const paymentRes = await fetch(`${baseUrl}/payments`, {
+      const paymentRes = await withTimeout(15000, fetch(`${baseUrl}/payments`, {
         method: "POST",
         headers,
         body: JSON.stringify({
@@ -130,7 +151,7 @@ export const POST = withAuth(
           dueDate,
           description: `${desc} - ${nome}`,
         }),
-      });
+      }));
       const paymentData = await paymentRes.json().catch(() => ({}));
       if (paymentData.errors || !paymentData.id) {
         return NextResponse.json(
@@ -158,9 +179,9 @@ export const POST = withAuth(
 
       let qr: { encodedImage?: string; payload?: string } | null = null;
       if (billingType === "PIX") {
-        const qrRes = await fetch(`${baseUrl}/payments/${paymentData.id}/pixQrCode`, {
+        const qrRes = await withTimeout(15000, fetch(`${baseUrl}/payments/${paymentData.id}/pixQrCode`, {
           headers: { access_token: apiKey },
-        });
+        }));
         const qrData = await qrRes.json().catch(() => ({}));
         qr = qrData as { encodedImage?: string; payload?: string } | null;
       }

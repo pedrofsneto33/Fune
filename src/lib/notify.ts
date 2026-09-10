@@ -16,3 +16,7 @@ export function notifyError(message: string): void {
 export function notifyInfo(message: string): void {
   toast.info(message, { duration: 5000 });
 }
+
+export function notifyWarning(message: string): void {
+  toast.warning(message, { duration: 6000 });
+}
