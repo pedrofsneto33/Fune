@@ -49,6 +49,7 @@ export function ModalCobrancaAvulsa({
     setLoading(true);
     setResult(null);
     try {
+      console.log("[Avulso] Enviando requisição...");
       const res = await authFetch("/api/billing/avulso", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -62,7 +63,9 @@ export function ModalCobrancaAvulsa({
           billingType,
         }),
       });
+      console.log("[Avulso] Status:", res.status);
       const data = await res.json().catch(() => ({}));
+      console.log("[Avulso] Resposta:", data);
       if (!res.ok) throw new Error(data.error || "Erro ao gerar cobrança");
       setResult({
         invoiceUrl: data.invoiceUrl,
@@ -73,6 +76,7 @@ export function ModalCobrancaAvulsa({
       if (data.warning) notifyError(data.warning);
       if (onSuccess) onSuccess();
     } catch (err) {
+      console.error("[Avulso] Erro:", err);
       notifyError("Erro: " + (err as Error).message);
     } finally {
       setLoading(false);
