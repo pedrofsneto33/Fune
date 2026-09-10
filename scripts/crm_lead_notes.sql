@@ -1,7 +1,7 @@
 -- ============================================================
--- CRM: HISTÓRICO DE INTERACCIONES POR LEAD (lead_notes)
--- Registro estructurado de llamadas, WhatsApp, e-mails, citas,
--- respuestas, etc. — en lugar de mezclarlo todo en el campo notes.
+-- CRM: HISTÓRICO DE INTERAÇÕES POR LEAD (lead_notes)
+-- Registro estruturado de ligações, WhatsApp, e-mails, reuniões,
+-- respostas, etc. — em lugar de misturar tudo no campo notes.
 -- RODAR NO SUPABASE SQL EDITOR (idempotente).
 -- ============================================================
 

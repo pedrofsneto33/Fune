@@ -82,7 +82,7 @@ export default function CrmTab() {
   });
   const [converting, setConverting] = useState(false);
 
-  // ---- Historial de interacciones (lead_notes) ----
+  // ---- Histórico de interações (lead_notes) ----
   const [histLead, setHistLead] = useState<Lead | null>(null);
   const [histNotes, setHistNotes] = useState<histNoteRow[]>([]);
   const [histLoading, setHistLoading] = useState(false);
@@ -306,7 +306,7 @@ export default function CrmTab() {
     }
   };
 
-  // ---- Historial de interacciones por lead ----
+  // ---- Histórico de interações por lead ----
   const openHist = async (lead: Lead) => {
     setHistLead(lead);
     setHistNotes([]);
@@ -319,7 +319,7 @@ export default function CrmTab() {
       if (res.ok) setHistNotes(Array.isArray(data) ? data : []);
       else notifyError(data.error || "Erro ao carregar histórico");
     } catch {
-      notifyError("Erro de conexão ao cargar histórico");
+      notifyError("Erro de conexão ao carregar histórico");
     } finally {
       setHistLoading(false);
     }
@@ -361,7 +361,7 @@ export default function CrmTab() {
       const res = await authFetch(`/api/lead-notes?id=${id}`, { method: "DELETE" });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        notifyError(data.error || "Erro ao eliminar");
+        notifyError(data.error || "Erro ao excluir");
         return;
       }
       setHistNotes((prev) => prev.filter((n) => n.id !== id));
@@ -505,7 +505,7 @@ export default function CrmTab() {
                         <button
                           onClick={() => openHist(lead)}
                           className="px-1.5 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800 text-[10px] font-bold"
-                          title="Historial de interacciones"
+                          title="Histórico de interações"
                         >
                           📋 Hist.
                         </button>
@@ -664,17 +664,17 @@ export default function CrmTab() {
         </div>
       )}
 
-      {/* MODAL HISTORIAL DE INTERACIONES DEL LEAD */}
+      {/* MODAL HISTORIAL DE INTERAÇÕES DO LEAD */}
       {histLead && (
         <div className="fixed inset-0 z-[60] bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
           <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl">
             <div className="flex items-center justify-between border-b border-slate-800 px-5 py-4">
-              <h3 className="font-bold text-sm text-sky-400">📋 Interacciones — {histLead.name}</h3>
+              <h3 className="font-bold text-sm text-sky-400">📋 Interações — {histLead.name}</h3>
               <button onClick={() => setHistLead(null)} className="text-slate-500 hover:text-white text-lg leading-none">✕</button>
             </div>
             <div className="p-5 space-y-3">
               {histLoading ? (
-                <p className="text-xs text-slate-500 text-center py-4">Cargando historial...</p>
+                <p className="text-xs text-slate-500 text-center py-4">Carregando histórico...</p>
               ) : (
                 <>
                   <form onSubmit={addHistNote} className="flex gap-2 items-stretch">
@@ -683,7 +683,7 @@ export default function CrmTab() {
                       minLength={2}
                       value={histNote}
                       onChange={(e) => setHistNote(e.target.value)}
-                      placeholder="Nueva interacción: llamada, WhatsApp, e-mail, cita..."
+                      placeholder="Nova interação: ligação, WhatsApp, e-mail, reunião..."
                       className="flex-1 min-w-0 bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white"
                     />
                     <button
@@ -691,12 +691,12 @@ export default function CrmTab() {
                       disabled={histSaving}
                       className="px-3.5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-bold disabled:opacity-50"
                     >
-                      {histSaving ? "..." : "+ Añadir"}
+                      {histSaving ? "..." : "+ Adicionar"}
                     </button>
                   </form>
                   {histNotes.length === 0 ? (
                     <p className="text-xs text-slate-500 text-center py-6">
-                      Sin interacciones registradas todavía.
+                      Nenhuma interação registrada ainda.
                     </p>
                   ) : (
                     <div className="space-y-2">

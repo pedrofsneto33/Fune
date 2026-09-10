@@ -7,10 +7,10 @@ import { checkRateLimit } from "@/lib/rate-limiter";
 export const dynamic = "force-dynamic";
 
 // ============================================================
-// CRM INTERNO DEL OPERADOR — HISTÓRICO DE INTERACCIONES por lead.
-// La tabla lead_notes es un registro estructurado de llamadas,
-// WhatsApp, e-mails, respuestas, etc. (no mezclar en campo notes).
-// Restringido a superadmin; RLS sin policies (solo service role).
+// CRM INTERNO DO OPERADOR — HISTÓRICO DE INTERAÇÕES por lead.
+// A tabela lead_notes é um registro estruturado de ligações,
+// WhatsApp, e-mails, respostas, etc. (não confundir com o campo notes).
+// Restrito a superadmin; RLS sem policies (solo service role).
 // ============================================================
 
 export const GET = withAuth(
@@ -74,7 +74,7 @@ export const POST = withAuth(
       .select()
       .single();
     if (error) {
-      return NextResponse.json({ error: "Erro ao guardar anotaçon" }, { status: 500 });
+      return NextResponse.json({ error: "Erro ao salvar anotação" }, { status: 500 });
     }
     return NextResponse.json(data, { status: 201 });
   },
@@ -90,7 +90,7 @@ export const DELETE = withAuth(
     }
     const { error } = await supabaseAdmin.from("lead_notes").delete().eq("id", id);
     if (error) {
-      return NextResponse.json({ error: "Erro ao eliminar anotaçon" }, { status: 500 });
+      return NextResponse.json({ error: "Erro ao excluir anotação" }, { status: 500 });
     }
     return NextResponse.json({ success: true });
   },
