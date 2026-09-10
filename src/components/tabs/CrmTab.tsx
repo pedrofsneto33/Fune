@@ -27,6 +27,8 @@ interface Lead {
   estimated_monthly: number;
   next_follow_up: string | null;
   notes: string | null;
+  converted_at: string | null;
+  converted_tenant_id: string | null;
 }
 
 const fmtBRL = (v: number) =>
@@ -223,6 +225,10 @@ export default function CrmTab() {
 
   // ---- Virar Cliente: lead ganho -> tenant real (POST /api/tenants) ----
   const openConvert = (lead: Lead) => {
+    if (lead.converted_at) {
+      notifyError("Este lead já foi convertido em cliente.");
+      return;
+    }
     setConvertLead(lead);
     setConvertForm({
       name: lead.company ? lead.company + " LTDA" : lead.name + " LTDA",
@@ -254,16 +260,27 @@ export default function CrmTab() {
         notifyError(data.error || "Erro ao criar a funerária");
         return;
       }
-      // Registra a conversão no histórico (anotações) do lead
-      const logLine = `[conversão] Funerária "${convertForm.trade_name || convertForm.name}" criada em ${new Date().toLocaleDateString("pt-BR")}.`;
+      // Registra a conversão no histórico (anotações) + marca lead como cliente
+      const tenantId = data.id;
+      const nowIso = new Date().toISOString();
+      const logLine = `[conversão] Funerária "${convertForm.trade_name || convertForm.name}" (tenant ${tenantId}) criada em ${new Date().toLocaleDateString("pt-BR")}.`;
       const newNotes = (convertLead.notes ? convertLead.notes + "\n" : "") + logLine;
       await authFetch("/api/leads", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: convertLead.id, notes: newNotes }),
+        body: JSON.stringify({
+          id: convertLead.id,
+          notes: newNotes,
+          converted_at: nowIso,
+          converted_tenant_id: tenantId,
+        }),
       });
       setLeads((prev) =>
-        prev.map((l) => (l.id === convertLead.id ? { ...l, notes: newNotes } : l)),
+        prev.map((l) =>
+          l.id === convertLead.id
+            ? { ...l, notes: newNotes, converted_at: nowIso, converted_tenant_id: tenantId }
+            : l,
+        ),
       );
       notifySuccess(`🎉 ${convertForm.trade_name || convertForm.name} agora é cliente! Funerária criada no sistema.`);
       setConvertLead(null);
@@ -279,6 +296,7 @@ export default function CrmTab() {
   const mrrGanho = ganhos.reduce((a, l) => a + Number(l.estimated_monthly || 0), 0);
   const noFunil = leads.filter((l) => !["ganho", "perdido"].includes(l.stage)).length;
   const atrasados = leads.filter(isOverdue).length;
+  const clientes = leads.filter((l) => l.converted_at).length;
 
   return (
     <div className="p-4 sm:p-6 space-y-4">
@@ -300,7 +318,7 @@ export default function CrmTab() {
       </div>
 
       {/* KPIs do funil */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-2">
         <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-3">
           <p className="text-[10px] text-slate-500 uppercase font-semibold">Leads no funil</p>
           <p className="text-lg font-black text-blue-400">{noFunil}</p>
@@ -312,6 +330,10 @@ export default function CrmTab() {
         <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-3">
           <p className="text-[10px] text-slate-500 uppercase font-semibold">Contratos fechados</p>
           <p className="text-lg font-black text-emerald-400">{ganhos.length}</p>
+        </div>
+        <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-3">
+          <p className="text-[10px] text-slate-500 uppercase font-semibold">Clientes convertidos</p>
+          <p className="text-lg font-black text-violet-400">{clientes}</p>
         </div>
         <div className="bg-[#0d121f] border border-slate-800 rounded-xl p-3">
           <p className="text-[10px] text-slate-500 uppercase font-semibold">MRR estimado (ganho)</p>
@@ -367,6 +389,9 @@ export default function CrmTab() {
                       {lead.next_follow_up && (
                         <p className="text-[10px] text-slate-500">📅 retorno: {lead.next_follow_up}</p>
                       )}
+                      {lead.converted_at && (
+                        <p className="text-[10px] text-emerald-600 font-bold">✓ Cliente desde {lead.converted_at.slice(0, 10)}</p>
+                      )}
                       {lead.notes && (
                         <p className="text-[10px] text-slate-600 line-clamp-2">{lead.notes}</p>
                       )}
@@ -381,7 +406,7 @@ export default function CrmTab() {
                             💬 Zap
                           </a>
                         )}
-                        {lead.stage === "ganho" && (
+                        {lead.stage === "ganho" && !lead.converted_at && (
                           <button
                             onClick={() => openConvert(lead)}
                             className="px-1.5 py-0.5 rounded bg-violet-950 text-violet-300 border border-violet-700 text-[10px] font-bold"
@@ -395,7 +420,7 @@ export default function CrmTab() {
                           className="px-1.5 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-bold"
                           title="Editar lead"
                         >
-                          ✏️
+                          ✏️ Editar
                         </button>
                         {nextLeadStage(lead.stage) && (
                           <button

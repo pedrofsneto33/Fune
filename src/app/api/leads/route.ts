@@ -129,6 +129,17 @@ export const PATCH = withAuth(
       patch.source = body.source;
     }
 
+    // Conversión: lead ganho -> tenant real (marcado pelo fluxo "Virar Cliente")
+    if (body.converted_at !== undefined) {
+      patch.converted_at = body.converted_at ? String(body.converted_at) : null;
+    }
+    if (body.converted_tenant_id !== undefined) {
+      if (body.converted_tenant_id && !isValidUUID(body.converted_tenant_id)) {
+        return NextResponse.json({ error: "Tenant (funerária) inválido" }, { status: 400 });
+      }
+      patch.converted_tenant_id = body.converted_tenant_id || null;
+    }
+
     const { data, error } = await supabaseAdmin
       .from("leads")
       .update(patch)

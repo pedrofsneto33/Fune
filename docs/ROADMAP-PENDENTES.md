@@ -80,9 +80,13 @@
 - [x] Testes: `tests/lib/crm.test.ts` (fluxo, validadores, waLink) — 108 testes verdes.
 
 ### Falta (evolução do CRM)
-- [ ] Botão "🚀 Virar Cliente" no lead ganho → criar tenant da funerária
-      (integrar com POST /api/tenants) + marcar conversão.
-- [ ] Edição de lead (hoje: criar + avançar/perder + excluir; editar campos via PATCH já suportado na API).
+- [x] Botão "🚀 Virar Cliente" no lead ganho → criar tenant da funerária
+      (integrar com POST /api/tenants) + marcar conversão com `converted_at` /
+      `converted_tenant_id` (migration `scripts/crm_leads_conversion.sql` —
+      RODAR no Supabase) + badge "✓ Cliente" + KPI "Clientes convertidos".
+- [x] Edição de lead (botão "✏️ Editar" abre modal com todos os campos; PATCH
+      suporta name, company, city, uf, phone, email, source, estimated_monthly,
+      next_follow_up, notes).
 - [ ] Histórico de interações por lead (tabela lead_notes) em vez de só campo notes.
 
 ## 6. BUSCA + CADASTRO DE TITULARES (Novo) - CONCLUIDO
