@@ -1,6 +1,11 @@
 # ETERNITYOS - ROADMAP E PENDENCIAS (memoria de sessao)
 
-> Mantido para nao perder nada entre sessoes. Atualizar sempre que concluir um item.
+> **REGRA PERMANENTE (ordem do usuário):** TODA comunicação, código, comentários,
+> UI, commit messages e documentação devem estar em **PORTUGUÊS DO BRASIL**.
+> Nunca responder nem escrever código em espanhol ou outro idioma.
+> Esta regra vale para todas as sessões futuras.
+
+> Manutenção: atualizar sempre que concluir um item.
 
 ## 1. AGENTE DE TRIAGEM WHATSAPP (Evolution API) - MODULO EXTRA (COBRADO À PARTE)
 

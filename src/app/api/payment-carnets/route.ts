@@ -134,7 +134,8 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
               await supabaseAdmin
                 .from('payment_carnets')
                 .update({ asaas_payment_id: paymentData.id })
-                .eq('id', createdCarnets[i].id);
+                .eq('id', createdCarnets[i].id)
+                .eq('tenant_id', auth.tenantId);
             }
 
           }

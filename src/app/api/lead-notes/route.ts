@@ -21,7 +21,7 @@ export const GET = withAuth(
       return NextResponse.json({ error: "lead_id inválido" }, { status: 400 });
     }
 
-    // Verifica que el lead exista (no exponer nada si no)
+    // Verifica que o lead existe (não expor nada se não existir)
     const { data: lead, error: leadErr } = await supabaseAdmin
       .from("leads")
       .select("id")
@@ -61,7 +61,7 @@ export const POST = withAuth(
     }
     const note = sanitizeString(body.note || "", 2000);
     if (note.length < 2) {
-      return NextResponse.json({ error: "Anotaçáo é curta (mínimo 2 caracteres)." }, { status: 400 });
+      return NextResponse.json({ error: "Anotação muito curta (mínimo 2 caracteres)." }, { status: 400 });
     }
 
     const { data, error } = await supabaseAdmin
