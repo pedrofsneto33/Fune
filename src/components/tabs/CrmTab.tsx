@@ -31,6 +31,13 @@ interface Lead {
   converted_tenant_id: string | null;
 }
 
+interface histNoteRow {
+  id: string;
+  note: string;
+  created_at: string;
+  created_by: string | null;
+}
+
 const fmtBRL = (v: number) =>
   new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
     Number(v) || 0,
@@ -74,6 +81,14 @@ export default function CrmTab() {
     commercial_plan: "essencial",
   });
   const [converting, setConverting] = useState(false);
+
+  // ---- Historial de interacciones (lead_notes) ----
+  const [histLead, setHistLead] = useState<Lead | null>(null);
+  const [histNotes, setHistNotes] = useState<histNoteRow[]>([]);
+  const [histLoading, setHistLoading] = useState(false);
+  const [histNote, setHistNote] = useState("");
+  const [histSaving, setHistSaving] = useState(false);
+  const [histDeleteId, setHistDeleteId] = useState<string | null>(null);
 
   const loadLeads = useCallback(async () => {
     setLoading(true);
@@ -291,6 +306,71 @@ export default function CrmTab() {
     }
   };
 
+  // ---- Historial de interacciones por lead ----
+  const openHist = async (lead: Lead) => {
+    setHistLead(lead);
+    setHistNotes([]);
+    setHistNote("");
+    setHistDeleteId(null);
+    setHistLoading(true);
+    try {
+      const res = await authFetch(`/api/lead-notes?lead_id=${lead.id}`);
+      const data = await res.json().catch(() => []);
+      if (res.ok) setHistNotes(Array.isArray(data) ? data : []);
+      else notifyError(data.error || "Erro ao carregar histórico");
+    } catch {
+      notifyError("Erro de conexão ao cargar histórico");
+    } finally {
+      setHistLoading(false);
+    }
+  };
+
+  const addHistNote = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!histLead) return;
+    setHistSaving(true);
+    try {
+      const res = await authFetch("/api/lead-notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lead_id: histLead.id, note: histNote }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        notifyError(data.error || "Erro ao guardar anotação");
+        return;
+      }
+      setHistNotes((prev) => [data as histNoteRow, ...prev]);
+      setHistNote("");
+      notifySuccess("Anotação registrada");
+    } catch {
+      notifyError("Erro de conexão ao registrar anotação");
+    } finally {
+      setHistSaving(false);
+    }
+  };
+
+  const deleteHistNote = async (id: string) => {
+    // 1º clique arma, 2º confirma
+    if (histDeleteId !== id) {
+      setHistDeleteId(id);
+      return;
+    }
+    setHistDeleteId(null);
+    try {
+      const res = await authFetch(`/api/lead-notes?id=${id}`, { method: "DELETE" });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        notifyError(data.error || "Erro ao eliminar");
+        return;
+      }
+      setHistNotes((prev) => prev.filter((n) => n.id !== id));
+      notifySuccess("Anotação eliminada");
+    } catch {
+      notifyError("Erro de conexão");
+    }
+  };
+
   // KPIs do funil
   const ganhos = leads.filter((l) => l.stage === "ganho");
   const mrrGanho = ganhos.reduce((a, l) => a + Number(l.estimated_monthly || 0), 0);
@@ -421,6 +501,13 @@ export default function CrmTab() {
                           title="Editar lead"
                         >
                           ✏️ Editar
+                        </button>
+                        <button
+                          onClick={() => openHist(lead)}
+                          className="px-1.5 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800 text-[10px] font-bold"
+                          title="Historial de interacciones"
+                        >
+                          📋 Hist.
                         </button>
                         {nextLeadStage(lead.stage) && (
                           <button
@@ -573,6 +660,67 @@ export default function CrmTab() {
                 {converting ? "Criando funerária..." : "🚀 Criar Funerária no Sistema"}
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL HISTORIAL DE INTERACIONES DEL LEAD */}
+      {histLead && (
+        <div className="fixed inset-0 z-[60] bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-[#0d121f] border border-slate-800 rounded-xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-800 px-5 py-4">
+              <h3 className="font-bold text-sm text-sky-400">📋 Interacciones — {histLead.name}</h3>
+              <button onClick={() => setHistLead(null)} className="text-slate-500 hover:text-white text-lg leading-none">✕</button>
+            </div>
+            <div className="p-5 space-y-3">
+              {histLoading ? (
+                <p className="text-xs text-slate-500 text-center py-4">Cargando historial...</p>
+              ) : (
+                <>
+                  <form onSubmit={addHistNote} className="flex gap-2 items-stretch">
+                    <input
+                      required
+                      minLength={2}
+                      value={histNote}
+                      onChange={(e) => setHistNote(e.target.value)}
+                      placeholder="Nueva interacción: llamada, WhatsApp, e-mail, cita..."
+                      className="flex-1 min-w-0 bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white"
+                    />
+                    <button
+                      type="submit"
+                      disabled={histSaving}
+                      className="px-3.5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-bold disabled:opacity-50"
+                    >
+                      {histSaving ? "..." : "+ Añadir"}
+                    </button>
+                  </form>
+                  {histNotes.length === 0 ? (
+                    <p className="text-xs text-slate-500 text-center py-6">
+                      Sin interacciones registradas todavía.
+                    </p>
+                  ) : (
+                    <div className="space-y-2">
+                      {histNotes.map((n) => (
+                        <div key={n.id} className="bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs space-y-1">
+                          <p className="text-slate-300 whitespace-pre-wrap">{n.note}</p>
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="text-[10px] text-slate-500 font-mono">
+                              {new Date(n.created_at).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}
+                            </p>
+                            <button
+                              onClick={() => deleteHistNote(n.id)}
+                              className={`px-2 py-0.5 rounded text-[10px] font-bold border ${histDeleteId === n.id ? "bg-rose-700 text-white border-rose-500" : "bg-slate-900 text-slate-500 border-slate-800"}`}
+                            >
+                              {histDeleteId === n.id ? "Confirmar?" : "🗑"}
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
           </div>
         </div>
       )}

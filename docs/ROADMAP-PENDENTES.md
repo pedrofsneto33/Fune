@@ -87,7 +87,11 @@
 - [x] Edição de lead (botão "✏️ Editar" abre modal com todos os campos; PATCH
       suporta name, company, city, uf, phone, email, source, estimated_monthly,
       next_follow_up, notes).
-- [ ] Histórico de interações por lead (tabela lead_notes) em vez de só campo notes.
+- [x] Histórico de interações por lead (tabela lead_notes) em vez de só campo notes.
+      Tabla `lead_notes` (migration `scripts/crm_lead_notes.sql` — RODAR no
+      Supabase) + API GET/POST/DELETE `/api/lead-notes` (superadmin) + botón
+      "📋 Hist." em cada card com modal de historial (listar + añadir + eliminar
+      con confirmación).
 
 ## 6. BUSCA + CADASTRO DE TITULARES (Novo) - CONCLUIDO
 
