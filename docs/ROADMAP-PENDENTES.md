@@ -205,5 +205,7 @@
       `GET /api/financial/transactions` aceita `?from=&to=&type=&category=&limit=`;
       painel Vendas Avulsas com fetch próprio por período; totais/serie com
       fallback client-side se o resumo falhar.
-- [ ] Tabela de eventos: evoluir `webhook_events` p/ retry manual de eventos
-      falhos (tela admin lê a tabela).
+- [x] Tabela de eventos: retry manual de webhooks (commit `9009a67`):
+      migration `scripts/webhook_events_retry.sql` (retry_count, last_retried_at,
+      retry_error), rotas GET /api/webhooks/events + POST /api/webhooks/retry,
+      modal `ModalWebhookRetry.tsx` com filtros e botão Reenviar.
