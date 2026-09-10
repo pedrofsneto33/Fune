@@ -10,6 +10,7 @@ import { ResponsiveContainer, ComposedChart, Bar, Line, XAxis, YAxis, CartesianG
 import { isTabAllowed, hasPermission, UserRole } from "@/config/permissions";
 import { ModalRBAC } from "@/components/dashboard/ModalRBAC";
 import { ModalDRE } from "@/components/dashboard/ModalDRE";
+import { ModalWebhookRetry } from "@/components/dashboard/ModalWebhookRetry";
 import { TenantSettingsTab } from "@/components/tabs/TenantSettingsTab";
 import { ModalChapel } from "@/components/modals/ModalChapel";
 import { ModalCarnets } from "@/components/modals/ModalCarnets";
@@ -381,6 +382,7 @@ export default function MasterEternityOS() {
   const [togglingStatusId, setTogglingStatusId] = useState<string | undefined>(undefined);
   const [isCobrancaAvulsaOpen, setIsCobrancaAvulsaOpen] = useState(false);
   const [cobrancaAvulsaNome, setCobrancaAvulsaNome] = useState("");
+  const [isWebhookRetryOpen, setIsWebhookRetryOpen] = useState(false);
   // REGRA UNICA centralizada em src/lib/eligibility.ts (mesmo criterio do backend)
   const asaasHolderIsInactive = (h: any) => !isHolderActive(h?.status);
   const asaasContractIsActive = (s: string | null | undefined) => isContractActive(s);
@@ -1907,6 +1909,12 @@ export default function MasterEternityOS() {
                   className="p-1.5 text-xs text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:text-emerald-400"
                   title="Ver DRE">
                   📊
+                </button>
+                <button
+                  onClick={() => setIsWebhookRetryOpen(true)}
+                  className="p-1.5 text-xs text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:text-cyan-400"
+                  title="Retry de Webhooks">
+                  🔄
                 </button>
               </>
             )}
@@ -5008,6 +5016,7 @@ export default function MasterEternityOS() {
 
       {/* MODAIS DRE & RBAC */}
       <ModalDRE isOpen={isDREOpen} onClose={() => setIsDREOpen(false)} />
+      <ModalWebhookRetry isOpen={isWebhookRetryOpen} onClose={() => setIsWebhookRetryOpen(false)} />
       <ModalRBAC isOpen={isRBACOpen} onClose={() => setIsRBACOpen(false)} currentRole={userRole} />
 
       {/* MODAL CONFIGURAES DA EMPRESA */}

@@ -4,7 +4,7 @@ import * as path from 'path';
 const API_DIR = path.join(process.cwd(), 'src/app/api');
 
 // Rotas isentas: operam sobre tabelas globais ou usam escopo por id do tenant.
-const ALLOWLIST = ['webhooks/asaas', 'webhooks/whatsapp'];
+const ALLOWLIST = ['webhooks/asaas', 'webhooks/whatsapp', 'webhooks/events', 'webhooks/retry'];
 // tenants/route.ts (PATCH): superadmin pode atualizar outro tenant por id
 // (comportamento intencional de gestao multi-tenant, role-gated).
 const INTENTIONAL_CROSS_TENANT = ['tenants'];
