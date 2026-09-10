@@ -249,6 +249,25 @@ export default function MasterEternityOS() {
 
   const [transactions, setTransactions] = useState<FinancialTransaction[]>([]);
 
+  // Resumo financeiro agregado no backend (GET /api/financial/summary).
+  // Fonte única de totais/série mensal: soma TUDO no servidor (sem teto
+  // de 500 linhas). O array `transactions` segue alimentando o Livro Caixa.
+  const [financialSummary, setFinancialSummary] = useState<{
+    totalIncome: number;
+    totalExpense: number;
+    net: number;
+    count: number;
+    truncated: boolean;
+    incomeByMonth: { ym: string; month: string; income: number; expense: number; net: number }[];
+    avulsoStats: {
+      rows: { transaction_date: string | null; description: string | null; amount: number }[];
+      total: number;
+      monthTotal: number;
+      monthCount: number;
+      count: number;
+    };
+  } | null>(null);
+
   const [sellersList, setSellersList] = useState<any[]>([]);
 
   // Filtros
@@ -508,11 +527,24 @@ export default function MasterEternityOS() {
         if (Array.isArray(vehData)) setVehicles(vehData);
       }
 
-      // 7. Transações Financeiras
+      // 7. Transações Financeiras (Livro Caixa — lista paginada para a tabela)
       const txRes = await authFetch("/api/financial/transactions");
       if (txRes.ok) {
         const txData = await txRes.json();
         if (Array.isArray(txData)) setTransactions(txData);
+      }
+
+      // 7b. Resumo financeiro agregado no backend (totais + série mensal +
+      // vendas avulsas — sem teto de 500 linhas). Se falhar, a tela usa o
+      // fallback client-side derivado de `transactions`.
+      try {
+        const sumRes = await authFetch("/api/financial/summary");
+        if (sumRes.ok) {
+          const sumData = await sumRes.json();
+          if (sumData && typeof sumData.totalIncome === "number") setFinancialSummary(sumData);
+        }
+      } catch {
+        // fallback silencioso: useMemo abaixo deriva de `transactions`
       }
 
       // 8. Reservas de Salas de Velório (chapel_bookings)
@@ -1124,6 +1156,16 @@ export default function MasterEternityOS() {
       if (res.ok) {
         const newTx = await res.json();
         setTransactions((prev) => [newTx, ...prev]);
+        // Reatualiza os totais agregados no backend (sem recarregar tudo).
+        try {
+          const sumRes = await authFetch("/api/financial/summary");
+          if (sumRes.ok) {
+            const sumData = await sumRes.json();
+            if (sumData && typeof sumData.totalIncome === "number") setFinancialSummary(sumData);
+          }
+        } catch {
+          // totais caem no fallback client-side; sem impacto
+        }
         setIsNewTxOpen(false);
         setTxForm({
           description: "",
@@ -1401,13 +1443,15 @@ export default function MasterEternityOS() {
   const fmtBRL = (v: number) =>
     v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-  const totalIncome = transactions
+  const totalIncome = financialSummary ? financialSummary.totalIncome : transactions
     .filter((t) => t.type === "income")
     .reduce((acc, t) => acc + t.amount, 0);
-  const totalExpenses = transactions
+  const totalExpenses = financialSummary ? financialSummary.totalExpense : transactions
     .filter((t) => t.type === "expense")
     .reduce((acc, t) => acc + t.amount, 0);
-  const netBalance = totalIncome - totalExpenses;
+  const netBalance = financialSummary
+    ? financialSummary.net
+    : totalIncome - totalExpenses;
 
   // ---- Métricas Reais (sem números inventados) ----
   // MRR = fonte única via API /api/dashboard/kpis (monthlyRevenue)
@@ -1417,9 +1461,12 @@ export default function MasterEternityOS() {
     (h) => (h.contracts?.[0]?.status || "active") === "active",
   ).length;
 
-  // ---- Srie histrica Receita x Despesa (ms a ms) ----
+  // ---- Série histórica Receita x Despesa (mês a mês) ----
+  // Fonte primária: backend (/api/financial/summary). Fallback: deriva das
+  // transações carregadas (limitado a 500 linhas) se o resumo falhar.
   const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
   const monthlySeries = useMemo(() => {
+    if (financialSummary) return financialSummary.incomeByMonth;
     const map = new Map<string, { income: number; expense: number }>();
     transactions.forEach((t) => {
       const ym = (t.transaction_date || "").slice(0, 7);
@@ -1440,13 +1487,54 @@ export default function MasterEternityOS() {
           net: Math.round(r.income - r.expense),
         };
       });
-  }, [transactions]);
+  }, [transactions, financialSummary]);
 
   // ---- Vendas Avulsas (categoria fixa gravada pela /api/billing/avulso) ----
+  // Totais vêm do backend (/api/financial/summary — sem teto de linhas).
+  // A lista exibida respeita o filtro de período consultando o backend
+  // com ?from=&to=&category= — fallback: deriva de `transactions`.
   const AVULSO_CATEGORY = "Serviço Funeral Avulso";
   const [avulsoFilterFrom, setAvulsoFilterFrom] = useState("");
   const [avulsoFilterTo, setAvulsoFilterTo] = useState("");
+  // Lista da tabela de vendas avulsas no período (fetch próprio no backend).
+  const [avulsoRows, setAvulsoRows] = useState<FinancialTransaction[]>([]);
+  const [avulsoLoading, setAvulsoLoading] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      setAvulsoLoading(true);
+      try {
+        const params = new URLSearchParams({ category: AVULSO_CATEGORY, limit: "1000" });
+        if (avulsoFilterFrom) params.set("from", avulsoFilterFrom);
+        if (avulsoFilterTo) params.set("to", avulsoFilterTo);
+        const res = await authFetch(`/api/financial/transactions?${params.toString()}`);
+        if (!cancelled && res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) setAvulsoRows(data);
+        }
+      } catch {
+        // fallback silencioso: useMemo abaixo deriva de `transactions`
+      } finally {
+        if (!cancelled) setAvulsoLoading(false);
+      }
+    };
+    load();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [avulsoFilterFrom, avulsoFilterTo]);
   const avulsoStats = useMemo(() => {
+    // Totais do backend quando disponíveis (sem teto); lista do fetch filtrado.
+    if (avulsoRows.length > 0 || financialSummary) {
+      const sum = financialSummary?.avulsoStats;
+      return {
+        rows: avulsoRows,
+        total: sum ? sum.total : avulsoRows.reduce((acc, t) => acc + (Number(t.amount) || 0), 0),
+        monthCount: sum ? sum.monthCount : 0,
+        monthTotal: sum ? sum.monthTotal : 0,
+        loading: avulsoLoading,
+      };
+    }
+    // Fallback (resumo indisponível e lista vazia): deriva de `transactions`.
     let rows = transactions.filter((t) => t.category === AVULSO_CATEGORY);
     if (avulsoFilterFrom) rows = rows.filter((t) => (t.transaction_date || "") >= avulsoFilterFrom);
     if (avulsoFilterTo) rows = rows.filter((t) => (t.transaction_date || "") <= avulsoFilterTo);
@@ -1457,8 +1545,9 @@ export default function MasterEternityOS() {
       total: rows.reduce((acc, t) => acc + (Number(t.amount) || 0), 0),
       monthCount: monthRows.length,
       monthTotal: monthRows.reduce((acc, t) => acc + (Number(t.amount) || 0), 0),
+      loading: false,
     };
-  }, [transactions, avulsoFilterFrom, avulsoFilterTo]);
+  }, [transactions, avulsoFilterFrom, avulsoFilterTo, avulsoRows, avulsoLoading, financialSummary]);
 
   const exportAvulsoCSV = () => {
     if (avulsoStats.rows.length === 0) {

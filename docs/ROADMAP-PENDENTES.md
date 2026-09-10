@@ -200,7 +200,10 @@
       parcela nas linhas de `payment_carnets` (hoje os IDs só voltam na resposta
       HTTP; se o usuário fecha a tela, a parcela fica 'pendente' eterna mesmo
       paga). Requer migration (coluna nova) + update pós-criação no Asaas.
-- [ ] **Agregação no backend**: `avulsoStats`/`monthlySeries` derivam no client
-      de até 500 transações; quando passar disso, view SQL ou endpoint de totais.
+- [x] **Agregação no backend** — FEITO: `GET /api/financial/summary`
+      (totais + série mensal + vendas avulsas, paginação sem teto de 500);
+      `GET /api/financial/transactions` aceita `?from=&to=&type=&category=&limit=`;
+      painel Vendas Avulsas com fetch próprio por período; totais/serie com
+      fallback client-side se o resumo falhar.
 - [ ] Tabela de eventos: evoluir `webhook_events` p/ retry manual de eventos
       falhos (tela admin lê a tabela).
