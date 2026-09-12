@@ -171,6 +171,7 @@ export const POST = withAuth(
         category: "Serviço Funeral Avulso",
         description: txRef,
         transactionDate: dueDate,
+        serviceOrderId: service_order_id ?? null,
         source: "billing_avulso",
       });
       const financialWarning = income.ok

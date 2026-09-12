@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { serverError } from '@/lib/http-error';
@@ -62,7 +62,15 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     const holder = (payment.contracts as any)?.holders;
     const customerName = holder?.full_name || 'Associado';
-    const customerCpf = holder?.cpf?.replace(/\D/g, '') || '00000000000';
+    // F-10: nunca enviar CPF invalido ao Asaas — PIX exige CPF real do cliente.
+    const customerCpfRaw = String(holder?.cpf || '').replace(/\D/g, '');
+    if (customerCpfRaw.length !== 11) {
+      return NextResponse.json(
+        { error: 'Titular sem CPF valido. Complete o cadastro do associado antes de gerar o PIX.' },
+        { status: 400 },
+      );
+    }
+    const customerCpf = customerCpfRaw;
     const amount = Number(payment.amount);
 
     const customerRes = await fetch(`${asaasConfig.baseUrl}/customers?cpfCnpj=${customerCpf}`, {
@@ -115,16 +123,27 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     });
     const qrData = await qrRes.json();
 
-    await supabaseAdmin
+    // CRITICO: vincula a cobranca Asaas ao pagamento local — sem
+    // asaas_payment_id o webhook jamais concilia o dinheiro recebido.
+    // Somente colunas que existem no schema (pix_code, pix_qr_code_url).
+    const { error: linkErr } = await supabaseAdmin
       .from('payments')
       .update({
         asaas_payment_id: chargeData.id,
-        pix_qr_code: qrData.encodedImage,
-        pix_copy_paste: qrData.payload,
-        boleto_url: chargeData.bankSlipUrl || chargeData.invoiceUrl
+        pix_code: qrData.payload || null,
+        pix_qr_code_url: qrData.encodedImage || null,
       })
       .eq('id', payment.id)
       .eq('tenant_id', auth.tenantId); // defesa em profundidade: escopo por tenant
+
+    if (linkErr) {
+      // Nao engolir: a cobranca ja existe no Asaas — o usuario precisa saber
+      // que a vinculacao falhou (senao o pagamento fica orfao no sistema).
+      return NextResponse.json(
+        { error: 'Cobranca criada no Asaas, mas falha ao vincular ao pagamento local: ' + linkErr.message },
+        { status: 500 },
+      );
+    }
 
     return NextResponse.json({
       success: true,

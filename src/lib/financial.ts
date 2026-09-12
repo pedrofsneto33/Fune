@@ -28,6 +28,8 @@ export interface IncomeInput {
   transactionDate?: string;
   /** Vincula a receita a um pagamento rastreado (tabela payments), se houver */
   paymentId?: string | null;
+  /** Vincula a receita a uma ordem de serviço (rastreabilidade OS ↔ venda avulsa) */
+  serviceOrderId?: string | null;
   /** Origem programática, para auditoria na descrição e debug */
   source: IncomeSource;
 }
@@ -61,6 +63,7 @@ export async function recordIncome(input: IncomeInput): Promise<IncomeResult> {
     const { error } = await supabaseAdmin.from("financial_transactions").insert({
       tenant_id: tenantId,
       payment_id: input.paymentId ?? null,
+      service_order_id: input.serviceOrderId ?? null,
       type: "income",
       category,
       amount,

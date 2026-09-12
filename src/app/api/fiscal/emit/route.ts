@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { sanitizeString, isValidUUID } from '@/lib/validation';
@@ -19,10 +19,26 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     if (!taker || !taker.document || !taker.name || !taker.documentType) {
       return NextResponse.json({ error: 'Dados do tomador incompletos' }, { status: 400 });
     }
+
+    // [CORRECAO] Não reemitir NFS-e se já existe uma em processamento ou autorizada para esta OS.
+    const { data: existingNfse } = await supabaseAdmin
+      .from('fiscal_invoices')
+      .select('id, nfse_status')
+      .eq('service_order_id', service_order_id)
+      .eq('tenant_id', auth.tenantId)
+      .in('nfse_status', ['processing', 'authorized'])
+      .maybeSingle();
+
+    if (existingNfse) {
+      return NextResponse.json(
+        { error: 'Já existe uma nota fiscal emitida ou em processamento para esta ordem de serviço.' },
+        { status: 409 },
+      );
+    }
+
     if (!service || !service.description || !service.amount) {
       return NextResponse.json({ error: 'Dados do servico incompletos' }, { status: 400 });
     }
-
     // Verifica que a service_order pertence ao tenant
     const { data: so, error: soErr } = await supabaseAdmin
       .from('service_orders')

@@ -34,7 +34,14 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       return NextResponse.json({ error: 'Nome do associado e valor são obrigatórios.' }, { status: 400 });
     }
     const numInstallments = Math.min(Math.max(installments || 1, 1), 12);
-    const installmentValue = Number((Number(amount) / numInstallments).toFixed(2));
+    // ARREDONDAMENTO EM CENTAVOS (F-06): distribui o resto nas primeiras
+    // parcelas para que soma das parcelas = valor total
+    // (R$ 100 ÷ 3 → 33,34 + 33,33 + 33,33 = 100,00).
+    const totalCents = Math.round(Number(amount) * 100);
+    const baseCents = Math.floor(totalCents / numInstallments);
+    const remainderCents = totalCents - baseCents * numInstallments;
+    const installmentCents = (i: number) => baseCents + (i < remainderCents ? 1 : 0);
+    const installmentValue = baseCents / 100; // parcela padrão (sem o resto)
     if (contract_id && !isValidUUID(contract_id)) {
       return NextResponse.json({ error: 'Contrato inválido.' }, { status: 400 });
     }
@@ -98,7 +105,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         installment_number: i + 1,
         total_installments: numInstallments,
         due_date: installmentDate.toISOString().split('T')[0],
-        amount: installmentValue,
+        amount: installmentCents(i) / 100,
         status: 'pendente',
       });
     }
@@ -121,7 +128,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
             headers: { 'Content-Type': 'application/json', 'access_token': apiKey },
             body: JSON.stringify({
               billingType: 'BOLETO',
-              value: installmentValue,
+              value: installmentCents(i) / 100,
               dueDate: dueDateStr,
               description: `Carnê ${sanitizeString(holder_name || '')} - Parcela ${i + 1}/${numInstallments}`,
               externalReference: `${createdCarnets[i]?.id || 'carnet'}_${i + 1}`,
@@ -129,7 +136,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
           });
           const paymentData = await paymentRes.json();
           if (!paymentData.errors) {
-            paymentResults.push({ installment: i + 1, paymentId: paymentData.id, dueDate: dueDateStr, value: installmentValue, status: paymentData.status });
+            paymentResults.push({ installment: i + 1, paymentId: paymentData.id, dueDate: dueDateStr, value: installmentCents(i) / 100, status: paymentData.status });
             if (createdCarnets[i]?.id && paymentData.id) {
               await supabaseAdmin
                 .from('payment_carnets')

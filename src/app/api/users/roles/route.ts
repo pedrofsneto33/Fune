@@ -203,8 +203,8 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 // DELETE: Removerá a permissão de acesso de um colaborador.
 // Regras de segurança:
 //  - Admin gerência apenas o proprio tenant; superadmin pode gerenciar qualquer tenant.
-//  - Ninguém pode removeráá o proprio acesso (evita lockout acidental).
-//  - Somente superadmin pode removeráá outro superadmin.
+//  - Ninguém pode removerá o proprio acesso (evita lockout acidental).
+//  - Somente superadmin pode removerá outro superadmin.
 export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const { searchParams } = new URL(req.url);
@@ -231,15 +231,15 @@ export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
 
     // Protege contra lockout acidental
     if (target.user_id === auth.userId) {
-      return NextResponse.json({ error: 'Você não pode removeráá seu proprio acesso.' }, { status: 400 });
+      return NextResponse.json({ error: 'Você não pode removerá seu proprio acesso.' }, { status: 400 });
     }
 
     // Somente superadmin remove outro superadmin
     if (target.role === 'superadmin' && auth.role !== 'superadmin') {
-      return NextResponse.json({ error: 'Somente um Super Administrador pode removeráá este nível de acesso.' }, { status: 403 });
+      return NextResponse.json({ error: 'Somente um Super Administrador pode removerá este nível de acesso.' }, { status: 403 });
     }
 
-    // SECURITY: Nunca removeráá o UNICO superadmin restante (evita lockout total do sistema)
+    // SECURITY: Nunca removerá o UNICO superadmin restante (evita lockout total do sistema)
     if (target.role === 'superadmin') {
       const { count } = await supabaseAdmin
         .from('user_roles')
@@ -249,7 +249,7 @@ export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
 
       if (count !== undefined && (count ?? 0) <= 1) {
         return NextResponse.json(
-          { error: 'Não e possível removeráá o unico Super Administrador do sistema.' },
+          { error: 'Não e possível removerá o unico Super Administrador do sistema.' },
           { status: 400 }
         );
       }
@@ -261,11 +261,11 @@ export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
       .eq('id', id);
 
     if (delErr) {
-      return NextResponse.json({ error: 'Erro ao removeráá permissão.' }, { status: 500 });
+      return NextResponse.json({ error: 'Erro ao removerá permissão.' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
   } catch (err: any) {
-    return NextResponse.json({ error: 'Erro ao removeráá permissão.' }, { status: 500 });
+    return NextResponse.json({ error: 'Erro ao removerá permissão.' }, { status: 500 });
   }
 }, ['superadmin', 'admin']);

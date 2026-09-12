@@ -50,60 +50,59 @@ export const GET = withAuth(
         return NextResponse.json([]);
       }
 
-      if (isPrivilegedRole) {
-        const fullData = await Promise.all(
-          holdersList.map(async (h) => {
-            const { data: deps } = await supabaseAdmin
-              .from("dependents")
-              .select("id, full_name, cpf, relation")
-              .eq("holder_id", h.id)
-              .eq("tenant_id", auth.tenantId);
+      // F-15: busca em lote (2 queries no total) em vez de 2 queries por
+      // titular (N+1). Com plano profissional (1000 titulares) seriam 2001
+      // queries no esquema antigo; aqui sao sempre 2 + remontagem em memoria.
+      const holderIds = holdersList.map((h: any) => h.id);
 
-            const { data: contracts } = await supabaseAdmin
-              .from("contracts")
-              .select("id, status, start_date, plan_id, plans(name, monthly_fee)")
-              .eq("holder_id", h.id)
-              .eq("tenant_id", auth.tenantId);
+      const [{ data: allDeps }, { data: allContracts }] = await Promise.all([
+        supabaseAdmin
+          .from("dependents")
+          .select("id, holder_id, full_name, cpf, relation")
+          .eq("tenant_id", auth.tenantId)
+          .in("holder_id", holderIds),
+        supabaseAdmin
+          .from("contracts")
+          .select("id, holder_id, status, start_date, plan_id, plans(name, monthly_fee)")
+          .eq("tenant_id", auth.tenantId)
+          .in("holder_id", holderIds),
+      ]);
 
-            return {
-              ...h,
-              dependents: deps || [],
-              contracts: contracts || [],
-            };
-          }),
+      const depsByHolder = new Map<string, any[]>();
+      for (const d of allDeps || []) {
+        const list = depsByHolder.get(d.holder_id) ?? [];
+        list.push(
+          isPrivilegedRole
+            ? d
+            : { id: d.id, full_name: d.full_name, relation: d.relation },
         );
-        return NextResponse.json(fullData);
+        depsByHolder.set(d.holder_id, list);
       }
 
-      // Roles nao-privilegiadas (manager/attendant): visao operacional minima —
-      // sem CPF/endereco/email do titular, sem CPF dos dependentes e sem
-      // mensalidade do plano (dado financeiro reservado a admin/financial).
-      const limitedData = await Promise.all(
-        holdersList.map(async (h) => {
-          const { data: deps } = await supabaseAdmin
-            .from("dependents")
-            .select("id, full_name, relation")
-            .eq("holder_id", h.id)
-            .eq("tenant_id", auth.tenantId);
+      const contractsByHolder = new Map<string, any[]>();
+      for (const c of allContracts || []) {
+        const list = contractsByHolder.get(c.holder_id) ?? [];
+        const plan = (c as any).plans;
+        list.push(
+          isPrivilegedRole
+            ? c
+            : { ...c, plans: plan ? { name: plan.name } : null },
+        );
+        contractsByHolder.set(c.holder_id, list);
+      }
 
-          const { data: contracts } = await supabaseAdmin
-            .from("contracts")
-            .select("id, status, start_date, plan_id, plans(name)")
-            .eq("holder_id", h.id)
-            .eq("tenant_id", auth.tenantId);
+      const result = holdersList.map((h: any) => {
+        const dependents = depsByHolder.get(h.id) ?? [];
+        const contracts = contractsByHolder.get(h.id) ?? [];
+        if (isPrivilegedRole) {
+          return { ...h, dependents, contracts };
+        }
+        // visao operacional minima: remove CPF/endereco/email/mensalidade
+        const { cpf, email, address, ...rest } = h as any;
+        return { ...rest, dependents, contracts };
+      });
 
-          return {
-            id: h.id,
-            full_name: h.full_name,
-            phone: h.phone,
-            status: h.status ?? "ativo",
-            created_at: h.created_at,
-            dependents: deps || [],
-            contracts: contracts || [],
-          };
-        }),
-      );
-      return NextResponse.json(limitedData);
+      return NextResponse.json(result);
     } catch (err: unknown) {
       return NextResponse.json(
         { error: "Erro interno ao processar requisição" },
@@ -408,7 +407,12 @@ export const PATCH = withAuth(
   ["superadmin", "admin", "manager", "attendant"],
 );
 
-// SECURITY: Exclusão destrutiva - somente superadmin/admin, sempre restrita ao tenant
+// F-11: exclusao fisica removida. Em ERP de servicos funerarios, excluir um
+// titular apaga contratos, pagamentos e comissoes (CASCADE) — destruindo
+// historico financeiro e contabil. A operacao correta e INATIVAR (soft delete),
+// que ja e feita via PATCH /api/holders { id, status: 'inativo' } (pela UI).
+// Mantemos este endpoint, mas como inativacao com cascata de status, para
+// compatibilidade com eventuais consumidores antigos que chamavam DELETE.
 export const DELETE = withAuth(
   async (req: NextRequest, { auth }) => {
     try {
@@ -430,7 +434,7 @@ export const DELETE = withAuth(
       // Garante que o titular pertence ao tenant do usuário autenticado
       const { data: holder, error: findError } = await supabaseAdmin
         .from("holders")
-        .select("id, full_name")
+        .select("id, full_name, status")
         .eq("id", id)
         .eq("tenant_id", auth.tenantId)
         .maybeSingle();
@@ -445,48 +449,32 @@ export const DELETE = withAuth(
           { error: "Titular não encontrado." },
           { status: 404 },
         );
-
-      // contracts tem ON DELETE RESTRICT em holder_id: remove contratos primeiro
-      // (payments/payment_carnets caem por CASCADE; demais referências ficam SET NULL)
-      const { error: contractsError } = await supabaseAdmin
-        .from("contracts")
-        .delete()
-        .eq("holder_id", id)
-        .eq("tenant_id", auth.tenantId);
-
-      if (contractsError) {
+      if ((holder as any).status === "inativo") {
         return NextResponse.json(
-          {
-            error:
-              "Erro ao remover contratos vinculados: " + contractsError.message,
-          },
-          { status: 500 },
+          { error: "Titular já está inativo." },
+          { status: 409 },
         );
       }
 
-      // dependents caem por ON DELETE CASCADE
-      const { error: deleteError } = await supabaseAdmin
+      // Soft delete: inativa titular — preserva contratos/pagamentos/comissoes
+      const { error: updErr } = await supabaseAdmin
         .from("holders")
-        .delete()
+        .update({ status: "inativo" })
         .eq("id", id)
         .eq("tenant_id", auth.tenantId);
-
-      if (deleteError) {
+      if (updErr)
         return NextResponse.json(
-          { error: "Erro ao excluir titular: " + deleteError.message },
+          { error: "Erro ao inativar titular: " + updErr.message },
           { status: 500 },
         );
-      }
 
       return NextResponse.json({
         success: true,
-        message: "Associado " + holder.full_name + " excluído com sucesso.",
+        message:
+          "Associado " + (holder as any).full_name + " inativado com sucesso.",
       });
     } catch (err: unknown) {
-      return NextResponse.json(
-        { error: (err as Error).message },
-        { status: 500 },
-      );
+      return NextResponse.json({ error: (err as Error).message }, { status: 500 });
     }
   },
   ["superadmin", "admin"],

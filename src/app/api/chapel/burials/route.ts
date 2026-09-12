@@ -151,7 +151,7 @@ export const DELETE = withAuth(async (req: NextRequest, { auth }) => {
         { status: 500 },
       );
     }
-    return NextResponse.json({ success: true, message: 'Registro de óóóbito excluído.' });
+    return NextResponse.json({ success: true, message: 'Registro de óbito excluído.' });
   } catch (err: unknown) {
     return NextResponse.json({ error: 'Erro interno ao processar requisição' }, { status: 500 });
   }

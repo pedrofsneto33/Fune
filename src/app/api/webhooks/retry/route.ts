@@ -3,6 +3,8 @@ import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { checkRateLimit } from '@/lib/rate-limiter';
 import { isValidUUID } from '@/lib/validation';
+import { logError } from '@/lib/http-error';
+import { generateCommission } from '@/lib/commissions';
 
 // ============================================================
 // RETRY MANUAL DE WEBHOOK
@@ -50,7 +52,10 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     );
   }
 
-  const { error: updateError } = await supabaseAdmin
+  // Metadados de retry sao best-effort: se a migration webhook_events_retry.sql
+  // ainda nao foi aplicada (colunas ausentes no banco), o reprocessamento do
+  // pagamento continua — auditoria nao pode bloquear dinheiro.
+  const { error: metaError } = await supabaseAdmin
     .from('webhook_events')
     .update({
       retry_count: (event.retry_count || 0) + 1,
@@ -59,13 +64,14 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     })
     .eq('id', eventId);
 
-  if (updateError) {
-    return NextResponse.json({ error: 'Erro ao atualizar evento.' }, { status: 500 });
+  if (metaError) {
+    logError(metaError, '[webhook-retry] metadados de retry nao gravados (migration pendente?)');
   }
 
   try {
     const result = await reprocessEvent(event as any);
-    await supabaseAdmin
+    // Auditoria best-effort: nunca falhar por coluna ausente (migration pendente).
+    const { error: auditError } = await supabaseAdmin
       .from('webhook_events')
       .update({
         processed: result.success,
@@ -73,16 +79,23 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         retry_error: result.success ? null : result.error,
       })
       .eq('id', eventId);
+    if (auditError) {
+      logError(auditError, '[webhook-retry] resultado nao auditado (migration pendente?)');
+    }
 
     if (result.success) {
       return NextResponse.json({ success: true, message: 'Evento reprocessado com sucesso.' });
     }
     return NextResponse.json({ success: false, error: result.error }, { status: 422 });
   } catch (err: any) {
-    await supabaseAdmin
-      .from('webhook_events')
-      .update({ retry_error: err.message || 'Erro desconhecido' })
-      .eq('id', eventId);
+    try {
+      await supabaseAdmin
+        .from('webhook_events')
+        .update({ retry_error: err.message || 'Erro desconhecido' })
+        .eq('id', eventId);
+    } catch {
+      /* best-effort */
+    }
     return NextResponse.json({ error: 'Erro ao reprocessar evento.' }, { status: 500 });
   }
 }, ['superadmin', 'admin', 'manager', 'financial']);
@@ -119,29 +132,53 @@ async function reprocessEvent(event: {
     return { success: true };
   }
 
-  const eventType = payload.event;
+  const eventType = payload.event || event.event;
   if (eventType === 'PAYMENT_RECEIVED' || eventType === 'PAYMENT_CONFIRMED') {
-    const { error: updateError } = await supabaseAdmin
+    // Transição idempotente (mesma semântica do webhook): só marca se ainda
+    // nao estava pago. Corrida com o webhook real nao duplica receita — o
+    // UPDATE re-checa o predicado apos o lock da linha (READ COMMITTED).
+    const { data: updated, error: updateError } = await supabaseAdmin
       .from('payments')
-      .update({ status: 'paid', paid_date: new Date().toISOString() })
-      .eq('id', payment.id);
+      .update({ status: 'paid', paid_at: new Date().toISOString() })
+      .eq('id', payment.id)
+      .eq('tenant_id', tenant_id)
+      .neq('status', 'paid')
+      .select('id, amount, contract_id');
 
     if (updateError) {
       return { success: false, error: 'Erro ao atualizar pagamento.' };
     }
+    if (!updated || updated.length === 0) {
+      // Ja estava pago (corrida com webhook real): idempotente, sucesso.
+      return { success: true };
+    }
+    const updatedPayment = updated[0];
 
     const { recordIncome } = await import('@/lib/financial');
     const incomeResult = await recordIncome({
       tenantId: tenant_id,
-      amount: Number(payment.amount),
-      category: 'Mensalidade Plano',
-      description: `Reprocessamento manual — ${payment.holder_name || 'associado'}`,
+      amount: Number(updatedPayment.amount),
+      category: 'plan_subscription',
+      description: `Reprocessamento manual de webhook — Pagamento ${paymentId}`,
+      paymentId: updatedPayment.id,
       source: 'asaas_webhook',
     });
 
     if (!incomeResult.ok) {
-      return { success: false, error: 'Falha ao registrar receita.' };
+      return { success: false, error: 'Falha ao registrar receita: ' + (incomeResult.error || '') };
     }
+
+    // Reativa contrato e gera comissão — mesma semântica do webhook principal.
+    if (updatedPayment.contract_id) {
+      await supabaseAdmin
+        .from('contracts')
+        .update({ status: 'active' })
+        .eq('id', updatedPayment.contract_id)
+        .eq('tenant_id', tenant_id)
+        .neq('status', 'cancelled');
+    }
+    await generateCommission(supabaseAdmin, tenant_id, updatedPayment as any);
+
     return { success: true };
   }
 

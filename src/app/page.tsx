@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 
 import { notifySuccess, notifyError, notifyInfo, notifyWarning } from '@/lib/notify';
@@ -118,6 +118,7 @@ interface FinancialTransaction {
   type: "income" | "expense";
   category: string;
   transaction_date: string;
+  service_order_id?: string | null;
 }
 
 // Cores de status de óbito (badge) e de OS (texto do select)
@@ -153,7 +154,11 @@ export default function MasterEternityOS() {
   const billing = useBilling(loadData);
 
   // 2. Perfil e Tenant
-  const [userRole, setUserRole] = useState<UserRole>("admin");
+  // F-08: fail-closed — sem role confirmada pelo backend o usuário é NULL
+  // (nenhuma seção visível) e pode cair em "pendente de aprovação".
+  // Nunca iniciar como 'admin'.
+  const [userRole, setUserRole] = useState<UserRole | null>(null);
+  const [pendingApproval, setPendingApproval] = useState<boolean>(false);
   const [tenantName, setTenantName] = useState<string>("Funerária Matriz");
 
   // 3. Navegao
@@ -189,36 +194,9 @@ export default function MasterEternityOS() {
   // 4. Colees de Dados
   const [holders, setHolders] = useState<Holder[]>([]);
   const [burials, setBurials] = useState<Burial[]>([]);
-  const [inventory, setInventory] = useState<InventoryItem[]>([
-    {
-      id: "1",
-      item_name: "Urna Luxo Sextavada Mogno",
-      category: "Urna Adulto",
-      stock_quantity: 8,
-      min_threshold: 4,
-    },
-    {
-      id: "2",
-      item_name: "Urna Standard Envernizada",
-      category: "Urna Adulto",
-      stock_quantity: 12,
-      min_threshold: 5,
-    },
-    {
-      id: "3",
-      item_name: "Urna Infantil Branca com Anjo",
-      category: "Urna Infantil",
-      stock_quantity: 3,
-      min_threshold: 2,
-    },
-    {
-      id: "4",
-      item_name: "Véu de Renda Especial com Flores",
-      category: "Ornamentação",
-      stock_quantity: 25,
-      min_threshold: 10,
-    },
-  ]);
+  // F-03: sem mocks — estoque real ou vazio (empty state), nunca dados
+  // inventados apresentados como operação real.
+  const [inventory, setInventory] = useState<InventoryItem[]>([]);
 
   const [partners, setPartners] = useState<Partner[]>([]);
 
@@ -226,29 +204,9 @@ export default function MasterEternityOS() {
 
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
-  const [convalescence, setConvalescence] = useState<ConvalescenceItem[]>([
-    {
-      id: "1",
-      item_name: "Cadeira de Rodas Dobrável",
-      holder_name: "Carlos Eduardo Silva",
-      loan_date: "15/08/2026",
-      status: "Ativo",
-    },
-    {
-      id: "2",
-      item_name: "Par de Muletas Canadenses",
-      holder_name: "Mariana Costa Ferreira",
-      loan_date: "20/08/2026",
-      status: "Ativo",
-    },
-    {
-      id: "3",
-      item_name: "Cama Hospitalar Articulada",
-      holder_name: "Pedro Silva",
-      loan_date: "10/08/2026",
-      status: "Ativo",
-    },
-  ]);
+  // F-03: sem mocks — empréstimos reais ou vazio. (A rota /api/convalescence
+  // existe; integração da aba com a API fica no backlog P2.)
+  const [convalescence, setConvalescence] = useState<ConvalescenceItem[]>([]);
 
   const [chapels, setChapels] = useState<ChapelBooking[]>([]);
 
@@ -481,7 +439,9 @@ export default function MasterEternityOS() {
       const invRes = await authFetch("/api/inventory");
       if (invRes.ok) {
         const invData = await invRes.json();
-        if (Array.isArray(invData) && invData.length > 0) setInventory(invData);
+        // F-03: vazio é estado válido — sobrescreve sempre que a resposta
+        // for um array (banco vazio mostra empty state, não dados fantasmas).
+        if (Array.isArray(invData)) setInventory(invData);
       }
 
       // 4. Parceiros
@@ -592,11 +552,15 @@ export default function MasterEternityOS() {
           .then((data) => {
             if (data.role) {
               setUserRole(data.role as UserRole);
+            } else {
+              // F-08 fail-closed: role null (PENDING_APPROVAL) NUNCA vira admin
+              setPendingApproval(true);
             }
             loadData();
           })
           .catch(() => {
-            loadData();
+            // F-08 fail-closed: erro de rede/init também não vira admin
+            setPendingApproval(true);
           });
       }
       setAuthChecking(false);
@@ -663,23 +627,16 @@ export default function MasterEternityOS() {
           setSession(data.session);
           setLoginEmail("");
           setLoginPassword("");
+          // Login novo: limpa pendência anterior antes de revalidar o role
+          setPendingApproval(false);
         }
       } else {
-        const { data, error } = await supabase.auth.signUp({
-          email: loginEmail.trim(),
-          password: loginPassword,
-        });
-
-        if (error) {
-          setLoginError(error.message);
-        } else if (data.session) {
-          setSession(data.session);
-          notifySuccess("✅ Conta criada com sucesso! Você está conectado como Administrador.",
-          );
-        } else {
-          notifySuccess("✅ Cadastro realizado! Faça login com o seu e-mail e senha.");
-          setAuthMode("login");
-        }
+        // F-09: auto-cadastro desativado (ERP B2B — contas nascem pendentes e
+        // sem permissão; onboarding correto é o convite via RBAC pelo admin).
+        notifyWarning(
+          "Auto-cadastro desativado. Solicite acesso ao administrador da sua funerária.",
+        );
+        setAuthMode("login");
       }
     } catch {
       setLoginError("Erro de conexão ao autenticar.");
@@ -1559,20 +1516,10 @@ export default function MasterEternityOS() {
             </p>
           </div>
 
-          <div className="flex bg-slate-50 dark:bg-slate-950 p-1 rounded-lg border border-slate-200 dark:border-slate-800 text-xs">
-            <button
-              onClick={() => setAuthMode("login")}
-              className={`flex-1 py-1.5 rounded-md font-bold transition ${authMode === "login" ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white" : "text-slate-600 dark:text-slate-500 dark:text-slate-400"}`}
-            >
-              Entrar
-            </button>
-            <button
-              onClick={() => setAuthMode("signup")}
-              className={`flex-1 py-1.5 rounded-md font-bold transition ${authMode === "signup" ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white" : "text-slate-600 dark:text-slate-500 dark:text-slate-400"}`}
-            >
-              Primeiro Acesso / Criar Conta
-            </button>
-          </div>
+          {/* F-09: sem toggle de auto-cadastro — acesso apenas por credenciais */}
+          <p className="text-center text-[11px] text-slate-600 dark:text-slate-400">
+            Acesso exclusivo de colaboradores. Sem conta? Solicite ao administrador da sua funerária.
+          </p>
 
           {loginError && (
             <div className="p-3 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-300 text-xs font-semibold text-center">
@@ -1624,13 +1571,38 @@ export default function MasterEternityOS() {
               disabled={loginLoading}
               className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white dark:text-white font-bold rounded-lg transition shadow-md text-xs"
             >
-              {loginLoading
-                ? "Processando..."
-                : authMode === "login"
-                  ? "Entrar no ERP"
-                  : "Criar Conta de Acesso"}
+              {loginLoading ? "Processando..." : "Entrar no ERP"}
             </button>
           </form>
+        </div>
+      </div>
+    );
+  }
+
+  // F-08: autenticado mas sem role em nenhum tenant — pendente de aprovação.
+  // NÃO renderiza o dashboard (antes: painel completo que falhava em tudo).
+  if (session && pendingApproval) {
+    return (
+      <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 text-center space-y-4">
+          <h1 className="text-lg font-bold text-slate-900 dark:text-white">
+            Acesso pendente de aprovação
+          </h1>
+          <p className="text-xs text-slate-600 dark:text-slate-400">
+            Sua conta foi autenticada, mas ainda não está vinculada a nenhuma
+            funerária. Solicite a um administrador que conceda seu acesso em
+            Usuários &amp; Permissões.
+          </p>
+          <button
+            onClick={async () => {
+              await supabase.auth.signOut();
+              setSession(null);
+              setPendingApproval(false);
+            }}
+            className="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg text-xs font-bold"
+          >
+            Sair
+          </button>
         </div>
       </div>
     );
@@ -1885,11 +1857,11 @@ export default function MasterEternityOS() {
         <div className="p-3 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 flex items-center justify-between">
           <div className="flex items-center gap-2 overflow-hidden">
             <div className="w-7 h-7 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-bold flex items-center justify-center shrink-0">
-              {userRole.substring(0, 2).toUpperCase()}
+              {(userRole ?? "--").substring(0, 2).toUpperCase()}
             </div>
             <div className="truncate">
               <p className="text-xs font-semibold text-slate-900 dark:text-white capitalize truncate">
-                {userRole}
+                {userRole ?? "sem acesso"}
               </p>
               <p className="text-[10px] text-emerald-400">🟢 Conectado</p>
             </div>
@@ -1987,7 +1959,7 @@ export default function MasterEternityOS() {
             {hasPermission(userRole, "canManageFinancial") && (
               <button
                 onClick={() => { setCobrancaAvulsaNome(""); setIsCobrancaAvulsaOpen(true); }}
-                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-black bg-amber-400 hover:bg-amber-300 rounded-lg transition shadow shrink-0"
+                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold text-white bg-slate-700 hover:bg-slate-600 rounded-lg transition shadow shrink-0"
                 title="Cobrar cliente não-associado (funeral avulso)"
               >
                 <span className="hidden sm:inline">💸 Cobrança Avulsa</span>
@@ -2175,45 +2147,48 @@ export default function MasterEternityOS() {
               </div>
 
               {/* Ações Rápidas - Mobile First com ícones e labels claros */}
-              <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-2.5 sm:p-4 shadow-sm">
-                <div className="flex items-center justify-between mb-2 sm:mb-3">
-                  <span className="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400">Ações Rápidas</span>
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  {hasPermission(userRole, "canManageContracts") && (
-                    <button
-                      onClick={() => setIsNewHolderOpen(true)}
-                      className="flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-2 sm:py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold rounded-lg transition active:scale-95"
-                    >
-                      <span className="text-sm sm:text-base">➕</span>
-                      <span>Novo Titular</span>
-                    </button>
-                  )}
-                  {hasPermission(userRole, "canManageContracts") && (
-                    <button
-                      onClick={() => { setImportText(""); setImportResult(null); setIsImportOpen(true); }}
-                      className="flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-2 sm:py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold rounded-lg transition active:scale-95"
-                    >
-                      <span className="text-sm sm:text-base">📥</span>
-                      <span>Importar</span>
-                    </button>
-                  )}
-                  <button
-                    onClick={handleExportCSV}
-                    className="flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-2 sm:py-2.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold rounded-lg transition active:scale-95"
-                  >
-                    <span className="text-sm sm:text-base">📤</span>
-                    <span>Exportar</span>
-                  </button>
-                  <button
-                    onClick={() => setSearchQuery("")}
-                    className="flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-2 sm:py-2.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold rounded-lg transition active:scale-95"
-                  >
-                    <span className="text-sm sm:text-base">🔄</span>
-                    <span>Limpar</span>
-                  </button>
-                </div>
-              </div>
+                             {/* Acoes Rapidas */}
+               <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-2.5 sm:p-4 shadow-sm">
+                 <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                   <svg className="w-4 h-4 text-slate-500 dark:text-slate-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                     <path d="M12 3v18M3 12h18" />
+                   </svg>
+                   <span className="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400">Acoes Rapidas</span>
+                 </div>
+                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                   {hasPermission(userRole, "canManageContracts") && (
+                     <button
+                       onClick={() => { setImportText(""); setImportResult(null); setIsImportOpen(true); }}
+                       className="flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-2 sm:py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold rounded-lg transition active:scale-95"
+                     >
+                       <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+                       </svg>
+                       <span>Importar</span>
+                     </button>
+                   )}
+                   <button
+                     onClick={handleExportCSV}
+                     className="flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-2 sm:py-2.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold rounded-lg transition active:scale-95"
+                   >
+                     <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                     </svg>
+                     <span>Exportar</span>
+                   </button>
+                   <button
+                     onClick={() => setSearchQuery("")}
+                     className="flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-2 sm:py-2.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold rounded-lg transition active:scale-95"
+                   >
+                     <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                       <path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/>
+                       <path d="M3 12h4M3 12V8"/>
+                       <path d="M3 12h2"/>
+                     </svg>
+                     <span>Limpar</span>
+                   </button>
+                 </div>
+               </div>
 
               <div className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl overflow-x-auto shadow-sm">
                 <table className="w-full text-left text-xs border-collapse">
@@ -3334,7 +3309,7 @@ export default function MasterEternityOS() {
                     <input type="date" value={avulsoFilterTo} onChange={(e) => setAvulsoFilterTo(e.target.value)} className="px-2 py-1 bg-slate-950 border border-slate-700 rounded text-xs text-white" />
                     <button onClick={() => { setAvulsoFilterFrom(""); setAvulsoFilterTo(""); }} className="px-2 py-1 bg-slate-700 hover:bg-slate-600 text-white rounded text-xs">Limpar</button>
                     <button onClick={exportAvulsoCSV} className="px-2 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-bold">📥 CSV</button>
-                    <button onClick={() => { setCobrancaAvulsaNome(""); setIsCobrancaAvulsaOpen(true); }} className="px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-black rounded-lg text-xs font-bold shadow">+ Nova Cobrança Avulsa</button>
+                    <button onClick={() => { setCobrancaAvulsaNome(""); setIsCobrancaAvulsaOpen(true); }} className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg text-xs font-bold shadow">+ Nova Cobrança Avulsa</button>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3">
@@ -3363,6 +3338,7 @@ export default function MasterEternityOS() {
                         <tr className="border-b border-slate-800 text-slate-500 uppercase text-[10px]">
                           <th className="py-2 px-3">Data</th>
                           <th className="py-2 px-3">Descrição</th>
+                          <th className="py-2 px-3">OS</th>
                           <th className="py-2 px-3 text-right">Valor</th>
                         </tr>
                       </thead>
@@ -3371,6 +3347,22 @@ export default function MasterEternityOS() {
                           <tr key={tx.id} className="hover:bg-slate-800/30">
                             <td className="py-2 px-3 font-mono text-slate-400 whitespace-nowrap">{tx.transaction_date}</td>
                             <td className="py-2 px-3 text-slate-200">{tx.description}</td>
+                            <td className="py-2 px-3 font-mono text-amber-400">
+                              {tx.service_order_id ? (
+                                <button
+                                  onClick={() => {
+                                    const el = document.getElementById(`os-${tx.service_order_id}`);
+                                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                  }}
+                                  className="hover:underline text-amber-400"
+                                  title="Ver ordem de serviço"
+                                >
+                                  {tx.service_order_id.slice(0, 6)}
+                                </button>
+                              ) : (
+                                <span className="text-slate-600">—</span>
+                              )}
+                            </td>
                             <td className="py-2 px-3 text-right font-bold text-emerald-400 whitespace-nowrap">+ {fmtBRL(tx.amount)}</td>
                           </tr>
                         ))}
@@ -5017,7 +5009,9 @@ export default function MasterEternityOS() {
       {/* MODAIS DRE & RBAC */}
       <ModalDRE isOpen={isDREOpen} onClose={() => setIsDREOpen(false)} />
       <ModalWebhookRetry isOpen={isWebhookRetryOpen} onClose={() => setIsWebhookRetryOpen(false)} />
-      <ModalRBAC isOpen={isRBACOpen} onClose={() => setIsRBACOpen(false)} currentRole={userRole} />
+      {userRole && (
+        <ModalRBAC isOpen={isRBACOpen} onClose={() => setIsRBACOpen(false)} currentRole={userRole} />
+      )}
 
       {/* MODAL CONFIGURAES DA EMPRESA */}
       {isSettingsOpen && (

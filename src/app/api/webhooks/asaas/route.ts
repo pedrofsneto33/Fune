@@ -3,26 +3,7 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { checkRateLimit } from '@/lib/rate-limiter';
 import { logError } from '@/lib/http-error';
 import { recordIncome } from '@/lib/financial';
-import crypto from 'crypto';
-
-/**
- * Verify webhook signature using HMAC
- * Documentation: https://docs.asaas.com/docs/webhook-signature
- */
-function verifyWebhookSignature(payload: string, signature: string, secret: string): boolean {
-  try {
-    const expectedSignature = crypto
-      .createHmac('sha256', secret)
-      .update(payload)
-      .digest('hex');
-    return crypto.timingSafeEqual(
-      Buffer.from(signature, 'hex'),
-      Buffer.from(expectedSignature, 'hex')
-    );
-  } catch {
-    return false;
-  }
-}
+import { generateCommission } from '@/lib/commissions';
 
 export async function POST(req: NextRequest) {
   // SECURITY: rate limit por IP — webhooks nao passam pelo withAuth
@@ -38,11 +19,31 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // SECURITY (doc oficial Asaas): a validação de origem é o TOKEN de
+  // autenticação no header 'asaas-access-token' — o Asaas NÃO assina o corpo
+  // do webhook (não existe HMAC nativo; o bloco HMAC anterior era código
+  // morto que nunca rodaria, dando falsa sensação de segurança).
+  // Defesa extra opcional: whitelist de IPs oficiais via ASAAS_ALLOWED_IPS.
+  const allowedIps = (process.env.ASAAS_ALLOWED_IPS || '')
+    .split(',')
+    .map((ip) => ip.trim())
+    .filter(Boolean);
+  if (allowedIps.length > 0) {
+    if (clientIP === 'unknown' || !allowedIps.includes(clientIP)) {
+      logError(`IP ${clientIP} fora da whitelist`, '[asaas-webhook] origem nao autorizada');
+      return NextResponse.json({ error: 'Origem não autorizada' }, { status: 403 });
+    }
+  }
+
   const webhookToken = req.headers.get('asaas-access-token');
-  const webhookSignature = req.headers.get('x-asaas-signature');
 
   if (!webhookToken) {
     return NextResponse.json({ error: 'Token de webhook ausente' }, { status: 401 });
+  }
+  if (webhookToken.length < 16) {
+    // Não bloqueia (tokens legados curtos continuam funcionando), mas grita:
+    // token fraco é problema de configuração, não do request.
+    logError(`token com ${webhookToken.length} chars`, '[asaas-webhook] TOKEN FRACO — rotacione');
   }
 
   // Read raw body for signature verification
@@ -72,18 +73,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Token de webhook inválido' }, { status: 403 });
   }
 
-  // SECURITY: fail-closed - se o segredo HMAC estiver configurado, a assinatura
-  // e OBRIGATORIA. Ausência de assinatura também rejeita (401), não apenas
-  // assinatura invalida. Para ativar: configure ASAAS_WEBHOOK_SECRET no painel
-  // do Asaas e na Vercel.
-  const webhookSecret = process.env.ASAAS_WEBHOOK_SECRET;
-  if (webhookSecret) {
-    if (!webhookSignature) {
-      return NextResponse.json({ error: 'Assinatura do webhook ausente' }, { status: 401 });
+  // IDEMPOTENCIA (doc Asaas: entrega at-least-once): se este par
+  // (pagamento, evento) ja foi PROCESSADO com sucesso, responde 200 sem
+  // reprocessar — o Asaas para de reenviar. Em caso de corrida, a transicao
+  // de status no payments continua garantindo que receita/comissao nao dupliquem.
+  try {
+    const { data: already } = await supabaseAdmin
+      .from('webhook_events')
+      .select('id')
+      .eq('asaas_payment_id', payment.id)
+      .eq('tenant_id', tenant.id)
+      .eq('event', event ?? '')
+      .eq('processed', true)
+      .limit(1);
+    if (already && already.length > 0) {
+      return NextResponse.json({ received: true, processed: 'duplicated' });
     }
-    if (!verifyWebhookSignature(rawBody, webhookSignature, webhookSecret)) {
-      return NextResponse.json({ error: 'Assinatura do webhook inválida' }, { status: 403 });
-    }
+  } catch {
+    /* dedup best-effort: a transicao de status no payments e quem garante idempotencia */
   }
 
   // AUDITORIA: registra o evento bruto. Degradacao graciosa — se a tabela
@@ -161,7 +168,8 @@ export async function POST(req: NextRequest) {
       .from('contracts')
       .update({ status: 'active' })
       .eq('id', updatedPayment.contract_id)
-      .eq('tenant_id', tenant.id);
+      .eq('tenant_id', tenant.id)
+      .neq('status', 'cancelled');
     if (contractUpdateError) {
       logError(contractUpdateError, '[asaas-webhook] erro ao reativar contrato');
     }
@@ -195,60 +203,5 @@ async function markWebhookEvent(
       .eq('id', id);
   } catch {
     /* best-effort */
-  }
-}
-
-// Gera comissão por vendedor quando um pagamento é confirmado.
-// Regra: 1º pagamento pago do contrato → commission_rate_initial;
-//        demais pagamentos → commission_rate_recurring.
-// Sem vendedor ou percentual 0 → não gera nada (silenciosamente).
-async function generateCommission(
-  db: typeof supabaseAdmin,
-  tenantId: string,
-  payment: { id: string; amount: number; contract_id: string },
-) {
-  try {
-    // 1) Buscar contrato com plano e vendedor
-    const { data: contract } = await db
-      .from("contracts")
-      .select("id, seller_name, plan_id, start_date, plans(commission_rate_initial, commission_rate_recurring)")
-      .eq("id", payment.contract_id)
-      .eq("tenant_id", tenantId)
-      .single();
-
-    if (!contract) return;
-    const sellerName: string | null = (contract as any)?.seller_name || null;
-    const plan = (contract as any)?.plans || null;
-    if (!sellerName || !plan) return; // sem vendedor ou sem plano vinculado
-
-    const rateInitial: number = Number(plan.commission_rate_initial) || 0;
-    const rateRecurring: number = Number(plan.commission_rate_recurring) || 0;
-    if (rateInitial <= 0 && rateRecurring <= 0) return; // plano sem comissão
-
-    // 2) Contar quantos pagamentos pagos esse contrato já tem
-    const { count: paidCount } = await db
-      .from("payments")
-      .select("id", { count: "exact", head: true })
-      .eq("contract_id", payment.contract_id)
-      .eq("tenant_id", tenantId)
-      .eq("status", "paid");
-
-    const isFirst = (paidCount || 0) <= 1; // este acabou de ser confirmado
-    const rate = isFirst ? rateInitial : rateRecurring;
-    if (rate <= 0) return; // recorrente pode ser 0 (só paga na 1ª)
-
-    const commissionAmount = Number(((payment.amount * rate) / 100).toFixed(2));
-    if (commissionAmount <= 0) return;
-
-    // 3) Inserir comissão
-    await db.from("commissions").insert({
-      tenant_id: tenantId,
-      contract_id: payment.contract_id,
-      seller_name: sellerName,
-      amount: commissionAmount,
-      status: "pendente",
-    });
-  } catch {
-    // nunca falhar o webhook por causa de comissão
   }
 }

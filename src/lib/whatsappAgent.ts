@@ -105,8 +105,12 @@ export async function processIncomingMessage(
   const data = (session.data || {}) as TriageData;
 
   // Processa o dado informado conforme o passo atual
-  if (step === 'location') data.deceasedName = text;
-  if (step === 'family') data.location = text;
+  // Captura o dado do passo CORRENTE (o usuário acabou de responder à
+  // pergunta do passo atual). Correção F-13: antes, os campos eram gravados
+  // deslocados — nome do falecido recebia o local, o local recebia o contato
+  // da família, e o contato era gravado duas vezes.
+  if (step === 'init') data.deceasedName = text;
+  if (step === 'location') data.location = text;
 
   // Fluxo concluido: grava despacho de emergência
   if (step === 'family') {

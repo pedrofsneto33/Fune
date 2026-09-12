@@ -11,7 +11,7 @@ export type UserRole = AppRole;
 // admin       -> Dono/Gestor de UMA funerária (tenant). Opera 100% do próprio
 //                tenant (config, financeiro, RBAC local, etc.), mas NÃO pode:
 //                criar outros tenants, alterar plano comercial, conceder
-//                superadmin, nem rebaixar/removeráá um superadmin.
+//                superadmin, nem rebaixar/removerá um superadmin.
 // manager     -> Nível operacional elevado (contratos, capela, operações).
 // financial   -> Financeiro.
 // attendant   -> Atendimento (contratos, capela, convalescença).

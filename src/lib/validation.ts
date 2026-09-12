@@ -27,7 +27,20 @@ export function isValidEmail(value: string): boolean {
 }
 
 export function isValidCPF(value: string): boolean {
-  return CPF_REGEX.test(value);
+  const digits = String(value || "").replace(/\D/g, "");
+  if (digits.length !== 11) return false;
+  if (/^(\d)\1{10}$/.test(digits)) return false;
+  let sum = 0;
+  for (let i = 0; i < 9; i++) sum += parseInt(digits[i], 10) * (10 - i);
+  let mod = (sum * 10) % 11;
+  if (mod === 10) mod = 0;
+  if (mod !== parseInt(digits[9], 10)) return false;
+  sum = 0;
+  for (let i = 0; i < 10; i++) sum += parseInt(digits[i], 10) * (11 - i);
+  mod = (sum * 10) % 11;
+  if (mod === 10) mod = 0;
+  if (mod !== parseInt(digits[10], 10)) return false;
+  return true;
 }
 
 export function isValidPhone(value: string): boolean {

@@ -76,9 +76,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         .maybeSingle();
 
       if (!ownedContract) {
-
         return NextResponse.json({ error: 'Contrato não encontrado para esta unidade.' }, { status: 404 });
-
       }
 
       // Contrato precisa estar ativo/bilingue e o titular ativo
@@ -97,26 +95,24 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     }
 
+    // F-12: validação de veículo no escopo CORRETO — além de pertencer ao
+    // tenant, o veículo não pode estar em missão em outra ordem de serviço.
+    // (Antes esta checagem estava presa dentro de `if (!ownedContract)` e
+    // NUNCA rodava quando o contrato existia → duas OS no mesmo veículo.)
     if (vehicle_id) {
-
       const { data: ownedVehicle } = await supabaseAdmin
-
         .from('vehicles')
-
-        .select('id')
-
+        .select('id, status')
         .eq('id', vehicle_id)
-
         .eq('tenant_id', auth.tenantId)
-
         .maybeSingle();
 
       if (!ownedVehicle) {
-
         return NextResponse.json({ error: 'Veículo não encontrado para esta unidade.' }, { status: 404 });
-
       }
-
+      if (ownedVehicle.status === 'Em Missão') {
+        return NextResponse.json({ error: 'Este veículo já está em missão em outra ordem de serviço.' }, { status: 409 });
+      }
     }
 
     const { data: serviceOrder, error: soError } = await supabaseAdmin
@@ -155,7 +151,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     if (burialError) {
       await supabaseAdmin.from('service_orders').delete().eq('id', serviceOrder.id);
-      return NextResponse.json({ error: 'Erro ao criar registro de óóóbito' }, { status: 500 });
+      return NextResponse.json({ error: 'Erro ao criar registro de óbito' }, { status: 500 });
     }
 
     await supabaseAdmin
@@ -240,8 +236,34 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
       if (!isValidUUID(vehicle_id)) {
         return NextResponse.json({ error: 'Veículo inválido' }, { status: 400 });
       }
+      // [CORRECAO] Checar se o veículo novo já está em missão em outra ordem
+      const { data: newVehicle } = await supabaseAdmin
+        .from('vehicles')
+        .select('id, status')
+        .eq('id', vehicle_id)
+        .eq('tenant_id', auth.tenantId)
+        .maybeSingle();
+      if (!newVehicle) {
+        return NextResponse.json({ error: 'Veículo não encontrado para esta unidade.' }, { status: 404 });
+      }
+      if (newVehicle.status === 'Em Missão') {
+        return NextResponse.json({ error: 'Este veículo já está em missão em outra ordem de serviço.' }, { status: 409 });
+      }
       updateData.vehicle_id = vehicle_id;
     }
+
+    // Buscar a ordem atual antes de atualizar (precisamos do vehicle_id atual para
+    // liberá-lo caso a troca seja efetiva, e do status anterior para a reversão de estoque).
+    const { data: currentOrder, error: currentOrderErr } = await supabaseAdmin
+      .from('service_orders')
+      .select('vehicle_id, status')
+      .eq('id', id)
+      .eq('tenant_id', auth.tenantId)
+      .maybeSingle();
+    if (currentOrderErr || !currentOrder) {
+      return NextResponse.json({ error: 'Ordem de serviço não encontrada para esta unidade.' }, { status: 404 });
+    }
+
     const { data, error } = await supabaseAdmin
       .from('service_orders')
       .update(updateData)
@@ -251,8 +273,38 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
       .single();
     if (error) {
       return NextResponse.json({ error: 'Erro ao atualizar serviço' }, { status: 500 });
+    // [CORRECAO] Reverter estoque se a ordem for cancelada e o serviço nunca
+    // chegou a consumir material de fato (só se era pending ou in_progress).
+    if (status === 'cancelled' && currentOrder?.status === 'pending' || status === 'cancelled' && currentOrder?.status === 'in_progress') {
+      const { data: orderItems } = await supabaseAdmin
+        .from('service_order_items')
+        .select('inventory_id, quantity')
+        .eq('service_order_id', id)
+        .eq('tenant_id', auth.tenantId);
+      if (orderItems && Array.isArray(orderItems)) {
+        for (const item of (orderItems ?? [])) {
+          if (item.inventory_id) {
+            await supabaseAdmin.rpc('increment_stock', {
+              p_item_id: item.inventory_id,
+              p_tenant_id: auth.tenantId,
+              qty: item.quantity,
+            });
+          }
+        }
+      }
     }
-    // Sincroniza o registro de óóóbito vinculado com o status da OS
+
+    }
+
+    // [CORRECAO] Se a troca de veículo é efetiva (novo diferente do antigo), liberar o antigo
+    if (vehicle_id && currentOrder?.vehicle_id && currentOrder?.vehicle_id !== vehicle_id) {
+      await supabaseAdmin
+        .from('vehicles')
+        .update({ status: 'Disponível' })
+        .eq('id', currentOrder.vehicle_id)
+        .eq('tenant_id', auth.tenantId);
+    }
+    // Sincroniza o registro de óbito vinculado com o status da OS
     if (status && data?.burial_id) {
       const burialStatusMap: Record<string, string> = {
         pending: 'Agendado',

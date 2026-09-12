@@ -487,6 +487,20 @@ CREATE TABLE IF NOT EXISTS public.whatsapp_agent_sessions (
     SET stock_quantity = stock_quantity - qty
     WHERE id = p_item_id AND tenant_id = p_tenant_id AND stock_quantity >= qty;
   END;
+
+-- [CORRECAO] Reversão de estoque quando ordem de serviço é cancelada antes de consumir material.
+-- Espelha decrement_stock (mesma assinatura, mesma defesa por tenant).
+-- A chamada é disparada pelo PATCH /api/service-orders quando status vira 'cancelled'
+-- a partir de 'pending' ou 'in_progress' (ou seja, o serviço nunca chegou a consumir
+-- o material de fato).
+CREATE OR REPLACE FUNCTION public.increment_stock(p_item_id uuid, p_tenant_id uuid, qty integer)
+RETURNS void AS $$
+BEGIN
+  UPDATE public.inventory
+  SET stock_quantity = stock_quantity + qty
+  WHERE id = p_item_id AND tenant_id = p_tenant_id;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
   $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE OR REPLACE FUNCTION public.get_user_tenant_id()
 RETURNS UUID AS $$
