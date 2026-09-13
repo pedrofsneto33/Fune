@@ -10,17 +10,34 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # AGENTS.md
 
-## Graphify
-Este projeto tem Graphify instalado. Consulte SEMPRE o grafo real em
-`graphify-out/graph.json` antes de gerar análises ad-hoc.
-
-- Grafo atual: 2131 nós, 3609 arestas, 295 comunidades (commit 49f53a51)
-- Atualizar após mudanças: `graphify update .`
-- Regenerar relatório: `graphify cluster-only .`
-- Renomear comunidades: `graphify label . --backend openai --batch-size 50`
-- Relatório: `graphify-out/GRAPH_REPORT.md`
-- Visualização: `graphify-out/graph.html`
-
 ## Idioma
-- Sempre responder em português do Brasil (pt-BR).
+- Responder sempre em português do Brasil (pt-BR).
 
+## Contexto — regras críticas
+- **NUNCA** leia arquivos com mais de 500 linhas por inteiro. Use `Get-Content -TotalCount N` ou leia só o trecho relevante.
+- **NUNCA** carregue `graphify-out/graph.json` (2.4 MB) no contexto. Consulte via CLI quando precisar.
+- **NUNCA** carregue o `GRAPH_REPORT.md` inteiro. Leia só a seção relevante.
+- Antes de criar qualquer arquivo, **confirme o escopo** com o usuário em 1 frase. Se não estiver claro, pergunte.
+
+## Graphify (uso sob demanda)
+- Ferramenta instalada. O grafo está em `graphify-out/`.
+- Para atualizar: `graphify update .` (incremental, sem LLM).
+- Para regenerar relatório: `graphify cluster-only .`
+- Para renomear comunidades: `graphify label . --backend openai --batch-size 50`
+- **Não leia** `graph.json` nem `GRAPH_REPORT.md` inteiros. Use `graphify` CLI.
+
+## Repowise (uso sob demanda via MCP)
+- Ferramentas MCP `repowise__*` disponíveis:
+  `get_overview`, `get_context`, `get_symbol`, `get_why`,
+  `get_change_risk`, `get_risk`, `get_health`,
+  `get_dead_code`, `get_answer`, `search_codebase`.
+- Use quando o usuário pedir análise de risco, saúde ou código morto.
+- **Não chame várias ferramentas na mesma mensagem** — uma por vez.
+
+## Refatoração em andamento
+- Objetivo: quebrar o monolito `src/app/page.tsx` (~4942 linhas) em rotas por domínio.
+- Fase atual: **2** (Titulares/Dependentes/Contratos). Sub-fases 2a, 2b, 2c concluídas.
+- Regra: **copiar, não mover**. `page.tsx` fica intacto até a Fase 6.
+- **Nunca alterar** `src/lib/eligibility.ts`, `src/lib/api-handler.ts`, `src/lib/supabaseAdmin.ts`.
+- Fluxo por sub-fase: criar arquivo → `npx tsc --noEmit` → testar no browser → commit → `graphify update .`.
+- Documentação viva: `docs/JORNADA-GRAPHIFY-E-REFATORACAO.md`.
