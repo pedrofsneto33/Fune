@@ -58,3 +58,6 @@ dev-server.log
 .env*
 
 test-output.log
+
+graphify-out/cache/
+graphify-out/2026-09-13/
