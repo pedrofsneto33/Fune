@@ -1,0 +1,3168 @@
+{
+  "communities": {
+    "0": [
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_rationale_2",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_read_rows",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_testaccessibilityguidance",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_testaccessibilityguidance_test_motion_recipes_offer_reduced_motion_or_user_control",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_testaccessibilityguidance_test_native_and_web_target_sizes_remain_distinct",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_testaccessibilityguidance_test_wcag_22_topics_have_explicit_rows_and_are_retrievable",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_testchartstypographyandicons",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_testchartstypographyandicons_test_chart_risk_is_not_a_conformance_grade",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_testchartstypographyandicons_test_icon_semantics_are_explicit_and_imports_are_concrete",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_testchartstypographyandicons_test_mutated_accessibility_and_import_contracts_fail",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_testchartstypographyandicons_test_named_fonts_match_google_import_css_import_and_tailwind_config",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_testchartstypographyandicons_test_natural_accessibility_queries_are_retrievable",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_testcurrentreactguidance",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_testcurrentreactguidance_test_effect_event_is_scoped_and_community_use_latest_is_removed",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_testsemanticcolors",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_testsemanticcolors_test_declared_text_and_ui_pairs_meet_role_thresholds",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_testsemanticcolors_test_destructive_tokens_are_not_success_green",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_catalog_date",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_app_interface_contract",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_catalog_contract",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_catalog_summary",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_chart_contract",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_color_contract",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_core_data_contract",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_file",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_font_catalog",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_icon_contract",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_landing_claims",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_motion_contract",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_phosphor_catalog",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_provenance",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_react_contract",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_reasoning_contract",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_stack_freshness_contract",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_style_contract",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_typography_contract",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_check_ux_contract",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_configured_font_names",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_contrast_ratio",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_declared_weights",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_font_families",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_font_names",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_imported_weights",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_load_catalog_json",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_main",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_rationale_1000",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_rationale_158",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_rationale_3",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_rationale_802",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_read_rows",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_relative_luminance",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_split",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_valid_catalog_source_key",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_valid_confidence",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_valid_dataset_source_key",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_valid_date",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_valid_google_fonts_exclusion_source",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_valid_provenance_source",
+      "continue_skills_ui_ux_pro_max_scripts_validate_data_validate"
+    ],
+    "1": [
+      "docref_rfc_5322",
+      "src_app_api_accounts_payable_route",
+      "src_app_api_accounts_payable_route_get",
+      "src_app_api_accounts_payable_route_patch",
+      "src_app_api_accounts_payable_route_post",
+      "src_app_api_collector_routes_route",
+      "src_app_api_collector_routes_route_get",
+      "src_app_api_collector_routes_route_post",
+      "src_app_api_financial_transactions_route",
+      "src_app_api_financial_transactions_route_delete",
+      "src_app_api_financial_transactions_route_get",
+      "src_app_api_financial_transactions_route_post",
+      "src_app_api_fiscal_config_route",
+      "src_app_api_fiscal_config_route_dynamic",
+      "src_app_api_fiscal_config_route_get",
+      "src_app_api_fiscal_config_route_patch",
+      "src_app_api_holders_import_route",
+      "src_app_api_holders_import_route_parsedrow",
+      "src_app_api_holders_import_route_post",
+      "src_app_api_holders_route",
+      "src_app_api_holders_route_delete",
+      "src_app_api_holders_route_get",
+      "src_app_api_holders_route_patch",
+      "src_app_api_holders_route_post",
+      "src_app_api_inventory_route",
+      "src_app_api_inventory_route_get",
+      "src_app_api_inventory_route_post",
+      "src_app_api_leads_landing_route",
+      "src_app_api_leads_landing_route_post",
+      "src_app_api_users_roles_route",
+      "src_app_api_users_roles_route_delete",
+      "src_app_api_users_roles_route_dynamic",
+      "src_app_api_users_roles_route_get",
+      "src_app_api_users_roles_route_post",
+      "src_app_api_vehicles_route",
+      "src_app_api_vehicles_route_delete",
+      "src_app_api_vehicles_route_get",
+      "src_app_api_vehicles_route_patch",
+      "src_app_api_vehicles_route_post",
+      "src_lib_crm_isvalidphonedigits",
+      "src_lib_planlimits_checkholderlimit",
+      "src_lib_planlimits_checkuserlimit",
+      "src_lib_planlimits_getplanbycode",
+      "src_lib_validation",
+      "src_lib_validation_clampnumber",
+      "src_lib_validation_isvalidcnpj",
+      "src_lib_validation_isvalidcpf",
+      "src_lib_validation_isvaliddate",
+      "src_lib_validation_isvalidemail",
+      "src_lib_validation_isvalidisodate",
+      "src_lib_validation_isvalidnumber",
+      "src_lib_validation_isvalidphone",
+      "src_lib_validation_sanitizecnpj",
+      "src_lib_validation_sanitizecpf",
+      "src_lib_validation_sanitizehtml",
+      "src_lib_validation_sanitizephone",
+      "src_lib_validation_sanitizestring"
+    ],
+    "2": [
+      "billing_boleto_route",
+      "billing_boleto_route_dynamic",
+      "billing_boleto_route_post",
+      "billing_collector_route",
+      "billing_collector_route_dynamic",
+      "billing_collector_route_get",
+      "billing_collector_route_post",
+      "convalescence_route",
+      "convalescence_route_dynamic",
+      "convalescence_route_get",
+      "convalescence_route_post",
+      "dispatches_audit_route",
+      "dispatches_audit_route_dynamic",
+      "dispatches_audit_route_get",
+      "dispatches_audit_route_post",
+      "dispatches_close_route",
+      "dispatches_close_route_dynamic",
+      "dispatches_close_route_post",
+      "financial_regulatory_reserves_route",
+      "financial_regulatory_reserves_route_dynamic",
+      "financial_regulatory_reserves_route_get",
+      "sales_commission_route",
+      "sales_commission_route_dynamic",
+      "sales_commission_route_get",
+      "src_app_api_audit_logs_route",
+      "src_app_api_audit_logs_route_dynamic",
+      "src_app_api_audit_logs_route_get",
+      "src_app_api_billing_collector_route",
+      "src_app_api_billing_collector_route_get",
+      "src_app_api_billing_collector_route_post",
+      "src_app_api_contracts_eligibility_route",
+      "src_app_api_contracts_eligibility_route_get",
+      "src_app_api_emergency_dispatches_route",
+      "src_app_api_emergency_dispatches_route_get",
+      "src_app_api_emergency_dispatches_route_patch",
+      "src_app_api_financial_summary_route",
+      "src_app_api_financial_summary_route_get",
+      "src_app_api_financial_summary_route_months_pt",
+      "src_app_api_financial_summary_route_txrow",
+      "src_app_api_fiscal_list_route",
+      "src_app_api_fiscal_list_route_dynamic",
+      "src_app_api_fiscal_list_route_get",
+      "src_app_api_tenants_logo_route",
+      "src_app_api_tenants_logo_route_allowed_types",
+      "src_app_api_tenants_logo_route_dynamic",
+      "src_app_api_tenants_logo_route_post",
+      "src_app_api_webhooks_events_route",
+      "src_app_api_webhooks_events_route_get",
+      "src_lib_api_handler",
+      "src_lib_api_handler_api_rate_limit",
+      "src_lib_api_handler_authcontext",
+      "src_lib_api_handler_authenticatedhandler",
+      "src_lib_supabaseadmin",
+      "src_lib_supabaseadmin_supabaseadmin",
+      "tests_lib_financial_test",
+      "tests_lib_financial_test_mockfrom"
+    ],
+    "3": [
+      "continue_skills_design_system_templates_design_tokens_starter_100_type",
+      "continue_skills_design_system_templates_design_tokens_starter_100_value",
+      "continue_skills_design_system_templates_design_tokens_starter_200_type",
+      "continue_skills_design_system_templates_design_tokens_starter_200_value",
+      "continue_skills_design_system_templates_design_tokens_starter_300_type",
+      "continue_skills_design_system_templates_design_tokens_starter_300_value",
+      "continue_skills_design_system_templates_design_tokens_starter_400_type",
+      "continue_skills_design_system_templates_design_tokens_starter_400_value",
+      "continue_skills_design_system_templates_design_tokens_starter_500_type",
+      "continue_skills_design_system_templates_design_tokens_starter_500_value",
+      "continue_skills_design_system_templates_design_tokens_starter_50_type",
+      "continue_skills_design_system_templates_design_tokens_starter_50_value",
+      "continue_skills_design_system_templates_design_tokens_starter_600_type",
+      "continue_skills_design_system_templates_design_tokens_starter_600_value",
+      "continue_skills_design_system_templates_design_tokens_starter_700_type",
+      "continue_skills_design_system_templates_design_tokens_starter_700_value",
+      "continue_skills_design_system_templates_design_tokens_starter_800_type",
+      "continue_skills_design_system_templates_design_tokens_starter_800_value",
+      "continue_skills_design_system_templates_design_tokens_starter_900_type",
+      "continue_skills_design_system_templates_design_tokens_starter_900_value",
+      "continue_skills_design_system_templates_design_tokens_starter_950_type",
+      "continue_skills_design_system_templates_design_tokens_starter_950_value",
+      "continue_skills_design_system_templates_design_tokens_starter_blue_50",
+      "continue_skills_design_system_templates_design_tokens_starter_blue_500",
+      "continue_skills_design_system_templates_design_tokens_starter_blue_600",
+      "continue_skills_design_system_templates_design_tokens_starter_blue_700",
+      "continue_skills_design_system_templates_design_tokens_starter_blue_800",
+      "continue_skills_design_system_templates_design_tokens_starter_color_blue",
+      "continue_skills_design_system_templates_design_tokens_starter_color_gray",
+      "continue_skills_design_system_templates_design_tokens_starter_color_green",
+      "continue_skills_design_system_templates_design_tokens_starter_color_red",
+      "continue_skills_design_system_templates_design_tokens_starter_color_white",
+      "continue_skills_design_system_templates_design_tokens_starter_color_yellow",
+      "continue_skills_design_system_templates_design_tokens_starter_gray_100",
+      "continue_skills_design_system_templates_design_tokens_starter_gray_200",
+      "continue_skills_design_system_templates_design_tokens_starter_gray_300",
+      "continue_skills_design_system_templates_design_tokens_starter_gray_400",
+      "continue_skills_design_system_templates_design_tokens_starter_gray_50",
+      "continue_skills_design_system_templates_design_tokens_starter_gray_500",
+      "continue_skills_design_system_templates_design_tokens_starter_gray_600",
+      "continue_skills_design_system_templates_design_tokens_starter_gray_700",
+      "continue_skills_design_system_templates_design_tokens_starter_gray_800",
+      "continue_skills_design_system_templates_design_tokens_starter_gray_900",
+      "continue_skills_design_system_templates_design_tokens_starter_gray_950",
+      "continue_skills_design_system_templates_design_tokens_starter_green_500",
+      "continue_skills_design_system_templates_design_tokens_starter_green_600",
+      "continue_skills_design_system_templates_design_tokens_starter_primitive_color",
+      "continue_skills_design_system_templates_design_tokens_starter_red_500",
+      "continue_skills_design_system_templates_design_tokens_starter_red_600",
+      "continue_skills_design_system_templates_design_tokens_starter_red_700",
+      "continue_skills_design_system_templates_design_tokens_starter_white_type",
+      "continue_skills_design_system_templates_design_tokens_starter_white_value",
+      "continue_skills_design_system_templates_design_tokens_starter_yellow_500"
+    ],
+    "4": [
+      "billing_pix_route",
+      "billing_pix_route_dynamic",
+      "billing_pix_route_post",
+      "payments_pix_route",
+      "payments_pix_route_post",
+      "src_app_api_billing_asaas_batch_route",
+      "src_app_api_billing_asaas_batch_route_batchresult",
+      "src_app_api_billing_asaas_batch_route_contractisactive",
+      "src_app_api_billing_asaas_batch_route_holderisinactive",
+      "src_app_api_billing_asaas_batch_route_post",
+      "src_app_api_billing_asaas_batch_route_withtimeout",
+      "src_app_api_billing_avulso_route",
+      "src_app_api_billing_avulso_route_dynamic",
+      "src_app_api_billing_avulso_route_post",
+      "src_app_api_holders_quick_search_route",
+      "src_app_api_holders_quick_search_route_get",
+      "src_app_api_payment_carnets_route",
+      "src_app_api_payment_carnets_route_delete",
+      "src_app_api_payment_carnets_route_get",
+      "src_app_api_payment_carnets_route_patch",
+      "src_app_api_payment_carnets_route_post",
+      "src_app_api_payments_pix_route",
+      "src_app_api_payments_pix_route_post",
+      "src_app_api_webhooks_asaas_route",
+      "src_app_api_webhooks_asaas_route_markwebhookevent",
+      "src_app_api_webhooks_asaas_route_post",
+      "src_app_api_webhooks_retry_route",
+      "src_app_api_webhooks_retry_route_post",
+      "src_app_api_webhooks_retry_route_reprocessevent",
+      "src_app_api_webhooks_retry_route_retry_rate_limit",
+      "src_lib_asaasclient",
+      "src_lib_asaasclient_asaasconfig",
+      "src_lib_asaasclient_getasaasconfigfortenant",
+      "src_lib_commissions",
+      "src_lib_commissions_generatecommission",
+      "src_lib_financial",
+      "src_lib_financial_incomeinput",
+      "src_lib_financial_incomeresult",
+      "src_lib_financial_incomesource",
+      "src_lib_financial_recordincome",
+      "src_lib_rate_limiter",
+      "src_lib_rate_limiter_attempts",
+      "src_lib_rate_limiter_checkratelimit",
+      "src_lib_rate_limiter_default_config",
+      "src_lib_rate_limiter_legacycheckratelimit",
+      "src_lib_rate_limiter_ratelimit",
+      "src_lib_rate_limiter_ratelimitconfig",
+      "src_lib_rate_limiter_ratelimitentry",
+      "src_lib_rate_limiter_resetratelimit"
+    ],
+    "5": [
+      "auth_users",
+      "eternityos_schema",
+      "eternityos_schema_idx_service_order_items_service",
+      "eternityos_schema_idx_service_orders_burial",
+      "eternityos_schema_idx_service_orders_contract",
+      "eternityos_schema_idx_service_orders_tenant",
+      "eternityos_schema_public_accounts_payable",
+      "eternityos_schema_public_asaas_customers",
+      "eternityos_schema_public_audit_logs",
+      "eternityos_schema_public_benefits_partners",
+      "eternityos_schema_public_chapel_bookings",
+      "eternityos_schema_public_chapel_burials",
+      "eternityos_schema_public_collector_routes",
+      "eternityos_schema_public_commissions",
+      "eternityos_schema_public_contracts",
+      "eternityos_schema_public_convalescence_items",
+      "eternityos_schema_public_convalescence_loans",
+      "eternityos_schema_public_decrement_stock",
+      "eternityos_schema_public_dependents",
+      "eternityos_schema_public_dispatch_audit_logs",
+      "eternityos_schema_public_dispatches",
+      "eternityos_schema_public_emergency_dispatches",
+      "eternityos_schema_public_financial_transactions",
+      "eternityos_schema_public_fiscal_invoices",
+      "eternityos_schema_public_fleet_vehicles",
+      "eternityos_schema_public_get_user_tenant_id",
+      "eternityos_schema_public_holders",
+      "eternityos_schema_public_increment_stock",
+      "eternityos_schema_public_inventory",
+      "eternityos_schema_public_is_superadmin",
+      "eternityos_schema_public_payment_carnets",
+      "eternityos_schema_public_payments",
+      "eternityos_schema_public_plans",
+      "eternityos_schema_public_regulatory_reserves",
+      "eternityos_schema_public_sellers",
+      "eternityos_schema_public_service_order_items",
+      "eternityos_schema_public_service_orders",
+      "eternityos_schema_public_tenant_whatsapp_numbers",
+      "eternityos_schema_public_tenants",
+      "eternityos_schema_public_thanatopraxy_records",
+      "eternityos_schema_public_user_roles",
+      "eternityos_schema_public_vehicles",
+      "eternityos_schema_public_whatsapp_agent_sessions",
+      "public"
+    ],
+    "6": [
+      "src_app_api_benefits_partners_route",
+      "src_app_api_benefits_partners_route_delete",
+      "src_app_api_benefits_partners_route_get",
+      "src_app_api_benefits_partners_route_patch",
+      "src_app_api_benefits_partners_route_post",
+      "src_app_api_chapel_bookings_route",
+      "src_app_api_chapel_bookings_route_delete",
+      "src_app_api_chapel_bookings_route_get",
+      "src_app_api_chapel_bookings_route_patch",
+      "src_app_api_chapel_bookings_route_post",
+      "src_app_api_chapel_burials_route",
+      "src_app_api_chapel_burials_route_delete",
+      "src_app_api_chapel_burials_route_get",
+      "src_app_api_chapel_burials_route_patch",
+      "src_app_api_chapel_burials_route_post",
+      "src_app_api_dependents_route",
+      "src_app_api_dependents_route_delete",
+      "src_app_api_dependents_route_get",
+      "src_app_api_dependents_route_patch",
+      "src_app_api_dependents_route_post",
+      "src_app_api_dependents_route_valid_relations",
+      "src_app_api_lead_notes_route",
+      "src_app_api_lead_notes_route_delete",
+      "src_app_api_lead_notes_route_dynamic",
+      "src_app_api_lead_notes_route_get",
+      "src_app_api_lead_notes_route_post",
+      "src_app_api_plans_route",
+      "src_app_api_plans_route_delete",
+      "src_app_api_plans_route_get",
+      "src_app_api_plans_route_patch",
+      "src_app_api_plans_route_post",
+      "src_app_api_sellers_route",
+      "src_app_api_sellers_route_delete",
+      "src_app_api_sellers_route_dynamic",
+      "src_app_api_sellers_route_get",
+      "src_app_api_sellers_route_patch",
+      "src_app_api_sellers_route_post",
+      "src_app_api_service_orders_route_delete",
+      "src_app_api_service_orders_route_patch",
+      "src_app_api_thanatopraxy_route",
+      "src_app_api_thanatopraxy_route_get",
+      "src_app_api_thanatopraxy_route_post",
+      "src_lib_validation_isvaliduuid"
+    ],
+    "7": [
+      "continue_skills_ui_ux_pro_max_scripts_design_system",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_ansi_ljust",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_detect_page_type",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_format_ascii_box",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_format_ascii_box_wrap_text",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_format_markdown",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_format_master_md",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_format_page_override_md",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_generate_design_system",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_generate_intelligent_overrides",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_hex_to_ansi",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_persist_design_system",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_py_path",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_1077",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_1382",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_1491",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_1597",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_3",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_612",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_626",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_634",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_641",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_792",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_923",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_962",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_973",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_997",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_safe_slug",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_section_header",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_write_persisted_file",
+      "continue_skills_ui_ux_pro_max_scripts_search",
+      "continue_skills_ui_ux_pro_max_scripts_search_rationale_3",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testpersistence",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testpersistence_test_concurrent_non_force_persist_has_one_writer",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testpersistence_test_persist_then_skip_then_force",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testpersistence_test_persist_writes_only_under_output_dir"
+    ],
+    "8": [
+      "src_app_dashboard_vendedores_page",
+      "src_app_dashboard_vendedores_page_vendedorespage",
+      "src_components_dashboard_modalrbac",
+      "src_components_dashboard_modalrbac_modalrbac",
+      "src_components_dashboard_modalrbac_userrole",
+      "src_components_dashboard_modalwebhookretry",
+      "src_components_dashboard_modalwebhookretry_filterbtn",
+      "src_components_dashboard_modalwebhookretry_modalwebhookretry",
+      "src_components_dashboard_modalwebhookretry_props",
+      "src_components_dashboard_modalwebhookretry_statusbadge",
+      "src_components_dashboard_modalwebhookretry_webhookevent",
+      "src_components_modals_modalcobrancaavulsa",
+      "src_components_modals_modalcobrancaavulsa_modalcobrancaavulsa",
+      "src_components_tabs_fiscalsettingssection",
+      "src_components_tabs_fiscalsettingssection_fiscalconfigdata",
+      "src_components_tabs_fiscalsettingssection_fiscalsettingssection",
+      "src_components_tabs_fiscaltab",
+      "src_components_tabs_fiscaltab_fiscaltab",
+      "src_components_tabs_fiscaltab_fmtbrl",
+      "src_components_tabs_fiscaltab_invoice",
+      "src_components_tabs_fiscaltab_status_colors",
+      "src_components_tabs_fiscaltab_status_icon",
+      "src_components_tabs_fiscaltab_status_label",
+      "src_components_tabs_sellerstab",
+      "src_components_tabs_sellerstab_fmtpercent",
+      "src_components_tabs_sellerstab_seller",
+      "src_components_tabs_sellerstab_sellerstab",
+      "src_hooks_usebilling",
+      "src_hooks_usebilling_usebilling",
+      "src_hooks_usebilling_usebillingreturn",
+      "src_lib_authfetch",
+      "src_lib_authfetch_authfetch",
+      "src_lib_notify",
+      "src_lib_notify_notifyerror",
+      "src_lib_notify_notifysuccess"
+    ],
+    "9": [
+      "continue_skills_design_system_templates_design_tokens_starter_0_type",
+      "continue_skills_design_system_templates_design_tokens_starter_0_value",
+      "continue_skills_design_system_templates_design_tokens_starter_10_type",
+      "continue_skills_design_system_templates_design_tokens_starter_10_value",
+      "continue_skills_design_system_templates_design_tokens_starter_12_type",
+      "continue_skills_design_system_templates_design_tokens_starter_12_value",
+      "continue_skills_design_system_templates_design_tokens_starter_16_type",
+      "continue_skills_design_system_templates_design_tokens_starter_16_value",
+      "continue_skills_design_system_templates_design_tokens_starter_1_type",
+      "continue_skills_design_system_templates_design_tokens_starter_1_value",
+      "continue_skills_design_system_templates_design_tokens_starter_2_type",
+      "continue_skills_design_system_templates_design_tokens_starter_2_value",
+      "continue_skills_design_system_templates_design_tokens_starter_3_type",
+      "continue_skills_design_system_templates_design_tokens_starter_3_value",
+      "continue_skills_design_system_templates_design_tokens_starter_4_type",
+      "continue_skills_design_system_templates_design_tokens_starter_4_value",
+      "continue_skills_design_system_templates_design_tokens_starter_5_type",
+      "continue_skills_design_system_templates_design_tokens_starter_5_value",
+      "continue_skills_design_system_templates_design_tokens_starter_6_type",
+      "continue_skills_design_system_templates_design_tokens_starter_6_value",
+      "continue_skills_design_system_templates_design_tokens_starter_8_type",
+      "continue_skills_design_system_templates_design_tokens_starter_8_value",
+      "continue_skills_design_system_templates_design_tokens_starter_primitive_spacing",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_0",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_1",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_10",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_12",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_16",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_2",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_3",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_4",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_5",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_6",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_8"
+    ],
+    "10": [
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_952",
+      "continue_skills_ui_ux_pro_max_scripts_core_search_stack",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains_test_every_stack_file_exists_and_is_searchable",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness_rationale_2",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness_rows",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness_testnativedesktopstackfreshness",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness_testnativedesktopstackfreshness_test_current_mobile_contracts",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness_testnativedesktopstackfreshness_test_current_threejs_uses_supported_module_and_color_apis",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness_testnativedesktopstackfreshness_test_deprecated_symbols_are_not_recommended_by_current_rows",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness_testnativedesktopstackfreshness_test_high_impact_rows_use_official_sources",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness_testnativedesktopstackfreshness_test_migration_intent_returns_current_replacements",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness_testnativedesktopstackfreshness_test_old_version_without_curated_rows_abstains",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness_testnativedesktopstackfreshness_test_rows_have_final_freshness_metadata",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness_testnativedesktopstackfreshness_test_standalone_current_and_deprecated_identifiers_resolve_replacement",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness_testnativedesktopstackfreshness_test_windows_current_and_maintenance_lanes_are_visible",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_rationale_2",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_rows",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_testwebstackfreshness",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_testwebstackfreshness_test_active_rows_use_the_verified_current_applicability",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_testwebstackfreshness_test_common_old_major_syntaxes_select_legacy_guidance",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_testwebstackfreshness_test_current_high_drift_queries_return_current_contracts",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_testwebstackfreshness_test_current_major_migration_query_stays_on_current_guidance",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_testwebstackfreshness_test_explicit_old_major_uses_only_curated_legacy_rows",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_testwebstackfreshness_test_high_impact_rows_use_official_sources",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_testwebstackfreshness_test_old_major_without_curated_legacy_guidance_abstains",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_testwebstackfreshness_test_shadcn_named_base_excludes_incompatible_composition_apis",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_testwebstackfreshness_test_stack_without_curated_legacy_rows_keeps_nonlegacy_fallback",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_testwebstackfreshness_test_stale_apis_are_not_recommended_by_active_rows",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_testwebstackfreshness_test_svelte_current_and_legacy_queries_do_not_mix_generations",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_testwebstackfreshness_test_web_rows_have_explicit_freshness_metadata"
+    ],
+    "11": [
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_rationale_2",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_read_rows",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_split_values",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_style_identities",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract_load_json",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract_test_canonical_catalogs_and_provenance_are_release_ready",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract_test_curated_icon_and_summary_drift_fail_closed",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract_test_font_license_and_typography_drift_fail_closed",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract_test_font_source_revision_and_exclusion_policy_fail_closed",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testlandingandstackcontract",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testlandingandstackcontract_test_dataset_provenance_scope_binds_real_rows_and_fields",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testlandingandstackcontract_test_landing_sections_use_one_delimiter",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testlandingandstackcontract_test_provenance_rejects_bad_shapes_enums_and_hosts_without_crashing",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testlandingandstackcontract_test_provenance_sidecar_has_stable_shape",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testlandingandstackcontract_test_stack_schema_is_additive_and_uniform",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_canonical_style_priority_is_not_limited_to_bm25_top_three",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_duplicate_semantic_reasoning_labels_fail_validation",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_duplicate_unknown_keys_and_unknown_actions_fail_closed",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_every_exact_product_label_resolves_to_itself",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_every_known_product_generates_a_traceable_landing_pattern",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_generator_matches_reasoning_exactly_and_defaults_only_for_unknown",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_known_product_sets_match_exactly",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_reasoning_patterns_reference_landing_identities",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_representative_new_products_generate_traceable_sources",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_style_aliases_have_one_exact_owner",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_teststyleidentitycontract",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_teststyleidentitycontract_setup",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_teststyleidentitycontract_test_every_product_and_reasoning_style_reference_resolves",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_teststyleidentitycontract_test_ids_aliases_status_and_parents_are_unambiguous"
+    ],
+    "12": [
+      "contracts_eligibility_route",
+      "contracts_eligibility_route_dynamic",
+      "contracts_eligibility_route_post",
+      "src_app_api_billing_boleto_route",
+      "src_app_api_billing_boleto_route_dynamic",
+      "src_app_api_billing_boleto_route_post",
+      "src_app_api_billing_boleto_route_withtimeout",
+      "src_app_api_billing_generate_cycles_route",
+      "src_app_api_billing_generate_cycles_route_post",
+      "src_app_api_billing_pix_route",
+      "src_app_api_billing_pix_route_dynamic",
+      "src_app_api_billing_pix_route_post",
+      "src_app_api_contracts_route",
+      "src_app_api_contracts_route_delete",
+      "src_app_api_contracts_route_get",
+      "src_app_api_contracts_route_post",
+      "src_app_api_convalescence_route",
+      "src_app_api_convalescence_route_dynamic",
+      "src_app_api_convalescence_route_post",
+      "src_app_api_service_orders_route",
+      "src_app_api_service_orders_route_get",
+      "src_app_api_service_orders_route_post",
+      "src_lib_eligibility",
+      "src_lib_eligibility_billing_ineligible_message",
+      "src_lib_eligibility_calculateeligibility",
+      "src_lib_eligibility_default_grace_period_days",
+      "src_lib_eligibility_eligibilityresult",
+      "src_lib_eligibility_isbillingeligible",
+      "src_lib_eligibility_iscontractactive",
+      "src_lib_eligibility_isholderactive",
+      "src_lib_eligibility_iswithingraceperiod",
+      "tests_lib_eligibility_test"
+    ],
+    "13": [
+      "src_app_api_convalescence_route_get",
+      "src_app_api_dashboard_kpis_route",
+      "src_app_api_dashboard_kpis_route_get",
+      "src_app_api_dispatches_audit_route",
+      "src_app_api_dispatches_audit_route_dynamic",
+      "src_app_api_dispatches_audit_route_get",
+      "src_app_api_dispatches_audit_route_post",
+      "src_app_api_dispatches_close_route",
+      "src_app_api_dispatches_close_route_dynamic",
+      "src_app_api_dispatches_close_route_post",
+      "src_app_api_financial_regulatory_reserves_route",
+      "src_app_api_financial_regulatory_reserves_route_dynamic",
+      "src_app_api_financial_regulatory_reserves_route_get",
+      "src_app_api_init_user_route",
+      "src_app_api_init_user_route_get",
+      "src_app_api_init_user_route_post",
+      "src_app_api_sales_commission_route",
+      "src_app_api_sales_commission_route_dynamic",
+      "src_app_api_sales_commission_route_get",
+      "src_app_api_sales_commission_route_patch",
+      "src_app_api_stock_dispatch_deduct_route",
+      "src_app_api_stock_dispatch_deduct_route_post",
+      "src_app_api_tenants_route",
+      "src_app_api_tenants_route_get",
+      "src_app_api_tenants_route_gettenantusage",
+      "src_app_api_tenants_route_patch",
+      "src_app_api_tenants_route_post",
+      "src_app_api_tenants_route_valid_plan_codes",
+      "src_lib_api_handler_withauth",
+      "src_lib_http_error",
+      "src_lib_http_error_logerror",
+      "src_lib_http_error_servererror"
+    ],
+    "14": [
+      "src_app_page",
+      "src_app_page_burial",
+      "src_app_page_burial_status_style",
+      "src_app_page_burialstatusclass",
+      "src_app_page_chapelbooking",
+      "src_app_page_contract",
+      "src_app_page_convalescenceitem",
+      "src_app_page_dependent",
+      "src_app_page_financialtransaction",
+      "src_app_page_holder",
+      "src_app_page_inventoryitem",
+      "src_app_page_mastereternityos",
+      "src_app_page_mastereternityos_loaddata",
+      "src_app_page_partner",
+      "src_app_page_so_status_text",
+      "src_app_page_sostatusclass",
+      "src_app_page_vehicle",
+      "src_config_permissions",
+      "src_config_permissions_approle",
+      "src_config_permissions_haspermission",
+      "src_config_permissions_issuperadminrole",
+      "src_config_permissions_istaballowed",
+      "src_config_permissions_permission",
+      "src_config_permissions_role_permissions",
+      "src_config_permissions_test",
+      "src_config_permissions_userrole",
+      "src_lib_notify_notifywarning",
+      "src_lib_whatsapp",
+      "src_lib_whatsapp_formatphoneforwhatsapp",
+      "src_lib_whatsapp_formatwhatsappmessage",
+      "src_lib_whatsapp_generatechargewhatsappurl",
+      "src_lib_whatsapp_whatsappchargepayload"
+    ],
+    "15": [
+      "continue_skills_design_scripts_cip_core",
+      "continue_skills_design_scripts_cip_core_detect_domain",
+      "continue_skills_design_scripts_cip_core_get_cip_brief",
+      "continue_skills_design_scripts_cip_core_load_csv",
+      "continue_skills_design_scripts_cip_core_rationale_185",
+      "continue_skills_design_scripts_cip_core_rationale_3",
+      "continue_skills_design_scripts_cip_core_search",
+      "continue_skills_design_scripts_cip_core_search_all",
+      "continue_skills_design_scripts_cip_core_search_csv",
+      "continue_skills_design_scripts_cip_generate",
+      "continue_skills_design_scripts_cip_generate_build_cip_prompt",
+      "continue_skills_design_scripts_cip_generate_check_logo_required",
+      "continue_skills_design_scripts_cip_generate_generate_cip_set",
+      "continue_skills_design_scripts_cip_generate_generate_with_nano_banana",
+      "continue_skills_design_scripts_cip_generate_load_env",
+      "continue_skills_design_scripts_cip_generate_load_logo_image",
+      "continue_skills_design_scripts_cip_generate_main",
+      "continue_skills_design_scripts_cip_generate_rationale_187",
+      "continue_skills_design_scripts_cip_generate_rationale_287",
+      "continue_skills_design_scripts_cip_generate_rationale_3",
+      "continue_skills_design_scripts_cip_generate_rationale_342",
+      "continue_skills_design_scripts_cip_generate_rationale_37",
+      "continue_skills_design_scripts_cip_generate_rationale_70",
+      "continue_skills_design_scripts_cip_generate_rationale_90",
+      "continue_skills_design_scripts_cip_search",
+      "continue_skills_design_scripts_cip_search_format_brief",
+      "continue_skills_design_scripts_cip_search_format_results",
+      "continue_skills_design_scripts_cip_search_main",
+      "continue_skills_design_scripts_cip_search_rationale_18",
+      "continue_skills_design_scripts_cip_search_rationale_3",
+      "continue_skills_design_scripts_cip_search_rationale_33"
+    ],
+    "16": [
+      "continue_skills_design_system_scripts_search_slides",
+      "continue_skills_design_system_scripts_search_slides_format_context",
+      "continue_skills_design_system_scripts_search_slides_format_result",
+      "continue_skills_design_system_scripts_search_slides_main",
+      "continue_skills_design_system_scripts_search_slides_rationale_18",
+      "continue_skills_design_system_scripts_search_slides_rationale_3",
+      "continue_skills_design_system_scripts_search_slides_rationale_65",
+      "continue_skills_design_system_scripts_slide_search_core",
+      "continue_skills_design_system_scripts_slide_search_core_calculate_pattern_break",
+      "continue_skills_design_system_scripts_slide_search_core_detect_domain",
+      "continue_skills_design_system_scripts_slide_search_core_get_background_config",
+      "continue_skills_design_system_scripts_slide_search_core_get_color_for_emotion",
+      "continue_skills_design_system_scripts_slide_search_core_get_layout_for_goal",
+      "continue_skills_design_system_scripts_slide_search_core_get_typography_for_slide",
+      "continue_skills_design_system_scripts_slide_search_core_load_csv",
+      "continue_skills_design_system_scripts_slide_search_core_load_decision_csv",
+      "continue_skills_design_system_scripts_slide_search_core_rationale_181",
+      "continue_skills_design_system_scripts_slide_search_core_rationale_216",
+      "continue_skills_design_system_scripts_slide_search_core_rationale_230",
+      "continue_skills_design_system_scripts_slide_search_core_rationale_248",
+      "continue_skills_design_system_scripts_slide_search_core_rationale_284",
+      "continue_skills_design_system_scripts_slide_search_core_rationale_293",
+      "continue_skills_design_system_scripts_slide_search_core_rationale_3",
+      "continue_skills_design_system_scripts_slide_search_core_rationale_302",
+      "continue_skills_design_system_scripts_slide_search_core_rationale_326",
+      "continue_skills_design_system_scripts_slide_search_core_rationale_353",
+      "continue_skills_design_system_scripts_slide_search_core_search",
+      "continue_skills_design_system_scripts_slide_search_core_search_all",
+      "continue_skills_design_system_scripts_slide_search_core_search_csv",
+      "continue_skills_design_system_scripts_slide_search_core_search_with_context",
+      "continue_skills_design_system_scripts_slide_search_core_should_use_full_bleed"
+    ],
+    "17": [
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_17",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_20",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_223",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_232",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_239",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_249",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_26",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_282",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_291",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_31",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_37",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_42",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_47",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_53",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_81",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_plugins",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_base_config_structure",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_custom_output_path",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_default_content_paths_vue",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_default_output_path_javascript",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_default_output_path_typescript",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_full_configuration_typescript",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_generate_config_with_plugins",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_init_default_typescript",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_init_framework",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_init_javascript",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_validate_config_empty_theme",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_validate_config_no_content",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_validate_config_valid",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_write_config_invalid_path"
+    ],
+    "18": [
+      "continue_skills_design_system_scripts_html_token_validator",
+      "continue_skills_design_system_scripts_html_token_validator_get_context",
+      "continue_skills_design_system_scripts_html_token_validator_is_allowed_exception",
+      "continue_skills_design_system_scripts_html_token_validator_is_allowed_rgba",
+      "continue_skills_design_system_scripts_html_token_validator_is_inside_block",
+      "continue_skills_design_system_scripts_html_token_validator_load_css_variables",
+      "continue_skills_design_system_scripts_html_token_validator_main",
+      "continue_skills_design_system_scripts_html_token_validator_print_result",
+      "continue_skills_design_system_scripts_html_token_validator_print_summary",
+      "continue_skills_design_system_scripts_html_token_validator_py_path",
+      "continue_skills_design_system_scripts_html_token_validator_rationale_104",
+      "continue_skills_design_system_scripts_html_token_validator_rationale_109",
+      "continue_skills_design_system_scripts_html_token_validator_rationale_116",
+      "continue_skills_design_system_scripts_html_token_validator_rationale_186",
+      "continue_skills_design_system_scripts_html_token_validator_rationale_197",
+      "continue_skills_design_system_scripts_html_token_validator_rationale_2",
+      "continue_skills_design_system_scripts_html_token_validator_rationale_206",
+      "continue_skills_design_system_scripts_html_token_validator_rationale_222",
+      "continue_skills_design_system_scripts_html_token_validator_rationale_63",
+      "continue_skills_design_system_scripts_html_token_validator_rationale_79",
+      "continue_skills_design_system_scripts_html_token_validator_rationale_90",
+      "continue_skills_design_system_scripts_html_token_validator_rationale_98",
+      "continue_skills_design_system_scripts_html_token_validator_validate_directory",
+      "continue_skills_design_system_scripts_html_token_validator_validate_file",
+      "continue_skills_design_system_scripts_html_token_validator_validate_html",
+      "continue_skills_design_system_scripts_html_token_validator_validationresult",
+      "continue_skills_design_system_scripts_html_token_validator_validationresult_add_error",
+      "continue_skills_design_system_scripts_html_token_validator_validationresult_add_warning",
+      "continue_skills_design_system_scripts_html_token_validator_validationresult_init"
+    ],
+    "19": [
+      "continue_skills_ui_ux_pro_max_scripts_core",
+      "continue_skills_ui_ux_pro_max_scripts_core_contains_phrase",
+      "continue_skills_ui_ux_pro_max_scripts_core_domain_keywords",
+      "continue_skills_ui_ux_pro_max_scripts_core_exact_stack_identifier",
+      "continue_skills_ui_ux_pro_max_scripts_core_file_signature",
+      "continue_skills_ui_ux_pro_max_scripts_core_get_bm25",
+      "continue_skills_ui_ux_pro_max_scripts_core_load_csv",
+      "continue_skills_ui_ux_pro_max_scripts_core_load_csv_snapshot",
+      "continue_skills_ui_ux_pro_max_scripts_core_load_product_keywords",
+      "continue_skills_ui_ux_pro_max_scripts_core_load_rows_or_empty",
+      "continue_skills_ui_ux_pro_max_scripts_core_passes_threshold",
+      "continue_skills_ui_ux_pro_max_scripts_core_project_row",
+      "continue_skills_ui_ux_pro_max_scripts_core_query_coverage",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_3",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_364",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_382",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_387",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_417",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_467",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_484",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_539",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_596",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_706",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_926",
+      "continue_skills_ui_ux_pro_max_scripts_core_rewrite_query_for_domain",
+      "continue_skills_ui_ux_pro_max_scripts_core_search_csv",
+      "continue_skills_ui_ux_pro_max_scripts_core_search_csv_detailed",
+      "continue_skills_ui_ux_pro_max_scripts_core_suggest_terms",
+      "continue_skills_ui_ux_pro_max_scripts_core_valid_max_results"
+    ],
+    "20": [
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_737",
+      "continue_skills_ui_ux_pro_max_scripts_core_search",
+      "continue_skills_ui_ux_pro_max_scripts_core_style_search_destination",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_rationale_3",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdiagnosticscontracts",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdiagnosticscontracts_test_diagnostics_opt_in_is_additive_for_domain_search",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdiagnosticscontracts_test_diagnostics_opt_in_is_additive_for_stack_search",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains_test_accessibility_query_hits_ux",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains_test_chart_output_keeps_legacy_grade_during_risk_migration",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains_test_every_configured_domain_file_exists_and_is_searchable",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains_test_hard_negative_query_abstains_across_registered_domains_and_stacks",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains_test_read_failure_is_not_reported_as_a_search_result",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains_test_suggestions_never_repeat_the_input_or_offer_a_dead_first_retry",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains_test_typo_suggestions_are_deterministic_and_retryable",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains_test_ui_is_searchable_in_style_domain",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains_test_unknown_programmatic_domain_keeps_legacy_style_fallback",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains_test_unsupported_icon_library_abstains_instead_of_returning_other_library",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains_test_zero_result_query_reports_suggestions_not_error",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_curated_state_distribution_is_explicit",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_deprecated_rows_never_appear_in_generic_results",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_every_style_name_and_alias_has_a_deterministic_destination",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_family_variants_and_mobile_intent_remain_distinct",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_new_rows_have_first_party_provenance",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_searchable_prompt_lengths_are_balanced",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_style_arbitration_does_not_steal_product_intent"
+    ],
+    "21": [
+      "continue_skills_design_scripts_icon_generate",
+      "continue_skills_design_scripts_icon_generate_apply_color",
+      "continue_skills_design_scripts_icon_generate_apply_viewbox_size",
+      "continue_skills_design_scripts_icon_generate_extract_svgs",
+      "continue_skills_design_scripts_icon_generate_generate_batch",
+      "continue_skills_design_scripts_icon_generate_generate_icon",
+      "continue_skills_design_scripts_icon_generate_generate_sizes",
+      "continue_skills_design_scripts_icon_generate_load_env",
+      "continue_skills_design_scripts_icon_generate_main",
+      "continue_skills_design_scripts_icon_generate_rationale_129",
+      "continue_skills_design_scripts_icon_generate_rationale_167",
+      "continue_skills_design_scripts_icon_generate_rationale_178",
+      "continue_skills_design_scripts_icon_generate_rationale_191",
+      "continue_skills_design_scripts_icon_generate_rationale_28",
+      "continue_skills_design_scripts_icon_generate_rationale_288",
+      "continue_skills_design_scripts_icon_generate_rationale_3",
+      "continue_skills_design_scripts_icon_generate_rationale_372",
+      "continue_skills_design_scripts_logo_generate",
+      "continue_skills_design_scripts_logo_generate_enhance_prompt",
+      "continue_skills_design_scripts_logo_generate_generate_batch",
+      "continue_skills_design_scripts_logo_generate_generate_logo",
+      "continue_skills_design_scripts_logo_generate_load_env",
+      "continue_skills_design_scripts_logo_generate_main",
+      "continue_skills_design_scripts_logo_generate_rationale_120",
+      "continue_skills_design_scripts_logo_generate_rationale_138",
+      "continue_skills_design_scripts_logo_generate_rationale_231",
+      "continue_skills_design_scripts_logo_generate_rationale_3"
+    ],
+    "22": [
+      "package",
+      "package_name",
+      "package_private",
+      "package_version",
+      "ref_autoprefixer",
+      "ref_clsx",
+      "ref_date_fns",
+      "ref_eslint",
+      "ref_eslint_config_next",
+      "ref_jest",
+      "ref_jest_environment_jsdom",
+      "ref_postcss",
+      "ref_react_dom",
+      "ref_tailwind_merge",
+      "ref_tailwindcss",
+      "ref_testing_library_react",
+      "ref_ts_jest",
+      "ref_types_jest",
+      "ref_types_node",
+      "ref_types_qrcode",
+      "ref_types_react",
+      "ref_types_react_dom",
+      "ref_typescript",
+      "ref_upstash_ratelimit",
+      "ref_vercel_kv"
+    ],
+    "23": [
+      "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_build_style_lookup",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_extract_results",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_generate",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_init",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_load_landing_patterns",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_load_reasoning",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_load_styles",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_multi_domain_search",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_resolve_style",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_select_best_match",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_259",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_268",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_321",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_409",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_446",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_451",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_91",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_resolve_dial",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testreasoningmatch",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testreasoningmatch_test_known_category_matches_exactly",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testreasoningmatch_test_unknown_category_falls_back_gracefully",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_constraints_reach_domain_queries",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_constraints_reach_domain_queries_capture"
+    ],
+    "24": [
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_123",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_136",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_149",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_162",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_174",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_23",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_285",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_84",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_97",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_add_breakpoints",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_add_color_palette",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_add_colors",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_add_fonts",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_add_plugins",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_add_spacing",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_recommend_plugins",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_validate_config",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_112",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_320",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_color_palette",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_full_configuration_javascript"
+    ],
+    "25": [
+      "continue_skills_design_system_scripts_generate_slide",
+      "continue_skills_design_system_scripts_generate_slide_e",
+      "continue_skills_design_system_scripts_generate_slide_generate_chart_slide",
+      "continue_skills_design_system_scripts_generate_slide_generate_cta_slide",
+      "continue_skills_design_system_scripts_generate_slide_generate_deck",
+      "continue_skills_design_system_scripts_generate_slide_generate_metrics_slide",
+      "continue_skills_design_system_scripts_generate_slide_generate_problem_slide",
+      "continue_skills_design_system_scripts_generate_slide_generate_solution_slide",
+      "continue_skills_design_system_scripts_generate_slide_generate_testimonial_slide",
+      "continue_skills_design_system_scripts_generate_slide_generate_title_slide",
+      "continue_skills_design_system_scripts_generate_slide_main",
+      "continue_skills_design_system_scripts_generate_slide_rationale_17",
+      "continue_skills_design_system_scripts_generate_slide_rationale_22",
+      "continue_skills_design_system_scripts_generate_slide_rationale_3",
+      "continue_skills_design_system_scripts_generate_slide_rationale_429",
+      "continue_skills_design_system_scripts_generate_slide_rationale_448",
+      "continue_skills_design_system_scripts_generate_slide_rationale_479",
+      "continue_skills_design_system_scripts_generate_slide_rationale_524",
+      "continue_skills_design_system_scripts_generate_slide_rationale_555",
+      "continue_skills_design_system_scripts_generate_slide_rationale_638",
+      "continue_skills_design_system_scripts_generate_slide_safe_url"
+    ],
+    "26": [
+      "continue_skills_ui_ux_pro_max_scripts_design_system_filter_anti_patterns_for_mode",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_query_wants_dark",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_165",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_181",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_187",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_247",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_resolve_color_mode",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_style_is_dark_primary",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_rationale_3",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_dark_clause_dropped_others_kept",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_empty_input",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_light_mode_is_a_no_op",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_unrelated_anti_patterns_survive_dark_mode",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testmoderesolution",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testmoderesolution_test_dark_primary_style_detected",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testmoderesolution_test_dual_mode_style_is_not_dark_primary",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testmoderesolution_test_either_signal_resolves_dark",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testmoderesolution_test_query_keywords",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_claim_fields_use_controlled_non_guarantee_language"
+    ],
+    "27": [
+      "ref_sonner",
+      "src_app_layout",
+      "src_app_layout_inter",
+      "src_app_layout_metadata",
+      "src_app_layout_rootlayout",
+      "src_app_layout_viewport",
+      "src_components_authguard",
+      "src_components_authguard_authguard",
+      "src_components_authguard_ispublicroute",
+      "src_components_authguard_public_routes",
+      "src_components_serviceworkerregister",
+      "src_components_serviceworkerregister_serviceworkerregister",
+      "src_contexts_tenantcontext",
+      "src_contexts_tenantcontext_tenant",
+      "src_contexts_tenantcontext_tenantcontext",
+      "src_contexts_tenantcontext_tenantcontexttype",
+      "src_contexts_tenantcontext_tenantprovider",
+      "src_contexts_tenantcontext_usetenant",
+      "src_lib_supabase",
+      "src_lib_supabase_supabase",
+      "src_lib_supabaseclient"
+    ],
+    "28": [
+      "continue_skills_design_scripts_cip_core_bm25",
+      "continue_skills_design_scripts_cip_core_bm25_fit",
+      "continue_skills_design_scripts_cip_core_bm25_init",
+      "continue_skills_design_scripts_cip_core_bm25_score",
+      "continue_skills_design_scripts_cip_core_bm25_tokenize",
+      "continue_skills_design_scripts_cip_core_rationale_43",
+      "continue_skills_design_scripts_cip_core_rationale_56",
+      "continue_skills_design_scripts_cip_core_rationale_61",
+      "continue_skills_design_scripts_cip_core_rationale_80",
+      "continue_skills_design_scripts_logo_core_bm25",
+      "continue_skills_design_scripts_logo_core_bm25_fit",
+      "continue_skills_design_scripts_logo_core_bm25_init",
+      "continue_skills_design_scripts_logo_core_bm25_score",
+      "continue_skills_design_scripts_logo_core_bm25_tokenize",
+      "continue_skills_design_system_scripts_slide_search_core_bm25",
+      "continue_skills_design_system_scripts_slide_search_core_bm25_fit",
+      "continue_skills_design_system_scripts_slide_search_core_bm25_init",
+      "continue_skills_design_system_scripts_slide_search_core_bm25_score",
+      "continue_skills_design_system_scripts_slide_search_core_bm25_tokenize",
+      "continue_skills_ui_ux_pro_max_scripts_core_bm25_score"
+    ],
+    "29": [
+      "ref_lucide_react",
+      "ref_react",
+      "ref_recharts",
+      "src_app_landing_page",
+      "src_app_landing_page_addons",
+      "src_app_landing_page_faq",
+      "src_app_landing_page_landingpage",
+      "src_app_landing_page_modules",
+      "src_app_landing_page_plans",
+      "src_app_login_page",
+      "src_app_login_page_loginpage",
+      "src_components_dashboard_modaldre",
+      "src_components_dashboard_modaldre_financialsummary",
+      "src_components_dashboard_modaldre_modaldre",
+      "src_components_modals_modalchapel",
+      "src_components_modals_modalchapel_chapel_rooms",
+      "src_components_modals_modalchapel_modalchapel",
+      "src_components_modals_modalchapel_todatetimelocal",
+      "src_components_themetoggle",
+      "src_components_themetoggle_themetoggle"
+    ],
+    "30": [
+      "continue_skills_design_scripts_cip_core_rationale_106",
+      "continue_skills_design_scripts_cip_core_rationale_112",
+      "continue_skills_design_scripts_cip_core_rationale_137",
+      "continue_skills_design_scripts_cip_core_rationale_153",
+      "continue_skills_design_scripts_cip_core_rationale_175",
+      "continue_skills_design_scripts_logo_core",
+      "continue_skills_design_scripts_logo_core_detect_domain",
+      "continue_skills_design_scripts_logo_core_load_csv",
+      "continue_skills_design_scripts_logo_core_rationale_3",
+      "continue_skills_design_scripts_logo_core_search",
+      "continue_skills_design_scripts_logo_core_search_all",
+      "continue_skills_design_scripts_logo_core_search_csv",
+      "continue_skills_design_scripts_logo_search",
+      "continue_skills_design_scripts_logo_search_format_output",
+      "continue_skills_design_scripts_logo_search_generate_design_brief",
+      "continue_skills_design_scripts_logo_search_rationale_16",
+      "continue_skills_design_scripts_logo_search_rationale_3",
+      "continue_skills_design_scripts_logo_search_rationale_38",
+      "continue_skills_ui_ux_pro_max_scripts_search_format_output"
+    ],
+    "31": [
+      "continue_skills_design_system_scripts_fetch_background",
+      "continue_skills_design_system_scripts_fetch_background_generate_css_for_background",
+      "continue_skills_design_system_scripts_fetch_background_get_background_image",
+      "continue_skills_design_system_scripts_fetch_background_get_curated_images",
+      "continue_skills_design_system_scripts_fetch_background_get_overlay_css",
+      "continue_skills_design_system_scripts_fetch_background_get_pexels_search_url",
+      "continue_skills_design_system_scripts_fetch_background_load_backgrounds_config",
+      "continue_skills_design_system_scripts_fetch_background_load_brand_colors",
+      "continue_skills_design_system_scripts_fetch_background_main",
+      "continue_skills_design_system_scripts_fetch_background_rationale_117",
+      "continue_skills_design_system_scripts_fetch_background_rationale_130",
+      "continue_skills_design_system_scripts_fetch_background_rationale_190",
+      "continue_skills_design_system_scripts_fetch_background_rationale_195",
+      "continue_skills_design_system_scripts_fetch_background_rationale_2",
+      "continue_skills_design_system_scripts_fetch_background_rationale_201",
+      "continue_skills_design_system_scripts_fetch_background_rationale_21",
+      "continue_skills_design_system_scripts_fetch_background_rationale_239",
+      "continue_skills_design_system_scripts_fetch_background_rationale_40",
+      "continue_skills_design_system_scripts_fetch_background_resolve_token_reference"
+    ],
+    "32": [
+      "continue_skills_design_system_templates_design_tokens_starter_background_type",
+      "continue_skills_design_system_templates_design_tokens_starter_background_value",
+      "continue_skills_design_system_templates_design_tokens_starter_color_background",
+      "continue_skills_design_system_templates_design_tokens_starter_color_foreground",
+      "continue_skills_design_system_templates_design_tokens_starter_color_muted_foreground",
+      "continue_skills_design_system_templates_design_tokens_starter_color_primary",
+      "continue_skills_design_system_templates_design_tokens_starter_color_primary_hover",
+      "continue_skills_design_system_templates_design_tokens_starter_color_secondary",
+      "continue_skills_design_system_templates_design_tokens_starter_foreground_type",
+      "continue_skills_design_system_templates_design_tokens_starter_foreground_value",
+      "continue_skills_design_system_templates_design_tokens_starter_muted_foreground_type",
+      "continue_skills_design_system_templates_design_tokens_starter_muted_foreground_value",
+      "continue_skills_design_system_templates_design_tokens_starter_primary_hover_type",
+      "continue_skills_design_system_templates_design_tokens_starter_primary_hover_value",
+      "continue_skills_design_system_templates_design_tokens_starter_primary_type",
+      "continue_skills_design_system_templates_design_tokens_starter_primary_value",
+      "continue_skills_design_system_templates_design_tokens_starter_secondary_type",
+      "continue_skills_design_system_templates_design_tokens_starter_secondary_value",
+      "continue_skills_design_system_templates_design_tokens_starter_semantic_color"
+    ],
+    "33": [
+      "src_components_tabs_crmtab",
+      "src_components_tabs_crmtab_crmtab",
+      "src_components_tabs_crmtab_empty_form",
+      "src_components_tabs_crmtab_fmtbrl",
+      "src_components_tabs_crmtab_histnoterow",
+      "src_components_tabs_crmtab_isoverdue",
+      "src_components_tabs_crmtab_lead",
+      "src_lib_crm",
+      "src_lib_crm_flow",
+      "src_lib_crm_lead_source_labels",
+      "src_lib_crm_lead_sources",
+      "src_lib_crm_lead_stage_colors",
+      "src_lib_crm_lead_stage_labels",
+      "src_lib_crm_lead_stages",
+      "src_lib_crm_leadsource",
+      "src_lib_crm_leadstage",
+      "src_lib_crm_nextleadstage",
+      "src_lib_crm_walink",
+      "tests_lib_crm_test"
+    ],
+    "34": [
+      "tsconfig",
+      "tsconfig_compileroptions",
+      "tsconfig_compileroptions_allowjs",
+      "tsconfig_compileroptions_esmoduleinterop",
+      "tsconfig_compileroptions_incremental",
+      "tsconfig_compileroptions_isolatedmodules",
+      "tsconfig_compileroptions_jsx",
+      "tsconfig_compileroptions_lib",
+      "tsconfig_compileroptions_module",
+      "tsconfig_compileroptions_moduleresolution",
+      "tsconfig_compileroptions_noemit",
+      "tsconfig_compileroptions_paths",
+      "tsconfig_compileroptions_plugins",
+      "tsconfig_compileroptions_resolvejsonmodule",
+      "tsconfig_compileroptions_skiplibcheck",
+      "tsconfig_compileroptions_strict",
+      "tsconfig_compileroptions_target",
+      "tsconfig_exclude",
+      "tsconfig_include"
+    ],
+    "35": [
+      "continue_skills_ui_ux_pro_max_scripts_core_bm25",
+      "continue_skills_ui_ux_pro_max_scripts_core_bm25_fit",
+      "continue_skills_ui_ux_pro_max_scripts_core_bm25_init",
+      "continue_skills_ui_ux_pro_max_scripts_core_bm25_tokenize",
+      "continue_skills_ui_ux_pro_max_scripts_core_bm25_vocabulary",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_297",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_346",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_bm25_cache_rebuilds_after_file_mtime_changes",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_empty_documents_produce_no_scores_or_vocab",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_search_uses_one_verified_rows_and_index_snapshot",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_search_uses_one_verified_rows_and_index_snapshot_replace_after_read",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_boundary_safe_nav_normalization_preserves_existing_words",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_punctuation_and_uk_variants_normalize_to_canonical_tokens",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_short_domain_terms_are_kept",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_stopwords_removed",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_synonym_normalization"
+    ],
+    "36": [
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_rationale_2",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testfixturevalidation",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testfixturevalidation_test_rejects_bad_count_duplicate_id_and_grade",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testfixturevalidation_test_valid_schema",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testfixturevalidation_valid_fixture",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testmetricmath",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testmetricmath_test_ndcg_uses_graded_gain_and_handles_empty_ideal",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testmetricmath_test_precision_counts_missing_ranks_as_non_relevant",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testmetricmath_test_reciprocal_rank_stops_at_k",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testmetricmath_test_result_grades_match_identity_subsets",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testthresholdgate",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testthresholdgate_test_manifest_binds_oracle_and_validates_baseline_revision",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testthresholdgate_test_manifest_rejects_missing_contract_sections",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testthresholdgate_test_manifest_rejects_non_finite_and_invalid_sample_values",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testthresholdgate_test_metric_sample_and_locked_case_failures_are_actionable",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testthresholdgate_test_oracle_fingerprint_hashes_the_selected_cases_file",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testthresholdgate_test_runtime_fingerprint_binds_reasoning_contract"
+    ],
+    "37": [
+      "src_app_dashboard_planes_page",
+      "src_app_dashboard_planes_page_planospage",
+      "src_components_tabs_planstab",
+      "src_components_tabs_planstab_empty_form",
+      "src_components_tabs_planstab_fmtbrl",
+      "src_components_tabs_planstab_plan",
+      "src_components_tabs_planstab_planstab",
+      "src_components_tabs_tenantsettingstab",
+      "src_components_tabs_tenantsettingstab_tenant",
+      "src_components_tabs_tenantsettingstab_tenantsettingstab",
+      "src_lib_notify_notifyinfo",
+      "src_lib_planlimits",
+      "src_lib_planlimits_commercial_plans",
+      "src_lib_planlimits_commercialplan",
+      "src_lib_planlimits_commercialplancode",
+      "src_lib_planlimits_formatplanprice",
+      "src_lib_planlimits_plan_code_fallback",
+      "src_lib_planlimits_planusageresult"
+    ],
+    "38": [
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_font_args",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_icon_args",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_run_command",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_test_catalog_cross_check_uses_explicit_schema_without_font_file_urls",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_test_catalog_rejects_bool_rank_duplicate_axis_and_unreviewed_addition",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_test_exclusion_sources_match_offline_validator_policy",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_test_explicit_license_exclusion_is_reported_and_not_promoted",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_test_font_refresh_fails_closed_on_concurrency_or_interrupted_pair",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_test_font_refresh_is_deterministic_and_preserves_reviewed_fields",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_test_font_refresh_rejects_schema_size_dates_and_licenses",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_test_icon_manifest_normalizes_and_records_all_import_forms",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_test_icon_refresh_rejects_invalid_schema_size_and_curated_import",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_test_live_font_refresh_requires_environment_key",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_test_official_metadata_checkout_is_strict_and_reusable",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_rationale_2"
+    ],
+    "39": [
+      "package_dependencies",
+      "package_dependencies_autoprefixer",
+      "package_dependencies_clsx",
+      "package_dependencies_date_fns",
+      "package_dependencies_lucide_react",
+      "package_dependencies_next",
+      "package_dependencies_postcss",
+      "package_dependencies_qrcode",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_dependencies_recharts",
+      "package_dependencies_sonner",
+      "package_dependencies_supabase_supabase_js",
+      "package_dependencies_tailwind_merge",
+      "package_dependencies_tailwindcss",
+      "package_dependencies_upstash_ratelimit",
+      "package_dependencies_vercel_kv"
+    ],
+    "40": [
+      "continue_skills_design_system_templates_design_tokens_starter_2xl_type",
+      "continue_skills_design_system_templates_design_tokens_starter_2xl_value",
+      "continue_skills_design_system_templates_design_tokens_starter_3xl_type",
+      "continue_skills_design_system_templates_design_tokens_starter_3xl_value",
+      "continue_skills_design_system_templates_design_tokens_starter_4xl_type",
+      "continue_skills_design_system_templates_design_tokens_starter_4xl_value",
+      "continue_skills_design_system_templates_design_tokens_starter_base_type",
+      "continue_skills_design_system_templates_design_tokens_starter_base_value",
+      "continue_skills_design_system_templates_design_tokens_starter_fontsize_2xl",
+      "continue_skills_design_system_templates_design_tokens_starter_fontsize_3xl",
+      "continue_skills_design_system_templates_design_tokens_starter_fontsize_4xl",
+      "continue_skills_design_system_templates_design_tokens_starter_fontsize_base",
+      "continue_skills_design_system_templates_design_tokens_starter_fontsize_xs",
+      "continue_skills_design_system_templates_design_tokens_starter_primitive_fontsize",
+      "continue_skills_design_system_templates_design_tokens_starter_xs_type",
+      "continue_skills_design_system_templates_design_tokens_starter_xs_value"
+    ],
+    "41": [
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_147",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_18",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_22",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_256",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_61",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_71",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_96",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_temp_project",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_all_components_dry_run",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_components_dry_run",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_components_no_components",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_check_shadcn_config_exists",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_get_installed_components_empty",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_list_installed_with_components",
+      "fixture"
+    ],
+    "42": [
+      "continue_skills_ui_ux_pro_max_scripts_core_detect_domain",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_629",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdomaindetection",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdomaindetection_test_accessibility_keywords_route_to_ux",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdomaindetection_test_ambiguous_query_returns_runner_up",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdomaindetection_test_empty_query_falls_back_to_style",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdomaindetection_test_every_router_term_is_searchable_or_has_a_corpus_rewrite",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdomaindetection_test_hash_only_routes_color_for_a_valid_hex_literal",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdomaindetection_test_native_drag_intent_beats_generic_react_token",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdomaindetection_test_product_router_keeps_high_signal_service_aliases",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdomaindetection_test_router_prioritizes_chart_queries_over_generic_product_keywords",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdomaindetection_test_router_prioritizes_color_intent_over_generic_product_terms",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdomaindetection_test_router_prioritizes_icons_when_icon_library_and_icon_intent_present",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdomaindetection_test_router_prioritizes_typography_for_font_pairing_queries",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdomaindetection_test_style_keywords_route_to_style"
+    ],
+    "43": [
+      "continue_skills_ui_ux_pro_max_scripts_design_system_palette_is_dark",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_130",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_148",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_relative_luminance",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_rationale_139",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_dark_query_does_not_advise_against_dark_mode",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_dark_query_foreground_is_lighter_than_background",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_dark_query_gets_a_dark_background",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_light_query_keeps_a_light_background",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance_test_classifies_backgrounds_from_the_shipped_data",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance_test_missing_background_is_not_dark",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance_test_parses_six_and_three_digit_hex",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance_test_returns_none_for_unparseable"
+    ],
+    "44": [
+      "continue_skills_brand_scripts_extract_colors",
+      "continue_skills_brand_scripts_extract_colors_calculatecompliance",
+      "continue_skills_brand_scripts_extract_colors_colordistance",
+      "continue_skills_brand_scripts_extract_colors_displaypalette",
+      "continue_skills_brand_scripts_extract_colors_extracthexcolors",
+      "continue_skills_brand_scripts_extract_colors_findnearestbrandcolor",
+      "continue_skills_brand_scripts_extract_colors_fs",
+      "continue_skills_brand_scripts_extract_colors_generateimagemagickcommand",
+      "continue_skills_brand_scripts_extract_colors_hextorgb",
+      "continue_skills_brand_scripts_extract_colors_main",
+      "continue_skills_brand_scripts_extract_colors_parsebrandcolors",
+      "continue_skills_brand_scripts_extract_colors_parseimagemagickoutput",
+      "continue_skills_brand_scripts_extract_colors_path",
+      "continue_skills_brand_scripts_extract_colors_rgbtohex"
+    ],
+    "45": [
+      "continue_skills_brand_scripts_validate_asset",
+      "continue_skills_brand_scripts_validate_asset_checkmanifest",
+      "continue_skills_brand_scripts_validate_asset_formatbytes",
+      "continue_skills_brand_scripts_validate_asset_formatoutput",
+      "continue_skills_brand_scripts_validate_asset_fs",
+      "continue_skills_brand_scripts_validate_asset_main",
+      "continue_skills_brand_scripts_validate_asset_parsefilename",
+      "continue_skills_brand_scripts_validate_asset_path",
+      "continue_skills_brand_scripts_validate_asset_rules",
+      "continue_skills_brand_scripts_validate_asset_suggestfilename",
+      "continue_skills_brand_scripts_validate_asset_validateasset",
+      "continue_skills_brand_scripts_validate_asset_validatefilename",
+      "continue_skills_brand_scripts_validate_asset_validatefilesize",
+      "continue_skills_brand_scripts_validate_asset_validateformat"
+    ],
+    "46": [
+      "continue_skills_ui_styling_scripts_tailwind_config_gen",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_main",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_2",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_1",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_342",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_357",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_364",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_376",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_strip_to_object",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testgeneratedconfigisvalidjs",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testgeneratedconfigisvalidjs_test_node_check_parses_generated_config",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testgeneratedconfigisvalidjs_test_property_before_plugins_is_comma_terminated",
+      "parametrize"
+    ],
+    "47": [
+      "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_apply_reasoning",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_find_reasoning_rule",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_358",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_366",
+      "continue_skills_ui_ux_pro_max_scripts_reasoning_contract",
+      "continue_skills_ui_ux_pro_max_scripts_reasoning_contract_apply_decision_rules",
+      "continue_skills_ui_ux_pro_max_scripts_reasoning_contract_object_without_duplicates",
+      "continue_skills_ui_ux_pro_max_scripts_reasoning_contract_parse_decision_rules",
+      "continue_skills_ui_ux_pro_max_scripts_reasoning_contract_rationale_102",
+      "continue_skills_ui_ux_pro_max_scripts_reasoning_contract_rationale_2",
+      "continue_skills_ui_ux_pro_max_scripts_reasoning_contract_rationale_68",
+      "continue_skills_ui_ux_pro_max_scripts_reasoning_contract_validate_action",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_decision_rules_use_closed_array_grammar",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_must_have_and_explicit_signals_are_applied_and_reported"
+    ],
+    "48": [
+      "package_devdependencies",
+      "package_devdependencies_eslint",
+      "package_devdependencies_eslint_config_next",
+      "package_devdependencies_jest",
+      "package_devdependencies_jest_environment_jsdom",
+      "package_devdependencies_testing_library_jest_dom",
+      "package_devdependencies_testing_library_react",
+      "package_devdependencies_ts_jest",
+      "package_devdependencies_types_jest",
+      "package_devdependencies_types_node",
+      "package_devdependencies_types_qrcode",
+      "package_devdependencies_types_react",
+      "package_devdependencies_types_react_dom",
+      "package_devdependencies_typescript"
+    ],
+    "49": [
+      "ref_supabase_supabase_js",
+      "scripts_qa_diag_holders",
+      "scripts_qa_diag_holders_admin",
+      "scripts_qa_diag_holders_env",
+      "scripts_qa_teste_insert",
+      "scripts_qa_teste_insert2",
+      "scripts_qa_teste_insert2_admin",
+      "scripts_qa_teste_insert2_env",
+      "scripts_qa_teste_insert5",
+      "scripts_qa_teste_insert5_admin",
+      "scripts_qa_teste_insert5_env",
+      "scripts_qa_teste_insert_admin",
+      "scripts_qa_teste_insert_clienteuser",
+      "scripts_qa_teste_insert_env"
+    ],
+    "50": [
+      "src_app_api_fiscal_cancel_route",
+      "src_app_api_fiscal_cancel_route_dynamic",
+      "src_app_api_fiscal_cancel_route_post",
+      "src_app_api_fiscal_emit_route",
+      "src_app_api_fiscal_emit_route_dynamic",
+      "src_app_api_fiscal_emit_route_post",
+      "src_app_api_fiscal_test_route",
+      "src_app_api_fiscal_test_route_dynamic",
+      "src_app_api_fiscal_test_route_post",
+      "src_lib_fiscal_index",
+      "src_lib_fiscal_index_fiscalenvironment",
+      "src_lib_fiscal_index_fiscalprovider",
+      "src_lib_fiscal_index_fiscalstatus",
+      "src_lib_fiscal_index_getfiscalconfig"
+    ],
+    "51": [
+      "continue_skills_design_system_templates_design_tokens_starter",
+      "continue_skills_design_system_templates_design_tokens_starter_component",
+      "continue_skills_design_system_templates_design_tokens_starter_component_type",
+      "continue_skills_design_system_templates_design_tokens_starter_component_value",
+      "continue_skills_design_system_templates_design_tokens_starter_dark",
+      "continue_skills_design_system_templates_design_tokens_starter_dark_semantic",
+      "continue_skills_design_system_templates_design_tokens_starter_schema",
+      "continue_skills_design_system_templates_design_tokens_starter_section_type",
+      "continue_skills_design_system_templates_design_tokens_starter_section_value",
+      "continue_skills_design_system_templates_design_tokens_starter_semantic",
+      "continue_skills_design_system_templates_design_tokens_starter_semantic_spacing",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_component",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_section"
+    ],
+    "52": [
+      "continue_skills_ui_ux_pro_max_scripts_design_system_contrast_ratio",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_derive_dark_palette",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_154",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_194",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_222",
+      "continue_skills_ui_ux_pro_max_scripts_design_system_select_palette_for_mode",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_generator_exports_every_semantic_foreground_pair",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_category_identity_wins_over_unrelated_dark_palette",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_dark_mode_falls_back_to_top_hit_when_no_dark_ramp_exists",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_dark_mode_skips_light_palettes",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_empty_results",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_light_mode_keeps_the_existing_top_hit_behaviour"
+    ],
+    "53": [
+      "continue_skills_design_system_scripts_validate_tokens",
+      "continue_skills_design_system_scripts_validate_tokens_extensions",
+      "continue_skills_design_system_scripts_validate_tokens_formatreport",
+      "continue_skills_design_system_scripts_validate_tokens_fs",
+      "continue_skills_design_system_scripts_validate_tokens_getfiles",
+      "continue_skills_design_system_scripts_validate_tokens_main",
+      "continue_skills_design_system_scripts_validate_tokens_parseargs",
+      "continue_skills_design_system_scripts_validate_tokens_path",
+      "continue_skills_design_system_scripts_validate_tokens_patterns",
+      "continue_skills_design_system_scripts_validate_tokens_scanfile",
+      "continue_skills_design_system_scripts_validate_tokens_shouldskip",
+      "continue_skills_design_system_scripts_validate_tokens_skippatterns"
+    ],
+    "54": [
+      "continue_skills_design_system_templates_design_tokens_starter_bg_type",
+      "continue_skills_design_system_templates_design_tokens_starter_bg_value",
+      "continue_skills_design_system_templates_design_tokens_starter_button_bg",
+      "continue_skills_design_system_templates_design_tokens_starter_card_bg",
+      "continue_skills_design_system_templates_design_tokens_starter_card_padding",
+      "continue_skills_design_system_templates_design_tokens_starter_card_shadow",
+      "continue_skills_design_system_templates_design_tokens_starter_component_card",
+      "continue_skills_design_system_templates_design_tokens_starter_input_bg",
+      "continue_skills_design_system_templates_design_tokens_starter_padding_type",
+      "continue_skills_design_system_templates_design_tokens_starter_padding_value",
+      "continue_skills_design_system_templates_design_tokens_starter_shadow_type",
+      "continue_skills_design_system_templates_design_tokens_starter_shadow_value"
+    ],
+    "55": [
+      "continue_skills_ui_styling_scripts_shadcn_add_rationale_147",
+      "continue_skills_ui_styling_scripts_shadcn_add_rationale_193",
+      "continue_skills_ui_styling_scripts_shadcn_add_rationale_33",
+      "continue_skills_ui_styling_scripts_shadcn_add_rationale_42",
+      "continue_skills_ui_styling_scripts_shadcn_add_rationale_68",
+      "continue_skills_ui_styling_scripts_shadcn_add_rationale_84",
+      "continue_skills_ui_styling_scripts_shadcn_add_shadcninstaller_add_all_components",
+      "continue_skills_ui_styling_scripts_shadcn_add_shadcninstaller_add_components",
+      "continue_skills_ui_styling_scripts_shadcn_add_shadcninstaller_check_shadcn_config",
+      "continue_skills_ui_styling_scripts_shadcn_add_shadcninstaller_get_installed_components",
+      "continue_skills_ui_styling_scripts_shadcn_add_shadcninstaller_get_shadcn_version",
+      "continue_skills_ui_styling_scripts_shadcn_add_shadcninstaller_list_installed"
+    ],
+    "56": [
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_192",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_203",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_224",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_239",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_260",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_268",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_format_plugins",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_generate_config_string",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_generate_javascript",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_generate_typescript",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_indent_json",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_write_config"
+    ],
+    "57": [
+      "chapel_burials",
+      "contracts",
+      "inventory",
+      "scripts_create_service_orders",
+      "scripts_create_service_orders_idx_service_order_items_service",
+      "scripts_create_service_orders_idx_service_orders_burial",
+      "scripts_create_service_orders_idx_service_orders_contract",
+      "scripts_create_service_orders_idx_service_orders_tenant",
+      "scripts_create_service_orders_service_order_items",
+      "scripts_create_service_orders_service_orders",
+      "vehicles"
+    ],
+    "58": [
+      "continue_skills_brand_scripts_inject_brand_context",
+      "continue_skills_brand_scripts_inject_brand_context_extractcolorsfromtable",
+      "continue_skills_brand_scripts_inject_brand_context_extractcoreattributes",
+      "continue_skills_brand_scripts_inject_brand_context_extracthexcolors",
+      "continue_skills_brand_scripts_inject_brand_context_extractimagestyle",
+      "continue_skills_brand_scripts_inject_brand_context_extracttypography",
+      "continue_skills_brand_scripts_inject_brand_context_extractvoice",
+      "continue_skills_brand_scripts_inject_brand_context_fs",
+      "continue_skills_brand_scripts_inject_brand_context_generatepromptaddition",
+      "continue_skills_brand_scripts_inject_brand_context_main",
+      "continue_skills_brand_scripts_inject_brand_context_path"
+    ],
+    "59": [
+      "continue_skills_design_system_scripts_embed_tokens",
+      "continue_skills_design_system_scripts_embed_tokens_args",
+      "continue_skills_design_system_scripts_embed_tokens_extracttokens",
+      "continue_skills_design_system_scripts_embed_tokens_findprojectroot",
+      "continue_skills_design_system_scripts_embed_tokens_fs",
+      "continue_skills_design_system_scripts_embed_tokens_minimal",
+      "continue_skills_design_system_scripts_embed_tokens_minimal_tokens",
+      "continue_skills_design_system_scripts_embed_tokens_path",
+      "continue_skills_design_system_scripts_embed_tokens_projectroot",
+      "continue_skills_design_system_scripts_embed_tokens_tokenspath",
+      "continue_skills_design_system_scripts_embed_tokens_wrapstyle"
+    ],
+    "60": [
+      "continue_skills_design_system_templates_design_tokens_starter_duration_fast",
+      "continue_skills_design_system_templates_design_tokens_starter_duration_normal",
+      "continue_skills_design_system_templates_design_tokens_starter_duration_slow",
+      "continue_skills_design_system_templates_design_tokens_starter_fast_type",
+      "continue_skills_design_system_templates_design_tokens_starter_fast_value",
+      "continue_skills_design_system_templates_design_tokens_starter_normal_type",
+      "continue_skills_design_system_templates_design_tokens_starter_normal_value",
+      "continue_skills_design_system_templates_design_tokens_starter_primitive",
+      "continue_skills_design_system_templates_design_tokens_starter_primitive_duration",
+      "continue_skills_design_system_templates_design_tokens_starter_slow_type",
+      "continue_skills_design_system_templates_design_tokens_starter_slow_value"
+    ],
+    "61": [
+      "continue_skills_ui_styling_scripts_shadcn_add",
+      "continue_skills_ui_styling_scripts_shadcn_add_main",
+      "continue_skills_ui_styling_scripts_shadcn_add_rationale_18",
+      "continue_skills_ui_styling_scripts_shadcn_add_rationale_2",
+      "continue_skills_ui_styling_scripts_shadcn_add_shadcninstaller",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_1",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_248",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_51",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_init_custom_project_root",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_list_installed_empty"
+    ],
+    "62": [
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_124",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_158",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_182",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_195",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_223",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_all_components_success",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_components_npx_not_found",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_components_subprocess_error",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_components_success",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_components_with_overwrite",
+      "patch"
+    ],
+    "63": [
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_rationale_2",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_read_rows",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutdatacontracts",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutdatacontracts_setupclass",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutdatacontracts_test_new_tailwind_rows_are_unique_current_and_keep_required_utilities",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutdatacontracts_test_new_ux_rows_are_unique_sequential_and_keep_critical_guidance",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutdatacontracts_test_refined_rows_are_context_sensitive_not_universal_recipes",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutretrieval",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutretrieval_test_locked_queries_return_the_canonical_identity_first",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutretrieval_test_tailwind_query_returns_compact_label_layout_first"
+    ],
+    "64": [
+      "src_lib_fiscal_focusnfe",
+      "src_lib_fiscal_focusnfe_basicauth",
+      "src_lib_fiscal_focusnfe_detectenvironment",
+      "src_lib_fiscal_focusnfe_focusnfecancel",
+      "src_lib_fiscal_focusnfe_focusnfeemit",
+      "src_lib_fiscal_focusnfe_focusnfeget",
+      "src_lib_fiscal_focusnfe_focusnfepayload",
+      "src_lib_fiscal_focusnfe_focusnferesponse",
+      "src_lib_fiscal_focusnfe_focusnfetest",
+      "src_lib_fiscal_index_fiscalconfig",
+      "src_lib_fiscal_index_fiscalemitinput"
+    ],
+    "65": [
+      "any",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_py_path",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_31",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_45",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_50",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_61",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_base_config",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_default_content_paths",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_default_output_path",
+      "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_init"
+    ],
+    "66": [
+      "continue_skills_design_system_scripts_generate_tokens",
+      "continue_skills_design_system_scripts_generate_tokens_flattentokens",
+      "continue_skills_design_system_scripts_generate_tokens_fs",
+      "continue_skills_design_system_scripts_generate_tokens_generatecss",
+      "continue_skills_design_system_scripts_generate_tokens_generatetailwind",
+      "continue_skills_design_system_scripts_generate_tokens_main",
+      "continue_skills_design_system_scripts_generate_tokens_parseargs",
+      "continue_skills_design_system_scripts_generate_tokens_path",
+      "continue_skills_design_system_scripts_generate_tokens_resolvereference",
+      "continue_skills_design_system_scripts_generate_tokens_tocssvarname"
+    ],
+    "67": [
+      "continue_skills_design_system_templates_design_tokens_starter_button_fg",
+      "continue_skills_design_system_templates_design_tokens_starter_button_font_size",
+      "continue_skills_design_system_templates_design_tokens_starter_button_hover_bg",
+      "continue_skills_design_system_templates_design_tokens_starter_component_button",
+      "continue_skills_design_system_templates_design_tokens_starter_fg_type",
+      "continue_skills_design_system_templates_design_tokens_starter_fg_value",
+      "continue_skills_design_system_templates_design_tokens_starter_font_size_type",
+      "continue_skills_design_system_templates_design_tokens_starter_font_size_value",
+      "continue_skills_design_system_templates_design_tokens_starter_hover_bg_type",
+      "continue_skills_design_system_templates_design_tokens_starter_hover_bg_value"
+    ],
+    "68": [
+      "continue_skills_ui_ux_pro_max_scripts_core_exact_match_diagnostic",
+      "continue_skills_ui_ux_pro_max_scripts_core_legacy_successor_guidance",
+      "continue_skills_ui_ux_pro_max_scripts_core_normalize",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_274",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_849",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_889",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_939",
+      "continue_skills_ui_ux_pro_max_scripts_core_stack_query_requests_legacy",
+      "continue_skills_ui_ux_pro_max_scripts_core_stack_row_filter",
+      "continue_skills_ui_ux_pro_max_scripts_core_stack_row_filter_matches_base"
+    ],
+    "69": [
+      "public_service_orders",
+      "scripts_nfse_migration",
+      "scripts_nfse_migration_idx_fiscal_invoices_created_at",
+      "scripts_nfse_migration_idx_fiscal_invoices_nfse_number",
+      "scripts_nfse_migration_idx_fiscal_invoices_service_order",
+      "scripts_nfse_migration_idx_fiscal_invoices_status",
+      "scripts_nfse_migration_idx_fiscal_invoices_tenant",
+      "scripts_nfse_migration_public_fiscal_invoices",
+      "scripts_nfse_migration_public_v_service_orders_without_nfse",
+      "scripts_nfse_migration_sql_public_tenants"
+    ],
+    "70": [
+      "completedprocess",
+      "continue_skills_design_system_scripts_tests_test_validate_tokens",
+      "continue_skills_design_system_scripts_tests_test_validate_tokens_py_path",
+      "continue_skills_design_system_scripts_tests_test_validate_tokens_rationale_1",
+      "continue_skills_design_system_scripts_tests_test_validate_tokens_rationale_32",
+      "continue_skills_design_system_scripts_tests_test_validate_tokens_rationale_42",
+      "continue_skills_design_system_scripts_tests_test_validate_tokens_run",
+      "continue_skills_design_system_scripts_tests_test_validate_tokens_test_flags_hardcoded_hex_sharing_line_with_token",
+      "continue_skills_design_system_scripts_tests_test_validate_tokens_test_token_only_line_reports_no_violation"
+    ],
+    "71": [
+      "continue_skills_brand_scripts_sync_brand_to_tokens",
+      "continue_skills_brand_scripts_sync_brand_to_tokens_adjustbrightness",
+      "continue_skills_brand_scripts_sync_brand_to_tokens_execfilesync",
+      "continue_skills_brand_scripts_sync_brand_to_tokens_extractcolorsfrommarkdown",
+      "continue_skills_brand_scripts_sync_brand_to_tokens_fs",
+      "continue_skills_brand_scripts_sync_brand_to_tokens_generatecolorscale",
+      "continue_skills_brand_scripts_sync_brand_to_tokens_main",
+      "continue_skills_brand_scripts_sync_brand_to_tokens_path",
+      "continue_skills_brand_scripts_sync_brand_to_tokens_updatedesigntokens"
+    ],
+    "72": [
+      "continue_skills_design_scripts_cip_render_html",
+      "continue_skills_design_scripts_cip_render_html_generate_html",
+      "continue_skills_design_scripts_cip_render_html_get_deliverable_info",
+      "continue_skills_design_scripts_cip_render_html_get_image_base64",
+      "continue_skills_design_scripts_cip_render_html_main",
+      "continue_skills_design_scripts_cip_render_html_rationale_100",
+      "continue_skills_design_scripts_cip_render_html_rationale_110",
+      "continue_skills_design_scripts_cip_render_html_rationale_125",
+      "continue_skills_design_scripts_cip_render_html_rationale_3"
+    ],
+    "73": [
+      "src_app_api_webhooks_whatsapp_route",
+      "src_app_api_webhooks_whatsapp_route_post",
+      "src_lib_whatsappagent",
+      "src_lib_whatsappagent_findtenantbywhatsappnumber",
+      "src_lib_whatsappagent_processincomingmessage",
+      "src_lib_whatsappagent_sendwhatsapp",
+      "src_lib_whatsappagent_steps",
+      "src_lib_whatsappagent_triagedata",
+      "src_lib_whatsappagent_validatewebhooktoken"
+    ],
+    "74": [
+      "src_components_modals_modalcarnets",
+      "src_components_modals_modalcarnets_brl",
+      "src_components_modals_modalcarnets_carnetrow",
+      "src_components_modals_modalcarnets_contractisactive",
+      "src_components_modals_modalcarnets_holdercontract",
+      "src_components_modals_modalcarnets_holderisinactive",
+      "src_components_modals_modalcarnets_holderrow",
+      "src_components_modals_modalcarnets_modalcarnets",
+      "src_components_modals_modalcarnets_status_style"
+    ],
+    "75": [
+      "continue_skills_design_system_templates_design_tokens_starter_button_padding_x",
+      "continue_skills_design_system_templates_design_tokens_starter_component_input",
+      "continue_skills_design_system_templates_design_tokens_starter_focus_ring_type",
+      "continue_skills_design_system_templates_design_tokens_starter_focus_ring_value",
+      "continue_skills_design_system_templates_design_tokens_starter_input_focus_ring",
+      "continue_skills_design_system_templates_design_tokens_starter_input_padding_x",
+      "continue_skills_design_system_templates_design_tokens_starter_padding_x_type",
+      "continue_skills_design_system_templates_design_tokens_starter_padding_x_value"
+    ],
+    "76": [
+      "continue_skills_design_system_templates_design_tokens_starter_default_type",
+      "continue_skills_design_system_templates_design_tokens_starter_default_value",
+      "continue_skills_design_system_templates_design_tokens_starter_full_type",
+      "continue_skills_design_system_templates_design_tokens_starter_full_value",
+      "continue_skills_design_system_templates_design_tokens_starter_primitive_radius",
+      "continue_skills_design_system_templates_design_tokens_starter_radius_default",
+      "continue_skills_design_system_templates_design_tokens_starter_radius_full",
+      "continue_skills_design_system_templates_design_tokens_starter_shadow_default"
+    ],
+    "77": [
+      "continue_skills_ui_ux_pro_max_scripts_core_exact_row_identity",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_505",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_526",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_665",
+      "continue_skills_ui_ux_pro_max_scripts_core_rationale_696",
+      "continue_skills_ui_ux_pro_max_scripts_core_row_identities",
+      "continue_skills_ui_ux_pro_max_scripts_core_style_identity",
+      "continue_skills_ui_ux_pro_max_scripts_core_suggest_identities"
+    ],
+    "78": [
+      "scripts_agente_whatsapp",
+      "scripts_agente_whatsapp_idx_emergency_dispatches_tenant",
+      "scripts_agente_whatsapp_idx_tenant_whatsapp_number",
+      "scripts_agente_whatsapp_idx_whatsapp_sessions_tenant_phone",
+      "scripts_agente_whatsapp_public_tenant_whatsapp_numbers",
+      "scripts_agente_whatsapp_public_whatsapp_agent_sessions",
+      "scripts_agente_whatsapp_sql_public_emergency_dispatches",
+      "scripts_agente_whatsapp_sql_public_tenants"
+    ],
+    "79": [
+      "scripts_convert_theme",
+      "scripts_convert_theme_collectfiles",
+      "scripts_convert_theme_files",
+      "scripts_convert_theme_fs",
+      "scripts_convert_theme_map",
+      "scripts_convert_theme_path",
+      "scripts_convert_theme_restorecoloredbuttons",
+      "scripts_convert_theme_root"
+    ],
+    "80": [
+      "src_app_api_leads_route",
+      "src_app_api_leads_route_delete",
+      "src_app_api_leads_route_dynamic",
+      "src_app_api_leads_route_get",
+      "src_app_api_leads_route_patch",
+      "src_app_api_leads_route_post",
+      "src_lib_crm_isvalidleadsource",
+      "src_lib_crm_isvalidleadstage"
+    ],
+    "81": [
+      "src_lib_formvalidation",
+      "src_lib_formvalidation_createinitialerrors",
+      "src_lib_formvalidation_fielderrors",
+      "src_lib_formvalidation_fieldvalidation",
+      "src_lib_formvalidation_getfieldlabel",
+      "src_lib_formvalidation_validatefield",
+      "src_lib_formvalidation_validateform",
+      "src_lib_formvalidation_validationrule"
+    ],
+    "82": [
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_scripts_lint",
+      "package_scripts_start",
+      "package_scripts_test",
+      "package_scripts_test_watch"
+    ],
+    "83": [
+      "scripts_fix_theme_contrast",
+      "scripts_fix_theme_contrast_files",
+      "scripts_fix_theme_contrast_fs",
+      "scripts_fix_theme_contrast_path",
+      "scripts_fix_theme_contrast_root",
+      "scripts_fix_theme_contrast_strong",
+      "scripts_fix_theme_contrast_walk"
+    ],
+    "84": [
+      "scripts_qa_teste_isolamento_final",
+      "scripts_qa_teste_isolamento_final_admin",
+      "scripts_qa_teste_isolamento_final_anon",
+      "scripts_qa_teste_isolamento_final_authheadersfor",
+      "scripts_qa_teste_isolamento_final_check",
+      "scripts_qa_teste_isolamento_final_clienteuser",
+      "scripts_qa_teste_isolamento_final_env"
+    ],
+    "85": [
+      "scripts_qa_teste_isolamento_v2",
+      "scripts_qa_teste_isolamento_v2_admin",
+      "scripts_qa_teste_isolamento_v2_anon",
+      "scripts_qa_teste_isolamento_v2_authheadersfor",
+      "scripts_qa_teste_isolamento_v2_check",
+      "scripts_qa_teste_isolamento_v2_clienteuser",
+      "scripts_qa_teste_isolamento_v2_env"
+    ],
+    "86": [
+      "src_app_api_routes_tenant_test",
+      "src_app_api_routes_tenant_test_allowlist",
+      "src_app_api_routes_tenant_test_api_dir",
+      "src_app_api_routes_tenant_test_checkstatementscope",
+      "src_app_api_routes_tenant_test_intentional_cross_tenant",
+      "src_app_api_routes_tenant_test_listroutefiles",
+      "src_app_api_routes_tenant_test_no_tenant_scope"
+    ],
+    "87": [
+      "continue_skills_design_system_templates_design_tokens_starter_fontsize_sm",
+      "continue_skills_design_system_templates_design_tokens_starter_primitive_shadow",
+      "continue_skills_design_system_templates_design_tokens_starter_radius_sm",
+      "continue_skills_design_system_templates_design_tokens_starter_shadow_sm",
+      "continue_skills_design_system_templates_design_tokens_starter_sm_type",
+      "continue_skills_design_system_templates_design_tokens_starter_sm_value"
+    ],
+    "88": [
+      "scripts_onboard_cliente",
+      "scripts_onboard_cliente_env",
+      "scripts_onboard_cliente_name_cnpj_owneremail",
+      "scripts_onboard_cliente_nf",
+      "scripts_onboard_cliente_owner",
+      "scripts_onboard_cliente_supabase"
+    ],
+    "89": [
+      "scripts_qa_inspect_behavior",
+      "scripts_qa_inspect_behavior_admin",
+      "scripts_qa_inspect_behavior_clientwith",
+      "scripts_qa_inspect_behavior_env",
+      "scripts_qa_inspect_behavior_isoten",
+      "scripts_qa_inspect_behavior_targethold"
+    ],
+    "90": [
+      "scripts_qa_test_api",
+      "scripts_qa_test_api_call",
+      "scripts_qa_test_api_check",
+      "scripts_qa_test_api_env",
+      "scripts_qa_test_api_myrole",
+      "scripts_qa_test_api_tokenfor"
+    ],
+    "91": [
+      "scripts_qa_teste_isolamento_v3",
+      "scripts_qa_teste_isolamento_v3_admin",
+      "scripts_qa_teste_isolamento_v3_anon",
+      "scripts_qa_teste_isolamento_v3_authheadersfor",
+      "scripts_qa_teste_isolamento_v3_check",
+      "scripts_qa_teste_isolamento_v3_env"
+    ],
+    "92": [
+      "scripts_qa_teste_isolamento_v4",
+      "scripts_qa_teste_isolamento_v4_admin",
+      "scripts_qa_teste_isolamento_v4_anon",
+      "scripts_qa_teste_isolamento_v4_authheadersfor",
+      "scripts_qa_teste_isolamento_v4_check",
+      "scripts_qa_teste_isolamento_v4_env"
+    ],
+    "93": [
+      "scripts_qa_teste_isolamento_v5",
+      "scripts_qa_teste_isolamento_v5_admin",
+      "scripts_qa_teste_isolamento_v5_anon",
+      "scripts_qa_teste_isolamento_v5_authheadersfor",
+      "scripts_qa_teste_isolamento_v5_check",
+      "scripts_qa_teste_isolamento_v5_env"
+    ],
+    "94": [
+      "scripts_qa_teste_isolamento_v6",
+      "scripts_qa_teste_isolamento_v6_admin",
+      "scripts_qa_teste_isolamento_v6_anon",
+      "scripts_qa_teste_isolamento_v6_authheadersfor",
+      "scripts_qa_teste_isolamento_v6_check",
+      "scripts_qa_teste_isolamento_v6_env"
+    ],
+    "95": [
+      "continue_skills_design_system_templates_design_tokens_starter_border_type",
+      "continue_skills_design_system_templates_design_tokens_starter_border_value",
+      "continue_skills_design_system_templates_design_tokens_starter_card_border",
+      "continue_skills_design_system_templates_design_tokens_starter_color_border",
+      "continue_skills_design_system_templates_design_tokens_starter_input_border"
+    ],
+    "96": [
+      "continue_skills_design_system_templates_design_tokens_starter_button_radius",
+      "continue_skills_design_system_templates_design_tokens_starter_card_radius",
+      "continue_skills_design_system_templates_design_tokens_starter_input_radius",
+      "continue_skills_design_system_templates_design_tokens_starter_radius_type",
+      "continue_skills_design_system_templates_design_tokens_starter_radius_value"
+    ],
+    "97": [
+      "continue_skills_design_system_templates_design_tokens_starter_fontsize_lg",
+      "continue_skills_design_system_templates_design_tokens_starter_lg_type",
+      "continue_skills_design_system_templates_design_tokens_starter_lg_value",
+      "continue_skills_design_system_templates_design_tokens_starter_radius_lg",
+      "continue_skills_design_system_templates_design_tokens_starter_shadow_lg"
+    ],
+    "98": [
+      "migracao_planos_supabase",
+      "migracao_planos_supabase_idx_holders_tenant_id",
+      "migracao_planos_supabase_idx_user_roles_tenant_id",
+      "migracao_planos_supabase_sql_public_holders",
+      "migracao_planos_supabase_sql_public_user_roles"
+    ],
+    "99": [
+      "next_config",
+      "next_config_nextconfig",
+      "ref_next",
+      "src_app_manifest",
+      "src_app_manifest_manifest"
+    ],
+    "100": [
+      "scripts_crm_leads_migration",
+      "scripts_crm_leads_migration_idx_leads_created",
+      "scripts_crm_leads_migration_idx_leads_followup",
+      "scripts_crm_leads_migration_idx_leads_stage",
+      "scripts_crm_leads_migration_public_leads"
+    ],
+    "101": [
+      "scripts_qa_cleanup",
+      "scripts_qa_cleanup_emails",
+      "scripts_qa_cleanup_env",
+      "scripts_qa_cleanup_supabase",
+      "scripts_qa_cleanup_tenantids"
+    ],
+    "102": [
+      "scripts_qa_test_db_rls",
+      "scripts_qa_test_db_rls_adminapi",
+      "scripts_qa_test_db_rls_authheadersfor",
+      "scripts_qa_test_db_rls_check",
+      "scripts_qa_test_db_rls_env"
+    ],
+    "103": [
+      "scripts_qa_teste_isolamento_pos_fix",
+      "scripts_qa_teste_isolamento_pos_fix_check",
+      "scripts_qa_teste_isolamento_pos_fix_dirname",
+      "scripts_qa_teste_isolamento_pos_fix_loadenv",
+      "scripts_qa_teste_isolamento_pos_fix_main"
+    ],
+    "104": [
+      "scripts_webhook_events_migration",
+      "scripts_webhook_events_migration_idx_webhook_events_payment",
+      "scripts_webhook_events_migration_idx_webhook_events_tenant_time",
+      "scripts_webhook_events_migration_public_webhook_events",
+      "scripts_webhook_events_migration_sql_public_tenants"
+    ],
+    "105": [
+      "continue_skills_design_system_scripts_slide_token_validator",
+      "continue_skills_design_system_scripts_slide_token_validator_main",
+      "continue_skills_design_system_scripts_slide_token_validator_rationale_2",
+      "continue_skills_design_system_scripts_slide_token_validator_rationale_21"
+    ],
+    "106": [
+      "continue_skills_design_system_templates_design_tokens_starter_button_padding_y",
+      "continue_skills_design_system_templates_design_tokens_starter_input_padding_y",
+      "continue_skills_design_system_templates_design_tokens_starter_padding_y_type",
+      "continue_skills_design_system_templates_design_tokens_starter_padding_y_value"
+    ],
+    "107": [
+      "continue_skills_design_system_templates_design_tokens_starter_fontsize_xl",
+      "continue_skills_design_system_templates_design_tokens_starter_radius_xl",
+      "continue_skills_design_system_templates_design_tokens_starter_xl_type",
+      "continue_skills_design_system_templates_design_tokens_starter_xl_value"
+    ],
+    "108": [
+      "continue_skills_design_system_templates_design_tokens_starter_md_type",
+      "continue_skills_design_system_templates_design_tokens_starter_md_value",
+      "continue_skills_design_system_templates_design_tokens_starter_radius_md",
+      "continue_skills_design_system_templates_design_tokens_starter_shadow_md"
+    ],
+    "109": [
+      "continue_skills_design_system_templates_design_tokens_starter_none_type",
+      "continue_skills_design_system_templates_design_tokens_starter_none_value",
+      "continue_skills_design_system_templates_design_tokens_starter_radius_none",
+      "continue_skills_design_system_templates_design_tokens_starter_shadow_none"
+    ],
+    "110": [
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_rationale_2",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_read_rows",
+      "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_setupclass"
+    ],
+    "111": [
+      "fix_rls_definitivo",
+      "fix_rls_definitivo_public_get_user_tenant_id",
+      "fix_rls_definitivo_public_is_superadmin",
+      "fix_rls_definitivo_sql_public_user_roles"
+    ],
+    "112": [
+      "fix_rls_isolamento",
+      "fix_rls_isolamento_public_get_user_tenant_id",
+      "fix_rls_isolamento_public_is_superadmin",
+      "fix_rls_isolamento_sql_public_user_roles"
+    ],
+    "113": [
+      "fix_rls_parte1",
+      "fix_rls_parte1_public_get_user_tenant_id",
+      "fix_rls_parte1_public_is_superadmin",
+      "fix_rls_parte1_sql_public_user_roles"
+    ],
+    "114": [
+      "ref_qrcode",
+      "src_app_carteirinha_cpf_page",
+      "src_app_carteirinha_cpf_page_carteirinhapage",
+      "src_app_carteirinha_cpf_page_props"
+    ],
+    "115": [
+      "scripts_check_superadmin",
+      "scripts_check_superadmin_env",
+      "scripts_check_superadmin_supabase",
+      "scripts_check_superadmin_user"
+    ],
+    "116": [
+      "scripts_create_tables",
+      "scripts_create_tables_createclient",
+      "scripts_create_tables_createtables",
+      "scripts_create_tables_sb"
+    ],
+    "117": [
+      "scripts_crm_lead_notes",
+      "scripts_crm_lead_notes_idx_lead_notes_lead",
+      "scripts_crm_lead_notes_public_lead_notes",
+      "scripts_crm_lead_notes_sql_public_leads"
+    ],
+    "118": [
+      "scripts_holders_enrich_columns",
+      "scripts_holders_enrich_columns_idx_holders_tenant_birth",
+      "scripts_holders_enrich_columns_idx_holders_tenant_state",
+      "scripts_holders_enrich_columns_sql_public_holders"
+    ],
+    "119": [
+      "scripts_qa_create_users",
+      "scripts_qa_create_users_env",
+      "scripts_qa_create_users_supabase",
+      "scripts_qa_create_users_users"
+    ],
+    "120": [
+      "scripts_qa_diag_roles",
+      "scripts_qa_diag_roles_emails",
+      "scripts_qa_diag_roles_env",
+      "scripts_qa_diag_roles_supabase"
+    ],
+    "121": [
+      "scripts_qa_insert_rbac_and_data",
+      "scripts_qa_insert_rbac_and_data_env",
+      "scripts_qa_insert_rbac_and_data_supabase",
+      "scripts_qa_insert_rbac_and_data_userid"
+    ],
+    "122": [
+      "scripts_sellers_migration",
+      "scripts_sellers_migration_idx_sellers_tenant",
+      "scripts_sellers_migration_public_sellers",
+      "scripts_sellers_migration_sql_public_tenants"
+    ],
+    "123": [
+      "src_app_api_routes_auth_test",
+      "src_app_api_routes_auth_test_allowlist",
+      "src_app_api_routes_auth_test_api_dir",
+      "src_app_api_routes_auth_test_listroutefiles"
+    ],
+    "124": [
+      "src_lib_printreports",
+      "src_lib_printreports_printcommissionreceipt",
+      "src_lib_printreports_printfinancialreport",
+      "src_lib_printreports_printserviceorder"
+    ],
+    "125": [
+      "continue_skills_brand_scripts_tests_test_sync_brand_to_tokens",
+      "continue_skills_brand_scripts_tests_test_sync_brand_to_tokens_rationale_1",
+      "continue_skills_brand_scripts_tests_test_sync_brand_to_tokens_test_sync_parses_bundled_starter_template"
+    ],
+    "126": [
+      "continue_skills_design_system_templates_design_tokens_starter_color_destructive",
+      "continue_skills_design_system_templates_design_tokens_starter_destructive_type",
+      "continue_skills_design_system_templates_design_tokens_starter_destructive_value"
+    ],
+    "127": [
+      "continue_skills_design_system_templates_design_tokens_starter_color_destructive_foreground",
+      "continue_skills_design_system_templates_design_tokens_starter_destructive_foreground_type",
+      "continue_skills_design_system_templates_design_tokens_starter_destructive_foreground_value"
+    ],
+    "128": [
+      "continue_skills_design_system_templates_design_tokens_starter_color_muted",
+      "continue_skills_design_system_templates_design_tokens_starter_muted_type",
+      "continue_skills_design_system_templates_design_tokens_starter_muted_value"
+    ],
+    "129": [
+      "continue_skills_design_system_templates_design_tokens_starter_color_primary_foreground",
+      "continue_skills_design_system_templates_design_tokens_starter_primary_foreground_type",
+      "continue_skills_design_system_templates_design_tokens_starter_primary_foreground_value"
+    ],
+    "130": [
+      "continue_skills_design_system_templates_design_tokens_starter_color_ring",
+      "continue_skills_design_system_templates_design_tokens_starter_ring_type",
+      "continue_skills_design_system_templates_design_tokens_starter_ring_value"
+    ],
+    "131": [
+      "continue_skills_design_system_templates_design_tokens_starter_color_secondary_foreground",
+      "continue_skills_design_system_templates_design_tokens_starter_secondary_foreground_type",
+      "continue_skills_design_system_templates_design_tokens_starter_secondary_foreground_value"
+    ],
+    "132": [
+      "continue_skills_ui_styling_scripts_shadcn_add_py_path",
+      "continue_skills_ui_styling_scripts_shadcn_add_rationale_21",
+      "continue_skills_ui_styling_scripts_shadcn_add_shadcninstaller_init"
+    ],
+    "133": [
+      "public_webhook_events",
+      "scripts_webhook_events_retry",
+      "scripts_webhook_events_retry_idx_webhook_events_unprocessed"
+    ],
+    "134": [
+      "scripts_add_holder_status",
+      "scripts_add_holder_status_idx_holders_tenant_status",
+      "scripts_add_holder_status_sql_public_holders"
+    ],
+    "135": [
+      "scripts_carnet_asaas_id_migration",
+      "scripts_carnet_asaas_id_migration_idx_payment_carnets_asaas_id",
+      "scripts_carnet_asaas_id_migration_sql_public_payment_carnets"
+    ],
+    "136": [
+      "scripts_comissao_vendedor",
+      "scripts_comissao_vendedor_idx_commissions_contract_id",
+      "scripts_comissao_vendedor_sql_public_commissions"
+    ],
+    "137": [
+      "scripts_crm_leads_conversion",
+      "scripts_crm_leads_conversion_idx_leads_converted",
+      "scripts_crm_leads_conversion_sql_public_leads"
+    ],
+    "138": [
+      "scripts_financial_os_rastreabilidade",
+      "scripts_financial_os_rastreabilidade_idx_financial_transactions_service_order",
+      "scripts_financial_os_rastreabilidade_sql_public_financial_transactions"
+    ],
+    "139": [
+      "scripts_migrate_alerts",
+      "scripts_migrate_alerts_files",
+      "scripts_migrate_alerts_fs"
+    ],
+    "140": [
+      "scripts_qa_audit_full",
+      "scripts_qa_audit_full_admin",
+      "scripts_qa_audit_full_env"
+    ],
+    "141": [
+      "scripts_qa_diag_policies_detalhe",
+      "scripts_qa_diag_policies_detalhe_admin",
+      "scripts_qa_diag_policies_detalhe_env"
+    ],
+    "142": [
+      "scripts_qa_identify_project",
+      "scripts_qa_identify_project_env",
+      "scripts_qa_identify_project_sb"
+    ],
+    "143": [
+      "scripts_qa_inspect_policies",
+      "scripts_qa_inspect_policies_env",
+      "scripts_qa_inspect_policies_runsql"
+    ],
+    "144": [
+      "scripts_qa_teste_insert3",
+      "scripts_qa_teste_insert3_admin",
+      "scripts_qa_teste_insert3_env"
+    ],
+    "145": [
+      "scripts_qa_teste_insert4",
+      "scripts_qa_teste_insert4_admin",
+      "scripts_qa_teste_insert4_env"
+    ],
+    "146": [
+      "src_middleware",
+      "src_middleware_config",
+      "src_middleware_middleware"
+    ],
+    "147": [
+      "tests_ui_auth_gate_test",
+      "tests_ui_auth_gate_test_page",
+      "tests_ui_auth_gate_test_readsrc"
+    ],
+    "148": [
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_104",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_components_no_config"
+    ],
+    "149": [
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_112",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_components_already_installed"
+    ],
+    "150": [
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_205",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_all_components_no_config"
+    ],
+    "151": [
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_240",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_list_installed_no_config"
+    ],
+    "152": [
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_45",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_init_default_project_root"
+    ],
+    "153": [
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_56",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_init_dry_run"
+    ],
+    "154": [
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_66",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_check_shadcn_config_not_exists"
+    ],
+    "155": [
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_77",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_get_installed_components_with_files"
+    ],
+    "156": [
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_90",
+      "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_get_installed_components_no_config"
+    ],
+    "157": [
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_101",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_colors_multiple_times"
+    ],
+    "158": [
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_125",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_fonts"
+    ],
+    "159": [
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_138",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_spacing"
+    ],
+    "160": [
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_151",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_breakpoints"
+    ],
+    "161": [
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_173",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_plugins_no_duplicates"
+    ],
+    "162": [
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_182",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_recommend_plugins"
+    ],
+    "163": [
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_190",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_recommend_plugins_nextjs"
+    ],
+    "164": [
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_197",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_generate_typescript_config"
+    ],
+    "165": [
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_206",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_generate_javascript_config"
+    ],
+    "166": [
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_214",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_generate_config_with_colors"
+    ],
+    "167": [
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_259",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_write_config"
+    ],
+    "168": [
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_270",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_write_config_creates_content"
+    ],
+    "169": [
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_64",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_default_content_paths_react"
+    ],
+    "170": [
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_72",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_default_content_paths_nextjs"
+    ],
+    "171": [
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_88",
+      "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_colors"
+    ],
+    "172": [
+      "eslint_config",
+      "eslint_config_eslintconfig"
+    ],
+    "173": [
+      "jest_setup",
+      "ref_testing_library_jest_dom"
+    ],
+    "174": [
+      "public_sw",
+      "public_sw_core"
+    ],
+    "175": [
+      "scripts_append_route",
+      "scripts_append_route_fs"
+    ],
+    "176": [
+      "scripts_fix_decrement_stock_tenant",
+      "scripts_fix_decrement_stock_tenant_public_decrement_stock"
+    ],
+    "177": [
+      "scripts_limpeza_planos_orfaos",
+      "scripts_limpeza_planos_orfaos_public_plans_orphans_backup"
+    ],
+    "178": [
+      "src_app_api_healthz_route",
+      "src_app_api_healthz_route_get"
+    ],
+    "179": [
+      "src_app_dashboard_layout",
+      "src_app_dashboard_layout_dashboardlayout"
+    ],
+    "180": [
+      "src_types_index",
+      "src_types_index_dadospayload"
+    ],
+    "181": [
+      "tests_routes_agent_steps_test",
+      "tests_routes_agent_steps_test_readsrc"
+    ],
+    "182": [
+      "tests_routes_encoding_csp_test",
+      "tests_routes_encoding_csp_test_readsrc"
+    ],
+    "183": [
+      "tests_routes_holders_test",
+      "tests_routes_holders_test_readsrc"
+    ],
+    "184": [
+      "tests_routes_money_columns_test",
+      "tests_routes_money_columns_test_readsrc"
+    ],
+    "185": [
+      "tests_routes_webhook_auth_test",
+      "tests_routes_webhook_auth_test_readsrc"
+    ],
+    "186": [
+      "auditoria_completa"
+    ],
+    "187": [
+      "bloco1"
+    ],
+    "188": [
+      "bloco2"
+    ],
+    "189": [
+      "diag1"
+    ],
+    "190": [
+      "diag2"
+    ],
+    "191": [
+      "diag_completo"
+    ],
+    "192": [
+      "diag_delete_vazamento"
+    ],
+    "193": [
+      "diag_holders_columns"
+    ],
+    "194": [
+      "diag_holders_notnull"
+    ],
+    "195": [
+      "fix_rls_definitivo_sql_public_accounts_payable"
+    ],
+    "196": [
+      "fix_rls_definitivo_sql_public_asaas_customers"
+    ],
+    "197": [
+      "fix_rls_definitivo_sql_public_audit_logs"
+    ],
+    "198": [
+      "fix_rls_definitivo_sql_public_benefits_partners"
+    ],
+    "199": [
+      "fix_rls_definitivo_sql_public_chapel_bookings"
+    ],
+    "200": [
+      "fix_rls_definitivo_sql_public_chapel_burials"
+    ],
+    "201": [
+      "fix_rls_definitivo_sql_public_collector_routes"
+    ],
+    "202": [
+      "fix_rls_definitivo_sql_public_commissions"
+    ],
+    "203": [
+      "fix_rls_definitivo_sql_public_contracts"
+    ],
+    "204": [
+      "fix_rls_definitivo_sql_public_convalescence_items"
+    ],
+    "205": [
+      "fix_rls_definitivo_sql_public_convalescence_loans"
+    ],
+    "206": [
+      "fix_rls_definitivo_sql_public_dependents"
+    ],
+    "207": [
+      "fix_rls_definitivo_sql_public_dispatch_audit_logs"
+    ],
+    "208": [
+      "fix_rls_definitivo_sql_public_dispatches"
+    ],
+    "209": [
+      "fix_rls_definitivo_sql_public_emergency_dispatches"
+    ],
+    "210": [
+      "fix_rls_definitivo_sql_public_financial_transactions"
+    ],
+    "211": [
+      "fix_rls_definitivo_sql_public_fleet_vehicles"
+    ],
+    "212": [
+      "fix_rls_definitivo_sql_public_holders"
+    ],
+    "213": [
+      "fix_rls_definitivo_sql_public_inventory"
+    ],
+    "214": [
+      "fix_rls_definitivo_sql_public_payment_carnets"
+    ],
+    "215": [
+      "fix_rls_definitivo_sql_public_payments"
+    ],
+    "216": [
+      "fix_rls_definitivo_sql_public_plans"
+    ],
+    "217": [
+      "fix_rls_definitivo_sql_public_regulatory_reserves"
+    ],
+    "218": [
+      "fix_rls_definitivo_sql_public_tenants"
+    ],
+    "219": [
+      "fix_rls_definitivo_sql_public_thanatopraxy_records"
+    ],
+    "220": [
+      "fix_rls_definitivo_sql_public_vehicles"
+    ],
+    "221": [
+      "fix_rls_isolamento_sql_public_accounts_payable"
+    ],
+    "222": [
+      "fix_rls_isolamento_sql_public_asaas_customers"
+    ],
+    "223": [
+      "fix_rls_isolamento_sql_public_audit_logs"
+    ],
+    "224": [
+      "fix_rls_isolamento_sql_public_benefits_partners"
+    ],
+    "225": [
+      "fix_rls_isolamento_sql_public_chapel_bookings"
+    ],
+    "226": [
+      "fix_rls_isolamento_sql_public_chapel_burials"
+    ],
+    "227": [
+      "fix_rls_isolamento_sql_public_collector_routes"
+    ],
+    "228": [
+      "fix_rls_isolamento_sql_public_commissions"
+    ],
+    "229": [
+      "fix_rls_isolamento_sql_public_contracts"
+    ],
+    "230": [
+      "fix_rls_isolamento_sql_public_convalescence_items"
+    ],
+    "231": [
+      "fix_rls_isolamento_sql_public_convalescence_loans"
+    ],
+    "232": [
+      "fix_rls_isolamento_sql_public_dependents"
+    ],
+    "233": [
+      "fix_rls_isolamento_sql_public_dispatch_audit_logs"
+    ],
+    "234": [
+      "fix_rls_isolamento_sql_public_dispatches"
+    ],
+    "235": [
+      "fix_rls_isolamento_sql_public_emergency_dispatches"
+    ],
+    "236": [
+      "fix_rls_isolamento_sql_public_financial_transactions"
+    ],
+    "237": [
+      "fix_rls_isolamento_sql_public_fleet_vehicles"
+    ],
+    "238": [
+      "fix_rls_isolamento_sql_public_holders"
+    ],
+    "239": [
+      "fix_rls_isolamento_sql_public_inventory"
+    ],
+    "240": [
+      "fix_rls_isolamento_sql_public_payment_carnets"
+    ],
+    "241": [
+      "fix_rls_isolamento_sql_public_payments"
+    ],
+    "242": [
+      "fix_rls_isolamento_sql_public_plans"
+    ],
+    "243": [
+      "fix_rls_isolamento_sql_public_regulatory_reserves"
+    ],
+    "244": [
+      "fix_rls_isolamento_sql_public_tenants"
+    ],
+    "245": [
+      "fix_rls_isolamento_sql_public_thanatopraxy_records"
+    ],
+    "246": [
+      "fix_rls_isolamento_sql_public_vehicles"
+    ],
+    "247": [
+      "fix_rls_parte1_sql_public_accounts_payable"
+    ],
+    "248": [
+      "fix_rls_parte1_sql_public_asaas_customers"
+    ],
+    "249": [
+      "fix_rls_parte1_sql_public_audit_logs"
+    ],
+    "250": [
+      "fix_rls_parte1_sql_public_benefits_partners"
+    ],
+    "251": [
+      "fix_rls_parte1_sql_public_chapel_bookings"
+    ],
+    "252": [
+      "fix_rls_parte1_sql_public_chapel_burials"
+    ],
+    "253": [
+      "fix_rls_parte1_sql_public_collector_routes"
+    ],
+    "254": [
+      "fix_rls_parte1_sql_public_commissions"
+    ],
+    "255": [
+      "fix_rls_parte1_sql_public_contracts"
+    ],
+    "256": [
+      "fix_rls_parte1_sql_public_convalescence_items"
+    ],
+    "257": [
+      "fix_rls_parte1_sql_public_convalescence_loans"
+    ],
+    "258": [
+      "fix_rls_parte1_sql_public_dependents"
+    ],
+    "259": [
+      "fix_rls_parte1_sql_public_dispatch_audit_logs"
+    ],
+    "260": [
+      "fix_rls_parte1_sql_public_dispatches"
+    ],
+    "261": [
+      "fix_rls_parte1_sql_public_emergency_dispatches"
+    ],
+    "262": [
+      "fix_rls_parte1_sql_public_financial_transactions"
+    ],
+    "263": [
+      "fix_rls_parte1_sql_public_fleet_vehicles"
+    ],
+    "264": [
+      "fix_rls_parte1_sql_public_holders"
+    ],
+    "265": [
+      "fix_rls_parte1_sql_public_inventory"
+    ],
+    "266": [
+      "fix_rls_parte1_sql_public_payment_carnets"
+    ],
+    "267": [
+      "fix_rls_parte1_sql_public_payments"
+    ],
+    "268": [
+      "fix_rls_parte1_sql_public_plans"
+    ],
+    "269": [
+      "fix_rls_parte1_sql_public_regulatory_reserves"
+    ],
+    "270": [
+      "fix_rls_parte1_sql_public_tenants"
+    ],
+    "271": [
+      "fix_rls_parte1_sql_public_thanatopraxy_records"
+    ],
+    "272": [
+      "fix_rls_parte1_sql_public_vehicles"
+    ],
+    "273": [
+      "fix_rls_parte2"
+    ],
+    "274": [
+      "fix_rls_parte3"
+    ],
+    "275": [
+      "fix_vazamento"
+    ],
+    "276": [
+      "fix_vazamento_parte1"
+    ],
+    "277": [
+      "fix_vazamento_parte2"
+    ],
+    "278": [
+      "jest_config"
+    ],
+    "279": [
+      "migracao_planos_supabase_sql_public_tenants"
+    ],
+    "280": [
+      "migracao_storage_logos"
+    ],
+    "281": [
+      "postcss_config"
+    ],
+    "282": [
+      "promover_superadmin"
+    ],
+    "283": [
+      "scripts_carnet_holder_migration"
+    ],
+    "284": [
+      "scripts_carnet_holder_migration_sql_public_payment_carnets"
+    ],
+    "285": [
+      "scripts_comissao_vendedor_sql_public_contracts"
+    ],
+    "286": [
+      "scripts_comissao_vendedor_sql_public_plans"
+    ],
+    "287": [
+      "scripts_fix_valores_acentuados"
+    ],
+    "288": [
+      "scripts_harden_storage"
+    ],
+    "289": [
+      "scripts_sellers_migration_sql_public_contracts"
+    ],
+    "290": [
+      "scripts_service_orders_deceased_type_free_migration"
+    ],
+    "291": [
+      "storage_objects"
+    ],
+    "292": [
+      "tailwind_config"
+    ],
+    "293": [
+      "verificar_rls"
+    ],
+    "294": [
+      "verificar_rls_agora"
+    ]
+  },
+  "cohesion": {
+    "0": 0.0726775956284153,
+    "1": 0.06516290726817042,
+    "2": 0.05649350649350649,
+    "3": 0.05370101596516691,
+    "4": 0.08333333333333333,
+    "5": 0.10676532769556026,
+    "6": 0.06866002214839424,
+    "7": 0.07936507936507936,
+    "8": 0.1411764705882353,
+    "9": 0.058823529411764705,
+    "10": 0.10483870967741936,
+    "11": 0.1028225806451613,
+    "12": 0.11895161290322581,
+    "13": 0.12096774193548387,
+    "14": 0.09475806451612903,
+    "15": 0.11827956989247312,
+    "16": 0.12688172043010754,
+    "17": 0.06451612903225806,
+    "18": 0.1206896551724138,
+    "19": 0.10837438423645321,
+    "20": 0.1111111111111111,
+    "21": 0.1111111111111111,
+    "22": 0.08,
+    "23": 0.11956521739130435,
+    "24": 0.09090909090909091,
+    "25": 0.1380952380952381,
+    "26": 0.14285714285714285,
+    "27": 0.12380952380952381,
+    "28": 0.1631578947368421,
+    "29": 0.12105263157894737,
+    "30": 0.14619883040935672,
+    "31": 0.15789473684210525,
+    "32": 0.10526315789473684,
+    "33": 0.19298245614035087,
+    "34": 0.10526315789473684,
+    "35": 0.1437908496732026,
+    "36": 0.12418300653594772,
+    "37": 0.1568627450980392,
+    "38": 0.27941176470588236,
+    "39": 0.11764705882352941,
+    "40": 0.125,
+    "41": 0.13333333333333333,
+    "42": 0.22857142857142856,
+    "43": 0.18095238095238095,
+    "44": 0.21978021978021978,
+    "45": 0.25274725274725274,
+    "46": 0.16483516483516483,
+    "47": 0.18681318681318682,
+    "48": 0.14285714285714285,
+    "49": 0.14285714285714285,
+    "50": 0.2087912087912088,
+    "51": 0.15384615384615385,
+    "52": 0.21794871794871795,
+    "53": 0.24242424242424243,
+    "54": 0.19696969696969696,
+    "55": 0.21212121212121213,
+    "56": 0.19696969696969696,
+    "57": 0.2727272727272727,
+    "58": 0.3090909090909091,
+    "59": 0.18181818181818182,
+    "60": 0.18181818181818182,
+    "61": 0.21818181818181817,
+    "62": 0.18181818181818182,
+    "63": 0.2,
+    "64": 0.32727272727272727,
+    "65": 0.2222222222222222,
+    "66": 0.35555555555555557,
+    "67": 0.2,
+    "68": 0.2222222222222222,
+    "69": 0.35555555555555557,
+    "70": 0.2777777777777778,
+    "71": 0.3333333333333333,
+    "72": 0.3055555555555556,
+    "73": 0.4166666666666667,
+    "74": 0.3055555555555556,
+    "75": 0.2857142857142857,
+    "76": 0.2857142857142857,
+    "77": 0.25,
+    "78": 0.35714285714285715,
+    "79": 0.25,
+    "80": 0.39285714285714285,
+    "81": 0.32142857142857145,
+    "82": 0.2857142857142857,
+    "83": 0.2857142857142857,
+    "84": 0.2857142857142857,
+    "85": 0.2857142857142857,
+    "86": 0.2857142857142857,
+    "87": 0.4666666666666667,
+    "88": 0.3333333333333333,
+    "89": 0.3333333333333333,
+    "90": 0.3333333333333333,
+    "91": 0.3333333333333333,
+    "92": 0.3333333333333333,
+    "93": 0.3333333333333333,
+    "94": 0.3333333333333333,
+    "95": 0.6,
+    "96": 0.6,
+    "97": 0.6,
+    "98": 0.4,
+    "99": 0.4,
+    "100": 0.7,
+    "101": 0.4,
+    "102": 0.4,
+    "103": 0.5,
+    "104": 0.6,
+    "105": 0.5,
+    "106": 0.6666666666666666,
+    "107": 0.6666666666666666,
+    "108": 0.6666666666666666,
+    "109": 0.6666666666666666,
+    "110": 0.5,
+    "111": 0.6666666666666666,
+    "112": 0.6666666666666666,
+    "113": 0.6666666666666666,
+    "114": 0.5,
+    "115": 0.5,
+    "116": 0.5,
+    "117": 0.6666666666666666,
+    "118": 0.6666666666666666,
+    "119": 0.5,
+    "120": 0.5,
+    "121": 0.5,
+    "122": 0.6666666666666666,
+    "123": 0.5,
+    "124": 0.5,
+    "125": 0.6666666666666666,
+    "126": 0.6666666666666666,
+    "127": 0.6666666666666666,
+    "128": 0.6666666666666666,
+    "129": 0.6666666666666666,
+    "130": 0.6666666666666666,
+    "131": 0.6666666666666666,
+    "132": 0.6666666666666666,
+    "133": 0.6666666666666666,
+    "134": 0.6666666666666666,
+    "135": 0.6666666666666666,
+    "136": 0.6666666666666666,
+    "137": 0.6666666666666666,
+    "138": 0.6666666666666666,
+    "139": 0.6666666666666666,
+    "140": 0.6666666666666666,
+    "141": 0.6666666666666666,
+    "142": 0.6666666666666666,
+    "143": 0.6666666666666666,
+    "144": 0.6666666666666666,
+    "145": 0.6666666666666666,
+    "146": 0.6666666666666666,
+    "147": 1.0,
+    "148": 1.0,
+    "149": 1.0,
+    "150": 1.0,
+    "151": 1.0,
+    "152": 1.0,
+    "153": 1.0,
+    "154": 1.0,
+    "155": 1.0,
+    "156": 1.0,
+    "157": 1.0,
+    "158": 1.0,
+    "159": 1.0,
+    "160": 1.0,
+    "161": 1.0,
+    "162": 1.0,
+    "163": 1.0,
+    "164": 1.0,
+    "165": 1.0,
+    "166": 1.0,
+    "167": 1.0,
+    "168": 1.0,
+    "169": 1.0,
+    "170": 1.0,
+    "171": 1.0,
+    "172": 1.0,
+    "173": 1.0,
+    "174": 1.0,
+    "175": 1.0,
+    "176": 1.0,
+    "177": 1.0,
+    "178": 1.0,
+    "179": 1.0,
+    "180": 1.0,
+    "181": 1.0,
+    "182": 1.0,
+    "183": 1.0,
+    "184": 1.0,
+    "185": 1.0,
+    "186": 1.0,
+    "187": 1.0,
+    "188": 1.0,
+    "189": 1.0,
+    "190": 1.0,
+    "191": 1.0,
+    "192": 1.0,
+    "193": 1.0,
+    "194": 1.0,
+    "195": 1.0,
+    "196": 1.0,
+    "197": 1.0,
+    "198": 1.0,
+    "199": 1.0,
+    "200": 1.0,
+    "201": 1.0,
+    "202": 1.0,
+    "203": 1.0,
+    "204": 1.0,
+    "205": 1.0,
+    "206": 1.0,
+    "207": 1.0,
+    "208": 1.0,
+    "209": 1.0,
+    "210": 1.0,
+    "211": 1.0,
+    "212": 1.0,
+    "213": 1.0,
+    "214": 1.0,
+    "215": 1.0,
+    "216": 1.0,
+    "217": 1.0,
+    "218": 1.0,
+    "219": 1.0,
+    "220": 1.0,
+    "221": 1.0,
+    "222": 1.0,
+    "223": 1.0,
+    "224": 1.0,
+    "225": 1.0,
+    "226": 1.0,
+    "227": 1.0,
+    "228": 1.0,
+    "229": 1.0,
+    "230": 1.0,
+    "231": 1.0,
+    "232": 1.0,
+    "233": 1.0,
+    "234": 1.0,
+    "235": 1.0,
+    "236": 1.0,
+    "237": 1.0,
+    "238": 1.0,
+    "239": 1.0,
+    "240": 1.0,
+    "241": 1.0,
+    "242": 1.0,
+    "243": 1.0,
+    "244": 1.0,
+    "245": 1.0,
+    "246": 1.0,
+    "247": 1.0,
+    "248": 1.0,
+    "249": 1.0,
+    "250": 1.0,
+    "251": 1.0,
+    "252": 1.0,
+    "253": 1.0,
+    "254": 1.0,
+    "255": 1.0,
+    "256": 1.0,
+    "257": 1.0,
+    "258": 1.0,
+    "259": 1.0,
+    "260": 1.0,
+    "261": 1.0,
+    "262": 1.0,
+    "263": 1.0,
+    "264": 1.0,
+    "265": 1.0,
+    "266": 1.0,
+    "267": 1.0,
+    "268": 1.0,
+    "269": 1.0,
+    "270": 1.0,
+    "271": 1.0,
+    "272": 1.0,
+    "273": 1.0,
+    "274": 1.0,
+    "275": 1.0,
+    "276": 1.0,
+    "277": 1.0,
+    "278": 1.0,
+    "279": 1.0,
+    "280": 1.0,
+    "281": 1.0,
+    "282": 1.0,
+    "283": 1.0,
+    "284": 1.0,
+    "285": 1.0,
+    "286": 1.0,
+    "287": 1.0,
+    "288": 1.0,
+    "289": 1.0,
+    "290": 1.0,
+    "291": 1.0,
+    "292": 1.0,
+    "293": 1.0,
+    "294": 1.0
+  },
+  "gods": [
+    {
+      "id": "src_lib_validation_isvaliduuid",
+      "label": "isValidUUID()",
+      "degree": 81
+    },
+    {
+      "id": "src_lib_supabaseadmin_supabaseadmin",
+      "label": "supabaseAdmin",
+      "degree": 69
+    },
+    {
+      "id": "src_lib_validation_sanitizestring",
+      "label": "sanitizeString()",
+      "degree": 67
+    },
+    {
+      "id": "src_lib_api_handler_withauth",
+      "label": "withAuth()",
+      "degree": 62
+    },
+    {
+      "id": "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator",
+      "label": "TailwindConfigGenerator",
+      "degree": 58
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_search",
+      "label": "search()",
+      "degree": 43
+    },
+    {
+      "id": "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator",
+      "label": "TestTailwindConfigGenerator",
+      "degree": 35
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator",
+      "label": "DesignSystemGenerator",
+      "degree": 35
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_search_stack",
+      "label": "search_stack()",
+      "degree": 35
+    },
+    {
+      "id": "continue_skills_ui_styling_scripts_shadcn_add_shadcninstaller",
+      "label": "ShadcnInstaller",
+      "degree": 34
+    }
+  ],
+  "surprises": [
+    {
+      "source": "POST",
+      "target": "getAsaasConfigForTenant()",
+      "source_files": [
+        "billing/pix/route.ts",
+        "src/lib/asaasClient.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `POST` unexpectedly reaches hub `getAsaasConfigForTenant()`"
+    },
+    {
+      "source": "POST",
+      "target": "getAsaasConfigForTenant()",
+      "source_files": [
+        "payments/pix/route.ts",
+        "src/lib/asaasClient.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `POST` unexpectedly reaches hub `getAsaasConfigForTenant()`"
+    },
+    {
+      "source": "TestReasoningContract",
+      "target": "DesignSystemGenerator",
+      "source_files": [
+        ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+        ".continue/skills/ui-ux-pro-max/scripts/design_system.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities"
+    },
+    {
+      "source": "TestTailwindConfigGenerator",
+      "target": "TailwindConfigGenerator",
+      "source_files": [
+        ".continue/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
+        ".continue/skills/ui-styling/scripts/tailwind_config_gen.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities"
+    },
+    {
+      "source": "TestEndToEndCoherence",
+      "target": "DesignSystemGenerator",
+      "source_files": [
+        ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+        ".continue/skills/ui-ux-pro-max/scripts/design_system.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `search()` connect `search` to `validate_data.py`, `_normalize`, `design_system.py`, `detect_domain`, `Public Identity Resolution`, `Style Taxonomy Tests`, `scripts/core.py`, `DesignSystemGenerator`, `logo/core.py`, `test_text_layout_resilience.py`?",
+      "why": "High betweenness centrality (0.037) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `@supabase/supabase-js` connect `@supabase/supabase-js` to `supabaseAdmin.ts`, `Full Audit Script`, `Policy Detail Diagnostic`, `Project Identification Script`, `Insert Test 3`, `Insert Test 4`, `package.json`, `app/layout.tsx`, `Isolation Test Final`, `Isolation Test V2`, `Client Onboarding Script`, `Behavior Inspection Script`, `API Test Script`, `Isolation Test V3`, `Isolation Test V4`, `Isolation Test V5`, `Isolation Test V6`, `Tenant Cleanup Script`, `Database RLS Test`, `Isolation Post-Fix Test`, `Superadmin Check Script`, `Create Tables Script`, `Create Users Script`, `Roles Diagnostic Script`, `RBAC Insert Script`?",
+      "why": "High betweenness centrality (0.033) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `Main search function with auto-domain detection` connect `logo/core.py` to `slide_search_core.py`, `search`, `cip/core.py`?",
+      "why": "High betweenness centrality (0.019) - this node is a cross-community bridge."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 2 inferred relationships involving `TailwindConfigGenerator` (e.g. with `TestGeneratedConfigIsValidJs` and `TestTailwindConfigGenerator`) actually correct?",
+      "why": "`TailwindConfigGenerator` has 2 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `ParsedRow`, `Props`, `EligibilityResult` to the rest of the system?",
+      "why": "442 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `validate_data.py` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.0726775956284153 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `sanitizeString` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.06516290726817042 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

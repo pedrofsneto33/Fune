@@ -7,3 +7,20 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+# AGENTS.md
+
+## Graphify
+Este projeto tem Graphify instalado. Consulte SEMPRE o grafo real em
+`graphify-out/graph.json` antes de gerar análises ad-hoc.
+
+- Grafo atual: 2131 nós, 3609 arestas, 295 comunidades (commit 49f53a51)
+- Atualizar após mudanças: `graphify update .`
+- Regenerar relatório: `graphify cluster-only .`
+- Renomear comunidades: `graphify label . --backend openai --batch-size 50`
+- Relatório: `graphify-out/GRAPH_REPORT.md`
+- Visualização: `graphify-out/graph.html`
+
+## Idioma
+- Sempre responder em português do Brasil (pt-BR).
+
