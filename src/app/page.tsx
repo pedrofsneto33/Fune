@@ -17,12 +17,11 @@ import { ModalCarnets } from "@/components/modals/ModalCarnets";
 import { ModalCobrancaAvulsa } from "@/components/modals/ModalCobrancaAvulsa";
 import { isHolderActive, isContractActive } from "@/lib/eligibility";
 import ThemeToggle from "@/components/ThemeToggle";
-import SellersTab from "@/components/tabs/SellersTab";
 import FiscalTab from "@/components/tabs/FiscalTab";
 import CrmTab from "@/components/tabs/CrmTab";
-import PlansTab from "@/components/tabs/PlansTab";
 import { validateField } from "@/lib/formValidation";
 import { useBilling } from "@/hooks/useBilling";
+import { useRouter } from "next/navigation";
 
 // Interfaces
 interface Dependent {
@@ -163,7 +162,8 @@ export default function MasterEternityOS() {
   const [pendingApproval, setPendingApproval] = useState<boolean>(false);
   const [tenantName, setTenantName] = useState<string>("Funerária Matriz");
 
-  // 3. Navegao
+  // 3. Navegação
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<
     | "executive"
     | "holders"
@@ -174,8 +174,6 @@ export default function MasterEternityOS() {
     | "inventory"
     | "convalescence"
     | "benefits"
-    | "sellers"
-    | "plans"
     | "fiscal"
     | "financial"
     | "crm"
@@ -1799,14 +1797,6 @@ export default function MasterEternityOS() {
                       </span>
                     </button>
                   )}
-                  {isTabAllowed(userRole, "plans") && (
-                    <button
-                      onClick={() => setActiveTab("plans")}
-                      className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "plans" ? "bg-emerald-600/15 text-emerald-400 border border-emerald-500/30" : "text-white dark:text-white dark:text-white dark:text-white dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800"}`}
-                    >
-                      <span>📋</span> Planos Funerários
-                    </button>
-                  )}
                   {isTabAllowed(userRole, "financial") && (
                     <button
                       onClick={() => setActiveTab("financial")}
@@ -1942,19 +1932,6 @@ export default function MasterEternityOS() {
                   )}
 
                   {/* VENDEDORES */}
-                  {isTabAllowed(userRole, "sellers") && (
-                    <button
-                      onClick={() => setActiveTab("sellers")}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition ${activeTab === "sellers" ? "bg-cyan-600/15 text-cyan-400 border border-cyan-500/30" : "text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800"}`}
-                    >
-                      <div className="flex items-center gap-2">
-                        <span>🧑‍💼</span> Vendedores & Comissões
-                      </div>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold">
-                        {(sellersList || []).filter((s: any) => s.active).length}
-                      </span>
-                    </button>
-                  )}
 
                   {/* FISCAL (NFS-e) */}
                   {isTabAllowed(userRole, "financial") && (
@@ -2057,8 +2034,6 @@ export default function MasterEternityOS() {
               {activeTab === "inventory" && "Estoque de Urnas & Insumos"}
               {activeTab === "convalescence" && "Aparelhos Convalescentes"}
               {activeTab === "benefits" && "Clube de Convênios & Descontos"}
-              {activeTab === "sellers" && "Vendedores & Comissões"}
-              {activeTab === "plans" && "Catálogo de Planos Funerários"}
               {activeTab === "fiscal" && "Notas Fiscais (NFS-e)"}
               {activeTab === "financial" && "Gestão Financeira & Livro Caixa"}
             </h2>
@@ -3165,9 +3140,6 @@ export default function MasterEternityOS() {
           )}
 
           {/* VENDEDORES & COMISSÕES */}
-          {activeTab === "sellers" && isTabAllowed(userRole, "sellers") && (
-            <SellersTab />
-          )}
 
           {/* FISCAL (NFS-e) */}
           {activeTab === "fiscal" && isTabAllowed(userRole, "financial") && (
@@ -3178,7 +3150,6 @@ export default function MasterEternityOS() {
           {activeTab === "crm" && userRole === "superadmin" && <CrmTab />}
 
           {/* PLANOS FUNERÁRIOS */}
-          {activeTab === "plans" && isTabAllowed(userRole, "plans") && <PlansTab />}
 
           {/* FINANCEIRO & LIVRO CAIXA COMPLETO */}
           {activeTab === "financial" && isTabAllowed(userRole, "financial") && (
@@ -3237,7 +3208,7 @@ export default function MasterEternityOS() {
                 <h3 className="text-xs font-bold text-cyan-400 uppercase mb-3 flex items-center justify-between">
                   <span>💰 Comissões por Vendedor</span>
                   <span className="text-[10px] text-slate-500 normal-case font-normal">
-                    Gerencie vendedores na aba <button onClick={() => setActiveTab("sellers")} className="underline text-cyan-400 hover:text-cyan-300">Vendedores & Comissões</button>
+                    Gerencie vendedores na aba <button onClick={() => router.push("/vendedores")} className="underline text-cyan-400 hover:text-cyan-300">Vendedores & Comissões</button>
                   </span>
                 </h3>
                 {commissions.length === 0 ? (
@@ -3746,7 +3717,7 @@ export default function MasterEternityOS() {
                   </select>
                   <button
                     type="button"
-                    onClick={() => { setActiveTab("sellers"); setIsNewHolderOpen(false); }}
+                    onClick={() => { router.push("/vendedores"); setIsNewHolderOpen(false); }}
                     className="px-2 py-1 bg-cyan-700 hover:bg-cyan-600 text-white rounded text-xs"
                     title="Ir para cadastro de vendedores"
                   >
