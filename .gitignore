@@ -40,6 +40,10 @@ yarn-error.log*
 .vercel
 
 # typescript
+# artefatos locais de auditoria (podem conter segredos de teste — nunca commitar)
+teste-webhook.py
+dev-server.err
+*.err
 *.tsbuildinfo
 next-env.d.ts
 
