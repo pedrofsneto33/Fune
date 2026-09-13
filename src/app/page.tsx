@@ -576,7 +576,7 @@ export default function MasterEternityOS() {
         }
       }
     } catch (e) {
-      console.warn("Erro ao carregar dados do ERP:", e);
+      console.error("Erro ao carregar dados do ERP:", e);
     } finally {
       setLoading(false);
     }
