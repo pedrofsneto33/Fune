@@ -2062,5 +2062,17 @@
     "seen": 1789330013.9208179,
     "ast_hash": "66de90033997d38fb9f06832b55160ff",
     "semantic_hash": ""
+  },
+  "tests/app/page.test.tsx": {
+    "mtime": 1789332163.7170107,
+    "seen": 1789332309.3975914,
+    "ast_hash": "cd7b36cf595d9b7cf0e8e1e9a1983da1",
+    "semantic_hash": ""
+  },
+  "docs/JORNADA-GRAPHIFY-E-REFATORACAO.md": {
+    "mtime": 1789330297.1546211,
+    "seen": 1789332309.3977215,
+    "ast_hash": "a013ffb781298e52d55ff845e20cc4e3",
+    "semantic_hash": ""
   }
 }
