@@ -13,6 +13,20 @@ import { getPlanByCode, checkHolderLimit } from "@/lib/planLimits";
 export const GET = withAuth(
   async (req: NextRequest, { auth }) => {
     try {
+      // Paginação (F-28): default 1000 (cobre todos os planos até o plano
+      // Enterprise, que é o único sem limite); opcional via ?limit=&page=.
+      const url = new URL(req.url);
+      const limitParam = Number(url.searchParams.get("limit"));
+      const pageParam = Number(url.searchParams.get("page"));
+      const limit =
+        Number.isFinite(limitParam) && limitParam > 0
+          ? Math.min(Math.floor(limitParam), 5000)
+          : 1000;
+      const page =
+        Number.isFinite(pageParam) && pageParam > 0 ? Math.floor(pageParam) : 0;
+      const from = page * limit;
+      const to = from + limit - 1;
+
       // SECURITY: restricao de campos por role (defesa em profundidade).
       // Superadmin/admin/financial recebem dados completos (incl. CPF,
       // endereco, email e dados financeiros); manager/attendant recebem apenas
@@ -25,19 +39,27 @@ export const GET = withAuth(
       // roles nao-privilegiadas nao buscam do banco campos sensiveis (CPF,
       // endereco, email, dados financeiros). Branches com literais mantem a
       // inferencia de tipos do client Supabase funcionando.
+      const countQuery = supabaseAdmin
+        .from("holders")
+        .select("*", { count: "exact", head: true })
+        .eq("tenant_id", auth.tenantId);
+
       const holdersQuery = isPrivilegedRole
         ? supabaseAdmin
             .from("holders")
             .select("*")
             .eq("tenant_id", auth.tenantId)
             .order("created_at", { ascending: false })
+            .range(from, to)
         : supabaseAdmin
             .from("holders")
             .select("id, full_name, phone, status, created_at")
             .eq("tenant_id", auth.tenantId)
-            .order("created_at", { ascending: false });
+            .order("created_at", { ascending: false })
+            .range(from, to);
 
-      const { data: holdersList, error } = await holdersQuery;
+      const [{ data: holdersList, error }, { count: totalCount }] =
+        await Promise.all([holdersQuery, countQuery]);
 
       if (error) {
         return NextResponse.json(
@@ -47,7 +69,9 @@ export const GET = withAuth(
       }
 
       if (!holdersList || holdersList.length === 0) {
-        return NextResponse.json([]);
+        return NextResponse.json([], {
+          headers: { "X-Total-Count": String(totalCount ?? 0) },
+        });
       }
 
       // F-15: busca em lote (2 queries no total) em vez de 2 queries por
@@ -102,7 +126,9 @@ export const GET = withAuth(
         return { ...rest, dependents, contracts };
       });
 
-      return NextResponse.json(result);
+      return NextResponse.json(result, {
+        headers: { "X-Total-Count": String(totalCount ?? 0) },
+      });
     } catch (err: unknown) {
       return NextResponse.json(
         { error: "Erro interno ao processar requisição" },

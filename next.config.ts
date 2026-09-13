@@ -48,8 +48,9 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        // Cache static assets
-        source: '/static/(.*)',
+        // Cache static assets — correção F-27: Next serve de /_next/static/,
+        // a antiga rota /static/ não casava com nada (código morto).
+        source: '/_next/static/(.*)',
         headers: [
           {
             key: 'Cache-Control',

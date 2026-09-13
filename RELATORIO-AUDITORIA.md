@@ -133,10 +133,11 @@ CREATE INDEX IF NOT EXISTS idx_webhook_events_unprocessed
 | F-22 | Segredos em texto plano no banco; rate-limiter em memória | `tenants`, `src/lib/rate-limiter.ts` | 🟡 PARCIAL (KV + healthz feitos; criptografia de segredos no banco segue para backlog) |
 | F-23 | `asaas-batch` sem timeout nas chamadas fetch | `src/app/api/billing/asaas-batch/route.ts` | ✅ CORRIGIDO |
 | F-24 | A11y: labels sem `htmlFor`; botões sem loading; `console.log` no modal | login, modais | 🟡 PARCIAL (modal + login padronizados; demais botões → backlog) |
-| F-25 | Rota `/api/convalescence` nunca chamada pela UI | `src/app/page.tsx` | ⏳ PENDENTE (aba usa estado local; dados somem ao recarregar) |
-| F-26 | `img-src` permite qualquer host https | `src/middleware.ts` | ⏳ PENDENTE |
-| F-27 | Cache rule `/static/` não casa com `/_next/static/` | `src/next.config.ts:50-59` | ⏳ PENDENTE |
-| F-28 | GET holders sem LIMIT (enterprise=ilimitado) | `src/app/api/holders/route.ts` | ⏳ PENDENTE |
+| F-25 | `/api/convalescence` nunca chamada pela UI (dados somiam no reload) | `src/app/page.tsx`, `src/app/api/convalescence/route.ts` | ✅ **CORRIGIDO** (GET no loadData + LOAN/RETURN/ITEM via API + devolução prevista obrigatória) |
+| F-26 | `img-src` permite qualquer host https | `src/middleware.ts` | ✅ CORRIGIDO (`https://*.supabase.co` + data/blob) |
+| F-27 | Cache rule `/static/` não casa com `/_next/static/` | `src/next.config.ts` | ✅ CORRIGIDO |
+| F-28 | GET holders sem LIMIT (enterprise=ilimitado) | `src/app/api/holders/route.ts` | ✅ CORRIGIDO (paginação `?limit=&page=`, default 1000, header `X-Total-Count`) |
+| F-29 | **Chave Asaas `$aact_...` hardcoded no bundle** | `src/app/page.tsx` | ✅ **CORRIGIDO** (zerada). ⚠️ **ROTACIONAR a chave Asaas** (esteve no bundle público e no histórico git) |
 
 ---
 

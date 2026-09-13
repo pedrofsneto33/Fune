@@ -85,9 +85,11 @@ interface Vehicle {
 
 interface ConvalescenceItem {
   id: string;
+  item_id?: string;
   item_name: string;
   holder_name: string;
   loan_date: string;
+  expected_return_date?: string;
   status: "Ativo" | "Devolvido";
 }
 
@@ -207,6 +209,13 @@ export default function MasterEternityOS() {
   // F-03: sem mocks — empréstimos reais ou vazio. (A rota /api/convalescence
   // existe; integração da aba com a API fica no backlog P2.)
   const [convalescence, setConvalescence] = useState<ConvalescenceItem[]>([]);
+  // F-25: catálogo de equipamentos vindo da API (para resolver item_id no
+  // empréstimo) + flag de submissão (evita duplo clique).
+  const [convalescenceItems, setConvalescenceItems] = useState<
+    { id: string; name: string; status: string }[]
+  >([]);
+  const [convalescenceSubmitting, setConvalescenceSubmitting] =
+    useState(false);
 
   const [chapels, setChapels] = useState<ChapelBooking[]>([]);
 
@@ -373,6 +382,7 @@ export default function MasterEternityOS() {
     item_name: "Cadeira de Rodas Dobrável",
     holder_name: "",
     loan_date: "",
+    expected_return_date: "",
   });
   const [partnerForm, setPartnerForm] = useState({
     partner_name: "",
@@ -393,9 +403,11 @@ export default function MasterEternityOS() {
     category: "Mensalidade Plano",
   });
 
-  const [asaasApiKey, setAsaasApiKey] = useState(
-    "$aact_YTU5YTE0M2M6N2I5ZDY0OTg4N2I5ZDY0OTg4N2I5ZDY0OTg4",
-  );
+  // SECURITY (F-29): chave Asaas NUNCA vai no frontend. A config real vive em
+  // public.tenants.asaas_api_key e é lida no servidor (getAsaasConfigForTenant).
+  // Havia uma chave "$aact_..." hardcoded que vazava no bundle — zerada; a
+  // chave associada deve ser ROTACIONADA no painel Asaas.
+  const [asaasApiKey, setAsaasApiKey] = useState("");
   const [asaasEnv, setAsaasEnv] = useState<"sandbox" | "production">(
     "production",
   );
@@ -527,6 +539,41 @@ export default function MasterEternityOS() {
       if (kpisRes.ok) {
         const kpisData = await kpisRes.json();
         setKpis(kpisData);
+      }
+
+      // 11. Convalescença (F-25): catálogo + empréstimos reais da API.
+      // Antes a aba vivia só em estado local (dados somiam no reload).
+      const convRes = await authFetch("/api/convalescence");
+      if (convRes.ok) {
+        const convData = await convRes.json();
+        if (convData) {
+          if (Array.isArray(convData.items)) {
+            setConvalescenceItems(
+              convData.items
+                .filter((i: any) => i && i.id && i.name)
+                .map((i: any) => ({
+                  id: i.id,
+                  name: i.name,
+                  status: i.status,
+                })),
+            );
+          }
+          if (Array.isArray(convData.loans)) {
+            setConvalescence(
+              convData.loans
+                .filter((l: any) => l && l.id)
+                .map((l: any) => ({
+                  id: l.id,
+                  item_id: l.item_id,
+                  item_name: l.convalescence_items?.name || "Item",
+                  holder_name: l.holder_name || "",
+                  loan_date: (l.created_at || "").slice(0, 10),
+                  expected_return_date: l.expected_return_date || "",
+                  status: l.status === "Devolvido" ? "Devolvido" : "Ativo",
+                })),
+            );
+          }
+        }
       }
     } catch (e) {
       console.warn("Erro ao carregar dados do ERP:", e);
@@ -1173,32 +1220,105 @@ export default function MasterEternityOS() {
     }
   };
 
-  // Salvar Empréstimo Convalescença
-  const handleSaveConvalescence = (e: React.FormEvent) => {
+  // Salvar Empréstimo Convalescença (F-25 — persistência real via API)
+  const handleSaveConvalescence = async (e: React.FormEvent) => {
     e.preventDefault();
     // Validação customizada PT-BR
-    const holderErr = validateField(convalescenceForm.holder_name, { required: true, minLength: 3 }, "Associado / Titular");
+    const holderErr = validateField(
+      convalescenceForm.holder_name,
+      { required: true, minLength: 3 },
+      "Associado / Titular",
+    );
     if (holderErr) {
       notifyError(holderErr);
       return;
     }
-    setConvalescence((prev) => [
-      ...prev,
-      {
-        id: String(Date.now()),
-        item_name: convalescenceForm.item_name,
-        holder_name: convalescenceForm.holder_name,
-        loan_date:
-          convalescenceForm.loan_date || new Date().toLocaleDateString("pt-BR"),
-        status: "Ativo",
-      },
-    ]);
-    setIsNewConvalescenceOpen(false);
-    setConvalescenceForm({
-      item_name: "Cadeira de Rodas Dobrável",
-      holder_name: "",
-      loan_date: "",
-    });
+    if (!convalescenceForm.expected_return_date) {
+      notifyError("Informe a data prevista de devolução.");
+      return;
+    }
+    setConvalescenceSubmitting(true);
+    try {
+      // Resolve o equipamento no catálogo (por nome); se não existir, cria.
+      let item = convalescenceItems.find(
+        (i) => i.name.toLowerCase() === convalescenceForm.item_name.toLowerCase(),
+      );
+      if (!item) {
+        const cRes = await authFetch("/api/convalescence", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "ITEM",
+            item_name: convalescenceForm.item_name,
+          }),
+        });
+        const cData = await cRes.json().catch(() => ({}));
+        if (!cRes.ok || !cData?.item?.id) {
+          throw new Error(cData.error || "Falha ao cadastrar o equipamento.");
+        }
+        item = { id: cData.item.id, name: cData.item.name, status: cData.item.status };
+        setConvalescenceItems((prev) => [...prev, item as { id: string; name: string; status: string }]);
+      }
+
+      const res = await authFetch("/api/convalescence", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "LOAN",
+          item_id: item.id,
+          holder_name: convalescenceForm.holder_name,
+          expected_return_date: convalescenceForm.expected_return_date,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data?.success) {
+        throw new Error(data.error || "Erro ao registrar o empréstimo.");
+      }
+      notifySuccess("Empréstimo convalescente registrado!");
+      setIsNewConvalescenceOpen(false);
+      setConvalescenceForm({
+        item_name: "Cadeira de Rodas Dobrável",
+        holder_name: "",
+        loan_date: "",
+        expected_return_date: "",
+      });
+      loadData();
+    } catch (err) {
+      notifyError("Erro: " + (err as Error).message);
+    } finally {
+      setConvalescenceSubmitting(false);
+    }
+  };
+
+  // Dar baixa no empréstimo (F-25 — persiste DEVOLUÇÃO via API)
+  const handleReturnConvalescence = async (c: ConvalescenceItem) => {
+    if (!c.item_id) {
+      notifyError("Empréstimo sem item associado — atualize a página.");
+      return;
+    }
+    setConvalescenceSubmitting(true);
+    try {
+      const res = await authFetch("/api/convalescence", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "RETURN",
+          loan_id: c.id,
+          item_id: c.item_id,
+          return_condition: "Bom",
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data?.success) {
+        throw new Error(data.error || "Erro ao dar baixa no empréstimo.");
+      }
+      notifySuccess("Empréstimo devolvido!");
+      loadData();
+    } catch (err) {
+      notifyError("Erro: " + (err as Error).message);
+    } finally {
+      setConvalescenceSubmitting(false);
+    }
   };
 
   // Abrir/Editar Parceiro de Convênio
@@ -2960,26 +3080,19 @@ export default function MasterEternityOS() {
                             </span>
                           </td>
                           <td className="py-3 px-4 text-right">
-                            <button
-                              onClick={() =>
-                                setConvalescence((prev) =>
-                                  prev.map((item) =>
-                                    item.id === c.id
-                                      ? {
-                                          ...item,
-                                          status:
-                                            item.status === "Ativo"
-                                              ? "Devolvido"
-                                              : "Ativo",
-                                        }
-                                      : item,
-                                  ),
-                                )
-                              }
-                              className="px-2.5 py-1 bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-white rounded text-[11px]"
-                            >
-                              {c.status === "Ativo" ? "Dar Baixa" : "Reativar"}
-                            </button>
+                            {c.status === "Ativo" ? (
+                              <button
+                                onClick={() => handleReturnConvalescence(c)}
+                                disabled={convalescenceSubmitting}
+                                className="px-2.5 py-1 bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-white rounded text-[11px] disabled:opacity-50"
+                              >
+                                {convalescenceSubmitting ? "..." : "Dar Baixa"}
+                              </button>
+                            ) : (
+                              <span className="text-[11px] text-slate-500">
+                                Devolvido
+                              </span>
+                            )}
                           </td>
                         </tr>
                       ))}
@@ -4476,19 +4589,26 @@ export default function MasterEternityOS() {
                   }
                   className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
                 >
-                  <option value="Cadeira de Rodas Dobrável">
-                    Cadeira de Rodas Dobrável
-                  </option>
-                  <option value="Cadeira de Banho">Cadeira de Banho</option>
-                  <option value="Par de Muletas Canadenses">
-                    Par de Muletas Canadenses
-                  </option>
-                  <option value="Andador de Alumínio">
-                    Andador de Alumínio
-                  </option>
-                  <option value="Cama Hospitalar Articulada">
-                    Cama Hospitalar Articulada
-                  </option>
+                  {/* Catálogo real vindo da API; fallback para os itens padrão
+                      enquanto o catálogo estiver vazio (F-25). */}
+                  {(convalescenceItems.length > 0
+                    ? Array.from(
+                        new Map(
+                          convalescenceItems.map((i) => [i.name, i]),
+                        ).values(),
+                      )
+                    : [
+                        { id: "", name: "Cadeira de Rodas Dobrável", status: "" },
+                        { id: "", name: "Cadeira de Banho", status: "" },
+                        { id: "", name: "Par de Muletas Canadenses", status: "" },
+                        { id: "", name: "Andador de Alumínio", status: "" },
+                        { id: "", name: "Cama Hospitalar Articulada", status: "" },
+                      ]
+                  ).map((opt) => (
+                    <option key={opt.name} value={opt.name}>
+                      {opt.name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div>
@@ -4524,6 +4644,23 @@ export default function MasterEternityOS() {
                   className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
                 />
               </div>
+              <div>
+                <label className="block text-slate-600 dark:text-slate-500 dark:text-slate-400 font-semibold mb-1">
+                  Devolução prevista (obrigatório):
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={convalescenceForm.expected_return_date}
+                  onChange={(e) =>
+                    setConvalescenceForm({
+                      ...convalescenceForm,
+                      expected_return_date: e.target.value,
+                    })
+                  }
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-slate-900 dark:text-white"
+                />
+              </div>
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-200 dark:border-slate-800 mt-4">
                 <button
                   type="button"
@@ -4534,9 +4671,12 @@ export default function MasterEternityOS() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-emerald-600 font-bold rounded text-white dark:text-white"
+                  disabled={convalescenceSubmitting}
+                  className="px-4 py-1.5 bg-emerald-600 font-bold rounded text-white dark:text-white disabled:opacity-50"
                 >
-                  Confirmar Empréstimo
+                  {convalescenceSubmitting
+                    ? "Registrando..."
+                    : "Confirmar Empréstimo"}
                 </button>
               </div>
             </form>

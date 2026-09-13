@@ -34,6 +34,48 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     const body = await req.json();
     const { action } = body;
     const tenant_id = auth.tenantId;
+// F-25: criação de item no catálogo (find-or-create por nome + código).
+    if (action === 'ITEM') {
+      const item_name = sanitizeString(body.item_name, 150);
+      if (!item_name) {
+        return NextResponse.json({ error: 'Nome do equipamento é obrigatório.' }, { status: 400 });
+      }
+
+      // Evita duplicata por nome (case-insensitive) dentro do tenant
+      const { data: existing } = await supabaseAdmin
+        .from('convalescence_items')
+        .select('id')
+        .eq('tenant_id', tenant_id)
+        .ilike('name', item_name)
+        .maybeSingle();
+
+      if (existing) {
+        const { data: item } = await supabaseAdmin
+          .from('convalescence_items')
+          .select('*')
+          .eq('id', existing.id)
+          .maybeSingle();
+        return NextResponse.json({ success: true, item });
+      }
+
+      const code = 'EQ-' + Date.now().toString().slice(-6) + '-' + Math.random().toString(36).slice(2, 5).toUpperCase();
+      const { data: item, error: itemErr } = await supabaseAdmin
+        .from('convalescence_items')
+        .insert([
+          {
+            tenant_id,
+            code,
+            name: item_name,
+            status: 'Disponível',
+            condition: 'Bom',
+          },
+        ])
+        .select()
+        .single();
+
+      if (itemErr) throw itemErr;
+      return NextResponse.json({ success: true, item });
+    }
 
     if (action === 'LOAN') {
       const {
