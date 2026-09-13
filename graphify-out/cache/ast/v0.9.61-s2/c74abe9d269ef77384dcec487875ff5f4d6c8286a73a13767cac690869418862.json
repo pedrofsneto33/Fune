@@ -1,1 +1,0 @@
-{"nodes": [{"id": "$graphify-root$_scripts_harden_storage_sql", "label": "harden-storage.sql", "file_type": "code", "source_file": "scripts/harden-storage.sql", "source_location": null}, {"id": "storage_objects", "label": "storage.objects", "file_type": "code", "source_file": "", "source_location": "", "origin_file": "$graphify-root$/scripts/harden-storage.sql"}], "edges": []}
