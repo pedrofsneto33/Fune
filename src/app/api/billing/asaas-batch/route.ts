@@ -23,12 +23,23 @@ interface BatchResult {
 const holderIsInactive = (h: { status?: string | null } | undefined | null) =>
   !h || !isHolderActive(h.status);
 
+// F-23: timeout por chamada externa — sem isso um Asaas lento trava a request
+// inteira e a Vercel corta no meio do lote (parcial sem relato).
+const ASAAS_TIMEOUT_MS = 15000;
+const withTimeout = (ms: number, promise: Promise<Response>) =>
+  Promise.race([
+    promise,
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('Timeout ao chamar o Asaas')), ms),
+    ),
+  ]);
+
 const contractIsActive = (s: string | null | undefined) => isContractActive(s);
 
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     // SECURITY: rate limit por usuário - operação em lote de cobranças reais
-    const rl = checkRateLimit(`asabatch:${auth.userId}`, { maxAttempts: 3, windowMs: 60000 });
+    const rl = await checkRateLimit(`asabatch:${auth.userId}`, { maxAttempts: 3, windowMs: 60000 });
     if (!rl.allowed) {
       return NextResponse.json(
         { error: 'Muitos lotes em sequência. Aguarde um minuto.' },
@@ -114,13 +125,13 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
       try {
         // 1. Localiza ou cadastra o cliente no Asaas (por CPF)
-        const searchRes = await fetch(`${baseUrl}/customers?cpfCnpj=${cleanCpf}`, {
+        const searchRes = await withTimeout(ASAAS_TIMEOUT_MS, fetch(`${baseUrl}/customers?cpfCnpj=${cleanCpf}`, {
           headers: { access_token: apiKey },
-        });
+        }));
         const searchData = await searchRes.json();
         let customerId = searchData?.data?.[0]?.id;
         if (!customerId) {
-          const createRes = await fetch(`${baseUrl}/customers`, {
+          const createRes = await withTimeout(ASAAS_TIMEOUT_MS, fetch(`${baseUrl}/customers`, {
             method: 'POST',
             headers,
             body: JSON.stringify({
@@ -128,7 +139,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
               cpfCnpj: cleanCpf,
               mobilePhone: holder?.phone ? holder.phone.replace(/\D/g, '') : undefined,
             }),
-          });
+          }));
           const createData = await createRes.json();
           if (createData.errors) {
             results.push({ contract_id: c.id, holder: name, status: 'error', error: 'Falha ao cadastrar cliente no Asaas' });
@@ -138,7 +149,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         }
 
         // 2. Cria a cobrança no Asaas
-        const paymentRes = await fetch(`${baseUrl}/payments`, {
+        const paymentRes = await withTimeout(ASAAS_TIMEOUT_MS, fetch(`${baseUrl}/payments`, {
           method: 'POST',
           headers,
           body: JSON.stringify({
@@ -149,7 +160,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
             description: `Mensalidade ${plan?.name || 'Plano'} - ${name}`,
             externalReference: c.id,
           }),
-        });
+        }));
         const paymentData = await paymentRes.json();
         if (paymentData.errors) {
           results.push({
@@ -161,19 +172,29 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
           continue;
         }
 
-        // 3. Registra localmente (webhook Asaas concilia o pagamento)
-        await supabaseAdmin.from('payments').upsert(
-          {
-            tenant_id: auth.tenantId,
-            contract_id: c.id,
-            asaas_payment_id: paymentData.id,
-            amount,
-            due_date: dueDate,
-            status: 'pending',
-            payment_method: billingType === 'PIX' ? 'pix' : billingType === 'BOLETO' ? 'boleto' : null,
-          },
-          { onConflict: 'asaas_payment_id' },
-        );
+        // 3. Registra localmente com retry (F-23: sem upsert confirmado a
+        // cobrança fica órfã no Asaas e o webhook nunca concilia).
+        let localError: string | null = null;
+        for (let attempt = 0; attempt < 3; attempt++) {
+          const { error: upsertError } = await supabaseAdmin.from('payments').upsert(
+            {
+              tenant_id: auth.tenantId,
+              contract_id: c.id,
+              asaas_payment_id: paymentData.id,
+              amount,
+              due_date: dueDate,
+              status: 'pending',
+              payment_method: billingType === 'PIX' ? 'pix' : billingType === 'BOLETO' ? 'boleto' : null,
+            },
+            { onConflict: 'asaas_payment_id' },
+          );
+          if (!upsertError) { localError = null; break; }
+          localError = upsertError.message;
+        }
+        if (localError) {
+          results.push({ contract_id: c.id, holder: name, status: 'error', error: `Cobrança criada no Asaas (${paymentData.id}) mas falha ao registrar localmente: ${localError}` });
+          continue;
+        }
 
         results.push({
           contract_id: c.id,

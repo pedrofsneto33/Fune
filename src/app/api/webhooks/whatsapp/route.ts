@@ -17,8 +17,7 @@ export async function POST(req: NextRequest) {
   const clientIP =
     req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
     req.headers.get('x-real-ip') ||
-    'unknown';
-  const rl = checkRateLimit(`webhook:whatsapp:${clientIP}`, { maxAttempts: 60, windowMs: 60000 });
+    'unknown';const rl = await checkRateLimit(`webhook:whatsapp:${clientIP}`, { maxAttempts: 60, windowMs: 60000 });
   if (!rl.allowed) {
     return NextResponse.json(
       { error: 'Muitas requisições. Tente novamente em instantes.' },

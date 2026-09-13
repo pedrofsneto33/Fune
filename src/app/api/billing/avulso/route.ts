@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
 export const POST = withAuth(
   async (req: NextRequest, { auth }) => {
     try {
-      const rl = checkRateLimit(`avulso:${auth.userId}`, {
+      const rl = await checkRateLimit(`avulso:${auth.userId}`, {
         maxAttempts: 5,
         windowMs: 60000,
       });

@@ -24,7 +24,7 @@ export const POST = withAuth(
   async (req: NextRequest, { auth }) => {
     try {
       // SECURITY: rate limit por usuário (importação e operação pesada)
-      const rl = checkRateLimit(`import:${auth.userId}`, { maxAttempts: 5, windowMs: 60000 });
+      const rl = await checkRateLimit(`import:${auth.userId}`, { maxAttempts: 5, windowMs: 60000 });
       if (!rl.allowed) {
         return NextResponse.json(
           { error: 'Muitas importações seguidas. Aguarde um minuto.' },

@@ -49,7 +49,6 @@ export function ModalCobrancaAvulsa({
     setLoading(true);
     setResult(null);
     try {
-      console.log("[Avulso] Enviando requisição...");
       const res = await authFetch("/api/billing/avulso", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -63,9 +62,7 @@ export function ModalCobrancaAvulsa({
           billingType,
         }),
       });
-      console.log("[Avulso] Status:", res.status);
       const data = await res.json().catch(() => ({}));
-      console.log("[Avulso] Resposta:", data);
       if (!res.ok) throw new Error(data.error || "Erro ao gerar cobrança");
       setResult({
         invoiceUrl: data.invoiceUrl,
@@ -76,7 +73,6 @@ export function ModalCobrancaAvulsa({
       if (data.warning) notifyError(data.warning);
       if (onSuccess) onSuccess();
     } catch (err) {
-      console.error("[Avulso] Erro:", err);
       notifyError("Erro: " + (err as Error).message);
     } finally {
       setLoading(false);
@@ -135,35 +131,35 @@ export function ModalCobrancaAvulsa({
         ) : (
           <form onSubmit={handleSubmit} className="space-y-3 p-5 text-xs">
             <div>
-              <label className="block text-slate-400 font-semibold mb-1">Nome do responsável (quem paga) *</label>
-              <input required value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Nome completo" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-900 dark:text-white" />
+              <label htmlFor="avulso-nome" className="block text-slate-400 font-semibold mb-1">Nome do responsável (quem paga) *</label>
+              <input id="avulso-nome" required value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Nome completo" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-900 dark:text-white" />
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">CPF do responsável *</label>
-                <input required value={cpf} onChange={(e) => setCpf(e.target.value)} placeholder="000.000.000-00" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-900 dark:text-white" />
+                <label htmlFor="avulso-cpf" className="block text-slate-400 font-semibold mb-1">CPF do responsável *</label>
+                <input id="avulso-cpf" required value={cpf} onChange={(e) => setCpf(e.target.value)} placeholder="000.000.000-00" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-900 dark:text-white" />
               </div>
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Telefone</label>
-                <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(86) 99999-0000" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-900 dark:text-white" />
+                <label htmlFor="avulso-phone" className="block text-slate-400 font-semibold mb-1">Telefone</label>
+                <input id="avulso-phone" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(86) 99999-0000" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-900 dark:text-white" />
               </div>
             </div>
             <div>
-              <label className="block text-slate-400 font-semibold mb-1">Descrição do serviço</label>
-              <input value={desc} onChange={(e) => setDesc(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-900 dark:text-white" />
+              <label htmlFor="avulso-desc" className="block text-slate-400 font-semibold mb-1">Descrição do serviço</label>
+              <input id="avulso-desc" value={desc} onChange={(e) => setDesc(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-900 dark:text-white" />
             </div>
             <div className="grid grid-cols-3 gap-2">
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Valor (R$) *</label>
-                <input required type="number" step="0.01" min="0.01" value={valor} onChange={(e) => setValor(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-900 dark:text-white" />
+                <label htmlFor="avulso-valor" className="block text-slate-400 font-semibold mb-1">Valor (R$) *</label>
+                <input id="avulso-valor" required type="number" step="0.01" min="0.01" value={valor} onChange={(e) => setValor(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-900 dark:text-white" />
               </div>
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Vencimento</label>
-                <input type="date" value={vencimento} onChange={(e) => setVencimento(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-900 dark:text-white" />
+                <label htmlFor="avulso-venc" className="block text-slate-400 font-semibold mb-1">Vencimento</label>
+                <input id="avulso-venc" type="date" value={vencimento} onChange={(e) => setVencimento(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-900 dark:text-white" />
               </div>
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Forma</label>
-                <select value={billingType} onChange={(e) => setBillingType(e.target.value as any)} className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-900 dark:text-white">
+                <label htmlFor="avulso-forma" className="block text-slate-400 font-semibold mb-1">Forma</label>
+                <select id="avulso-forma" value={billingType} onChange={(e) => setBillingType(e.target.value as any)} className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-900 dark:text-white">
                   <option value="BOLETO">Boleto</option>
                   <option value="PIX">PIX</option>
                 </select>

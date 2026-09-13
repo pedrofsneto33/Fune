@@ -12,8 +12,7 @@ export const POST = async (req: NextRequest) => {
   const ip =
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     req.headers.get("x-real-ip") ||
-    "unknown";
-  const rl = checkRateLimit(`lead-landing:${ip}`, { maxAttempts: 5, windowMs: 300000 });
+    "unknown";const rl = await checkRateLimit(`lead-landing:${ip}`, { maxAttempts: 5, windowMs: 300000 });
   if (!rl.allowed) {
     return NextResponse.json(
       { error: "Muitas tentativas. Tente novamente mais tarde." },

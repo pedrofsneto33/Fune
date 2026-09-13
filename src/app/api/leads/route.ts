@@ -24,8 +24,7 @@ export const GET = withAuth(async () => {
 }, ["superadmin"]);
 
 export const POST = withAuth(
-  async (req: NextRequest, { auth }) => {
-    const rl = checkRateLimit(`leads:${auth.userId}`, { maxAttempts: 30, windowMs: 60000 });
+  async (req: NextRequest, { auth }) => {const rl = await checkRateLimit(`leads:${auth.userId}`, { maxAttempts: 30, windowMs: 60000 });
     if (!rl.allowed) {
       return NextResponse.json({ error: "Muitas requisições. Aguarde um instante." }, { status: 429 });
     }
@@ -67,8 +66,7 @@ export const POST = withAuth(
 );
 
 export const PATCH = withAuth(
-  async (req: NextRequest, { auth }) => {
-    const rl = checkRateLimit(`leads:${auth.userId}`, { maxAttempts: 60, windowMs: 60000 });
+  async (req: NextRequest, { auth }) => {const rl = await checkRateLimit(`leads:${auth.userId}`, { maxAttempts: 60, windowMs: 60000 });
     if (!rl.allowed) {
       return NextResponse.json({ error: "Muitas requisições. Aguarde um instante." }, { status: 429 });
     }

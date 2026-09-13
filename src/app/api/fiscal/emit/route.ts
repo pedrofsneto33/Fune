@@ -97,7 +97,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       .select()
       .single();
     if (insErr || !fiscalRow) {
-      return NextResponse.json({ error: 'Erro ao criar registro: ' + (insErr?.message || '') }, { status: 500 });
+      return NextResponse.json({ error: 'Erro ao criar registro da nota fiscal.' }, { status: 500 });
     }
 
     // Chama FocusNFe
@@ -161,7 +161,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         .eq('id', fiscalRow.id)
         .eq('tenant_id', auth.tenantId); // defesa em profundidade
       return NextResponse.json({
-        error: 'Erro do provedor: ' + provErr.message,
+        error: 'Erro do provedor fiscal. Tente novamente.',
         invoice_id: fiscalRow.id,
       }, { status: 502 });
     }

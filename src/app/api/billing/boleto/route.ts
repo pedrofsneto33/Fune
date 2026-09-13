@@ -23,7 +23,7 @@ const withTimeout = (ms: number, promise: Promise<Response>) =>
 // concilia o pagamento).
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
-    const rl = checkRateLimit(`boleto:${auth.userId}`, { maxAttempts: 10, windowMs: 60000 });
+    const rl = await checkRateLimit(`boleto:${auth.userId}`, { maxAttempts: 10, windowMs: 60000 });
     if (!rl.allowed) {
       return NextResponse.json(
         { error: 'Muitos boletos em sequência. Aguarde um minuto.' },

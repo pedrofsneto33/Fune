@@ -23,8 +23,7 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
 }, ['superadmin', 'admin', 'financial', 'manager']);
 
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
-  try {
-    const rl = checkRateLimit(`carnet:${auth.userId}`, { maxAttempts: 10, windowMs: 60000 });
+  try {const rl = await checkRateLimit(`carnet:${auth.userId}`, { maxAttempts: 10, windowMs: 60000 });
     if (!rl.allowed) {
       return NextResponse.json({ error: 'Muitos carnês em sequência. Aguarde um minuto.' }, { status: 429 });
     }

@@ -9,7 +9,7 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     // SECURITY: rate limit por usuário - criação de cobrança tem custo financeiro
-    const rl = checkRateLimit(`pix:${auth.userId}`, { maxAttempts: 20, windowMs: 60000 });
+    const rl = await checkRateLimit(`pix:${auth.userId}`, { maxAttempts: 20, windowMs: 60000 });
     if (!rl.allowed) {
       return NextResponse.json(
         { error: 'Muitas cobranças em sequência. Aguarde um minuto.' },

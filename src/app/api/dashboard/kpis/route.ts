@@ -43,11 +43,15 @@ export const GET = withAuth(
       );
       const overdueCount = overduePayments?.length || 0;
 
-      // Taxa de inadimplência: contratos inativos / total de contratos
-      const totalContractsCount = allContracts?.length || 0;
-      const inactiveContracts = (allContracts || []).filter((c: any) => c.status !== "active").length;
-      const defaultRate = totalContractsCount > 0
-        ? ((inactiveContracts / totalContractsCount) * 100).toFixed(1) + "%"
+      // Taxa de inadimplência (F-21): payments vencidos / payments vencíveis.
+      // Antes media contratos inativos (cancelamento != inadimplência).
+      const { count: duePaymentsCount } = await supabaseAdmin
+        .from("payments")
+        .select("*", { count: "exact", head: true })
+        .eq("tenant_id", auth.tenantId)
+        .lt("due_date", today.toISOString());
+      const defaultRate = (duePaymentsCount || 0) > 0
+        ? ((overdueCount / (duePaymentsCount as number)) * 100).toFixed(1) + "%"
         : "0%";
 
       return NextResponse.json({

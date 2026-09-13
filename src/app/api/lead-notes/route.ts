@@ -49,8 +49,7 @@ export const GET = withAuth(
 );
 
 export const POST = withAuth(
-  async (req: NextRequest, { auth }) => {
-    const rl = checkRateLimit(`leadnotes:${auth.userId}`, { maxAttempts: 60, windowMs: 60000 });
+  async (req: NextRequest, { auth }) => {const rl = await checkRateLimit(`leadnotes:${auth.userId}`, { maxAttempts: 60, windowMs: 60000 });
     if (!rl.allowed) {
       return NextResponse.json({ error: "Muitas requisições. Aguarde um instante." }, { status: 429 });
     }

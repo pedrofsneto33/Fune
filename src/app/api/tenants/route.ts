@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { logError } from '@/lib/http-error';
 
 const PUBLIC_COLUMNS = 'id, name, trade_name, cnpj, phone_emergency, primary_color, logo_url, municipal_license_number, issuance_city, technical_manager, pix_key, status, commercial_plan, asaas_environment, asaas_wallet_id, created_at';
 
@@ -31,7 +32,10 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
 
   if (auth.role === 'superadmin') {
     const { data, error } = await supabaseAdmin.from('tenants').select(columns);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) {
+      logError(error, 'tenants-list');
+      return NextResponse.json({ error: 'Falha ao listar unidades. Tente novamente.' }, { status: 500 });
+    }
     const enriched = await Promise.all(
       (data || []).map(async (t) => ({
         ...scrub(t),
@@ -47,7 +51,10 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
     .eq('id', auth.tenantId)
     .single();
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) {
+    logError(error, 'tenants-get');
+    return NextResponse.json({ error: 'Falha ao carregar unidade. Tente novamente.' }, { status: 500 });
+  }
   const enriched = { ...scrub(data), usage: await getTenantUsage(data.id) };
   return NextResponse.json({ success: true, can_manage_plan: false, tenants: [enriched] });
 });
@@ -83,7 +90,10 @@ export const POST = withAuth(async (req: NextRequest) => {
     .select(PUBLIC_COLUMNS)
     .single();
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) {
+    logError(error, 'tenants-create');
+    return NextResponse.json({ error: 'Falha ao criar unidade. Verifique os dados e tente novamente.' }, { status: 500 });
+  }
   return NextResponse.json({ success: true, ...data }, { status: 201 });
 }, ['superadmin']);
 
@@ -145,6 +155,9 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
     .update(updateData)
     .eq('id', destinationTenantId);
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) {
+    logError(error, 'tenants-update');
+    return NextResponse.json({ error: 'Falha ao salvar configurações. Tente novamente.' }, { status: 500 });
+  }
   return NextResponse.json({ success: true, message: 'Configurações do tenant atualizadas.' });
 }, ['superadmin', 'admin']);

@@ -1,34 +1,14 @@
 /**
  * ============================================================
- * ETERNITYOS - Integracao Fiscal (NFS-e)
+ * ETERNITYOS - Integracao Fiscal (NFS-e) via FocusNFe
  * ============================================================
  *
- * Stub / esqueleto da camada de integracao com provedores
- * de NFS-e (Nota Fiscal de Servico Eletronica).
+ * Estado atual: provedor ESCOLHIDO (FocusNFe). A chamada real vive em
+ * src/lib/fiscal/focusnfe.ts (focusnfeEmit) e a rota POST /api/fiscal/emit
+ * usa getFiscalConfig() + focusnfeEmit().
  *
- * Estado atual: NENHUM provedor foi escolhido ainda, entao este
- * modulo nao faz chamadas externas. A estrutura de banco
- * (tabela public.fiscal_invoices + colunas em service_orders
- * + colunas de config em tenants) ja esta pronta.
- *
- * Quando voce escolher o provedor, vai preencher:
- *   - fiscalProvider: 'nfeio' | 'enotas' | 'focusnfe' | 'tecnospeed' | ...
- *   - fiscalApiKey: chave de API do provedor
- *   - fiscalEnvironment: 'sandbox' | 'production'
- *
- * Recomendacao de provedor (apos analise):
- *   - NFE.io: simples, API REST moderna, ~R$ 0,30 por NFS-e
- *   - eNotas: mais barato (~R$ 0,15), UI propria
- *   - FocusNFe: barato, integra com 100+ prefeituras
- *   - Tecnospeed: maior do mercado (~60% share), padrao para automacao comercial
- *
- * Proximos passos quando decidir o provedor:
- *   1. Criar src/lib/fiscal/<provider>.ts com a chamada HTTP
- *   2. Implementar mapServiceOrderToPayload() abaixo
- *   3. Implementar emitNfse(), cancelNfse() e getNfse()
- *   4. Criar rotas API em src/app/api/fiscal/* para chamar daqui
- *   5. Adicionar bloco "Configuracao Fiscal" no TenantSettingsTab
- *   6. Criar aba "Fiscal" no menu lateral
+ * Quando o tenant nao tem fiscal_provider configurado, getFiscalConfig()
+ * retorna null e a rota responde 400 com orientacao.
  */
 
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
@@ -128,10 +108,8 @@ export async function getFiscalConfig(tenantId: string): Promise<FiscalConfig | 
 }
 
 /**
- * Stub de emissao de NFS-e. Substituir pelo provedor escolhido.
- *
- * @returns numero da NFS-e, codigo de verificacao e URLs de PDF/XML
- * @throws Error com mensagem amigavel se provedor nao configurado ou emissao falhar
+ * Emissao de NFS-e (legado; a rota /api/fiscal/emit usa focusnfeEmit direto).
+ * Mantida para compatibilidade; delega a regra de negócio ao provedor real.
  */
 export async function emitNfse(
   config: FiscalConfig,
@@ -155,19 +133,11 @@ export async function emitNfse(
     throw new Error('Descricao do servico e obrigatoria.');
   }
 
-  // PLACEHOLDER: integra com provedor real aqui.
-  // Exemplo de retorno esperado (a ser substituido):
-  // {
-  //   nfseNumber: '12345',
-  //   verificationCode: 'ABC123',
-  //   pdfUrl: 'https://...',
-  //   xmlUrl: 'https://...',
-  //   rawResponse: { ...resposta do provedor... }
-  // }
+  // LEGADO: a rota /api/fiscal/emit usa focusnfeEmit() diretamente.
+  // Esta função existe apenas para compatibilidade de imports.
   throw new Error(
-    `Emissao automatica de NFS-e ainda nao esta habilitada. ` +
-    `Provedor configurado: ${config.provider}. ` +
-    `Para ativar, implemente a chamada em src/lib/fiscal/${config.provider}.ts.`
+    `Use a rota POST /api/fiscal/emit (FocusNFe). ` +
+    `Provedor configurado: ${config.provider}.`
   );
 }
 

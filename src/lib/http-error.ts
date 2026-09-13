@@ -6,6 +6,9 @@ import { NextResponse } from 'next/server';
  * banco, constraints, stack traces) através da API.
  */
 export function logError(err: unknown, context?: string): void {
+  // Logger central (F-24): console.error concentrado aqui. Rotas e
+  // componentes chamam logError() em vez de console direto — facilita
+  // plugar Sentry/Datadog depois num ponto único.
   console.error(`[API_ERROR]${context ? ` ${context}` : ''}`, {
     message: err instanceof Error ? err.message : String(err),
   });

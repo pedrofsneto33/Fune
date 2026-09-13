@@ -1,69 +1,73 @@
 /**
- * Simple in-memory rate limiter
- * For production, consider using Redis or Vercel KV
+ * Rate limiter — Vercel KV (Upstash Redis) com fallback in-memory.
+ * F-22: in-memory perde contador em serverless cold start.
  */
 
-interface RateLimitEntry {
-  count: number;
-  resetAt: number;
-}
+import { Ratelimit } from '@upstash/ratelimit';
+import { kv } from '@vercel/kv';
 
-const attempts = new Map<string, RateLimitEntry>();
+// Instância única (reutilizada entre cold starts — KV mantém o estado)
+const ratelimit = new Ratelimit({
+  redis: kv,
+  limiter: Ratelimit.slidingWindow(10, '60s'),
+  analytics: true,
+});
 
 export interface RateLimitConfig {
   maxAttempts: number;
   windowMs: number;
 }
 
-const DEFAULT_CONFIG: RateLimitConfig = {
-  maxAttempts: 10,
-  windowMs: 60000, // 1 minute
-};
+export async function checkRateLimit(
+  identifier: string,
+  config: Partial<RateLimitConfig> = {}
+): Promise<{ allowed: boolean; remaining: number; resetAt: number }> {
+  // Em desenvolvimento/local, fallback in-memory
+  if (!process.env.UPSTASH_REDIS_REST_URL) {
+    return legacyCheckRateLimit(identifier, config);
+  }
 
-export function checkRateLimit(
+  const { success, reset, remaining } = await ratelimit.limit(identifier);
+
+  return {
+    allowed: success,
+    remaining: remaining ?? 0,
+    resetAt: reset ?? Date.now() + 60000,
+  };
+}
+
+export function resetRateLimit(identifier: string): void {
+  // KV: não deleta por key individual (sliding window). Em desenvolvimento:
+  if (!process.env.UPSTASH_REDIS_REST_URL) {
+    attempts.delete(identifier);
+  }
+}
+
+// --- Fallback in-memory (apenas desenvolvimento) ---
+interface RateLimitEntry {
+  count: number;
+  resetAt: number;
+}
+const attempts = new Map<string, RateLimitEntry>();
+const DEFAULT_CONFIG: RateLimitConfig = { maxAttempts: 10, windowMs: 60000 };
+
+function legacyCheckRateLimit(
   identifier: string,
   config: Partial<RateLimitConfig> = {}
 ): { allowed: boolean; remaining: number; resetAt: number } {
   const { maxAttempts, windowMs } = { ...DEFAULT_CONFIG, ...config };
   const now = Date.now();
-  
   const record = attempts.get(identifier);
-  
-  // Clean up expired entries
-  if (record && now > record.resetAt) {
-    attempts.delete(identifier);
-  }
-  
-  const currentRecord = attempts.get(identifier);
-  
-  if (!currentRecord) {
-    // First attempt
+  if (record && now > record.resetAt) attempts.delete(identifier);
+
+  const current = attempts.get(identifier);
+  if (!current) {
     attempts.set(identifier, { count: 1, resetAt: now + windowMs });
     return { allowed: true, remaining: maxAttempts - 1, resetAt: now + windowMs };
   }
-  
-  if (currentRecord.count >= maxAttempts) {
-    // Rate limit exceeded
-    return { allowed: false, remaining: 0, resetAt: currentRecord.resetAt };
+  if (current.count >= maxAttempts) {
+    return { allowed: false, remaining: 0, resetAt: current.resetAt };
   }
-  
-  // Increment count
-  currentRecord.count++;
-  return { allowed: true, remaining: maxAttempts - currentRecord.count, resetAt: currentRecord.resetAt };
-}
-
-export function resetRateLimit(identifier: string): void {
-  attempts.delete(identifier);
-}
-
-// Cleanup old entries periodically (every 5 minutes)
-if (typeof setInterval !== 'undefined') {
-  setInterval(() => {
-    const now = Date.now();
-    for (const [key, value] of attempts.entries()) {
-      if (now > value.resetAt) {
-        attempts.delete(key);
-      }
-    }
-  }, 300000);
+  current.count++;
+  return { allowed: true, remaining: maxAttempts - current.count, resetAt: current.resetAt };
 }

@@ -58,8 +58,7 @@ export const GET = withAuth(
 // POST /api/dependents
 export const POST = withAuth(
   async (req: NextRequest, { auth }) => {
-    try {
-      const rl = checkRateLimit(`dependents:${auth.userId}`, { maxAttempts: 30, windowMs: 60000 });
+    try {const rl = await checkRateLimit(`dependents:${auth.userId}`, { maxAttempts: 30, windowMs: 60000 });
       if (!rl.allowed) {
         return NextResponse.json({ error: "Muitas requisições. Aguarde um instante." }, { status: 429 });
       }

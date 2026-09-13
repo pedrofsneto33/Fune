@@ -15,8 +15,7 @@ import { generateCommission } from '@/lib/commissions';
 const RETRY_RATE_LIMIT = { maxAttempts: 10, windowMs: 60000 };
 const MAX_RETRIES = 5;
 
-export const POST = withAuth(async (req: NextRequest, { auth }) => {
-  const rl = checkRateLimit(`webhook-retry:${auth.userId}`, RETRY_RATE_LIMIT);
+export const POST = withAuth(async (req: NextRequest, { auth }) => {const rl = await checkRateLimit(`webhook-retry:${auth.userId}`, RETRY_RATE_LIMIT);
   if (!rl.allowed) {
     return NextResponse.json(
       { error: 'Muitos retries em sequência. Aguarde um minuto.' },

@@ -79,10 +79,11 @@ export default function LoginPage() {
 
         <form onSubmit={resetMode ? handleResetPassword : handleLogin} className="space-y-4">
           <div className="space-y-1">
-            <label className="text-xs text-zinc-400 font-medium">E-mail Corporativo</label>
+            <label htmlFor="email" className="text-xs text-zinc-400 font-medium">E-mail Corporativo</label>
             <div className="relative">
               <Mail className="w-4 h-4 text-zinc-500 absolute left-3 top-3" />
               <input
+                id="email"
                 required
                 type="email"
                 value={email}
@@ -95,10 +96,11 @@ export default function LoginPage() {
 
           {!resetMode && (
           <div className="space-y-1">
-            <label className="text-xs text-zinc-400 font-medium">Senha de Acesso</label>
+            <label htmlFor="password" className="text-xs text-zinc-400 font-medium">Senha de Acesso</label>
             <div className="relative">
               <Lock className="w-4 h-4 text-zinc-500 absolute left-3 top-3" />
               <input
+                id="password"
                 required
                 type="password"
                 value={password}

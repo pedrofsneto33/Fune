@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from './supabaseAdmin';
 import { checkRateLimit } from './rate-limiter';
+import { logError } from './http-error';
 
 export interface AuthContext {
   userId: string;
@@ -27,7 +28,7 @@ export function withAuth(
                        req.headers.get('x-real-ip') ||
                        'unknown';
 
-      const apiRateLimit = checkRateLimit(`api:${clientIP}`, API_RATE_LIMIT);
+      const apiRateLimit = await checkRateLimit(`api:${clientIP}`, API_RATE_LIMIT);
       if (!apiRateLimit.allowed) {
         return NextResponse.json(
           { error: 'Muitas requisições. Tente novamente em alguns segundos.' },
@@ -62,11 +63,24 @@ export function withAuth(
         );
       }
 
-      let { data: roleRecord } = await supabaseAdmin
+      const { data: roleRecord, error: roleError } = await supabaseAdmin
         .from('user_roles')
         .select('tenant_id, role')
         .eq('user_id', user.id)
         .maybeSingle();
+
+      // F-25b: usuário com 2+ vínculos (multi-tenant) quebrava o maybeSingle
+      // e caía no catch 500. Agora: loga e pede seleção de unidade.
+      if (roleError) {
+        logError(roleError, 'api-handler/multi-role');
+        return NextResponse.json(
+          {
+            error: 'Múltiplos vínculos encontrados. Selecione a unidade para continuar.',
+            code: 'MULTI_TENANT_SELECT',
+          },
+          { status: 409 }
+        );
+      }
 
       // SECURITY FIX: Never auto-create roles
       // Users must be explicitly assigned to a tenant by an admin
@@ -81,12 +95,8 @@ export function withAuth(
         );
       }
 
-      if (!roleRecord) {
-        return NextResponse.json(
-          { error: 'Acesso negado: seu usuário ainda não foi vinculado a nenhuma unidade.' },
-          { status: 403 }
-        );
-      }
+      // Bloco único de negação (fail-closed): sem role = sem acesso.
+      // Removida duplicata legada (F-20).
 
       if (allowedRoles && allowedRoles.length > 0) {
         if (!allowedRoles.includes(roleRecord.role) && roleRecord.role !== 'superadmin') {
@@ -108,14 +118,8 @@ export function withAuth(
         params: resolvedParams,
       });
     } catch (err: unknown) {
-      // SECURITY: Log error without sensitive data
-      console.error('[API_ERROR]', {
-        timestamp: new Date().toISOString(),
-        path: req.url,
-        method: req.method,
-        errorCode: (err as Error).message?.split(':')[0] || 'UNKNOWN',
-        // Never log tokens or personal data
-      });
+      // SECURITY: Log error without sensitive data (via logger central)
+      logError(err, 'api-handler');
       return NextResponse.json(
         { error: 'Erro interno no servidor. Tente novamente.' },
         { status: 500 }
