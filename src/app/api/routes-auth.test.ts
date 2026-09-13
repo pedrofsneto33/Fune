@@ -7,7 +7,8 @@ const API_DIR = path.join(process.cwd(), 'src/app/api');
 // - webhooks: validação por HMAC/secret própria (Asaas/Evolution)
 // - leads/landing: endpoint PÚBLICO de captação da landing page, protegido
 //   por rate limit por IP (5 a cada 5 min) + honeypot anti-bot + sanitização
-const ALLOWLIST = ['webhooks/asaas', 'webhooks/whatsapp', 'leads/landing'];
+// - healthz: healthcheck PÚBLICO de infra (sem dados, só {status:'ok'})
+const ALLOWLIST = ['webhooks/asaas', 'webhooks/whatsapp', 'leads/landing', 'healthz'];
 
 function listRouteFiles(dir: string): string[] {
   const found: string[] = [];
