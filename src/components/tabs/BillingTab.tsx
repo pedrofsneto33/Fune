@@ -8,6 +8,9 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { CollectorPayment, Payment, BillingResult } from '@/types/domain';
+import { ModalDRE } from '@/components/dashboard/ModalDRE';
+import { ModalCarnets } from '@/components/modals/ModalCarnets';
+import { ModalCobrancaAvulsa } from '@/components/modals/ModalCobrancaAvulsa';
 import { authFetch } from '@/lib/authFetch';
 import { notifyError, notifySuccess } from '@/lib/notify';
 
@@ -42,6 +45,11 @@ export default function BillingTab() {
   const [settleTarget, setSettleTarget] = useState<CollectorRow | null>(null);
   const [receivedAmount, setReceivedAmount] = useState('');
   const [settling, setSettling] = useState(false);
+
+  // Estados para os modais religados (6d-0a)
+  const [dreOpen, setDreOpen] = useState(false);
+  const [carnetsOpen, setCarnetsOpen] = useState(false);
+  const [avulsaOpen, setAvulsaOpen] = useState(false);
 
   const loadPayments = async (signal?: { cancelled: boolean }) => {
     setLoading(true);
@@ -175,6 +183,33 @@ export default function BillingTab() {
 
   return (
     <div className="space-y-8 p-6">
+      <section>
+        <h2 className="text-lg font-bold text-white">Ferramentas</h2>
+        <p className="text-xs text-slate-400">
+          Modais religados na 6d-0a (eram órfãos no page.tsx).
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <button
+            onClick={() => setDreOpen(true)}
+            className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold"
+          >
+            Abrir DRE
+          </button>
+          <button
+            onClick={() => setCarnetsOpen(true)}
+            className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold"
+          >
+            Carnês
+          </button>
+          <button
+            onClick={() => setAvulsaOpen(true)}
+            className="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg text-xs font-bold"
+          >
+            Nova Cobrança Avulsa
+          </button>
+        </div>
+      </section>
+
       <section>
         <h2 className="text-lg font-bold text-white">Gerar lote Asaas</h2>
         <p className="text-xs text-slate-400">
@@ -402,6 +437,11 @@ export default function BillingTab() {
           </div>
         </div>
       )}
+
+      {/* Modais religados na 6d-0a */}
+      <ModalDRE isOpen={dreOpen} onClose={() => setDreOpen(false)} />
+      <ModalCarnets isOpen={carnetsOpen} onClose={() => setCarnetsOpen(false)} />
+      <ModalCobrancaAvulsa isOpen={avulsaOpen} onClose={() => setAvulsaOpen(false)} />
     </div>
   );
 }
