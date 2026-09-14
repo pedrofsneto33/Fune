@@ -137,12 +137,23 @@ export default function NovaOrdemPage() {
   const handleSave = async () => {
     if (!validate()) return;
     if (saving) return;
+
+    // deceased_id e obrigatorio pela API para todos os tipos
+    let finalDeceasedId = deceasedId;
+    if (deceasedType === 'free') {
+      // free = sem titular; gera ID sintetico para satisfacer a API
+      finalDeceasedId = crypto.randomUUID();
+    } else if (!deceasedId) {
+      notifyError('Selecione um titular antes de salvar.');
+      return;
+    }
+
     setSaving(true);
     try {
       const payload = {
         deceased_name: deceasedName.trim(),
         deceased_type: deceasedType,
-        deceased_id: deceasedId || undefined,
+        deceased_id: finalDeceasedId,
         contract_id: contractId || undefined,
         vehicle_id: vehicleId || undefined,
         burial_date: burialDate,
@@ -248,6 +259,7 @@ export default function NovaOrdemPage() {
                   key={h.id}
                   onClick={() => {
                     setContractId(h.id);
+                    setDeceasedId(h.id);
                     setHoldersQuickQuery('');
                     setHoldersQuickResults([]);
                   }}
