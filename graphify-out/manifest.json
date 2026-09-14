@@ -2088,9 +2088,9 @@
     "semantic_hash": ""
   },
   "src/types/domain.ts": {
-    "mtime": 1789355532.9693725,
-    "seen": 1789355781.2945485,
-    "ast_hash": "9eb3257084c8111dfdc739153b4ddc45",
+    "mtime": 1789357639.382213,
+    "seen": 1789357982.326305,
+    "ast_hash": "8bca68f201752c24150e2dd003992d68",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
@@ -2193,6 +2193,18 @@
     "mtime": 1789356747.5947404,
     "seen": 1789356778.550457,
     "ast_hash": "e320fbfcc726e2413c773ef2e298320e",
+    "semantic_hash": ""
+  },
+  "src/app/(dashboard)/sepultamentos/page.tsx": {
+    "mtime": 1789357887.8054245,
+    "seen": 1789357982.3261518,
+    "ast_hash": "9a691a5e9c89e21c05e4ad614e4262c0",
+    "semantic_hash": ""
+  },
+  "src/components/tabs/BurialsTab.tsx": {
+    "mtime": 1789357880.9362352,
+    "seen": 1789357982.3262534,
+    "ast_hash": "89c28319636f61f29b846ac95b2281c3",
     "semantic_hash": ""
   }
 }
