@@ -39,26 +39,8 @@ export interface Holder {
 
 export type StatusFilter = 'all' | 'ativo' | 'inativo';
 
-// ATENCAO: 'ServiceOrder' representa uma Ordem de Servico integrada
-// (obito + contrato + veiculo + estoque). Os joins vêm do GET /api/service-orders.
-export interface ServiceOrderItem {
-  id: string;
-  quantity: number;
-  inventory?: { item_name: string };
-}
-
-export interface ServiceOrder {
-  id: string;
-  deceased_name: string;
-  deceased_type: string;
-  burial_date: string;
-  cemetery_location: string;
-  contract?: { plan: { name: string } };
-  vehicle?: { model: string };
-  items?: ServiceOrderItem[];
-  status: string;
-}
-
+// ServiceOrder/Item: shape definido inline em page.tsx (diff zero ate Fase 6).
+// Usar `any` no ServiceOrdersTab ate extrair tipo no Fase 6.
 export interface Partner {
   id: string;
   partner_name: string;
@@ -103,7 +85,33 @@ export interface ChapelBooking {
   family_contact: string;
   start_time: string;
   end_time: string;
-  status: 'reservado' | 'em_velorio' | 'concluido';
+    status: 'reservado' | 'em_velorio' | 'concluido';
+}
+
+// Ordens de Serviço integradas (óbito + contrato + veículo + estoque)
+export interface ServiceOrderItem {
+  id: string;
+  quantity: number;
+  unit_price?: number;
+  inventory?: { id: string; item_name: string; category?: string };
+}
+
+export interface ServiceOrder {
+  id: string;
+  deceased_name: string;
+  deceased_type: string;
+  deceased_id?: string;
+  burial_date: string;
+  cemetery_location?: string;
+  contract_id?: string;
+  vehicle_id?: string;
+  status: string;
+  total_amount?: number;
+  notes?: string;
+  contract?: { id: string; status: string; plan: { name: string } };
+  burial?: { id: string; deceased_name: string; burial_date: string; status: string; cemetery_location?: string };
+  vehicle?: { id: string; plate: string; model: string; status: string };
+  items?: ServiceOrderItem[];
 }
 
 // ATENCAO: representa um EMPRESTIMO (nome mantido por compatibilidade)
