@@ -1,26 +1,26 @@
-# Graph Report - eternitysos  (2026-09-14)
+# Graph Report - eternitysos  (2026-09-13)
 
 ## Corpus Check
-- 357 files · ~331,793 words
+- 356 files · ~330,496 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 61 file(s) not represented in the graph (top: .csv 53, .log 3, (none) 2)
 
 ## Summary
-- 3497 nodes · 5034 edges · 375 communities (201 shown, 138 thin omitted)
+- 3491 nodes · 5022 edges · 372 communities (198 shown, 138 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 33 edges (avg confidence: 0.87)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9135d65e`
+- Built from commit: `305d14e5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - validate_data.py
 - sanitizeString
-- supabaseAdmin
+- api-handler.ts
 - Design Token Values
-- react
+- withAuth
 - Database Schema Tables
 - isValidUUID
 - design_system.py
@@ -29,7 +29,7 @@
 - search_stack
 - parse_decision_rules
 - eligibility.ts
-- withAuth
+- serverError
 - app/page.tsx
 - cip/core.py
 - slide_search_core.py
@@ -67,7 +67,7 @@
 - Testing Dev Dependencies
 - Supabase Client Scripts
 - focusnfe.ts
-- FiscalTab.tsx
+- react
 - DesignSystemGenerator
 - Design Token Validation
 - card
@@ -84,7 +84,7 @@
 - Project Scaffold Generator
 - Token Generation Script
 - authFetch.ts
-- authFetch
+- leads/route.ts
 - Public Service Orders DB
 - Validate Tokens Test Suite
 - Brand to Token Sync
@@ -315,7 +315,7 @@
 - Layout Patterns
 - Tailwind Integration
 - Layout Patterns
-- notify.ts
+- notifyInfo
 - update.md
 - Logo Design Reference
 - Token Architecture
@@ -352,9 +352,6 @@
 - .test_get_installed_components_empty
 - .test_add_components_no_components
 - 8
-- lucide-react
-- ConvalescenceTab.tsx
-- contracts/route.ts
 
 ## God Nodes (most connected - your core abstractions)
 1. `isValidUUID()` - 81 edges
@@ -362,10 +359,10 @@
 3. `sanitizeString()` - 67 edges
 4. `withAuth()` - 62 edges
 5. `TailwindConfigGenerator` - 58 edges
-6. `notifyError()` - 51 edges
-7. `authFetch()` - 49 edges
+6. `notifyError()` - 49 edges
+7. `authFetch()` - 47 edges
 8. `search()` - 43 edges
-9. `react` - 42 edges
+9. `react` - 41 edges
 10. `TestTailwindConfigGenerator` - 35 edges
 
 ## Surprising Connections (you probably didn't know these)
@@ -383,43 +380,43 @@
 ## Import Cycles
 - None detected.
 
-## Communities (375 total, 138 thin omitted)
+## Communities (372 total, 138 thin omitted)
 
 ### Community 0 - "validate_data.py"
 Cohesion: 0.07
 Nodes (47): Semantic quality contracts for the core UI/UX datasets., read_rows(), TestAccessibilityGuidance, TestChartsTypographyAndIcons, TestCurrentReactGuidance, TestSemanticColors, _catalog_date(), _check_app_interface_contract() (+39 more)
 
 ### Community 1 - "sanitizeString"
-Cohesion: 0.08
-Nodes (39): GET, PATCH, POST, dynamic, POST, DELETE, GET, POST (+31 more)
+Cohesion: 0.05
+Nodes (45): RFC-5322, GET, PATCH, POST, DELETE, GET, PATCH, POST (+37 more)
 
-### Community 2 - "supabaseAdmin"
-Cohesion: 0.14
-Nodes (21): DELETE, GET, PATCH, GET, getTenantUsage(), PATCH, POST, VALID_PLAN_CODES (+13 more)
+### Community 2 - "api-handler.ts"
+Cohesion: 0.07
+Nodes (36): dynamic, POST, dynamic, POST, dynamic, GET, dynamic, GET (+28 more)
 
 ### Community 3 - "Design Token Values"
 Cohesion: 0.05
 Nodes (53): $type, $value, $type, $value, $type, $value, $type, $value (+45 more)
 
-### Community 4 - "react"
-Cohesion: 0.18
-Nodes (8): react, EMPTY_FORM, InventoryTab(), EMPTY_FORM, ThanatopraxyTab(), Thanatopraxy, page(), readSrc()
+### Community 4 - "withAuth"
+Cohesion: 0.12
+Nodes (25): dynamic, POST, POST, BatchResult, contractIsActive(), holderIsInactive(), POST, withTimeout() (+17 more)
 
 ### Community 5 - "Database Schema Tables"
 Cohesion: 0.11
 Nodes (41): auth.users, idx_service_order_items_service, idx_service_orders_burial, idx_service_orders_contract, idx_service_orders_tenant, public.accounts_payable, public.asaas_customers, public.audit_logs (+33 more)
 
 ### Community 6 - "isValidUUID"
-Cohesion: 0.05
-Nodes (45): RFC-5322, DELETE, GET, PATCH, POST, GET, POST, DELETE (+37 more)
+Cohesion: 0.06
+Nodes (37): GET, POST, DELETE, GET, PATCH, POST, DELETE, GET (+29 more)
 
 ### Community 7 - "design_system.py"
 Cohesion: 0.08
 Nodes (29): ansi_ljust(), _detect_page_type(), format_ascii_box(), format_markdown(), format_master_md(), format_page_override_md(), generate_design_system(), _generate_intelligent_overrides() (+21 more)
 
 ### Community 8 - "domain.ts"
-Cohesion: 0.13
-Nodes (15): ContratosPage(), isContractActive(), DependentesPage(), VALID_RELATIONS, TitularesPage(), ServiceOrdersTab(), Contract, ContractPlan (+7 more)
+Cohesion: 0.14
+Nodes (14): ContratosPage(), isContractActive(), DependentesPage(), VALID_RELATIONS, TitularesPage(), ServiceOrdersTab(), Contract, ContractPlan (+6 more)
 
 ### Community 9 - "spacing"
 Cohesion: 0.09
@@ -434,16 +431,16 @@ Cohesion: 0.19
 Nodes (9): Find matching reasoning rule for a category., Apply reasoning rules to search results., apply_decision_rules(), _object_without_duplicates(), parse_decision_rules(), Return deterministic mutations and an audit trail; never execute data., Closed, non-executable grammar for design-system decision rules., Parse the canonical condition -> action-array representation. (+1 more)
 
 ### Community 12 - "eligibility.ts"
-Cohesion: 0.10
-Nodes (31): dynamic, POST, dynamic, POST, POST, BatchResult, contractIsActive(), holderIsInactive() (+23 more)
+Cohesion: 0.13
+Nodes (21): dynamic, POST, POST, dynamic, POST, DELETE, GET, POST (+13 more)
 
-### Community 13 - "withAuth"
-Cohesion: 0.15
-Nodes (17): GET, dynamic, GET, POST, dynamic, POST, dynamic, GET (+9 more)
+### Community 13 - "serverError"
+Cohesion: 0.14
+Nodes (16): GET, GET, dynamic, GET, POST, dynamic, POST, dynamic (+8 more)
 
 ### Community 14 - "app/page.tsx"
 Cohesion: 0.07
-Nodes (33): Burial, BURIAL_STATUS_STYLE, burialStatusClass(), ChapelBooking, Contract, ConvalescenceItem, Dependent, FinancialTransaction (+25 more)
+Nodes (36): recharts, Burial, BURIAL_STATUS_STYLE, burialStatusClass(), ChapelBooking, Contract, ConvalescenceItem, Dependent (+28 more)
 
 ### Community 15 - "cip/core.py"
 Cohesion: 0.06
@@ -518,8 +515,8 @@ Cohesion: 0.11
 Nodes (19): $type, $value, background, foreground, muted-foreground, primary, primary-hover, secondary (+11 more)
 
 ### Community 33 - "CrmTab.tsx"
-Cohesion: 0.13
-Nodes (23): DELETE, dynamic, GET, PATCH, POST, EMPTY_FORM, fmtBRL(), histNoteRow (+15 more)
+Cohesion: 0.16
+Nodes (17): CrmTab(), EMPTY_FORM, fmtBRL(), histNoteRow, isOverdue(), Lead, FLOW, isValidPhoneDigits() (+9 more)
 
 ### Community 34 - "TypeScript Config Settings"
 Cohesion: 0.11
@@ -585,9 +582,9 @@ Nodes (10): @supabase/supabase-js, admin, env, admin, env, admin, env, admin (+2
 Cohesion: 0.16
 Nodes (20): dynamic, POST, dynamic, POST, dynamic, POST, basicAuth(), detectEnvironment() (+12 more)
 
-### Community 51 - "FiscalTab.tsx"
-Cohesion: 0.28
-Nodes (6): FiscalTab(), fmtBRL(), Invoice, STATUS_COLORS, STATUS_ICON, STATUS_LABEL
+### Community 51 - "react"
+Cohesion: 0.09
+Nodes (17): react, ADDONS, FAQ, MODULES, PLANS, CatalogItem, DEFAULT_ITEMS, EMPTY_FORM (+9 more)
 
 ### Community 52 - "DesignSystemGenerator"
 Cohesion: 0.15
@@ -653,9 +650,9 @@ Nodes (9): flattenTokens(), fs, generateCSS(), generateTailwind(), main(), parse
 Cohesion: 0.23
 Nodes (4): Tenant, TenantContext, TenantContextType, supabase
 
-### Community 68 - "authFetch"
-Cohesion: 0.18
-Nodes (11): recharts, FormHoldersQuick, FormInventoryItem, FormVehicle, NovaOrdemPage(), OrdemItem, FinancialSummary, ModalDRE() (+3 more)
+### Community 68 - "leads/route.ts"
+Cohesion: 0.39
+Nodes (7): DELETE, dynamic, GET, PATCH, POST, isValidLeadSource(), isValidLeadStage()
 
 ### Community 69 - "Public Service Orders DB"
 Cohesion: 0.36
@@ -706,8 +703,8 @@ Cohesion: 0.06
 Nodes (32): Accordion, Alert, Alert Dialog, Avatar, Badge, Button, Card, Checkbox (+24 more)
 
 ### Community 81 - "notifyError"
-Cohesion: 0.17
-Nodes (14): ModalCobrancaAvulsa(), CrmTab(), FiscalConfigData, FiscalSettingsSection(), fmtPercent(), Seller, SellersTab(), Tenant (+6 more)
+Cohesion: 0.13
+Nodes (25): lucide-react, ModalRBAC(), UserRole, ModalWebhookRetry(), Props, WebhookEvent, ModalCobrancaAvulsa(), ConvalescenceTab() (+17 more)
 
 ### Community 82 - "Project NPM Scripts"
 Cohesion: 0.29
@@ -1053,9 +1050,9 @@ Nodes (13): Animation Tokens, Base Layer, Button Example, Component Classes, CSS
 Cohesion: 0.14
 Nodes (13): Card Styles, Component Variants, CSS Structures, Feature Grid (3 columns), Layout Decision Flow, Layout Patterns, Layout Selection by Use Case, Metric Styles (+5 more)
 
-### Community 333 - "notify.ts"
-Cohesion: 0.16
-Nodes (11): ImportarTitularesPage(), ImportResult, InvalidRow, BenefitsTab(), EMPTY_FORM, EMPTY_FORM, fmtBrl(), Plan (+3 more)
+### Community 333 - "notifyInfo"
+Cohesion: 0.11
+Nodes (13): ImportarTitularesPage(), ImportResult, InvalidRow, BenefitsTab(), EMPTY_FORM, EMPTY_FORM, InventoryTab(), EMPTY_FORM (+5 more)
 
 ### Community 334 - "update.md"
 Cohesion: 0.15
@@ -1130,8 +1127,8 @@ Cohesion: 0.33
 Nodes (6): 4️⃣ Onboarding: chegou um cliente novo, e agora?, 🪦 E quando um familiar de um associado morre?, Passo 1 — Criar o tenant, Passo 2 — Criar o login do dono dela, Passo 3 — O cliente loga, Passo 4 — Upsell de plano
 
 ### Community 352 - "supabaseAdmin.ts"
-Cohesion: 0.04
-Nodes (45): dynamic, POST, dynamic, GET, POST, dynamic, GET, POST (+37 more)
+Cohesion: 0.09
+Nodes (22): dynamic, GET, POST, dynamic, GET, POST, dynamic, GET (+14 more)
 
 ### Community 353 - "AGENTS.md"
 Cohesion: 0.11
@@ -1177,21 +1174,9 @@ Nodes (3): 6️⃣ BACKUPS AUTOMÁTICOS DO BANCO, Passo a passo, Por quê?
 Cohesion: 0.67
 Nodes (3): $type, $value, 8
 
-### Community 372 - "lucide-react"
-Cohesion: 0.15
-Nodes (8): lucide-react, ADDONS, FAQ, MODULES, PLANS, ModalWebhookRetry(), Props, WebhookEvent
-
-### Community 373 - "ConvalescenceTab.tsx"
-Cohesion: 0.29
-Nodes (5): CatalogItem, ConvalescenceTab(), DEFAULT_ITEMS, EMPTY_FORM, ConvalescenceItem
-
-### Community 374 - "contracts/route.ts"
-Cohesion: 0.50
-Nodes (4): DELETE, GET, POST, isWithinGracePeriod()
-
 ## Knowledge Gaps
-- **1395 isolated node(s):** `fs`, `path`, `fs`, `path`, `fs` (+1390 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 1996 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **1391 isolated node(s):** `fs`, `path`, `fs`, `path`, `fs` (+1386 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 1992 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **138 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
@@ -1206,8 +1191,8 @@ _Questions this graph is uniquely positioned to answer:_
 - **Are the 2 inferred relationships involving `TailwindConfigGenerator` (e.g. with `TestGeneratedConfigIsValidJs` and `TestTailwindConfigGenerator`) actually correct?**
   _`TailwindConfigGenerator` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `fs`, `path`, `fs` to the rest of the system?**
-  _1395 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1391 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `validate_data.py` be split into smaller, more focused modules?**
   _Cohesion score 0.07401129943502825 - nodes in this community are weakly interconnected._
 - **Should `sanitizeString` be split into smaller, more focused modules?**
-  _Cohesion score 0.08 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05472636815920398 - nodes in this community are weakly interconnected._
