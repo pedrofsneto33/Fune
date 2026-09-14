@@ -642,8 +642,8 @@
     "semantic_hash": "b9c2cdc4654ca63de532cfe81b3ba512"
   },
   "src/app/(dashboard)/layout.tsx": {
-    "mtime": 1789351432.3672748,
-    "seen": 1789351500.9268715,
+    "mtime": 1789351540.020614,
+    "seen": 1789352207.790603,
     "ast_hash": "28f42e19d96e2c30288a329d369e87ab",
     "semantic_hash": ""
   },
@@ -1968,8 +1968,8 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1789349341.1161966,
-    "seen": 1789349499.0980015,
+    "mtime": 1789351539.9701056,
+    "seen": 1789352207.7908378,
     "ast_hash": "02f5331478f0f0bb61c353b9be40b099",
     "semantic_hash": ""
   },
@@ -2070,9 +2070,9 @@
     "semantic_hash": ""
   },
   "docs/JORNADA-GRAPHIFY-E-REFATORACAO.md": {
-    "mtime": 1789348781.4610028,
-    "seen": 1789349499.0980136,
-    "ast_hash": "a013ffb781298e52d55ff845e20cc4e3",
+    "mtime": 1789351731.57497,
+    "seen": 1789352207.7908463,
+    "ast_hash": "3022537916a27ed8b8975743030f028c",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/titulares/importar/page.tsx": {
@@ -2088,45 +2088,57 @@
     "semantic_hash": ""
   },
   "src/types/domain.ts": {
-    "mtime": 1789350582.9675944,
-    "seen": 1789350929.3713856,
-    "ast_hash": "ca0236b17f34410bf4eff664a1b33dc5",
+    "mtime": 1789352020.749873,
+    "seen": 1789352207.7907407,
+    "ast_hash": "f3f5aa9eadabd906db210b430c6b5bc4",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
-    "mtime": 1789349116.1274126,
-    "seen": 1789349499.0976827,
+    "mtime": 1789351540.0192778,
+    "seen": 1789352207.790597,
     "ast_hash": "5b11e8407d41ed6f4d6997a670c45b4a",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/beneficios/page.tsx": {
-    "mtime": 1789350189.7012255,
-    "seen": 1789350252.7395146,
+    "mtime": 1789351540.0172682,
+    "seen": 1789352207.790592,
     "ast_hash": "30c0872e8672bcae9520d3ccf880cb5b",
     "semantic_hash": ""
   },
   "src/components/tabs/BenefitsTab.tsx": {
-    "mtime": 1789350179.1784365,
-    "seen": 1789350252.73976,
+    "mtime": 1789351540.020614,
+    "seen": 1789352207.7906966,
     "ast_hash": "b2878d0a53af135353a48b0e16198e37",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/convalescencia/page.tsx": {
-    "mtime": 1789350862.343695,
-    "seen": 1789350929.3712049,
+    "mtime": 1789351540.0172682,
+    "seen": 1789352207.7905953,
     "ast_hash": "2570a77df97a5b0fa64865efa7467df9",
     "semantic_hash": ""
   },
   "src/components/tabs/ConvalescenceTab.tsx": {
-    "mtime": 1789350847.2795985,
-    "seen": 1789350929.3713336,
+    "mtime": 1789351540.020614,
+    "seen": 1789352207.790698,
     "ast_hash": "27e5d0c47a1f333e0c52a3b2838acafb",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/fiscal/page.tsx": {
-    "mtime": 1789351181.4665103,
-    "seen": 1789351241.7616158,
+    "mtime": 1789351540.020222,
+    "seen": 1789352207.7905996,
     "ast_hash": "dd5dfe7fda005387a6a969db34ac8d0c",
+    "semantic_hash": ""
+  },
+  "src/app/(dashboard)/frota/page.tsx": {
+    "mtime": 1789352156.5081098,
+    "seen": 1789352207.7906017,
+    "ast_hash": "f44cf0ca6b1703cc3bfe407124431809",
+    "semantic_hash": ""
+  },
+  "src/components/tabs/FleetTab.tsx": {
+    "mtime": 1789352145.9290915,
+    "seen": 1789352207.7907028,
+    "ast_hash": "23c4c15cb9307536b0cfb8ced94b97c5",
     "semantic_hash": ""
   }
 }
