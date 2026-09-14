@@ -76,6 +76,16 @@ export interface Thanatopraxy {
   created_at: string;
 }
 
+export interface ChapelBooking {
+  id: string;
+  chapel_name: string;
+  deceased_name: string;
+  family_contact: string;
+  start_time: string;
+  end_time: string;
+  status: 'reservado' | 'em_velorio' | 'concluido';
+}
+
 // ATENCAO: representa um EMPRESTIMO (nome mantido por compatibilidade)
 export interface ConvalescenceItem {
   id: string;
