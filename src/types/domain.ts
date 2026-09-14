@@ -65,6 +65,17 @@ export interface InventoryItem {
   min_threshold: number;
 }
 
+export interface Thanatopraxy {
+  id: string;
+  deceased_name: string;
+  technician: string;
+  procedure: string;
+  burial_id?: string | null;
+  status: string;
+  completed_at: string | null;
+  created_at: string;
+}
+
 // ATENCAO: representa um EMPRESTIMO (nome mantido por compatibilidade)
 export interface ConvalescenceItem {
   id: string;
