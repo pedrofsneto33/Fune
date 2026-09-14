@@ -88,6 +88,16 @@ export interface ChapelBooking {
     status: 'reservado' | 'em_velorio' | 'concluido';
 }
 
+export interface Burial {
+  id: string;
+  deceased_name: string;
+  burial_date: string;
+  cemetery_location?: string;
+  status?: string;
+  urn_name?: string;
+  created_at?: string;
+}
+
 // Ordens de Serviço integradas (óbito + contrato + veículo + estoque)
 export interface ServiceOrderItem {
   id: string;
