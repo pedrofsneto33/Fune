@@ -1968,9 +1968,9 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1789351539.9701056,
-    "seen": 1789352207.7908378,
-    "ast_hash": "02f5331478f0f0bb61c353b9be40b099",
+    "mtime": 1789354433.3971,
+    "seen": 1789354655.4120421,
+    "ast_hash": "5b35f8fb8ab49ecdc91cfd465a5bd855",
     "semantic_hash": ""
   },
   "CLAUDE.md": {
@@ -2088,9 +2088,9 @@
     "semantic_hash": ""
   },
   "src/types/domain.ts": {
-    "mtime": 1789353428.6587803,
-    "seen": 1789353521.5865266,
-    "ast_hash": "8bda14603500776d022d607ebe35bbd5",
+    "mtime": 1789354521.2936122,
+    "seen": 1789354655.411935,
+    "ast_hash": "817acb917db130a9f6f3bbd393073ac5",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
@@ -2175,6 +2175,18 @@
     "mtime": 1789353457.8592067,
     "seen": 1789353521.5864794,
     "ast_hash": "bc79a7c918fe8167b950acd633ad0b26",
+    "semantic_hash": ""
+  },
+  "src/app/(dashboard)/ordens/page.tsx": {
+    "mtime": 1789354512.5517144,
+    "seen": 1789354655.4117868,
+    "ast_hash": "49e56bd8965cb78583ca916fea061504",
+    "semantic_hash": ""
+  },
+  "src/components/tabs/ServiceOrdersTab.tsx": {
+    "mtime": 1789354624.8899422,
+    "seen": 1789354655.4118955,
+    "ast_hash": "1973acb47bf16e3646b298c880c84fcf",
     "semantic_hash": ""
   }
 }
