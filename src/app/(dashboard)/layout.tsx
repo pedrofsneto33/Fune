@@ -40,6 +40,8 @@ export default function DashboardLayout({
               <div className="absolute top-full left-0 mt-2 bg-[#0d111a] border border-slate-800 rounded-lg p-2 min-w-[160px] shadow-xl z-50 flex flex-col gap-1">
                 <Link href="/tanatopraxia" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/tanatopraxia' ? 'text-purple-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Tanatopraxia</Link>
                 <Link href="/capela" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/capela' ? 'text-amber-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Capela</Link>
+                <Link href="/ordens" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/ordens' ? 'text-red-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Ordens de Serviço</Link>
+                <Link href="/sepultamentos" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/sepultamentos' ? 'text-sky-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Sepultamentos</Link>
               </div>
             </details>
             <details className="relative">
