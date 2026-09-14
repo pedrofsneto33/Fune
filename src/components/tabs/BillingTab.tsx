@@ -7,12 +7,49 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { CollectorPayment, Payment, BillingResult } from '@/types/domain';
+import {
+  CollectorPayment,
+  Payment,
+  BillingResult,
+  FinancialTransaction,
+  FinancialSummary,
+} from '@/types/domain';
 import { ModalDRE } from '@/components/dashboard/ModalDRE';
 import { ModalCarnets } from '@/components/modals/ModalCarnets';
 import { ModalCobrancaAvulsa } from '@/components/modals/ModalCobrancaAvulsa';
 import { authFetch } from '@/lib/authFetch';
-import { notifyError, notifySuccess } from '@/lib/notify';
+import {
+  notifyError,
+  notifyInfo,
+  notifySuccess,
+  notifyWarning,
+} from '@/lib/notify';
+import { isHolderActive, isContractActive } from '@/lib/eligibility';
+
+function fmtBRL(v: number): string {
+  return `R$ ${(Number(v) || 0).toFixed(2)}`;
+}
+
+// Categoria fixa gravada pela POST /api/billing/avulso (mesma do page.tsx).
+const AVULSO_CATEGORY = 'Serviço Funeral Avulso';
+
+// Resumo financeiro com bloco de vendas avulsas (mesma forma do page.tsx).
+type AvulsoSummaryStats = {
+  rows: { transaction_date: string | null; description: string | null; amount: number }[];
+  total: number;
+  monthTotal: number;
+  monthCount: number;
+  count: number;
+};
+type BillingSummary = FinancialSummary & { avulsoStats?: AvulsoSummaryStats };
+
+// Holder com contratos (GET /api/holders) — usado na elegibilidade do lote.
+type HolderOption = {
+  id: string;
+  full_name: string;
+  status?: string | null;
+  contracts?: { status?: string | null; plans?: { monthly_fee?: number } | null }[] | null;
+};
 
 type CollectorRow = Payment & {
   contracts?: {
@@ -37,7 +74,7 @@ export default function BillingTab() {
   const [batchType, setBatchType] = useState('BOLETO');
   const [batchDueDate, setBatchDueDate] = useState('');
   const [batchHolderId, setBatchHolderId] = useState('');
-  const [holders, setHolders] = useState<{ id: string; full_name: string }[]>([]);
+  const [holders, setHolders] = useState<HolderOption[]>([]);
   const [batchRunning, setBatchRunning] = useState(false);
   const [batchResult, setBatchResult] = useState<BillingResult | null>(null);
 
@@ -50,6 +87,21 @@ export default function BillingTab() {
   const [dreOpen, setDreOpen] = useState(false);
   const [carnetsOpen, setCarnetsOpen] = useState(false);
   const [avulsaOpen, setAvulsaOpen] = useState(false);
+
+  // Secao C — Vendas Avulsas (6d-0b): GET /api/financial/transactions (filtro
+  // de periodo) + GET /api/financial/summary (totais sem teto de linhas).
+  const [avulsoFilterFrom, setAvulsoFilterFrom] = useState('');
+  const [avulsoFilterTo, setAvulsoFilterTo] = useState('');
+  const [avulsoRows, setAvulsoRows] = useState<FinancialTransaction[]>([]);
+  const [avulsoLoading, setAvulsoLoading] = useState(false);
+  const [avulsoSummary, setAvulsoSummary] = useState<BillingSummary | null>(null);
+
+  // Secao D — Config Gateway Asaas (6d-0b, copiado do page.tsx ~l.4195).
+  // SECURITY (F-29): a chave Asaas NUNCA vai para endpoints do frontend nem
+  // persiste — estado local apenas (perdida ao recarregar).
+  const [asaasConfigOpen, setAsaasConfigOpen] = useState(false);
+  const [asaasApiKey, setAsaasApiKey] = useState('');
+  const [asaasEnv, setAsaasEnv] = useState<'sandbox' | 'production'>('production');
 
   const loadPayments = async (signal?: { cancelled: boolean }) => {
     setLoading(true);
@@ -64,30 +116,29 @@ export default function BillingTab() {
     }
   };
 
+  const fetchHolders = async (signal?: { cancelled: boolean }) => {
+    try {
+      const res = await authFetch('/api/holders?limit=1000');
+      const data = await res.json().catch(() => []);
+      const list = Array.isArray(data) ? data : data?.holders || [];
+      if (!signal?.cancelled) setHolders(Array.isArray(list) ? list : []);
+    } catch {
+      if (!signal?.cancelled) setHolders([]);
+    }
+  };
+
   useEffect(() => {
     const signal = { cancelled: false };
     loadPayments(signal);
+    fetchHolders(signal);
     return () => {
       signal.cancelled = true;
     };
   }, []);
 
-  const openBatchModal = async () => {
+  const openBatchModal = () => {
     setBatchOpen(true);
     setBatchResult(null);
-    try {
-      const res = await authFetch('/api/holders?limit=1000');
-      const data = await res.json().catch(() => []);
-      const list = Array.isArray(data) ? data : data?.holders || [];
-      setHolders(
-        list.map((h: { id: string; full_name: string }) => ({
-          id: h.id,
-          full_name: h.full_name,
-        })),
-      );
-    } catch {
-      setHolders([]);
-    }
   };
 
   const filtered = useMemo(() => {
@@ -181,6 +232,96 @@ export default function BillingTab() {
     }
   };
 
+  // ---- Secao C — Vendas Avulsas (copiado do page.tsx, sem estado global) ----
+  // Totais vêm do backend (/api/financial/summary — sem teto de linhas).
+  // A lista respeita o filtro de período consultando o backend com
+  // ?from=&to=&category= (rota aceita, máx. limit 1000).
+  useEffect(() => {
+    let cancelled = false;
+    const loadSummary = async () => {
+      try {
+        const res = await authFetch('/api/financial/summary');
+        if (!cancelled && res.ok) {
+          const data = (await res.json().catch(() => null)) as BillingSummary | null;
+          if (data && typeof data.totalIncome === 'number') setAvulsoSummary(data);
+        }
+      } catch {
+        // silencioso: total cai para o reduce local das rows
+      }
+    };
+    loadSummary();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      setAvulsoLoading(true);
+      try {
+        const params = new URLSearchParams({ category: AVULSO_CATEGORY, limit: '1000' });
+        if (avulsoFilterFrom) params.set('from', avulsoFilterFrom);
+        if (avulsoFilterTo) params.set('to', avulsoFilterTo);
+        const res = await authFetch(`/api/financial/transactions?${params.toString()}`);
+        if (!cancelled && res.ok) {
+          const data = (await res.json().catch(() => [])) as FinancialTransaction[];
+          if (Array.isArray(data)) setAvulsoRows(data);
+        }
+      } catch {
+        // fallback silencioso
+      } finally {
+        if (!cancelled) setAvulsoLoading(false);
+      }
+    };
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [avulsoFilterFrom, avulsoFilterTo]);
+
+  const avulsoStats = useMemo(() => {
+    const sum = avulsoSummary?.avulsoStats;
+    return {
+      rows: avulsoRows,
+      total: sum ? sum.total : avulsoRows.reduce((acc, t) => acc + (Number(t.amount) || 0), 0),
+      monthCount: sum ? sum.monthCount : 0,
+      monthTotal: sum ? sum.monthTotal : 0,
+    };
+  }, [avulsoRows, avulsoSummary]);
+
+  const exportAvulsoCSV = () => {
+    if (avulsoStats.rows.length === 0) {
+      notifyWarning('Nenhuma venda avulsa para exportar.');
+      return;
+    }
+    const header = 'Data;Descricao;Valor\n';
+    const lines = avulsoStats.rows
+      .map(
+        (t) =>
+          `${t.transaction_date || ''};${(t.description || '').replace(/;/g, ',')};${Number(t.amount).toFixed(2)}`,
+      )
+      .join('\n');
+    const blob = new Blob([header + lines], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `vendas_avulsas_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // Elegibilidade do lote (mesma regra do page.tsx e do backend — eligibility.ts).
+  const asaasEligibleHolders = useMemo(
+    () =>
+      holders.filter(
+        (h) =>
+          isHolderActive(h?.status) &&
+          (h?.contracts || []).some((c) => isContractActive(c.status)),
+      ),
+    [holders],
+  );
+
   return (
     <div className="space-y-8 p-6">
       <section>
@@ -206,6 +347,12 @@ export default function BillingTab() {
             className="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg text-xs font-bold"
           >
             Nova Cobrança Avulsa
+          </button>
+          <button
+            onClick={() => setAsaasConfigOpen(true)}
+            className="px-3 py-1.5 bg-cyan-700 hover:bg-cyan-600 text-white rounded-lg text-xs font-bold"
+          >
+            💳 Gateway Asaas
           </button>
         </div>
       </section>
@@ -329,6 +476,116 @@ export default function BillingTab() {
         </div>
       </section>
 
+      {/* PAINEL VENDAS AVULSAS (6d-0b) — fonte: financial_transactions categoria
+          "Serviço Funeral Avulso" (gravada pela POST /api/billing/avulso). */}
+      <section>
+        <div className="rounded-xl border border-amber-500/30 bg-[#0d121f] p-4 shadow-sm">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400">
+              💰 Vendas Avulsas (não-associados)
+            </h4>
+            <div className="flex flex-wrap items-center gap-2">
+              <input
+                type="date"
+                value={avulsoFilterFrom}
+                onChange={(e) => setAvulsoFilterFrom(e.target.value)}
+                className="rounded border border-slate-700 bg-slate-950 px-2 py-1 text-xs text-white"
+              />
+              <span className="text-xs text-slate-500">até</span>
+              <input
+                type="date"
+                value={avulsoFilterTo}
+                onChange={(e) => setAvulsoFilterTo(e.target.value)}
+                className="rounded border border-slate-700 bg-slate-950 px-2 py-1 text-xs text-white"
+              />
+              <button
+                onClick={() => {
+                  setAvulsoFilterFrom('');
+                  setAvulsoFilterTo('');
+                }}
+                className="rounded bg-slate-700 px-2 py-1 text-xs text-white hover:bg-slate-600"
+              >
+                Limpar
+              </button>
+              <button
+                onClick={exportAvulsoCSV}
+                className="rounded bg-emerald-600 px-2 py-1 text-xs font-bold text-white hover:bg-emerald-500"
+              >
+                📥 CSV
+              </button>
+              <button
+                onClick={() => setAvulsaOpen(true)}
+                className="rounded-lg bg-slate-700 px-3 py-1.5 text-xs font-bold text-slate-200 shadow hover:bg-slate-600"
+              >
+                + Nova Cobrança Avulsa
+              </button>
+            </div>
+          </div>
+          <div className="mb-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
+            <div className="rounded-lg border border-slate-800 bg-slate-950 p-3">
+              <p className="text-[10px] font-semibold uppercase text-slate-500">Total histórico</p>
+              <p className="text-sm font-bold text-emerald-400">{fmtBRL(avulsoStats.total)}</p>
+            </div>
+            <div className="rounded-lg border border-slate-800 bg-slate-950 p-3">
+              <p className="text-[10px] font-semibold uppercase text-slate-500">Este mês</p>
+              <p className="text-sm font-bold text-emerald-400">{fmtBRL(avulsoStats.monthTotal)}</p>
+              <p className="text-[10px] text-slate-500">{avulsoStats.monthCount} cobrança(s)</p>
+            </div>
+            <div className="rounded-lg border border-slate-800 bg-slate-950 p-3">
+              <p className="text-[10px] font-semibold uppercase text-slate-500">Registros</p>
+              <p className="text-sm font-bold text-slate-200">{avulsoStats.rows.length}</p>
+            </div>
+          </div>
+          {avulsoLoading ? (
+            <p className="text-[11px] text-slate-500">Carregando…</p>
+          ) : avulsoStats.rows.length === 0 ? (
+            <p className="text-[11px] text-slate-500">
+              Nenhuma venda avulsa registrada ainda. Use &quot;+ Nova Cobrança Avulsa&quot; para
+              faturar um funeral de cliente não-associado — boleto ou PIX via Asaas.
+            </p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-slate-800 text-[10px] uppercase text-slate-500">
+                    <th className="px-3 py-2">Data</th>
+                    <th className="px-3 py-2">Descrição</th>
+                    <th className="px-3 py-2">OS</th>
+                    <th className="px-3 py-2 text-right">Valor</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800">
+                  {avulsoStats.rows.slice(0, 8).map((tx) => (
+                    <tr key={tx.id} className="hover:bg-slate-800/30">
+                      <td className="whitespace-nowrap px-3 py-2 font-mono text-slate-400">
+                        {tx.transaction_date}
+                      </td>
+                      <td className="px-3 py-2 text-slate-200">{tx.description}</td>
+                      <td className="px-3 py-2 font-mono text-amber-400">
+                        {tx.service_order_id ? (
+                          <span title="OS vinculada">{tx.service_order_id.slice(0, 6)}</span>
+                        ) : (
+                          <span className="text-slate-600">—</span>
+                        )}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-2 text-right font-bold text-emerald-400">
+                        + {fmtBRL(tx.amount)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {avulsoStats.rows.length > 8 && (
+                <p className="px-3 py-2 text-[10px] text-slate-500">
+                  Mostrando as 8 mais recentes de {avulsoStats.rows.length}. Lista completa no
+                  Livro Caixa, filtrando pela categoria &quot;Serviço Funeral Avulso&quot;.
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+      </section>
+
       {batchOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
           <div className="w-full max-w-md rounded-lg bg-slate-900 border border-slate-700 p-5 space-y-3">
@@ -433,6 +690,156 @@ export default function BillingTab() {
               >
                 {settling ? 'Baixando…' : 'Confirmar'}
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL CONFIG GATEWAY ASAAS (6d-0b, copiado do page.tsx ~l.4195).
+          Reutiliza os estados do lote (batchType/batchDueDate/batchHolderId) —
+          um unico fluxo de disparo, sem duplicar POST /api/billing/asaas-batch. */}
+      {asaasConfigOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+          <div className="max-h-[92vh] w-full max-w-lg space-y-4 overflow-y-auto rounded-lg border border-slate-700 bg-slate-900 p-5 text-xs">
+            <div className="flex items-center justify-between border-b border-slate-700 pb-3">
+              <h3 className="flex items-center gap-2 text-sm font-bold text-cyan-400">
+                <span>💳</span> Configurações Gateway de Pagamento Asaas
+              </h3>
+              <button
+                onClick={() => setAsaasConfigOpen(false)}
+                className="font-bold text-slate-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div>
+              <label className="mb-1 block font-semibold text-slate-400">
+                Chave de API do Asaas (API Key):
+              </label>
+              <input
+                type="password"
+                value={asaasApiKey}
+                onChange={(e) => setAsaasApiKey(e.target.value)}
+                className="w-full rounded border border-slate-800 bg-slate-950 p-2.5 font-mono text-white"
+              />
+              <p className="mt-1 text-[10px] text-slate-500">
+                SECURITY (F-29): a chave não é enviada a endpoints do frontend nem persistida —
+                permanece apenas neste estado local e é perdida ao recarregar a página. Ambiente
+                de produção conectado via webhook oficial idempotente.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="mb-1 block font-semibold text-slate-400">Ambiente:</label>
+                <select
+                  value={asaasEnv}
+                  onChange={(e) => setAsaasEnv(e.target.value as 'sandbox' | 'production')}
+                  className="w-full rounded border border-slate-800 bg-slate-950 p-2.5 text-white"
+                >
+                  <option value="production">Produção Oficial</option>
+                  <option value="sandbox">Sandbox (Testes)</option>
+                </select>
+              </div>
+              <div>
+                <label className="mb-1 block font-semibold text-slate-400">Status Webhook:</label>
+                <div className="flex items-center gap-1.5 rounded border border-emerald-800 bg-emerald-950 p-2.5 font-bold text-emerald-400">
+                  <span>🔔</span> Webhook Ativo
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-slate-800 bg-slate-950 p-3">
+              <p className="mb-1 text-[11px] font-bold text-slate-300">URL de Webhook Notificações:</p>
+              <code className="break-all text-[10px] text-cyan-400">
+                https://eternitysos.vercel.app/api/webhooks/asaas
+              </code>
+            </div>
+
+            <div className="border-t border-slate-800 pt-2">
+              <label className="mb-1.5 block text-[10px] font-bold uppercase text-slate-400">
+                Cobrar de
+              </label>
+              <select
+                value={batchHolderId}
+                onChange={(e) => setBatchHolderId(e.target.value)}
+                className="w-full rounded border border-slate-800 bg-slate-950 p-2.5 text-xs text-white"
+              >
+                <option value="">
+                  {asaasEligibleHolders.length === 0
+                    ? '— Nenhum titular ativo com contrato ativo —'
+                    : 'Todos os titulares ativos'}
+                </option>
+                {asaasEligibleHolders.map((h) => {
+                  const ct = (h.contracts || []).find((c) => isContractActive(c.status));
+                  const val = ct?.plans?.monthly_fee;
+                  return (
+                    <option key={h.id} value={h.id}>
+                      {h.full_name}
+                      {val ? ` — R$ ${Number(val).toFixed(2).replace('.', ',')}` : ''}
+                    </option>
+                  );
+                })}
+              </select>
+              <p className="mt-1 text-[10px] text-slate-500">
+                Só cobramos titulares ativos com contrato ativo.{' '}
+                {asaasEligibleHolders.length} titular(es) elegível(is).
+              </p>
+            </div>
+
+            <div className="space-y-2 border-t border-slate-800 pt-2">
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="mb-1 block text-[10px] font-bold uppercase text-slate-400">
+                    Vencimento das cobranças
+                  </label>
+                  <input
+                    type="date"
+                    value={batchDueDate}
+                    onChange={(e) => setBatchDueDate(e.target.value)}
+                    className="w-full rounded border border-slate-700 bg-slate-950 p-2 text-xs text-white"
+                  />
+                </div>
+                <div>
+                  <label className="mb-1 block text-[10px] font-bold uppercase text-slate-400">
+                    Forma de pagamento
+                  </label>
+                  <select
+                    value={batchType}
+                    onChange={(e) => setBatchType(e.target.value)}
+                    className="w-full rounded border border-slate-700 bg-slate-950 p-2 text-xs text-white"
+                  >
+                    <option value="BOLETO">Boleto</option>
+                    <option value="PIX">PIX</option>
+                    <option value="UNDEFINED">Cliente escolhe</option>
+                  </select>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <button
+                  onClick={handleGenerateBatch}
+                  disabled={batchRunning}
+                  className="rounded bg-cyan-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-cyan-700 disabled:opacity-50"
+                >
+                  {batchRunning
+                    ? 'Processando lote no Asaas...'
+                    : '⚡ Disparar Cobranças em Lote Agora'}
+                </button>
+                <button
+                  onClick={() => {
+                    setAsaasConfigOpen(false);
+                    notifyInfo('Configurações salvas!');
+                  }}
+                  className="rounded bg-emerald-600 px-4 py-1.5 text-xs font-bold text-white hover:bg-emerald-500"
+                >
+                  Salvar Configurações
+                </button>
+              </div>
+              <p className="text-[10px] text-slate-500">
+                Sem data informada, usa o dia 10 do próximo mês. Para vencimentos diferentes por
+                cliente, gere carnês individuais em Carnês.
+              </p>
             </div>
           </div>
         </div>
