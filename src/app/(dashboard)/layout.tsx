@@ -33,6 +33,12 @@ export default function DashboardLayout({
             >
               Vendedores
             </Link>
+            <Link
+              href="/crm"
+              className={`text-xs font-semibold transition ${pathname === '/crm' ? 'text-amber-400' : 'text-slate-400 hover:text-white'}`}
+            >
+              CRM
+            </Link>
             <Link href="/" className="text-xs text-slate-400 hover:text-white transition">
               ← Dashboard
             </Link>
