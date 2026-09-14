@@ -134,12 +134,6 @@ export default function NovaOrdemPage() {
     return true;
   };
 
-  const DEATH_TYPE_MAP = {
-    holder: 'titular',
-    dependent: 'dependente',
-    free: 'particular',
-  } as const;
-
   const handleSave = async () => {
     if (!validate()) return;
     if (saving) return;
@@ -147,7 +141,7 @@ export default function NovaOrdemPage() {
     try {
       const payload = {
         deceased_name: deceasedName.trim(),
-        deceased_type: DEATH_TYPE_MAP[deceasedType],
+        deceased_type: deceasedType,
         deceased_id: deceasedId || undefined,
         contract_id: contractId || undefined,
         vehicle_id: vehicleId || undefined,
