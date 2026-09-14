@@ -1,35 +1,35 @@
 # Graph Report - eternitysos  (2026-09-13)
 
 ## Corpus Check
-- 352 files · ~329,071 words
+- 354 files · ~329,549 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 61 file(s) not represented in the graph (top: .csv 53, .log 3, (none) 2)
 
 ## Summary
-- 3472 nodes · 4980 edges · 369 communities (195 shown, 138 thin omitted)
+- 3479 nodes · 5001 edges · 372 communities (198 shown, 138 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 33 edges (avg confidence: 0.87)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `eef6cca0`
+- Built from commit: `69c31509`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - validate_data.py
 - sanitizeString
-- supabaseAdmin
+- retry/route.ts
 - Design Token Values
-- authFetch.ts
+- withAuth
 - Database Schema Tables
 - isValidUUID
 - design_system.py
-- react
+- titulares/page.tsx
 - spacing
 - search_stack
 - parse_decision_rules
-- eligibility.ts
-- withAuth
+- payment-carnets/route.ts
+- serverError
 - app/page.tsx
 - cip/core.py
 - slide_search_core.py
@@ -45,7 +45,7 @@
 - _style_is_dark_primary
 - app/layout.tsx
 - Tailwind CSS Utility Reference
-- scripts/search.py
+- generate_design_system
 - logo/core.py
 - Background Image Generation
 - color
@@ -67,7 +67,7 @@
 - Testing Dev Dependencies
 - Supabase Client Scripts
 - focusnfe.ts
-- FiscalTab.tsx
+- react
 - DesignSystemGenerator
 - Design Token Validation
 - card
@@ -76,7 +76,7 @@
 - Service Orders Database
 - Brand Context Extraction
 - Token Embedding Script
-- primitive
+- duration
 - ShadcnInstaller
 - Shadcn Component Add Tests
 - Text Layout Resilience Tests
@@ -84,26 +84,26 @@
 - Project Scaffold Generator
 - Token Generation Script
 - formValidation.ts
-- Stack Query Token Processor
+- leads/route.ts
 - Public Service Orders DB
 - Validate Tokens Test Suite
 - Brand to Token Sync
 - Canvas Design System
 - Prerequisites
 - Carnet Modal Component
-- landing/page.tsx
+- FleetTab.tsx
 - radius
 - Public Identity Resolver
 - WhatsApp Agent DB Schema
 - Theme Conversion Script
 - Form & Input Components
-- notify.ts
+- notifySuccess
 - Project NPM Scripts
 - Theme Contrast Fixer
 - Final Isolation Test
 - Isolation Test v2
 - Tenant Route Tests
-- shadow
+- sm
 - Client Onboarding Script
 - Behavior Inspection Script
 - API Test Script
@@ -112,7 +112,7 @@
 - Isolation Test v5
 - Isolation Test v6
 - button
-- contracts/route.ts
+- BenefitsTab.tsx
 - input
 - Supabase Migration Scripts
 - Next.js Configuration
@@ -143,7 +143,7 @@
 - Brand Token Sync Tests
 - padding-y
 - none
-- md
+- 16
 - [cpf]/page.tsx
 - destructive
 - destructive-foreground
@@ -331,12 +331,14 @@
 - Slides Reference
 - HTML Slide Template
 - HTML Slide Template
+- 1
 - Slides
 - 4️⃣ Onboarding: chegou um cliente novo, e agora?
 - supabaseAdmin.ts
 - AGENTS.md
 - Brand Guidelines Template
 - 7. PENDÃŠNCIAS TÃ‰CNICAS / FOLLOW-UP (memoria de sessao)
+- 3
 - 1. AGENTE DE TRIAGEM WHATSAPP (Evolution API) - MODULO EXTRA (COBRADO À PARTE)
 - 3. NFS-e (Nota Fiscal de Servico) - FOCUSNFe IMPLEMENTADO (commit `33d0f09`)
 - README.md
@@ -349,6 +351,7 @@
 - .test_add_components_dry_run
 - .test_get_installed_components_empty
 - .test_add_components_no_components
+- 8
 
 ## God Nodes (most connected - your core abstractions)
 1. `isValidUUID()` - 81 edges
@@ -356,10 +359,10 @@
 3. `sanitizeString()` - 67 edges
 4. `withAuth()` - 62 edges
 5. `TailwindConfigGenerator` - 58 edges
-6. `notifyError()` - 45 edges
-7. `search()` - 43 edges
-8. `authFetch()` - 43 edges
-9. `react` - 38 edges
+6. `notifyError()` - 47 edges
+7. `authFetch()` - 45 edges
+8. `search()` - 43 edges
+9. `react` - 40 edges
 10. `TestTailwindConfigGenerator` - 35 edges
 
 ## Surprising Connections (you probably didn't know these)
@@ -377,67 +380,67 @@
 ## Import Cycles
 - None detected.
 
-## Communities (369 total, 138 thin omitted)
+## Communities (372 total, 138 thin omitted)
 
 ### Community 0 - "validate_data.py"
 Cohesion: 0.07
 Nodes (47): Semantic quality contracts for the core UI/UX datasets., read_rows(), TestAccessibilityGuidance, TestChartsTypographyAndIcons, TestCurrentReactGuidance, TestSemanticColors, _catalog_date(), _check_app_interface_contract() (+39 more)
 
 ### Community 1 - "sanitizeString"
-Cohesion: 0.08
-Nodes (39): GET, PATCH, POST, dynamic, POST, DELETE, GET, POST (+31 more)
+Cohesion: 0.06
+Nodes (42): RFC-5322, GET, PATCH, POST, DELETE, GET, PATCH, POST (+34 more)
 
-### Community 2 - "supabaseAdmin"
-Cohesion: 0.14
-Nodes (21): DELETE, GET, PATCH, GET, getTenantUsage(), PATCH, POST, VALID_PLAN_CODES (+13 more)
+### Community 2 - "retry/route.ts"
+Cohesion: 0.16
+Nodes (17): PATCH, GET, getTenantUsage(), PATCH, POST, VALID_PLAN_CODES, markWebhookEvent(), POST() (+9 more)
 
 ### Community 3 - "Design Token Values"
 Cohesion: 0.05
 Nodes (53): $type, $value, $type, $value, $type, $value, $type, $value (+45 more)
 
-### Community 4 - "authFetch.ts"
-Cohesion: 0.23
-Nodes (4): Tenant, TenantContext, TenantContextType, supabase
+### Community 4 - "withAuth"
+Cohesion: 0.12
+Nodes (25): dynamic, POST, POST, BatchResult, contractIsActive(), holderIsInactive(), POST, withTimeout() (+17 more)
 
 ### Community 5 - "Database Schema Tables"
 Cohesion: 0.11
 Nodes (41): auth.users, idx_service_order_items_service, idx_service_orders_burial, idx_service_orders_contract, idx_service_orders_tenant, public.accounts_payable, public.asaas_customers, public.audit_logs (+33 more)
 
 ### Community 6 - "isValidUUID"
-Cohesion: 0.05
-Nodes (45): RFC-5322, DELETE, GET, PATCH, POST, GET, POST, DELETE (+37 more)
+Cohesion: 0.07
+Nodes (36): DELETE, GET, PATCH, POST, DELETE, GET, PATCH, POST (+28 more)
 
 ### Community 7 - "design_system.py"
-Cohesion: 0.08
-Nodes (29): ansi_ljust(), _detect_page_type(), format_ascii_box(), format_markdown(), format_master_md(), format_page_override_md(), generate_design_system(), _generate_intelligent_overrides() (+21 more)
+Cohesion: 0.10
+Nodes (26): ansi_ljust(), _detect_page_type(), format_ascii_box(), format_markdown(), format_master_md(), format_page_override_md(), _generate_intelligent_overrides(), hex_to_ansi() (+18 more)
 
-### Community 8 - "react"
-Cohesion: 0.11
-Nodes (17): react, ContratosPage(), isContractActive(), EMPTY_FORM, EMPTY_FORM, VEHICLE_TYPES, EMPTY_FORM, Contract (+9 more)
+### Community 8 - "titulares/page.tsx"
+Cohesion: 0.19
+Nodes (12): ContratosPage(), isContractActive(), DependentesPage(), VALID_RELATIONS, TitularesPage(), ChapelBooking, Contract, ContractPlan (+4 more)
 
 ### Community 9 - "spacing"
-Cohesion: 0.06
-Nodes (34): $type, $value, $type, $value, $type, $value, $type, $value (+26 more)
+Cohesion: 0.09
+Nodes (22): $type, $value, $type, $value, $type, $value, $type, $value (+14 more)
 
 ### Community 10 - "search_stack"
-Cohesion: 0.10
-Nodes (8): Search stack-specific guidelines, search_stack(), Freshness and migration contracts for native, desktop, and 3D stacks., _rows(), TestNativeDesktopStackFreshness, Freshness and generation-isolation contracts for web stack guidance., _rows(), TestWebStackFreshness
+Cohesion: 0.09
+Nodes (12): _exact_stack_identifier(), _project_row(), Resolve a standalone API identifier even when its BM25 IDF is low., Search stack-specific guidelines, search_stack(), _valid_max_results(), Freshness and migration contracts for native, desktop, and 3D stacks., _rows() (+4 more)
 
 ### Community 11 - "parse_decision_rules"
 Cohesion: 0.17
 Nodes (9): Find matching reasoning rule for a category., Apply reasoning rules to search results., apply_decision_rules(), _object_without_duplicates(), parse_decision_rules(), Return deterministic mutations and an audit trail; never execute data., Closed, non-executable grammar for design-system decision rules., Parse the canonical condition -> action-array representation. (+1 more)
 
-### Community 12 - "eligibility.ts"
-Cohesion: 0.10
-Nodes (31): dynamic, POST, dynamic, POST, POST, BatchResult, contractIsActive(), holderIsInactive() (+23 more)
+### Community 12 - "payment-carnets/route.ts"
+Cohesion: 0.12
+Nodes (22): dynamic, POST, POST, dynamic, POST, DELETE, GET, POST (+14 more)
 
-### Community 13 - "withAuth"
-Cohesion: 0.15
-Nodes (17): GET, dynamic, GET, POST, dynamic, POST, dynamic, GET (+9 more)
+### Community 13 - "serverError"
+Cohesion: 0.14
+Nodes (16): GET, GET, dynamic, GET, POST, dynamic, POST, dynamic (+8 more)
 
 ### Community 14 - "app/page.tsx"
-Cohesion: 0.07
-Nodes (32): recharts, Burial, BURIAL_STATUS_STYLE, burialStatusClass(), ChapelBooking, Contract, ConvalescenceItem, Dependent (+24 more)
+Cohesion: 0.08
+Nodes (30): recharts, Burial, BURIAL_STATUS_STYLE, burialStatusClass(), ChapelBooking, Contract, ConvalescenceItem, Dependent (+22 more)
 
 ### Community 15 - "cip/core.py"
 Cohesion: 0.06
@@ -456,12 +459,12 @@ Cohesion: 0.12
 Nodes (25): get_context(), is_allowed_exception(), is_allowed_rgba(), is_inside_block(), load_css_variables(), main(), print_result(), print_summary() (+17 more)
 
 ### Community 19 - "scripts/core.py"
-Cohesion: 0.11
-Nodes (28): _contains_phrase(), _domain_keywords(), _exact_stack_identifier(), _file_signature(), _get_bm25(), _load_csv(), _load_csv_snapshot(), _load_product_keywords() (+20 more)
+Cohesion: 0.10
+Nodes (33): _contains_phrase(), _domain_keywords(), _exact_match_diagnostic(), _file_signature(), _get_bm25(), _legacy_successor_guidance(), _load_csv(), _load_csv_snapshot() (+25 more)
 
 ### Community 20 - "search"
-Cohesion: 0.12
-Nodes (6): Resolve a deprecated in-domain alias, or expose a cross-domain redirect., Main search function with auto-domain detection, search(), _style_search_destination(), TestSearchDomains, TestStyleTaxonomy
+Cohesion: 0.10
+Nodes (8): Resolve a deprecated in-domain alias, or expose a cross-domain redirect., Main search function with auto-domain detection, search(), _style_search_destination(), TestSearchDomains, Regression tests for the public style taxonomy and search contract., read_rows(), TestStyleTaxonomy
 
 ### Community 21 - "icon/generate.py"
 Cohesion: 0.18
@@ -484,8 +487,8 @@ Cohesion: 0.14
 Nodes (20): _e(), generate_chart_slide(), generate_cta_slide(), generate_deck(), generate_metrics_slide(), generate_problem_slide(), generate_solution_slide(), generate_testimonial_slide() (+12 more)
 
 ### Community 26 - "_style_is_dark_primary"
-Cohesion: 0.16
-Nodes (9): _query_wants_dark(), True when a styles.csv row describes itself as dark-first., True when the query explicitly asks for a dark theme., Resolve the mode the rest of the output has to agree with., _resolve_color_mode(), _style_is_dark_primary(), TestModeResolution, Regression tests for the public style taxonomy and search contract. (+1 more)
+Cohesion: 0.24
+Nodes (7): _query_wants_dark(), True when a styles.csv row describes itself as dark-first., True when the query explicitly asks for a dark theme., Resolve the mode the rest of the output has to agree with., _resolve_color_mode(), _style_is_dark_primary(), TestModeResolution
 
 ### Community 27 - "app/layout.tsx"
 Cohesion: 0.21
@@ -495,9 +498,9 @@ Nodes (8): sonner, inter, metadata, viewport, AuthGuard(), isPublicRoute(), PUBL
 Cohesion: 0.05
 Nodes (43): Arbitrary Values, Aspect Ratio, Background Colors, Border Color, Border Radius, Border Style, Border Width, Borders (+35 more)
 
-### Community 29 - "scripts/search.py"
-Cohesion: 0.50
-Nodes (3): format_output(), UI/UX Pro Max Search - BM25 search engine for UI/UX style guides Usage: python…, Format results for Claude consumption (token-optimized)
+### Community 29 - "generate_design_system"
+Cohesion: 0.22
+Nodes (6): generate_design_system(), Main entry point for design system generation. Args: query: Search query (e.g.,…, format_output(), UI/UX Pro Max Search - BM25 search engine for UI/UX style guides Usage: python…, Format results for Claude consumption (token-optimized), TestPersistence
 
 ### Community 30 - "logo/core.py"
 Cohesion: 0.10
@@ -512,8 +515,8 @@ Cohesion: 0.11
 Nodes (19): $type, $value, background, foreground, muted-foreground, primary, primary-hover, secondary (+11 more)
 
 ### Community 33 - "CrmTab.tsx"
-Cohesion: 0.12
-Nodes (24): DELETE, dynamic, GET, PATCH, POST, CrmTab(), EMPTY_FORM, fmtBRL() (+16 more)
+Cohesion: 0.17
+Nodes (16): CrmTab(), EMPTY_FORM, fmtBRL(), histNoteRow, isOverdue(), Lead, FLOW, LEAD_SOURCE_LABELS (+8 more)
 
 ### Community 34 - "TypeScript Config Settings"
 Cohesion: 0.11
@@ -564,7 +567,7 @@ Cohesion: 0.16
 Nodes (10): main(), Tailwind CSS Configuration Generator Generate tailwind.config.js/ts with custom…, Tests for tailwind_config_gen.py, Reduce a generated TS/JS config to a bare assignable object so it can be handed…, Regression guard for the missing-comma bug between the ``theme`` block and…, The property preceding ``plugins`` must end with a comma (pure-Python check, so…, The emitted config parses as valid JS via ``node --check``., _strip_to_object() (+2 more)
 
 ### Community 47 - "test_design_system_mode.py"
-Cohesion: 0.14
+Cohesion: 0.15
 Nodes (13): _contrast_ratio(), _derive_dark_palette(), _palette_is_dark(), WCAG relative luminance of a #RRGGBB string, or None if unparseable., True when a colors.csv row's Background is a dark surface., WCAG contrast ratio for two hex colors, or None if either is invalid., Keep product brand tokens while deriving accessible dark surfaces., Pick the highest-ranked palette matching the resolved mode. Only the dark case… (+5 more)
 
 ### Community 48 - "Testing Dev Dependencies"
@@ -579,12 +582,12 @@ Nodes (10): @supabase/supabase-js, admin, env, admin, env, admin, env, admin (+2
 Cohesion: 0.16
 Nodes (20): dynamic, POST, dynamic, POST, dynamic, POST, basicAuth(), detectEnvironment() (+12 more)
 
-### Community 51 - "FiscalTab.tsx"
-Cohesion: 0.28
-Nodes (6): FiscalTab(), fmtBRL(), Invoice, STATUS_COLORS, STATUS_ICON, STATUS_LABEL
+### Community 51 - "react"
+Cohesion: 0.13
+Nodes (13): react, ADDONS, FAQ, MODULES, PLANS, FiscalTab(), fmtBRL(), Invoice (+5 more)
 
 ### Community 52 - "DesignSystemGenerator"
-Cohesion: 0.16
+Cohesion: 0.15
 Nodes (7): DesignSystemGenerator, Generates design system recommendations from aggregated searches., Load reasoning rules from CSV., Select best matching result based on priority keywords., TestReasoningMatch, The exact reproduction from issue #428., TestEndToEndCoherence
 
 ### Community 53 - "Design Token Validation"
@@ -615,9 +618,9 @@ Nodes (10): extractColorsFromTable(), extractCoreAttributes(), extractHexColors(
 Cohesion: 0.18
 Nodes (8): args, fs, minimal, MINIMAL_TOKENS, path, projectRoot, tokensPath, wrapStyle
 
-### Community 60 - "primitive"
-Cohesion: 0.18
-Nodes (11): fast, normal, slow, $type, $value, $type, $value, primitive (+3 more)
+### Community 60 - "duration"
+Cohesion: 0.20
+Nodes (10): fast, normal, slow, $type, $value, $type, $value, duration (+2 more)
 
 ### Community 61 - "ShadcnInstaller"
 Cohesion: 0.22
@@ -647,9 +650,9 @@ Nodes (9): flattenTokens(), fs, generateCSS(), generateTailwind(), main(), parse
 Cohesion: 0.32
 Nodes (6): FieldErrors, FieldValidation, getFieldLabel(), validateField(), validateForm(), ValidationRule
 
-### Community 68 - "Stack Query Token Processor"
-Cohesion: 0.22
-Nodes (9): _exact_match_diagnostic(), _legacy_successor_guidance(), _normalize(), Apply longest-first synonym substitution at token boundaries., Whether a stack query explicitly targets an older framework generation., Choose one coherent applicability generation for stack retrieval., Prefer the explicit successor row for a brand-new app on legacy-only stacks., _stack_query_requests_legacy() (+1 more)
+### Community 68 - "leads/route.ts"
+Cohesion: 0.39
+Nodes (7): DELETE, dynamic, GET, PATCH, POST, isValidLeadSource(), isValidLeadStage()
 
 ### Community 69 - "Public Service Orders DB"
 Cohesion: 0.36
@@ -675,13 +678,13 @@ Nodes (34): Accessibility, Available Domains, Available Stacks, Common Rules for
 Cohesion: 0.31
 Nodes (8): brl(), CarnetRow, contractIsActive(), HolderContract, holderIsInactive(), HolderRow, ModalCarnets(), STATUS_STYLE
 
-### Community 75 - "landing/page.tsx"
+### Community 75 - "FleetTab.tsx"
 Cohesion: 0.33
-Nodes (4): ADDONS, FAQ, MODULES, PLANS
+Nodes (4): EMPTY_FORM, FleetTab(), VEHICLE_TYPES, Vehicle
 
 ### Community 76 - "radius"
-Cohesion: 0.29
-Nodes (8): $type, $value, $type, $value, radius, default, full, default
+Cohesion: 0.19
+Nodes (14): $type, $value, $type, $value, $type, $value, primitive, radius (+6 more)
 
 ### Community 77 - "Public Identity Resolver"
 Cohesion: 0.25
@@ -699,9 +702,9 @@ Nodes (6): collectFiles(), files, fs, MAP, path, ROOT
 Cohesion: 0.06
 Nodes (32): Accordion, Alert, Alert Dialog, Avatar, Badge, Button, Card, Checkbox (+24 more)
 
-### Community 81 - "notify.ts"
-Cohesion: 0.12
-Nodes (17): lucide-react, Props, WebhookEvent, ModalCobrancaAvulsa(), FiscalConfigData, FiscalSettingsSection(), EMPTY_FORM, fmtBrl() (+9 more)
+### Community 81 - "notifySuccess"
+Cohesion: 0.10
+Nodes (17): lucide-react, ModalWebhookRetry(), Props, WebhookEvent, FiscalConfigData, FiscalSettingsSection(), fmtPercent(), Seller (+9 more)
 
 ### Community 82 - "Project NPM Scripts"
 Cohesion: 0.29
@@ -723,9 +726,9 @@ Nodes (4): admin, anon, clienteUser, env
 Cohesion: 0.33
 Nodes (5): ALLOWLIST, API_DIR, INTENTIONAL_CROSS_TENANT, listRouteFiles(), NO_TENANT_SCOPE
 
-### Community 87 - "shadow"
-Cohesion: 0.47
-Nodes (6): sm, shadow, sm, sm, $type, $value
+### Community 87 - "sm"
+Cohesion: 0.60
+Nodes (5): sm, sm, sm, $type, $value
 
 ### Community 88 - "Client Onboarding Script"
 Cohesion: 0.33
@@ -755,9 +758,9 @@ Nodes (3): admin, anon, env
 Cohesion: 0.20
 Nodes (10): fg, font-size, hover-bg, button, $type, $value, $type, $value (+2 more)
 
-### Community 96 - "contracts/route.ts"
-Cohesion: 0.50
-Nodes (4): DELETE, GET, POST, isWithinGracePeriod()
+### Community 96 - "BenefitsTab.tsx"
+Cohesion: 0.40
+Nodes (3): BenefitsTab(), EMPTY_FORM, Partner
 
 ### Community 97 - "input"
 Cohesion: 0.29
@@ -859,9 +862,9 @@ Nodes (4): padding-y, padding-y, $type, $value
 Cohesion: 0.67
 Nodes (4): $type, $value, none, none
 
-### Community 128 - "md"
+### Community 128 - "16"
 Cohesion: 0.67
-Nodes (4): $type, $value, md, md
+Nodes (3): $type, $value, 16
 
 ### Community 130 - "destructive"
 Cohesion: 0.67
@@ -1048,8 +1051,8 @@ Cohesion: 0.14
 Nodes (13): Card Styles, Component Variants, CSS Structures, Feature Grid (3 columns), Layout Decision Flow, Layout Patterns, Layout Selection by Use Case, Metric Styles (+5 more)
 
 ### Community 333 - "notifyError"
-Cohesion: 0.14
-Nodes (22): DependentesPage(), VALID_RELATIONS, ImportarTitularesPage(), ImportResult, InvalidRow, TitularesPage(), ModalRBAC(), UserRole (+14 more)
+Cohesion: 0.10
+Nodes (27): ImportarTitularesPage(), ImportResult, InvalidRow, ModalRBAC(), UserRole, CHAPEL_ROOMS, ModalChapel(), toDatetimeLocal() (+19 more)
 
 ### Community 334 - "update.md"
 Cohesion: 0.15
@@ -1111,6 +1114,10 @@ Nodes (6): Animation Classes, Background Images, Base Structure, Chart.js Integr
 Cohesion: 0.29
 Nodes (6): Animation Classes, Background Images, Base Structure, Chart.js Integration, CSS Variables Reference, HTML Slide Template
 
+### Community 349 - "1"
+Cohesion: 0.67
+Nodes (3): $type, $value, 1
+
 ### Community 350 - "Slides"
 Cohesion: 0.33
 Nodes (5): References (Knowledge Base), Routing, Slides, Subcommands, When to Use
@@ -1120,7 +1127,7 @@ Cohesion: 0.33
 Nodes (6): 4️⃣ Onboarding: chegou um cliente novo, e agora?, 🪦 E quando um familiar de um associado morre?, Passo 1 — Criar o tenant, Passo 2 — Criar o login do dono dela, Passo 3 — O cliente loga, Passo 4 — Upsell de plano
 
 ### Community 352 - "supabaseAdmin.ts"
-Cohesion: 0.04
+Cohesion: 0.05
 Nodes (45): dynamic, POST, dynamic, GET, POST, dynamic, GET, POST (+37 more)
 
 ### Community 353 - "AGENTS.md"
@@ -1134,6 +1141,10 @@ Nodes (4): Brand Guidelines Template, Document Structure, Extractable Fields, Us
 ### Community 355 - "7. PENDÃŠNCIAS TÃ‰CNICAS / FOLLOW-UP (memoria de sessao)"
 Cohesion: 0.40
 Nodes (5): 7. PENDÃŠNCIAS TÃ‰CNICAS / FOLLOW-UP (memoria de sessao), A. Dependentes via API server (hardening), B. RevisÃ£o visual do theme claro no monÃ³lito page.tsx, C. Agente WhatsApp (continua em andamento), D. NFS-e
+
+### Community 356 - "3"
+Cohesion: 0.67
+Nodes (3): $type, $value, 3
 
 ### Community 358 - "1. AGENTE DE TRIAGEM WHATSAPP (Evolution API) - MODULO EXTRA (COBRADO À PARTE)"
 Cohesion: 0.50
@@ -1159,25 +1170,29 @@ Nodes (3): 4️⃣ CONFIGURAR O SEGREDO DO WEBHOOK DO ASAAS, Passo a passo, Por 
 Cohesion: 0.67
 Nodes (3): 6️⃣ BACKUPS AUTOMÁTICOS DO BANCO, Passo a passo, Por quê?
 
+### Community 371 - "8"
+Cohesion: 0.67
+Nodes (3): $type, $value, 8
+
 ## Knowledge Gaps
-- **1383 isolated node(s):** `fs`, `path`, `fs`, `path`, `fs` (+1378 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 1982 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **1385 isolated node(s):** `fs`, `path`, `fs`, `path`, `fs` (+1380 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 1985 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **138 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `@supabase/supabase-js` connect `Supabase Client Scripts` to `authFetch.ts`, `Full Audit Script`, `Policy Detail Diagnostic`, `Project Identification Script`, `Insert Test Three`, `Insert Test Four`, `package.json`, `Final Isolation Test`, `Isolation Test v2`, `Client Onboarding Script`, `Behavior Inspection Script`, `API Test Script`, `Isolation Test v3`, `Isolation Test v4`, `Isolation Test v5`, `Isolation Test v6`, `supabaseAdmin.ts`, `Tenant Cleanup Scripts`, `Database RLS Tests`, `Isolation Fix Tests`, `Superadmin Check Script`, `Database Table Creation`, `User Creation Script`, `Roles Diagnostic Script`, `RBAC Data Insertion`?**
+- **Why does `@supabase/supabase-js` connect `Supabase Client Scripts` to `Full Audit Script`, `Policy Detail Diagnostic`, `Project Identification Script`, `Insert Test Three`, `Insert Test Four`, `package.json`, `notifySuccess`, `Final Isolation Test`, `Isolation Test v2`, `Client Onboarding Script`, `Behavior Inspection Script`, `API Test Script`, `Isolation Test v3`, `Isolation Test v4`, `Isolation Test v5`, `Isolation Test v6`, `supabaseAdmin.ts`, `Tenant Cleanup Scripts`, `Database RLS Tests`, `Isolation Fix Tests`, `Superadmin Check Script`, `Database Table Creation`, `User Creation Script`, `Roles Diagnostic Script`, `RBAC Data Insertion`?**
   _High betweenness centrality (0.011) - this node is a cross-community bridge._
-- **Why does `search()` connect `search` to `validate_data.py`, `.generate`, `BM25`, `Stack Query Token Processor`, `design_system.py`, `Search Domain Detection`, `Public Identity Resolver`, `scripts/core.py`, `_style_is_dark_primary`, `scripts/search.py`, `Text Layout Resilience Tests`?**
-  _High betweenness centrality (0.008) - this node is a cross-community bridge._
-- **Why does `primitive` connect `primitive` to `Design Token Values`, `Font Size Tokens`, `spacing`, `design-tokens-starter.json`, `radius`, `shadow`?**
+- **Why does `search()` connect `search` to `validate_data.py`, `.generate`, `BM25`, `design_system.py`, `search_stack`, `Search Domain Detection`, `Public Identity Resolver`, `scripts/core.py`, `generate_design_system`, `Text Layout Resilience Tests`?**
+  _High betweenness centrality (0.007) - this node is a cross-community bridge._
+- **Why does `primitive` connect `radius` to `Design Token Values`, `Font Size Tokens`, `spacing`, `design-tokens-starter.json`, `duration`?**
   _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `TailwindConfigGenerator` (e.g. with `TestGeneratedConfigIsValidJs` and `TestTailwindConfigGenerator`) actually correct?**
   _`TailwindConfigGenerator` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `fs`, `path`, `fs` to the rest of the system?**
-  _1383 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1385 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `validate_data.py` be split into smaller, more focused modules?**
   _Cohesion score 0.07401129943502825 - nodes in this community are weakly interconnected._
 - **Should `sanitizeString` be split into smaller, more focused modules?**
-  _Cohesion score 0.08 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05888376856118792 - nodes in this community are weakly interconnected._

@@ -2088,9 +2088,9 @@
     "semantic_hash": ""
   },
   "src/types/domain.ts": {
-    "mtime": 1789353100.3246553,
-    "seen": 1789353254.5156403,
-    "ast_hash": "db2541b266ee3d87354d890ab8ab1d5d",
+    "mtime": 1789353428.6587803,
+    "seen": 1789353521.5865266,
+    "ast_hash": "8bda14603500776d022d607ebe35bbd5",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
@@ -2163,6 +2163,18 @@
     "mtime": 1789353196.4933305,
     "seen": 1789353254.5156057,
     "ast_hash": "268053dd0bcf60344dfe8595d42a4ad8",
+    "semantic_hash": ""
+  },
+  "src/app/(dashboard)/capela/page.tsx": {
+    "mtime": 1789353468.9917524,
+    "seen": 1789353521.5863693,
+    "ast_hash": "ce416e5d7303343288cf29aa18ff6ccf",
+    "semantic_hash": ""
+  },
+  "src/components/tabs/ChapelTab.tsx": {
+    "mtime": 1789353457.8592067,
+    "seen": 1789353521.5864794,
+    "ast_hash": "bc79a7c918fe8167b950acd633ad0b26",
     "semantic_hash": ""
   }
 }
