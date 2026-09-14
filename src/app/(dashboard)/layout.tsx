@@ -42,6 +42,7 @@ export default function DashboardLayout({
                 <Link href="/capela" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/capela' ? 'text-amber-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Capela</Link>
                 <Link href="/ordens" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/ordens' ? 'text-red-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Ordens de Serviço</Link>
                 <Link href="/sepultamentos" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/sepultamentos' ? 'text-sky-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Sepultamentos</Link>
+                <Link href="/logistica" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/logistica' ? 'text-teal-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Logística</Link>
               </div>
             </details>
             <details className="relative">
