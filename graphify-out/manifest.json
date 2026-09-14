@@ -2088,15 +2088,27 @@
     "semantic_hash": ""
   },
   "src/types/domain.ts": {
-    "mtime": 1789348781.5096004,
-    "seen": 1789349499.0978718,
-    "ast_hash": "5fd1b83ad0f7b66c91cbf2f3be64776e",
+    "mtime": 1789350044.1586955,
+    "seen": 1789350252.739862,
+    "ast_hash": "3368c2541c62077671d729bc22af1d7c",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
     "mtime": 1789349116.1274126,
     "seen": 1789349499.0976827,
     "ast_hash": "5b11e8407d41ed6f4d6997a670c45b4a",
+    "semantic_hash": ""
+  },
+  "src/app/(dashboard)/beneficios/page.tsx": {
+    "mtime": 1789350189.7012255,
+    "seen": 1789350252.7395146,
+    "ast_hash": "30c0872e8672bcae9520d3ccf880cb5b",
+    "semantic_hash": ""
+  },
+  "src/components/tabs/BenefitsTab.tsx": {
+    "mtime": 1789350179.1784365,
+    "seen": 1789350252.73976,
+    "ast_hash": "b2878d0a53af135353a48b0e16198e37",
     "semantic_hash": ""
   }
 }
