@@ -1,18 +1,21 @@
 # Jornada: Graphify + Refatoração do `page.tsx`
 
 > Registro cronológico da integração do Graphify ao projeto `eternitysos`
-> e das fases de refatoração do monolito `src/app/page.tsx` (~5110 linhas).
+> e das fases de refatoração do monolito `src/app/page.tsx` (~4942 linhas).
 >
-> **Última atualização:** 2026-09-13
-> **Branch atual:** `refactor/fase-2-titulares`
-> **Último commit:** `ce5e5ca` (grafo atualizado após 2a e 2b)
+> **Última atualização:** 2026-09-14
+> **Branch atual:** `refactor/fase-4-servico-funerario` (pré-merge Fase 4)
+> **Último commit:** `84f46de` (AGENTS.md refinado pós-Fase 4)
+> **Progresso:** Fases 1, 2, 3, 4 completas · Fase 5 (Cobrança) próxima
+> **Score `page.tsx`:** 1.0 → **1.4** (+0.4)
+> **Testes:** 146 passando
 
 ---
 
 ## 1. Contexto e motivação
 
 O projeto `eternitysos` (ERP funerário multi-tenant em Next.js 16 + React 19 + Supabase)
-tem um monolito frontend de **~5110 linhas** em `src/app/page.tsx` que concentra:
+tem um monolito frontend de **~4942 linhas** em `src/app/page.tsx` que concentra:
 
 - Autenticação e estado do tenant
 - Fetching direto ao Supabase de ~10 tabelas
@@ -24,6 +27,9 @@ seguindo o padrão **Strangler Fig** (construir o novo em paralelo, remover o an
 
 **Objetivo do Graphify:** ter um **mapa real do código** (grafo de símbolos) para
 medir blast radius de cada mudança antes de executá-la.
+
+**Objetivo do Repowise:** camada adicional de inteligência (histórico Git, score de saúde,
+análise de risco de commits, código morto).
 
 ---
 
@@ -62,13 +68,13 @@ graphify cluster-only .              # regerar relatório + nomear comunidades
 graphify label . --batch-size 50     # só renomear comunidades
 ```
 
-### Estado final do grafo
+### Estado final do grafo (após Fase 4c)
 
-| Métrica | Valor (após 2a + 2b) |
+| Métrica | Valor |
 |---|---|
-| Nós | 3385 |
-| Arestas | 4799 |
-| Comunidades | 370 |
+| Nós | ~3500 |
+| Arestas | ~5000 |
+| Comunidades | ~370 |
 | Cobertura | 99% EXTRACTED, 1% INFERRED |
 | Arquivos SQL | 43 incluídos via `tree-sitter-sql` |
 
@@ -86,42 +92,108 @@ graphify label . --batch-size 50     # só renomear comunidades
 
 ---
 
-## 3. Plano de refatoração — 6 fases + 5 sub-fases
+## 3. Repowise — camada adicional de inteligência
+
+### Ferramenta
+- **Nome:** Repowise (`pip install repowise`)
+- **Integração:** servidor MCP com 10 ferramentas
+- **Função:** histórico Git, saúde do código, risco de commits, código morto, "por quê" de decisões
+
+### Ferramentas MCP disponíveis
+
+- `get_overview`, `get_context`, `get_symbol`, `get_why`
+- `get_change_risk`, `get_risk`, `get_health`
+- `get_dead_code`, `get_answer`, `search_codebase`
+
+### Uso no fluxo
+
+- **Antes de commitar sub-fase crítica:** `get_change_risk`
+- **Depois de sub-fase grande:** `get_health`
+- **Fase 6 (remover monolito):** `get_dead_code`
+- **Máximo 1 chamada por sub-fase** (evitar estouro de contexto)
+
+### Insight inicial (pré-refatoração)
+
+- Score geral: 6.2/10 ("fair")
+- **Pior performer: `src/app/page.tsx` (score 1.0)**
+- 31 hotspots, 968 findings abertos
+- Zero arquivos estáveis em 90 dias
+
+### Evolução pós-Fase 4c
+
+- **Score `page.tsx`: 1.0 → 1.4 (+0.4)** — primeira mudança após 19 medições
+- Score geral: 6.2 → 6.41
+- Novo pior performer: `src/app/api/webhooks/asaas/route.ts` (score 1.0)
+
+---
+
+## 4. Plano de refatoração — 6 fases
 
 ### Fases macro (por risco crescente)
 
 | Fase | Escopo | Status |
 |---|---|---|
-| **1** | Plans + Sellers (abas folha) | ✅ Na main (`2ed010d`) |
-| **2** | Titulares + Dependentes + Contratos | 🚧 Em andamento |
-| **3** | CRM + Benefícios + Fiscal | ⏳ Pendente |
-| **4** | Serviço funerário (OS, capela, tanatopraxia) | ⏳ Pendente |
-| **5** | Cobrança + Financeiro | ⏳ Pendente |
-| **6** | Auth + Providers (o alicerce) | ⏳ Pendente |
+| **1** | Plans + Sellers (abas folha) | ✅ Na main |
+| **2** | Titulares + Dependentes + Contratos + Import CSV | ✅ Na main |
+| **3** | CRM + Benefícios + Convalescença + Fiscal + Navegação | ✅ Na main |
+| **4** | Serviço Funerário (Frota, Estoque, Tanatopraxia, Capela, OS, Sepultamentos, Logística) | ✅ Na main (exceto 4d-2) |
+| **5** | Cobrança + Financeiro | ⏳ Próxima |
+| **6** | Auth + Providers + remover monolito | ⏳ |
 
-### Fase 2 — sub-fases
+### Fase 2 — detalhamento
 
-| Sub-fase | Escopo | Risco | Status |
-|---|---|---|---|
-| **2a** | Leitura `/titulares` (quick-search + GET holders) | 🟢 Baixo | ✅ `e8ed41d` |
-| **2b** | CRUD `/dependentes` | 🟢 Baixo | ✅ `dcdf728` |
-| **2c** | Import CSV `/titulares/importar` | 🟢 Baixo | ⏳ Próxima |
-| **2d** | `/contratos` + elegibilidade | 🟡 Médio | ⏳ |
-| **2e** | Extrair tipos para `src/types/` | 🟠 Médio-alto | ⏳ |
+| Sub-fase | Escopo | Status |
+|---|---|---|
+| 2a | Leitura `/titulares` (quick-search + GET holders) | ✅ |
+| 2b | CRUD `/dependentes` | ✅ |
+| 2c | Import CSV `/titulares/importar` | ✅ |
+| 2d | `/contratos` + elegibilidade | ✅ |
+| 2e | Extrair tipos para `src/types/domain.ts` | ✅ |
+
+### Fase 3 — detalhamento
+
+| Sub-fase | Escopo | Status |
+|---|---|---|
+| 3a | `/crm` (CrmTab envelopado) | ✅ |
+| 3b | Link `/crm` no layout | ✅ |
+| 3c-1 | `/beneficios` (BenefitsTab novo — 274 linhas) | ✅ |
+| 3c-2 | `/convalescencia` (ConvalescenceTab novo — 336 linhas) | ✅ |
+| 3d | `/fiscal` (FiscalTab envelopado) | ✅ |
+| 3e | Navegação completa com dropdowns agrupados | ✅ |
+
+### Fase 4 — detalhamento
+
+| Sub-fase | Escopo | Status |
+|---|---|---|
+| 4a | Frota (`/frota`), Estoque (`/estoque`) | ✅ |
+| 4b | Tanatopraxia (`/tanatopraxia`), Capela (`/capela`) | ✅ |
+| 4c | Ordens de Serviço (`/ordens`, `/ordens/nova`, cancelar), Sepultamentos (`/sepultamentos`) | ✅ |
+| 4d-1 | Logística (`/logistica` — dispatches + auditoria + rotas de coletor) | ✅ |
+| 4d-2 | Emergências (adiada — fallback via `whatsappAgent.ts`) | ⏸️ |
+| 4d-3 | Link `/logistica` no dropdown Operacional | ✅ |
+
+### Destaques da Fase 4
+
+- Primeira sub-fase que **criou endpoint novo** (`GET /api/dispatches`) — API órfã
+- 3 bugs corrigidos em produção: `deceased_type`, `deceased_id`, `<Link>` com `<a>` (Next.js 16)
+- Teste `routes-auth.test` detecta automaticamente que toda nova rota API tem `withAuth`
+- 146 testes ao final (subiu de 145)
+- Score `page.tsx`: **1.0 → 1.4** (+0.4)
 
 ---
 
-## 4. Blast radius medido pelo Graphify
+## 5. Blast radius medido pelo Graphify
 
 | Fase / Sub-fase | Nós seed | Nós 1-hop | Arestas |
 |---|---|---|---|
 | Fase 1 (executada) | 26 | 46 | 78 |
-| **Fase 2 inteira** | **40** | **79** | **169** |
-| 2a | ~12 | ~12 | ~20 |
-| 2b | ~15 | ~15 | ~30 |
-| 2c | ~8 | ~8 | ~15 |
-| 2d | ~20 | ~20 | ~45 |
-| 2e | ~30 | ~30 | ~60 |
+| Fase 2 inteira | 40 | 79 | 169 |
+| Fase 2a | ~12 | ~12 | ~20 |
+| Fase 2b | ~15 | ~15 | ~30 |
+| Fase 2c | ~8 | ~8 | ~15 |
+| Fase 2d | ~20 | ~20 | ~45 |
+| Fase 2e | ~30 | ~30 | ~60 |
+| Fase 4c (OS + Burials) | ~22 | ~22 | ~50 |
 
 **Insight crítico:** a Fase 2 tem **~2× o blast radius da Fase 1** porque contratos/titulares
 são consumidos por **8 módulos de cobrança/serviço** (asaas-batch, pix, boleto,
@@ -132,9 +204,9 @@ seus 8 símbolos quebra produção. A regra é **consumir, nunca alterar**.
 
 ---
 
-## 5. Padrões e decisões estabelecidas
+## 6. Padrões e decisões estabelecidas
 
-### 5.1 Opção A — Copiar, não mover
+### 6.1 Opção A — Copiar, não mover
 
 **Regra:** em cada sub-fase, criar rota nova **copiando** lógica do `page.tsx`,
 sem modificar `page.tsx`. Duplicação temporária é aceitável; divergência não.
@@ -142,50 +214,52 @@ sem modificar `page.tsx`. Duplicação temporária é aceitável; divergência n
 - ✅ `page.tsx` permanece 100% intacto (diff zero)
 - ✅ Rota nova é independente
 - ✅ Rollback = deletar a pasta nova
-- ⚠️ Duplicação existe até a sub-fase 2e
+- ⚠️ Duplicação existe até a Fase 6
 
-### 5.2 Prompts para IA — padrão "mecânico"
+### 6.2 Fluxo autônomo por sub-fase
 
-Quando for inevitável usar IA no Cline:
-
-1. **Desativar o Graphify temporariamente:**
-   ```powershell
-   Rename-Item "AGENTS.md" "AGENTS.md.bak"
-   ```
-   (impede o Cline de carregar `graph.json` de 2.4MB no contexto)
-
-2. **Colar o código pronto** no prompt, não pedir para a IA criar do zero
-
-3. **Restringir a resposta** ("responda apenas com git status")
-
-4. **Ponto de parada explícito** ("se falhar, diga FALHEI")
-
-5. **Restaurar ao final:**
-   ```powershell
-   Rename-Item "AGENTS.md.bak" "AGENTS.md"
-   ```
-
-### 5.3 Fluxo por sub-fase
+Cada sub-fase segue o ciclo:
 
 ```
-1. git switch refactor/fase-2-titulares
-2. git status --short  → deve estar limpo
-3. Criar arquivo novo (manual ou IA com código pronto)
-4. npx tsc --noEmit    → sem erros
-5. npm run dev         → teste manual no browser
-6. git add + git commit -m "refactor(fase-2X): ..."
-7. graphify update .   → atualiza grafo
-8. git add graphify-out/ + git commit -m "chore: atualizar grafo..."
+1. Reconhecimento (só se nova):
+   - Select-String para mapear APIs e tipos
+   - Responder em 4 seções curtas. PARAR.
+
+2. Execução (após autorização):
+   - Criar arquivos
+   - npx tsc --noEmit (máx 3 tentativas de correção)
+   - npx jest
+   - git add + git commit -m "refactor(fase-XX): ..."
+   - graphify update .
+   - git add graphify-out/ + git commit -m "chore: atualizar grafo"
+   - Reportar em até 10 linhas
+
+3. Teste manual no browser → próxima sub-fase
 ```
+
+### 6.3 Regras de contexto (economia de tokens)
+
+- **NUNCA** ler arquivos > 500 linhas por inteiro
+- **NUNCA** carregar `graph.json`/`GRAPH_REPORT.md`/`graph.html` no contexto
+- **NUNCA** ler `src/app/page.tsx` inteiro — usar `Select-String`
+- **UMA** ferramenta MCP por mensagem
+- Respostas em no máximo 10 linhas
+
+### 6.4 Regra refinada sobre APIs
+
+- **NUNCA modificar** arquivos existentes em `src/app/api/` sem autorização explícita
+- **Criar novos** endpoints é permitido APENAS com:
+  - `withAuth` + `tenant_id` filter
+  - Justificativa (endpoint ausente para funcionalidade órfã)
+  - Autorização explícita no prompt da sub-fase
 
 ---
 
-## 6. Aprendizados sobre IA (Solar Pro 4)
+## 7. Aprendizados sobre IA
 
-**Modelo que NÃO serve para refatoração de código:**
-- Upstage Solar Pro 4 (via Cline)
+### Modelos que NÃO servem para refatoração de código
 
-**Sintomas observados:**
+**Upstage Solar Pro 4 (via Cline)** — sintomas observados:
 - Loop infinito de "Resposta final" (100+ linhas repetidas)
 - Alucinação de arquivos criados que nunca existiram
 - Corrupção de encoding (`Cônjuge` → `CÃ´njuge`)
@@ -193,87 +267,99 @@ Quando for inevitável usar IA no Cline:
 - Imports corrompidos: remover `@` de `@/lib/...`
 - Inserir anotações inválidas (`(see below for file content)`)
 
-**Modelos recomendados:**
+**Poolside Laguna S 2.1** — melhor que Solar, mas:
+- "Runs short" em sessões longas (perde contexto no meio de execução)
+- Mistura espanhol com pt-BR consistentemente
+- Aceitável para tarefas focadas, não para refatorações grandes
+
+### Modelos recomendados
+
 - **DeepSeek** (pago, barato, estável) — preferido
 - **Groq `openai/gpt-oss-120b`** (grátis, com TPM 8000)
 - **Claude Sonnet** (pago, excelente)
 
-**Regra prática:** para CRUDs simples e refatorações mecânicas, **manual é mais rápido que IA**.
+### Regra prática
+
+- Refatorações mecânicas com padrão claro → **manual ou IA com código pronto**
+- CRUDs simples → **IA funciona bem**
+- Tarefas críticas (dinheiro, auth) → **sempre revisar**
 
 ---
 
-## 7. Commits e histórico
+## 8. Commits e histórico
 
-### Branch `refactor/fase-2-titulares`
+### Branch `main` (estado atual)
 
-```
-ce5e5ca (HEAD) chore: atualizar grafo apos 2a e 2b (3385 nos, 4799 arestas)
-dcdf728        refactor(fase-2b): criar rota /dependentes (CRUD)
-e8ed41d        refactor(fase-2a): criar rota /titulares (leitura de associados)
-2ed010d (main) chore: atualizar grafo apos refatoracao da fase 1
-2ead6c6        chore: ignorar cache e snapshots do Graphify
-137b9bc        chore: remover cache do Graphify do versionamento
-d4bed45        refactor(fase-1): migrar Plans e Sellers para route group
-2abc6e5        chore: adicionar Graphify (grafo, relatório e integração com Cline)
-49f53a5        fix: F-16 authFetch fail-closed (ponto de partida)
-```
+Todos os commits das Fases 1-4 estão consolidados aqui após merges sucessivos.
 
-### Branch `main`
-- **Local:** `2ed010d` (com Fase 1)
-- **Remota (`origin/main`):** `2ed010d`
+### Sequência de merges
+
+1. **Fase 1** — `refactor/fase-1-plans-sellers` → main
+2. **Fase 2** — `refactor/fase-2-titulares` → main (5 sub-fases)
+3. **Fase 3** — `refactor/fase-3-crm-fiscal` → main (6 sub-fases)
+4. **Fase 4** — `refactor/fase-4-servico-funerario` → main (5 sub-fases efetivas)
+
+### Estrutura de commits por sub-fase
+
+Cada sub-fase gera **2 commits**:
+- `refactor(fase-XX): <descrição>` — código
+- `chore: atualizar grafo apos XX` — grafo
+
+Total estimado: **~80 commits** (40 refactors + 40 grafo).
+
+### Fixes notáveis (fora do fluxo normal)
+
+- `fix(fase-4c-2b): remover mapeamento desnecessario de deceased_type`
+- `fix(fase-4c-2b): preencher deceased_id obrigatorio pela API`
+- `fix(fase-4c-2a): remover <a> dentro de <Link> (Next.js 16)`
 
 ---
-### Branch `refactor/fase-3-crm-fiscal` (mergeada na main)
 
-Fase 3 — CRM + Benefícios + Convalescença + Fiscal + Navegação:
-
-- 3a: rota /crm (CrmTab envelopado)
-- 3b: link /crm no layout
-- 3c-1: rota /beneficios (BenefitsTab novo — 274 linhas)
-- 3c-2: rota /convalescencia (ConvalescenceTab novo — 336 linhas)
-- 3d: rota /fiscal (FiscalTab envelopado)
-- 3e: navegação completa com dropdowns agrupados
-
-Total: 12 commits (6 refactors + 6 grafo).
-Todos os 145 testes passando ao final.
-## 8. Artefatos gerados
+## 9. Artefatos gerados
 
 | Arquivo | Tamanho | Descrição |
 |---|---|---|
-| `graphify-out/graph.json` | ~2.4 MB | Grafo técnico (3385 nós) |
+| `graphify-out/graph.json` | ~2.4 MB | Grafo técnico |
 | `graphify-out/GRAPH_REPORT.md` | ~36 KB | Relatório legível |
 | `graphify-out/graph.html` | ~2 MB | Visualização interativa |
 | `docs/GRAPHIFY.md` | ~604 linhas | Documento manual escrito pelo Cline |
-| `AGENTS.md` | — | Instruções para agentes de IA |
 | `docs/JORNADA-GRAPHIFY-E-REFATORACAO.md` | este arquivo | Registro cronológico |
+| `AGENTS.md` | ~120 linhas | Instruções para agentes de IA |
+| `.repowise/` | local | Índice local do Repowise (não versionado) |
 
 ---
 
-## 9. Próximos passos
+## 10. Próximos passos
 
-### Curto prazo
-- [ ] **2c** — Import CSV em `/titulares/importar`
-- [ ] **2d** — `/contratos` + painel de elegibilidade
-- [ ] **2e** — Extrair tipos `Holder`/`Dependent`/`Contract` para `src/types/`
+### Fase 5 — Cobrança + Financeiro (próxima)
 
-### Médio prazo
-- [ ] Merge `refactor/fase-2-titulares` → `main` (após 2e)
-- [x] **Fase 3** — CRM + Benefícios + Fiscal ✅ (mergeada na main)
-- [ ] **Fase 4** — Serviço Funerário (OS, capela, tanatopraxia, logística)
-- [ ] **Fase 4** — Serviço funerário
-- [ ] **Fase 5** — Cobrança + Financeiro
-- [ ] **Fase 6** — Auth + Providers
+- [ ] 5a: Billing/Asaas (PIX, boleto, generate-cycles, asaas-batch)
+- [ ] 5b: Financeiro (transactions, summary, regulatory-reserves)
+- [ ] 5c: Accounts payable + Audit logs
+- [ ] **Prioridade especial:** `webhooks/asaas` (score 1.0 — pior do projeto)
 
-### Longo prazo
-- [ ] Remover `page.tsx` monolítico (após Fase 6)
-- [ ] Consolidar `TenantProvider` (hoje é código morto)
-- [ ] Investigar duplicação `vehicles` × `fleet_vehicles`
+### Fase 6 — Auth + remover monolito
+
+- [ ] 6a: Consolidar AuthGuard, TenantContext, ThemeToggle no layout raiz
+- [ ] 6b: Remover tabs restantes do `page.tsx`
+- [ ] 6c: Remover `page.tsx` (após tudo migrado)
+- [ ] 6d: Consolidar `TenantProvider` (hoje é código morto)
+
+### Bugs conhecidos (para corrigir após refatoração)
+
+- [ ] Estoque: botões +/- de `inventory` só alteram estado local (sem POST)
+- [ ] `webhooks/asaas` é o pior performer (score 1.0) — priorizar na Fase 5
+- [ ] Duplicação `page.tsx` × `TenantSettingsTab` (42%)
+- [ ] `loadData` com CCN 44 (brain method)
+- [ ] `TenantProvider` é código morto
+- [ ] Duplicação `vehicles` × `fleet_vehicles`
 
 ---
 
-## 10. Comandos de referência rápida
+## 11. Comandos de referência rápida
 
 ### Graphify
+
 ```powershell
 cd C:\Users\User\eternitysos
 graphify update .                 # incremental, sem LLM
@@ -282,39 +368,42 @@ graphify label . --batch-size 50  # renomear comunidades (Groq)
 ```
 
 ### Git — fluxo por sub-fase
+
 ```powershell
-git switch refactor/fase-2-titulares
 git status --short
 # ... criar arquivo ...
 npx tsc --noEmit
 npm run dev
 git add <arquivo>
-git commit -m "refactor(fase-2X): ..."
+git commit -m "refactor(fase-XX): ..."
 ```
 
 ### Testar
+
 ```powershell
 npx tsc --noEmit                  # TypeScript
 npm run dev                       # dev server em localhost:3000
-npm test                          # se houver testes
+npx jest                          # testes
 ```
 
-### Cline (quando inevitável)
-```powershell
-Rename-Item "AGENTS.md" "AGENTS.md.bak"   # antes
-# ... usar o Cline ...
-Rename-Item "AGENTS.md.bak" "AGENTS.md"   # depois
+### Repowise (via Cline)
+
+```
+Use repowise__get_health para <arquivo>
+Use repowise__get_change_risk para os commits <hash1>, <hash2>
+Use repowise__get_dead_code
 ```
 
 ---
 
-## 11. Links úteis
+## 12. Links úteis
 
 - [Graphify CLI no PyPI](https://pypi.org/project/graphifyy/)
+- [Repowise](https://pypi.org/project/repowise/)
 - [Groq Console (API keys)](https://console.groq.com/keys)
-- [Mermaid Live Editor](https://mermaid.live) — para visualizar diagramas
+- [Mermaid Live Editor](https://mermaid.live) — visualizar diagramas
 - [Extensão VS Code: Markdown Preview Mermaid](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid)
 
 ---
 
-**Fim do registro.** Este arquivo deve ser atualizado a cada sub-fase concluída.
+**Fim do registro.** Este arquivo deve ser atualizado ao final de cada fase.
