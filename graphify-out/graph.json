@@ -108,6 +108,32 @@
       "source_location": "L94"
     },
     {
+      "id": "src_lib_rate_limiter_ratelimitconfig",
+      "label": "RateLimitConfig",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "sanitizeString",
+      "file_type": "code",
+      "norm_label": "ratelimitconfig",
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L16"
+    },
+    {
+      "id": "src_lib_rate_limiter_ratelimitentry",
+      "label": "RateLimitEntry",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "sanitizeString",
+      "file_type": "code",
+      "norm_label": "ratelimitentry",
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L47"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness_testnativedesktopstackfreshness",
       "label": "TestNativeDesktopStackFreshness",
       "_callable": true,
@@ -199,13 +225,39 @@
       "source_location": "L7"
     },
     {
+      "id": "src_app_api_billing_asaas_batch_route_batchresult",
+      "label": "BatchResult",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "batchresult",
+      "source_file": "src/app/api/billing/asaas-batch/route.ts",
+      "source_location": "L9"
+    },
+    {
+      "id": "src_lib_asaasclient_asaasconfig",
+      "label": "AsaasConfig",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "asaasconfig",
+      "source_file": "src/lib/asaasClient.ts",
+      "source_location": "L3"
+    },
+    {
       "id": "src_lib_eligibility_eligibilityresult",
       "label": "EligibilityResult",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "eligibilityresult",
       "source_file": "src/lib/eligibility.ts",
@@ -342,19 +394,6 @@
       "source_location": "L76"
     },
     {
-      "id": "src_components_dashboard_modaldre_financialsummary",
-      "label": "FinancialSummary",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "financialsummary",
-      "source_file": "src/components/dashboard/ModalDRE.tsx",
-      "source_location": "L7"
-    },
-    {
       "id": "src_config_permissions_approle",
       "label": "AppRole",
       "_callable": true,
@@ -392,45 +431,6 @@
       "norm_label": "userrole",
       "source_file": "src/config/permissions.ts",
       "source_location": "L2"
-    },
-    {
-      "id": "src_lib_formvalidation_fielderrors",
-      "label": "FieldErrors",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "fielderrors",
-      "source_file": "src/lib/formValidation.ts",
-      "source_location": "L27"
-    },
-    {
-      "id": "src_lib_formvalidation_fieldvalidation",
-      "label": "FieldValidation",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "fieldvalidation",
-      "source_file": "src/lib/formValidation.ts",
-      "source_location": "L23"
-    },
-    {
-      "id": "src_lib_formvalidation_validationrule",
-      "label": "ValidationRule",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "validationrule",
-      "source_file": "src/lib/formValidation.ts",
-      "source_location": "L6"
     },
     {
       "id": "src_lib_whatsapp_whatsappchargepayload",
@@ -511,6 +511,32 @@
       "source_location": "L20"
     },
     {
+      "id": "src_lib_api_handler_authcontext",
+      "label": "AuthContext",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "authcontext",
+      "source_file": "src/lib/api-handler.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_lib_api_handler_authenticatedhandler",
+      "label": "AuthenticatedHandler",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "authenticatedhandler",
+      "source_file": "src/lib/api-handler.ts",
+      "source_location": "L12"
+    },
+    {
       "id": "src_lib_whatsappagent_triagedata",
       "label": "TriageData",
       "_callable": true,
@@ -576,6 +602,19 @@
       "source_location": "L313"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence",
+      "label": "TestEndToEndCoherence",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": "testendtoendcoherence",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L138"
+    },
+    {
       "id": "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator",
       "label": "TailwindConfigGenerator",
       "_callable": true,
@@ -602,39 +641,13 @@
       "source_location": "L74"
     },
     {
-      "id": "src_lib_api_handler_authcontext",
-      "label": "AuthContext",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "authcontext",
-      "source_file": "src/lib/api-handler.ts",
-      "source_location": "L6"
-    },
-    {
-      "id": "src_lib_api_handler_authenticatedhandler",
-      "label": "AuthenticatedHandler",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "authenticatedhandler",
-      "source_file": "src/lib/api-handler.ts",
-      "source_location": "L12"
-    },
-    {
       "id": "src_lib_financial_incomeinput",
       "label": "IncomeInput",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 29,
-      "community_name": "api-handler.ts",
+      "community_name": "retry/route.ts",
       "file_type": "code",
       "norm_label": "incomeinput",
       "source_file": "src/lib/financial.ts",
@@ -647,7 +660,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 29,
-      "community_name": "api-handler.ts",
+      "community_name": "retry/route.ts",
       "file_type": "code",
       "norm_label": "incomeresult",
       "source_file": "src/lib/financial.ts",
@@ -660,7 +673,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 29,
-      "community_name": "api-handler.ts",
+      "community_name": "retry/route.ts",
       "file_type": "code",
       "norm_label": "incomesource",
       "source_file": "src/lib/financial.ts",
@@ -771,6 +784,19 @@
       "source_location": "L9"
     },
     {
+      "id": "src_components_dashboard_modaldre_financialsummary",
+      "label": "FinancialSummary",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 333,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "financialsummary",
+      "source_file": "src/components/dashboard/ModalDRE.tsx",
+      "source_location": "L7"
+    },
+    {
       "id": "src_components_dashboard_modalrbac_userrole",
       "label": "UserRole",
       "_callable": true,
@@ -784,6 +810,32 @@
       "source_location": "L7"
     },
     {
+      "id": "src_components_dashboard_modalwebhookretry_props",
+      "label": "Props",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 333,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "props",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
+      "source_location": "L23"
+    },
+    {
+      "id": "src_components_dashboard_modalwebhookretry_webhookevent",
+      "label": "WebhookEvent",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 333,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "webhookevent",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
+      "source_location": "L8"
+    },
+    {
       "id": "src_components_tabs_fiscalsettingssection_fiscalconfigdata",
       "label": "FiscalConfigData",
       "_callable": true,
@@ -794,19 +846,6 @@
       "file_type": "code",
       "norm_label": "fiscalconfigdata",
       "source_file": "src/components/tabs/FiscalSettingsSection.tsx",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_components_tabs_planstab_plan",
-      "label": "Plan",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "plan",
-      "source_file": "src/components/tabs/PlansTab.tsx",
       "source_location": "L8"
     },
     {
@@ -940,32 +979,6 @@
       "source_location": "L24"
     },
     {
-      "id": "src_components_dashboard_modalwebhookretry_props",
-      "label": "Props",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "authFetch.ts",
-      "file_type": "code",
-      "norm_label": "props",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
-      "source_location": "L23"
-    },
-    {
-      "id": "src_components_dashboard_modalwebhookretry_webhookevent",
-      "label": "WebhookEvent",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "authFetch.ts",
-      "file_type": "code",
-      "norm_label": "webhookevent",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
-      "source_location": "L8"
-    },
-    {
       "id": "src_contexts_tenantcontext_tenant",
       "label": "Tenant",
       "_callable": true,
@@ -1024,7 +1037,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "SellersTab.tsx",
       "file_type": "code",
       "norm_label": "seller",
       "source_file": "src/components/tabs/SellersTab.tsx",
@@ -1135,19 +1148,6 @@
       "source_location": "L18"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence",
-      "label": "TestEndToEndCoherence",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": "testendtoendcoherence",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L138"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance",
       "label": "TestLuminance",
       "_callable": true,
@@ -1213,56 +1213,43 @@
       "source_location": "L41"
     },
     {
-      "id": "src_app_api_billing_asaas_batch_route_batchresult",
-      "label": "BatchResult",
+      "id": "src_lib_formvalidation_fielderrors",
+      "label": "FieldErrors",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 67,
-      "community_name": "withAuth",
+      "community_name": "formValidation.ts",
       "file_type": "code",
-      "norm_label": "batchresult",
-      "source_file": "src/app/api/billing/asaas-batch/route.ts",
-      "source_location": "L9"
+      "norm_label": "fielderrors",
+      "source_file": "src/lib/formValidation.ts",
+      "source_location": "L27"
     },
     {
-      "id": "src_lib_asaasclient_asaasconfig",
-      "label": "AsaasConfig",
+      "id": "src_lib_formvalidation_fieldvalidation",
+      "label": "FieldValidation",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 67,
-      "community_name": "withAuth",
+      "community_name": "formValidation.ts",
       "file_type": "code",
-      "norm_label": "asaasconfig",
-      "source_file": "src/lib/asaasClient.ts",
-      "source_location": "L3"
+      "norm_label": "fieldvalidation",
+      "source_file": "src/lib/formValidation.ts",
+      "source_location": "L23"
     },
     {
-      "id": "src_lib_rate_limiter_ratelimitconfig",
-      "label": "RateLimitConfig",
+      "id": "src_lib_formvalidation_validationrule",
+      "label": "ValidationRule",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 67,
-      "community_name": "withAuth",
+      "community_name": "formValidation.ts",
       "file_type": "code",
-      "norm_label": "ratelimitconfig",
-      "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L16"
-    },
-    {
-      "id": "src_lib_rate_limiter_ratelimitentry",
-      "label": "RateLimitEntry",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "ratelimitentry",
-      "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L47"
+      "norm_label": "validationrule",
+      "source_file": "src/lib/formValidation.ts",
+      "source_location": "L6"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testpersistence",
@@ -1330,6 +1317,19 @@
       "source_location": "L8"
     },
     {
+      "id": "src_components_tabs_convalescencetab_catalogitem",
+      "label": "CatalogItem",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "titulares/page.tsx",
+      "file_type": "code",
+      "norm_label": "catalogitem",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L11"
+    },
+    {
       "id": "src_types_domain_contract",
       "label": "Contract",
       "_callable": true,
@@ -1354,6 +1354,19 @@
       "norm_label": "contractplan",
       "source_file": "src/types/domain.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "src_types_domain_convalescenceitem",
+      "label": "ConvalescenceItem",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "titulares/page.tsx",
+      "file_type": "code",
+      "norm_label": "convalescenceitem",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L52"
     },
     {
       "id": "src_types_domain_dependent",
@@ -1419,6 +1432,19 @@
       "norm_label": "dadospayload",
       "source_file": "src/types/index.ts",
       "source_location": "L4"
+    },
+    {
+      "id": "src_components_tabs_planstab_plan",
+      "label": "Plan",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 96,
+      "community_name": "PlansTab.tsx",
+      "file_type": "code",
+      "norm_label": "plan",
+      "source_file": "src/components/tabs/PlansTab.tsx",
+      "source_location": "L8"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_read_rows",
@@ -1745,18 +1771,6 @@
       "source_location": "L743"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_validate_data_check_reasoning_contract",
-      "label": "_check_reasoning_contract()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "validate_data.py",
-      "file_type": "code",
-      "norm_label": "_check_reasoning_contract()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/validate_data.py",
-      "source_location": "L331"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_validate_data_check_stack_freshness_contract",
       "label": "_check_stack_freshness_contract()",
       "_callable": true,
@@ -2033,6 +2047,30 @@
       "source_location": "L11"
     },
     {
+      "id": "src_lib_crm_isvalidleadsource",
+      "label": "isValidLeadSource()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "sanitizeString",
+      "file_type": "code",
+      "norm_label": "isvalidleadsource()",
+      "source_file": "src/lib/crm.ts",
+      "source_location": "L52"
+    },
+    {
+      "id": "src_lib_crm_isvalidleadstage",
+      "label": "isValidLeadStage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "sanitizeString",
+      "file_type": "code",
+      "norm_label": "isvalidleadstage()",
+      "source_file": "src/lib/crm.ts",
+      "source_location": "L38"
+    },
+    {
       "id": "src_lib_planlimits_checkholderlimit",
       "label": "checkHolderLimit()",
       "_callable": true,
@@ -2069,52 +2107,40 @@
       "source_location": "L87"
     },
     {
-      "id": "src_lib_validation_clampnumber",
-      "label": "clampNumber()",
+      "id": "src_lib_rate_limiter_checkratelimit",
+      "label": "checkRateLimit()",
       "_callable": true,
       "_origin": "ast",
       "community": 1,
       "community_name": "sanitizeString",
       "file_type": "code",
-      "norm_label": "clampnumber()",
-      "source_file": "src/lib/validation.ts",
-      "source_location": "L91"
+      "norm_label": "checkratelimit()",
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L21"
     },
     {
-      "id": "src_lib_validation_isvalidcnpj",
-      "label": "isValidCNPJ()",
+      "id": "src_lib_rate_limiter_legacycheckratelimit",
+      "label": "legacyCheckRateLimit()",
       "_callable": true,
       "_origin": "ast",
       "community": 1,
       "community_name": "sanitizeString",
       "file_type": "code",
-      "norm_label": "isvalidcnpj()",
-      "source_file": "src/lib/validation.ts",
-      "source_location": "L50"
+      "norm_label": "legacycheckratelimit()",
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L54"
     },
     {
-      "id": "src_lib_validation_isvalidcpf",
-      "label": "isValidCPF()",
+      "id": "src_lib_rate_limiter_resetratelimit",
+      "label": "resetRateLimit()",
       "_callable": true,
       "_origin": "ast",
       "community": 1,
       "community_name": "sanitizeString",
       "file_type": "code",
-      "norm_label": "isvalidcpf()",
-      "source_file": "src/lib/validation.ts",
-      "source_location": "L29"
-    },
-    {
-      "id": "src_lib_validation_isvaliddate",
-      "label": "isValidDate()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "isvaliddate()",
-      "source_file": "src/lib/validation.ts",
-      "source_location": "L76"
+      "norm_label": "resetratelimit()",
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L39"
     },
     {
       "id": "src_lib_validation_isvalidemail",
@@ -2129,54 +2155,6 @@
       "source_location": "L25"
     },
     {
-      "id": "src_lib_validation_isvalidisodate",
-      "label": "isValidISODate()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "isvalidisodate()",
-      "source_file": "src/lib/validation.ts",
-      "source_location": "L81"
-    },
-    {
-      "id": "src_lib_validation_isvalidnumber",
-      "label": "isValidNumber()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "isvalidnumber()",
-      "source_file": "src/lib/validation.ts",
-      "source_location": "L86"
-    },
-    {
-      "id": "src_lib_validation_isvalidphone",
-      "label": "isValidPhone()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "isvalidphone()",
-      "source_file": "src/lib/validation.ts",
-      "source_location": "L46"
-    },
-    {
-      "id": "src_lib_validation_sanitizecnpj",
-      "label": "sanitizeCNPJ()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "sanitizecnpj()",
-      "source_file": "src/lib/validation.ts",
-      "source_location": "L99"
-    },
-    {
       "id": "src_lib_validation_sanitizecpf",
       "label": "sanitizeCPF()",
       "_callable": true,
@@ -2187,30 +2165,6 @@
       "norm_label": "sanitizecpf()",
       "source_file": "src/lib/validation.ts",
       "source_location": "L95"
-    },
-    {
-      "id": "src_lib_validation_sanitizehtml",
-      "label": "sanitizeHTML()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "sanitizehtml()",
-      "source_file": "src/lib/validation.ts",
-      "source_location": "L65"
-    },
-    {
-      "id": "src_lib_validation_sanitizephone",
-      "label": "sanitizePhone()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "sanitizephone()",
-      "source_file": "src/lib/validation.ts",
-      "source_location": "L103"
     },
     {
       "id": "src_lib_validation_sanitizestring",
@@ -2777,6 +2731,42 @@
       "source_location": "L209"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_constraints_reach_domain_queries",
+      "label": ".test_constraints_reach_domain_queries()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": ".test_constraints_reach_domain_queries()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L187"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_constraints_reach_domain_queries_capture",
+      "label": "capture()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": "capture()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L191"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_decision_rules_use_closed_array_grammar",
+      "label": ".test_decision_rules_use_closed_array_grammar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": ".test_decision_rules_use_closed_array_grammar()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L101"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_duplicate_semantic_reasoning_labels_fail_validation",
       "label": ".test_duplicate_semantic_reasoning_labels_fail_validation()",
       "_callable": true,
@@ -2909,6 +2899,18 @@
       "source_location": "L45"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_validate_data_check_reasoning_contract",
+      "label": "_check_reasoning_contract()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": "_check_reasoning_contract()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/validate_data.py",
+      "source_location": "L331"
+    },
+    {
       "id": "src_app_carteirinha_cpf_page_carteirinhapage",
       "label": "CarteirinhaPage()",
       "_callable": true,
@@ -2933,16 +2935,64 @@
       "source_location": "L15"
     },
     {
-      "id": "src_lib_eligibility_calculateeligibility",
-      "label": "calculateEligibility()",
+      "id": "src_app_api_billing_asaas_batch_route_contractisactive",
+      "label": "contractIsActive()",
       "_callable": true,
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
-      "norm_label": "calculateeligibility()",
-      "source_file": "src/lib/eligibility.ts",
-      "source_location": "L30"
+      "norm_label": "contractisactive()",
+      "source_file": "src/app/api/billing/asaas-batch/route.ts",
+      "source_location": "L37"
+    },
+    {
+      "id": "src_app_api_billing_asaas_batch_route_holderisinactive",
+      "label": "holderIsInactive()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "holderisinactive()",
+      "source_file": "src/app/api/billing/asaas-batch/route.ts",
+      "source_location": "L23"
+    },
+    {
+      "id": "src_app_api_billing_asaas_batch_route_withtimeout",
+      "label": "withTimeout()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "withtimeout()",
+      "source_file": "src/app/api/billing/asaas-batch/route.ts",
+      "source_location": "L29"
+    },
+    {
+      "id": "src_app_api_billing_boleto_route_withtimeout",
+      "label": "withTimeout()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "withtimeout()",
+      "source_file": "src/app/api/billing/boleto/route.ts",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_lib_asaasclient_getasaasconfigfortenant",
+      "label": "getAsaasConfigForTenant()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "getasaasconfigfortenant()",
+      "source_file": "src/lib/asaasClient.ts",
+      "source_location": "L9"
     },
     {
       "id": "src_lib_eligibility_isbillingeligible",
@@ -2950,7 +3000,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "isbillingeligible()",
       "source_file": "src/lib/eligibility.ts",
@@ -2962,7 +3012,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "iscontractactive()",
       "source_file": "src/lib/eligibility.ts",
@@ -2974,23 +3024,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "isholderactive()",
       "source_file": "src/lib/eligibility.ts",
       "source_location": "L135"
-    },
-    {
-      "id": "src_lib_eligibility_iswithingraceperiod",
-      "label": "isWithinGracePeriod()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "eligibility.ts",
-      "file_type": "code",
-      "norm_label": "iswithingraceperiod()",
-      "source_file": "src/lib/eligibility.ts",
-      "source_location": "L18"
     },
     {
       "id": "scripts_qa_insert_rbac_and_data_userid",
@@ -3077,6 +3115,30 @@
       "source_location": "L11"
     },
     {
+      "id": "src_app_api_tenants_route_gettenantusage",
+      "label": "getTenantUsage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "serverError",
+      "file_type": "code",
+      "norm_label": "gettenantusage()",
+      "source_file": "src/app/api/tenants/route.ts",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_lib_http_error_logerror",
+      "label": "logError()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "serverError",
+      "file_type": "code",
+      "norm_label": "logerror()",
+      "source_file": "src/lib/http-error.ts",
+      "source_location": "L8"
+    },
+    {
       "id": "src_lib_http_error_servererror",
       "label": "serverError()",
       "_callable": true,
@@ -3149,18 +3211,6 @@
       "source_location": "L141"
     },
     {
-      "id": "src_components_dashboard_modaldre_modaldre",
-      "label": "ModalDRE()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "modaldre()",
-      "source_file": "src/components/dashboard/ModalDRE.tsx",
-      "source_location": "L15"
-    },
-    {
       "id": "src_components_themetoggle_themetoggle",
       "label": "ThemeToggle()",
       "_callable": true,
@@ -3207,54 +3257,6 @@
       "norm_label": "istaballowed()",
       "source_file": "src/config/permissions.ts",
       "source_location": "L68"
-    },
-    {
-      "id": "src_lib_formvalidation_createinitialerrors",
-      "label": "createInitialErrors()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "createinitialerrors()",
-      "source_file": "src/lib/formValidation.ts",
-      "source_location": "L184"
-    },
-    {
-      "id": "src_lib_formvalidation_getfieldlabel",
-      "label": "getFieldLabel()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "getfieldlabel()",
-      "source_file": "src/lib/formValidation.ts",
-      "source_location": "L153"
-    },
-    {
-      "id": "src_lib_formvalidation_validatefield",
-      "label": "validateField()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "validatefield()",
-      "source_file": "src/lib/formValidation.ts",
-      "source_location": "L34"
-    },
-    {
-      "id": "src_lib_formvalidation_validateform",
-      "label": "validateForm()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "validateform()",
-      "source_file": "src/lib/formValidation.ts",
-      "source_location": "L134"
     },
     {
       "id": "src_lib_notify_notifywarning",
@@ -4757,6 +4759,30 @@
       "source_location": "L15"
     },
     {
+      "id": "src_lib_api_handler_withauth",
+      "label": "withAuth()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "withauth()",
+      "source_file": "src/lib/api-handler.ts",
+      "source_location": "L20"
+    },
+    {
+      "id": "src_lib_eligibility_calculateeligibility",
+      "label": "calculateEligibility()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "calculateeligibility()",
+      "source_file": "src/lib/eligibility.ts",
+      "source_location": "L30"
+    },
+    {
       "id": "src_lib_whatsappagent_findtenantbywhatsappnumber",
       "label": "findTenantByWhatsAppNumber()",
       "_callable": true,
@@ -5273,28 +5299,64 @@
       "source_location": "L319"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_constraints_reach_domain_queries",
-      "label": ".test_constraints_reach_domain_queries()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_dark_query_does_not_advise_against_dark_mode",
+      "label": ".test_dark_query_does_not_advise_against_dark_mode()",
       "_callable": true,
       "_origin": "ast",
       "community": 23,
       "community_name": "DesignSystemGenerator",
       "file_type": "code",
-      "norm_label": ".test_constraints_reach_domain_queries()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L187"
+      "norm_label": ".test_dark_query_does_not_advise_against_dark_mode()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L179"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_constraints_reach_domain_queries_capture",
-      "label": "capture()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_dark_query_foreground_is_lighter_than_background",
+      "label": ".test_dark_query_foreground_is_lighter_than_background()",
       "_callable": true,
       "_origin": "ast",
       "community": 23,
       "community_name": "DesignSystemGenerator",
       "file_type": "code",
-      "norm_label": "capture()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L191"
+      "norm_label": ".test_dark_query_foreground_is_lighter_than_background()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L171"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_dark_query_gets_a_dark_background",
+      "label": ".test_dark_query_gets_a_dark_background()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": ".test_dark_query_gets_a_dark_background()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L143"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_generator_exports_every_semantic_foreground_pair",
+      "label": ".test_generator_exports_every_semantic_foreground_pair()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": ".test_generator_exports_every_semantic_foreground_pair()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L151"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_light_query_keeps_a_light_background",
+      "label": ".test_light_query_keeps_a_light_background()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": ".test_light_query_keeps_a_light_background()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L183"
     },
     {
       "id": "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_add_breakpoints",
@@ -5693,24 +5755,12 @@
       "source_location": "L9"
     },
     {
-      "id": "src_app_api_tenants_route_gettenantusage",
-      "label": "getTenantUsage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "gettenantusage()",
-      "source_file": "src/app/api/tenants/route.ts",
-      "source_location": "L11"
-    },
-    {
       "id": "src_app_api_webhooks_asaas_route_markwebhookevent",
       "label": "markWebhookEvent()",
       "_callable": true,
       "_origin": "ast",
       "community": 29,
-      "community_name": "api-handler.ts",
+      "community_name": "retry/route.ts",
       "file_type": "code",
       "norm_label": "markwebhookevent()",
       "source_file": "src/app/api/webhooks/asaas/route.ts",
@@ -5722,7 +5772,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 29,
-      "community_name": "api-handler.ts",
+      "community_name": "retry/route.ts",
       "file_type": "code",
       "norm_label": "post()",
       "source_file": "src/app/api/webhooks/asaas/route.ts",
@@ -5734,7 +5784,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 29,
-      "community_name": "api-handler.ts",
+      "community_name": "retry/route.ts",
       "file_type": "code",
       "norm_label": "reprocessevent()",
       "source_file": "src/app/api/webhooks/retry/route.ts",
@@ -5746,7 +5796,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 29,
-      "community_name": "api-handler.ts",
+      "community_name": "retry/route.ts",
       "file_type": "code",
       "norm_label": "generatecommission()",
       "source_file": "src/lib/commissions.ts",
@@ -5758,23 +5808,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 29,
-      "community_name": "api-handler.ts",
+      "community_name": "retry/route.ts",
       "file_type": "code",
       "norm_label": "recordincome()",
       "source_file": "src/lib/financial.ts",
       "source_location": "L48"
-    },
-    {
-      "id": "src_lib_http_error_logerror",
-      "label": "logError()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "logerror()",
-      "source_file": "src/lib/http-error.ts",
-      "source_location": "L8"
     },
     {
       "id": "continue_skills_design_scripts_logo_core_bm25_fit",
@@ -6209,6 +6247,18 @@
       "source_location": "L63"
     },
     {
+      "id": "src_app_dashboard_beneficios_page_beneficiospage",
+      "label": "BeneficiosPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 333,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "beneficiospage()",
+      "source_file": "src/app/(dashboard)/beneficios/page.tsx",
+      "source_location": "L9"
+    },
+    {
       "id": "src_app_dashboard_dependentes_page_dependentespage",
       "label": "DependentesPage()",
       "_callable": true,
@@ -6219,18 +6269,6 @@
       "norm_label": "dependentespage()",
       "source_file": "src/app/(dashboard)/dependentes/page.tsx",
       "source_location": "L10"
-    },
-    {
-      "id": "src_app_dashboard_planes_page_planospage",
-      "label": "PlanosPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "planospage()",
-      "source_file": "src/app/(dashboard)/planes/page.tsx",
-      "source_location": "L5"
     },
     {
       "id": "src_app_dashboard_titulares_importar_page_importartitularespage",
@@ -6257,6 +6295,18 @@
       "source_location": "L8"
     },
     {
+      "id": "src_components_dashboard_modaldre_modaldre",
+      "label": "ModalDRE()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 333,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "modaldre()",
+      "source_file": "src/components/dashboard/ModalDRE.tsx",
+      "source_location": "L15"
+    },
+    {
       "id": "src_components_dashboard_modalrbac_modalrbac",
       "label": "ModalRBAC()",
       "_callable": true,
@@ -6269,6 +6319,18 @@
       "source_location": "L15"
     },
     {
+      "id": "src_components_dashboard_modalwebhookretry_filterbtn",
+      "label": "FilterBtn()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 333,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "filterbtn()",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
+      "source_location": "L52"
+    },
+    {
       "id": "src_components_dashboard_modalwebhookretry_modalwebhookretry",
       "label": "ModalWebhookRetry()",
       "_callable": true,
@@ -6279,6 +6341,18 @@
       "norm_label": "modalwebhookretry()",
       "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
       "source_location": "L63"
+    },
+    {
+      "id": "src_components_dashboard_modalwebhookretry_statusbadge",
+      "label": "StatusBadge()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 333,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "statusbadge()",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
+      "source_location": "L30"
     },
     {
       "id": "src_components_modals_modalcobrancaavulsa_modalcobrancaavulsa",
@@ -6315,30 +6389,6 @@
       "norm_label": "fiscalsettingssection()",
       "source_file": "src/components/tabs/FiscalSettingsSection.tsx",
       "source_location": "L34"
-    },
-    {
-      "id": "src_components_tabs_planstab_fmtbrl",
-      "label": "fmtBrl()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "fmtbrl()",
-      "source_file": "src/components/tabs/PlansTab.tsx",
-      "source_location": "L27"
-    },
-    {
-      "id": "src_components_tabs_planstab_planstab",
-      "label": "PlansTab()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "planstab()",
-      "source_file": "src/components/tabs/PlansTab.tsx",
-      "source_location": "L30"
     },
     {
       "id": "src_components_tabs_tenantsettingstab_tenantsettingstab",
@@ -6483,6 +6533,42 @@
       "norm_label": "main()",
       "source_file": ".continue/skills/design/scripts/logo/generate.py",
       "source_location": "L302"
+    },
+    {
+      "id": "src_lib_eligibility_iswithingraceperiod",
+      "label": "isWithinGracePeriod()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 345,
+      "community_name": "contracts/route.ts",
+      "file_type": "code",
+      "norm_label": "iswithingraceperiod()",
+      "source_file": "src/lib/eligibility.ts",
+      "source_location": "L18"
+    },
+    {
+      "id": "tests_app_page_test_page",
+      "label": "page()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 349,
+      "community_name": "page.test.tsx",
+      "file_type": "code",
+      "norm_label": "page()",
+      "source_file": "tests/app/page.test.tsx",
+      "source_location": "L19"
+    },
+    {
+      "id": "tests_app_page_test_readsrc",
+      "label": "readSrc()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 349,
+      "community_name": "page.test.tsx",
+      "file_type": "code",
+      "norm_label": "readsrc()",
+      "source_file": "tests/app/page.test.tsx",
+      "source_location": "L16"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_bm25_fit",
@@ -7061,6 +7147,18 @@
       "source_location": "L173"
     },
     {
+      "id": "src_app_landing_page_landingpage",
+      "label": "LandingPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "landingpage()",
+      "source_file": "src/app/landing/page.tsx",
+      "source_location": "L60"
+    },
+    {
       "id": "src_app_login_page_loginpage",
       "label": "LoginPage()",
       "_callable": true,
@@ -7071,30 +7169,6 @@
       "norm_label": "loginpage()",
       "source_file": "src/app/login/page.tsx",
       "source_location": "L7"
-    },
-    {
-      "id": "src_components_dashboard_modalwebhookretry_filterbtn",
-      "label": "FilterBtn()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "authFetch.ts",
-      "file_type": "code",
-      "norm_label": "filterbtn()",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
-      "source_location": "L52"
-    },
-    {
-      "id": "src_components_dashboard_modalwebhookretry_statusbadge",
-      "label": "StatusBadge()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "authFetch.ts",
-      "file_type": "code",
-      "norm_label": "statusbadge()",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
-      "source_location": "L30"
     },
     {
       "id": "src_components_modals_modalchapel_modalchapel",
@@ -7385,40 +7459,16 @@
       "source_location": "L203"
     },
     {
-      "id": "src_app_dashboard_beneficios_page_beneficiospage",
-      "label": "BeneficiosPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 43,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "beneficiospage()",
-      "source_file": "src/app/(dashboard)/beneficios/page.tsx",
-      "source_location": "L9"
-    },
-    {
       "id": "src_app_dashboard_vendedores_page_vendedorespage",
       "label": "VendedoresPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "SellersTab.tsx",
       "file_type": "code",
       "norm_label": "vendedorespage()",
       "source_file": "src/app/(dashboard)/vendedores/page.tsx",
       "source_location": "L5"
-    },
-    {
-      "id": "src_app_landing_page_landingpage",
-      "label": "LandingPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 43,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "landingpage()",
-      "source_file": "src/app/landing/page.tsx",
-      "source_location": "L60"
     },
     {
       "id": "src_components_tabs_sellerstab_fmtpercent",
@@ -7426,7 +7476,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "SellersTab.tsx",
       "file_type": "code",
       "norm_label": "fmtpercent()",
       "source_file": "src/components/tabs/SellersTab.tsx",
@@ -7438,35 +7488,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "SellersTab.tsx",
       "file_type": "code",
       "norm_label": "sellerstab()",
       "source_file": "src/components/tabs/SellersTab.tsx",
       "source_location": "L24"
-    },
-    {
-      "id": "tests_app_page_test_page",
-      "label": "page()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 43,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "page()",
-      "source_file": "tests/app/page.test.tsx",
-      "source_location": "L19"
-    },
-    {
-      "id": "tests_app_page_test_readsrc",
-      "label": "readSrc()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 43,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "readsrc()",
-      "source_file": "tests/app/page.test.tsx",
-      "source_location": "L16"
     },
     {
       "id": "continue_skills_brand_scripts_extract_colors_calculatecompliance",
@@ -7841,18 +7867,6 @@
       "source_location": "L87"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_decision_rules_use_closed_array_grammar",
-      "label": ".test_decision_rules_use_closed_array_grammar()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "parse_decision_rules",
-      "file_type": "code",
-      "norm_label": ".test_decision_rules_use_closed_array_grammar()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L101"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_duplicate_unknown_keys_and_unknown_actions_fail_closed",
       "label": ".test_duplicate_unknown_keys_and_unknown_actions_fail_closed()",
       "_callable": true,
@@ -8019,66 +8033,6 @@
       "norm_label": "_select_palette_for_mode()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L220"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_dark_query_does_not_advise_against_dark_mode",
-      "label": ".test_dark_query_does_not_advise_against_dark_mode()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": ".test_dark_query_does_not_advise_against_dark_mode()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L179"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_dark_query_foreground_is_lighter_than_background",
-      "label": ".test_dark_query_foreground_is_lighter_than_background()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": ".test_dark_query_foreground_is_lighter_than_background()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L171"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_dark_query_gets_a_dark_background",
-      "label": ".test_dark_query_gets_a_dark_background()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": ".test_dark_query_gets_a_dark_background()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L143"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_generator_exports_every_semantic_foreground_pair",
-      "label": ".test_generator_exports_every_semantic_foreground_pair()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": ".test_generator_exports_every_semantic_foreground_pair()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L151"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_light_query_keeps_a_light_background",
-      "label": ".test_light_query_keeps_a_light_background()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": ".test_light_query_keeps_a_light_background()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L183"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance_test_classifies_backgrounds_from_the_shipped_data",
@@ -8525,6 +8479,90 @@
       "source_location": "L17"
     },
     {
+      "id": "src_lib_validation_clampnumber",
+      "label": "clampNumber()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "clampnumber()",
+      "source_file": "src/lib/validation.ts",
+      "source_location": "L91"
+    },
+    {
+      "id": "src_lib_validation_isvalidcnpj",
+      "label": "isValidCNPJ()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "isvalidcnpj()",
+      "source_file": "src/lib/validation.ts",
+      "source_location": "L50"
+    },
+    {
+      "id": "src_lib_validation_isvalidcpf",
+      "label": "isValidCPF()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "isvalidcpf()",
+      "source_file": "src/lib/validation.ts",
+      "source_location": "L29"
+    },
+    {
+      "id": "src_lib_validation_isvaliddate",
+      "label": "isValidDate()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "isvaliddate()",
+      "source_file": "src/lib/validation.ts",
+      "source_location": "L76"
+    },
+    {
+      "id": "src_lib_validation_isvalidisodate",
+      "label": "isValidISODate()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "isvalidisodate()",
+      "source_file": "src/lib/validation.ts",
+      "source_location": "L81"
+    },
+    {
+      "id": "src_lib_validation_isvalidnumber",
+      "label": "isValidNumber()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "isvalidnumber()",
+      "source_file": "src/lib/validation.ts",
+      "source_location": "L86"
+    },
+    {
+      "id": "src_lib_validation_isvalidphone",
+      "label": "isValidPhone()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "isvalidphone()",
+      "source_file": "src/lib/validation.ts",
+      "source_location": "L46"
+    },
+    {
       "id": "src_lib_validation_isvaliduuid",
       "label": "isValidUUID()",
       "_callable": true,
@@ -8535,6 +8573,42 @@
       "norm_label": "isvaliduuid()",
       "source_file": "src/lib/validation.ts",
       "source_location": "L21"
+    },
+    {
+      "id": "src_lib_validation_sanitizecnpj",
+      "label": "sanitizeCNPJ()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "sanitizecnpj()",
+      "source_file": "src/lib/validation.ts",
+      "source_location": "L99"
+    },
+    {
+      "id": "src_lib_validation_sanitizehtml",
+      "label": "sanitizeHTML()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "sanitizehtml()",
+      "source_file": "src/lib/validation.ts",
+      "source_location": "L65"
+    },
+    {
+      "id": "src_lib_validation_sanitizephone",
+      "label": "sanitizePhone()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "sanitizephone()",
+      "source_file": "src/lib/validation.ts",
+      "source_location": "L103"
     },
     {
       "id": "continue_skills_ui_styling_scripts_shadcn_add_main",
@@ -8849,112 +8923,52 @@
       "source_location": "L73"
     },
     {
-      "id": "src_app_api_billing_asaas_batch_route_contractisactive",
-      "label": "contractIsActive()",
+      "id": "src_lib_formvalidation_createinitialerrors",
+      "label": "createInitialErrors()",
       "_callable": true,
       "_origin": "ast",
       "community": 67,
-      "community_name": "withAuth",
+      "community_name": "formValidation.ts",
       "file_type": "code",
-      "norm_label": "contractisactive()",
-      "source_file": "src/app/api/billing/asaas-batch/route.ts",
-      "source_location": "L37"
+      "norm_label": "createinitialerrors()",
+      "source_file": "src/lib/formValidation.ts",
+      "source_location": "L184"
     },
     {
-      "id": "src_app_api_billing_asaas_batch_route_holderisinactive",
-      "label": "holderIsInactive()",
+      "id": "src_lib_formvalidation_getfieldlabel",
+      "label": "getFieldLabel()",
       "_callable": true,
       "_origin": "ast",
       "community": 67,
-      "community_name": "withAuth",
+      "community_name": "formValidation.ts",
       "file_type": "code",
-      "norm_label": "holderisinactive()",
-      "source_file": "src/app/api/billing/asaas-batch/route.ts",
-      "source_location": "L23"
+      "norm_label": "getfieldlabel()",
+      "source_file": "src/lib/formValidation.ts",
+      "source_location": "L153"
     },
     {
-      "id": "src_app_api_billing_asaas_batch_route_withtimeout",
-      "label": "withTimeout()",
+      "id": "src_lib_formvalidation_validatefield",
+      "label": "validateField()",
       "_callable": true,
       "_origin": "ast",
       "community": 67,
-      "community_name": "withAuth",
+      "community_name": "formValidation.ts",
       "file_type": "code",
-      "norm_label": "withtimeout()",
-      "source_file": "src/app/api/billing/asaas-batch/route.ts",
-      "source_location": "L29"
+      "norm_label": "validatefield()",
+      "source_file": "src/lib/formValidation.ts",
+      "source_location": "L34"
     },
     {
-      "id": "src_app_api_billing_boleto_route_withtimeout",
-      "label": "withTimeout()",
+      "id": "src_lib_formvalidation_validateform",
+      "label": "validateForm()",
       "_callable": true,
       "_origin": "ast",
       "community": 67,
-      "community_name": "withAuth",
+      "community_name": "formValidation.ts",
       "file_type": "code",
-      "norm_label": "withtimeout()",
-      "source_file": "src/app/api/billing/boleto/route.ts",
-      "source_location": "L11"
-    },
-    {
-      "id": "src_lib_api_handler_withauth",
-      "label": "withAuth()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "withauth()",
-      "source_file": "src/lib/api-handler.ts",
-      "source_location": "L20"
-    },
-    {
-      "id": "src_lib_asaasclient_getasaasconfigfortenant",
-      "label": "getAsaasConfigForTenant()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "getasaasconfigfortenant()",
-      "source_file": "src/lib/asaasClient.ts",
-      "source_location": "L9"
-    },
-    {
-      "id": "src_lib_rate_limiter_checkratelimit",
-      "label": "checkRateLimit()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "checkratelimit()",
-      "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L21"
-    },
-    {
-      "id": "src_lib_rate_limiter_legacycheckratelimit",
-      "label": "legacyCheckRateLimit()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "legacycheckratelimit()",
-      "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L54"
-    },
-    {
-      "id": "src_lib_rate_limiter_resetratelimit",
-      "label": "resetRateLimit()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "resetratelimit()",
-      "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L39"
+      "norm_label": "validateform()",
+      "source_file": "src/lib/formValidation.ts",
+      "source_location": "L134"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_exact_match_diagnostic",
@@ -9497,6 +9511,30 @@
       "source_location": "L11"
     },
     {
+      "id": "src_app_dashboard_convalescencia_page_convalescenciapage",
+      "label": "ConvalescenciaPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "titulares/page.tsx",
+      "file_type": "code",
+      "norm_label": "convalescenciapage()",
+      "source_file": "src/app/(dashboard)/convalescencia/page.tsx",
+      "source_location": "L9"
+    },
+    {
+      "id": "src_components_tabs_convalescencetab_convalescencetab",
+      "label": "ConvalescenceTab()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "titulares/page.tsx",
+      "file_type": "code",
+      "norm_label": "convalescencetab()",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L32"
+    },
+    {
       "id": "scripts_fix_theme_contrast_walk",
       "label": "walk()",
       "_callable": true,
@@ -9737,28 +9775,40 @@
       "source_location": "L18"
     },
     {
-      "id": "src_lib_crm_isvalidleadsource",
-      "label": "isValidLeadSource()",
+      "id": "src_app_dashboard_planes_page_planospage",
+      "label": "PlanosPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 96,
-      "community_name": "leads/route.ts",
+      "community_name": "PlansTab.tsx",
       "file_type": "code",
-      "norm_label": "isvalidleadsource()",
-      "source_file": "src/lib/crm.ts",
-      "source_location": "L52"
+      "norm_label": "planospage()",
+      "source_file": "src/app/(dashboard)/planes/page.tsx",
+      "source_location": "L5"
     },
     {
-      "id": "src_lib_crm_isvalidleadstage",
-      "label": "isValidLeadStage()",
+      "id": "src_components_tabs_planstab_fmtbrl",
+      "label": "fmtBrl()",
       "_callable": true,
       "_origin": "ast",
       "community": 96,
-      "community_name": "leads/route.ts",
+      "community_name": "PlansTab.tsx",
       "file_type": "code",
-      "norm_label": "isvalidleadstage()",
-      "source_file": "src/lib/crm.ts",
-      "source_location": "L38"
+      "norm_label": "fmtbrl()",
+      "source_file": "src/components/tabs/PlansTab.tsx",
+      "source_location": "L27"
+    },
+    {
+      "id": "src_components_tabs_planstab_planstab",
+      "label": "PlansTab()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 96,
+      "community_name": "PlansTab.tsx",
+      "file_type": "code",
+      "norm_label": "planstab()",
+      "source_file": "src/components/tabs/PlansTab.tsx",
+      "source_location": "L30"
     },
     {
       "id": "src_app_manifest_manifest",
@@ -9894,180 +9944,48 @@
       "source_location": "L17"
     },
     {
-      "id": "src_app_api_benefits_partners_route",
-      "label": "partners/route.ts",
+      "id": "src_app_api_billing_avulso_route",
+      "label": "avulso/route.ts",
       "_origin": "ast",
       "community": 1,
       "community_name": "sanitizeString",
       "file_type": "code",
-      "norm_label": "partners/route.ts",
-      "source_file": "src/app/api/benefits/partners/route.ts",
+      "norm_label": "avulso/route.ts",
+      "source_file": "src/app/api/billing/avulso/route.ts",
       "source_location": "L1"
     },
     {
-      "id": "src_app_api_benefits_partners_route_delete",
-      "label": "DELETE",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "delete",
-      "source_file": "src/app/api/benefits/partners/route.ts",
-      "source_location": "L79"
-    },
-    {
-      "id": "src_app_api_benefits_partners_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/benefits/partners/route.ts",
-      "source_location": "L6"
-    },
-    {
-      "id": "src_app_api_benefits_partners_route_patch",
-      "label": "PATCH",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "patch",
-      "source_file": "src/app/api/benefits/partners/route.ts",
-      "source_location": "L45"
-    },
-    {
-      "id": "src_app_api_benefits_partners_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/benefits/partners/route.ts",
-      "source_location": "L16"
-    },
-    {
-      "id": "src_app_api_collector_routes_route",
-      "label": "collector-routes/route.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "collector-routes/route.ts",
-      "source_file": "src/app/api/collector-routes/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_collector_routes_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/collector-routes/route.ts",
-      "source_location": "L6"
-    },
-    {
-      "id": "src_app_api_collector_routes_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/collector-routes/route.ts",
-      "source_location": "L17"
-    },
-    {
-      "id": "src_app_api_financial_transactions_route",
-      "label": "transactions/route.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "transactions/route.ts",
-      "source_file": "src/app/api/financial/transactions/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_financial_transactions_route_delete",
-      "label": "DELETE",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "delete",
-      "source_file": "src/app/api/financial/transactions/route.ts",
-      "source_location": "L90"
-    },
-    {
-      "id": "src_app_api_financial_transactions_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/financial/transactions/route.ts",
-      "source_location": "L20"
-    },
-    {
-      "id": "src_app_api_financial_transactions_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/financial/transactions/route.ts",
-      "source_location": "L58"
-    },
-    {
-      "id": "src_app_api_fiscal_config_route",
-      "label": "config/route.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "config/route.ts",
-      "source_file": "src/app/api/fiscal/config/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_fiscal_config_route_dynamic",
+      "id": "src_app_api_billing_avulso_route_dynamic",
       "label": "dynamic",
       "_origin": "ast",
       "community": 1,
       "community_name": "sanitizeString",
       "file_type": "code",
       "norm_label": "dynamic",
-      "source_file": "src/app/api/fiscal/config/route.ts",
-      "source_location": "L6"
+      "source_file": "src/app/api/billing/avulso/route.ts",
+      "source_location": "L15"
     },
     {
-      "id": "src_app_api_fiscal_config_route_get",
-      "label": "GET",
+      "id": "src_app_api_billing_avulso_route_post",
+      "label": "POST",
       "_origin": "ast",
       "community": 1,
       "community_name": "sanitizeString",
       "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/fiscal/config/route.ts",
-      "source_location": "L63"
+      "norm_label": "post",
+      "source_file": "src/app/api/billing/avulso/route.ts",
+      "source_location": "L17"
     },
     {
-      "id": "src_app_api_fiscal_config_route_patch",
-      "label": "PATCH",
+      "id": "src_app_api_dependents_route_post",
+      "label": "POST",
       "_origin": "ast",
       "community": 1,
       "community_name": "sanitizeString",
       "file_type": "code",
-      "norm_label": "patch",
-      "source_file": "src/app/api/fiscal/config/route.ts",
-      "source_location": "L9"
+      "norm_label": "post",
+      "source_file": "src/app/api/dependents/route.ts",
+      "source_location": "L59"
     },
     {
       "id": "src_app_api_holders_import_route",
@@ -10147,37 +10065,15 @@
       "source_location": "L142"
     },
     {
-      "id": "src_app_api_inventory_route",
-      "label": "inventory/route.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "inventory/route.ts",
-      "source_file": "src/app/api/inventory/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_inventory_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/inventory/route.ts",
-      "source_location": "L6"
-    },
-    {
-      "id": "src_app_api_inventory_route_post",
+      "id": "src_app_api_lead_notes_route_post",
       "label": "POST",
       "_origin": "ast",
       "community": 1,
       "community_name": "sanitizeString",
       "file_type": "code",
       "norm_label": "post",
-      "source_file": "src/app/api/inventory/route.ts",
-      "source_location": "L17"
+      "source_file": "src/app/api/lead-notes/route.ts",
+      "source_location": "L51"
     },
     {
       "id": "src_app_api_leads_landing_route",
@@ -10189,6 +10085,83 @@
       "norm_label": "landing/route.ts",
       "source_file": "src/app/api/leads/landing/route.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_leads_route",
+      "label": "leads/route.ts",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "sanitizeString",
+      "file_type": "code",
+      "norm_label": "leads/route.ts",
+      "source_file": "src/app/api/leads/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_leads_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "sanitizeString",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/api/leads/route.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_app_api_leads_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "sanitizeString",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/leads/route.ts",
+      "source_location": "L14"
+    },
+    {
+      "id": "src_app_api_leads_route_patch",
+      "label": "PATCH",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "sanitizeString",
+      "file_type": "code",
+      "norm_label": "patch",
+      "source_file": "src/app/api/leads/route.ts",
+      "source_location": "L68"
+    },
+    {
+      "id": "src_app_api_leads_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "sanitizeString",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "src/app/api/leads/route.ts",
+      "source_location": "L26"
+    },
+    {
+      "id": "src_app_api_payments_pix_route",
+      "label": "api/payments/pix/route.ts",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "sanitizeString",
+      "file_type": "code",
+      "norm_label": "api/payments/pix/route.ts",
+      "source_file": "src/app/api/payments/pix/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_payments_pix_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "sanitizeString",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "src/app/api/payments/pix/route.ts",
+      "source_location": "L9"
     },
     {
       "id": "src_app_api_users_roles_route",
@@ -10246,61 +10219,6 @@
       "source_location": "L57"
     },
     {
-      "id": "src_app_api_vehicles_route",
-      "label": "vehicles/route.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "vehicles/route.ts",
-      "source_file": "src/app/api/vehicles/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_vehicles_route_delete",
-      "label": "DELETE",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "delete",
-      "source_file": "src/app/api/vehicles/route.ts",
-      "source_location": "L58"
-    },
-    {
-      "id": "src_app_api_vehicles_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/vehicles/route.ts",
-      "source_location": "L6"
-    },
-    {
-      "id": "src_app_api_vehicles_route_patch",
-      "label": "PATCH",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "patch",
-      "source_file": "src/app/api/vehicles/route.ts",
-      "source_location": "L79"
-    },
-    {
-      "id": "src_app_api_vehicles_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "sanitizeString",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/vehicles/route.ts",
-      "source_location": "L22"
-    },
-    {
       "id": "src_lib_planlimits",
       "label": "planLimits.ts",
       "_origin": "ast",
@@ -10334,26 +10252,70 @@
       "source_location": "L81"
     },
     {
-      "id": "src_lib_validation",
-      "label": "validation.ts",
+      "id": "src_lib_rate_limiter",
+      "label": "rate-limiter.ts",
       "_origin": "ast",
       "community": 1,
       "community_name": "sanitizeString",
       "file_type": "code",
-      "norm_label": "validation.ts",
-      "source_file": "src/lib/validation.ts",
+      "norm_label": "rate-limiter.ts",
+      "source_file": "src/lib/rate-limiter.ts",
       "source_location": "L1"
     },
     {
-      "id": "docref_rfc_5322",
-      "label": "RFC-5322",
+      "id": "src_lib_rate_limiter_attempts",
+      "label": "attempts",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "sanitizeString",
+      "file_type": "code",
+      "norm_label": "attempts",
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L51"
+    },
+    {
+      "id": "src_lib_rate_limiter_default_config",
+      "label": "DEFAULT_CONFIG",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "sanitizeString",
+      "file_type": "code",
+      "norm_label": "default_config",
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L52"
+    },
+    {
+      "id": "src_lib_rate_limiter_ratelimit",
+      "label": "ratelimit",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "sanitizeString",
+      "file_type": "code",
+      "norm_label": "ratelimit",
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L10"
+    },
+    {
+      "id": "ref_upstash_ratelimit",
+      "label": "@upstash/ratelimit",
       "_origin": "ast",
       "community": 1,
       "community_name": "sanitizeString",
       "file_type": "concept",
-      "norm_label": "rfc-5322",
-      "source_file": "src/lib/validation.ts",
-      "source_location": "L9"
+      "norm_label": "@upstash/ratelimit",
+      "source_file": "package.json",
+      "source_location": "L15"
+    },
+    {
+      "id": "ref_vercel_kv",
+      "label": "@vercel/kv",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "sanitizeString",
+      "file_type": "concept",
+      "norm_label": "@vercel/kv",
+      "source_file": "package.json",
+      "source_location": "L16"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness",
@@ -11642,44 +11604,121 @@
       "source_location": "L13"
     },
     {
-      "id": "contracts_eligibility_route",
-      "label": "contracts/eligibility/route.ts",
+      "id": "billing_pix_route",
+      "label": "billing/pix/route.ts",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
-      "norm_label": "contracts/eligibility/route.ts",
-      "source_file": "contracts/eligibility/route.ts",
+      "norm_label": "billing/pix/route.ts",
+      "source_file": "billing/pix/route.ts",
       "source_location": "L1"
     },
     {
-      "id": "contracts_eligibility_route_dynamic",
+      "id": "billing_pix_route_dynamic",
       "label": "dynamic",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "dynamic",
-      "source_file": "contracts/eligibility/route.ts",
+      "source_file": "billing/pix/route.ts",
       "source_location": "L6"
     },
     {
-      "id": "contracts_eligibility_route_post",
+      "id": "billing_pix_route_post",
       "label": "POST",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "post",
-      "source_file": "contracts/eligibility/route.ts",
+      "source_file": "billing/pix/route.ts",
       "source_location": "L8"
+    },
+    {
+      "id": "payments_pix_route",
+      "label": "payments/pix/route.ts",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "payments/pix/route.ts",
+      "source_file": "payments/pix/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "payments_pix_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "payments/pix/route.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_app_api_billing_asaas_batch_route",
+      "label": "asaas-batch/route.ts",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "asaas-batch/route.ts",
+      "source_file": "src/app/api/billing/asaas-batch/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_billing_asaas_batch_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "src/app/api/billing/asaas-batch/route.ts",
+      "source_location": "L39"
+    },
+    {
+      "id": "src_app_api_billing_boleto_route",
+      "label": "api/billing/boleto/route.ts",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "api/billing/boleto/route.ts",
+      "source_file": "src/app/api/billing/boleto/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_billing_boleto_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/api/billing/boleto/route.ts",
+      "source_location": "L9"
+    },
+    {
+      "id": "src_app_api_billing_boleto_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "src/app/api/billing/boleto/route.ts",
+      "source_location": "L24"
     },
     {
       "id": "src_app_api_billing_generate_cycles_route",
       "label": "generate-cycles/route.ts",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "generate-cycles/route.ts",
       "source_file": "src/app/api/billing/generate-cycles/route.ts",
@@ -11690,7 +11729,7 @@
       "label": "POST",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "post",
       "source_file": "src/app/api/billing/generate-cycles/route.ts",
@@ -11701,7 +11740,7 @@
       "label": "api/billing/pix/route.ts",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "api/billing/pix/route.ts",
       "source_file": "src/app/api/billing/pix/route.ts",
@@ -11712,7 +11751,7 @@
       "label": "dynamic",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "dynamic",
       "source_file": "src/app/api/billing/pix/route.ts",
@@ -11723,62 +11762,18 @@
       "label": "POST",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "post",
       "source_file": "src/app/api/billing/pix/route.ts",
       "source_location": "L10"
     },
     {
-      "id": "src_app_api_contracts_route",
-      "label": "contracts/route.ts",
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "eligibility.ts",
-      "file_type": "code",
-      "norm_label": "contracts/route.ts",
-      "source_file": "src/app/api/contracts/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_contracts_route_delete",
-      "label": "DELETE",
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "eligibility.ts",
-      "file_type": "code",
-      "norm_label": "delete",
-      "source_file": "src/app/api/contracts/route.ts",
-      "source_location": "L66"
-    },
-    {
-      "id": "src_app_api_contracts_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "eligibility.ts",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/contracts/route.ts",
-      "source_location": "L6"
-    },
-    {
-      "id": "src_app_api_contracts_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "eligibility.ts",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/contracts/route.ts",
-      "source_location": "L17"
-    },
-    {
       "id": "src_app_api_convalescence_route",
       "label": "api/convalescence/route.ts",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "api/convalescence/route.ts",
       "source_file": "src/app/api/convalescence/route.ts",
@@ -11789,7 +11784,7 @@
       "label": "dynamic",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "dynamic",
       "source_file": "src/app/api/convalescence/route.ts",
@@ -11800,18 +11795,40 @@
       "label": "POST",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "post",
       "source_file": "src/app/api/convalescence/route.ts",
       "source_location": "L32"
     },
     {
+      "id": "src_app_api_payment_carnets_route",
+      "label": "payment-carnets/route.ts",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "payment-carnets/route.ts",
+      "source_file": "src/app/api/payment-carnets/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_payment_carnets_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/payment-carnets/route.ts",
+      "source_location": "L10"
+    },
+    {
       "id": "src_app_api_payment_carnets_route_post",
       "label": "POST",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "post",
       "source_file": "src/app/api/payment-carnets/route.ts",
@@ -11822,7 +11839,7 @@
       "label": "service-orders/route.ts",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "service-orders/route.ts",
       "source_file": "src/app/api/service-orders/route.ts",
@@ -11833,7 +11850,7 @@
       "label": "GET",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "get",
       "source_file": "src/app/api/service-orders/route.ts",
@@ -11844,18 +11861,29 @@
       "label": "POST",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "post",
       "source_file": "src/app/api/service-orders/route.ts",
       "source_location": "L31"
     },
     {
+      "id": "src_lib_asaasclient",
+      "label": "asaasClient.ts",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "asaasclient.ts",
+      "source_file": "src/lib/asaasClient.ts",
+      "source_location": "L1"
+    },
+    {
       "id": "src_lib_eligibility",
       "label": "eligibility.ts",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "eligibility.ts",
       "source_file": "src/lib/eligibility.ts",
@@ -11866,7 +11894,7 @@
       "label": "BILLING_INELIGIBLE_MESSAGE",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "billing_ineligible_message",
       "source_file": "src/lib/eligibility.ts",
@@ -11877,7 +11905,7 @@
       "label": "DEFAULT_GRACE_PERIOD_DAYS",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "default_grace_period_days",
       "source_file": "src/lib/eligibility.ts",
@@ -11888,7 +11916,7 @@
       "label": "eligibility.test.ts",
       "_origin": "ast",
       "community": 12,
-      "community_name": "eligibility.ts",
+      "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "eligibility.test.ts",
       "source_file": "tests/lib/eligibility.test.ts",
@@ -12467,6 +12495,61 @@
       "source_location": "L7"
     },
     {
+      "id": "src_app_api_tenants_route",
+      "label": "tenants/route.ts",
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "serverError",
+      "file_type": "code",
+      "norm_label": "tenants/route.ts",
+      "source_file": "src/app/api/tenants/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_tenants_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "serverError",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/tenants/route.ts",
+      "source_location": "L22"
+    },
+    {
+      "id": "src_app_api_tenants_route_patch",
+      "label": "PATCH",
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "serverError",
+      "file_type": "code",
+      "norm_label": "patch",
+      "source_file": "src/app/api/tenants/route.ts",
+      "source_location": "L100"
+    },
+    {
+      "id": "src_app_api_tenants_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "serverError",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "src/app/api/tenants/route.ts",
+      "source_location": "L62"
+    },
+    {
+      "id": "src_app_api_tenants_route_valid_plan_codes",
+      "label": "VALID_PLAN_CODES",
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "serverError",
+      "file_type": "code",
+      "norm_label": "valid_plan_codes",
+      "source_file": "src/app/api/tenants/route.ts",
+      "source_location": "L8"
+    },
+    {
       "id": "src_lib_http_error",
       "label": "http-error.ts",
       "_origin": "ast",
@@ -12830,17 +12913,6 @@
       "source_location": "L135"
     },
     {
-      "id": "src_components_dashboard_modaldre",
-      "label": "ModalDRE.tsx",
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "modaldre.tsx",
-      "source_file": "src/components/dashboard/ModalDRE.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_themetoggle",
       "label": "ThemeToggle.tsx",
       "_origin": "ast",
@@ -12885,17 +12957,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_lib_formvalidation",
-      "label": "formValidation.ts",
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "formvalidation.ts",
-      "source_file": "src/lib/formValidation.ts",
-      "source_location": "L1"
-    },
-    {
       "id": "src_lib_whatsapp",
       "label": "whatsapp.ts",
       "_origin": "ast",
@@ -12905,17 +12966,6 @@
       "norm_label": "whatsapp.ts",
       "source_file": "src/lib/whatsapp.ts",
       "source_location": "L1"
-    },
-    {
-      "id": "ref_recharts",
-      "label": "recharts",
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "concept",
-      "norm_label": "recharts",
-      "source_file": "package.json",
-      "source_location": "L26"
     },
     {
       "id": "scripts_qa_audit_full",
@@ -16230,6 +16280,39 @@
       "source_location": ""
     },
     {
+      "id": "billing_boleto_route",
+      "label": "billing/boleto/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "billing/boleto/route.ts",
+      "source_file": "billing/boleto/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "billing_boleto_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "billing/boleto/route.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "billing_boleto_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "billing/boleto/route.ts",
+      "source_location": "L7"
+    },
+    {
       "id": "billing_collector_route",
       "label": "billing/collector/route.ts",
       "_origin": "ast",
@@ -16272,6 +16355,39 @@
       "norm_label": "post",
       "source_file": "billing/collector/route.ts",
       "source_location": "L31"
+    },
+    {
+      "id": "contracts_eligibility_route",
+      "label": "contracts/eligibility/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "contracts/eligibility/route.ts",
+      "source_file": "contracts/eligibility/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "contracts_eligibility_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "contracts/eligibility/route.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "contracts_eligibility_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "contracts/eligibility/route.ts",
+      "source_location": "L8"
     },
     {
       "id": "convalescence_route",
@@ -16362,6 +16478,259 @@
       "source_location": "L7"
     },
     {
+      "id": "dispatches_close_route",
+      "label": "dispatches/close/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "dispatches/close/route.ts",
+      "source_file": "dispatches/close/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "dispatches_close_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "dispatches/close/route.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "dispatches_close_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "dispatches/close/route.ts",
+      "source_location": "L7"
+    },
+    {
+      "id": "financial_regulatory_reserves_route",
+      "label": "financial/regulatory-reserves/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "financial/regulatory-reserves/route.ts",
+      "source_file": "financial/regulatory-reserves/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "financial_regulatory_reserves_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "financial/regulatory-reserves/route.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "financial_regulatory_reserves_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "financial/regulatory-reserves/route.ts",
+      "source_location": "L7"
+    },
+    {
+      "id": "sales_commission_route",
+      "label": "sales/commission/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "sales/commission/route.ts",
+      "source_file": "sales/commission/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "sales_commission_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "sales/commission/route.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "sales_commission_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "sales/commission/route.ts",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_app_api_audit_logs_route",
+      "label": "audit-logs/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "audit-logs/route.ts",
+      "source_file": "src/app/api/audit-logs/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_audit_logs_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/api/audit-logs/route.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_app_api_audit_logs_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/audit-logs/route.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_app_api_billing_collector_route",
+      "label": "api/billing/collector/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "api/billing/collector/route.ts",
+      "source_file": "src/app/api/billing/collector/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_billing_collector_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/billing/collector/route.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_app_api_billing_collector_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "src/app/api/billing/collector/route.ts",
+      "source_location": "L12"
+    },
+    {
+      "id": "src_app_api_collector_routes_route",
+      "label": "collector-routes/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "collector-routes/route.ts",
+      "source_file": "src/app/api/collector-routes/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_collector_routes_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/collector-routes/route.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_app_api_collector_routes_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "src/app/api/collector-routes/route.ts",
+      "source_location": "L17"
+    },
+    {
+      "id": "src_app_api_contracts_eligibility_route",
+      "label": "api/contracts/eligibility/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "api/contracts/eligibility/route.ts",
+      "source_file": "src/app/api/contracts/eligibility/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_contracts_eligibility_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/contracts/eligibility/route.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_app_api_emergency_dispatches_route",
+      "label": "emergency-dispatches/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "emergency-dispatches/route.ts",
+      "source_file": "src/app/api/emergency-dispatches/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_emergency_dispatches_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/emergency-dispatches/route.ts",
+      "source_location": "L12"
+    },
+    {
+      "id": "src_app_api_emergency_dispatches_route_patch",
+      "label": "PATCH",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "patch",
+      "source_file": "src/app/api/emergency-dispatches/route.ts",
+      "source_location": "L30"
+    },
+    {
       "id": "src_app_api_financial_summary_route",
       "label": "summary/route.ts",
       "_origin": "ast",
@@ -16393,6 +16762,138 @@
       "norm_label": "months_pt",
       "source_file": "src/app/api/financial/summary/route.ts",
       "source_location": "L18"
+    },
+    {
+      "id": "src_app_api_fiscal_config_route",
+      "label": "config/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "config/route.ts",
+      "source_file": "src/app/api/fiscal/config/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_fiscal_config_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/api/fiscal/config/route.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_app_api_fiscal_config_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/fiscal/config/route.ts",
+      "source_location": "L63"
+    },
+    {
+      "id": "src_app_api_fiscal_config_route_patch",
+      "label": "PATCH",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "patch",
+      "source_file": "src/app/api/fiscal/config/route.ts",
+      "source_location": "L9"
+    },
+    {
+      "id": "src_app_api_fiscal_list_route",
+      "label": "list/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "list/route.ts",
+      "source_file": "src/app/api/fiscal/list/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_fiscal_list_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/api/fiscal/list/route.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_app_api_fiscal_list_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/fiscal/list/route.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_app_api_holders_quick_search_route",
+      "label": "quick-search/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "quick-search/route.ts",
+      "source_file": "src/app/api/holders/quick-search/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_holders_quick_search_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/holders/quick-search/route.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_app_api_inventory_route",
+      "label": "inventory/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "inventory/route.ts",
+      "source_file": "src/app/api/inventory/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_inventory_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/inventory/route.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_app_api_inventory_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "src/app/api/inventory/route.ts",
+      "source_location": "L17"
     },
     {
       "id": "src_app_api_tenants_logo_route",
@@ -16439,6 +16940,28 @@
       "source_location": "L12"
     },
     {
+      "id": "src_app_api_webhooks_events_route",
+      "label": "events/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "events/route.ts",
+      "source_file": "src/app/api/webhooks/events/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_webhooks_events_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/webhooks/events/route.ts",
+      "source_location": "L14"
+    },
+    {
       "id": "src_app_api_webhooks_whatsapp_route",
       "label": "whatsapp/route.ts",
       "_origin": "ast",
@@ -16450,6 +16973,28 @@
       "source_location": "L1"
     },
     {
+      "id": "src_lib_api_handler",
+      "label": "api-handler.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "api-handler.ts",
+      "source_file": "src/lib/api-handler.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_lib_api_handler_api_rate_limit",
+      "label": "API_RATE_LIMIT",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "api_rate_limit",
+      "source_file": "src/lib/api-handler.ts",
+      "source_location": "L18"
+    },
+    {
       "id": "src_lib_supabaseadmin",
       "label": "supabaseAdmin.ts",
       "_origin": "ast",
@@ -16459,6 +17004,17 @@
       "norm_label": "supabaseadmin.ts",
       "source_file": "src/lib/supabaseAdmin.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "src_lib_supabaseadmin_supabaseadmin",
+      "label": "supabaseAdmin",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "supabaseadmin",
+      "source_file": "src/lib/supabaseAdmin.ts",
+      "source_location": "L10"
     },
     {
       "id": "src_lib_whatsappagent",
@@ -16481,6 +17037,28 @@
       "norm_label": "steps",
       "source_file": "src/lib/whatsappAgent.ts",
       "source_location": "L20"
+    },
+    {
+      "id": "tests_lib_financial_test",
+      "label": "financial.test.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "financial.test.ts",
+      "source_file": "tests/lib/financial.test.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_lib_financial_test_mockfrom",
+      "label": "mockFrom",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "mockfrom",
+      "source_file": "tests/lib/financial.test.ts",
+      "source_location": "L9"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy",
@@ -17099,28 +17677,6 @@
       "source_location": "L44"
     },
     {
-      "id": "ref_upstash_ratelimit",
-      "label": "@upstash/ratelimit",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "package.json",
-      "file_type": "concept",
-      "norm_label": "@upstash/ratelimit",
-      "source_file": "package.json",
-      "source_location": "L15"
-    },
-    {
-      "id": "ref_vercel_kv",
-      "label": "@vercel/kv",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "package.json",
-      "file_type": "concept",
-      "norm_label": "@vercel/kv",
-      "source_file": "package.json",
-      "source_location": "L16"
-    },
-    {
       "id": "fix_rls_definitivo_sql_public_vehicles",
       "label": "public.vehicles",
       "_origin": "ast",
@@ -17262,6 +17818,17 @@
       "norm_label": "select best matching result based on priority keywords.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L409"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_rationale_139",
+      "label": "The exact reproduction from issue #428.",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "rationale",
+      "norm_label": "the exact reproduction from issue #428.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L139"
     },
     {
       "id": "fix_rls_isolamento_sql_public_convalescence_items",
@@ -18804,330 +19371,33 @@
       "source_location": ""
     },
     {
-      "id": "billing_boleto_route",
-      "label": "billing/boleto/route.ts",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "billing/boleto/route.ts",
-      "source_file": "billing/boleto/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "billing_boleto_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "billing/boleto/route.ts",
-      "source_location": "L5"
-    },
-    {
-      "id": "billing_boleto_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "billing/boleto/route.ts",
-      "source_location": "L7"
-    },
-    {
-      "id": "dispatches_close_route",
-      "label": "dispatches/close/route.ts",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "dispatches/close/route.ts",
-      "source_file": "dispatches/close/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "dispatches_close_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "dispatches/close/route.ts",
-      "source_location": "L5"
-    },
-    {
-      "id": "dispatches_close_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "dispatches/close/route.ts",
-      "source_location": "L7"
-    },
-    {
-      "id": "financial_regulatory_reserves_route",
-      "label": "financial/regulatory-reserves/route.ts",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "financial/regulatory-reserves/route.ts",
-      "source_file": "financial/regulatory-reserves/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "financial_regulatory_reserves_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "financial/regulatory-reserves/route.ts",
-      "source_location": "L5"
-    },
-    {
-      "id": "financial_regulatory_reserves_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "financial/regulatory-reserves/route.ts",
-      "source_location": "L7"
-    },
-    {
-      "id": "sales_commission_route",
-      "label": "sales/commission/route.ts",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "sales/commission/route.ts",
-      "source_file": "sales/commission/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "sales_commission_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "sales/commission/route.ts",
-      "source_location": "L5"
-    },
-    {
-      "id": "sales_commission_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "sales/commission/route.ts",
-      "source_location": "L7"
-    },
-    {
-      "id": "src_app_api_audit_logs_route",
-      "label": "audit-logs/route.ts",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "audit-logs/route.ts",
-      "source_file": "src/app/api/audit-logs/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_audit_logs_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/api/audit-logs/route.ts",
-      "source_location": "L5"
-    },
-    {
-      "id": "src_app_api_audit_logs_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/audit-logs/route.ts",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_app_api_fiscal_list_route",
-      "label": "list/route.ts",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "list/route.ts",
-      "source_file": "src/app/api/fiscal/list/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_fiscal_list_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/api/fiscal/list/route.ts",
-      "source_location": "L5"
-    },
-    {
-      "id": "src_app_api_fiscal_list_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/fiscal/list/route.ts",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_app_api_payment_carnets_route",
-      "label": "payment-carnets/route.ts",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "payment-carnets/route.ts",
-      "source_file": "src/app/api/payment-carnets/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_payment_carnets_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/payment-carnets/route.ts",
-      "source_location": "L10"
-    },
-    {
       "id": "src_app_api_payment_carnets_route_patch",
       "label": "PATCH",
       "_origin": "ast",
       "community": 29,
-      "community_name": "api-handler.ts",
+      "community_name": "retry/route.ts",
       "file_type": "code",
       "norm_label": "patch",
       "source_file": "src/app/api/payment-carnets/route.ts",
       "source_location": "L160"
     },
     {
-      "id": "src_app_api_tenants_route",
-      "label": "tenants/route.ts",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "tenants/route.ts",
-      "source_file": "src/app/api/tenants/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_tenants_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/tenants/route.ts",
-      "source_location": "L22"
-    },
-    {
-      "id": "src_app_api_tenants_route_patch",
-      "label": "PATCH",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "patch",
-      "source_file": "src/app/api/tenants/route.ts",
-      "source_location": "L100"
-    },
-    {
-      "id": "src_app_api_tenants_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/tenants/route.ts",
-      "source_location": "L62"
-    },
-    {
-      "id": "src_app_api_tenants_route_valid_plan_codes",
-      "label": "VALID_PLAN_CODES",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "valid_plan_codes",
-      "source_file": "src/app/api/tenants/route.ts",
-      "source_location": "L8"
-    },
-    {
       "id": "src_app_api_webhooks_asaas_route",
       "label": "asaas/route.ts",
       "_origin": "ast",
       "community": 29,
-      "community_name": "api-handler.ts",
+      "community_name": "retry/route.ts",
       "file_type": "code",
       "norm_label": "asaas/route.ts",
       "source_file": "src/app/api/webhooks/asaas/route.ts",
       "source_location": "L1"
     },
     {
-      "id": "src_app_api_webhooks_events_route",
-      "label": "events/route.ts",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "events/route.ts",
-      "source_file": "src/app/api/webhooks/events/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_webhooks_events_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/webhooks/events/route.ts",
-      "source_location": "L14"
-    },
-    {
       "id": "src_app_api_webhooks_retry_route",
       "label": "retry/route.ts",
       "_origin": "ast",
       "community": 29,
-      "community_name": "api-handler.ts",
+      "community_name": "retry/route.ts",
       "file_type": "code",
       "norm_label": "retry/route.ts",
       "source_file": "src/app/api/webhooks/retry/route.ts",
@@ -19138,7 +19408,7 @@
       "label": "POST",
       "_origin": "ast",
       "community": 29,
-      "community_name": "api-handler.ts",
+      "community_name": "retry/route.ts",
       "file_type": "code",
       "norm_label": "post",
       "source_file": "src/app/api/webhooks/retry/route.ts",
@@ -19149,40 +19419,18 @@
       "label": "RETRY_RATE_LIMIT",
       "_origin": "ast",
       "community": 29,
-      "community_name": "api-handler.ts",
+      "community_name": "retry/route.ts",
       "file_type": "code",
       "norm_label": "retry_rate_limit",
       "source_file": "src/app/api/webhooks/retry/route.ts",
       "source_location": "L15"
     },
     {
-      "id": "src_lib_api_handler",
-      "label": "api-handler.ts",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "api-handler.ts",
-      "source_file": "src/lib/api-handler.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_lib_api_handler_api_rate_limit",
-      "label": "API_RATE_LIMIT",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "api_rate_limit",
-      "source_file": "src/lib/api-handler.ts",
-      "source_location": "L18"
-    },
-    {
       "id": "src_lib_commissions",
       "label": "commissions.ts",
       "_origin": "ast",
       "community": 29,
-      "community_name": "api-handler.ts",
+      "community_name": "retry/route.ts",
       "file_type": "code",
       "norm_label": "commissions.ts",
       "source_file": "src/lib/commissions.ts",
@@ -19193,44 +19441,11 @@
       "label": "financial.ts",
       "_origin": "ast",
       "community": 29,
-      "community_name": "api-handler.ts",
+      "community_name": "retry/route.ts",
       "file_type": "code",
       "norm_label": "financial.ts",
       "source_file": "src/lib/financial.ts",
       "source_location": "L1"
-    },
-    {
-      "id": "src_lib_supabaseadmin_supabaseadmin",
-      "label": "supabaseAdmin",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "supabaseadmin",
-      "source_file": "src/lib/supabaseAdmin.ts",
-      "source_location": "L10"
-    },
-    {
-      "id": "tests_lib_financial_test",
-      "label": "financial.test.ts",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "financial.test.ts",
-      "source_file": "tests/lib/financial.test.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "tests_lib_financial_test_mockfrom",
-      "label": "mockFrom",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "api-handler.ts",
-      "file_type": "code",
-      "norm_label": "mockfrom",
-      "source_file": "tests/lib/financial.test.ts",
-      "source_location": "L9"
     },
     {
       "id": "scripts_service_orders_deceased_type_free_migration",
@@ -28777,15 +28992,37 @@
       "source_location": "L99"
     },
     {
-      "id": "src_app_dashboard_planes_page",
-      "label": "planes/page.tsx",
+      "id": "src_app_dashboard_beneficios_page",
+      "label": "beneficios/page.tsx",
       "_origin": "ast",
       "community": 333,
       "community_name": "notifyError",
       "file_type": "code",
-      "norm_label": "planes/page.tsx",
-      "source_file": "src/app/(dashboard)/planes/page.tsx",
+      "norm_label": "beneficios/page.tsx",
+      "source_file": "src/app/(dashboard)/beneficios/page.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "src_app_dashboard_dependentes_page",
+      "label": "dependentes/page.tsx",
+      "_origin": "ast",
+      "community": 333,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "dependentes/page.tsx",
+      "source_file": "src/app/(dashboard)/dependentes/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_dashboard_dependentes_page_valid_relations",
+      "label": "VALID_RELATIONS",
+      "_origin": "ast",
+      "community": 333,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "valid_relations",
+      "source_file": "src/app/(dashboard)/dependentes/page.tsx",
+      "source_location": "L8"
     },
     {
       "id": "src_app_dashboard_titulares_importar_page",
@@ -28799,6 +29036,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_dashboard_modaldre",
+      "label": "ModalDRE.tsx",
+      "_origin": "ast",
+      "community": 333,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "modaldre.tsx",
+      "source_file": "src/components/dashboard/ModalDRE.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_dashboard_modalrbac",
       "label": "ModalRBAC.tsx",
       "_origin": "ast",
@@ -28807,6 +29055,17 @@
       "file_type": "code",
       "norm_label": "modalrbac.tsx",
       "source_file": "src/components/dashboard/ModalRBAC.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_dashboard_modalwebhookretry",
+      "label": "ModalWebhookRetry.tsx",
+      "_origin": "ast",
+      "community": 333,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "modalwebhookretry.tsx",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
       "source_location": "L1"
     },
     {
@@ -28854,28 +29113,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_tabs_planstab",
-      "label": "PlansTab.tsx",
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "planstab.tsx",
-      "source_file": "src/components/tabs/PlansTab.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_tabs_planstab_empty_form",
-      "label": "EMPTY_FORM",
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "empty_form",
-      "source_file": "src/components/tabs/PlansTab.tsx",
-      "source_location": "L18"
-    },
-    {
       "id": "src_components_tabs_tenantsettingstab",
       "label": "TenantSettingsTab.tsx",
       "_origin": "ast",
@@ -28907,6 +29144,28 @@
       "norm_label": "notify.ts",
       "source_file": "src/lib/notify.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "ref_react",
+      "label": "react",
+      "_origin": "ast",
+      "community": 333,
+      "community_name": "notifyError",
+      "file_type": "concept",
+      "norm_label": "react",
+      "source_file": "package.json",
+      "source_location": "L24"
+    },
+    {
+      "id": "ref_recharts",
+      "label": "recharts",
+      "_origin": "ast",
+      "community": 333,
+      "community_name": "notifyError",
+      "file_type": "concept",
+      "norm_label": "recharts",
+      "source_file": "package.json",
+      "source_location": "L26"
     },
     {
       "id": "continue_skills_brand_references_update",
@@ -30545,6 +30804,50 @@
       "source_location": "L27"
     },
     {
+      "id": "src_app_api_contracts_route",
+      "label": "contracts/route.ts",
+      "_origin": "ast",
+      "community": 345,
+      "community_name": "contracts/route.ts",
+      "file_type": "code",
+      "norm_label": "contracts/route.ts",
+      "source_file": "src/app/api/contracts/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_contracts_route_delete",
+      "label": "DELETE",
+      "_origin": "ast",
+      "community": 345,
+      "community_name": "contracts/route.ts",
+      "file_type": "code",
+      "norm_label": "delete",
+      "source_file": "src/app/api/contracts/route.ts",
+      "source_location": "L66"
+    },
+    {
+      "id": "src_app_api_contracts_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 345,
+      "community_name": "contracts/route.ts",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/contracts/route.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_app_api_contracts_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 345,
+      "community_name": "contracts/route.ts",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "src/app/api/contracts/route.ts",
+      "source_location": "L17"
+    },
+    {
       "id": "continue_skills_design_references_slides",
       "label": "slides.md",
       "_origin": "ast",
@@ -30794,6 +31097,17 @@
       "node_kind": "heading",
       "norm_label": "html slide template",
       "source_file": ".continue/skills/slides/references/html-template.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_app_page_test",
+      "label": "page.test.tsx",
+      "_origin": "ast",
+      "community": 349,
+      "community_name": "page.test.tsx",
+      "file_type": "code",
+      "norm_label": "page.test.tsx",
+      "source_file": "tests/app/page.test.tsx",
       "source_location": "L1"
     },
     {
@@ -32434,6 +32748,61 @@
       "source_location": "L16"
     },
     {
+      "id": "src_app_landing_page",
+      "label": "landing/page.tsx",
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "landing/page.tsx",
+      "source_file": "src/app/landing/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_landing_page_addons",
+      "label": "ADDONS",
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "addons",
+      "source_file": "src/app/landing/page.tsx",
+      "source_location": "L42"
+    },
+    {
+      "id": "src_app_landing_page_faq",
+      "label": "FAQ",
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "faq",
+      "source_file": "src/app/landing/page.tsx",
+      "source_location": "L51"
+    },
+    {
+      "id": "src_app_landing_page_modules",
+      "label": "MODULES",
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "modules",
+      "source_file": "src/app/landing/page.tsx",
+      "source_location": "L12"
+    },
+    {
+      "id": "src_app_landing_page_plans",
+      "label": "PLANS",
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "plans",
+      "source_file": "src/app/landing/page.tsx",
+      "source_location": "L24"
+    },
+    {
       "id": "src_app_login_page",
       "label": "login/page.tsx",
       "_origin": "ast",
@@ -32442,17 +32811,6 @@
       "file_type": "code",
       "norm_label": "login/page.tsx",
       "source_file": "src/app/login/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_dashboard_modalwebhookretry",
-      "label": "ModalWebhookRetry.tsx",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "authFetch.ts",
-      "file_type": "code",
-      "norm_label": "modalwebhookretry.tsx",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
       "source_location": "L1"
     },
     {
@@ -32830,114 +33188,26 @@
       "source_location": "L629"
     },
     {
-      "id": "src_app_dashboard_beneficios_page",
-      "label": "beneficios/page.tsx",
-      "_origin": "ast",
-      "community": 43,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "beneficios/page.tsx",
-      "source_file": "src/app/(dashboard)/beneficios/page.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_app_dashboard_vendedores_page",
       "label": "vendedores/page.tsx",
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "SellersTab.tsx",
       "file_type": "code",
       "norm_label": "vendedores/page.tsx",
       "source_file": "src/app/(dashboard)/vendedores/page.tsx",
       "source_location": "L1"
     },
     {
-      "id": "src_app_landing_page",
-      "label": "landing/page.tsx",
-      "_origin": "ast",
-      "community": 43,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "landing/page.tsx",
-      "source_file": "src/app/landing/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_landing_page_addons",
-      "label": "ADDONS",
-      "_origin": "ast",
-      "community": 43,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "addons",
-      "source_file": "src/app/landing/page.tsx",
-      "source_location": "L42"
-    },
-    {
-      "id": "src_app_landing_page_faq",
-      "label": "FAQ",
-      "_origin": "ast",
-      "community": 43,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "faq",
-      "source_file": "src/app/landing/page.tsx",
-      "source_location": "L51"
-    },
-    {
-      "id": "src_app_landing_page_modules",
-      "label": "MODULES",
-      "_origin": "ast",
-      "community": 43,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "modules",
-      "source_file": "src/app/landing/page.tsx",
-      "source_location": "L12"
-    },
-    {
-      "id": "src_app_landing_page_plans",
-      "label": "PLANS",
-      "_origin": "ast",
-      "community": 43,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "plans",
-      "source_file": "src/app/landing/page.tsx",
-      "source_location": "L24"
-    },
-    {
       "id": "src_components_tabs_sellerstab",
       "label": "SellersTab.tsx",
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "SellersTab.tsx",
       "file_type": "code",
       "norm_label": "sellerstab.tsx",
       "source_file": "src/components/tabs/SellersTab.tsx",
       "source_location": "L1"
-    },
-    {
-      "id": "tests_app_page_test",
-      "label": "page.test.tsx",
-      "_origin": "ast",
-      "community": 43,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "page.test.tsx",
-      "source_file": "tests/app/page.test.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "ref_react",
-      "label": "react",
-      "_origin": "ast",
-      "community": 43,
-      "community_name": "react",
-      "file_type": "concept",
-      "norm_label": "react",
-      "source_file": "package.json",
-      "source_location": "L24"
     },
     {
       "id": "continue_skills_brand_scripts_extract_colors",
@@ -34304,17 +34574,6 @@
       "source_location": "L222"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_rationale_139",
-      "label": "The exact reproduction from issue #428.",
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "rationale",
-      "norm_label": "the exact reproduction from issue #428.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L139"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_rationale_3",
       "label": "Regression tests for color-mode coherence in design_system.py (issue #428).\u2026",
       "_origin": "ast",
@@ -34909,37 +35168,59 @@
       "source_location": "L83"
     },
     {
-      "id": "src_app_api_billing_collector_route",
-      "label": "api/billing/collector/route.ts",
+      "id": "src_app_api_benefits_partners_route",
+      "label": "partners/route.ts",
       "_origin": "ast",
       "community": 6,
       "community_name": "isValidUUID",
       "file_type": "code",
-      "norm_label": "api/billing/collector/route.ts",
-      "source_file": "src/app/api/billing/collector/route.ts",
+      "norm_label": "partners/route.ts",
+      "source_file": "src/app/api/benefits/partners/route.ts",
       "source_location": "L1"
     },
     {
-      "id": "src_app_api_billing_collector_route_get",
+      "id": "src_app_api_benefits_partners_route_delete",
+      "label": "DELETE",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "delete",
+      "source_file": "src/app/api/benefits/partners/route.ts",
+      "source_location": "L79"
+    },
+    {
+      "id": "src_app_api_benefits_partners_route_get",
       "label": "GET",
       "_origin": "ast",
       "community": 6,
       "community_name": "isValidUUID",
       "file_type": "code",
       "norm_label": "get",
-      "source_file": "src/app/api/billing/collector/route.ts",
+      "source_file": "src/app/api/benefits/partners/route.ts",
       "source_location": "L6"
     },
     {
-      "id": "src_app_api_billing_collector_route_post",
+      "id": "src_app_api_benefits_partners_route_patch",
+      "label": "PATCH",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "patch",
+      "source_file": "src/app/api/benefits/partners/route.ts",
+      "source_location": "L45"
+    },
+    {
+      "id": "src_app_api_benefits_partners_route_post",
       "label": "POST",
       "_origin": "ast",
       "community": 6,
       "community_name": "isValidUUID",
       "file_type": "code",
       "norm_label": "post",
-      "source_file": "src/app/api/billing/collector/route.ts",
-      "source_location": "L12"
+      "source_file": "src/app/api/benefits/partners/route.ts",
+      "source_location": "L16"
     },
     {
       "id": "src_app_api_chapel_bookings_route",
@@ -35052,28 +35333,6 @@
       "source_location": "L71"
     },
     {
-      "id": "src_app_api_contracts_eligibility_route",
-      "label": "api/contracts/eligibility/route.ts",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "isValidUUID",
-      "file_type": "code",
-      "norm_label": "api/contracts/eligibility/route.ts",
-      "source_file": "src/app/api/contracts/eligibility/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_contracts_eligibility_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "isValidUUID",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/contracts/eligibility/route.ts",
-      "source_location": "L6"
-    },
-    {
       "id": "src_app_api_dependents_route",
       "label": "dependents/route.ts",
       "_origin": "ast",
@@ -35118,17 +35377,6 @@
       "source_location": "L133"
     },
     {
-      "id": "src_app_api_dependents_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "isValidUUID",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/dependents/route.ts",
-      "source_location": "L59"
-    },
-    {
       "id": "src_app_api_dependents_route_valid_relations",
       "label": "VALID_RELATIONS",
       "_origin": "ast",
@@ -35140,37 +35388,48 @@
       "source_location": "L18"
     },
     {
-      "id": "src_app_api_emergency_dispatches_route",
-      "label": "emergency-dispatches/route.ts",
+      "id": "src_app_api_financial_transactions_route",
+      "label": "transactions/route.ts",
       "_origin": "ast",
       "community": 6,
       "community_name": "isValidUUID",
       "file_type": "code",
-      "norm_label": "emergency-dispatches/route.ts",
-      "source_file": "src/app/api/emergency-dispatches/route.ts",
+      "norm_label": "transactions/route.ts",
+      "source_file": "src/app/api/financial/transactions/route.ts",
       "source_location": "L1"
     },
     {
-      "id": "src_app_api_emergency_dispatches_route_get",
+      "id": "src_app_api_financial_transactions_route_delete",
+      "label": "DELETE",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "delete",
+      "source_file": "src/app/api/financial/transactions/route.ts",
+      "source_location": "L90"
+    },
+    {
+      "id": "src_app_api_financial_transactions_route_get",
       "label": "GET",
       "_origin": "ast",
       "community": 6,
       "community_name": "isValidUUID",
       "file_type": "code",
       "norm_label": "get",
-      "source_file": "src/app/api/emergency-dispatches/route.ts",
-      "source_location": "L12"
+      "source_file": "src/app/api/financial/transactions/route.ts",
+      "source_location": "L20"
     },
     {
-      "id": "src_app_api_emergency_dispatches_route_patch",
-      "label": "PATCH",
+      "id": "src_app_api_financial_transactions_route_post",
+      "label": "POST",
       "_origin": "ast",
       "community": 6,
       "community_name": "isValidUUID",
       "file_type": "code",
-      "norm_label": "patch",
-      "source_file": "src/app/api/emergency-dispatches/route.ts",
-      "source_location": "L30"
+      "norm_label": "post",
+      "source_file": "src/app/api/financial/transactions/route.ts",
+      "source_location": "L58"
     },
     {
       "id": "src_app_api_lead_notes_route",
@@ -35217,15 +35476,15 @@
       "source_location": "L16"
     },
     {
-      "id": "src_app_api_lead_notes_route_post",
-      "label": "POST",
+      "id": "src_app_api_leads_route_delete",
+      "label": "DELETE",
       "_origin": "ast",
       "community": 6,
       "community_name": "isValidUUID",
       "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/lead-notes/route.ts",
-      "source_location": "L51"
+      "norm_label": "delete",
+      "source_file": "src/app/api/leads/route.ts",
+      "source_location": "L155"
     },
     {
       "id": "src_app_api_payment_carnets_route_delete",
@@ -35413,6 +35672,83 @@
       "norm_label": "post",
       "source_file": "src/app/api/thanatopraxy/route.ts",
       "source_location": "L28"
+    },
+    {
+      "id": "src_app_api_vehicles_route",
+      "label": "vehicles/route.ts",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "vehicles/route.ts",
+      "source_file": "src/app/api/vehicles/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_vehicles_route_delete",
+      "label": "DELETE",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "delete",
+      "source_file": "src/app/api/vehicles/route.ts",
+      "source_location": "L58"
+    },
+    {
+      "id": "src_app_api_vehicles_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/vehicles/route.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_app_api_vehicles_route_patch",
+      "label": "PATCH",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "patch",
+      "source_file": "src/app/api/vehicles/route.ts",
+      "source_location": "L79"
+    },
+    {
+      "id": "src_app_api_vehicles_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "src/app/api/vehicles/route.ts",
+      "source_location": "L22"
+    },
+    {
+      "id": "src_lib_validation",
+      "label": "validation.ts",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "validation.ts",
+      "source_file": "src/lib/validation.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "docref_rfc_5322",
+      "label": "RFC-5322",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "isValidUUID",
+      "file_type": "concept",
+      "norm_label": "rfc-5322",
+      "source_file": "src/lib/validation.ts",
+      "source_location": "L9"
     },
     {
       "id": "continue_skills_design_system_templates_design_tokens_starter_duration_fast",
@@ -36238,246 +36574,15 @@
       "source_location": "L11"
     },
     {
-      "id": "billing_pix_route",
-      "label": "billing/pix/route.ts",
+      "id": "src_lib_formvalidation",
+      "label": "formValidation.ts",
       "_origin": "ast",
       "community": 67,
-      "community_name": "withAuth",
+      "community_name": "formValidation.ts",
       "file_type": "code",
-      "norm_label": "billing/pix/route.ts",
-      "source_file": "billing/pix/route.ts",
+      "norm_label": "formvalidation.ts",
+      "source_file": "src/lib/formValidation.ts",
       "source_location": "L1"
-    },
-    {
-      "id": "billing_pix_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "billing/pix/route.ts",
-      "source_location": "L6"
-    },
-    {
-      "id": "billing_pix_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "billing/pix/route.ts",
-      "source_location": "L8"
-    },
-    {
-      "id": "payments_pix_route",
-      "label": "payments/pix/route.ts",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "payments/pix/route.ts",
-      "source_file": "payments/pix/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "payments_pix_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "payments/pix/route.ts",
-      "source_location": "L5"
-    },
-    {
-      "id": "src_app_api_billing_asaas_batch_route",
-      "label": "asaas-batch/route.ts",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "asaas-batch/route.ts",
-      "source_file": "src/app/api/billing/asaas-batch/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_billing_asaas_batch_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/billing/asaas-batch/route.ts",
-      "source_location": "L39"
-    },
-    {
-      "id": "src_app_api_billing_avulso_route",
-      "label": "avulso/route.ts",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "avulso/route.ts",
-      "source_file": "src/app/api/billing/avulso/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_billing_avulso_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/api/billing/avulso/route.ts",
-      "source_location": "L15"
-    },
-    {
-      "id": "src_app_api_billing_avulso_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/billing/avulso/route.ts",
-      "source_location": "L17"
-    },
-    {
-      "id": "src_app_api_billing_boleto_route",
-      "label": "api/billing/boleto/route.ts",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "api/billing/boleto/route.ts",
-      "source_file": "src/app/api/billing/boleto/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_billing_boleto_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/api/billing/boleto/route.ts",
-      "source_location": "L9"
-    },
-    {
-      "id": "src_app_api_billing_boleto_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/billing/boleto/route.ts",
-      "source_location": "L24"
-    },
-    {
-      "id": "src_app_api_holders_quick_search_route",
-      "label": "quick-search/route.ts",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "quick-search/route.ts",
-      "source_file": "src/app/api/holders/quick-search/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_holders_quick_search_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/holders/quick-search/route.ts",
-      "source_location": "L6"
-    },
-    {
-      "id": "src_app_api_payments_pix_route",
-      "label": "api/payments/pix/route.ts",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "api/payments/pix/route.ts",
-      "source_file": "src/app/api/payments/pix/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_payments_pix_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/payments/pix/route.ts",
-      "source_location": "L9"
-    },
-    {
-      "id": "src_lib_asaasclient",
-      "label": "asaasClient.ts",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "asaasclient.ts",
-      "source_file": "src/lib/asaasClient.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_lib_rate_limiter",
-      "label": "rate-limiter.ts",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "rate-limiter.ts",
-      "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_lib_rate_limiter_attempts",
-      "label": "attempts",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "attempts",
-      "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L51"
-    },
-    {
-      "id": "src_lib_rate_limiter_default_config",
-      "label": "DEFAULT_CONFIG",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "default_config",
-      "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L52"
-    },
-    {
-      "id": "src_lib_rate_limiter_ratelimit",
-      "label": "ratelimit",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "withAuth",
-      "file_type": "code",
-      "norm_label": "ratelimit",
-      "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L10"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_274",
@@ -38139,26 +38244,15 @@
       "source_location": "L1"
     },
     {
-      "id": "src_app_dashboard_dependentes_page",
-      "label": "dependentes/page.tsx",
+      "id": "src_app_dashboard_convalescencia_page",
+      "label": "convalescencia/page.tsx",
       "_origin": "ast",
       "community": 8,
       "community_name": "titulares/page.tsx",
       "file_type": "code",
-      "norm_label": "dependentes/page.tsx",
-      "source_file": "src/app/(dashboard)/dependentes/page.tsx",
+      "norm_label": "convalescencia/page.tsx",
+      "source_file": "src/app/(dashboard)/convalescencia/page.tsx",
       "source_location": "L1"
-    },
-    {
-      "id": "src_app_dashboard_dependentes_page_valid_relations",
-      "label": "VALID_RELATIONS",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "titulares/page.tsx",
-      "file_type": "code",
-      "norm_label": "valid_relations",
-      "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L8"
     },
     {
       "id": "src_app_dashboard_titulares_page",
@@ -38170,6 +38264,39 @@
       "norm_label": "titulares/page.tsx",
       "source_file": "src/app/(dashboard)/titulares/page.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_convalescencetab",
+      "label": "ConvalescenceTab.tsx",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "titulares/page.tsx",
+      "file_type": "code",
+      "norm_label": "convalescencetab.tsx",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_convalescencetab_default_items",
+      "label": "DEFAULT_ITEMS",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "titulares/page.tsx",
+      "file_type": "code",
+      "norm_label": "default_items",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L17"
+    },
+    {
+      "id": "src_components_tabs_convalescencetab_empty_form",
+      "label": "EMPTY_FORM",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "titulares/page.tsx",
+      "file_type": "code",
+      "norm_label": "empty_form",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L25"
     },
     {
       "id": "src_types_domain",
@@ -39855,70 +39982,37 @@
       "source_location": "L110"
     },
     {
-      "id": "src_app_api_leads_route",
-      "label": "leads/route.ts",
+      "id": "src_app_dashboard_planes_page",
+      "label": "planes/page.tsx",
       "_origin": "ast",
       "community": 96,
-      "community_name": "leads/route.ts",
+      "community_name": "PlansTab.tsx",
       "file_type": "code",
-      "norm_label": "leads/route.ts",
-      "source_file": "src/app/api/leads/route.ts",
+      "norm_label": "planes/page.tsx",
+      "source_file": "src/app/(dashboard)/planes/page.tsx",
       "source_location": "L1"
     },
     {
-      "id": "src_app_api_leads_route_delete",
-      "label": "DELETE",
+      "id": "src_components_tabs_planstab",
+      "label": "PlansTab.tsx",
       "_origin": "ast",
       "community": 96,
-      "community_name": "leads/route.ts",
+      "community_name": "PlansTab.tsx",
       "file_type": "code",
-      "norm_label": "delete",
-      "source_file": "src/app/api/leads/route.ts",
-      "source_location": "L155"
+      "norm_label": "planstab.tsx",
+      "source_file": "src/components/tabs/PlansTab.tsx",
+      "source_location": "L1"
     },
     {
-      "id": "src_app_api_leads_route_dynamic",
-      "label": "dynamic",
+      "id": "src_components_tabs_planstab_empty_form",
+      "label": "EMPTY_FORM",
       "_origin": "ast",
       "community": 96,
-      "community_name": "leads/route.ts",
+      "community_name": "PlansTab.tsx",
       "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/api/leads/route.ts",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_app_api_leads_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 96,
-      "community_name": "leads/route.ts",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/leads/route.ts",
-      "source_location": "L14"
-    },
-    {
-      "id": "src_app_api_leads_route_patch",
-      "label": "PATCH",
-      "_origin": "ast",
-      "community": 96,
-      "community_name": "leads/route.ts",
-      "file_type": "code",
-      "norm_label": "patch",
-      "source_file": "src/app/api/leads/route.ts",
-      "source_location": "L68"
-    },
-    {
-      "id": "src_app_api_leads_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 96,
-      "community_name": "leads/route.ts",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/leads/route.ts",
-      "source_location": "L26"
+      "norm_label": "empty_form",
+      "source_file": "src/components/tabs/PlansTab.tsx",
+      "source_location": "L18"
     },
     {
       "id": "continue_skills_design_system_templates_design_tokens_starter_border_type",
@@ -49473,6 +49567,42 @@
       "weight": 1.0
     },
     {
+      "source": "src_components_tabs_convalescencetab_convalescencetab",
+      "target": "src_lib_notify_notifysuccess",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L129",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_convalescencetab_convalescencetab",
+      "target": "src_lib_authfetch_authfetch",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_convalescencetab_convalescencetab",
+      "target": "src_lib_notify_notifyerror",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
       "source": "src_components_tabs_crmtab_crmtab",
       "target": "src_lib_notify_notifysuccess",
       "relation": "calls",
@@ -54551,6 +54681,18 @@
       "weight": 1.0
     },
     {
+      "source": "src_app_dashboard_convalescencia_page",
+      "target": "src_components_tabs_convalescencetab_convalescencetab",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/convalescencia/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
       "source": "src_app_dashboard_crm_page",
       "target": "src_components_tabs_crmtab_crmtab",
       "relation": "imports",
@@ -55363,6 +55505,54 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/tabs/BenefitsTab.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_convalescencetab",
+      "target": "src_lib_authfetch_authfetch",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_convalescencetab",
+      "target": "src_lib_notify_notifyerror",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_convalescencetab",
+      "target": "src_lib_notify_notifysuccess",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_convalescencetab",
+      "target": "src_types_domain_convalescenceitem",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
       "source_location": "L9",
       "weight": 1.0
     },
@@ -59413,6 +59603,30 @@
       "weight": 1.0
     },
     {
+      "source": "src_app_dashboard_convalescencia_page",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/convalescencia/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_convalescencia_page",
+      "target": "src_components_tabs_convalescencetab",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/convalescencia/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
       "source": "src_app_dashboard_crm_page",
       "target": "ref_react",
       "relation": "imports_from",
@@ -60313,6 +60527,55 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/tabs/BenefitsTab.tsx",
+      "source_location": "L9",
+      "type_only": true,
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_convalescencetab",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_convalescencetab",
+      "target": "src_lib_authfetch",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_convalescencetab",
+      "target": "src_lib_notify",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_convalescencetab",
+      "target": "src_types_index",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
       "source_location": "L9",
       "type_only": true,
       "weight": 1.0
@@ -85318,6 +85581,17 @@
       "weight": 1.0
     },
     {
+      "source": "src_app_dashboard_convalescencia_page",
+      "target": "src_app_dashboard_convalescencia_page_convalescenciapage",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/(dashboard)/convalescencia/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
       "source": "src_app_dashboard_crm_page",
       "target": "src_app_dashboard_crm_page_crmpage",
       "relation": "contains",
@@ -86008,6 +86282,50 @@
       "confidence_score": 1.0,
       "source_file": "src/components/tabs/BenefitsTab.tsx",
       "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_convalescencetab",
+      "target": "src_components_tabs_convalescencetab_catalogitem",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_convalescencetab",
+      "target": "src_components_tabs_convalescencetab_default_items",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_convalescencetab",
+      "target": "src_components_tabs_convalescencetab_empty_form",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_convalescencetab",
+      "target": "src_components_tabs_convalescencetab_convalescencetab",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
@@ -87669,6 +87987,17 @@
       "confidence_score": 1.0,
       "source_file": "src/types/domain.ts",
       "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "src_types_domain",
+      "target": "src_types_domain_convalescenceitem",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/domain.ts",
+      "source_location": "L52",
       "weight": 1.0
     },
     {
@@ -95753,5 +96082,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "05d19d4b35e38dd7aeec34a21054e346e33a83c7"
+  "built_at_commit": "74cee49eef8e96fa8817ef02f96638bdc0bbcc2f"
 }

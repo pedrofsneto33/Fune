@@ -2088,9 +2088,9 @@
     "semantic_hash": ""
   },
   "src/types/domain.ts": {
-    "mtime": 1789350044.1586955,
-    "seen": 1789350252.739862,
-    "ast_hash": "3368c2541c62077671d729bc22af1d7c",
+    "mtime": 1789350582.9675944,
+    "seen": 1789350929.3713856,
+    "ast_hash": "ca0236b17f34410bf4eff664a1b33dc5",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
@@ -2109,6 +2109,18 @@
     "mtime": 1789350179.1784365,
     "seen": 1789350252.73976,
     "ast_hash": "b2878d0a53af135353a48b0e16198e37",
+    "semantic_hash": ""
+  },
+  "src/app/(dashboard)/convalescencia/page.tsx": {
+    "mtime": 1789350862.343695,
+    "seen": 1789350929.3712049,
+    "ast_hash": "2570a77df97a5b0fa64865efa7467df9",
+    "semantic_hash": ""
+  },
+  "src/components/tabs/ConvalescenceTab.tsx": {
+    "mtime": 1789350847.2795985,
+    "seen": 1789350929.3713336,
+    "ast_hash": "27e5d0c47a1f333e0c52a3b2838acafb",
     "semantic_hash": ""
   }
 }
