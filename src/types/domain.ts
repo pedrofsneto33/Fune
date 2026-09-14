@@ -47,3 +47,14 @@ export interface Partner {
   contact_info: string;
   active?: boolean;
 }
+
+// ATENCAO: representa um EMPRESTIMO (nome mantido por compatibilidade)
+export interface ConvalescenceItem {
+  id: string;
+  item_id?: string;
+  item_name: string;
+  holder_name: string;
+  loan_date: string;
+  expected_return_date?: string;
+  status: 'Ativo' | 'Devolvido';
+}
