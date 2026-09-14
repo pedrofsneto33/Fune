@@ -4,10 +4,10 @@
 > e das fases de refatoração do monolito `src/app/page.tsx` (~4942 linhas).
 >
 > **Última atualização:** 2026-09-14
-> **Branch atual:** `refactor/fase-4-servico-funerario` (pré-merge Fase 4)
-> **Último commit:** `84f46de` (AGENTS.md refinado pós-Fase 4)
-> **Progresso:** Fases 1, 2, 3, 4 completas · Fase 5 (Cobrança) próxima
-> **Score `page.tsx`:** 1.0 → **1.4** (+0.4)
+> **Branch atual:** `refactor/fase-6-auth-limpeza` (pré-merge Fase 5)
+> **Último commit:** `7300290` (links 5c-3 — Fase 5 completa)
+> **Progresso:** Fases 1, 2, 3, 4, 5 completas · Fase 6 (última) próxima
+> **Score `page.tsx`:** 1.0 → **1.4** (medido após Fase 4c)
 > **Testes:** 146 passando
 
 ---
@@ -68,13 +68,13 @@ graphify cluster-only .              # regerar relatório + nomear comunidades
 graphify label . --batch-size 50     # só renomear comunidades
 ```
 
-### Estado final do grafo (após Fase 4c)
+### Estado final do grafo (após Fase 5)
 
 | Métrica | Valor |
 |---|---|
-| Nós | ~3500 |
-| Arestas | ~5000 |
-| Comunidades | ~370 |
+| Nós | ~3700 |
+| Arestas | ~5200 |
+| Comunidades | ~380 |
 | Cobertura | 99% EXTRACTED, 1% INFERRED |
 | Arquivos SQL | 43 incluídos via `tree-sitter-sql` |
 
@@ -137,8 +137,8 @@ graphify label . --batch-size 50     # só renomear comunidades
 | **2** | Titulares + Dependentes + Contratos + Import CSV | ✅ Na main |
 | **3** | CRM + Benefícios + Convalescença + Fiscal + Navegação | ✅ Na main |
 | **4** | Serviço Funerário (Frota, Estoque, Tanatopraxia, Capela, OS, Sepultamentos, Logística) | ✅ Na main (exceto 4d-2) |
-| **5** | Cobrança + Financeiro | ⏳ Próxima |
-| **6** | Auth + Providers + remover monolito | ⏳ |
+| **5** | Cobrança + Financeiro (Billing Asaas, Livro Caixa, Reservas, Contas a Pagar, Auditoria) | ✅ Na main |
+| **6** | Auth + Providers + remover monolito | ⏳ Próxima (última) |
 
 ### Fase 2 — detalhamento
 
@@ -172,6 +172,20 @@ graphify label . --batch-size 50     # só renomear comunidades
 | 4d-2 | Emergências (adiada — fallback via `whatsappAgent.ts`) | ⏸️ |
 | 4d-3 | Link `/logistica` no dropdown Operacional | ✅ |
 
+### Fase 5 — detalhamento
+
+| Sub-fase | Escopo | Status |
+|---|---|---|
+| 5a-1 | `/financeiro` read-only (BillingTab) | ✅ |
+| 5a-2 | Lote Asaas + baixa manual | ✅ |
+| 5a-3 | Link `/financeiro` no layout | ✅ |
+| 5b-1 | `/livro-caixa` (FinancialTab — transactions) | ✅ |
+| 5b-2 | Summary + reservas regulatórias (Lei 13.261/2016) | ✅ |
+| 5b-3 | Link `/livro-caixa` no layout | ✅ |
+| 5c-1 | `/contas-a-pagar` (AccountsPayableTab — API órfã) | ✅ |
+| 5c-2 | `/auditoria` (AuditLogsTab — API órfã, read-only) | ✅ |
+| 5c-3 | Links + novo dropdown Admin no layout | ✅ |
+
 ### Destaques da Fase 4
 
 - Primeira sub-fase que **criou endpoint novo** (`GET /api/dispatches`) — API órfã
@@ -179,6 +193,14 @@ graphify label . --batch-size 50     # só renomear comunidades
 - Teste `routes-auth.test` detecta automaticamente que toda nova rota API tem `withAuth`
 - 146 testes ao final (subiu de 145)
 - Score `page.tsx`: **1.0 → 1.4** (+0.4)
+
+### Destaques da Fase 5
+
+- 2 APIs órfãs expostas: `accounts-payable` e `audit-logs`
+- Reservas regulatórias com gráficos (Lei 13.261/2016)
+- Novo dropdown "Admin" no layout
+- Nenhuma alteração em `page.tsx` (regra mantida)
+- Sub-fase 5a-2 lida com dinheiro real no Asaas (cuidado redobrado)
 
 ---
 
@@ -194,6 +216,7 @@ graphify label . --batch-size 50     # só renomear comunidades
 | Fase 2d | ~20 | ~20 | ~45 |
 | Fase 2e | ~30 | ~30 | ~60 |
 | Fase 4c (OS + Burials) | ~22 | ~22 | ~50 |
+| Fase 5 (Billing + Financial) | ~25 | ~25 | ~55 |
 
 **Insight crítico:** a Fase 2 tem **~2× o blast radius da Fase 1** porque contratos/titulares
 são consumidos por **8 módulos de cobrança/serviço** (asaas-batch, pix, boleto,
@@ -290,7 +313,7 @@ Cada sub-fase segue o ciclo:
 
 ### Branch `main` (estado atual)
 
-Todos os commits das Fases 1-4 estão consolidados aqui após merges sucessivos.
+Todos os commits das Fases 1-5 estão consolidados aqui após merges sucessivos.
 
 ### Sequência de merges
 
@@ -298,6 +321,7 @@ Todos os commits das Fases 1-4 estão consolidados aqui após merges sucessivos.
 2. **Fase 2** — `refactor/fase-2-titulares` → main (5 sub-fases)
 3. **Fase 3** — `refactor/fase-3-crm-fiscal` → main (6 sub-fases)
 4. **Fase 4** — `refactor/fase-4-servico-funerario` → main (5 sub-fases efetivas)
+5. **Fase 5** — `refactor/fase-5-cobranca-financeiro` → main (9 sub-fases efetivas)
 
 ### Estrutura de commits por sub-fase
 
@@ -305,7 +329,7 @@ Cada sub-fase gera **2 commits**:
 - `refactor(fase-XX): <descrição>` — código
 - `chore: atualizar grafo apos XX` — grafo
 
-Total estimado: **~80 commits** (40 refactors + 40 grafo).
+Total estimado: **~120 commits** (60 refactors + 60 grafo).
 
 ### Fixes notáveis (fora do fluxo normal)
 
@@ -331,28 +355,23 @@ Total estimado: **~80 commits** (40 refactors + 40 grafo).
 
 ## 10. Próximos passos
 
-### Fase 5 — Cobrança + Financeiro (próxima)
-
-- [ ] 5a: Billing/Asaas (PIX, boleto, generate-cycles, asaas-batch)
-- [ ] 5b: Financeiro (transactions, summary, regulatory-reserves)
-- [ ] 5c: Accounts payable + Audit logs
-- [ ] **Prioridade especial:** `webhooks/asaas` (score 1.0 — pior do projeto)
-
-### Fase 6 — Auth + remover monolito
+### Fase 6 — Auth + remover monolito (última fase)
 
 - [ ] 6a: Consolidar AuthGuard, TenantContext, ThemeToggle no layout raiz
-- [ ] 6b: Remover tabs restantes do `page.tsx`
-- [ ] 6c: Remover `page.tsx` (após tudo migrado)
-- [ ] 6d: Consolidar `TenantProvider` (hoje é código morto)
+- [ ] 6b: Adicionar controle de role no frontend (para esconder links restritos)
+- [ ] 6c: Remover tabs restantes do `page.tsx`
+- [ ] 6d: Remover `page.tsx` (após tudo migrado)
+- [ ] 6e: Consolidar `TenantProvider` (hoje é código morto)
 
-### Bugs conhecidos (para corrigir após refatoração)
+### Bugs conhecidos (pós-refatoração)
 
 - [ ] Estoque: botões +/- de `inventory` só alteram estado local (sem POST)
-- [ ] `webhooks/asaas` é o pior performer (score 1.0) — priorizar na Fase 5
+- [ ] `webhooks/asaas` — token fraco (<16 chars) só loga, não bloqueia
 - [ ] Duplicação `page.tsx` × `TenantSettingsTab` (42%)
 - [ ] `loadData` com CCN 44 (brain method)
 - [ ] `TenantProvider` é código morto
 - [ ] Duplicação `vehicles` × `fleet_vehicles`
+- [ ] Rotas de billing sem `allowedRoles` (qualquer role do tenant)
 
 ---
 
