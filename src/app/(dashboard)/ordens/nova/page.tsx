@@ -6,7 +6,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { authFetch } from '@/lib/authFetch';
-import { notifyError } from '@/lib/notify';
+import { notifyError, notifySuccess } from '@/lib/notify';
 
 interface FormHoldersQuick {
   id: string;
@@ -52,6 +52,7 @@ export default function NovaOrdemPage() {
   const [inventoryList, setInventoryList] = useState<FormInventoryItem[]>([]);
   const [notes, setNotes] = useState('');
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
   // Busca titulares (debounce 500ms, min 3 chars)
   useEffect(() => {
@@ -133,21 +134,51 @@ export default function NovaOrdemPage() {
     return true;
   };
 
-  const handleSave = () => {
+  const DEATH_TYPE_MAP = {
+    holder: 'titular',
+    dependent: 'dependente',
+    free: 'particular',
+  } as const;
+
+  const handleSave = async () => {
     if (!validate()) return;
-    const payload = {
-      deceased_name: deceasedName,
-      deceased_type: deceasedType,
-      deceased_id: deceasedId || undefined,
-      contract_id: contractId || undefined,
-      vehicle_id: vehicleId || undefined,
-      burial_date: burialDate,
-      cemetery_location: cemeteryLocation,
-      items,
-      notes,
-    };
-    console.log('New OS payload:', payload);
-    alert('Em breve');
+    if (saving) return;
+    setSaving(true);
+    try {
+      const payload = {
+        deceased_name: deceasedName.trim(),
+        deceased_type: DEATH_TYPE_MAP[deceasedType],
+        deceased_id: deceasedId || undefined,
+        contract_id: contractId || undefined,
+        vehicle_id: vehicleId || undefined,
+        burial_date: burialDate,
+        cemetery_location: cemeteryLocation.trim() || undefined,
+        items: items
+          .filter((it) => it.inventory_id)
+          .map((it) => ({
+            inventory_id: it.inventory_id,
+            quantity: it.quantity,
+            unit_price: it.unit_price,
+          })),
+        notes: notes.trim() || undefined,
+      };
+      const res = await authFetch('/api/service-orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        notifySuccess('OS criada com sucesso.');
+        router.push('/ordens');
+      } else {
+        const j = await res.json();
+        notifyError('Erro: ' + (j.error || 'falha'));
+      }
+    } catch {
+      notifyError('Erro de conexao.');
+    } finally {
+      setSaving(false);
+    }
   };
 
     if (loading) {
@@ -391,9 +422,10 @@ export default function NovaOrdemPage() {
         </button>
         <button
           onClick={handleSave}
-          className="px-4 py-2 bg-amber-900 hover:bg-amber-800 text-amber-100 rounded font-semibold transition"
+          disabled={saving}
+          className="px-4 py-2 bg-amber-900 hover:bg-amber-800 text-amber-100 rounded font-semibold transition disabled:opacity-50"
         >
-          Salvar OS
+          {saving ? 'Salvando...' : 'Salvar OS'}
         </button>
       </div>
     </div>
