@@ -171,3 +171,50 @@ export interface CollectorRoute {
   status: string;
   total_receipts: number;
 }
+
+// Fase 5a-1 (READ-ONLY). Shapes reais vindos das APIs de billing:
+// GET /api/billing/collector retorna payments (payment_method='cash') com
+// join contracts(holders). BillingResult espelha o retorno de
+// POST /api/billing/asaas-batch. Sem logica de elegibilidade aqui —
+// o backend valida (src/lib/eligibility.ts, consumir nunca alterar).
+export interface Payment {
+  id: string;
+  asaas_payment_id?: string;
+  contract_id?: string;
+  holder_id?: string;
+  holder_name?: string;
+  amount: number;
+  payment_method?: string;
+  billing_type?: string;
+  due_date?: string;
+  status: string;
+  paid_at?: string;
+  description?: string;
+  created_at?: string;
+}
+
+export interface CollectorPayment {
+  id: string;
+  amount: number;
+  received_amount?: number;
+  status: string;
+  contract_id?: string;
+  paid_at?: string;
+}
+
+export interface BillingResultItem {
+  contract_id: string;
+  holder: string;
+  status: string;
+  asaas_payment_id?: string;
+  amount?: number;
+  due_date?: string;
+  error?: string;
+}
+
+export interface BillingResult {
+  created: number;
+  skipped: number;
+  failed: number;
+  results?: BillingResultItem[];
+}
