@@ -1,46 +1,9 @@
 'use client';
 
-// ⚠️ Duplicação temporária de page.tsx (linhas 701-743 e 2220-2430).
-// Será resolvida na sub-etapa 2e (extração de tipos compartilhados).
-
 import React, { useEffect, useMemo, useState } from 'react';
 import { authFetch } from '@/lib/authFetch';
 import { notifyError, notifyInfo } from '@/lib/notify';
-
-// Tipos espelhados de page.tsx (mesma forma do payload de GET /api/holders)
-interface ContractPlan {
-  id: string;
-  name: string;
-  monthly_fee: number;
-}
-interface Contract {
-  id: string;
-  status: string;
-  start_date: string;
-  plan_id?: string;
-  plans?: ContractPlan;
-}
-interface Dependent {
-  id: string;
-  full_name: string;
-  relation: string;
-}
-interface Holder {
-  id: string;
-  full_name: string;
-  cpf: string;
-  phone: string;
-  email?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  status?: string;
-  created_at: string;
-  contracts?: Contract[];
-  dependents?: Dependent[];
-}
-
-type StatusFilter = 'all' | 'ativo' | 'inativo';
+import type { ContractPlan, Contract, Dependent, Holder, StatusFilter } from '@/types';
 
 export default function TitularesPage() {
   const [holders, setHolders] = useState<Holder[]>([]);

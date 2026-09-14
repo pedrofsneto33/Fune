@@ -1,27 +1,11 @@
 'use client';
 
-// ⚠️ Duplicação temporária de src/app/page.tsx (tipos Contract/ContractPlan)
-// e de src/lib/eligibility.ts (isContractActive).
-// Será resolvida na sub-etapa 2e (extração de tipos compartilhados).
+// ⚠️ Réplica local de isContractActive — NÃO importar de src/lib/eligibility.ts
 
 import React, { useEffect, useState } from 'react';
 import { authFetch } from '@/lib/authFetch';
 import { notifyError } from '@/lib/notify';
-
-interface ContractPlan {
-  id: string;
-  name: string;
-  monthly_fee: number;
-}
-
-interface Contract {
-  id: string;
-  status: string;
-  start_date: string;
-  plan_id?: string;
-  plans?: ContractPlan;
-  holders?: { full_name?: string; name?: string } | null;
-}
+import type { ContractPlan, Contract } from '@/types';
 
 // Réplica local de isContractActive — NÃO importar de src/lib/eligibility.ts
 const isContractActive = (status: string | null | undefined): boolean => {

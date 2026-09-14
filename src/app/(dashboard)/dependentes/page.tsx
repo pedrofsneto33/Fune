@@ -1,21 +1,9 @@
 'use client';
 
-// Duplicacao temporaria de page.tsx. Resolvida na sub-etapa 2e.
-
 import React, { useEffect, useState } from 'react';
 import { authFetch } from '@/lib/authFetch';
 import { notifyError, notifyInfo } from '@/lib/notify';
-
-interface Dependent {
-  id: string;
-  full_name: string;
-  relation: string;
-}
-
-interface Holder {
-  id: string;
-  full_name: string;
-}
+import type { Dependent, Holder } from '@/types';
 
 const VALID_RELATIONS = ['Cônjuge', 'Filho(a)', 'Pai/Mãe', 'Outro'];
 
