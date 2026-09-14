@@ -281,3 +281,22 @@ export interface AuditLog {
   details: string | Record<string, unknown> | null;
   created_at: string;
 }
+
+// Fase 6c (Executivo — unica aba sem equivalente, extraida de page.tsx ~2127).
+// Fonte unica: GET /api/dashboard/kpis {totalLives, activeContracts,
+// monthlyRevenue, overdueAmount, overdueCount, burialsThisMonth}.
+export interface ExecutiveKpis {
+  totalLives: number;
+  activeContracts: number;
+  monthlyRevenue: number;
+  overdueAmount: number;
+  overdueCount: number;
+  burialsThisMonth: number;
+}
+
+export interface ExecutiveMonthlyPoint {
+  month: string;
+  income: number;
+  expense: number;
+  net?: number;
+}
