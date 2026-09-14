@@ -7,7 +7,7 @@
   "5": "Database Schema Tables",
   "6": "isValidUUID",
   "7": "design_system.py",
-  "8": "domain.ts",
+  "8": "authFetch",
   "9": "spacing",
   "10": "search_stack",
   "11": "parse_decision_rules",
@@ -67,7 +67,6 @@
   "65": "Project Scaffold Generator",
   "66": "Token Generation Script",
   "67": "authFetch.ts",
-  "68": "authFetch",
   "69": "Public Service Orders DB",
   "70": "Validate Tokens Test Suite",
   "71": "Brand to Token Sync",
@@ -371,7 +370,6 @@
   "369": ".test_add_components_no_components",
   "370": "CLAUDE.md",
   "371": "8",
-  "372": "lucide-react",
   "373": "ConvalescenceTab.tsx",
   "374": "contracts/route.ts"
 }

@@ -1,17 +1,17 @@
 # Graph Report - eternitysos  (2026-09-14)
 
 ## Corpus Check
-- 357 files · ~331,793 words
+- 357 files · ~331,888 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 61 file(s) not represented in the graph (top: .csv 53, .log 3, (none) 2)
 
 ## Summary
-- 3497 nodes · 5034 edges · 375 communities (201 shown, 138 thin omitted)
+- 3497 nodes · 5036 edges · 373 communities (199 shown, 138 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 33 edges (avg confidence: 0.87)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9135d65e`
+- Built from commit: `d24ebfed`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -24,7 +24,7 @@
 - Database Schema Tables
 - isValidUUID
 - design_system.py
-- domain.ts
+- authFetch
 - spacing
 - search_stack
 - parse_decision_rules
@@ -84,7 +84,6 @@
 - Project Scaffold Generator
 - Token Generation Script
 - authFetch.ts
-- authFetch
 - Public Service Orders DB
 - Validate Tokens Test Suite
 - Brand to Token Sync
@@ -352,7 +351,6 @@
 - .test_get_installed_components_empty
 - .test_add_components_no_components
 - 8
-- lucide-react
 - ConvalescenceTab.tsx
 - contracts/route.ts
 
@@ -383,7 +381,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (375 total, 138 thin omitted)
+## Communities (373 total, 138 thin omitted)
 
 ### Community 0 - "validate_data.py"
 Cohesion: 0.07
@@ -417,9 +415,9 @@ Nodes (45): RFC-5322, DELETE, GET, PATCH, POST, GET, POST, DELETE (+37 more)
 Cohesion: 0.08
 Nodes (29): ansi_ljust(), _detect_page_type(), format_ascii_box(), format_markdown(), format_master_md(), format_page_override_md(), generate_design_system(), _generate_intelligent_overrides() (+21 more)
 
-### Community 8 - "domain.ts"
-Cohesion: 0.13
-Nodes (15): ContratosPage(), isContractActive(), DependentesPage(), VALID_RELATIONS, TitularesPage(), ServiceOrdersTab(), Contract, ContractPlan (+7 more)
+### Community 8 - "authFetch"
+Cohesion: 0.12
+Nodes (19): recharts, ContratosPage(), isContractActive(), DependentesPage(), VALID_RELATIONS, TitularesPage(), FinancialSummary, ModalDRE() (+11 more)
 
 ### Community 9 - "spacing"
 Cohesion: 0.09
@@ -650,12 +648,8 @@ Cohesion: 0.40
 Nodes (9): flattenTokens(), fs, generateCSS(), generateTailwind(), main(), parseArgs(), path, resolveReference() (+1 more)
 
 ### Community 67 - "authFetch.ts"
-Cohesion: 0.23
-Nodes (4): Tenant, TenantContext, TenantContextType, supabase
-
-### Community 68 - "authFetch"
-Cohesion: 0.18
-Nodes (11): recharts, FormHoldersQuick, FormInventoryItem, FormVehicle, NovaOrdemPage(), OrdemItem, FinancialSummary, ModalDRE() (+3 more)
+Cohesion: 0.11
+Nodes (14): lucide-react, ADDONS, FAQ, MODULES, PLANS, FiscalConfigData, FiscalSettingsSection(), Tenant (+6 more)
 
 ### Community 69 - "Public Service Orders DB"
 Cohesion: 0.36
@@ -706,8 +700,8 @@ Cohesion: 0.06
 Nodes (32): Accordion, Alert, Alert Dialog, Avatar, Badge, Button, Card, Checkbox (+24 more)
 
 ### Community 81 - "notifyError"
-Cohesion: 0.17
-Nodes (14): ModalCobrancaAvulsa(), CrmTab(), FiscalConfigData, FiscalSettingsSection(), fmtPercent(), Seller, SellersTab(), Tenant (+6 more)
+Cohesion: 0.11
+Nodes (19): FormHoldersQuick, FormInventoryItem, FormVehicle, NovaOrdemPage(), OrdemItem, ModalRBAC(), UserRole, ModalWebhookRetry() (+11 more)
 
 ### Community 82 - "Project NPM Scripts"
 Cohesion: 0.29
@@ -1176,10 +1170,6 @@ Nodes (3): 6️⃣ BACKUPS AUTOMÁTICOS DO BANCO, Passo a passo, Por quê?
 ### Community 371 - "8"
 Cohesion: 0.67
 Nodes (3): $type, $value, 8
-
-### Community 372 - "lucide-react"
-Cohesion: 0.15
-Nodes (8): lucide-react, ADDONS, FAQ, MODULES, PLANS, ModalWebhookRetry(), Props, WebhookEvent
 
 ### Community 373 - "ConvalescenceTab.tsx"
 Cohesion: 0.29
