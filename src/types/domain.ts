@@ -48,6 +48,15 @@ export interface Partner {
   active?: boolean;
 }
 
+export interface Vehicle {
+  id: string;
+  plate: string;
+  model: string;
+  type: string;
+  status: 'Disponível' | 'Em Missão' | 'Manutenção';
+  driver_name: string;
+}
+
 // ATENCAO: representa um EMPRESTIMO (nome mantido por compatibilidade)
 export interface ConvalescenceItem {
   id: string;
