@@ -223,7 +223,19 @@ d4bed45        refactor(fase-1): migrar Plans e Sellers para route group
 - **Remota (`origin/main`):** `2ed010d`
 
 ---
+### Branch `refactor/fase-3-crm-fiscal` (mergeada na main)
 
+Fase 3 — CRM + Benefícios + Convalescença + Fiscal + Navegação:
+
+- 3a: rota /crm (CrmTab envelopado)
+- 3b: link /crm no layout
+- 3c-1: rota /beneficios (BenefitsTab novo — 274 linhas)
+- 3c-2: rota /convalescencia (ConvalescenceTab novo — 336 linhas)
+- 3d: rota /fiscal (FiscalTab envelopado)
+- 3e: navegação completa com dropdowns agrupados
+
+Total: 12 commits (6 refactors + 6 grafo).
+Todos os 145 testes passando ao final.
 ## 8. Artefatos gerados
 
 | Arquivo | Tamanho | Descrição |
@@ -246,7 +258,8 @@ d4bed45        refactor(fase-1): migrar Plans e Sellers para route group
 
 ### Médio prazo
 - [ ] Merge `refactor/fase-2-titulares` → `main` (após 2e)
-- [ ] **Fase 3** — CRM + Benefícios + Fiscal
+- [x] **Fase 3** — CRM + Benefícios + Fiscal ✅ (mergeada na main)
+- [ ] **Fase 4** — Serviço Funerário (OS, capela, tanatopraxia, logística)
 - [ ] **Fase 4** — Serviço funerário
 - [ ] **Fase 5** — Cobrança + Financeiro
 - [ ] **Fase 6** — Auth + Providers
