@@ -8,11 +8,9 @@ import ServiceOrdersTab from "@/components/tabs/ServiceOrdersTab";
 export default function OrdensPage() {
   return (
     <div className="space-y-4">
-      <Link href="/ordens/nova">
-        <a className="inline-block px-4 py-2 bg-amber-900 hover:bg-amber-800 text-amber-100 rounded font-semibold transition">
+      <Link href="/ordens/nova" className="inline-block px-4 py-2 bg-amber-900 hover:bg-amber-800 text-amber-100 rounded font-semibold transition">
           + Nova OS
-        </a>
-      </Link>
+        </Link>
       <ServiceOrdersTab />
     </div>
   );
