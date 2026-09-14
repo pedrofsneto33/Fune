@@ -21,24 +21,43 @@ export default function DashboardLayout({
             <span className="text-[10px] text-slate-600 dark:text-slate-500">ERP Funerário Integrado</span>
           </div>
           <nav className="flex items-center gap-4">
-            <Link
-              href="/planes"
-              className={`text-xs font-semibold transition ${pathname === '/planes' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}
-            >
-              Planos
-            </Link>
-            <Link
-              href="/vendedores"
-              className={`text-xs font-semibold transition ${pathname === '/vendedores' ? 'text-cyan-400' : 'text-slate-400 hover:text-white'}`}
-            >
-              Vendedores
-            </Link>
-            <Link
-              href="/crm"
-              className={`text-xs font-semibold transition ${pathname === '/crm' ? 'text-amber-400' : 'text-slate-400 hover:text-white'}`}
-            >
-              CRM
-            </Link>
+            <details className="relative">
+              <summary className="text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer list-none">
+                Cadastros
+              </summary>
+              <div className="absolute top-full left-0 mt-2 bg-[#0d111a] border border-slate-800 rounded-lg p-2 min-w-[140px] shadow-xl z-50 flex flex-col gap-1">
+                <Link href="/titulares" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/titulares' ? 'text-emerald-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Titulares</Link>
+                <Link href="/dependentes" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/dependentes' ? 'text-emerald-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Dependentes</Link>
+                <Link href="/contratos" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/contratos' ? 'text-emerald-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Contratos</Link>
+              </div>
+            </details>
+            <details className="relative">
+              <summary className="text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer list-none">
+                Comercial
+              </summary>
+              <div className="absolute top-full left-0 mt-2 bg-[#0d111a] border border-slate-800 rounded-lg p-2 min-w-[140px] shadow-xl z-50 flex flex-col gap-1">
+                <Link href="/planes" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/planes' ? 'text-cyan-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Planos</Link>
+                <Link href="/vendedores" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/vendedores' ? 'text-cyan-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Vendedores</Link>
+                <Link href="/crm" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/crm' ? 'text-amber-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>CRM</Link>
+              </div>
+            </details>
+            <details className="relative">
+              <summary className="text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer list-none">
+                Benefícios
+              </summary>
+              <div className="absolute top-full left-0 mt-2 bg-[#0d111a] border border-slate-800 rounded-lg p-2 min-w-[160px] shadow-xl z-50 flex flex-col gap-1">
+                <Link href="/beneficios" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/beneficios' ? 'text-cyan-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Benefícios</Link>
+                <Link href="/convalescencia" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/convalescencia' ? 'text-cyan-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Convalescência</Link>
+              </div>
+            </details>
+            <details className="relative">
+              <summary className="text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer list-none">
+                Financeiro
+              </summary>
+              <div className="absolute top-full left-0 mt-2 bg-[#0d111a] border border-slate-800 rounded-lg p-2 min-w-[160px] shadow-xl z-50 flex flex-col gap-1">
+                <Link href="/fiscal" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/fiscal' ? 'text-blue-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Fiscal (NFS-e)</Link>
+              </div>
+            </details>
             <Link href="/" className="text-xs text-slate-400 hover:text-white transition">
               ← Dashboard
             </Link>
