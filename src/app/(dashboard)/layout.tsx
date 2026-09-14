@@ -72,6 +72,15 @@ export default function DashboardLayout({
                 <Link href="/fiscal" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/fiscal' ? 'text-blue-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Fiscal (NFS-e)</Link>
                 <Link href="/financeiro" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/financeiro' ? 'text-emerald-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Cobranças</Link>
                 <Link href="/livro-caixa" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/livro-caixa' ? 'text-emerald-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Livro Caixa</Link>
+                <Link href="/contas-a-pagar" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/contas-a-pagar' ? 'text-emerald-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Contas a Pagar</Link>
+              </div>
+            </details>
+            <details className="relative">
+              <summary className="text-xs font-semibold text-slate-400 hover:text-white transition cursor-pointer list-none">
+                Admin
+              </summary>
+              <div className="absolute top-full left-0 mt-2 bg-[#0d111a] border border-slate-800 rounded-lg p-2 min-w-[140px] shadow-xl z-50 flex flex-col gap-1">
+                <Link href="/auditoria" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/auditoria' ? 'text-slate-200 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Auditoria</Link>
               </div>
             </details>
             <Link href="/" className="text-xs text-slate-400 hover:text-white transition">
