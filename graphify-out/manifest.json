@@ -2088,9 +2088,9 @@
     "semantic_hash": ""
   },
   "src/types/domain.ts": {
-    "mtime": 1789352360.0320487,
-    "seen": 1789352537.4942877,
-    "ast_hash": "0578d6246daa2021bb5182d08867816d",
+    "mtime": 1789353100.3246553,
+    "seen": 1789353254.5156403,
+    "ast_hash": "db2541b266ee3d87354d890ab8ab1d5d",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
@@ -2151,6 +2151,18 @@
     "mtime": 1789352478.4346423,
     "seen": 1789352537.4942212,
     "ast_hash": "e319add41de1736ff8791f1eab9fa0fd",
+    "semantic_hash": ""
+  },
+  "src/app/(dashboard)/tanatopraxia/page.tsx": {
+    "mtime": 1789353210.6805162,
+    "seen": 1789353254.515499,
+    "ast_hash": "5c4785b14b199a1bf243106f4a670fab",
+    "semantic_hash": ""
+  },
+  "src/components/tabs/ThanatopraxyTab.tsx": {
+    "mtime": 1789353196.4933305,
+    "seen": 1789353254.5156057,
+    "ast_hash": "268053dd0bcf60344dfe8595d42a4ad8",
     "semantic_hash": ""
   }
 }
