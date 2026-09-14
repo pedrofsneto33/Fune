@@ -1127,12 +1127,6 @@
     "ast_hash": "429c957772fa9b1f416d09d3b0726ca2",
     "semantic_hash": "429c957772fa9b1f416d09d3b0726ca2"
   },
-  "src/contexts/TenantContext.tsx": {
-    "mtime": 1788216028.801367,
-    "seen": 1789318651.2980828,
-    "ast_hash": "fbe6f4fb7e5768d77f7bddb373a4d44b",
-    "semantic_hash": "fbe6f4fb7e5768d77f7bddb373a4d44b"
-  },
   "src/hooks/useBilling.ts": {
     "mtime": 1789059091.4723945,
     "seen": 1789318651.2980835,
