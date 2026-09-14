@@ -6,12 +6,13 @@
 import React, { useEffect, useState } from 'react';
 import { ServiceOrder } from '@/types/domain';
 import { authFetch } from '@/lib/authFetch';
-import { notifyError } from '@/lib/notify';
+import { notifyError, notifySuccess } from '@/lib/notify';
 
 export default function ServiceOrdersTab() {
   const [serviceOrders, setServiceOrders] = useState<ServiceOrder[]>([]);
   const [loadingServiceOrders, setLoadingServiceOrders] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<ServiceOrder | null>(null);
+  const [cancelingId, setCancelingId] = useState<string | null>(null);
 
   useEffect(() => {
     let cancel = false;
@@ -32,6 +33,37 @@ export default function ServiceOrdersTab() {
       cancel = true;
     };
   }, []);
+
+  const refetchOrders = async () => {
+    const res = await authFetch('/api/service-orders');
+    if (!res.ok) return;
+    const data = await res.json();
+    if (Array.isArray(data)) setServiceOrders(data);
+  };
+
+  const handleCancelOrder = async (order: ServiceOrder) => {
+    if (!window.confirm('Cancelar esta OS?')) return;
+    setCancelingId(order.id);
+    try {
+      const res = await authFetch('/api/service-orders', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: order.id, status: 'cancelled' }),
+      });
+      if (res.ok) {
+        notifySuccess('OS cancelada.');
+        setSelectedOrder(null);
+        await refetchOrders();
+      } else {
+        const j = await res.json();
+        notifyError('Erro: ' + (j.error || 'falha'));
+      }
+    } catch {
+      notifyError('Erro de conexao.');
+    } finally {
+      setCancelingId(null);
+    }
+  };
 
   const statusClass = (status: string) => {
     const s = status.toLowerCase();
@@ -190,6 +222,15 @@ export default function ServiceOrdersTab() {
             >
               Fechar
             </button>
+            {selectedOrder.status !== 'cancelled' && selectedOrder.status !== 'completed' && (
+              <button
+                onClick={() => handleCancelOrder(selectedOrder)}
+                disabled={cancelingId === selectedOrder.id}
+                className="ml-2 mt-4 px-4 py-2 bg-rose-900 hover:bg-rose-800 text-rose-100 rounded text-sm font-semibold transition disabled:opacity-50"
+              >
+                {cancelingId === selectedOrder.id ? 'Cancelando...' : 'Cancelar OS'}
+              </button>
+            )}
           </div>
         </div>
       )}
