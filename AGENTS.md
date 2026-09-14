@@ -20,6 +20,30 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - **UMA** ferramenta MCP por mensagem. Não chame `get_health` + `get_change_risk` + `get_context` juntas.
 - Ao terminar uma tarefa, responda **no máximo 10 linhas** + os comandos de verificação.
 
+## Economia de tokens (obrigatório)
+
+### Use Graphify antes de ler arquivos
+Antes de rodar `Get-Content` ou `Select-String` num arquivo de API,
+tente:
+  /graphify query "quais metodos HTTP e roles existem em <rota>?"
+
+O grafo ja tem a informacao. So leia o arquivo se o grafo nao responder.
+
+### Respostas curtas
+- Maximo 5 linhas por resposta, exceto quando o usuario pedir
+  explicitamente "relatorio completo".
+- Sem tabelas markdown, sem emojis, sem bullets aninhados.
+- Sem repetir o que o usuario ja sabe.
+
+### Reconhecimento enxuto
+- Maximo 2 arquivos lidos por reconhecimento.
+- Maximo 150 linhas totais lidas via Get-Content.
+- Use Select-String -Context em vez de Get-Content inteiro.
+
+### Nao usar Repowise em reconhecimento
+- Repowise so entra em sub-fases criticas (4c, 5).
+- Uma chamada por sub-fase, no maximo.
+
 ## Autonomia — quando agir sozinho vs parar
 **AJA SOZINHO** (não pergunte) quando:
 - O escopo estiver claro no prompt
@@ -59,7 +83,7 @@ Quando o usuário autorizar uma sub-fase, execute TUDO:
 - **NUNCA** ler `graph.json`/`GRAPH_REPORT.md` diretamente. Use a CLI.
 
 ### Repowise (MCP) — sob demanda, uma por vez
-- **Antes de commitar sub-fase crítica (2d, 3d, 5):** `repowise__get_change_risk` no commit staged
+- **Antes de commitar sub-fase crítica (4c, 5):** `repowise__get_change_risk` no commit staged
 - **Depois de sub-fase grande:** `repowise__get_health` no arquivo tocado
 - **Fase 6 (remover monolito):** `repowise__get_dead_code`
 - **Quando não entender código legado:** `repowise__get_why`
@@ -72,12 +96,20 @@ Quando o usuário autorizar uma sub-fase, execute TUDO:
 - **Documentação viva:** `docs/JORNADA-GRAPHIFY-E-REFATORACAO.md` (atualizar ao final de cada fase).
 
 ### Fases concluídas
-- Fase 1: Plans + Sellers (na main)
-- Fase 2: Titulares, Dependentes, Contratos, Import CSV, Tipos (`src/types/domain.ts`)
-- Fase 3: CRM + Benefícios + Convalescença + Fiscal (em andamento)
+- **Fase 1:** Plans + Sellers
+- **Fase 2:** Titulares, Dependentes, Contratos, Import CSV, Tipos (`src/types/domain.ts`)
+- **Fase 3:** CRM, Benefícios, Convalescença, Fiscal, Navegação (dropdowns)
+- **Fase 4a:** Frota, Estoque
+- **Fase 4b:** Tanatopraxia, Capela
 
-### Sub-fases pendentes da Fase 3
-- 3a: /crm (CrmTab envelopado) — em execução
-- 3b: link no layout + CRUD (a definir)
-- 3c: Benefícios + Convalescença
-- 3d: Fiscal (FocusNFE)
+### Fase atual: 4c (Service Orders + Burials)
+- 4c-1: `/ordens` read-only (proxima)
+- 4c-2: `/ordens/nova` (criar OS)
+- 4c-3: `/ordens/[id]` (detalhes + cancelar)
+- 4c-4: `/sepultamentos` (burials — atencao: /capela ja existe)
+- 4c-5: Links no layout
+
+### Fases pendentes
+- Fase 4d: Logística + Emergências
+- Fase 5: Cobrança + Financeiro
+- Fase 6: Auth/Providers + remover monolito
