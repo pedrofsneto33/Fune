@@ -38,3 +38,12 @@ export interface Holder {
 }
 
 export type StatusFilter = 'all' | 'ativo' | 'inativo';
+
+export interface Partner {
+  id: string;
+  partner_name: string;
+  category: string;
+  discount_percentage: number;
+  contact_info: string;
+  active?: boolean;
+}
