@@ -2088,9 +2088,9 @@
     "semantic_hash": ""
   },
   "src/types/domain.ts": {
-    "mtime": 1789357639.382213,
-    "seen": 1789357982.326305,
-    "ast_hash": "8bca68f201752c24150e2dd003992d68",
+    "mtime": 1789390084.76762,
+    "seen": 1789390523.1864016,
+    "ast_hash": "1be383559ef6896ba23316d228da6a07",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
@@ -2205,6 +2205,30 @@
     "mtime": 1789357880.9362352,
     "seen": 1789357982.3262534,
     "ast_hash": "89c28319636f61f29b846ac95b2281c3",
+    "semantic_hash": ""
+  },
+  "src/app/(dashboard)/logistica/page.tsx": {
+    "mtime": 1789390402.6690006,
+    "seen": 1789390523.186249,
+    "ast_hash": "94114fa4a0af74c0d0b48c45a222f868",
+    "semantic_hash": ""
+  },
+  "src/app/api/dispatches/route.ts": {
+    "mtime": 1789389975.4869142,
+    "seen": 1789390523.1862853,
+    "ast_hash": "e134df5a98074cb724a1693d1baf17d9",
+    "semantic_hash": ""
+  },
+  "src/components/tabs/LogisticsTab.tsx": {
+    "mtime": 1789390388.9871798,
+    "seen": 1789390523.1863606,
+    "ast_hash": "c20d5f83272ec60f202b231b21bce3ee",
+    "semantic_hash": ""
+  },
+  "_glog.txt": {
+    "mtime": 1789390522.5491045,
+    "seen": 1789390523.1865022,
+    "ast_hash": "ce447d86289c111cf43b7b614543474d",
     "semantic_hash": ""
   }
 }
