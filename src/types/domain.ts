@@ -245,6 +245,7 @@ export interface FinancialSummary {
   truncated?: boolean;
 }
 
+// Fase 5c-1 (Contas a pagar — API orfa, UI nova).
 export interface RegulatoryReserve {
   referenceMonth: string;
   grossRevenue: number;
@@ -255,4 +256,18 @@ export interface RegulatoryReserve {
   appliedAmount: number;
   status: string;
   base?: string;
+}
+
+// GET lista ordenado por due_date. POST {description, amount, due_date,
+// status='pendente'} (roles superadmin/admin/financial). PATCH ?id= com
+// allowlist description/amount/due_date/status/payment_method/notes.
+export interface AccountPayable {
+  id: string;
+  description: string;
+  amount: number;
+  due_date: string;
+  status: 'pendente' | 'pago' | 'atrasado' | 'cancelado';
+  payment_method?: string;
+  notes?: string;
+  created_at?: string;
 }
