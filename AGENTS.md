@@ -30,6 +30,12 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   para pegar só trechos.
 - **UMA** ferramenta MCP por mensagem. Não chame `get_health` +
   `get_change_risk` + `get_context` juntas.
+- **NUNCA modificar** arquivos existentes em `src/app/api/` sem
+  autorização explícita no prompt.
+- **Criar novos** endpoints em `src/app/api/` é permitido APENAS com:
+  * withAuth + tenant_id filter
+  * Justificativa (endpoint ausente para funcionalidade órfã)
+  * Autorização explícita no prompt da sub-fase
 - Ao terminar uma tarefa, responda **no máximo 10 linhas** + os
   comandos de verificação.
 
@@ -116,21 +122,15 @@ Quando o usuário autorizar uma sub-fase, execute TUDO:
 - **Fase 3:** CRM, Benefícios, Convalescença, Fiscal, Navegação (dropdowns)
 - **Fase 4a:** Frota, Estoque
 - **Fase 4b:** Tanatopraxia, Capela
+- **Fase 4c:** Service Orders + Burials (4c-1 a 4c-5)
+- **Fase 4d:** Logística (4d-1, 4d-3)
 
-### Fase atual: 4c (Service Orders + Burials)
-- ✅ **4c-1:** `/ordens` read-only (ServiceOrdersTab)
-- ✅ **4c-2a:** `/ordens/nova` (formulário, sem POST)
-- ✅ **4c-2b:** POST real conectado + fix `deceased_type` + fix `deceased_id`
-  - ⚠️ ATENÇÃO: a API exige `deceased_name`, `deceased_type` E `deceased_id`.
-    Para tipo `free`, gerar `deceased_id` sintético (crypto.randomUUID()).
-  - Valores válidos de `deceased_type`: `'holder' | 'dependent' | 'free'`
-    (NÃO usar titular/dependente/particular).
-- ⏳ **4c-3:** botão cancelar OS (PATCH status=cancelled)
-- ⏳ **4c-4:** `/sepultamentos` (burials — NÃO usar `/capela`, já existe)
-- ⏳ **4c-5:** Links no layout
+### Fase atual: 5 (Cobrança + Financeiro)
+- Fase 4 completa (4a, 4b, 4c, 4d-1, 4d-3)
+- 4d-2 (Emergências) adiada — tem fallback via whatsappAgent
+- Próxima: Fase 5
 
 ### Fases pendentes
-- Fase 4d: Logística + Emergências
 - Fase 5: Cobrança + Financeiro
 - Fase 6: Auth/Providers + remover monolito
 
