@@ -57,6 +57,14 @@ export interface Vehicle {
   driver_name: string;
 }
 
+export interface InventoryItem {
+  id: string;
+  item_name: string;
+  category: string;
+  stock_quantity: number;
+  min_threshold: number;
+}
+
 // ATENCAO: representa um EMPRESTIMO (nome mantido por compatibilidade)
 export interface ConvalescenceItem {
   id: string;
