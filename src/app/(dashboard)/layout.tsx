@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default function DashboardLayout({
   children,
@@ -83,6 +84,7 @@ export default function DashboardLayout({
                 <Link href="/auditoria" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/auditoria' ? 'text-slate-200 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Auditoria</Link>
               </div>
             </details>
+            <ThemeToggle compact />
             <Link href="/" className="text-xs text-slate-400 hover:text-white transition">
               ← Dashboard
             </Link>
