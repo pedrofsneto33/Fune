@@ -642,9 +642,9 @@
     "semantic_hash": "b9c2cdc4654ca63de532cfe81b3ba512"
   },
   "src/app/(dashboard)/layout.tsx": {
-    "mtime": 1789392016.6863344,
-    "seen": 1789392047.749492,
-    "ast_hash": "bd907a0c0bcfc08f6c940ee7b10c1018",
+    "mtime": 1789392590.1800466,
+    "seen": 1789392615.6387544,
+    "ast_hash": "239c4cabf69663c028d951d596ca56d8",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/planes/page.tsx": {
@@ -2244,9 +2244,9 @@
     "semantic_hash": ""
   },
   "src/components/tabs/FinancialTab.tsx": {
-    "mtime": 1789392323.0637963,
-    "seen": 1789392395.9511526,
-    "ast_hash": "9f7a58dc4dc25a2e97eb5db57d8f1cf1",
+    "mtime": 1789392502.6609225,
+    "seen": 1789392533.1956182,
+    "ast_hash": "3880bcf04f9a1c3d7c10467d1d5233e0",
     "semantic_hash": ""
   }
 }
