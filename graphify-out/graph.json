@@ -134,6 +134,19 @@
       "source_location": "L37"
     },
     {
+      "id": "src_components_tabs_sellerstab_seller",
+      "label": "Seller",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "SellersTab.tsx",
+      "file_type": "code",
+      "norm_label": "seller",
+      "source_file": "src/components/tabs/SellersTab.tsx",
+      "source_location": "L8"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract",
       "label": "TestGeneratedCatalogContract",
       "_callable": true,
@@ -158,6 +171,19 @@
       "norm_label": "testlandingandstackcontract",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
       "source_location": "L261"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract",
+      "label": "TestReasoningContract",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": "testreasoningcontract",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L87"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_teststyleidentitycontract",
@@ -368,19 +394,6 @@
       "source_location": "L2"
     },
     {
-      "id": "src_hooks_usebilling_usebillingreturn",
-      "label": "UseBillingReturn",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "usebillingreturn",
-      "source_file": "src/hooks/useBilling.ts",
-      "source_location": "L12"
-    },
-    {
       "id": "src_lib_whatsapp_whatsappchargepayload",
       "label": "WhatsAppChargePayload",
       "_callable": true,
@@ -446,17 +459,82 @@
       "source_location": "L62"
     },
     {
+      "id": "src_types_domain_contract",
+      "label": "Contract",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "contract",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_types_domain_contractplan",
+      "label": "ContractPlan",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "contractplan",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_types_domain_dependent",
+      "label": "Dependent",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "dependent",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L16"
+    },
+    {
+      "id": "src_types_domain_holder",
+      "label": "Holder",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "holder",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L22"
+    },
+    {
+      "id": "src_types_domain_statusfilter",
+      "label": "StatusFilter",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "statusfilter",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L40"
+    },
+    {
       "id": "src_types_index_dadospayload",
       "label": "DadosPayLoad",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 180,
-      "community_name": "Data Payload Types",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "dadospayload",
       "source_file": "src/types/index.ts",
-      "source_location": "L2"
+      "source_location": "L4"
     },
     {
       "id": "src_app_api_financial_summary_route_txrow",
@@ -535,19 +613,6 @@
       "norm_label": "testreasoningmatch",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
       "source_location": "L313"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract",
-      "label": "TestReasoningContract",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "code",
-      "norm_label": "testreasoningcontract",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L87"
     },
     {
       "id": "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator",
@@ -784,55 +849,29 @@
       "source_location": "L8"
     },
     {
-      "id": "src_components_dashboard_modalwebhookretry_props",
-      "label": "Props",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "props",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
-      "source_location": "L23"
-    },
-    {
-      "id": "src_components_dashboard_modalwebhookretry_webhookevent",
-      "label": "WebhookEvent",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "webhookevent",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
-      "source_location": "L8"
-    },
-    {
       "id": "src_components_tabs_fiscalsettingssection_fiscalconfigdata",
       "label": "FiscalConfigData",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 333,
-      "community_name": "notifyError",
+      "community_name": "notifySuccess",
       "file_type": "code",
       "norm_label": "fiscalconfigdata",
       "source_file": "src/components/tabs/FiscalSettingsSection.tsx",
       "source_location": "L8"
     },
     {
-      "id": "src_components_tabs_sellerstab_seller",
-      "label": "Seller",
+      "id": "src_components_tabs_fiscaltab_invoice",
+      "label": "Invoice",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 333,
-      "community_name": "notifyError",
+      "community_name": "notifySuccess",
       "file_type": "code",
-      "norm_label": "seller",
-      "source_file": "src/components/tabs/SellersTab.tsx",
+      "norm_label": "invoice",
+      "source_file": "src/components/tabs/FiscalTab.tsx",
       "source_location": "L8"
     },
     {
@@ -842,24 +881,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 333,
-      "community_name": "notifyError",
+      "community_name": "notifySuccess",
       "file_type": "code",
       "norm_label": "tenant",
       "source_file": "src/components/tabs/TenantSettingsTab.tsx",
       "source_location": "L11"
-    },
-    {
-      "id": "src_components_tabs_fiscaltab_invoice",
-      "label": "Invoice",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 349,
-      "community_name": "FiscalTab.tsx",
-      "file_type": "code",
-      "norm_label": "invoice",
-      "source_file": "src/components/tabs/FiscalTab.tsx",
-      "source_location": "L8"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_bm25",
@@ -1044,6 +1070,32 @@
       "source_location": "L202"
     },
     {
+      "id": "src_components_dashboard_modalwebhookretry_props",
+      "label": "Props",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "lucide-react",
+      "file_type": "code",
+      "norm_label": "props",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
+      "source_location": "L23"
+    },
+    {
+      "id": "src_components_dashboard_modalwebhookretry_webhookevent",
+      "label": "WebhookEvent",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "lucide-react",
+      "file_type": "code",
+      "norm_label": "webhookevent",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
+      "source_location": "L8"
+    },
+    {
       "id": "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testgeneratedconfigisvalidjs",
       "label": "TestGeneratedConfigIsValidJs",
       "_callable": true,
@@ -1146,19 +1198,6 @@
       "norm_label": "fiscalstatus",
       "source_file": "src/lib/fiscal/index.ts",
       "source_location": "L18"
-    },
-    {
-      "id": "src_components_tabs_planstab_plan",
-      "label": "Plan",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 51,
-      "community_name": "PlansTab.tsx",
-      "file_type": "code",
-      "norm_label": "plan",
-      "source_file": "src/components/tabs/PlansTab.tsx",
-      "source_location": "L8"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence",
@@ -1291,39 +1330,13 @@
       "source_location": "L26"
     },
     {
-      "id": "src_app_dashboard_dependentes_page_dependent",
-      "label": "Dependent",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "dependent",
-      "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L9"
-    },
-    {
-      "id": "src_app_dashboard_dependentes_page_holder",
-      "label": "Holder",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "holder",
-      "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L15"
-    },
-    {
       "id": "src_app_dashboard_titulares_importar_page_importresult",
       "label": "ImportResult",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "importresult",
       "source_file": "src/app/(dashboard)/titulares/importar/page.tsx",
@@ -1336,76 +1349,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "invalidrow",
       "source_file": "src/app/(dashboard)/titulares/importar/page.tsx",
       "source_location": "L9"
-    },
-    {
-      "id": "src_app_dashboard_titulares_page_contract",
-      "label": "Contract",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "contract",
-      "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L16"
-    },
-    {
-      "id": "src_app_dashboard_titulares_page_contractplan",
-      "label": "ContractPlan",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "contractplan",
-      "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L11"
-    },
-    {
-      "id": "src_app_dashboard_titulares_page_dependent",
-      "label": "Dependent",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "dependent",
-      "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L23"
-    },
-    {
-      "id": "src_app_dashboard_titulares_page_holder",
-      "label": "Holder",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "holder",
-      "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L28"
-    },
-    {
-      "id": "src_app_dashboard_titulares_page_statusfilter",
-      "label": "StatusFilter",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "statusfilter",
-      "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L43"
     },
     {
       "id": "src_components_dashboard_modaldre_financialsummary",
@@ -1414,7 +1362,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "financialsummary",
       "source_file": "src/components/dashboard/ModalDRE.tsx",
@@ -1427,11 +1375,37 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "userrole",
       "source_file": "src/components/dashboard/ModalRBAC.tsx",
       "source_location": "L7"
+    },
+    {
+      "id": "src_components_tabs_planstab_plan",
+      "label": "Plan",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "plan",
+      "source_file": "src/components/tabs/PlansTab.tsx",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_hooks_usebilling_usebillingreturn",
+      "label": "UseBillingReturn",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "usebillingreturn",
+      "source_file": "src/hooks/useBilling.ts",
+      "source_location": "L12"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_read_rows",
@@ -2238,6 +2212,18 @@
       "source_location": "L54"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_exact_stack_identifier",
+      "label": "_exact_stack_identifier()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "search_stack",
+      "file_type": "code",
+      "norm_label": "_exact_stack_identifier()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
+      "source_location": "L925"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_search_stack",
       "label": "search_stack()",
       "_callable": true,
@@ -2610,6 +2596,42 @@
       "source_location": "L20"
     },
     {
+      "id": "src_app_dashboard_vendedores_page_vendedorespage",
+      "label": "VendedoresPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "SellersTab.tsx",
+      "file_type": "code",
+      "norm_label": "vendedorespage()",
+      "source_file": "src/app/(dashboard)/vendedores/page.tsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_components_tabs_sellerstab_fmtpercent",
+      "label": "fmtPercent()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "SellersTab.tsx",
+      "file_type": "code",
+      "norm_label": "fmtpercent()",
+      "source_file": "src/components/tabs/SellersTab.tsx",
+      "source_location": "L18"
+    },
+    {
+      "id": "src_components_tabs_sellerstab_sellerstab",
+      "label": "SellersTab()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "SellersTab.tsx",
+      "file_type": "code",
+      "norm_label": "sellerstab()",
+      "source_file": "src/components/tabs/SellersTab.tsx",
+      "source_location": "L24"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_read_rows",
       "label": "read_rows()",
       "_callable": true,
@@ -2766,6 +2788,66 @@
       "source_location": "L270"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_canonical_style_priority_is_not_limited_to_bm25_top_three",
+      "label": ".test_canonical_style_priority_is_not_limited_to_bm25_top_three()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": ".test_canonical_style_priority_is_not_limited_to_bm25_top_three()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L209"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_duplicate_semantic_reasoning_labels_fail_validation",
+      "label": ".test_duplicate_semantic_reasoning_labels_fail_validation()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": ".test_duplicate_semantic_reasoning_labels_fail_validation()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L218"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_every_exact_product_label_resolves_to_itself",
+      "label": ".test_every_exact_product_label_resolves_to_itself()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": ".test_every_exact_product_label_resolves_to_itself()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L231"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_every_known_product_generates_a_traceable_landing_pattern",
+      "label": ".test_every_known_product_generates_a_traceable_landing_pattern()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": ".test_every_known_product_generates_a_traceable_landing_pattern()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L153"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_generator_matches_reasoning_exactly_and_defaults_only_for_unknown",
+      "label": ".test_generator_matches_reasoning_exactly_and_defaults_only_for_unknown()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": ".test_generator_matches_reasoning_exactly_and_defaults_only_for_unknown()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L133"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_known_product_sets_match_exactly",
       "label": ".test_known_product_sets_match_exactly()",
       "_callable": true,
@@ -2788,6 +2870,30 @@
       "norm_label": ".test_reasoning_patterns_reference_landing_identities()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
       "source_location": "L142"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_representative_new_products_generate_traceable_sources",
+      "label": ".test_representative_new_products_generate_traceable_sources()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": ".test_representative_new_products_generate_traceable_sources()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L161"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_style_aliases_have_one_exact_owner",
+      "label": ".test_style_aliases_have_one_exact_owner()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": ".test_style_aliases_have_one_exact_owner()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L248"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_teststyleidentitycontract_setup",
@@ -3066,6 +3172,18 @@
       "source_location": "L141"
     },
     {
+      "id": "src_components_themetoggle_themetoggle",
+      "label": "ThemeToggle()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "app/page.tsx",
+      "file_type": "code",
+      "norm_label": "themetoggle()",
+      "source_file": "src/components/ThemeToggle.tsx",
+      "source_location": "L9"
+    },
+    {
       "id": "src_config_permissions_haspermission",
       "label": "hasPermission()",
       "_callable": true,
@@ -3100,18 +3218,6 @@
       "norm_label": "istaballowed()",
       "source_file": "src/config/permissions.ts",
       "source_location": "L68"
-    },
-    {
-      "id": "src_hooks_usebilling_usebilling",
-      "label": "useBilling()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "usebilling()",
-      "source_file": "src/hooks/useBilling.ts",
-      "source_location": "L26"
     },
     {
       "id": "src_lib_notify_notifywarning",
@@ -4350,6 +4456,54 @@
       "source_location": "L64"
     },
     {
+      "id": "src_app_dashboard_contratos_page_contratospage",
+      "label": "ContratosPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "contratospage()",
+      "source_file": "src/app/(dashboard)/contratos/page.tsx",
+      "source_location": "L15"
+    },
+    {
+      "id": "src_app_dashboard_contratos_page_iscontractactive",
+      "label": "isContractActive()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "iscontractactive()",
+      "source_file": "src/app/(dashboard)/contratos/page.tsx",
+      "source_location": "L11"
+    },
+    {
+      "id": "tests_app_page_test_page",
+      "label": "page()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "page()",
+      "source_file": "tests/app/page.test.tsx",
+      "source_location": "L19"
+    },
+    {
+      "id": "tests_app_page_test_readsrc",
+      "label": "readSrc()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "readsrc()",
+      "source_file": "tests/app/page.test.tsx",
+      "source_location": "L16"
+    },
+    {
       "id": "tests_routes_agent_steps_test_readsrc",
       "label": "readSrc()",
       "_callable": true,
@@ -4432,18 +4586,6 @@
       "norm_label": "_domain_keywords()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
       "source_location": "L564"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_exact_stack_identifier",
-      "label": "_exact_stack_identifier()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "scripts/core.py",
-      "file_type": "code",
-      "norm_label": "_exact_stack_identifier()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L925"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_file_signature",
@@ -4830,16 +4972,28 @@
       "source_location": "L133"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_claim_fields_use_controlled_non_guarantee_language",
-      "label": ".test_claim_fields_use_controlled_non_guarantee_language()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_read_rows",
+      "label": "read_rows()",
       "_callable": true,
       "_origin": "ast",
       "community": 20,
       "community_name": "search",
       "file_type": "code",
-      "norm_label": ".test_claim_fields_use_controlled_non_guarantee_language()",
+      "norm_label": "read_rows()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
-      "source_location": "L120"
+      "source_location": "L19"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_setupclass",
+      "label": ".setUpClass()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "search",
+      "file_type": "code",
+      "norm_label": ".setupclass()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
+      "source_location": "L26"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_curated_state_distribution_is_explicit",
@@ -5022,18 +5176,6 @@
       "source_location": "L403"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_apply_reasoning",
-      "label": "._apply_reasoning()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "code",
-      "norm_label": "._apply_reasoning()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L365"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_build_style_lookup",
       "label": "._build_style_lookup()",
       "_callable": true,
@@ -5044,18 +5186,6 @@
       "norm_label": "._build_style_lookup()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L297"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_find_reasoning_rule",
-      "label": "._find_reasoning_rule()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "code",
-      "norm_label": "._find_reasoning_rule()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L357"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_init",
@@ -5154,18 +5284,6 @@
       "source_location": "L319"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_canonical_style_priority_is_not_limited_to_bm25_top_three",
-      "label": ".test_canonical_style_priority_is_not_limited_to_bm25_top_three()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "code",
-      "norm_label": ".test_canonical_style_priority_is_not_limited_to_bm25_top_three()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L209"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_constraints_reach_domain_queries",
       "label": ".test_constraints_reach_domain_queries()",
       "_callable": true,
@@ -5188,78 +5306,6 @@
       "norm_label": "capture()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
       "source_location": "L191"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_duplicate_semantic_reasoning_labels_fail_validation",
-      "label": ".test_duplicate_semantic_reasoning_labels_fail_validation()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "code",
-      "norm_label": ".test_duplicate_semantic_reasoning_labels_fail_validation()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L218"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_every_exact_product_label_resolves_to_itself",
-      "label": ".test_every_exact_product_label_resolves_to_itself()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "code",
-      "norm_label": ".test_every_exact_product_label_resolves_to_itself()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L231"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_every_known_product_generates_a_traceable_landing_pattern",
-      "label": ".test_every_known_product_generates_a_traceable_landing_pattern()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "code",
-      "norm_label": ".test_every_known_product_generates_a_traceable_landing_pattern()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L153"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_generator_matches_reasoning_exactly_and_defaults_only_for_unknown",
-      "label": ".test_generator_matches_reasoning_exactly_and_defaults_only_for_unknown()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "code",
-      "norm_label": ".test_generator_matches_reasoning_exactly_and_defaults_only_for_unknown()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L133"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_representative_new_products_generate_traceable_sources",
-      "label": ".test_representative_new_products_generate_traceable_sources()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "code",
-      "norm_label": ".test_representative_new_products_generate_traceable_sources()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L161"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_style_aliases_have_one_exact_owner",
-      "label": ".test_style_aliases_have_one_exact_owner()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "code",
-      "norm_label": ".test_style_aliases_have_one_exact_owner()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L248"
     },
     {
       "id": "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_add_breakpoints",
@@ -5598,28 +5644,16 @@
       "source_location": "L82"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_read_rows",
-      "label": "read_rows()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_claim_fields_use_controlled_non_guarantee_language",
+      "label": ".test_claim_fields_use_controlled_non_guarantee_language()",
       "_callable": true,
       "_origin": "ast",
       "community": 26,
       "community_name": "_style_is_dark_primary",
       "file_type": "code",
-      "norm_label": "read_rows()",
+      "norm_label": ".test_claim_fields_use_controlled_non_guarantee_language()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
-      "source_location": "L19"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_setupclass",
-      "label": ".setUpClass()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "_style_is_dark_primary",
-      "file_type": "code",
-      "norm_label": ".setupclass()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
-      "source_location": "L26"
+      "source_location": "L120"
     },
     {
       "id": "src_app_layout_rootlayout",
@@ -5632,18 +5666,6 @@
       "norm_label": "rootlayout()",
       "source_file": "src/app/layout.tsx",
       "source_location": "L23"
-    },
-    {
-      "id": "src_app_login_page_loginpage",
-      "label": "LoginPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "authFetch.ts",
-      "file_type": "code",
-      "norm_label": "loginpage()",
-      "source_file": "src/app/login/page.tsx",
-      "source_location": "L7"
     },
     {
       "id": "src_components_authguard_authguard",
@@ -6258,100 +6280,40 @@
       "source_location": "L63"
     },
     {
-      "id": "src_app_dashboard_vendedores_page_vendedorespage",
-      "label": "VendedoresPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "vendedorespage()",
-      "source_file": "src/app/(dashboard)/vendedores/page.tsx",
-      "source_location": "L5"
-    },
-    {
-      "id": "src_components_dashboard_modalwebhookretry_filterbtn",
-      "label": "FilterBtn()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "filterbtn()",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
-      "source_location": "L52"
-    },
-    {
-      "id": "src_components_dashboard_modalwebhookretry_modalwebhookretry",
-      "label": "ModalWebhookRetry()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "modalwebhookretry()",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
-      "source_location": "L63"
-    },
-    {
-      "id": "src_components_dashboard_modalwebhookretry_statusbadge",
-      "label": "StatusBadge()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "statusbadge()",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
-      "source_location": "L30"
-    },
-    {
-      "id": "src_components_modals_modalcobrancaavulsa_modalcobrancaavulsa",
-      "label": "ModalCobrancaAvulsa()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "modalcobrancaavulsa()",
-      "source_file": "src/components/modals/ModalCobrancaAvulsa.tsx",
-      "source_location": "L11"
-    },
-    {
       "id": "src_components_tabs_fiscalsettingssection_fiscalsettingssection",
       "label": "FiscalSettingsSection()",
       "_callable": true,
       "_origin": "ast",
       "community": 333,
-      "community_name": "notifyError",
+      "community_name": "notifySuccess",
       "file_type": "code",
       "norm_label": "fiscalsettingssection()",
       "source_file": "src/components/tabs/FiscalSettingsSection.tsx",
       "source_location": "L34"
     },
     {
-      "id": "src_components_tabs_sellerstab_fmtpercent",
-      "label": "fmtPercent()",
+      "id": "src_components_tabs_fiscaltab_fiscaltab",
+      "label": "FiscalTab()",
       "_callable": true,
       "_origin": "ast",
       "community": 333,
-      "community_name": "notifyError",
+      "community_name": "notifySuccess",
       "file_type": "code",
-      "norm_label": "fmtpercent()",
-      "source_file": "src/components/tabs/SellersTab.tsx",
-      "source_location": "L18"
+      "norm_label": "fiscaltab()",
+      "source_file": "src/components/tabs/FiscalTab.tsx",
+      "source_location": "L60"
     },
     {
-      "id": "src_components_tabs_sellerstab_sellerstab",
-      "label": "SellersTab()",
+      "id": "src_components_tabs_fiscaltab_fmtbrl",
+      "label": "fmtBRL()",
       "_callable": true,
       "_origin": "ast",
       "community": 333,
-      "community_name": "notifyError",
+      "community_name": "notifySuccess",
       "file_type": "code",
-      "norm_label": "sellerstab()",
-      "source_file": "src/components/tabs/SellersTab.tsx",
-      "source_location": "L24"
+      "norm_label": "fmtbrl()",
+      "source_file": "src/components/tabs/FiscalTab.tsx",
+      "source_location": "L31"
     },
     {
       "id": "src_components_tabs_tenantsettingstab_tenantsettingstab",
@@ -6359,23 +6321,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 333,
-      "community_name": "notifyError",
+      "community_name": "notifySuccess",
       "file_type": "code",
       "norm_label": "tenantsettingstab()",
       "source_file": "src/components/tabs/TenantSettingsTab.tsx",
       "source_location": "L30"
-    },
-    {
-      "id": "src_lib_notify_notifyerror",
-      "label": "notifyError()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "notifyerror()",
-      "source_file": "src/lib/notify.ts",
-      "source_location": "L12"
     },
     {
       "id": "src_lib_notify_notifysuccess",
@@ -6383,7 +6333,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 333,
-      "community_name": "notifyError",
+      "community_name": "notifySuccess",
       "file_type": "code",
       "norm_label": "notifysuccess()",
       "source_file": "src/lib/notify.ts",
@@ -6395,7 +6345,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 333,
-      "community_name": "notifyError",
+      "community_name": "notifySuccess",
       "file_type": "code",
       "norm_label": "formatplanprice()",
       "source_file": "src/lib/planLimits.ts",
@@ -6460,30 +6410,6 @@
       "norm_label": "main()",
       "source_file": ".continue/skills/design/scripts/logo/generate.py",
       "source_location": "L302"
-    },
-    {
-      "id": "src_components_tabs_fiscaltab_fiscaltab",
-      "label": "FiscalTab()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 349,
-      "community_name": "FiscalTab.tsx",
-      "file_type": "code",
-      "norm_label": "fiscaltab()",
-      "source_file": "src/components/tabs/FiscalTab.tsx",
-      "source_location": "L60"
-    },
-    {
-      "id": "src_components_tabs_fiscaltab_fmtbrl",
-      "label": "fmtBRL()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 349,
-      "community_name": "FiscalTab.tsx",
-      "file_type": "code",
-      "norm_label": "fmtbrl()",
-      "source_file": "src/components/tabs/FiscalTab.tsx",
-      "source_location": "L31"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_bm25_fit",
@@ -7415,47 +7341,59 @@
       "_callable": true,
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "lucide-react",
       "file_type": "code",
       "norm_label": "landingpage()",
       "source_file": "src/app/landing/page.tsx",
       "source_location": "L60"
     },
     {
-      "id": "src_components_themetoggle_themetoggle",
-      "label": "ThemeToggle()",
+      "id": "src_app_login_page_loginpage",
+      "label": "LoginPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "lucide-react",
       "file_type": "code",
-      "norm_label": "themetoggle()",
-      "source_file": "src/components/ThemeToggle.tsx",
-      "source_location": "L9"
+      "norm_label": "loginpage()",
+      "source_file": "src/app/login/page.tsx",
+      "source_location": "L7"
     },
     {
-      "id": "tests_app_page_test_page",
-      "label": "page()",
+      "id": "src_components_dashboard_modalwebhookretry_filterbtn",
+      "label": "FilterBtn()",
       "_callable": true,
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "lucide-react",
       "file_type": "code",
-      "norm_label": "page()",
-      "source_file": "tests/app/page.test.tsx",
-      "source_location": "L19"
+      "norm_label": "filterbtn()",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
+      "source_location": "L52"
     },
     {
-      "id": "tests_app_page_test_readsrc",
-      "label": "readSrc()",
+      "id": "src_components_dashboard_modalwebhookretry_modalwebhookretry",
+      "label": "ModalWebhookRetry()",
       "_callable": true,
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "lucide-react",
       "file_type": "code",
-      "norm_label": "readsrc()",
-      "source_file": "tests/app/page.test.tsx",
-      "source_location": "L16"
+      "norm_label": "modalwebhookretry()",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
+      "source_location": "L63"
+    },
+    {
+      "id": "src_components_dashboard_modalwebhookretry_statusbadge",
+      "label": "StatusBadge()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "lucide-react",
+      "file_type": "code",
+      "norm_label": "statusbadge()",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
+      "source_location": "L30"
     },
     {
       "id": "continue_skills_brand_scripts_extract_colors_calculatecompliance",
@@ -7758,6 +7696,30 @@
       "source_location": "L363"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_apply_reasoning",
+      "label": "._apply_reasoning()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 47,
+      "community_name": "parse_decision_rules",
+      "file_type": "code",
+      "norm_label": "._apply_reasoning()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L365"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_find_reasoning_rule",
+      "label": "._find_reasoning_rule()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 47,
+      "community_name": "parse_decision_rules",
+      "file_type": "code",
+      "norm_label": "._find_reasoning_rule()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L357"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_reasoning_contract_apply_decision_rules",
       "label": "apply_decision_rules()",
       "_callable": true,
@@ -7924,42 +7886,6 @@
       "norm_label": "getfiscalconfig()",
       "source_file": "src/lib/fiscal/index.ts",
       "source_location": "L70"
-    },
-    {
-      "id": "src_app_dashboard_planes_page_planospage",
-      "label": "PlanosPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 51,
-      "community_name": "PlansTab.tsx",
-      "file_type": "code",
-      "norm_label": "planospage()",
-      "source_file": "src/app/(dashboard)/planes/page.tsx",
-      "source_location": "L5"
-    },
-    {
-      "id": "src_components_tabs_planstab_fmtbrl",
-      "label": "fmtBrl()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 51,
-      "community_name": "PlansTab.tsx",
-      "file_type": "code",
-      "norm_label": "fmtbrl()",
-      "source_file": "src/components/tabs/PlansTab.tsx",
-      "source_location": "L27"
-    },
-    {
-      "id": "src_components_tabs_planstab_planstab",
-      "label": "PlansTab()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 51,
-      "community_name": "PlansTab.tsx",
-      "file_type": "code",
-      "norm_label": "planstab()",
-      "source_file": "src/components/tabs/PlansTab.tsx",
-      "source_location": "L30"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_contrast_ratio",
@@ -9347,11 +9273,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "dependentespage()",
       "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L22"
+      "source_location": "L10"
+    },
+    {
+      "id": "src_app_dashboard_planes_page_planospage",
+      "label": "PlanosPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "planospage()",
+      "source_file": "src/app/(dashboard)/planes/page.tsx",
+      "source_location": "L5"
     },
     {
       "id": "src_app_dashboard_titulares_importar_page_importartitularespage",
@@ -9359,7 +9297,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "importartitularespage()",
       "source_file": "src/app/(dashboard)/titulares/importar/page.tsx",
@@ -9371,11 +9309,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "titularespage()",
       "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L45"
+      "source_location": "L8"
     },
     {
       "id": "src_components_dashboard_modaldre_modaldre",
@@ -9383,7 +9321,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "modaldre()",
       "source_file": "src/components/dashboard/ModalDRE.tsx",
@@ -9395,7 +9333,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "modalrbac()",
       "source_file": "src/components/dashboard/ModalRBAC.tsx",
@@ -9407,7 +9345,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "modalchapel()",
       "source_file": "src/components/modals/ModalChapel.tsx",
@@ -9419,11 +9357,59 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "todatetimelocal()",
       "source_file": "src/components/modals/ModalChapel.tsx",
       "source_location": "L14"
+    },
+    {
+      "id": "src_components_modals_modalcobrancaavulsa_modalcobrancaavulsa",
+      "label": "ModalCobrancaAvulsa()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "modalcobrancaavulsa()",
+      "source_file": "src/components/modals/ModalCobrancaAvulsa.tsx",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_components_tabs_planstab_fmtbrl",
+      "label": "fmtBrl()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "fmtbrl()",
+      "source_file": "src/components/tabs/PlansTab.tsx",
+      "source_location": "L27"
+    },
+    {
+      "id": "src_components_tabs_planstab_planstab",
+      "label": "PlansTab()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "planstab()",
+      "source_file": "src/components/tabs/PlansTab.tsx",
+      "source_location": "L30"
+    },
+    {
+      "id": "src_hooks_usebilling_usebilling",
+      "label": "useBilling()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "usebilling()",
+      "source_file": "src/hooks/useBilling.ts",
+      "source_location": "L26"
     },
     {
       "id": "src_lib_authfetch_authfetch",
@@ -9431,11 +9417,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "authfetch()",
       "source_file": "src/lib/authFetch.ts",
       "source_location": "L8"
+    },
+    {
+      "id": "src_lib_notify_notifyerror",
+      "label": "notifyError()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "notifyerror()",
+      "source_file": "src/lib/notify.ts",
+      "source_location": "L12"
     },
     {
       "id": "src_lib_notify_notifyinfo",
@@ -9443,7 +9441,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "notifyinfo()",
       "source_file": "src/lib/notify.ts",
@@ -10331,6 +10329,17 @@
       "source_location": "L1"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_926",
+      "label": "Resolve a standalone API identifier even when its BM25 IDF is low.",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "search_stack",
+      "file_type": "rationale",
+      "norm_label": "resolve a standalone api identifier even when its bm25 idf is low.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
+      "source_location": "L926"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_952",
       "label": "Search stack-specific guidelines",
       "_origin": "ast",
@@ -10615,6 +10624,28 @@
       "norm_label": "delegate to unified html-token-validator.py with --type slides.",
       "source_file": ".continue/skills/design-system/scripts/slide-token-validator.py",
       "source_location": "L21"
+    },
+    {
+      "id": "src_app_dashboard_vendedores_page",
+      "label": "vendedores/page.tsx",
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "SellersTab.tsx",
+      "file_type": "code",
+      "norm_label": "vendedores/page.tsx",
+      "source_file": "src/app/(dashboard)/vendedores/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_sellerstab",
+      "label": "SellersTab.tsx",
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "SellersTab.tsx",
+      "file_type": "code",
+      "norm_label": "sellerstab.tsx",
+      "source_file": "src/components/tabs/SellersTab.tsx",
+      "source_location": "L1"
     },
     {
       "id": "continue_skills_design_system_templates_design_tokens_starter_fontsize_xl",
@@ -11109,6 +11140,61 @@
       "norm_label": "cross-file semantic contracts for curated design data.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
       "source_location": "L2"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_border_type",
+      "label": "$type",
+      "_origin": "ast",
+      "community": 110,
+      "community_name": "$type",
+      "file_type": "code",
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L97"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_border_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 110,
+      "community_name": "$type",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L97"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_card_border",
+      "label": "border",
+      "_origin": "ast",
+      "community": 110,
+      "community_name": "$type",
+      "file_type": "code",
+      "norm_label": "border",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L125"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_color_border",
+      "label": "border",
+      "_origin": "ast",
+      "community": 110,
+      "community_name": "$type",
+      "file_type": "code",
+      "norm_label": "border",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L97"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_input_border",
+      "label": "border",
+      "_origin": "ast",
+      "community": 110,
+      "community_name": "$type",
+      "file_type": "code",
+      "norm_label": "border",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L117"
     },
     {
       "id": "fix_rls_definitivo",
@@ -11914,6 +12000,171 @@
       "source_location": "L1"
     },
     {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_button_radius",
+      "label": "radius",
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "radius",
+      "file_type": "code",
+      "norm_label": "radius",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L112"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_card_radius",
+      "label": "radius",
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "radius",
+      "file_type": "code",
+      "norm_label": "radius",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L128"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_input_radius",
+      "label": "radius",
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "radius",
+      "file_type": "code",
+      "norm_label": "radius",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L121"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_radius_type",
+      "label": "$type",
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "radius",
+      "file_type": "code",
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L112"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_radius_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "radius",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L112"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_button_padding_y",
+      "label": "padding-y",
+      "_origin": "ast",
+      "community": 127,
+      "community_name": "padding-y",
+      "file_type": "code",
+      "norm_label": "padding-y",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L111"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_input_padding_y",
+      "label": "padding-y",
+      "_origin": "ast",
+      "community": 127,
+      "community_name": "padding-y",
+      "file_type": "code",
+      "norm_label": "padding-y",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L120"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_padding_y_type",
+      "label": "$type",
+      "_origin": "ast",
+      "community": 127,
+      "community_name": "padding-y",
+      "file_type": "code",
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L111"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_padding_y_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 127,
+      "community_name": "padding-y",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L111"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_16_type",
+      "label": "$type",
+      "_origin": "ast",
+      "community": 128,
+      "community_name": "16",
+      "file_type": "code",
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L50"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_16_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 128,
+      "community_name": "16",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L50"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_spacing_16",
+      "label": "16",
+      "_origin": "ast",
+      "community": 128,
+      "community_name": "16",
+      "file_type": "code",
+      "norm_label": "16",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L50"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_1_type",
+      "label": "$type",
+      "_origin": "ast",
+      "community": 129,
+      "community_name": "1",
+      "file_type": "code",
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L41"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_1_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 129,
+      "community_name": "1",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L41"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_spacing_1",
+      "label": "1",
+      "_origin": "ast",
+      "community": 129,
+      "community_name": "1",
+      "file_type": "code",
+      "norm_label": "1",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L41"
+    },
+    {
       "id": "src_app_api_convalescence_route_get",
       "label": "GET",
       "_origin": "ast",
@@ -12154,6 +12405,72 @@
       "norm_label": "http-error.ts",
       "source_file": "src/lib/http-error.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_color_destructive",
+      "label": "destructive",
+      "_origin": "ast",
+      "community": 130,
+      "community_name": "destructive",
+      "file_type": "code",
+      "norm_label": "destructive",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L95"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_destructive_type",
+      "label": "$type",
+      "_origin": "ast",
+      "community": 130,
+      "community_name": "destructive",
+      "file_type": "code",
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L95"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_destructive_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 130,
+      "community_name": "destructive",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L95"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_color_destructive_foreground",
+      "label": "destructive-foreground",
+      "_origin": "ast",
+      "community": 131,
+      "community_name": "destructive-foreground",
+      "file_type": "code",
+      "norm_label": "destructive-foreground",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L96"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_destructive_foreground_type",
+      "label": "$type",
+      "_origin": "ast",
+      "community": 131,
+      "community_name": "destructive-foreground",
+      "file_type": "code",
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L96"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_destructive_foreground_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 131,
+      "community_name": "destructive-foreground",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L96"
     },
     {
       "id": "continue_skills_ui_styling_scripts_shadcn_add_py_path",
@@ -12442,6 +12759,17 @@
       "source_location": "L135"
     },
     {
+      "id": "src_components_themetoggle",
+      "label": "ThemeToggle.tsx",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "app/page.tsx",
+      "file_type": "code",
+      "norm_label": "themetoggle.tsx",
+      "source_file": "src/components/ThemeToggle.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_config_permissions",
       "label": "permissions.ts",
       "_origin": "ast",
@@ -12472,17 +12800,6 @@
       "file_type": "code",
       "norm_label": "permissions.test.ts",
       "source_file": "src/config/permissions.test.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_hooks_usebilling",
-      "label": "useBilling.ts",
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "usebilling.ts",
-      "source_file": "src/hooks/useBilling.ts",
       "source_location": "L1"
     },
     {
@@ -15446,15 +15763,92 @@
       "source_location": "L98"
     },
     {
+      "id": "src_app_dashboard_contratos_page",
+      "label": "contratos/page.tsx",
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "contratos/page.tsx",
+      "source_file": "src/app/(dashboard)/contratos/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_dashboard_dependentes_page",
+      "label": "dependentes/page.tsx",
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "dependentes/page.tsx",
+      "source_file": "src/app/(dashboard)/dependentes/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_dashboard_dependentes_page_valid_relations",
+      "label": "VALID_RELATIONS",
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "valid_relations",
+      "source_file": "src/app/(dashboard)/dependentes/page.tsx",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_app_dashboard_titulares_page",
+      "label": "titulares/page.tsx",
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "titulares/page.tsx",
+      "source_file": "src/app/(dashboard)/titulares/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_types_domain",
+      "label": "domain.ts",
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "domain.ts",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L1"
+    },
+    {
       "id": "src_types_index",
       "label": "types/index.ts",
       "_origin": "ast",
       "community": 180,
-      "community_name": "Data Payload Types",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "types/index.ts",
       "source_file": "src/types/index.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "tests_app_page_test",
+      "label": "page.test.tsx",
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "page.test.tsx",
+      "source_file": "tests/app/page.test.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "ref_react",
+      "label": "react",
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "react",
+      "file_type": "concept",
+      "norm_label": "react",
+      "source_file": "package.json",
+      "source_location": "L24"
     },
     {
       "id": "tests_routes_agent_steps_test",
@@ -15675,17 +16069,6 @@
       "norm_label": "load rows for optional identity routing, leaving search to report i/o errors.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
       "source_location": "L706"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_926",
-      "label": "Resolve a standalone API identifier even when its BM25 IDF is low.",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "scripts/core.py",
-      "file_type": "rationale",
-      "norm_label": "resolve a standalone api identifier even when its bm25 idf is low.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L926"
     },
     {
       "id": "diag2",
@@ -16051,6 +16434,17 @@
       "source_location": "L20"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy",
+      "label": "test_style_taxonomy.py",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "search",
+      "file_type": "code",
+      "norm_label": "test_style_taxonomy.py",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
+      "source_location": "L1"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_737",
       "label": "Resolve a deprecated in-domain alias, or expose a cross-domain redirect.",
       "_origin": "ast",
@@ -16071,6 +16465,17 @@
       "norm_label": "main search function with auto-domain detection",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
       "source_location": "L756"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_rationale_2",
+      "label": "Regression tests for the public style taxonomy and search contract.",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "search",
+      "file_type": "rationale",
+      "norm_label": "regression tests for the public style taxonomy and search contract.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
+      "source_location": "L2"
     },
     {
       "id": "fix_rls_definitivo_sql_public_chapel_burials",
@@ -16799,28 +17204,6 @@
       "source_location": "L268"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_358",
-      "label": "Find matching reasoning rule for a category.",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "rationale",
-      "norm_label": "find matching reasoning rule for a category.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L358"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_366",
-      "label": "Apply reasoning rules to search results.",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "rationale",
-      "norm_label": "apply reasoning rules to search results.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L366"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_409",
       "label": "Select best matching result based on priority keywords.",
       "_origin": "ast",
@@ -17393,17 +17776,6 @@
       "source_location": ""
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy",
-      "label": "test_style_taxonomy.py",
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "_style_is_dark_primary",
-      "file_type": "code",
-      "norm_label": "test_style_taxonomy.py",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
-      "source_location": "L1"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_165",
       "label": "True when a styles.csv row describes itself as dark-first.",
       "_origin": "ast",
@@ -17435,17 +17807,6 @@
       "norm_label": "resolve the mode the rest of the output has to agree with.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L187"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_rationale_2",
-      "label": "Regression tests for the public style taxonomy and search contract.",
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "_style_is_dark_primary",
-      "file_type": "rationale",
-      "norm_label": "regression tests for the public style taxonomy and search contract.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
-      "source_location": "L2"
     },
     {
       "id": "fix_rls_parte1_sql_public_dispatches",
@@ -17600,17 +17961,6 @@
       "norm_label": "viewport",
       "source_file": "src/app/layout.tsx",
       "source_location": "L11"
-    },
-    {
-      "id": "src_app_login_page",
-      "label": "login/page.tsx",
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "authFetch.ts",
-      "file_type": "code",
-      "norm_label": "login/page.tsx",
-      "source_file": "src/app/login/page.tsx",
-      "source_location": "L1"
     },
     {
       "id": "src_components_authguard",
@@ -25976,28 +26326,6 @@
       "source_location": "L86"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_color_destructive",
-      "label": "destructive",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "destructive",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L95"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_color_destructive_foreground",
-      "label": "destructive-foreground",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "destructive-foreground",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L96"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_color_foreground",
       "label": "foreground",
       "_origin": "ast",
@@ -26007,17 +26335,6 @@
       "norm_label": "foreground",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L87"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_color_muted",
-      "label": "muted",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "muted",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L93"
     },
     {
       "id": "continue_skills_design_system_templates_design_tokens_starter_color_muted_foreground",
@@ -26042,17 +26359,6 @@
       "source_location": "L88"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_color_primary_foreground",
-      "label": "primary-foreground",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "primary-foreground",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L90"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_color_primary_hover",
       "label": "primary-hover",
       "_origin": "ast",
@@ -26064,17 +26370,6 @@
       "source_location": "L89"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_color_ring",
-      "label": "ring",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "ring",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L98"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_color_secondary",
       "label": "secondary",
       "_origin": "ast",
@@ -26084,94 +26379,6 @@
       "norm_label": "secondary",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L91"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_color_secondary_foreground",
-      "label": "secondary-foreground",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "secondary-foreground",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L92"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_component_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L101"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_component_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L101"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_dark_semantic",
-      "label": "semantic",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "semantic",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L132"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_destructive_foreground_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L96"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_destructive_foreground_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L96"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_destructive_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L95"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_destructive_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L95"
     },
     {
       "id": "continue_skills_design_system_templates_design_tokens_starter_foreground_type",
@@ -26218,50 +26425,6 @@
       "source_location": "L94"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_muted_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L93"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_muted_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L93"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_primary_foreground_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L90"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_primary_foreground_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L90"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_primary_hover_type",
       "label": "$type",
       "_origin": "ast",
@@ -26306,50 +26469,6 @@
       "source_location": "L88"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_ring_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L98"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_ring_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L98"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_secondary_foreground_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L92"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_secondary_foreground_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L92"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_secondary_type",
       "label": "$type",
       "_origin": "ast",
@@ -26372,39 +26491,6 @@
       "source_location": "L91"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_section_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L102"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_section_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L102"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_semantic",
-      "label": "semantic",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "semantic",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L84"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_semantic_color",
       "label": "color",
       "_origin": "ast",
@@ -26414,39 +26500,6 @@
       "norm_label": "color",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L85"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_semantic_spacing",
-      "label": "spacing",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "spacing",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L100"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_spacing_component",
-      "label": "component",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "component",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L101"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_spacing_section",
-      "label": "section",
-      "_origin": "ast",
-      "community": 32,
-      "community_name": "color",
-      "file_type": "code",
-      "norm_label": "section",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L102"
     },
     {
       "id": "continue_skills_design_references_slides_copywriting_formulas",
@@ -28708,81 +28761,70 @@
       "source_location": "L99"
     },
     {
-      "id": "src_app_dashboard_vendedores_page",
-      "label": "vendedores/page.tsx",
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "vendedores/page.tsx",
-      "source_file": "src/app/(dashboard)/vendedores/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_dashboard_modalwebhookretry",
-      "label": "ModalWebhookRetry.tsx",
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "modalwebhookretry.tsx",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_modals_modalcobrancaavulsa",
-      "label": "ModalCobrancaAvulsa.tsx",
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "modalcobrancaavulsa.tsx",
-      "source_file": "src/components/modals/ModalCobrancaAvulsa.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_tabs_fiscalsettingssection",
       "label": "FiscalSettingsSection.tsx",
       "_origin": "ast",
       "community": 333,
-      "community_name": "notifyError",
+      "community_name": "notifySuccess",
       "file_type": "code",
       "norm_label": "fiscalsettingssection.tsx",
       "source_file": "src/components/tabs/FiscalSettingsSection.tsx",
       "source_location": "L1"
     },
     {
-      "id": "src_components_tabs_sellerstab",
-      "label": "SellersTab.tsx",
+      "id": "src_components_tabs_fiscaltab",
+      "label": "FiscalTab.tsx",
       "_origin": "ast",
       "community": 333,
-      "community_name": "notifyError",
+      "community_name": "notifySuccess",
       "file_type": "code",
-      "norm_label": "sellerstab.tsx",
-      "source_file": "src/components/tabs/SellersTab.tsx",
+      "norm_label": "fiscaltab.tsx",
+      "source_file": "src/components/tabs/FiscalTab.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_fiscaltab_status_colors",
+      "label": "STATUS_COLORS",
+      "_origin": "ast",
+      "community": 333,
+      "community_name": "notifySuccess",
+      "file_type": "code",
+      "norm_label": "status_colors",
+      "source_file": "src/components/tabs/FiscalTab.tsx",
+      "source_location": "L33"
+    },
+    {
+      "id": "src_components_tabs_fiscaltab_status_icon",
+      "label": "STATUS_ICON",
+      "_origin": "ast",
+      "community": 333,
+      "community_name": "notifySuccess",
+      "file_type": "code",
+      "norm_label": "status_icon",
+      "source_file": "src/components/tabs/FiscalTab.tsx",
+      "source_location": "L51"
+    },
+    {
+      "id": "src_components_tabs_fiscaltab_status_label",
+      "label": "STATUS_LABEL",
+      "_origin": "ast",
+      "community": 333,
+      "community_name": "notifySuccess",
+      "file_type": "code",
+      "norm_label": "status_label",
+      "source_file": "src/components/tabs/FiscalTab.tsx",
+      "source_location": "L42"
     },
     {
       "id": "src_components_tabs_tenantsettingstab",
       "label": "TenantSettingsTab.tsx",
       "_origin": "ast",
       "community": 333,
-      "community_name": "notifyError",
+      "community_name": "notifySuccess",
       "file_type": "code",
       "norm_label": "tenantsettingstab.tsx",
       "source_file": "src/components/tabs/TenantSettingsTab.tsx",
       "source_location": "L1"
-    },
-    {
-      "id": "ref_lucide_react",
-      "label": "lucide-react",
-      "_origin": "ast",
-      "community": 333,
-      "community_name": "notifyError",
-      "file_type": "concept",
-      "norm_label": "lucide-react",
-      "source_file": "package.json",
-      "source_location": "L20"
     },
     {
       "id": "continue_skills_brand_references_update",
@@ -30421,6 +30463,39 @@
       "source_location": "L27"
     },
     {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_color_muted",
+      "label": "muted",
+      "_origin": "ast",
+      "community": 345,
+      "community_name": "muted",
+      "file_type": "code",
+      "norm_label": "muted",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L93"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_muted_type",
+      "label": "$type",
+      "_origin": "ast",
+      "community": 345,
+      "community_name": "muted",
+      "file_type": "code",
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L93"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_muted_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 345,
+      "community_name": "muted",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L93"
+    },
+    {
       "id": "continue_skills_design_references_slides",
       "label": "slides.md",
       "_origin": "ast",
@@ -30673,48 +30748,37 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_tabs_fiscaltab",
-      "label": "FiscalTab.tsx",
+      "id": "continue_skills_design_system_templates_design_tokens_starter_color_primary_foreground",
+      "label": "primary-foreground",
       "_origin": "ast",
       "community": 349,
-      "community_name": "FiscalTab.tsx",
+      "community_name": "primary-foreground",
       "file_type": "code",
-      "norm_label": "fiscaltab.tsx",
-      "source_file": "src/components/tabs/FiscalTab.tsx",
-      "source_location": "L1"
+      "norm_label": "primary-foreground",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L90"
     },
     {
-      "id": "src_components_tabs_fiscaltab_status_colors",
-      "label": "STATUS_COLORS",
+      "id": "continue_skills_design_system_templates_design_tokens_starter_primary_foreground_type",
+      "label": "$type",
       "_origin": "ast",
       "community": 349,
-      "community_name": "FiscalTab.tsx",
+      "community_name": "primary-foreground",
       "file_type": "code",
-      "norm_label": "status_colors",
-      "source_file": "src/components/tabs/FiscalTab.tsx",
-      "source_location": "L33"
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L90"
     },
     {
-      "id": "src_components_tabs_fiscaltab_status_icon",
-      "label": "STATUS_ICON",
+      "id": "continue_skills_design_system_templates_design_tokens_starter_primary_foreground_value",
+      "label": "$value",
       "_origin": "ast",
       "community": 349,
-      "community_name": "FiscalTab.tsx",
+      "community_name": "primary-foreground",
       "file_type": "code",
-      "norm_label": "status_icon",
-      "source_file": "src/components/tabs/FiscalTab.tsx",
-      "source_location": "L51"
-    },
-    {
-      "id": "src_components_tabs_fiscaltab_status_label",
-      "label": "STATUS_LABEL",
-      "_origin": "ast",
-      "community": 349,
-      "community_name": "FiscalTab.tsx",
-      "file_type": "code",
-      "norm_label": "status_label",
-      "source_file": "src/components/tabs/FiscalTab.tsx",
-      "source_location": "L42"
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L90"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core",
@@ -30943,6 +31007,39 @@
       "source_location": "L236"
     },
     {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_color_ring",
+      "label": "ring",
+      "_origin": "ast",
+      "community": 352,
+      "community_name": "ring",
+      "file_type": "code",
+      "norm_label": "ring",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L98"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_ring_type",
+      "label": "$type",
+      "_origin": "ast",
+      "community": 352,
+      "community_name": "ring",
+      "file_type": "code",
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L98"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_ring_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 352,
+      "community_name": "ring",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L98"
+    },
+    {
       "id": "agents",
       "label": "AGENTS.md",
       "_origin": "ast",
@@ -30967,16 +31064,28 @@
       "source_location": "L11"
     },
     {
-      "id": "agents_graphify",
-      "label": "Graphify",
+      "id": "agents_contexto_regras_cr\u00edticas",
+      "label": "Contexto \u2014 regras cr\u00edticas",
       "_origin": "ast",
       "community": 353,
       "community_name": "AGENTS.md",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "graphify",
+      "norm_label": "contexto \u2014 regras criticas",
       "source_file": "AGENTS.md",
-      "source_location": "L13"
+      "source_location": "L16"
+    },
+    {
+      "id": "agents_graphify_uso_sob_demanda",
+      "label": "Graphify (uso sob demanda)",
+      "_origin": "ast",
+      "community": 353,
+      "community_name": "AGENTS.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "graphify (uso sob demanda)",
+      "source_file": "AGENTS.md",
+      "source_location": "L22"
     },
     {
       "id": "agents_idioma",
@@ -30988,7 +31097,31 @@
       "node_kind": "heading",
       "norm_label": "idioma",
       "source_file": "AGENTS.md",
-      "source_location": "L24"
+      "source_location": "L13"
+    },
+    {
+      "id": "agents_refatora\u00e7\u00e3o_em_andamento",
+      "label": "Refatora\u00e7\u00e3o em andamento",
+      "_origin": "ast",
+      "community": 353,
+      "community_name": "AGENTS.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "refatoracao em andamento",
+      "source_file": "AGENTS.md",
+      "source_location": "L37"
+    },
+    {
+      "id": "agents_repowise_uso_sob_demanda_via_mcp",
+      "label": "Repowise (uso sob demanda via MCP)",
+      "_origin": "ast",
+      "community": 353,
+      "community_name": "AGENTS.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "repowise (uso sob demanda via mcp)",
+      "source_file": "AGENTS.md",
+      "source_location": "L29"
     },
     {
       "id": "agents_this_is_not_the_next_js_you_know",
@@ -32049,6 +32182,39 @@
       "source_location": "L1"
     },
     {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_color_secondary_foreground",
+      "label": "secondary-foreground",
+      "_origin": "ast",
+      "community": 371,
+      "community_name": "secondary-foreground",
+      "file_type": "code",
+      "norm_label": "secondary-foreground",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L92"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_secondary_foreground_type",
+      "label": "$type",
+      "_origin": "ast",
+      "community": 371,
+      "community_name": "secondary-foreground",
+      "file_type": "code",
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L92"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_secondary_foreground_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 371,
+      "community_name": "secondary-foreground",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L92"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh",
       "label": "test_catalog_refresh.py",
       "_origin": "ast",
@@ -32779,7 +32945,7 @@
       "label": "landing/page.tsx",
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "lucide-react",
       "file_type": "code",
       "norm_label": "landing/page.tsx",
       "source_file": "src/app/landing/page.tsx",
@@ -32790,7 +32956,7 @@
       "label": "ADDONS",
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "lucide-react",
       "file_type": "code",
       "norm_label": "addons",
       "source_file": "src/app/landing/page.tsx",
@@ -32801,7 +32967,7 @@
       "label": "FAQ",
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "lucide-react",
       "file_type": "code",
       "norm_label": "faq",
       "source_file": "src/app/landing/page.tsx",
@@ -32812,7 +32978,7 @@
       "label": "MODULES",
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "lucide-react",
       "file_type": "code",
       "norm_label": "modules",
       "source_file": "src/app/landing/page.tsx",
@@ -32823,44 +32989,44 @@
       "label": "PLANS",
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "lucide-react",
       "file_type": "code",
       "norm_label": "plans",
       "source_file": "src/app/landing/page.tsx",
       "source_location": "L24"
     },
     {
-      "id": "src_components_themetoggle",
-      "label": "ThemeToggle.tsx",
+      "id": "src_app_login_page",
+      "label": "login/page.tsx",
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "lucide-react",
       "file_type": "code",
-      "norm_label": "themetoggle.tsx",
-      "source_file": "src/components/ThemeToggle.tsx",
+      "norm_label": "login/page.tsx",
+      "source_file": "src/app/login/page.tsx",
       "source_location": "L1"
     },
     {
-      "id": "tests_app_page_test",
-      "label": "page.test.tsx",
+      "id": "src_components_dashboard_modalwebhookretry",
+      "label": "ModalWebhookRetry.tsx",
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "lucide-react",
       "file_type": "code",
-      "norm_label": "page.test.tsx",
-      "source_file": "tests/app/page.test.tsx",
+      "norm_label": "modalwebhookretry.tsx",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
       "source_location": "L1"
     },
     {
-      "id": "ref_react",
-      "label": "react",
+      "id": "ref_lucide_react",
+      "label": "lucide-react",
       "_origin": "ast",
       "community": 43,
-      "community_name": "react",
+      "community_name": "lucide-react",
       "file_type": "concept",
-      "norm_label": "react",
+      "norm_label": "lucide-react",
       "source_file": "package.json",
-      "source_location": "L24"
+      "source_location": "L20"
     },
     {
       "id": "continue_skills_brand_scripts_extract_colors",
@@ -33048,6 +33214,28 @@
       "norm_label": "reasoning_contract.py",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
       "source_location": "L1"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_358",
+      "label": "Find matching reasoning rule for a category.",
+      "_origin": "ast",
+      "community": 47,
+      "community_name": "parse_decision_rules",
+      "file_type": "rationale",
+      "norm_label": "find matching reasoning rule for a category.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L358"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_366",
+      "label": "Apply reasoning rules to search results.",
+      "_origin": "ast",
+      "community": 47,
+      "community_name": "parse_decision_rules",
+      "file_type": "rationale",
+      "norm_label": "apply reasoning rules to search results.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L366"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_reasoning_contract_rationale_102",
@@ -33996,37 +34184,147 @@
       "source_location": "L1"
     },
     {
-      "id": "src_app_dashboard_planes_page",
-      "label": "planes/page.tsx",
+      "id": "continue_skills_design_system_templates_design_tokens_starter",
+      "label": "design-tokens-starter.json",
       "_origin": "ast",
       "community": 51,
-      "community_name": "PlansTab.tsx",
+      "community_name": "design-tokens-starter.json",
       "file_type": "code",
-      "norm_label": "planes/page.tsx",
-      "source_file": "src/app/(dashboard)/planes/page.tsx",
+      "norm_label": "design-tokens-starter.json",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L1"
     },
     {
-      "id": "src_components_tabs_planstab",
-      "label": "PlansTab.tsx",
+      "id": "continue_skills_design_system_templates_design_tokens_starter_component",
+      "label": "component",
       "_origin": "ast",
       "community": 51,
-      "community_name": "PlansTab.tsx",
+      "community_name": "design-tokens-starter.json",
       "file_type": "code",
-      "norm_label": "planstab.tsx",
-      "source_file": "src/components/tabs/PlansTab.tsx",
-      "source_location": "L1"
+      "norm_label": "component",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L105"
     },
     {
-      "id": "src_components_tabs_planstab_empty_form",
-      "label": "EMPTY_FORM",
+      "id": "continue_skills_design_system_templates_design_tokens_starter_component_type",
+      "label": "$type",
       "_origin": "ast",
       "community": 51,
-      "community_name": "PlansTab.tsx",
+      "community_name": "design-tokens-starter.json",
       "file_type": "code",
-      "norm_label": "empty_form",
-      "source_file": "src/components/tabs/PlansTab.tsx",
-      "source_location": "L18"
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L101"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_component_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "design-tokens-starter.json",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L101"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_dark",
+      "label": "dark",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "design-tokens-starter.json",
+      "file_type": "code",
+      "norm_label": "dark",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L131"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_dark_semantic",
+      "label": "semantic",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "design-tokens-starter.json",
+      "file_type": "code",
+      "norm_label": "semantic",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L132"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_schema",
+      "label": "$schema",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "design-tokens-starter.json",
+      "file_type": "code",
+      "norm_label": "$schema",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L2"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_section_type",
+      "label": "$type",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "design-tokens-starter.json",
+      "file_type": "code",
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L102"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_section_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "design-tokens-starter.json",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L102"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_semantic",
+      "label": "semantic",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "design-tokens-starter.json",
+      "file_type": "code",
+      "norm_label": "semantic",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L84"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_semantic_spacing",
+      "label": "spacing",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "design-tokens-starter.json",
+      "file_type": "code",
+      "norm_label": "spacing",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L100"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_spacing_component",
+      "label": "component",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "design-tokens-starter.json",
+      "file_type": "code",
+      "norm_label": "component",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L101"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_spacing_section",
+      "label": "section",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "design-tokens-starter.json",
+      "file_type": "code",
+      "norm_label": "section",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L102"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode",
@@ -34187,7 +34485,7 @@
       "label": "$type",
       "_origin": "ast",
       "community": 54,
-      "community_name": "button",
+      "community_name": "card",
       "file_type": "code",
       "norm_label": "$type",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
@@ -34198,381 +34496,84 @@
       "label": "$value",
       "_origin": "ast",
       "community": 54,
-      "community_name": "button",
+      "community_name": "card",
       "file_type": "code",
       "norm_label": "$value",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L107"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_border_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L97"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_border_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L97"
     },
     {
       "id": "continue_skills_design_system_templates_design_tokens_starter_button_bg",
       "label": "bg",
       "_origin": "ast",
       "community": 54,
-      "community_name": "button",
+      "community_name": "card",
       "file_type": "code",
       "norm_label": "bg",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L107"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_button_fg",
-      "label": "fg",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "fg",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L108"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_button_font_size",
-      "label": "font-size",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "font-size",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L113"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_button_hover_bg",
-      "label": "hover-bg",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "hover-bg",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L109"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_button_padding_x",
-      "label": "padding-x",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "padding-x",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L110"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_button_padding_y",
-      "label": "padding-y",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "padding-y",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L111"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_button_radius",
-      "label": "radius",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "radius",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L112"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_card_bg",
       "label": "bg",
       "_origin": "ast",
       "community": 54,
-      "community_name": "button",
+      "community_name": "card",
       "file_type": "code",
       "norm_label": "bg",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L124"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_card_border",
-      "label": "border",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "border",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L125"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_card_padding",
       "label": "padding",
       "_origin": "ast",
       "community": 54,
-      "community_name": "button",
+      "community_name": "card",
       "file_type": "code",
       "norm_label": "padding",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L127"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_card_radius",
-      "label": "radius",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "radius",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L128"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_card_shadow",
       "label": "shadow",
       "_origin": "ast",
       "community": 54,
-      "community_name": "button",
+      "community_name": "card",
       "file_type": "code",
       "norm_label": "shadow",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L126"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_color_border",
-      "label": "border",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "border",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L97"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_component",
-      "label": "component",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "component",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L105"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_component_button",
-      "label": "button",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "button",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L106"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_component_card",
       "label": "card",
       "_origin": "ast",
       "community": 54,
-      "community_name": "button",
+      "community_name": "card",
       "file_type": "code",
       "norm_label": "card",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L123"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_component_input",
-      "label": "input",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "input",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L115"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_fg_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L108"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_fg_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L108"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_focus_ring_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L118"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_focus_ring_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L118"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_font_size_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L113"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_font_size_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L113"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_hover_bg_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L109"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_hover_bg_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L109"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_input_bg",
       "label": "bg",
       "_origin": "ast",
       "community": 54,
-      "community_name": "button",
+      "community_name": "card",
       "file_type": "code",
       "norm_label": "bg",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L116"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_input_border",
-      "label": "border",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "border",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L117"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_input_focus_ring",
-      "label": "focus-ring",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "focus-ring",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L118"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_input_padding_x",
-      "label": "padding-x",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "padding-x",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L119"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_input_padding_y",
-      "label": "padding-y",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "padding-y",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L120"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_input_radius",
-      "label": "radius",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "radius",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L121"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_padding_type",
       "label": "$type",
       "_origin": "ast",
       "community": 54,
-      "community_name": "button",
+      "community_name": "card",
       "file_type": "code",
       "norm_label": "$type",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
@@ -34583,84 +34584,18 @@
       "label": "$value",
       "_origin": "ast",
       "community": 54,
-      "community_name": "button",
+      "community_name": "card",
       "file_type": "code",
       "norm_label": "$value",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L127"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_padding_x_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L110"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_padding_x_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L110"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_padding_y_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L111"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_padding_y_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L111"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_radius_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L112"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_radius_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "button",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L112"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_shadow_type",
       "label": "$type",
       "_origin": "ast",
       "community": 54,
-      "community_name": "button",
+      "community_name": "card",
       "file_type": "code",
       "norm_label": "$type",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
@@ -34671,7 +34606,7 @@
       "label": "$value",
       "_origin": "ast",
       "community": 54,
-      "community_name": "button",
+      "community_name": "card",
       "file_type": "code",
       "norm_label": "$value",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
@@ -35569,33 +35504,11 @@
       "source_location": "L28"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter",
-      "label": "design-tokens-starter.json",
-      "_origin": "ast",
-      "community": 60,
-      "community_name": "primitive",
-      "file_type": "code",
-      "norm_label": "design-tokens-starter.json",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L1"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_dark",
-      "label": "dark",
-      "_origin": "ast",
-      "community": 60,
-      "community_name": "primitive",
-      "file_type": "code",
-      "norm_label": "dark",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L131"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_duration_fast",
       "label": "fast",
       "_origin": "ast",
       "community": 60,
-      "community_name": "primitive",
+      "community_name": "duration",
       "file_type": "code",
       "norm_label": "fast",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
@@ -35606,7 +35519,7 @@
       "label": "normal",
       "_origin": "ast",
       "community": 60,
-      "community_name": "primitive",
+      "community_name": "duration",
       "file_type": "code",
       "norm_label": "normal",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
@@ -35617,7 +35530,7 @@
       "label": "slow",
       "_origin": "ast",
       "community": 60,
-      "community_name": "primitive",
+      "community_name": "duration",
       "file_type": "code",
       "norm_label": "slow",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
@@ -35628,7 +35541,7 @@
       "label": "$type",
       "_origin": "ast",
       "community": 60,
-      "community_name": "primitive",
+      "community_name": "duration",
       "file_type": "code",
       "norm_label": "$type",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
@@ -35639,7 +35552,7 @@
       "label": "$value",
       "_origin": "ast",
       "community": 60,
-      "community_name": "primitive",
+      "community_name": "duration",
       "file_type": "code",
       "norm_label": "$value",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
@@ -35650,7 +35563,7 @@
       "label": "$type",
       "_origin": "ast",
       "community": 60,
-      "community_name": "primitive",
+      "community_name": "duration",
       "file_type": "code",
       "norm_label": "$type",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
@@ -35661,51 +35574,29 @@
       "label": "$value",
       "_origin": "ast",
       "community": 60,
-      "community_name": "primitive",
+      "community_name": "duration",
       "file_type": "code",
       "norm_label": "$value",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L80"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_primitive",
-      "label": "primitive",
-      "_origin": "ast",
-      "community": 60,
-      "community_name": "primitive",
-      "file_type": "code",
-      "norm_label": "primitive",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L3"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_primitive_duration",
       "label": "duration",
       "_origin": "ast",
       "community": 60,
-      "community_name": "primitive",
+      "community_name": "duration",
       "file_type": "code",
       "norm_label": "duration",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L78"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_schema",
-      "label": "$schema",
-      "_origin": "ast",
-      "community": 60,
-      "community_name": "primitive",
-      "file_type": "code",
-      "norm_label": "$schema",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L2"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_slow_type",
       "label": "$type",
       "_origin": "ast",
       "community": 60,
-      "community_name": "primitive",
+      "community_name": "duration",
       "file_type": "code",
       "norm_label": "$type",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
@@ -35716,7 +35607,7 @@
       "label": "$value",
       "_origin": "ast",
       "community": 60,
-      "community_name": "primitive",
+      "community_name": "duration",
       "file_type": "code",
       "norm_label": "$value",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
@@ -37776,37 +37667,136 @@
       "source_location": "L44"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_4_type",
+      "id": "continue_skills_design_system_templates_design_tokens_starter_button_fg",
+      "label": "fg",
+      "_origin": "ast",
+      "community": 75,
+      "community_name": "button",
+      "file_type": "code",
+      "norm_label": "fg",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L108"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_button_font_size",
+      "label": "font-size",
+      "_origin": "ast",
+      "community": 75,
+      "community_name": "button",
+      "file_type": "code",
+      "norm_label": "font-size",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L113"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_button_hover_bg",
+      "label": "hover-bg",
+      "_origin": "ast",
+      "community": 75,
+      "community_name": "button",
+      "file_type": "code",
+      "norm_label": "hover-bg",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L109"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_component_button",
+      "label": "button",
+      "_origin": "ast",
+      "community": 75,
+      "community_name": "button",
+      "file_type": "code",
+      "norm_label": "button",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L106"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_fg_type",
       "label": "$type",
       "_origin": "ast",
       "community": 75,
-      "community_name": "4",
+      "community_name": "button",
       "file_type": "code",
       "norm_label": "$type",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L44"
+      "source_location": "L108"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_4_value",
+      "id": "continue_skills_design_system_templates_design_tokens_starter_fg_value",
       "label": "$value",
       "_origin": "ast",
       "community": 75,
-      "community_name": "4",
+      "community_name": "button",
       "file_type": "code",
       "norm_label": "$value",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L44"
+      "source_location": "L108"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_spacing_4",
-      "label": "4",
+      "id": "continue_skills_design_system_templates_design_tokens_starter_font_size_type",
+      "label": "$type",
       "_origin": "ast",
       "community": 75,
-      "community_name": "4",
+      "community_name": "button",
       "file_type": "code",
-      "norm_label": "4",
+      "norm_label": "$type",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L44"
+      "source_location": "L113"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_font_size_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 75,
+      "community_name": "button",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L113"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_hover_bg_type",
+      "label": "$type",
+      "_origin": "ast",
+      "community": 75,
+      "community_name": "button",
+      "file_type": "code",
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L109"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_hover_bg_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 75,
+      "community_name": "button",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L109"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_default_type",
+      "label": "$type",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "radius",
+      "file_type": "code",
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L65"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_default_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "radius",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L65"
     },
     {
       "id": "continue_skills_design_system_templates_design_tokens_starter_full_type",
@@ -37853,6 +37843,17 @@
       "source_location": "L66"
     },
     {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_primitive",
+      "label": "primitive",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "radius",
+      "file_type": "code",
+      "norm_label": "primitive",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L3"
+    },
+    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_primitive_radius",
       "label": "radius",
       "_origin": "ast",
@@ -37862,6 +37863,28 @@
       "norm_label": "radius",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L62"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_primitive_shadow",
+      "label": "shadow",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "radius",
+      "file_type": "code",
+      "norm_label": "shadow",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L71"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_radius_default",
+      "label": "default",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "radius",
+      "file_type": "code",
+      "norm_label": "default",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L65"
     },
     {
       "id": "continue_skills_design_system_templates_design_tokens_starter_radius_full",
@@ -37884,6 +37907,17 @@
       "norm_label": "md",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L66"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_shadow_default",
+      "label": "default",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "radius",
+      "file_type": "code",
+      "norm_label": "default",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L74"
     },
     {
       "id": "continue_skills_design_system_templates_design_tokens_starter_shadow_md",
@@ -38095,47 +38129,25 @@
       "source_location": "L10"
     },
     {
-      "id": "src_app_dashboard_dependentes_page",
-      "label": "dependentes/page.tsx",
+      "id": "src_app_dashboard_planes_page",
+      "label": "planes/page.tsx",
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
-      "norm_label": "dependentes/page.tsx",
-      "source_file": "src/app/(dashboard)/dependentes/page.tsx",
+      "norm_label": "planes/page.tsx",
+      "source_file": "src/app/(dashboard)/planes/page.tsx",
       "source_location": "L1"
-    },
-    {
-      "id": "src_app_dashboard_dependentes_page_valid_relations",
-      "label": "VALID_RELATIONS",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "valid_relations",
-      "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L20"
     },
     {
       "id": "src_app_dashboard_titulares_importar_page",
       "label": "importar/page.tsx",
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "importar/page.tsx",
       "source_file": "src/app/(dashboard)/titulares/importar/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_dashboard_titulares_page",
-      "label": "titulares/page.tsx",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "titulares/page.tsx",
-      "source_file": "src/app/(dashboard)/titulares/page.tsx",
       "source_location": "L1"
     },
     {
@@ -38143,7 +38155,7 @@
       "label": "ModalDRE.tsx",
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "modaldre.tsx",
       "source_file": "src/components/dashboard/ModalDRE.tsx",
@@ -38154,7 +38166,7 @@
       "label": "ModalRBAC.tsx",
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "modalrbac.tsx",
       "source_file": "src/components/dashboard/ModalRBAC.tsx",
@@ -38165,7 +38177,7 @@
       "label": "ModalChapel.tsx",
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "modalchapel.tsx",
       "source_file": "src/components/modals/ModalChapel.tsx",
@@ -38176,18 +38188,62 @@
       "label": "CHAPEL_ROOMS",
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "chapel_rooms",
       "source_file": "src/components/modals/ModalChapel.tsx",
       "source_location": "L12"
     },
     {
+      "id": "src_components_modals_modalcobrancaavulsa",
+      "label": "ModalCobrancaAvulsa.tsx",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "modalcobrancaavulsa.tsx",
+      "source_file": "src/components/modals/ModalCobrancaAvulsa.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_planstab",
+      "label": "PlansTab.tsx",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "planstab.tsx",
+      "source_file": "src/components/tabs/PlansTab.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_planstab_empty_form",
+      "label": "EMPTY_FORM",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "empty_form",
+      "source_file": "src/components/tabs/PlansTab.tsx",
+      "source_location": "L18"
+    },
+    {
+      "id": "src_hooks_usebilling",
+      "label": "useBilling.ts",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "usebilling.ts",
+      "source_file": "src/hooks/useBilling.ts",
+      "source_location": "L1"
+    },
+    {
       "id": "src_lib_notify",
       "label": "notify.ts",
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "code",
       "norm_label": "notify.ts",
       "source_file": "src/lib/notify.ts",
@@ -38198,7 +38254,7 @@
       "label": "recharts",
       "_origin": "ast",
       "community": 8,
-      "community_name": "authFetch",
+      "community_name": "notifyError",
       "file_type": "concept",
       "norm_label": "recharts",
       "source_file": "package.json",
@@ -38975,88 +39031,33 @@
       "source_location": "L14"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_default_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 87,
-      "community_name": "shadow",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L65"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_default_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 87,
-      "community_name": "shadow",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L65"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_fontsize_sm",
       "label": "sm",
       "_origin": "ast",
       "community": 87,
-      "community_name": "shadow",
+      "community_name": "sm",
       "file_type": "code",
       "norm_label": "sm",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L54"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_primitive_shadow",
-      "label": "shadow",
-      "_origin": "ast",
-      "community": 87,
-      "community_name": "shadow",
-      "file_type": "code",
-      "norm_label": "shadow",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L71"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_radius_default",
-      "label": "default",
-      "_origin": "ast",
-      "community": 87,
-      "community_name": "shadow",
-      "file_type": "code",
-      "norm_label": "default",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L65"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_radius_sm",
       "label": "sm",
       "_origin": "ast",
       "community": 87,
-      "community_name": "shadow",
+      "community_name": "sm",
       "file_type": "code",
       "norm_label": "sm",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L64"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_shadow_default",
-      "label": "default",
-      "_origin": "ast",
-      "community": 87,
-      "community_name": "shadow",
-      "file_type": "code",
-      "norm_label": "default",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L74"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_shadow_sm",
       "label": "sm",
       "_origin": "ast",
       "community": 87,
-      "community_name": "shadow",
+      "community_name": "sm",
       "file_type": "code",
       "norm_label": "sm",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
@@ -39067,7 +39068,7 @@
       "label": "$type",
       "_origin": "ast",
       "community": 87,
-      "community_name": "shadow",
+      "community_name": "sm",
       "file_type": "code",
       "norm_label": "$type",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
@@ -39078,7 +39079,7 @@
       "label": "$value",
       "_origin": "ast",
       "community": 87,
-      "community_name": "shadow",
+      "community_name": "sm",
       "file_type": "code",
       "norm_label": "$value",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
@@ -39261,50 +39262,6 @@
       "source_location": "L49"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_16_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 9,
-      "community_name": "spacing",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L50"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_16_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 9,
-      "community_name": "spacing",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L50"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_1_type",
-      "label": "$type",
-      "_origin": "ast",
-      "community": 9,
-      "community_name": "spacing",
-      "file_type": "code",
-      "norm_label": "$type",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L41"
-    },
-    {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_1_value",
-      "label": "$value",
-      "_origin": "ast",
-      "community": 9,
-      "community_name": "spacing",
-      "file_type": "code",
-      "norm_label": "$value",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L41"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_2_type",
       "label": "$type",
       "_origin": "ast",
@@ -39325,6 +39282,50 @@
       "norm_label": "$value",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L42"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_4_type",
+      "label": "$type",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "spacing",
+      "file_type": "code",
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L44"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_4_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "spacing",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L44"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_5_type",
+      "label": "$type",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "spacing",
+      "file_type": "code",
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L45"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_5_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "spacing",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L45"
     },
     {
       "id": "continue_skills_design_system_templates_design_tokens_starter_6_type",
@@ -39371,17 +39372,6 @@
       "source_location": "L40"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_spacing_1",
-      "label": "1",
-      "_origin": "ast",
-      "community": 9,
-      "community_name": "spacing",
-      "file_type": "code",
-      "norm_label": "1",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L41"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_spacing_10",
       "label": "10",
       "_origin": "ast",
@@ -39404,17 +39394,6 @@
       "source_location": "L49"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_spacing_16",
-      "label": "16",
-      "_origin": "ast",
-      "community": 9,
-      "community_name": "spacing",
-      "file_type": "code",
-      "norm_label": "16",
-      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L50"
-    },
-    {
       "id": "continue_skills_design_system_templates_design_tokens_starter_spacing_2",
       "label": "2",
       "_origin": "ast",
@@ -39424,6 +39403,28 @@
       "norm_label": "2",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L42"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_spacing_4",
+      "label": "4",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "spacing",
+      "file_type": "code",
+      "norm_label": "4",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L44"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_spacing_5",
+      "label": "5",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "spacing",
+      "file_type": "code",
+      "norm_label": "5",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L45"
     },
     {
       "id": "continue_skills_design_system_templates_design_tokens_starter_spacing_6",
@@ -39646,37 +39647,92 @@
       "source_location": "L4"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_5_type",
+      "id": "continue_skills_design_system_templates_design_tokens_starter_button_padding_x",
+      "label": "padding-x",
+      "_origin": "ast",
+      "community": 95,
+      "community_name": "input",
+      "file_type": "code",
+      "norm_label": "padding-x",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L110"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_component_input",
+      "label": "input",
+      "_origin": "ast",
+      "community": 95,
+      "community_name": "input",
+      "file_type": "code",
+      "norm_label": "input",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L115"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_focus_ring_type",
       "label": "$type",
       "_origin": "ast",
       "community": 95,
-      "community_name": "5",
+      "community_name": "input",
       "file_type": "code",
       "norm_label": "$type",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L45"
+      "source_location": "L118"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_5_value",
+      "id": "continue_skills_design_system_templates_design_tokens_starter_focus_ring_value",
       "label": "$value",
       "_origin": "ast",
       "community": 95,
-      "community_name": "5",
+      "community_name": "input",
       "file_type": "code",
       "norm_label": "$value",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L45"
+      "source_location": "L118"
     },
     {
-      "id": "continue_skills_design_system_templates_design_tokens_starter_spacing_5",
-      "label": "5",
+      "id": "continue_skills_design_system_templates_design_tokens_starter_input_focus_ring",
+      "label": "focus-ring",
       "_origin": "ast",
       "community": 95,
-      "community_name": "5",
+      "community_name": "input",
       "file_type": "code",
-      "norm_label": "5",
+      "norm_label": "focus-ring",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
-      "source_location": "L45"
+      "source_location": "L118"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_input_padding_x",
+      "label": "padding-x",
+      "_origin": "ast",
+      "community": 95,
+      "community_name": "input",
+      "file_type": "code",
+      "norm_label": "padding-x",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L119"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_padding_x_type",
+      "label": "$type",
+      "_origin": "ast",
+      "community": 95,
+      "community_name": "input",
+      "file_type": "code",
+      "norm_label": "$type",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L110"
+    },
+    {
+      "id": "continue_skills_design_system_templates_design_tokens_starter_padding_x_value",
+      "label": "$value",
+      "_origin": "ast",
+      "community": 95,
+      "community_name": "input",
+      "file_type": "code",
+      "norm_label": "$value",
+      "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
+      "source_location": "L110"
     },
     {
       "id": "continue_skills_design_system_templates_design_tokens_starter_8_type",
@@ -48700,6 +48756,42 @@
       "weight": 1.0
     },
     {
+      "source": "src_app_dashboard_contratos_page_contratospage",
+      "target": "src_lib_authfetch_authfetch",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/app/(dashboard)/contratos/page.tsx",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_contratos_page_contratospage",
+      "target": "src_lib_notify_notifyerror",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/app/(dashboard)/contratos/page.tsx",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_contratos_page_contratospage",
+      "target": "src_app_dashboard_contratos_page_iscontractactive",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/app/(dashboard)/contratos/page.tsx",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
       "source": "src_app_dashboard_dependentes_page_dependentespage",
       "target": "src_lib_authfetch_authfetch",
       "relation": "calls",
@@ -48708,7 +48800,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L37",
+      "source_location": "L25",
       "weight": 1.0
     },
     {
@@ -48720,7 +48812,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L43",
+      "source_location": "L31",
       "weight": 1.0
     },
     {
@@ -48732,7 +48824,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L80",
+      "source_location": "L68",
       "weight": 1.0
     },
     {
@@ -48780,7 +48872,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L140",
+      "source_location": "L103",
       "weight": 1.0
     },
     {
@@ -48792,7 +48884,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L57",
+      "source_location": "L20",
       "weight": 1.0
     },
     {
@@ -48804,7 +48896,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L63",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -49896,6 +49988,18 @@
       "confidence_score": 1.0,
       "context": "export",
       "source_file": "src/lib/supabaseClient.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_types_index",
+      "target": "src_types_domain",
+      "relation": "re_exports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "export",
+      "source_file": "src/types/index.ts",
       "source_location": "L2",
       "weight": 1.0
     },
@@ -54186,6 +54290,54 @@
       "weight": 1.0
     },
     {
+      "source": "src_app_dashboard_contratos_page",
+      "target": "src_lib_authfetch_authfetch",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/contratos/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_contratos_page",
+      "target": "src_lib_notify_notifyerror",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/contratos/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_contratos_page",
+      "target": "src_types_domain_contract",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/contratos/page.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_contratos_page",
+      "target": "src_types_domain_contractplan",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/contratos/page.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
       "source": "src_app_dashboard_dependentes_page",
       "target": "src_lib_authfetch_authfetch",
       "relation": "imports",
@@ -54194,7 +54346,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L6",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -54206,7 +54358,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L7",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -54218,7 +54370,31 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L7",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_dependentes_page",
+      "target": "src_types_domain_dependent",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/dependentes/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_dependentes_page",
+      "target": "src_types_domain_holder",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/dependentes/page.tsx",
+      "source_location": "L6",
       "weight": 1.0
     },
     {
@@ -54278,7 +54454,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L7",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -54290,7 +54466,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L8",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -54302,7 +54478,67 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L8",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_titulares_page",
+      "target": "src_types_domain_contract",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/titulares/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_titulares_page",
+      "target": "src_types_domain_contractplan",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/titulares/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_titulares_page",
+      "target": "src_types_domain_dependent",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/titulares/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_titulares_page",
+      "target": "src_types_domain_holder",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/titulares/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_titulares_page",
+      "target": "src_types_domain_statusfilter",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/titulares/page.tsx",
+      "source_location": "L6",
       "weight": 1.0
     },
     {
@@ -58819,6 +59055,55 @@
       "weight": 1.0
     },
     {
+      "source": "src_app_dashboard_contratos_page",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/contratos/page.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_contratos_page",
+      "target": "src_lib_authfetch",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/contratos/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_contratos_page",
+      "target": "src_lib_notify",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/contratos/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_contratos_page",
+      "target": "src_types_index",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/contratos/page.tsx",
+      "source_location": "L8",
+      "type_only": true,
+      "weight": 1.0
+    },
+    {
       "source": "src_app_dashboard_dependentes_page",
       "target": "ref_react",
       "relation": "imports_from",
@@ -58827,7 +59112,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L5",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -58839,7 +59124,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L6",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -58851,7 +59136,20 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L7",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_dependentes_page",
+      "target": "src_types_index",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/dependentes/page.tsx",
+      "source_location": "L6",
+      "type_only": true,
       "weight": 1.0
     },
     {
@@ -58911,7 +59209,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L6",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -58923,7 +59221,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L7",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -58935,7 +59233,20 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L8",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_dashboard_titulares_page",
+      "target": "src_types_index",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/titulares/page.tsx",
+      "source_location": "L6",
+      "type_only": true,
       "weight": 1.0
     },
     {
@@ -60415,7 +60726,7 @@
     },
     {
       "source": "agents_agents_md",
-      "target": "agents_graphify",
+      "target": "agents_idioma",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -60426,13 +60737,46 @@
     },
     {
       "source": "agents_agents_md",
-      "target": "agents_idioma",
+      "target": "agents_contexto_regras_cr\u00edticas",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "AGENTS.md",
-      "source_location": "L24",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_agents_md",
+      "target": "agents_graphify_uso_sob_demanda",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_agents_md",
+      "target": "agents_repowise_uso_sob_demanda_via_mcp",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_agents_md",
+      "target": "agents_refatora\u00e7\u00e3o_em_andamento",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": "L37",
       "weight": 1.0
     },
     {
@@ -84504,25 +84848,25 @@
       "weight": 1.0
     },
     {
-      "source": "src_app_dashboard_dependentes_page",
-      "target": "src_app_dashboard_dependentes_page_holder",
+      "source": "src_app_dashboard_contratos_page",
+      "target": "src_app_dashboard_contratos_page_iscontractactive",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L15",
+      "source_file": "src/app/(dashboard)/contratos/page.tsx",
+      "source_location": "L11",
       "weight": 1.0
     },
     {
-      "source": "src_app_dashboard_dependentes_page",
-      "target": "src_app_dashboard_dependentes_page_valid_relations",
+      "source": "src_app_dashboard_contratos_page",
+      "target": "src_app_dashboard_contratos_page_contratospage",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L20",
+      "source_file": "src/app/(dashboard)/contratos/page.tsx",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -84533,18 +84877,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L22",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
       "source": "src_app_dashboard_dependentes_page",
-      "target": "src_app_dashboard_dependentes_page_dependent",
+      "target": "src_app_dashboard_dependentes_page_valid_relations",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/(dashboard)/dependentes/page.tsx",
-      "source_location": "L9",
+      "source_location": "L8",
       "weight": 1.0
     },
     {
@@ -84604,68 +84948,13 @@
     },
     {
       "source": "src_app_dashboard_titulares_page",
-      "target": "src_app_dashboard_titulares_page_contractplan",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L11",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_dashboard_titulares_page",
-      "target": "src_app_dashboard_titulares_page_contract",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L16",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_dashboard_titulares_page",
-      "target": "src_app_dashboard_titulares_page_dependent",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L23",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_dashboard_titulares_page",
-      "target": "src_app_dashboard_titulares_page_holder",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L28",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_dashboard_titulares_page",
-      "target": "src_app_dashboard_titulares_page_statusfilter",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L43",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_dashboard_titulares_page",
       "target": "src_app_dashboard_titulares_page_titularespage",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/(dashboard)/titulares/page.tsx",
-      "source_location": "L45",
+      "source_location": "L8",
       "weight": 1.0
     },
     {
@@ -86847,6 +87136,61 @@
       "weight": 1.0
     },
     {
+      "source": "src_types_domain",
+      "target": "src_types_domain_contractplan",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/domain.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_types_domain",
+      "target": "src_types_domain_dependent",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/domain.ts",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "src_types_domain",
+      "target": "src_types_domain_holder",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/domain.ts",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "src_types_domain",
+      "target": "src_types_domain_statusfilter",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/domain.ts",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "src_types_domain",
+      "target": "src_types_domain_contract",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/domain.ts",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
       "source": "src_types_index",
       "target": "src_types_index_dadospayload",
       "relation": "contains",
@@ -86854,7 +87198,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/types/index.ts",
-      "source_location": "L2",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -94917,5 +95261,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "911e7df805c4dccf120783ef0015485647ccb7c9"
+  "built_at_commit": "3845b1eacec37f1b41cb626f2e3a1cb4f1358ab2"
 }
