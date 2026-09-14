@@ -642,9 +642,9 @@
     "semantic_hash": "b9c2cdc4654ca63de532cfe81b3ba512"
   },
   "src/app/(dashboard)/layout.tsx": {
-    "mtime": 1789384641.5774515,
-    "seen": 1789384727.1795924,
-    "ast_hash": "b61c0de13ab6ad779aa0394d1f3bd2bb",
+    "mtime": 1789391344.3667583,
+    "seen": 1789391737.894832,
+    "ast_hash": "10c390ea451b534a71db0b48419a5db2",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/planes/page.tsx": {
@@ -1968,9 +1968,9 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1789356848.534598,
-    "seen": 1789357095.4849567,
-    "ast_hash": "2fa54328e96c212b00fb2b3eb8e3b451",
+    "mtime": 1789391344.3239138,
+    "seen": 1789391737.8950813,
+    "ast_hash": "ff4e2c8c5f2fef5d1a2dee89a7cead11",
     "semantic_hash": ""
   },
   "CLAUDE.md": {
@@ -2070,9 +2070,9 @@
     "semantic_hash": ""
   },
   "docs/JORNADA-GRAPHIFY-E-REFATORACAO.md": {
-    "mtime": 1789351731.57497,
-    "seen": 1789352207.7908463,
-    "ast_hash": "3022537916a27ed8b8975743030f028c",
+    "mtime": 1789391344.3252566,
+    "seen": 1789391737.8950896,
+    "ast_hash": "de40a9da47240482a08252b962202fe9",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/titulares/importar/page.tsx": {
@@ -2088,9 +2088,9 @@
     "semantic_hash": ""
   },
   "src/types/domain.ts": {
-    "mtime": 1789357639.382213,
-    "seen": 1789357982.326305,
-    "ast_hash": "8bca68f201752c24150e2dd003992d68",
+    "mtime": 1789391613.5379536,
+    "seen": 1789391737.8949854,
+    "ast_hash": "ffd955fdf6dcb6079aa6af9315a697a3",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
@@ -2130,81 +2130,111 @@
     "semantic_hash": ""
   },
   "src/app/(dashboard)/frota/page.tsx": {
-    "mtime": 1789352156.5081098,
-    "seen": 1789352207.7906017,
+    "mtime": 1789391344.3667583,
+    "seen": 1789391737.8948307,
     "ast_hash": "f44cf0ca6b1703cc3bfe407124431809",
     "semantic_hash": ""
   },
   "src/components/tabs/FleetTab.tsx": {
-    "mtime": 1789352145.9290915,
-    "seen": 1789352207.7907028,
+    "mtime": 1789391344.3762205,
+    "seen": 1789391737.8949435,
     "ast_hash": "23c4c15cb9307536b0cfb8ced94b97c5",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/estoque/page.tsx": {
-    "mtime": 1789352489.7967713,
-    "seen": 1789352537.494089,
+    "mtime": 1789391344.3667583,
+    "seen": 1789391737.8948257,
     "ast_hash": "b5b4f0083ff45c9cba0e67e4afabd550",
     "semantic_hash": ""
   },
   "src/components/tabs/InventoryTab.tsx": {
-    "mtime": 1789352478.4346423,
-    "seen": 1789352537.4942212,
+    "mtime": 1789391344.3773682,
+    "seen": 1789391737.8949447,
     "ast_hash": "e319add41de1736ff8791f1eab9fa0fd",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/tanatopraxia/page.tsx": {
-    "mtime": 1789353210.6805162,
-    "seen": 1789353254.515499,
+    "mtime": 1789391344.3726995,
+    "seen": 1789391737.8948393,
     "ast_hash": "5c4785b14b199a1bf243106f4a670fab",
     "semantic_hash": ""
   },
   "src/components/tabs/ThanatopraxyTab.tsx": {
-    "mtime": 1789353196.4933305,
-    "seen": 1789353254.5156057,
+    "mtime": 1789391344.3783743,
+    "seen": 1789391737.8949523,
     "ast_hash": "268053dd0bcf60344dfe8595d42a4ad8",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/capela/page.tsx": {
-    "mtime": 1789353468.9917524,
-    "seen": 1789353521.5863693,
+    "mtime": 1789391344.3667583,
+    "seen": 1789391737.8948176,
     "ast_hash": "ce416e5d7303343288cf29aa18ff6ccf",
     "semantic_hash": ""
   },
   "src/components/tabs/ChapelTab.tsx": {
-    "mtime": 1789353457.8592067,
-    "seen": 1789353521.5864794,
+    "mtime": 1789391344.3762205,
+    "seen": 1789391737.8949373,
     "ast_hash": "bc79a7c918fe8167b950acd633ad0b26",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/ordens/page.tsx": {
-    "mtime": 1789357064.4300728,
-    "seen": 1789357095.4847202,
+    "mtime": 1789391344.3726995,
+    "seen": 1789391737.8948355,
     "ast_hash": "074825b943c45673269ff14248f29aa5",
     "semantic_hash": ""
   },
   "src/components/tabs/ServiceOrdersTab.tsx": {
-    "mtime": 1789357432.645581,
-    "seen": 1789357493.3225243,
+    "mtime": 1789391344.3783743,
+    "seen": 1789391737.8949497,
     "ast_hash": "6ab87b7168415ac5bef91c54dc5d3a26",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/ordens/nova/page.tsx": {
-    "mtime": 1789356747.5947404,
-    "seen": 1789356778.550457,
+    "mtime": 1789391344.3667583,
+    "seen": 1789391737.8948343,
     "ast_hash": "e320fbfcc726e2413c773ef2e298320e",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/sepultamentos/page.tsx": {
-    "mtime": 1789357887.8054245,
-    "seen": 1789357982.3261518,
+    "mtime": 1789391344.3726995,
+    "seen": 1789391737.894838,
     "ast_hash": "9a691a5e9c89e21c05e4ad614e4262c0",
     "semantic_hash": ""
   },
   "src/components/tabs/BurialsTab.tsx": {
-    "mtime": 1789357880.9362352,
-    "seen": 1789357982.3262534,
+    "mtime": 1789391344.3751986,
+    "seen": 1789391737.8949363,
     "ast_hash": "89c28319636f61f29b846ac95b2281c3",
+    "semantic_hash": ""
+  },
+  "src/app/(dashboard)/logistica/page.tsx": {
+    "mtime": 1789391344.3667583,
+    "seen": 1789391737.8948328,
+    "ast_hash": "94114fa4a0af74c0d0b48c45a222f868",
+    "semantic_hash": ""
+  },
+  "src/app/api/dispatches/route.ts": {
+    "mtime": 1789391344.3747087,
+    "seen": 1789391737.8948689,
+    "ast_hash": "e134df5a98074cb724a1693d1baf17d9",
+    "semantic_hash": ""
+  },
+  "src/components/tabs/LogisticsTab.tsx": {
+    "mtime": 1789391344.3773682,
+    "seen": 1789391737.8949459,
+    "ast_hash": "c20d5f83272ec60f202b231b21bce3ee",
+    "semantic_hash": ""
+  },
+  "src/app/(dashboard)/financeiro/page.tsx": {
+    "mtime": 1789391662.4598262,
+    "seen": 1789391737.8948276,
+    "ast_hash": "3fca56fd17c0480ee39e3b6fbecdefc7",
+    "semantic_hash": ""
+  },
+  "src/components/tabs/BillingTab.tsx": {
+    "mtime": 1789391695.746684,
+    "seen": 1789391737.8949351,
+    "ast_hash": "4c635f4003d2f3b7b2d1e97e32921efa",
     "semantic_hash": ""
   }
 }
