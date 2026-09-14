@@ -134,3 +134,40 @@ export interface ConvalescenceItem {
   expected_return_date?: string;
   status: 'Ativo' | 'Devolvido';
 }
+
+// Logística (fase 4d-1): missões, auditoria de despachos e rotas de coletor
+export interface Dispatch {
+  id: string;
+  vehicle_id?: string;
+  vehicle_plate?: string;
+  driver_agent?: string;
+  status: string;
+  odometer_start?: number;
+  odometer_end?: number;
+  km_traveled?: number;
+  fuel_liters_added?: number;
+  fuel_cost?: number;
+  closure_notes?: string;
+  closed_at?: string;
+  created_at: string;
+}
+
+export interface DispatchAuditLog {
+  id: string;
+  dispatch_id: string;
+  action: string;
+  actor_name: string;
+  actor_role?: string;
+  details?: Record<string, any>;
+  vehicle_plate?: string;
+  driver_name?: string;
+  created_at: string;
+}
+
+export interface CollectorRoute {
+  id: string;
+  collector_name: string;
+  zone: string;
+  status: string;
+  total_receipts: number;
+}
