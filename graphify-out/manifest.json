@@ -2232,9 +2232,9 @@
     "semantic_hash": ""
   },
   "src/components/tabs/BillingTab.tsx": {
-    "mtime": 1789393872.1691139,
-    "seen": 1789395059.0340347,
-    "ast_hash": "f400262aeb726509e61600c5e3f51f52",
+    "mtime": 1789396299.5233479,
+    "seen": 1789396546.7898402,
+    "ast_hash": "7d21fa2fb6be8cfe97d4246c0e9ccfa4",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/livro-caixa/page.tsx": {

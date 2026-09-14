@@ -46,7 +46,7 @@
   "44": "Color Extraction Tools",
   "45": "Asset Validation Utility",
   "46": "Tailwind Config Generator",
-  "47": "authFetch",
+  "47": "ChapelTab.tsx",
   "48": "Testing Dev Dependencies",
   "49": "Supabase Client Scripts",
   "50": "focusnfe.ts",
@@ -372,6 +372,5 @@
   "370": "CLAUDE.md",
   "371": "ring",
   "372": "secondary-foreground",
-  "373": "BenefitsTab.tsx",
-  "374": "landing/page.tsx"
+  "373": "AuditLogsTab.tsx"
 }

@@ -199,6 +199,84 @@
       "source_location": "L8"
     },
     {
+      "id": "src_app_dashboard_ordens_nova_page_formholdersquick",
+      "label": "FormHoldersQuick",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "formholdersquick",
+      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_app_dashboard_ordens_nova_page_forminventoryitem",
+      "label": "FormInventoryItem",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "forminventoryitem",
+      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
+      "source_location": "L25"
+    },
+    {
+      "id": "src_app_dashboard_ordens_nova_page_formvehicle",
+      "label": "FormVehicle",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "formvehicle",
+      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
+      "source_location": "L18"
+    },
+    {
+      "id": "src_app_dashboard_ordens_nova_page_ordemitem",
+      "label": "OrdemItem",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "ordemitem",
+      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
+      "source_location": "L31"
+    },
+    {
+      "id": "src_app_dashboard_titulares_importar_page_importresult",
+      "label": "ImportResult",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "importresult",
+      "source_file": "src/app/(dashboard)/titulares/importar/page.tsx",
+      "source_location": "L14"
+    },
+    {
+      "id": "src_app_dashboard_titulares_importar_page_invalidrow",
+      "label": "InvalidRow",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "invalidrow",
+      "source_file": "src/app/(dashboard)/titulares/importar/page.tsx",
+      "source_location": "L9"
+    },
+    {
       "id": "src_components_dashboard_modalrbac_userrole",
       "label": "UserRole",
       "_callable": true,
@@ -238,19 +316,6 @@
       "source_location": "L8"
     },
     {
-      "id": "src_components_tabs_fiscalsettingssection_fiscalconfigdata",
-      "label": "FiscalConfigData",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 109,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "fiscalconfigdata",
-      "source_file": "src/components/tabs/FiscalSettingsSection.tsx",
-      "source_location": "L8"
-    },
-    {
       "id": "src_components_tabs_sellerstab_seller",
       "label": "Seller",
       "_callable": true,
@@ -264,17 +329,17 @@
       "source_location": "L8"
     },
     {
-      "id": "src_components_tabs_tenantsettingstab_tenant",
-      "label": "Tenant",
+      "id": "src_hooks_usebilling_usebillingreturn",
+      "label": "UseBillingReturn",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 109,
       "community_name": "notifyError",
       "file_type": "code",
-      "norm_label": "tenant",
-      "source_file": "src/components/tabs/TenantSettingsTab.tsx",
-      "source_location": "L11"
+      "norm_label": "usebillingreturn",
+      "source_file": "src/hooks/useBilling.ts",
+      "source_location": "L12"
     },
     {
       "id": "src_types_domain_accountpayable",
@@ -288,6 +353,19 @@
       "norm_label": "accountpayable",
       "source_file": "src/types/domain.ts",
       "source_location": "L264"
+    },
+    {
+      "id": "src_types_domain_serviceorder",
+      "label": "ServiceOrder",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "serviceorder",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L109"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract",
@@ -485,6 +563,19 @@
       "source_location": "L76"
     },
     {
+      "id": "src_components_dashboard_modaldre_financialsummary",
+      "label": "FinancialSummary",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "app/page.tsx",
+      "file_type": "code",
+      "norm_label": "financialsummary",
+      "source_file": "src/components/dashboard/ModalDRE.tsx",
+      "source_location": "L7"
+    },
+    {
       "id": "src_config_permissions_approle",
       "label": "AppRole",
       "_callable": true,
@@ -522,19 +613,6 @@
       "norm_label": "userrole",
       "source_file": "src/config/permissions.ts",
       "source_location": "L2"
-    },
-    {
-      "id": "src_hooks_usebilling_usebillingreturn",
-      "label": "UseBillingReturn",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "usebillingreturn",
-      "source_file": "src/hooks/useBilling.ts",
-      "source_location": "L12"
     },
     {
       "id": "src_lib_formvalidation_fielderrors",
@@ -730,6 +808,32 @@
       "norm_label": "testmoderesolution",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
       "source_location": "L74"
+    },
+    {
+      "id": "src_components_tabs_fiscalsettingssection_fiscalconfigdata",
+      "label": "FiscalConfigData",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "fiscalconfigdata",
+      "source_file": "src/components/tabs/FiscalSettingsSection.tsx",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_components_tabs_tenantsettingstab_tenant",
+      "label": "Tenant",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "tenant",
+      "source_file": "src/components/tabs/TenantSettingsTab.tsx",
+      "source_location": "L11"
     },
     {
       "id": "src_contexts_tenantcontext_tenant",
@@ -966,17 +1070,17 @@
       "source_location": "L77"
     },
     {
-      "id": "src_types_domain_partner",
-      "label": "Partner",
+      "id": "src_types_domain_auditlog",
+      "label": "AuditLog",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 373,
-      "community_name": "BenefitsTab.tsx",
+      "community_name": "AuditLogsTab.tsx",
       "file_type": "code",
-      "norm_label": "partner",
+      "norm_label": "auditlog",
       "source_file": "src/types/domain.ts",
-      "source_location": "L44"
+      "source_location": "L277"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest",
@@ -1044,95 +1148,17 @@
       "source_location": "L356"
     },
     {
-      "id": "src_app_dashboard_ordens_nova_page_formholdersquick",
-      "label": "FormHoldersQuick",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "formholdersquick",
-      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
-      "source_location": "L11"
-    },
-    {
-      "id": "src_app_dashboard_ordens_nova_page_forminventoryitem",
-      "label": "FormInventoryItem",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "forminventoryitem",
-      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
-      "source_location": "L25"
-    },
-    {
-      "id": "src_app_dashboard_ordens_nova_page_formvehicle",
-      "label": "FormVehicle",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "formvehicle",
-      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
-      "source_location": "L18"
-    },
-    {
-      "id": "src_app_dashboard_ordens_nova_page_ordemitem",
-      "label": "OrdemItem",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "ordemitem",
-      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
-      "source_location": "L31"
-    },
-    {
-      "id": "src_components_dashboard_modaldre_financialsummary",
-      "label": "FinancialSummary",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "financialsummary",
-      "source_file": "src/components/dashboard/ModalDRE.tsx",
-      "source_location": "L7"
-    },
-    {
       "id": "src_types_domain_chapelbooking",
       "label": "ChapelBooking",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "chapelbooking",
       "source_file": "src/types/domain.ts",
       "source_location": "L81"
-    },
-    {
-      "id": "src_types_domain_serviceorder",
-      "label": "ServiceOrder",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "serviceorder",
-      "source_file": "src/types/domain.ts",
-      "source_location": "L109"
     },
     {
       "id": "src_lib_fiscal_focusnfe_focusnfepayload",
@@ -1340,7 +1366,7 @@
       "file_type": "code",
       "norm_label": "collectorrow",
       "source_file": "src/components/tabs/BillingTab.tsx",
-      "source_location": "L14"
+      "source_location": "L17"
     },
     {
       "id": "src_components_tabs_financialtab_reservepayload",
@@ -1354,19 +1380,6 @@
       "norm_label": "reservepayload",
       "source_file": "src/components/tabs/FinancialTab.tsx",
       "source_location": "L14"
-    },
-    {
-      "id": "src_types_domain_auditlog",
-      "label": "AuditLog",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "code",
-      "norm_label": "auditlog",
-      "source_file": "src/types/domain.ts",
-      "source_location": "L277"
     },
     {
       "id": "src_types_domain_billingresult",
@@ -1603,32 +1616,6 @@
       "source_location": "L26"
     },
     {
-      "id": "src_app_dashboard_titulares_importar_page_importresult",
-      "label": "ImportResult",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "notify.ts",
-      "file_type": "code",
-      "norm_label": "importresult",
-      "source_file": "src/app/(dashboard)/titulares/importar/page.tsx",
-      "source_location": "L14"
-    },
-    {
-      "id": "src_app_dashboard_titulares_importar_page_invalidrow",
-      "label": "InvalidRow",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "notify.ts",
-      "file_type": "code",
-      "norm_label": "invalidrow",
-      "source_file": "src/app/(dashboard)/titulares/importar/page.tsx",
-      "source_location": "L9"
-    },
-    {
       "id": "src_types_domain_contract",
       "label": "Contract",
       "_callable": true,
@@ -1681,6 +1668,19 @@
       "source_location": "L22"
     },
     {
+      "id": "src_types_domain_partner",
+      "label": "Partner",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notify.ts",
+      "file_type": "code",
+      "norm_label": "partner",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L44"
+    },
+    {
       "id": "src_types_domain_statusfilter",
       "label": "StatusFilter",
       "_callable": true,
@@ -1705,6 +1705,32 @@
       "norm_label": "thanatopraxy",
       "source_file": "src/types/domain.ts",
       "source_location": "L70"
+    },
+    {
+      "id": "src_types_domain_vehicle",
+      "label": "Vehicle",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notify.ts",
+      "file_type": "code",
+      "norm_label": "vehicle",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L53"
+    },
+    {
+      "id": "src_types_index_dadospayload",
+      "label": "DadosPayLoad",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notify.ts",
+      "file_type": "code",
+      "norm_label": "dadospayload",
+      "source_file": "src/types/index.ts",
+      "source_location": "L4"
     },
     {
       "id": "src_components_tabs_planstab_plan",
@@ -1757,32 +1783,6 @@
       "norm_label": "inventoryitem",
       "source_file": "src/types/domain.ts",
       "source_location": "L62"
-    },
-    {
-      "id": "src_types_domain_vehicle",
-      "label": "Vehicle",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 95,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "vehicle",
-      "source_file": "src/types/domain.ts",
-      "source_location": "L53"
-    },
-    {
-      "id": "src_types_index_dadospayload",
-      "label": "DadosPayLoad",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 95,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "dadospayload",
-      "source_file": "src/types/index.ts",
-      "source_location": "L4"
     },
     {
       "id": "src_app_carteirinha_cpf_page_props",
@@ -3178,6 +3178,42 @@
       "source_location": "L7"
     },
     {
+      "id": "src_app_dashboard_ordens_nova_page_novaordempage",
+      "label": "NovaOrdemPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "novaordempage()",
+      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
+      "source_location": "L37"
+    },
+    {
+      "id": "src_app_dashboard_ordens_page_ordenspage",
+      "label": "OrdensPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "ordenspage()",
+      "source_file": "src/app/(dashboard)/ordens/page.tsx",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_app_dashboard_titulares_importar_page_importartitularespage",
+      "label": "ImportarTitularesPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "importartitularespage()",
+      "source_file": "src/app/(dashboard)/titulares/importar/page.tsx",
+      "source_location": "L22"
+    },
+    {
       "id": "src_app_dashboard_vendedores_page_vendedorespage",
       "label": "VendedoresPage()",
       "_callable": true,
@@ -3262,18 +3298,6 @@
       "source_location": "L14"
     },
     {
-      "id": "src_components_tabs_fiscalsettingssection_fiscalsettingssection",
-      "label": "FiscalSettingsSection()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 109,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "fiscalsettingssection()",
-      "source_file": "src/components/tabs/FiscalSettingsSection.tsx",
-      "source_location": "L34"
-    },
-    {
       "id": "src_components_tabs_sellerstab_fmtpercent",
       "label": "fmtPercent()",
       "_callable": true,
@@ -3298,16 +3322,40 @@
       "source_location": "L24"
     },
     {
-      "id": "src_components_tabs_tenantsettingstab_tenantsettingstab",
-      "label": "TenantSettingsTab()",
+      "id": "src_components_tabs_serviceorderstab_serviceorderstab",
+      "label": "ServiceOrdersTab()",
       "_callable": true,
       "_origin": "ast",
       "community": 109,
       "community_name": "notifyError",
       "file_type": "code",
-      "norm_label": "tenantsettingstab()",
-      "source_file": "src/components/tabs/TenantSettingsTab.tsx",
-      "source_location": "L30"
+      "norm_label": "serviceorderstab()",
+      "source_file": "src/components/tabs/ServiceOrdersTab.tsx",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_hooks_usebilling_usebilling",
+      "label": "useBilling()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "usebilling()",
+      "source_file": "src/hooks/useBilling.ts",
+      "source_location": "L26"
+    },
+    {
+      "id": "src_lib_authfetch_authfetch",
+      "label": "authFetch()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "authfetch()",
+      "source_file": "src/lib/authFetch.ts",
+      "source_location": "L8"
     },
     {
       "id": "src_lib_notify_notifyerror",
@@ -3332,18 +3380,6 @@
       "norm_label": "notifysuccess()",
       "source_file": "src/lib/notify.ts",
       "source_location": "L8"
-    },
-    {
-      "id": "src_lib_planlimits_formatplanprice",
-      "label": "formatPlanPrice()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 109,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "formatplanprice()",
-      "source_file": "src/lib/planLimits.ts",
-      "source_location": "L147"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_read_rows",
@@ -4030,6 +4066,18 @@
       "source_location": "L141"
     },
     {
+      "id": "src_components_dashboard_modaldre_modaldre",
+      "label": "ModalDRE()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "app/page.tsx",
+      "file_type": "code",
+      "norm_label": "modaldre()",
+      "source_file": "src/components/dashboard/ModalDRE.tsx",
+      "source_location": "L15"
+    },
+    {
       "id": "src_components_themetoggle_themetoggle",
       "label": "ThemeToggle()",
       "_callable": true,
@@ -4076,18 +4124,6 @@
       "norm_label": "istaballowed()",
       "source_file": "src/config/permissions.ts",
       "source_location": "L68"
-    },
-    {
-      "id": "src_hooks_usebilling_usebilling",
-      "label": "useBilling()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "usebilling()",
-      "source_file": "src/hooks/useBilling.ts",
-      "source_location": "L26"
     },
     {
       "id": "src_lib_formvalidation_createinitialerrors",
@@ -6646,6 +6682,18 @@
       "source_location": "L9"
     },
     {
+      "id": "src_app_landing_page_landingpage",
+      "label": "LandingPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "landingpage()",
+      "source_file": "src/app/landing/page.tsx",
+      "source_location": "L60"
+    },
+    {
       "id": "src_app_login_page_loginpage",
       "label": "LoginPage()",
       "_callable": true,
@@ -6656,6 +6704,30 @@
       "norm_label": "loginpage()",
       "source_file": "src/app/login/page.tsx",
       "source_location": "L7"
+    },
+    {
+      "id": "src_components_tabs_fiscalsettingssection_fiscalsettingssection",
+      "label": "FiscalSettingsSection()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "fiscalsettingssection()",
+      "source_file": "src/components/tabs/FiscalSettingsSection.tsx",
+      "source_location": "L34"
+    },
+    {
+      "id": "src_components_tabs_tenantsettingstab_tenantsettingstab",
+      "label": "TenantSettingsTab()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "tenantsettingstab()",
+      "source_file": "src/components/tabs/TenantSettingsTab.tsx",
+      "source_location": "L30"
     },
     {
       "id": "src_contexts_tenantcontext_tenantprovider",
@@ -6680,6 +6752,18 @@
       "norm_label": "usetenant()",
       "source_file": "src/contexts/TenantContext.tsx",
       "source_location": "L96"
+    },
+    {
+      "id": "src_lib_planlimits_formatplanprice",
+      "label": "formatPlanPrice()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "formatplanprice()",
+      "source_file": "src/lib/planLimits.ts",
+      "source_location": "L147"
     },
     {
       "id": "continue_skills_design_scripts_logo_core_bm25_fit",
@@ -7546,40 +7630,40 @@
       "source_location": "L95"
     },
     {
-      "id": "src_app_dashboard_beneficios_page_beneficiospage",
-      "label": "BeneficiosPage()",
+      "id": "src_app_dashboard_auditoria_page_auditoriapage",
+      "label": "AuditoriaPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 373,
-      "community_name": "BenefitsTab.tsx",
+      "community_name": "AuditLogsTab.tsx",
       "file_type": "code",
-      "norm_label": "beneficiospage()",
-      "source_file": "src/app/(dashboard)/beneficios/page.tsx",
-      "source_location": "L9"
+      "norm_label": "auditoriapage()",
+      "source_file": "src/app/(dashboard)/auditoria/page.tsx",
+      "source_location": "L7"
     },
     {
-      "id": "src_components_tabs_benefitstab_benefitstab",
-      "label": "BenefitsTab()",
+      "id": "src_components_tabs_auditlogstab_auditlogstab",
+      "label": "AuditLogsTab()",
       "_callable": true,
       "_origin": "ast",
       "community": 373,
-      "community_name": "BenefitsTab.tsx",
+      "community_name": "AuditLogsTab.tsx",
       "file_type": "code",
-      "norm_label": "benefitstab()",
-      "source_file": "src/components/tabs/BenefitsTab.tsx",
-      "source_location": "L18"
+      "norm_label": "auditlogstab()",
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
+      "source_location": "L22"
     },
     {
-      "id": "src_app_landing_page_landingpage",
-      "label": "LandingPage()",
+      "id": "src_components_tabs_auditlogstab_detailstext",
+      "label": "detailsText()",
       "_callable": true,
       "_origin": "ast",
-      "community": 374,
-      "community_name": "landing/page.tsx",
+      "community": 373,
+      "community_name": "AuditLogsTab.tsx",
       "file_type": "code",
-      "norm_label": "landingpage()",
-      "source_file": "src/app/landing/page.tsx",
-      "source_location": "L60"
+      "norm_label": "detailstext()",
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
+      "source_location": "L12"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_font_args",
@@ -8331,47 +8415,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "capelapage()",
       "source_file": "src/app/(dashboard)/capela/page.tsx",
       "source_location": "L9"
-    },
-    {
-      "id": "src_app_dashboard_ordens_nova_page_novaordempage",
-      "label": "NovaOrdemPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "novaordempage()",
-      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
-      "source_location": "L37"
-    },
-    {
-      "id": "src_app_dashboard_ordens_page_ordenspage",
-      "label": "OrdensPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "ordenspage()",
-      "source_file": "src/app/(dashboard)/ordens/page.tsx",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_components_dashboard_modaldre_modaldre",
-      "label": "ModalDRE()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "modaldre()",
-      "source_file": "src/components/dashboard/ModalDRE.tsx",
-      "source_location": "L15"
     },
     {
       "id": "src_components_modals_modalchapel_modalchapel",
@@ -8379,7 +8427,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "modalchapel()",
       "source_file": "src/components/modals/ModalChapel.tsx",
@@ -8391,7 +8439,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "todatetimelocal()",
       "source_file": "src/components/modals/ModalChapel.tsx",
@@ -8403,35 +8451,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "chapeltab()",
       "source_file": "src/components/tabs/ChapelTab.tsx",
       "source_location": "L24"
-    },
-    {
-      "id": "src_components_tabs_serviceorderstab_serviceorderstab",
-      "label": "ServiceOrdersTab()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "serviceorderstab()",
-      "source_file": "src/components/tabs/ServiceOrdersTab.tsx",
-      "source_location": "L11"
-    },
-    {
-      "id": "src_lib_authfetch_authfetch",
-      "label": "authFetch()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "authfetch()",
-      "source_file": "src/lib/authFetch.ts",
-      "source_location": "L8"
     },
     {
       "id": "src_lib_fiscal_focusnfe_basicauth",
@@ -9406,18 +9430,6 @@
       "source_location": "L73"
     },
     {
-      "id": "src_app_dashboard_auditoria_page_auditoriapage",
-      "label": "AuditoriaPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "code",
-      "norm_label": "auditoriapage()",
-      "source_file": "src/app/(dashboard)/auditoria/page.tsx",
-      "source_location": "L7"
-    },
-    {
       "id": "src_app_dashboard_executivo_page_executivopage",
       "label": "ExecutivoPage()",
       "_callable": true,
@@ -9466,30 +9478,6 @@
       "source_location": "L8"
     },
     {
-      "id": "src_components_tabs_auditlogstab_auditlogstab",
-      "label": "AuditLogsTab()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "code",
-      "norm_label": "auditlogstab()",
-      "source_file": "src/components/tabs/AuditLogsTab.tsx",
-      "source_location": "L22"
-    },
-    {
-      "id": "src_components_tabs_auditlogstab_detailstext",
-      "label": "detailsText()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "code",
-      "norm_label": "detailstext()",
-      "source_file": "src/components/tabs/AuditLogsTab.tsx",
-      "source_location": "L12"
-    },
-    {
       "id": "src_components_tabs_billingtab_billingtab",
       "label": "BillingTab()",
       "_callable": true,
@@ -9499,7 +9487,7 @@
       "file_type": "code",
       "norm_label": "billingtab()",
       "source_file": "src/components/tabs/BillingTab.tsx",
-      "source_location": "L27"
+      "source_location": "L30"
     },
     {
       "id": "src_components_tabs_billingtab_holderlabel",
@@ -9511,7 +9499,7 @@
       "file_type": "code",
       "norm_label": "holderlabel()",
       "source_file": "src/components/tabs/BillingTab.tsx",
-      "source_location": "L21"
+      "source_location": "L24"
     },
     {
       "id": "src_components_tabs_executivetab_executivetab",
@@ -9994,6 +9982,18 @@
       "source_location": "L44"
     },
     {
+      "id": "src_app_dashboard_beneficios_page_beneficiospage",
+      "label": "BeneficiosPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notify.ts",
+      "file_type": "code",
+      "norm_label": "beneficiospage()",
+      "source_file": "src/app/(dashboard)/beneficios/page.tsx",
+      "source_location": "L9"
+    },
+    {
       "id": "src_app_dashboard_contratos_page_contratospage",
       "label": "ContratosPage()",
       "_callable": true,
@@ -10030,6 +10030,18 @@
       "source_location": "L10"
     },
     {
+      "id": "src_app_dashboard_frota_page_frotapage",
+      "label": "FrotaPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notify.ts",
+      "file_type": "code",
+      "norm_label": "frotapage()",
+      "source_file": "src/app/(dashboard)/frota/page.tsx",
+      "source_location": "L9"
+    },
+    {
       "id": "src_app_dashboard_tanatopraxia_page_tanatopraxiapage",
       "label": "TanatopraxiaPage()",
       "_callable": true,
@@ -10042,18 +10054,6 @@
       "source_location": "L9"
     },
     {
-      "id": "src_app_dashboard_titulares_importar_page_importartitularespage",
-      "label": "ImportarTitularesPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "notify.ts",
-      "file_type": "code",
-      "norm_label": "importartitularespage()",
-      "source_file": "src/app/(dashboard)/titulares/importar/page.tsx",
-      "source_location": "L22"
-    },
-    {
       "id": "src_app_dashboard_titulares_page_titularespage",
       "label": "TitularesPage()",
       "_callable": true,
@@ -10064,6 +10064,30 @@
       "norm_label": "titularespage()",
       "source_file": "src/app/(dashboard)/titulares/page.tsx",
       "source_location": "L8"
+    },
+    {
+      "id": "src_components_tabs_benefitstab_benefitstab",
+      "label": "BenefitsTab()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notify.ts",
+      "file_type": "code",
+      "norm_label": "benefitstab()",
+      "source_file": "src/components/tabs/BenefitsTab.tsx",
+      "source_location": "L18"
+    },
+    {
+      "id": "src_components_tabs_fleettab_fleettab",
+      "label": "FleetTab()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notify.ts",
+      "file_type": "code",
+      "norm_label": "fleettab()",
+      "source_file": "src/components/tabs/FleetTab.tsx",
+      "source_location": "L20"
     },
     {
       "id": "src_components_tabs_thanatopraxytab_thanatopraxytab",
@@ -10390,18 +10414,6 @@
       "source_location": "L9"
     },
     {
-      "id": "src_app_dashboard_frota_page_frotapage",
-      "label": "FrotaPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 95,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "frotapage()",
-      "source_file": "src/app/(dashboard)/frota/page.tsx",
-      "source_location": "L9"
-    },
-    {
       "id": "src_app_dashboard_sepultamentos_page_sepultamentospage",
       "label": "SepultamentosPage()",
       "_callable": true,
@@ -10436,18 +10448,6 @@
       "norm_label": "convalescencetab()",
       "source_file": "src/components/tabs/ConvalescenceTab.tsx",
       "source_location": "L32"
-    },
-    {
-      "id": "src_components_tabs_fleettab_fleettab",
-      "label": "FleetTab()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 95,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "fleettab()",
-      "source_file": "src/components/tabs/FleetTab.tsx",
-      "source_location": "L20"
     },
     {
       "id": "src_components_tabs_inventorytab_inventorytab",
@@ -12089,6 +12089,39 @@
       "source_location": "L1"
     },
     {
+      "id": "src_app_dashboard_ordens_nova_page",
+      "label": "nova/page.tsx",
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "nova/page.tsx",
+      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_dashboard_ordens_page",
+      "label": "ordens/page.tsx",
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "ordens/page.tsx",
+      "source_file": "src/app/(dashboard)/ordens/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_dashboard_titulares_importar_page",
+      "label": "importar/page.tsx",
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "notifyError",
+      "file_type": "code",
+      "norm_label": "importar/page.tsx",
+      "source_file": "src/app/(dashboard)/titulares/importar/page.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_app_dashboard_vendedores_page",
       "label": "vendedores/page.tsx",
       "_origin": "ast",
@@ -12155,17 +12188,6 @@
       "source_location": "L12"
     },
     {
-      "id": "src_components_tabs_fiscalsettingssection",
-      "label": "FiscalSettingsSection.tsx",
-      "_origin": "ast",
-      "community": 109,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "fiscalsettingssection.tsx",
-      "source_file": "src/components/tabs/FiscalSettingsSection.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_tabs_sellerstab",
       "label": "SellersTab.tsx",
       "_origin": "ast",
@@ -12177,26 +12199,26 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_tabs_tenantsettingstab",
-      "label": "TenantSettingsTab.tsx",
+      "id": "src_components_tabs_serviceorderstab",
+      "label": "ServiceOrdersTab.tsx",
       "_origin": "ast",
       "community": 109,
       "community_name": "notifyError",
       "file_type": "code",
-      "norm_label": "tenantsettingstab.tsx",
-      "source_file": "src/components/tabs/TenantSettingsTab.tsx",
+      "norm_label": "serviceorderstab.tsx",
+      "source_file": "src/components/tabs/ServiceOrdersTab.tsx",
       "source_location": "L1"
     },
     {
-      "id": "ref_lucide_react",
-      "label": "lucide-react",
+      "id": "src_hooks_usebilling",
+      "label": "useBilling.ts",
       "_origin": "ast",
       "community": 109,
       "community_name": "notifyError",
-      "file_type": "concept",
-      "norm_label": "lucide-react",
-      "source_file": "package.json",
-      "source_location": "L20"
+      "file_type": "code",
+      "norm_label": "usebilling.ts",
+      "source_file": "src/hooks/useBilling.ts",
+      "source_location": "L1"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts",
@@ -14058,6 +14080,17 @@
       "source_location": "L135"
     },
     {
+      "id": "src_components_dashboard_modaldre",
+      "label": "ModalDRE.tsx",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "app/page.tsx",
+      "file_type": "code",
+      "norm_label": "modaldre.tsx",
+      "source_file": "src/components/dashboard/ModalDRE.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_themetoggle",
       "label": "ThemeToggle.tsx",
       "_origin": "ast",
@@ -14102,17 +14135,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_hooks_usebilling",
-      "label": "useBilling.ts",
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "usebilling.ts",
-      "source_file": "src/hooks/useBilling.ts",
-      "source_location": "L1"
-    },
-    {
       "id": "src_lib_formvalidation",
       "label": "formValidation.ts",
       "_origin": "ast",
@@ -14133,6 +14155,17 @@
       "norm_label": "whatsapp.ts",
       "source_file": "src/lib/whatsapp.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "ref_recharts",
+      "label": "recharts",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "app/page.tsx",
+      "file_type": "concept",
+      "norm_label": "recharts",
+      "source_file": "package.json",
+      "source_location": "L26"
     },
     {
       "id": "scripts_qa_audit_full",
@@ -19878,6 +19911,61 @@
       "source_location": ""
     },
     {
+      "id": "src_app_landing_page",
+      "label": "landing/page.tsx",
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "landing/page.tsx",
+      "source_file": "src/app/landing/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_landing_page_addons",
+      "label": "ADDONS",
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "addons",
+      "source_file": "src/app/landing/page.tsx",
+      "source_location": "L42"
+    },
+    {
+      "id": "src_app_landing_page_faq",
+      "label": "FAQ",
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "faq",
+      "source_file": "src/app/landing/page.tsx",
+      "source_location": "L51"
+    },
+    {
+      "id": "src_app_landing_page_modules",
+      "label": "MODULES",
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "modules",
+      "source_file": "src/app/landing/page.tsx",
+      "source_location": "L12"
+    },
+    {
+      "id": "src_app_landing_page_plans",
+      "label": "PLANS",
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "plans",
+      "source_file": "src/app/landing/page.tsx",
+      "source_location": "L24"
+    },
+    {
       "id": "src_app_login_page",
       "label": "login/page.tsx",
       "_origin": "ast",
@@ -19886,6 +19974,28 @@
       "file_type": "code",
       "norm_label": "login/page.tsx",
       "source_file": "src/app/login/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_fiscalsettingssection",
+      "label": "FiscalSettingsSection.tsx",
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "fiscalsettingssection.tsx",
+      "source_file": "src/components/tabs/FiscalSettingsSection.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_tenantsettingstab",
+      "label": "TenantSettingsTab.tsx",
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "authFetch.ts",
+      "file_type": "code",
+      "norm_label": "tenantsettingstab.tsx",
+      "source_file": "src/components/tabs/TenantSettingsTab.tsx",
       "source_location": "L1"
     },
     {
@@ -19953,6 +20063,17 @@
       "norm_label": "supabaseclient.ts",
       "source_file": "src/lib/supabaseClient.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "ref_lucide_react",
+      "label": "lucide-react",
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "authFetch.ts",
+      "file_type": "concept",
+      "norm_label": "lucide-react",
+      "source_file": "package.json",
+      "source_location": "L20"
     },
     {
       "id": "scripts_service_orders_deceased_type_free_migration",
@@ -33889,92 +34010,26 @@
       "source_location": "L92"
     },
     {
-      "id": "src_app_dashboard_beneficios_page",
-      "label": "beneficios/page.tsx",
+      "id": "src_app_dashboard_auditoria_page",
+      "label": "auditoria/page.tsx",
       "_origin": "ast",
       "community": 373,
-      "community_name": "BenefitsTab.tsx",
+      "community_name": "AuditLogsTab.tsx",
       "file_type": "code",
-      "norm_label": "beneficios/page.tsx",
-      "source_file": "src/app/(dashboard)/beneficios/page.tsx",
+      "norm_label": "auditoria/page.tsx",
+      "source_file": "src/app/(dashboard)/auditoria/page.tsx",
       "source_location": "L1"
     },
     {
-      "id": "src_components_tabs_benefitstab",
-      "label": "BenefitsTab.tsx",
+      "id": "src_components_tabs_auditlogstab",
+      "label": "AuditLogsTab.tsx",
       "_origin": "ast",
       "community": 373,
-      "community_name": "BenefitsTab.tsx",
+      "community_name": "AuditLogsTab.tsx",
       "file_type": "code",
-      "norm_label": "benefitstab.tsx",
-      "source_file": "src/components/tabs/BenefitsTab.tsx",
+      "norm_label": "auditlogstab.tsx",
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
       "source_location": "L1"
-    },
-    {
-      "id": "src_components_tabs_benefitstab_empty_form",
-      "label": "EMPTY_FORM",
-      "_origin": "ast",
-      "community": 373,
-      "community_name": "BenefitsTab.tsx",
-      "file_type": "code",
-      "norm_label": "empty_form",
-      "source_file": "src/components/tabs/BenefitsTab.tsx",
-      "source_location": "L11"
-    },
-    {
-      "id": "src_app_landing_page",
-      "label": "landing/page.tsx",
-      "_origin": "ast",
-      "community": 374,
-      "community_name": "landing/page.tsx",
-      "file_type": "code",
-      "norm_label": "landing/page.tsx",
-      "source_file": "src/app/landing/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_landing_page_addons",
-      "label": "ADDONS",
-      "_origin": "ast",
-      "community": 374,
-      "community_name": "landing/page.tsx",
-      "file_type": "code",
-      "norm_label": "addons",
-      "source_file": "src/app/landing/page.tsx",
-      "source_location": "L42"
-    },
-    {
-      "id": "src_app_landing_page_faq",
-      "label": "FAQ",
-      "_origin": "ast",
-      "community": 374,
-      "community_name": "landing/page.tsx",
-      "file_type": "code",
-      "norm_label": "faq",
-      "source_file": "src/app/landing/page.tsx",
-      "source_location": "L51"
-    },
-    {
-      "id": "src_app_landing_page_modules",
-      "label": "MODULES",
-      "_origin": "ast",
-      "community": 374,
-      "community_name": "landing/page.tsx",
-      "file_type": "code",
-      "norm_label": "modules",
-      "source_file": "src/app/landing/page.tsx",
-      "source_location": "L12"
-    },
-    {
-      "id": "src_app_landing_page_plans",
-      "label": "PLANS",
-      "_origin": "ast",
-      "community": 374,
-      "community_name": "landing/page.tsx",
-      "file_type": "code",
-      "norm_label": "plans",
-      "source_file": "src/app/landing/page.tsx",
-      "source_location": "L24"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh",
@@ -34839,43 +34894,10 @@
       "label": "capela/page.tsx",
       "_origin": "ast",
       "community": 47,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "capela/page.tsx",
       "source_file": "src/app/(dashboard)/capela/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_dashboard_ordens_nova_page",
-      "label": "nova/page.tsx",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "nova/page.tsx",
-      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_dashboard_ordens_page",
-      "label": "ordens/page.tsx",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "ordens/page.tsx",
-      "source_file": "src/app/(dashboard)/ordens/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_dashboard_modaldre",
-      "label": "ModalDRE.tsx",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "modaldre.tsx",
-      "source_file": "src/components/dashboard/ModalDRE.tsx",
       "source_location": "L1"
     },
     {
@@ -34883,7 +34905,7 @@
       "label": "ModalChapel.tsx",
       "_origin": "ast",
       "community": 47,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "modalchapel.tsx",
       "source_file": "src/components/modals/ModalChapel.tsx",
@@ -34894,7 +34916,7 @@
       "label": "CHAPEL_ROOMS",
       "_origin": "ast",
       "community": 47,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "chapel_rooms",
       "source_file": "src/components/modals/ModalChapel.tsx",
@@ -34905,7 +34927,7 @@
       "label": "ChapelTab.tsx",
       "_origin": "ast",
       "community": 47,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "chapeltab.tsx",
       "source_file": "src/components/tabs/ChapelTab.tsx",
@@ -34916,7 +34938,7 @@
       "label": "STATUS_COLOR",
       "_origin": "ast",
       "community": 47,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "status_color",
       "source_file": "src/components/tabs/ChapelTab.tsx",
@@ -34927,22 +34949,11 @@
       "label": "STATUS_LABEL",
       "_origin": "ast",
       "community": 47,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "status_label",
       "source_file": "src/components/tabs/ChapelTab.tsx",
       "source_location": "L12"
-    },
-    {
-      "id": "src_components_tabs_serviceorderstab",
-      "label": "ServiceOrdersTab.tsx",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "serviceorderstab.tsx",
-      "source_file": "src/components/tabs/ServiceOrdersTab.tsx",
-      "source_location": "L1"
     },
     {
       "id": "package_devdependencies",
@@ -37825,17 +37836,6 @@
       "source_location": "L11"
     },
     {
-      "id": "src_app_dashboard_auditoria_page",
-      "label": "auditoria/page.tsx",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "code",
-      "norm_label": "auditoria/page.tsx",
-      "source_file": "src/app/(dashboard)/auditoria/page.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_app_dashboard_executivo_page",
       "label": "executivo/page.tsx",
       "_origin": "ast",
@@ -37877,17 +37877,6 @@
       "file_type": "code",
       "norm_label": "logistica/page.tsx",
       "source_file": "src/app/(dashboard)/logistica/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_tabs_auditlogstab",
-      "label": "AuditLogsTab.tsx",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "code",
-      "norm_label": "auditlogstab.tsx",
-      "source_file": "src/components/tabs/AuditLogsTab.tsx",
       "source_location": "L1"
     },
     {
@@ -37944,17 +37933,6 @@
       "norm_label": "domain.ts",
       "source_file": "src/types/domain.ts",
       "source_location": "L1"
-    },
-    {
-      "id": "ref_recharts",
-      "label": "recharts",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "concept",
-      "norm_label": "recharts",
-      "source_file": "package.json",
-      "source_location": "L26"
     },
     {
       "id": "continue_skills_design_system_templates_design_tokens_starter_button_fg",
@@ -39748,6 +39726,17 @@
       "source_location": "L10"
     },
     {
+      "id": "src_app_dashboard_beneficios_page",
+      "label": "beneficios/page.tsx",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notify.ts",
+      "file_type": "code",
+      "norm_label": "beneficios/page.tsx",
+      "source_file": "src/app/(dashboard)/beneficios/page.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_app_dashboard_contratos_page",
       "label": "contratos/page.tsx",
       "_origin": "ast",
@@ -39781,6 +39770,17 @@
       "source_location": "L8"
     },
     {
+      "id": "src_app_dashboard_frota_page",
+      "label": "frota/page.tsx",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notify.ts",
+      "file_type": "code",
+      "norm_label": "frota/page.tsx",
+      "source_file": "src/app/(dashboard)/frota/page.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_app_dashboard_tanatopraxia_page",
       "label": "tanatopraxia/page.tsx",
       "_origin": "ast",
@@ -39789,17 +39789,6 @@
       "file_type": "code",
       "norm_label": "tanatopraxia/page.tsx",
       "source_file": "src/app/(dashboard)/tanatopraxia/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_dashboard_titulares_importar_page",
-      "label": "importar/page.tsx",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "notify.ts",
-      "file_type": "code",
-      "norm_label": "importar/page.tsx",
-      "source_file": "src/app/(dashboard)/titulares/importar/page.tsx",
       "source_location": "L1"
     },
     {
@@ -39812,6 +39801,61 @@
       "norm_label": "titulares/page.tsx",
       "source_file": "src/app/(dashboard)/titulares/page.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_benefitstab",
+      "label": "BenefitsTab.tsx",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notify.ts",
+      "file_type": "code",
+      "norm_label": "benefitstab.tsx",
+      "source_file": "src/components/tabs/BenefitsTab.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_benefitstab_empty_form",
+      "label": "EMPTY_FORM",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notify.ts",
+      "file_type": "code",
+      "norm_label": "empty_form",
+      "source_file": "src/components/tabs/BenefitsTab.tsx",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_components_tabs_fleettab",
+      "label": "FleetTab.tsx",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notify.ts",
+      "file_type": "code",
+      "norm_label": "fleettab.tsx",
+      "source_file": "src/components/tabs/FleetTab.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_fleettab_empty_form",
+      "label": "EMPTY_FORM",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notify.ts",
+      "file_type": "code",
+      "norm_label": "empty_form",
+      "source_file": "src/components/tabs/FleetTab.tsx",
+      "source_location": "L13"
+    },
+    {
+      "id": "src_components_tabs_fleettab_vehicle_types",
+      "label": "VEHICLE_TYPES",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notify.ts",
+      "file_type": "code",
+      "norm_label": "vehicle_types",
+      "source_file": "src/components/tabs/FleetTab.tsx",
+      "source_location": "L11"
     },
     {
       "id": "src_components_tabs_thanatopraxytab",
@@ -39844,6 +39888,17 @@
       "file_type": "code",
       "norm_label": "notify.ts",
       "source_file": "src/lib/notify.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_types_index",
+      "label": "types/index.ts",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "notify.ts",
+      "file_type": "code",
+      "norm_label": "types/index.ts",
+      "source_file": "src/types/index.ts",
       "source_location": "L1"
     },
     {
@@ -41211,17 +41266,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_app_dashboard_frota_page",
-      "label": "frota/page.tsx",
-      "_origin": "ast",
-      "community": 95,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "frota/page.tsx",
-      "source_file": "src/app/(dashboard)/frota/page.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_app_dashboard_sepultamentos_page",
       "label": "sepultamentos/page.tsx",
       "_origin": "ast",
@@ -41288,39 +41332,6 @@
       "source_location": "L25"
     },
     {
-      "id": "src_components_tabs_fleettab",
-      "label": "FleetTab.tsx",
-      "_origin": "ast",
-      "community": 95,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "fleettab.tsx",
-      "source_file": "src/components/tabs/FleetTab.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_tabs_fleettab_empty_form",
-      "label": "EMPTY_FORM",
-      "_origin": "ast",
-      "community": 95,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "empty_form",
-      "source_file": "src/components/tabs/FleetTab.tsx",
-      "source_location": "L13"
-    },
-    {
-      "id": "src_components_tabs_fleettab_vehicle_types",
-      "label": "VEHICLE_TYPES",
-      "_origin": "ast",
-      "community": 95,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "vehicle_types",
-      "source_file": "src/components/tabs/FleetTab.tsx",
-      "source_location": "L11"
-    },
-    {
       "id": "src_components_tabs_inventorytab",
       "label": "InventoryTab.tsx",
       "_origin": "ast",
@@ -41341,17 +41352,6 @@
       "norm_label": "empty_form",
       "source_file": "src/components/tabs/InventoryTab.tsx",
       "source_location": "L11"
-    },
-    {
-      "id": "src_types_index",
-      "label": "types/index.ts",
-      "_origin": "ast",
-      "community": 95,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "types/index.ts",
-      "source_file": "src/types/index.ts",
-      "source_location": "L1"
     },
     {
       "id": "tests_app_page_test",
@@ -51089,7 +51089,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/tabs/BillingTab.tsx",
-      "source_location": "L133",
+      "source_location": "L141",
       "weight": 1.0
     },
     {
@@ -51101,7 +51101,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/tabs/BillingTab.tsx",
-      "source_location": "L229",
+      "source_location": "L264",
       "weight": 1.0
     },
     {
@@ -51113,7 +51113,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/tabs/BillingTab.tsx",
-      "source_location": "L49",
+      "source_location": "L57",
       "weight": 1.0
     },
     {
@@ -51125,7 +51125,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/tabs/BillingTab.tsx",
-      "source_location": "L53",
+      "source_location": "L61",
       "weight": 1.0
     },
     {
@@ -57768,7 +57768,7 @@
     },
     {
       "source": "src_components_tabs_billingtab",
-      "target": "src_lib_authfetch_authfetch",
+      "target": "src_components_dashboard_modaldre_modaldre",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -57780,7 +57780,7 @@
     },
     {
       "source": "src_components_tabs_billingtab",
-      "target": "src_lib_notify_notifyerror",
+      "target": "src_components_modals_modalcarnets_modalcarnets",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -57792,6 +57792,42 @@
     },
     {
       "source": "src_components_tabs_billingtab",
+      "target": "src_components_modals_modalcobrancaavulsa_modalcobrancaavulsa",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/BillingTab.tsx",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_billingtab",
+      "target": "src_lib_authfetch_authfetch",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/BillingTab.tsx",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_billingtab",
+      "target": "src_lib_notify_notifyerror",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/BillingTab.tsx",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_billingtab",
       "target": "src_lib_notify_notifysuccess",
       "relation": "imports",
       "_origin": "ast",
@@ -57799,7 +57835,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/tabs/BillingTab.tsx",
-      "source_location": "L12",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -63727,7 +63763,7 @@
     },
     {
       "source": "src_components_tabs_billingtab",
-      "target": "src_lib_authfetch",
+      "target": "src_components_dashboard_modaldre",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -63739,7 +63775,7 @@
     },
     {
       "source": "src_components_tabs_billingtab",
-      "target": "src_lib_notify",
+      "target": "src_components_modals_modalcarnets",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -63747,6 +63783,42 @@
       "context": "import",
       "source_file": "src/components/tabs/BillingTab.tsx",
       "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_billingtab",
+      "target": "src_components_modals_modalcobrancaavulsa",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/BillingTab.tsx",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_billingtab",
+      "target": "src_lib_authfetch",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/BillingTab.tsx",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_billingtab",
+      "target": "src_lib_notify",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/BillingTab.tsx",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -90512,7 +90584,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/tabs/BillingTab.tsx",
-      "source_location": "L14",
+      "source_location": "L17",
       "weight": 1.0
     },
     {
@@ -90523,7 +90595,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/tabs/BillingTab.tsx",
-      "source_location": "L21",
+      "source_location": "L24",
       "weight": 1.0
     },
     {
@@ -90534,7 +90606,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/tabs/BillingTab.tsx",
-      "source_location": "L27",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -100775,5 +100847,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "827c1455325320e767e21f4f781efbbc9aa5177e"
+  "built_at_commit": "4ac631fa59d2d234c3a0e2d5827638a92c30c299"
 }

@@ -642,8 +642,8 @@
     "semantic_hash": "b9c2cdc4654ca63de532cfe81b3ba512"
   },
   "src/app/(dashboard)/layout.tsx": {
-    "mtime": 1789393749.5025415,
-    "seen": 1789393825.2106144,
+    "mtime": 1789393872.1649804,
+    "seen": 1789395059.0338938,
     "ast_hash": "dfa75649c09f1207dc6303f37176101d",
     "semantic_hash": ""
   },
@@ -2070,9 +2070,9 @@
     "semantic_hash": ""
   },
   "docs/JORNADA-GRAPHIFY-E-REFATORACAO.md": {
-    "mtime": 1789391344.3252566,
-    "seen": 1789391737.8950896,
-    "ast_hash": "de40a9da47240482a08252b962202fe9",
+    "mtime": 1789393940.9857645,
+    "seen": 1789395059.0342476,
+    "ast_hash": "732ab1cf3055b93186597c65d1169c11",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/titulares/importar/page.tsx": {
@@ -2088,9 +2088,9 @@
     "semantic_hash": ""
   },
   "src/types/domain.ts": {
-    "mtime": 1789393438.729897,
-    "seen": 1789393620.6736941,
-    "ast_hash": "4205439e2ac5710b1a74b9e6826691d8",
+    "mtime": 1789394892.2637963,
+    "seen": 1789395059.0341053,
+    "ast_hash": "67708321cae86e4e0dc3fdfd004755c1",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
@@ -2226,51 +2226,63 @@
     "semantic_hash": ""
   },
   "src/app/(dashboard)/financeiro/page.tsx": {
-    "mtime": 1789391662.4598262,
-    "seen": 1789391737.8948276,
+    "mtime": 1789393872.1649804,
+    "seen": 1789395059.033889,
     "ast_hash": "3fca56fd17c0480ee39e3b6fbecdefc7",
     "semantic_hash": ""
   },
   "src/components/tabs/BillingTab.tsx": {
-    "mtime": 1789391881.6175115,
-    "seen": 1789391956.6224291,
+    "mtime": 1789393872.1691139,
+    "seen": 1789395059.0340347,
     "ast_hash": "f400262aeb726509e61600c5e3f51f52",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/livro-caixa/page.tsx": {
-    "mtime": 1789392329.2629862,
-    "seen": 1789392395.9504962,
+    "mtime": 1789393872.1649804,
+    "seen": 1789395059.0338957,
     "ast_hash": "f158d402790ec7001f6a6f08c0ea94de",
     "semantic_hash": ""
   },
   "src/components/tabs/FinancialTab.tsx": {
-    "mtime": 1789392502.6609225,
-    "seen": 1789392533.1956182,
+    "mtime": 1789393872.1691139,
+    "seen": 1789395059.0340445,
     "ast_hash": "3880bcf04f9a1c3d7c10467d1d5233e0",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/contas-a-pagar/page.tsx": {
-    "mtime": 1789393191.9158347,
-    "seen": 1789393344.0619488,
+    "mtime": 1789393872.1649804,
+    "seen": 1789395059.0338748,
     "ast_hash": "42ea66d68ecec88ffbd46ac2156ce564",
     "semantic_hash": ""
   },
   "src/components/tabs/AccountsPayableTab.tsx": {
-    "mtime": 1789393300.9237866,
-    "seen": 1789393344.0620983,
+    "mtime": 1789393872.1649804,
+    "seen": 1789395059.0340295,
     "ast_hash": "2700a7d70786d80099ff8e9572f71cef",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/auditoria/page.tsx": {
-    "mtime": 1789393468.5405753,
-    "seen": 1789393620.6733902,
+    "mtime": 1789393872.1632066,
+    "seen": 1789395059.0338676,
     "ast_hash": "2a1b422a3a80d3a530f8bfd617a96b22",
     "semantic_hash": ""
   },
   "src/components/tabs/AuditLogsTab.tsx": {
-    "mtime": 1789393532.9327571,
-    "seen": 1789393620.673569,
+    "mtime": 1789393872.1691139,
+    "seen": 1789395059.0340312,
     "ast_hash": "1b9f9867531369d68eb261499812dc52",
+    "semantic_hash": ""
+  },
+  "src/app/(dashboard)/executivo/page.tsx": {
+    "mtime": 1789395002.7581441,
+    "seen": 1789395059.033887,
+    "ast_hash": "5e0840bcd9d16d2ed44df231eb28b89d",
+    "semantic_hash": ""
+  },
+  "src/components/tabs/ExecutiveTab.tsx": {
+    "mtime": 1789395000.491691,
+    "seen": 1789395059.0340428,
+    "ast_hash": "9548f1e2908a6e319a5bca37e4ecf45f",
     "semantic_hash": ""
   }
 }

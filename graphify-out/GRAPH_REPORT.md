@@ -1,17 +1,17 @@
 # Graph Report - eternitysos  (2026-09-14)
 
 ## Corpus Check
-- 372 files · ~340,765 words
+- 372 files · ~340,901 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 61 file(s) not represented in the graph (top: .csv 53, .log 3, (none) 2)
 
 ## Summary
-- 3567 nodes · 5202 edges · 375 communities (201 shown, 138 thin omitted)
+- 3567 nodes · 5208 edges · 374 communities (200 shown, 138 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 33 edges (avg confidence: 0.87)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `827c1455`
+- Built from commit: `4ac631fa`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -63,7 +63,7 @@
 - Color Extraction Tools
 - Asset Validation Utility
 - Tailwind Config Generator
-- authFetch
+- ChapelTab.tsx
 - Testing Dev Dependencies
 - Supabase Client Scripts
 - focusnfe.ts
@@ -353,8 +353,7 @@
 - .test_add_components_no_components
 - ring
 - secondary-foreground
-- BenefitsTab.tsx
-- landing/page.tsx
+- AuditLogsTab.tsx
 
 ## God Nodes (most connected - your core abstractions)
 1. `isValidUUID()` - 81 edges
@@ -383,7 +382,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (375 total, 138 thin omitted)
+## Communities (374 total, 138 thin omitted)
 
 ### Community 0 - "validate_data.py"
 Cohesion: 0.07
@@ -418,8 +417,8 @@ Cohesion: 0.08
 Nodes (29): ansi_ljust(), _detect_page_type(), format_ascii_box(), format_markdown(), format_master_md(), format_page_override_md(), generate_design_system(), _generate_intelligent_overrides() (+21 more)
 
 ### Community 8 - "notify.ts"
-Cohesion: 0.13
-Nodes (17): ContratosPage(), isContractActive(), DependentesPage(), VALID_RELATIONS, ImportarTitularesPage(), ImportResult, InvalidRow, TitularesPage() (+9 more)
+Cohesion: 0.09
+Nodes (22): ContratosPage(), isContractActive(), DependentesPage(), VALID_RELATIONS, TitularesPage(), BenefitsTab(), EMPTY_FORM, EMPTY_FORM (+14 more)
 
 ### Community 9 - "spacing"
 Cohesion: 0.09
@@ -443,7 +442,7 @@ Nodes (24): GET, GET, dynamic, GET, POST, dynamic, POST, dynamic (+16 more)
 
 ### Community 14 - "app/page.tsx"
 Cohesion: 0.07
-Nodes (35): Burial, BURIAL_STATUS_STYLE, burialStatusClass(), ChapelBooking, Contract, ConvalescenceItem, Dependent, FinancialTransaction (+27 more)
+Nodes (36): recharts, Burial, BURIAL_STATUS_STYLE, burialStatusClass(), ChapelBooking, Contract, ConvalescenceItem, Dependent (+28 more)
 
 ### Community 15 - "cip/core.py"
 Cohesion: 0.06
@@ -502,8 +501,8 @@ Cohesion: 0.05
 Nodes (43): Arbitrary Values, Aspect Ratio, Background Colors, Border Color, Border Radius, Border Style, Border Width, Borders (+35 more)
 
 ### Community 29 - "authFetch.ts"
-Cohesion: 0.23
-Nodes (4): Tenant, TenantContext, TenantContextType, supabase
+Cohesion: 0.11
+Nodes (14): lucide-react, ADDONS, FAQ, MODULES, PLANS, FiscalConfigData, FiscalSettingsSection(), Tenant (+6 more)
 
 ### Community 30 - "logo/core.py"
 Cohesion: 0.10
@@ -569,9 +568,9 @@ Nodes (13): checkManifest(), formatBytes(), formatOutput(), fs, main(), parseFil
 Cohesion: 0.16
 Nodes (10): main(), Tailwind CSS Configuration Generator Generate tailwind.config.js/ts with custom…, Tests for tailwind_config_gen.py, Reduce a generated TS/JS config to a bare assignable object so it can be handed…, Regression guard for the missing-comma bug between the ``theme`` block and…, The property preceding ``plugins`` must end with a comma (pure-Python check, so…, The emitted config parses as valid JS via ``node --check``., _strip_to_object() (+2 more)
 
-### Community 47 - "authFetch"
-Cohesion: 0.11
-Nodes (17): FormHoldersQuick, FormInventoryItem, FormVehicle, NovaOrdemPage(), OrdemItem, FinancialSummary, ModalDRE(), CHAPEL_ROOMS (+9 more)
+### Community 47 - "ChapelTab.tsx"
+Cohesion: 0.24
+Nodes (7): CHAPEL_ROOMS, ModalChapel(), toDatetimeLocal(), ChapelTab(), STATUS_COLOR, STATUS_LABEL, ChapelBooking
 
 ### Community 48 - "Testing Dev Dependencies"
 Cohesion: 0.14
@@ -650,8 +649,8 @@ Cohesion: 0.40
 Nodes (9): flattenTokens(), fs, generateCSS(), generateTailwind(), main(), parseArgs(), path, resolveReference() (+1 more)
 
 ### Community 67 - "domain.ts"
-Cohesion: 0.07
-Nodes (27): recharts, AuditLogsTab(), detailsText(), BillingTab(), CollectorRow, holderLabel(), ExecutiveTab(), fmtBRL() (+19 more)
+Cohesion: 0.09
+Nodes (23): BillingTab(), CollectorRow, holderLabel(), ExecutiveTab(), fmtBRL(), FinancialTab(), fmtBRL(), ReservePayload (+15 more)
 
 ### Community 68 - "button"
 Cohesion: 0.20
@@ -758,8 +757,8 @@ Cohesion: 0.33
 Nodes (3): admin, anon, env
 
 ### Community 95 - "react"
-Cohesion: 0.09
-Nodes (18): react, BurialsTab(), EMPTY_FORM, CatalogItem, ConvalescenceTab(), DEFAULT_ITEMS, EMPTY_FORM, EMPTY_FORM (+10 more)
+Cohesion: 0.11
+Nodes (13): react, BurialsTab(), EMPTY_FORM, CatalogItem, ConvalescenceTab(), DEFAULT_ITEMS, EMPTY_FORM, EMPTY_FORM (+5 more)
 
 ### Community 96 - "leads/route.ts"
 Cohesion: 0.39
@@ -802,8 +801,8 @@ Cohesion: 0.04
 Nodes (47): 10. Próximos passos, 11. Comandos de referência rápida, 12. Links úteis, 1. Contexto e motivação, 2. Graphify — instalação e configuração, 3. Repowise — camada adicional de inteligência, 4. Plano de refatoração — 6 fases, 5. Blast radius medido pelo Graphify (+39 more)
 
 ### Community 109 - "notifyError"
-Cohesion: 0.12
-Nodes (20): lucide-react, ModalRBAC(), UserRole, ModalWebhookRetry(), Props, WebhookEvent, ModalCobrancaAvulsa(), AccountsPayableTab() (+12 more)
+Cohesion: 0.09
+Nodes (27): FormHoldersQuick, FormInventoryItem, FormVehicle, NovaOrdemPage(), OrdemItem, ImportarTitularesPage(), ImportResult, InvalidRow (+19 more)
 
 ### Community 110 - "input"
 Cohesion: 0.29
@@ -1181,13 +1180,9 @@ Nodes (3): ring, $type, $value
 Cohesion: 0.67
 Nodes (3): secondary-foreground, $type, $value
 
-### Community 373 - "BenefitsTab.tsx"
-Cohesion: 0.40
-Nodes (3): BenefitsTab(), EMPTY_FORM, Partner
-
-### Community 374 - "landing/page.tsx"
-Cohesion: 0.33
-Nodes (4): ADDONS, FAQ, MODULES, PLANS
+### Community 373 - "AuditLogsTab.tsx"
+Cohesion: 0.47
+Nodes (3): AuditLogsTab(), detailsText(), AuditLog
 
 ## Knowledge Gaps
 - **1414 isolated node(s):** `fs`, `path`, `fs`, `path`, `fs` (+1409 more)
@@ -1201,7 +1196,7 @@ _Questions this graph is uniquely positioned to answer:_
   _High betweenness centrality (0.012) - this node is a cross-community bridge._
 - **Why does `search()` connect `search` to `validate_data.py`, `BM25`, `design_system.py`, `Search Domain Detection`, `.generate`, `Public Identity Resolver`, `_normalize`, `scripts/core.py`, `scripts/search.py`, `Text Layout Resilience Tests`?**
   _High betweenness centrality (0.007) - this node is a cross-community bridge._
-- **Why does `react` connect `react` to `domain.ts`, `FiscalTab.tsx`, `notify.ts`, `ModalCarnets.tsx`, `CrmTab.tsx`, `notifyError`, `app/page.tsx`, `authFetch`, `PlansTab.tsx`, `BenefitsTab.tsx`, `package.json`, `landing/page.tsx`, `app/layout.tsx`, `authFetch.ts`?**
+- **Why does `react` connect `react` to `domain.ts`, `FiscalTab.tsx`, `notify.ts`, `ModalCarnets.tsx`, `CrmTab.tsx`, `notifyError`, `app/page.tsx`, `ChapelTab.tsx`, `PlansTab.tsx`, `AuditLogsTab.tsx`, `package.json`, `app/layout.tsx`, `authFetch.ts`?**
   _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **What connects `fs`, `path`, `fs` to the rest of the system?**
   _1414 weakly-connected nodes found - possible documentation gaps or missing edges._
