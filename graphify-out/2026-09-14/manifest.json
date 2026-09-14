@@ -2088,9 +2088,9 @@
     "semantic_hash": ""
   },
   "src/types/domain.ts": {
-    "mtime": 1789391613.5379536,
-    "seen": 1789391737.8949854,
-    "ast_hash": "ffd955fdf6dcb6079aa6af9315a697a3",
+    "mtime": 1789392235.8898654,
+    "seen": 1789392395.9514675,
+    "ast_hash": "262d4ac4fb4e663c9c35de9f03e217c7",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
@@ -2235,6 +2235,18 @@
     "mtime": 1789391881.6175115,
     "seen": 1789391956.6224291,
     "ast_hash": "f400262aeb726509e61600c5e3f51f52",
+    "semantic_hash": ""
+  },
+  "src/app/(dashboard)/livro-caixa/page.tsx": {
+    "mtime": 1789392329.2629862,
+    "seen": 1789392395.9504962,
+    "ast_hash": "f158d402790ec7001f6a6f08c0ea94de",
+    "semantic_hash": ""
+  },
+  "src/components/tabs/FinancialTab.tsx": {
+    "mtime": 1789392323.0637963,
+    "seen": 1789392395.9511526,
+    "ast_hash": "9f7a58dc4dc25a2e97eb5db57d8f1cf1",
     "semantic_hash": ""
   }
 }
