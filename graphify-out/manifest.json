@@ -1272,8 +1272,8 @@
     "semantic_hash": "a95d9f453e5182b23ffc010c640d010f"
   },
   "src/types/index.ts": {
-    "mtime": 1789348427.634763,
-    "seen": 1789348734.1514654,
+    "mtime": 1789348781.5096004,
+    "seen": 1789349499.0978734,
     "ast_hash": "ec44cacdc4aa3b57025a143f1fe41dbb",
     "semantic_hash": ""
   },
@@ -1968,9 +1968,9 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1789333355.9397612,
-    "seen": 1789348734.1515934,
-    "ast_hash": "2babea36d3df3f5c6c8b487a10de739f",
+    "mtime": 1789349341.1161966,
+    "seen": 1789349499.0980015,
+    "ast_hash": "02f5331478f0f0bb61c353b9be40b099",
     "semantic_hash": ""
   },
   "CLAUDE.md": {
@@ -2052,45 +2052,51 @@
     "semantic_hash": ""
   },
   "src/app/(dashboard)/dependentes/page.tsx": {
-    "mtime": 1789348460.8885906,
-    "seen": 1789348734.1512759,
+    "mtime": 1789348781.5065293,
+    "seen": 1789349499.0976853,
     "ast_hash": "8e5ebdd787c11dcc40e829b468bde21d",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/titulares/page.tsx": {
-    "mtime": 1789348456.1391225,
-    "seen": 1789348734.151291,
+    "mtime": 1789348781.5096004,
+    "seen": 1789349499.0976925,
     "ast_hash": "78b3ae4df8e6481aa2b80126895ff49c",
     "semantic_hash": ""
   },
   "tests/app/page.test.tsx": {
-    "mtime": 1789332163.7170107,
-    "seen": 1789332309.3975914,
+    "mtime": 1789348781.5096004,
+    "seen": 1789349499.0978768,
     "ast_hash": "cd7b36cf595d9b7cf0e8e1e9a1983da1",
     "semantic_hash": ""
   },
   "docs/JORNADA-GRAPHIFY-E-REFATORACAO.md": {
-    "mtime": 1789330297.1546211,
-    "seen": 1789332309.3977215,
+    "mtime": 1789348781.4610028,
+    "seen": 1789349499.0980136,
     "ast_hash": "a013ffb781298e52d55ff845e20cc4e3",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/titulares/importar/page.tsx": {
-    "mtime": 1789332635.9321966,
-    "seen": 1789332717.1211011,
+    "mtime": 1789348781.5096004,
+    "seen": 1789349499.0976906,
     "ast_hash": "04ee6707dafea62a148984dd8fd9256e",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/contratos/page.tsx": {
-    "mtime": 1789348458.5716352,
-    "seen": 1789348734.151273,
+    "mtime": 1789348781.5065293,
+    "seen": 1789349499.09768,
     "ast_hash": "6b0bebdb4bfd49d4c6f6c7c738a01a46",
     "semantic_hash": ""
   },
   "src/types/domain.ts": {
-    "mtime": 1789348425.194896,
-    "seen": 1789348734.1514642,
+    "mtime": 1789348781.5096004,
+    "seen": 1789349499.0978718,
     "ast_hash": "5fd1b83ad0f7b66c91cbf2f3be64776e",
+    "semantic_hash": ""
+  },
+  "src/app/(dashboard)/crm/page.tsx": {
+    "mtime": 1789349116.1274126,
+    "seen": 1789349499.0976827,
+    "ast_hash": "5b11e8407d41ed6f4d6997a670c45b4a",
     "semantic_hash": ""
   }
 }
