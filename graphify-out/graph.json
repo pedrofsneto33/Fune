@@ -134,6 +134,19 @@
       "source_location": "L37"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating",
+      "label": "TestAntiPatternGating",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 106,
+      "community_name": ".generate",
+      "file_type": "code",
+      "norm_label": "testantipatterngating",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L120"
+    },
+    {
       "id": "src_components_tabs_crmtab_histnoterow",
       "label": "histNoteRow",
       "_callable": true,
@@ -186,56 +199,30 @@
       "source_location": "L8"
     },
     {
-      "id": "src_app_dashboard_ordens_nova_page_formholdersquick",
-      "label": "FormHoldersQuick",
+      "id": "src_components_dashboard_modalwebhookretry_props",
+      "label": "Props",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 109,
       "community_name": "notifySuccess",
       "file_type": "code",
-      "norm_label": "formholdersquick",
-      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
-      "source_location": "L11"
+      "norm_label": "props",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
+      "source_location": "L23"
     },
     {
-      "id": "src_app_dashboard_ordens_nova_page_forminventoryitem",
-      "label": "FormInventoryItem",
+      "id": "src_components_dashboard_modalwebhookretry_webhookevent",
+      "label": "WebhookEvent",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 109,
       "community_name": "notifySuccess",
       "file_type": "code",
-      "norm_label": "forminventoryitem",
-      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
-      "source_location": "L25"
-    },
-    {
-      "id": "src_app_dashboard_ordens_nova_page_formvehicle",
-      "label": "FormVehicle",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 109,
-      "community_name": "notifySuccess",
-      "file_type": "code",
-      "norm_label": "formvehicle",
-      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
-      "source_location": "L18"
-    },
-    {
-      "id": "src_app_dashboard_ordens_nova_page_ordemitem",
-      "label": "OrdemItem",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 109,
-      "community_name": "notifySuccess",
-      "file_type": "code",
-      "norm_label": "ordemitem",
-      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
-      "source_location": "L31"
+      "norm_label": "webhookevent",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
+      "source_location": "L8"
     },
     {
       "id": "src_components_tabs_fiscalsettingssection_fiscalconfigdata",
@@ -355,6 +342,32 @@
       "source_location": "L41"
     },
     {
+      "id": "src_components_tabs_convalescencetab_catalogitem",
+      "label": "CatalogItem",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 114,
+      "community_name": "ConvalescenceTab.tsx",
+      "file_type": "code",
+      "norm_label": "catalogitem",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_types_domain_convalescenceitem",
+      "label": "ConvalescenceItem",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 114,
+      "community_name": "ConvalescenceTab.tsx",
+      "file_type": "code",
+      "norm_label": "convalescenceitem",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L128"
+    },
+    {
       "id": "src_lib_eligibility_eligibilityresult",
       "label": "EligibilityResult",
       "_callable": true,
@@ -366,6 +379,19 @@
       "norm_label": "eligibilityresult",
       "source_file": "src/lib/eligibility.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testpersistence",
+      "label": "TestPersistence",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "generate_design_system",
+      "file_type": "code",
+      "norm_label": "testpersistence",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L252"
     },
     {
       "id": "src_app_page_burial",
@@ -615,19 +641,6 @@
       "source_location": "L42"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior",
-      "label": "TestBm25CoreBehavior",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "cip/core.py",
-      "file_type": "code",
-      "norm_label": "testbm25corebehavior",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L65"
-    },
-    {
       "id": "continue_skills_design_system_scripts_slide_search_core_bm25",
       "label": "BM25",
       "_callable": true,
@@ -665,19 +678,6 @@
       "norm_label": "validationresult",
       "source_file": ".continue/skills/design-system/scripts/html-token-validator.py",
       "source_location": "L62"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdiagnosticscontracts",
-      "label": "TestDiagnosticsContracts",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 20,
-      "community_name": "search",
-      "file_type": "code",
-      "norm_label": "testdiagnosticscontracts",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L326"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains",
@@ -732,6 +732,19 @@
       "source_location": "L313"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence",
+      "label": "TestEndToEndCoherence",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": "testendtoendcoherence",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L138"
+    },
+    {
       "id": "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator",
       "label": "TailwindConfigGenerator",
       "_callable": true,
@@ -745,82 +758,17 @@
       "source_location": "L22"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating",
-      "label": "TestAntiPatternGating",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": "testantipatterngating",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L120"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testmoderesolution",
       "label": "TestModeResolution",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 26,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_style_is_dark_primary",
       "file_type": "code",
       "norm_label": "testmoderesolution",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
       "source_location": "L74"
-    },
-    {
-      "id": "src_components_dashboard_modaldre_financialsummary",
-      "label": "FinancialSummary",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "financialsummary",
-      "source_file": "src/components/dashboard/ModalDRE.tsx",
-      "source_location": "L7"
-    },
-    {
-      "id": "src_components_dashboard_modalwebhookretry_props",
-      "label": "Props",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "props",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
-      "source_location": "L23"
-    },
-    {
-      "id": "src_components_dashboard_modalwebhookretry_webhookevent",
-      "label": "WebhookEvent",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "webhookevent",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_components_tabs_financialtab_reservepayload",
-      "label": "ReservePayload",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "reservepayload",
-      "source_file": "src/components/tabs/FinancialTab.tsx",
-      "source_location": "L14"
     },
     {
       "id": "src_types_domain_chapelbooking",
@@ -829,50 +777,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 29,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "chapelbooking",
       "source_file": "src/types/domain.ts",
       "source_location": "L81"
-    },
-    {
-      "id": "src_types_domain_financialsummary",
-      "label": "FinancialSummary",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "financialsummary",
-      "source_file": "src/types/domain.ts",
-      "source_location": "L239"
-    },
-    {
-      "id": "src_types_domain_financialtransaction",
-      "label": "FinancialTransaction",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "financialtransaction",
-      "source_file": "src/types/domain.ts",
-      "source_location": "L228"
-    },
-    {
-      "id": "src_types_domain_regulatoryreserve",
-      "label": "RegulatoryReserve",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "regulatoryreserve",
-      "source_file": "src/types/domain.ts",
-      "source_location": "L249"
     },
     {
       "id": "continue_skills_design_scripts_logo_core_bm25",
@@ -951,6 +860,32 @@
       "norm_label": "bm25",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
       "source_location": "L282"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior",
+      "label": "TestBm25CoreBehavior",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 35,
+      "community_name": "BM25",
+      "file_type": "code",
+      "norm_label": "testbm25corebehavior",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L65"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdiagnosticscontracts",
+      "label": "TestDiagnosticsContracts",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 35,
+      "community_name": "BM25",
+      "file_type": "code",
+      "norm_label": "testdiagnosticscontracts",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L326"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer",
@@ -1057,6 +992,19 @@
       "source_location": "L77"
     },
     {
+      "id": "src_types_domain_accountpayable",
+      "label": "AccountPayable",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 373,
+      "community_name": "AccountsPayableTab.tsx",
+      "file_type": "code",
+      "norm_label": "accountpayable",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L264"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest",
       "label": "CatalogRefreshTest",
       "_callable": true,
@@ -1122,30 +1070,95 @@
       "source_location": "L356"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence",
-      "label": "TestEndToEndCoherence",
+      "id": "src_app_dashboard_ordens_nova_page_formholdersquick",
+      "label": "FormHoldersQuick",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "_palette_is_dark",
+      "community_name": "authFetch",
       "file_type": "code",
-      "norm_label": "testendtoendcoherence",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L138"
+      "norm_label": "formholdersquick",
+      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
+      "source_location": "L11"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance",
-      "label": "TestLuminance",
+      "id": "src_app_dashboard_ordens_nova_page_forminventoryitem",
+      "label": "FormInventoryItem",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "_palette_is_dark",
+      "community_name": "authFetch",
       "file_type": "code",
-      "norm_label": "testluminance",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L54"
+      "norm_label": "forminventoryitem",
+      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
+      "source_location": "L25"
+    },
+    {
+      "id": "src_app_dashboard_ordens_nova_page_formvehicle",
+      "label": "FormVehicle",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 47,
+      "community_name": "authFetch",
+      "file_type": "code",
+      "norm_label": "formvehicle",
+      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
+      "source_location": "L18"
+    },
+    {
+      "id": "src_app_dashboard_ordens_nova_page_ordemitem",
+      "label": "OrdemItem",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 47,
+      "community_name": "authFetch",
+      "file_type": "code",
+      "norm_label": "ordemitem",
+      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
+      "source_location": "L31"
+    },
+    {
+      "id": "src_components_dashboard_modaldre_financialsummary",
+      "label": "FinancialSummary",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 47,
+      "community_name": "authFetch",
+      "file_type": "code",
+      "norm_label": "financialsummary",
+      "source_file": "src/components/dashboard/ModalDRE.tsx",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_types_domain_auditlog",
+      "label": "AuditLog",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 47,
+      "community_name": "authFetch",
+      "file_type": "code",
+      "norm_label": "auditlog",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L277"
+    },
+    {
+      "id": "src_types_domain_serviceorder",
+      "label": "ServiceOrder",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 47,
+      "community_name": "authFetch",
+      "file_type": "code",
+      "norm_label": "serviceorder",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L109"
     },
     {
       "id": "src_lib_fiscal_focusnfe_focusnfepayload",
@@ -1239,13 +1252,26 @@
       "source_location": "L18"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance",
+      "label": "TestLuminance",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "code",
+      "norm_label": "testluminance",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L54"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection",
       "label": "TestPaletteSelection",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 51,
-      "community_name": "_select_palette_for_mode",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": "testpaletteselection",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -1343,17 +1369,17 @@
       "source_location": "L14"
     },
     {
-      "id": "src_types_domain_accountpayable",
-      "label": "AccountPayable",
+      "id": "src_components_tabs_financialtab_reservepayload",
+      "label": "ReservePayload",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 67,
       "community_name": "domain.ts",
       "file_type": "code",
-      "norm_label": "accountpayable",
-      "source_file": "src/types/domain.ts",
-      "source_location": "L264"
+      "norm_label": "reservepayload",
+      "source_file": "src/components/tabs/FinancialTab.tsx",
+      "source_location": "L14"
     },
     {
       "id": "src_types_domain_billingresult",
@@ -1408,19 +1434,6 @@
       "source_location": "L167"
     },
     {
-      "id": "src_types_domain_convalescenceitem",
-      "label": "ConvalescenceItem",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "code",
-      "norm_label": "convalescenceitem",
-      "source_file": "src/types/domain.ts",
-      "source_location": "L128"
-    },
-    {
       "id": "src_types_domain_dispatch",
       "label": "Dispatch",
       "_callable": true,
@@ -1447,6 +1460,45 @@
       "source_location": "L155"
     },
     {
+      "id": "src_types_domain_financialsummary",
+      "label": "FinancialSummary",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "domain.ts",
+      "file_type": "code",
+      "norm_label": "financialsummary",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L239"
+    },
+    {
+      "id": "src_types_domain_financialtransaction",
+      "label": "FinancialTransaction",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "domain.ts",
+      "file_type": "code",
+      "norm_label": "financialtransaction",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L228"
+    },
+    {
+      "id": "src_types_domain_inventoryitem",
+      "label": "InventoryItem",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "domain.ts",
+      "file_type": "code",
+      "norm_label": "inventoryitem",
+      "source_file": "src/types/domain.ts",
+      "source_location": "L62"
+    },
+    {
       "id": "src_types_domain_payment",
       "label": "Payment",
       "_callable": true,
@@ -1460,17 +1512,17 @@
       "source_location": "L180"
     },
     {
-      "id": "src_types_domain_serviceorder",
-      "label": "ServiceOrder",
+      "id": "src_types_domain_regulatoryreserve",
+      "label": "RegulatoryReserve",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 67,
       "community_name": "domain.ts",
       "file_type": "code",
-      "norm_label": "serviceorder",
+      "norm_label": "regulatoryreserve",
       "source_file": "src/types/domain.ts",
-      "source_location": "L109"
+      "source_location": "L249"
     },
     {
       "id": "src_types_domain_serviceorderitem",
@@ -1484,19 +1536,6 @@
       "norm_label": "serviceorderitem",
       "source_file": "src/types/domain.ts",
       "source_location": "L102"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testpersistence",
-      "label": "TestPersistence",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "design_system.py",
-      "file_type": "code",
-      "norm_label": "testpersistence",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L252"
     },
     {
       "id": "src_components_modals_modalcarnets_carnetrow",
@@ -1629,19 +1668,6 @@
       "source_location": "L22"
     },
     {
-      "id": "src_types_domain_inventoryitem",
-      "label": "InventoryItem",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "inventoryitem",
-      "source_file": "src/types/domain.ts",
-      "source_location": "L62"
-    },
-    {
       "id": "src_types_domain_partner",
       "label": "Partner",
       "_callable": true,
@@ -1718,19 +1744,6 @@
       "norm_label": "plan",
       "source_file": "src/components/tabs/PlansTab.tsx",
       "source_location": "L8"
-    },
-    {
-      "id": "src_components_tabs_convalescencetab_catalogitem",
-      "label": "CatalogItem",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 95,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "catalogitem",
-      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
-      "source_location": "L11"
     },
     {
       "id": "src_types_domain_burial",
@@ -2563,6 +2576,18 @@
       "source_location": "L54"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_exact_stack_identifier",
+      "label": "_exact_stack_identifier()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "search_stack",
+      "file_type": "code",
+      "norm_label": "_exact_stack_identifier()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
+      "source_location": "L925"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_search_stack",
       "label": "search_stack()",
       "_callable": true,
@@ -2573,6 +2598,18 @@
       "norm_label": "search_stack()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
       "source_location": "L951"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_valid_max_results",
+      "label": "_valid_max_results()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "search_stack",
+      "file_type": "code",
+      "norm_label": "_valid_max_results()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
+      "source_location": "L717"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains_test_every_stack_file_exists_and_is_searchable",
@@ -2935,76 +2972,112 @@
       "source_location": "L20"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_exact_match_diagnostic",
-      "label": "_exact_match_diagnostic()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_extract_results",
+      "label": "._extract_results()",
       "_callable": true,
       "_origin": "ast",
       "community": 106,
-      "community_name": "_normalize",
+      "community_name": ".generate",
       "file_type": "code",
-      "norm_label": "_exact_match_diagnostic()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L721"
+      "norm_label": "._extract_results()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L445"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_legacy_successor_guidance",
-      "label": "_legacy_successor_guidance()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_generate",
+      "label": ".generate()",
       "_callable": true,
       "_origin": "ast",
       "community": 106,
-      "community_name": "_normalize",
+      "community_name": ".generate",
       "file_type": "code",
-      "norm_label": "_legacy_successor_guidance()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L938"
+      "norm_label": ".generate()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L449"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_normalize",
-      "label": "_normalize()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_multi_domain_search",
+      "label": "._multi_domain_search()",
       "_callable": true,
       "_origin": "ast",
       "community": 106,
-      "community_name": "_normalize",
+      "community_name": ".generate",
       "file_type": "code",
-      "norm_label": "_normalize()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L273"
+      "norm_label": "._multi_domain_search()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L319"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_stack_query_requests_legacy",
-      "label": "_stack_query_requests_legacy()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_filter_anti_patterns_for_mode",
+      "label": "_filter_anti_patterns_for_mode()",
       "_callable": true,
       "_origin": "ast",
       "community": 106,
-      "community_name": "_normalize",
+      "community_name": ".generate",
       "file_type": "code",
-      "norm_label": "_stack_query_requests_legacy()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L848"
+      "norm_label": "_filter_anti_patterns_for_mode()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L246"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_stack_row_filter",
-      "label": "_stack_row_filter()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_resolve_dial",
+      "label": "_resolve_dial()",
       "_callable": true,
       "_origin": "ast",
       "community": 106,
-      "community_name": "_normalize",
+      "community_name": ".generate",
       "file_type": "code",
-      "norm_label": "_stack_row_filter()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L888"
+      "norm_label": "_resolve_dial()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L90"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_stack_row_filter_matches_base",
-      "label": "matches_base()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_dark_clause_dropped_others_kept",
+      "label": ".test_dark_clause_dropped_others_kept()",
       "_callable": true,
       "_origin": "ast",
       "community": 106,
-      "community_name": "_normalize",
+      "community_name": ".generate",
       "file_type": "code",
-      "norm_label": "matches_base()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L917"
+      "norm_label": ".test_dark_clause_dropped_others_kept()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L121"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_empty_input",
+      "label": ".test_empty_input()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 106,
+      "community_name": ".generate",
+      "file_type": "code",
+      "norm_label": ".test_empty_input()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L134"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_light_mode_is_a_no_op",
+      "label": ".test_light_mode_is_a_no_op()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 106,
+      "community_name": ".generate",
+      "file_type": "code",
+      "norm_label": ".test_light_mode_is_a_no_op()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L126"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_unrelated_anti_patterns_survive_dark_mode",
+      "label": ".test_unrelated_anti_patterns_survive_dark_mode()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 106,
+      "community_name": ".generate",
+      "file_type": "code",
+      "norm_label": ".test_unrelated_anti_patterns_survive_dark_mode()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L130"
     },
     {
       "id": "src_app_dashboard_crm_page_crmpage",
@@ -3091,18 +3164,6 @@
       "source_location": "L63"
     },
     {
-      "id": "src_app_dashboard_ordens_nova_page_novaordempage",
-      "label": "NovaOrdemPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 109,
-      "community_name": "notifySuccess",
-      "file_type": "code",
-      "norm_label": "novaordempage()",
-      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
-      "source_location": "L37"
-    },
-    {
       "id": "src_app_dashboard_vendedores_page_vendedorespage",
       "label": "VendedoresPage()",
       "_callable": true,
@@ -3127,28 +3188,40 @@
       "source_location": "L7"
     },
     {
-      "id": "src_components_authguard_authguard",
-      "label": "AuthGuard()",
+      "id": "src_components_dashboard_modalwebhookretry_filterbtn",
+      "label": "FilterBtn()",
       "_callable": true,
       "_origin": "ast",
       "community": 109,
       "community_name": "notifySuccess",
       "file_type": "code",
-      "norm_label": "authguard()",
-      "source_file": "src/components/AuthGuard.tsx",
-      "source_location": "L13"
+      "norm_label": "filterbtn()",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
+      "source_location": "L52"
     },
     {
-      "id": "src_components_authguard_ispublicroute",
-      "label": "isPublicRoute()",
+      "id": "src_components_dashboard_modalwebhookretry_modalwebhookretry",
+      "label": "ModalWebhookRetry()",
       "_callable": true,
       "_origin": "ast",
       "community": 109,
       "community_name": "notifySuccess",
       "file_type": "code",
-      "norm_label": "ispublicroute()",
-      "source_file": "src/components/AuthGuard.tsx",
-      "source_location": "L10"
+      "norm_label": "modalwebhookretry()",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
+      "source_location": "L63"
+    },
+    {
+      "id": "src_components_dashboard_modalwebhookretry_statusbadge",
+      "label": "StatusBadge()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "notifySuccess",
+      "file_type": "code",
+      "norm_label": "statusbadge()",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
+      "source_location": "L30"
     },
     {
       "id": "src_components_modals_modalcobrancaavulsa_modalcobrancaavulsa",
@@ -3427,16 +3500,28 @@
       "source_location": "L209"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_decision_rules_use_closed_array_grammar",
-      "label": ".test_decision_rules_use_closed_array_grammar()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_constraints_reach_domain_queries",
+      "label": ".test_constraints_reach_domain_queries()",
       "_callable": true,
       "_origin": "ast",
       "community": 11,
       "community_name": "test_data_contracts.py",
       "file_type": "code",
-      "norm_label": ".test_decision_rules_use_closed_array_grammar()",
+      "norm_label": ".test_constraints_reach_domain_queries()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L101"
+      "source_location": "L187"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_constraints_reach_domain_queries_capture",
+      "label": "capture()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": "capture()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L191"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_duplicate_semantic_reasoning_labels_fail_validation",
@@ -3569,6 +3654,30 @@
       "norm_label": ".test_ids_aliases_status_and_parents_are_unambiguous()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
       "source_location": "L45"
+    },
+    {
+      "id": "src_app_dashboard_convalescencia_page_convalescenciapage",
+      "label": "ConvalescenciaPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 114,
+      "community_name": "ConvalescenceTab.tsx",
+      "file_type": "code",
+      "norm_label": "convalescenciapage()",
+      "source_file": "src/app/(dashboard)/convalescencia/page.tsx",
+      "source_location": "L9"
+    },
+    {
+      "id": "src_components_tabs_convalescencetab_convalescencetab",
+      "label": "ConvalescenceTab()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 114,
+      "community_name": "ConvalescenceTab.tsx",
+      "file_type": "code",
+      "norm_label": "convalescencetab()",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L32"
     },
     {
       "id": "scripts_create_tables_createtables",
@@ -3715,16 +3824,64 @@
       "source_location": "L27"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_generate_design_system",
+      "label": "generate_design_system()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "generate_design_system",
+      "file_type": "code",
+      "norm_label": "generate_design_system()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L919"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_search_format_output",
       "label": "format_output()",
       "_callable": true,
       "_origin": "ast",
       "community": 126,
-      "community_name": "scripts/search.py",
+      "community_name": "generate_design_system",
       "file_type": "code",
       "norm_label": "format_output()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/search.py",
       "source_location": "L44"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testpersistence_test_concurrent_non_force_persist_has_one_writer",
+      "label": ".test_concurrent_non_force_persist_has_one_writer()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "generate_design_system",
+      "file_type": "code",
+      "norm_label": ".test_concurrent_non_force_persist_has_one_writer()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L253"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testpersistence_test_persist_then_skip_then_force",
+      "label": ".test_persist_then_skip_then_force()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "generate_design_system",
+      "file_type": "code",
+      "norm_label": ".test_persist_then_skip_then_force()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L271"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testpersistence_test_persist_writes_only_under_output_dir",
+      "label": ".test_persist_writes_only_under_output_dir()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "generate_design_system",
+      "file_type": "code",
+      "norm_label": ".test_persist_writes_only_under_output_dir()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L306"
     },
     {
       "id": "src_app_api_init_user_route_post",
@@ -4337,54 +4494,6 @@
       "norm_label": "main()",
       "source_file": ".continue/skills/design/scripts/cip/search.py",
       "source_location": "L65"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_bm25_cache_rebuilds_after_file_mtime_changes",
-      "label": ".test_bm25_cache_rebuilds_after_file_mtime_changes()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "cip/core.py",
-      "file_type": "code",
-      "norm_label": ".test_bm25_cache_rebuilds_after_file_mtime_changes()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L72"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_empty_documents_produce_no_scores_or_vocab",
-      "label": ".test_empty_documents_produce_no_scores_or_vocab()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "cip/core.py",
-      "file_type": "code",
-      "norm_label": ".test_empty_documents_produce_no_scores_or_vocab()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L66"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_search_uses_one_verified_rows_and_index_snapshot",
-      "label": ".test_search_uses_one_verified_rows_and_index_snapshot()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "cip/core.py",
-      "file_type": "code",
-      "norm_label": ".test_search_uses_one_verified_rows_and_index_snapshot()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L87"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_search_uses_one_verified_rows_and_index_snapshot_replace_after_read",
-      "label": "replace_after_read()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "cip/core.py",
-      "file_type": "code",
-      "norm_label": "replace_after_read()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L94"
     },
     {
       "id": "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_list_installed_no_config",
@@ -5311,16 +5420,16 @@
       "source_location": "L564"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_exact_stack_identifier",
-      "label": "_exact_stack_identifier()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_exact_match_diagnostic",
+      "label": "_exact_match_diagnostic()",
       "_callable": true,
       "_origin": "ast",
       "community": 19,
       "community_name": "scripts/core.py",
       "file_type": "code",
-      "norm_label": "_exact_stack_identifier()",
+      "norm_label": "_exact_match_diagnostic()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L925"
+      "source_location": "L721"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_file_signature",
@@ -5345,6 +5454,18 @@
       "norm_label": "_get_bm25()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
       "source_location": "L386"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_legacy_successor_guidance",
+      "label": "_legacy_successor_guidance()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "scripts/core.py",
+      "file_type": "code",
+      "norm_label": "_legacy_successor_guidance()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
+      "source_location": "L938"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_load_csv",
@@ -5395,6 +5516,18 @@
       "source_location": "L705"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_normalize",
+      "label": "_normalize()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "scripts/core.py",
+      "file_type": "code",
+      "norm_label": "_normalize()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
+      "source_location": "L273"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_passes_threshold",
       "label": "_passes_threshold()",
       "_callable": true,
@@ -5405,18 +5538,6 @@
       "norm_label": "_passes_threshold()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
       "source_location": "L473"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_project_row",
-      "label": "_project_row()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "scripts/core.py",
-      "file_type": "code",
-      "norm_label": "_project_row()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L713"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_query_coverage",
@@ -5467,6 +5588,42 @@
       "source_location": "L414"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_stack_query_requests_legacy",
+      "label": "_stack_query_requests_legacy()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "scripts/core.py",
+      "file_type": "code",
+      "norm_label": "_stack_query_requests_legacy()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
+      "source_location": "L848"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_stack_row_filter",
+      "label": "_stack_row_filter()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "scripts/core.py",
+      "file_type": "code",
+      "norm_label": "_stack_row_filter()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
+      "source_location": "L888"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_stack_row_filter_matches_base",
+      "label": "matches_base()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "scripts/core.py",
+      "file_type": "code",
+      "norm_label": "matches_base()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
+      "source_location": "L917"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_suggest_terms",
       "label": "_suggest_terms()",
       "_callable": true,
@@ -5477,18 +5634,6 @@
       "norm_label": "_suggest_terms()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
       "source_location": "L483"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_valid_max_results",
-      "label": "_valid_max_results()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "scripts/core.py",
-      "file_type": "code",
-      "norm_label": "_valid_max_results()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L717"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_apply_reasoning",
@@ -5563,6 +5708,18 @@
       "source_location": "L87"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_decision_rules_use_closed_array_grammar",
+      "label": ".test_decision_rules_use_closed_array_grammar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "parse_decision_rules",
+      "file_type": "code",
+      "norm_label": ".test_decision_rules_use_closed_array_grammar()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L101"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_duplicate_unknown_keys_and_unknown_actions_fail_closed",
       "label": ".test_duplicate_unknown_keys_and_unknown_actions_fail_closed()",
       "_callable": true,
@@ -5587,6 +5744,18 @@
       "source_location": "L119"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_project_row",
+      "label": "_project_row()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "search",
+      "file_type": "code",
+      "norm_label": "_project_row()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
+      "source_location": "L713"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_search",
       "label": "search()",
       "_callable": true,
@@ -5609,30 +5778,6 @@
       "norm_label": "_style_search_destination()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
       "source_location": "L736"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdiagnosticscontracts_test_diagnostics_opt_in_is_additive_for_domain_search",
-      "label": ".test_diagnostics_opt_in_is_additive_for_domain_search()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 20,
-      "community_name": "search",
-      "file_type": "code",
-      "norm_label": ".test_diagnostics_opt_in_is_additive_for_domain_search()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L327"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdiagnosticscontracts_test_diagnostics_opt_in_is_additive_for_stack_search",
-      "label": ".test_diagnostics_opt_in_is_additive_for_stack_search()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 20,
-      "community_name": "search",
-      "file_type": "code",
-      "norm_label": ".test_diagnostics_opt_in_is_additive_for_stack_search()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L335"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains_test_accessibility_query_hits_ux",
@@ -5983,30 +6128,6 @@
       "source_location": "L297"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_extract_results",
-      "label": "._extract_results()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "code",
-      "norm_label": "._extract_results()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L445"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_generate",
-      "label": ".generate()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "code",
-      "norm_label": ".generate()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L449"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_init",
       "label": ".__init__()",
       "_callable": true,
@@ -6055,18 +6176,6 @@
       "source_location": "L275"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_multi_domain_search",
-      "label": "._multi_domain_search()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "code",
-      "norm_label": "._multi_domain_search()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L319"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_resolve_style",
       "label": "._resolve_style()",
       "_callable": true,
@@ -6089,18 +6198,6 @@
       "norm_label": "._select_best_match()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L408"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_resolve_dial",
-      "label": "_resolve_dial()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "code",
-      "norm_label": "_resolve_dial()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L90"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testreasoningmatch_test_known_category_matches_exactly",
@@ -6127,28 +6224,64 @@
       "source_location": "L319"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_constraints_reach_domain_queries",
-      "label": ".test_constraints_reach_domain_queries()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_dark_query_does_not_advise_against_dark_mode",
+      "label": ".test_dark_query_does_not_advise_against_dark_mode()",
       "_callable": true,
       "_origin": "ast",
       "community": 23,
       "community_name": "DesignSystemGenerator",
       "file_type": "code",
-      "norm_label": ".test_constraints_reach_domain_queries()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L187"
+      "norm_label": ".test_dark_query_does_not_advise_against_dark_mode()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L179"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_constraints_reach_domain_queries_capture",
-      "label": "capture()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_dark_query_foreground_is_lighter_than_background",
+      "label": ".test_dark_query_foreground_is_lighter_than_background()",
       "_callable": true,
       "_origin": "ast",
       "community": 23,
       "community_name": "DesignSystemGenerator",
       "file_type": "code",
-      "norm_label": "capture()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L191"
+      "norm_label": ".test_dark_query_foreground_is_lighter_than_background()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L171"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_dark_query_gets_a_dark_background",
+      "label": ".test_dark_query_gets_a_dark_background()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": ".test_dark_query_gets_a_dark_background()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L143"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_generator_exports_every_semantic_foreground_pair",
+      "label": ".test_generator_exports_every_semantic_foreground_pair()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": ".test_generator_exports_every_semantic_foreground_pair()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L151"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_light_query_keeps_a_light_background",
+      "label": ".test_light_query_keeps_a_light_background()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": ".test_light_query_keeps_a_light_background()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L183"
     },
     {
       "id": "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_add_breakpoints",
@@ -6403,24 +6536,12 @@
       "source_location": "L21"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_filter_anti_patterns_for_mode",
-      "label": "_filter_anti_patterns_for_mode()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": "_filter_anti_patterns_for_mode()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L246"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_query_wants_dark",
       "label": "_query_wants_dark()",
       "_callable": true,
       "_origin": "ast",
       "community": 26,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_style_is_dark_primary",
       "file_type": "code",
       "norm_label": "_query_wants_dark()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
@@ -6432,7 +6553,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 26,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_style_is_dark_primary",
       "file_type": "code",
       "norm_label": "_resolve_color_mode()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
@@ -6444,59 +6565,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 26,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_style_is_dark_primary",
       "file_type": "code",
       "norm_label": "_style_is_dark_primary()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L164"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_dark_clause_dropped_others_kept",
-      "label": ".test_dark_clause_dropped_others_kept()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": ".test_dark_clause_dropped_others_kept()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L121"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_empty_input",
-      "label": ".test_empty_input()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": ".test_empty_input()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L134"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_light_mode_is_a_no_op",
-      "label": ".test_light_mode_is_a_no_op()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": ".test_light_mode_is_a_no_op()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L126"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_unrelated_anti_patterns_survive_dark_mode",
-      "label": ".test_unrelated_anti_patterns_survive_dark_mode()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": ".test_unrelated_anti_patterns_survive_dark_mode()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L130"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testmoderesolution_test_dark_primary_style_detected",
@@ -6504,7 +6577,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 26,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_style_is_dark_primary",
       "file_type": "code",
       "norm_label": ".test_dark_primary_style_detected()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -6516,7 +6589,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 26,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_style_is_dark_primary",
       "file_type": "code",
       "norm_label": ".test_dual_mode_style_is_not_dark_primary()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -6528,7 +6601,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 26,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_style_is_dark_primary",
       "file_type": "code",
       "norm_label": ".test_either_signal_resolves_dark()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -6540,7 +6613,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 26,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_style_is_dark_primary",
       "file_type": "code",
       "norm_label": ".test_query_keywords()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -6552,7 +6625,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 26,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_style_is_dark_primary",
       "file_type": "code",
       "norm_label": ".test_claim_fields_use_controlled_non_guarantee_language()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
@@ -6569,6 +6642,30 @@
       "norm_label": "rootlayout()",
       "source_file": "src/app/layout.tsx",
       "source_location": "L23"
+    },
+    {
+      "id": "src_components_authguard_authguard",
+      "label": "AuthGuard()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "app/layout.tsx",
+      "file_type": "code",
+      "norm_label": "authguard()",
+      "source_file": "src/components/AuthGuard.tsx",
+      "source_location": "L13"
+    },
+    {
+      "id": "src_components_authguard_ispublicroute",
+      "label": "isPublicRoute()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "app/layout.tsx",
+      "file_type": "code",
+      "norm_label": "ispublicroute()",
+      "source_file": "src/components/AuthGuard.tsx",
+      "source_location": "L10"
     },
     {
       "id": "src_components_serviceworkerregister_serviceworkerregister",
@@ -6588,71 +6685,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 29,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "capelapage()",
       "source_file": "src/app/(dashboard)/capela/page.tsx",
       "source_location": "L9"
-    },
-    {
-      "id": "src_app_dashboard_livro_caixa_page_livrocaixapage",
-      "label": "LivroCaixaPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "livrocaixapage()",
-      "source_file": "src/app/(dashboard)/livro-caixa/page.tsx",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_components_dashboard_modaldre_modaldre",
-      "label": "ModalDRE()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "modaldre()",
-      "source_file": "src/components/dashboard/ModalDRE.tsx",
-      "source_location": "L15"
-    },
-    {
-      "id": "src_components_dashboard_modalwebhookretry_filterbtn",
-      "label": "FilterBtn()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "filterbtn()",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
-      "source_location": "L52"
-    },
-    {
-      "id": "src_components_dashboard_modalwebhookretry_modalwebhookretry",
-      "label": "ModalWebhookRetry()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "modalwebhookretry()",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
-      "source_location": "L63"
-    },
-    {
-      "id": "src_components_dashboard_modalwebhookretry_statusbadge",
-      "label": "StatusBadge()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "statusbadge()",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
-      "source_location": "L30"
     },
     {
       "id": "src_components_modals_modalchapel_modalchapel",
@@ -6660,7 +6697,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 29,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "modalchapel()",
       "source_file": "src/components/modals/ModalChapel.tsx",
@@ -6672,7 +6709,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 29,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "todatetimelocal()",
       "source_file": "src/components/modals/ModalChapel.tsx",
@@ -6684,47 +6721,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 29,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "chapeltab()",
       "source_file": "src/components/tabs/ChapelTab.tsx",
       "source_location": "L24"
-    },
-    {
-      "id": "src_components_tabs_financialtab_financialtab",
-      "label": "FinancialTab()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "financialtab()",
-      "source_file": "src/components/tabs/FinancialTab.tsx",
-      "source_location": "L23"
-    },
-    {
-      "id": "src_components_tabs_financialtab_fmtbrl",
-      "label": "fmtBRL()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "fmtbrl()",
-      "source_file": "src/components/tabs/FinancialTab.tsx",
-      "source_location": "L19"
-    },
-    {
-      "id": "src_lib_authfetch_authfetch",
-      "label": "authFetch()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "authfetch()",
-      "source_file": "src/lib/authFetch.ts",
-      "source_location": "L8"
     },
     {
       "id": "continue_skills_design_scripts_logo_core_bm25_fit",
@@ -7183,6 +7184,78 @@
       "source_location": "L345"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_bm25_cache_rebuilds_after_file_mtime_changes",
+      "label": ".test_bm25_cache_rebuilds_after_file_mtime_changes()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 35,
+      "community_name": "BM25",
+      "file_type": "code",
+      "norm_label": ".test_bm25_cache_rebuilds_after_file_mtime_changes()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L72"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_empty_documents_produce_no_scores_or_vocab",
+      "label": ".test_empty_documents_produce_no_scores_or_vocab()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 35,
+      "community_name": "BM25",
+      "file_type": "code",
+      "norm_label": ".test_empty_documents_produce_no_scores_or_vocab()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L66"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_search_uses_one_verified_rows_and_index_snapshot",
+      "label": ".test_search_uses_one_verified_rows_and_index_snapshot()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 35,
+      "community_name": "BM25",
+      "file_type": "code",
+      "norm_label": ".test_search_uses_one_verified_rows_and_index_snapshot()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L87"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_search_uses_one_verified_rows_and_index_snapshot_replace_after_read",
+      "label": "replace_after_read()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 35,
+      "community_name": "BM25",
+      "file_type": "code",
+      "norm_label": "replace_after_read()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L94"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdiagnosticscontracts_test_diagnostics_opt_in_is_additive_for_domain_search",
+      "label": ".test_diagnostics_opt_in_is_additive_for_domain_search()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 35,
+      "community_name": "BM25",
+      "file_type": "code",
+      "norm_label": ".test_diagnostics_opt_in_is_additive_for_domain_search()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L327"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdiagnosticscontracts_test_diagnostics_opt_in_is_additive_for_stack_search",
+      "label": ".test_diagnostics_opt_in_is_additive_for_stack_search()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 35,
+      "community_name": "BM25",
+      "file_type": "code",
+      "norm_label": ".test_diagnostics_opt_in_is_additive_for_stack_search()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L335"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_boundary_safe_nav_normalization_preserves_existing_words",
       "label": ".test_boundary_safe_nav_normalization_preserves_existing_words()",
       "_callable": true,
@@ -7517,6 +7590,30 @@
       "norm_label": ".test_add_components_no_components()",
       "source_file": ".continue/skills/ui-styling/scripts/tests/test_shadcn_add.py",
       "source_location": "L95"
+    },
+    {
+      "id": "src_app_dashboard_contas_a_pagar_page_contasapagarpage",
+      "label": "ContasAPagarPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 373,
+      "community_name": "AccountsPayableTab.tsx",
+      "file_type": "code",
+      "norm_label": "contasapagarpage()",
+      "source_file": "src/app/(dashboard)/contas-a-pagar/page.tsx",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_components_tabs_accountspayabletab_accountspayabletab",
+      "label": "AccountsPayableTab()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 373,
+      "community_name": "AccountsPayableTab.tsx",
+      "file_type": "code",
+      "norm_label": "accountspayabletab()",
+      "source_file": "src/components/tabs/AccountsPayableTab.tsx",
+      "source_location": "L14"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_font_args",
@@ -8263,124 +8360,100 @@
       "source_location": "L363"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_palette_is_dark",
-      "label": "_palette_is_dark()",
+      "id": "src_app_dashboard_auditoria_page_auditoriapage",
+      "label": "AuditoriaPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "_palette_is_dark",
+      "community_name": "authFetch",
       "file_type": "code",
-      "norm_label": "_palette_is_dark()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L147"
+      "norm_label": "auditoriapage()",
+      "source_file": "src/app/(dashboard)/auditoria/page.tsx",
+      "source_location": "L7"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_relative_luminance",
-      "label": "_relative_luminance()",
+      "id": "src_app_dashboard_ordens_nova_page_novaordempage",
+      "label": "NovaOrdemPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "_palette_is_dark",
+      "community_name": "authFetch",
       "file_type": "code",
-      "norm_label": "_relative_luminance()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L129"
+      "norm_label": "novaordempage()",
+      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
+      "source_location": "L37"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_dark_query_does_not_advise_against_dark_mode",
-      "label": ".test_dark_query_does_not_advise_against_dark_mode()",
+      "id": "src_app_dashboard_ordens_page_ordenspage",
+      "label": "OrdensPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "_palette_is_dark",
+      "community_name": "authFetch",
       "file_type": "code",
-      "norm_label": ".test_dark_query_does_not_advise_against_dark_mode()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L179"
+      "norm_label": "ordenspage()",
+      "source_file": "src/app/(dashboard)/ordens/page.tsx",
+      "source_location": "L8"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_dark_query_foreground_is_lighter_than_background",
-      "label": ".test_dark_query_foreground_is_lighter_than_background()",
+      "id": "src_components_dashboard_modaldre_modaldre",
+      "label": "ModalDRE()",
       "_callable": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "_palette_is_dark",
+      "community_name": "authFetch",
       "file_type": "code",
-      "norm_label": ".test_dark_query_foreground_is_lighter_than_background()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L171"
+      "norm_label": "modaldre()",
+      "source_file": "src/components/dashboard/ModalDRE.tsx",
+      "source_location": "L15"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_dark_query_gets_a_dark_background",
-      "label": ".test_dark_query_gets_a_dark_background()",
+      "id": "src_components_tabs_auditlogstab_auditlogstab",
+      "label": "AuditLogsTab()",
       "_callable": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "_palette_is_dark",
+      "community_name": "authFetch",
       "file_type": "code",
-      "norm_label": ".test_dark_query_gets_a_dark_background()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L143"
+      "norm_label": "auditlogstab()",
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
+      "source_location": "L22"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_light_query_keeps_a_light_background",
-      "label": ".test_light_query_keeps_a_light_background()",
+      "id": "src_components_tabs_auditlogstab_detailstext",
+      "label": "detailsText()",
       "_callable": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "_palette_is_dark",
+      "community_name": "authFetch",
       "file_type": "code",
-      "norm_label": ".test_light_query_keeps_a_light_background()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L183"
+      "norm_label": "detailstext()",
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
+      "source_location": "L12"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance_test_classifies_backgrounds_from_the_shipped_data",
-      "label": ".test_classifies_backgrounds_from_the_shipped_data()",
+      "id": "src_components_tabs_serviceorderstab_serviceorderstab",
+      "label": "ServiceOrdersTab()",
       "_callable": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "_palette_is_dark",
+      "community_name": "authFetch",
       "file_type": "code",
-      "norm_label": ".test_classifies_backgrounds_from_the_shipped_data()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L64"
+      "norm_label": "serviceorderstab()",
+      "source_file": "src/components/tabs/ServiceOrdersTab.tsx",
+      "source_location": "L11"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance_test_missing_background_is_not_dark",
-      "label": ".test_missing_background_is_not_dark()",
+      "id": "src_lib_authfetch_authfetch",
+      "label": "authFetch()",
       "_callable": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "_palette_is_dark",
+      "community_name": "authFetch",
       "file_type": "code",
-      "norm_label": ".test_missing_background_is_not_dark()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L69"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance_test_parses_six_and_three_digit_hex",
-      "label": ".test_parses_six_and_three_digit_hex()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "_palette_is_dark",
-      "file_type": "code",
-      "norm_label": ".test_parses_six_and_three_digit_hex()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L55"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance_test_returns_none_for_unparseable",
-      "label": ".test_returns_none_for_unparseable()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "_palette_is_dark",
-      "file_type": "code",
-      "norm_label": ".test_returns_none_for_unparseable()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L60"
+      "norm_label": "authfetch()",
+      "source_file": "src/lib/authFetch.ts",
+      "source_location": "L8"
     },
     {
       "id": "src_lib_fiscal_focusnfe_basicauth",
@@ -8472,7 +8545,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 51,
-      "community_name": "_select_palette_for_mode",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": "_contrast_ratio()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
@@ -8484,11 +8557,35 @@
       "_callable": true,
       "_origin": "ast",
       "community": 51,
-      "community_name": "_select_palette_for_mode",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": "_derive_dark_palette()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L193"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_palette_is_dark",
+      "label": "_palette_is_dark()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "code",
+      "norm_label": "_palette_is_dark()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L147"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_relative_luminance",
+      "label": "_relative_luminance()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "code",
+      "norm_label": "_relative_luminance()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L129"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_select_palette_for_mode",
@@ -8496,23 +8593,59 @@
       "_callable": true,
       "_origin": "ast",
       "community": 51,
-      "community_name": "_select_palette_for_mode",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": "_select_palette_for_mode()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L220"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_generator_exports_every_semantic_foreground_pair",
-      "label": ".test_generator_exports_every_semantic_foreground_pair()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance_test_classifies_backgrounds_from_the_shipped_data",
+      "label": ".test_classifies_backgrounds_from_the_shipped_data()",
       "_callable": true,
       "_origin": "ast",
       "community": 51,
-      "community_name": "_select_palette_for_mode",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
-      "norm_label": ".test_generator_exports_every_semantic_foreground_pair()",
+      "norm_label": ".test_classifies_backgrounds_from_the_shipped_data()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L151"
+      "source_location": "L64"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance_test_missing_background_is_not_dark",
+      "label": ".test_missing_background_is_not_dark()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "code",
+      "norm_label": ".test_missing_background_is_not_dark()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L69"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance_test_parses_six_and_three_digit_hex",
+      "label": ".test_parses_six_and_three_digit_hex()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "code",
+      "norm_label": ".test_parses_six_and_three_digit_hex()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L55"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testluminance_test_returns_none_for_unparseable",
+      "label": ".test_returns_none_for_unparseable()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "code",
+      "norm_label": ".test_returns_none_for_unparseable()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L60"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_category_identity_wins_over_unrelated_dark_palette",
@@ -8520,7 +8653,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 51,
-      "community_name": "_select_palette_for_mode",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": ".test_category_identity_wins_over_unrelated_dark_palette()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -8532,7 +8665,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 51,
-      "community_name": "_select_palette_for_mode",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": ".test_dark_mode_falls_back_to_top_hit_when_no_dark_ramp_exists()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -8544,7 +8677,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 51,
-      "community_name": "_select_palette_for_mode",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": ".test_dark_mode_skips_light_palettes()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -8556,7 +8689,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 51,
-      "community_name": "_select_palette_for_mode",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": ".test_empty_results()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -8568,7 +8701,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 51,
-      "community_name": "_select_palette_for_mode",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": ".test_light_mode_keeps_the_existing_top_hit_behaviour()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -9295,18 +9428,6 @@
       "source_location": "L73"
     },
     {
-      "id": "src_app_dashboard_contas_a_pagar_page_contasapagarpage",
-      "label": "ContasAPagarPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "code",
-      "norm_label": "contasapagarpage()",
-      "source_file": "src/app/(dashboard)/contas-a-pagar/page.tsx",
-      "source_location": "L7"
-    },
-    {
       "id": "src_app_dashboard_financeiro_page_financeiropage",
       "label": "FinanceiroPage()",
       "_callable": true,
@@ -9319,6 +9440,18 @@
       "source_location": "L7"
     },
     {
+      "id": "src_app_dashboard_livro_caixa_page_livrocaixapage",
+      "label": "LivroCaixaPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "domain.ts",
+      "file_type": "code",
+      "norm_label": "livrocaixapage()",
+      "source_file": "src/app/(dashboard)/livro-caixa/page.tsx",
+      "source_location": "L8"
+    },
+    {
       "id": "src_app_dashboard_logistica_page_logisticapage",
       "label": "LogisticaPage()",
       "_callable": true,
@@ -9329,30 +9462,6 @@
       "norm_label": "logisticapage()",
       "source_file": "src/app/(dashboard)/logistica/page.tsx",
       "source_location": "L8"
-    },
-    {
-      "id": "src_app_dashboard_ordens_page_ordenspage",
-      "label": "OrdensPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "code",
-      "norm_label": "ordenspage()",
-      "source_file": "src/app/(dashboard)/ordens/page.tsx",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_components_tabs_accountspayabletab_accountspayabletab",
-      "label": "AccountsPayableTab()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "code",
-      "norm_label": "accountspayabletab()",
-      "source_file": "src/components/tabs/AccountsPayableTab.tsx",
-      "source_location": "L14"
     },
     {
       "id": "src_components_tabs_billingtab_billingtab",
@@ -9379,6 +9488,30 @@
       "source_location": "L21"
     },
     {
+      "id": "src_components_tabs_financialtab_financialtab",
+      "label": "FinancialTab()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "domain.ts",
+      "file_type": "code",
+      "norm_label": "financialtab()",
+      "source_file": "src/components/tabs/FinancialTab.tsx",
+      "source_location": "L23"
+    },
+    {
+      "id": "src_components_tabs_financialtab_fmtbrl",
+      "label": "fmtBRL()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "domain.ts",
+      "file_type": "code",
+      "norm_label": "fmtbrl()",
+      "source_file": "src/components/tabs/FinancialTab.tsx",
+      "source_location": "L19"
+    },
+    {
       "id": "src_components_tabs_logisticstab_logisticstab",
       "label": "LogisticsTab()",
       "_callable": true,
@@ -9389,18 +9522,6 @@
       "norm_label": "logisticstab()",
       "source_file": "src/components/tabs/LogisticsTab.tsx",
       "source_location": "L12"
-    },
-    {
-      "id": "src_components_tabs_serviceorderstab_serviceorderstab",
-      "label": "ServiceOrdersTab()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "code",
-      "norm_label": "serviceorderstab()",
-      "source_file": "src/components/tabs/ServiceOrdersTab.tsx",
-      "source_location": "L11"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_ansi_ljust",
@@ -9487,18 +9608,6 @@
       "source_location": "L1381"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_generate_design_system",
-      "label": "generate_design_system()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "design_system.py",
-      "file_type": "code",
-      "norm_label": "generate_design_system()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L919"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_generate_intelligent_overrides",
       "label": "_generate_intelligent_overrides()",
       "_callable": true,
@@ -9569,42 +9678,6 @@
       "norm_label": "_write_persisted_file()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L972"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testpersistence_test_concurrent_non_force_persist_has_one_writer",
-      "label": ".test_concurrent_non_force_persist_has_one_writer()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "design_system.py",
-      "file_type": "code",
-      "norm_label": ".test_concurrent_non_force_persist_has_one_writer()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L253"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testpersistence_test_persist_then_skip_then_force",
-      "label": ".test_persist_then_skip_then_force()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "design_system.py",
-      "file_type": "code",
-      "norm_label": ".test_persist_then_skip_then_force()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L271"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testpersistence_test_persist_writes_only_under_output_dir",
-      "label": ".test_persist_writes_only_under_output_dir()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "design_system.py",
-      "file_type": "code",
-      "norm_label": ".test_persist_writes_only_under_output_dir()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L306"
     },
     {
       "id": "continue_skills_design_system_scripts_tests_test_validate_tokens_run",
@@ -9871,18 +9944,6 @@
       "source_location": "L10"
     },
     {
-      "id": "src_app_dashboard_estoque_page_estoquepage",
-      "label": "EstoquePage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "estoquepage()",
-      "source_file": "src/app/(dashboard)/estoque/page.tsx",
-      "source_location": "L9"
-    },
-    {
       "id": "src_app_dashboard_frota_page_frotapage",
       "label": "FrotaPage()",
       "_callable": true,
@@ -9965,18 +10026,6 @@
       "norm_label": "fleettab()",
       "source_file": "src/components/tabs/FleetTab.tsx",
       "source_location": "L20"
-    },
-    {
-      "id": "src_components_tabs_inventorytab_inventorytab",
-      "label": "InventoryTab()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "inventorytab()",
-      "source_file": "src/components/tabs/InventoryTab.tsx",
-      "source_location": "L18"
     },
     {
       "id": "src_components_tabs_thanatopraxytab_thanatopraxytab",
@@ -10291,15 +10340,15 @@
       "source_location": "L18"
     },
     {
-      "id": "src_app_dashboard_convalescencia_page_convalescenciapage",
-      "label": "ConvalescenciaPage()",
+      "id": "src_app_dashboard_estoque_page_estoquepage",
+      "label": "EstoquePage()",
       "_callable": true,
       "_origin": "ast",
       "community": 95,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "convalescenciapage()",
-      "source_file": "src/app/(dashboard)/convalescencia/page.tsx",
+      "norm_label": "estoquepage()",
+      "source_file": "src/app/(dashboard)/estoque/page.tsx",
       "source_location": "L9"
     },
     {
@@ -10339,16 +10388,16 @@
       "source_location": "L19"
     },
     {
-      "id": "src_components_tabs_convalescencetab_convalescencetab",
-      "label": "ConvalescenceTab()",
+      "id": "src_components_tabs_inventorytab_inventorytab",
+      "label": "InventoryTab()",
       "_callable": true,
       "_origin": "ast",
       "community": 95,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "convalescencetab()",
-      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
-      "source_location": "L32"
+      "norm_label": "inventorytab()",
+      "source_file": "src/components/tabs/InventoryTab.tsx",
+      "source_location": "L18"
     },
     {
       "id": "tests_app_page_test_page",
@@ -10918,6 +10967,17 @@
       "source_location": "L1"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_926",
+      "label": "Resolve a standalone API identifier even when its BM25 IDF is low.",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "search_stack",
+      "file_type": "rationale",
+      "norm_label": "resolve a standalone api identifier even when its bm25 idf is low.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
+      "source_location": "L926"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_952",
       "label": "Search stack-specific guidelines",
       "_origin": "ast",
@@ -11204,48 +11264,59 @@
       "source_location": "L21"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_274",
-      "label": "Apply longest-first synonym substitution at token boundaries.",
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_247",
+      "label": "Drop \"avoid dark mode\" advice once dark mode is the resolved answer.",
       "_origin": "ast",
       "community": 106,
-      "community_name": "_normalize",
+      "community_name": ".generate",
       "file_type": "rationale",
-      "norm_label": "apply longest-first synonym substitution at token boundaries.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L274"
+      "norm_label": "drop \"avoid dark mode\" advice once dark mode is the resolved answer.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L247"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_849",
-      "label": "Whether a stack query explicitly targets an older framework generation.",
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_321",
+      "label": "Execute searches across multiple domains.",
       "_origin": "ast",
       "community": 106,
-      "community_name": "_normalize",
+      "community_name": ".generate",
       "file_type": "rationale",
-      "norm_label": "whether a stack query explicitly targets an older framework generation.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L849"
+      "norm_label": "execute searches across multiple domains.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L321"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_889",
-      "label": "Choose one coherent applicability generation for stack retrieval.",
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_446",
+      "label": "Extract results list from search result dict.",
       "_origin": "ast",
       "community": 106,
-      "community_name": "_normalize",
+      "community_name": ".generate",
       "file_type": "rationale",
-      "norm_label": "choose one coherent applicability generation for stack retrieval.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L889"
+      "norm_label": "extract results list from search result dict.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L446"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_939",
-      "label": "Prefer the explicit successor row for a brand-new app on legacy-only stacks.",
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_451",
+      "label": "Generate complete design system recommendation. variance/motion/density are\u2026",
       "_origin": "ast",
       "community": 106,
-      "community_name": "_normalize",
+      "community_name": ".generate",
       "file_type": "rationale",
-      "norm_label": "prefer the explicit successor row for a brand-new app on legacy-only stacks.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L939"
+      "norm_label": "generate complete design system recommendation. variance/motion/density are...",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L451"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_91",
+      "label": "Bucket a 1-10 dial value into its tier config. Returns None if value is None.",
+      "_origin": "ast",
+      "community": 106,
+      "community_name": ".generate",
+      "file_type": "rationale",
+      "norm_label": "bucket a 1-10 dial value into its tier config. returns none if value is none.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L91"
     },
     {
       "id": "src_app_dashboard_crm_page",
@@ -11933,17 +12004,6 @@
       "source_location": "L108"
     },
     {
-      "id": "src_app_dashboard_ordens_nova_page",
-      "label": "nova/page.tsx",
-      "_origin": "ast",
-      "community": 109,
-      "community_name": "notifySuccess",
-      "file_type": "code",
-      "norm_label": "nova/page.tsx",
-      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_app_dashboard_vendedores_page",
       "label": "vendedores/page.tsx",
       "_origin": "ast",
@@ -11966,26 +12026,15 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_authguard",
-      "label": "AuthGuard.tsx",
+      "id": "src_components_dashboard_modalwebhookretry",
+      "label": "ModalWebhookRetry.tsx",
       "_origin": "ast",
       "community": 109,
       "community_name": "notifySuccess",
       "file_type": "code",
-      "norm_label": "authguard.tsx",
-      "source_file": "src/components/AuthGuard.tsx",
+      "norm_label": "modalwebhookretry.tsx",
+      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
       "source_location": "L1"
-    },
-    {
-      "id": "src_components_authguard_public_routes",
-      "label": "PUBLIC_ROUTES",
-      "_origin": "ast",
-      "community": 109,
-      "community_name": "notifySuccess",
-      "file_type": "code",
-      "norm_label": "public_routes",
-      "source_file": "src/components/AuthGuard.tsx",
-      "source_location": "L8"
     },
     {
       "id": "src_components_modals_modalcobrancaavulsa",
@@ -12349,6 +12398,50 @@
       "norm_label": "public.user_roles",
       "source_file": "",
       "source_location": ""
+    },
+    {
+      "id": "src_app_dashboard_convalescencia_page",
+      "label": "convalescencia/page.tsx",
+      "_origin": "ast",
+      "community": 114,
+      "community_name": "ConvalescenceTab.tsx",
+      "file_type": "code",
+      "norm_label": "convalescencia/page.tsx",
+      "source_file": "src/app/(dashboard)/convalescencia/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_convalescencetab",
+      "label": "ConvalescenceTab.tsx",
+      "_origin": "ast",
+      "community": 114,
+      "community_name": "ConvalescenceTab.tsx",
+      "file_type": "code",
+      "norm_label": "convalescencetab.tsx",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_convalescencetab_default_items",
+      "label": "DEFAULT_ITEMS",
+      "_origin": "ast",
+      "community": 114,
+      "community_name": "ConvalescenceTab.tsx",
+      "file_type": "code",
+      "norm_label": "default_items",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L17"
+    },
+    {
+      "id": "src_components_tabs_convalescencetab_empty_form",
+      "label": "EMPTY_FORM",
+      "_origin": "ast",
+      "community": 114,
+      "community_name": "ConvalescenceTab.tsx",
+      "file_type": "code",
+      "norm_label": "empty_form",
+      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "source_location": "L25"
     },
     {
       "id": "scripts_check_superadmin",
@@ -13026,18 +13119,29 @@
       "label": "scripts/search.py",
       "_origin": "ast",
       "community": 126,
-      "community_name": "scripts/search.py",
+      "community_name": "generate_design_system",
       "file_type": "code",
       "norm_label": "scripts/search.py",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/search.py",
       "source_location": "L1"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_923",
+      "label": "Main entry point for design system generation. Args: query: Search query (e.g.,\u2026",
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "generate_design_system",
+      "file_type": "rationale",
+      "norm_label": "main entry point for design system generation. args: query: search query (e.g.,...",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L923"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_search_rationale_3",
       "label": "UI/UX Pro Max Search - BM25 search engine for UI/UX style guides Usage: python\u2026",
       "_origin": "ast",
       "community": 126,
-      "community_name": "scripts/search.py",
+      "community_name": "generate_design_system",
       "file_type": "rationale",
       "norm_label": "ui/ux pro max search - bm25 search engine for ui/ux style guides usage: python...",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/search.py",
@@ -13048,7 +13152,7 @@
       "label": "Format results for Claude consumption (token-optimized)",
       "_origin": "ast",
       "community": 126,
-      "community_name": "scripts/search.py",
+      "community_name": "generate_design_system",
       "file_type": "rationale",
       "norm_label": "format results for claude consumption (token-optimized)",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/search.py",
@@ -17104,6 +17208,17 @@
       "source_location": "L1"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_274",
+      "label": "Apply longest-first synonym substitution at token boundaries.",
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "scripts/core.py",
+      "file_type": "rationale",
+      "norm_label": "apply longest-first synonym substitution at token boundaries.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
+      "source_location": "L274"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_3",
       "label": "UI/UX Pro Max Core - BM25 search engine for UI/UX style guides",
       "_origin": "ast",
@@ -17214,15 +17329,37 @@
       "source_location": "L706"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_926",
-      "label": "Resolve a standalone API identifier even when its BM25 IDF is low.",
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_849",
+      "label": "Whether a stack query explicitly targets an older framework generation.",
       "_origin": "ast",
       "community": 19,
       "community_name": "scripts/core.py",
       "file_type": "rationale",
-      "norm_label": "resolve a standalone api identifier even when its bm25 idf is low.",
+      "norm_label": "whether a stack query explicitly targets an older framework generation.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L926"
+      "source_location": "L849"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_889",
+      "label": "Choose one coherent applicability generation for stack retrieval.",
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "scripts/core.py",
+      "file_type": "rationale",
+      "norm_label": "choose one coherent applicability generation for stack retrieval.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
+      "source_location": "L889"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_939",
+      "label": "Prefer the explicit successor row for a brand-new app on legacy-only stacks.",
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "scripts/core.py",
+      "file_type": "rationale",
+      "norm_label": "prefer the explicit successor row for a brand-new app on legacy-only stacks.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
+      "source_location": "L939"
     },
     {
       "id": "diag2",
@@ -18193,17 +18330,6 @@
       "source_location": "L268"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_321",
-      "label": "Execute searches across multiple domains.",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "rationale",
-      "norm_label": "execute searches across multiple domains.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L321"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_409",
       "label": "Select best matching result based on priority keywords.",
       "_origin": "ast",
@@ -18215,37 +18341,15 @@
       "source_location": "L409"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_446",
-      "label": "Extract results list from search result dict.",
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_rationale_139",
+      "label": "The exact reproduction from issue #428.",
       "_origin": "ast",
       "community": 23,
       "community_name": "DesignSystemGenerator",
       "file_type": "rationale",
-      "norm_label": "extract results list from search result dict.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L446"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_451",
-      "label": "Generate complete design system recommendation. variance/motion/density are\u2026",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "rationale",
-      "norm_label": "generate complete design system recommendation. variance/motion/density are...",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L451"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_91",
-      "label": "Bucket a 1-10 dial value into its tier config. Returns None if value is None.",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "rationale",
-      "norm_label": "bucket a 1-10 dial value into its tier config. returns none if value is none.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L91"
+      "norm_label": "the exact reproduction from issue #428.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L139"
     },
     {
       "id": "fix_rls_isolamento_sql_public_convalescence_items",
@@ -18809,22 +18913,11 @@
       "source_location": ""
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode",
-      "label": "test_design_system_mode.py",
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": "test_design_system_mode.py",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L1"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_165",
       "label": "True when a styles.csv row describes itself as dark-first.",
       "_origin": "ast",
       "community": 26,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_style_is_dark_primary",
       "file_type": "rationale",
       "norm_label": "true when a styles.csv row describes itself as dark-first.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
@@ -18835,7 +18928,7 @@
       "label": "True when the query explicitly asks for a dark theme.",
       "_origin": "ast",
       "community": 26,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_style_is_dark_primary",
       "file_type": "rationale",
       "norm_label": "true when the query explicitly asks for a dark theme.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
@@ -18846,33 +18939,11 @@
       "label": "Resolve the mode the rest of the output has to agree with.",
       "_origin": "ast",
       "community": 26,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_style_is_dark_primary",
       "file_type": "rationale",
       "norm_label": "resolve the mode the rest of the output has to agree with.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L187"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_247",
-      "label": "Drop \"avoid dark mode\" advice once dark mode is the resolved answer.",
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "rationale",
-      "norm_label": "drop \"avoid dark mode\" advice once dark mode is the resolved answer.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L247"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_rationale_3",
-      "label": "Regression tests for color-mode coherence in design_system.py (issue #428).\u2026",
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "rationale",
-      "norm_label": "regression tests for color-mode coherence in design_system.py (issue #428)....",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L3"
     },
     {
       "id": "fix_rls_parte1_sql_public_dispatches",
@@ -19027,6 +19098,28 @@
       "norm_label": "viewport",
       "source_file": "src/app/layout.tsx",
       "source_location": "L11"
+    },
+    {
+      "id": "src_components_authguard",
+      "label": "AuthGuard.tsx",
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "app/layout.tsx",
+      "file_type": "code",
+      "norm_label": "authguard.tsx",
+      "source_file": "src/components/AuthGuard.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_authguard_public_routes",
+      "label": "PUBLIC_ROUTES",
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "app/layout.tsx",
+      "file_type": "code",
+      "norm_label": "public_routes",
+      "source_file": "src/components/AuthGuard.tsx",
+      "source_location": "L8"
     },
     {
       "id": "src_components_serviceworkerregister",
@@ -19803,43 +19896,10 @@
       "label": "capela/page.tsx",
       "_origin": "ast",
       "community": 29,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "capela/page.tsx",
       "source_file": "src/app/(dashboard)/capela/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_dashboard_livro_caixa_page",
-      "label": "livro-caixa/page.tsx",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "livro-caixa/page.tsx",
-      "source_file": "src/app/(dashboard)/livro-caixa/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_dashboard_modaldre",
-      "label": "ModalDRE.tsx",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "modaldre.tsx",
-      "source_file": "src/components/dashboard/ModalDRE.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_dashboard_modalwebhookretry",
-      "label": "ModalWebhookRetry.tsx",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "modalwebhookretry.tsx",
-      "source_file": "src/components/dashboard/ModalWebhookRetry.tsx",
       "source_location": "L1"
     },
     {
@@ -19847,7 +19907,7 @@
       "label": "ModalChapel.tsx",
       "_origin": "ast",
       "community": 29,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "modalchapel.tsx",
       "source_file": "src/components/modals/ModalChapel.tsx",
@@ -19858,7 +19918,7 @@
       "label": "CHAPEL_ROOMS",
       "_origin": "ast",
       "community": 29,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "chapel_rooms",
       "source_file": "src/components/modals/ModalChapel.tsx",
@@ -19869,7 +19929,7 @@
       "label": "ChapelTab.tsx",
       "_origin": "ast",
       "community": 29,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "chapeltab.tsx",
       "source_file": "src/components/tabs/ChapelTab.tsx",
@@ -19880,7 +19940,7 @@
       "label": "STATUS_COLOR",
       "_origin": "ast",
       "community": 29,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "status_color",
       "source_file": "src/components/tabs/ChapelTab.tsx",
@@ -19891,33 +19951,11 @@
       "label": "STATUS_LABEL",
       "_origin": "ast",
       "community": 29,
-      "community_name": "authFetch",
+      "community_name": "ChapelTab.tsx",
       "file_type": "code",
       "norm_label": "status_label",
       "source_file": "src/components/tabs/ChapelTab.tsx",
       "source_location": "L12"
-    },
-    {
-      "id": "src_components_tabs_financialtab",
-      "label": "FinancialTab.tsx",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "code",
-      "norm_label": "financialtab.tsx",
-      "source_file": "src/components/tabs/FinancialTab.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "ref_recharts",
-      "label": "recharts",
-      "_origin": "ast",
-      "community": 29,
-      "community_name": "authFetch",
-      "file_type": "concept",
-      "norm_label": "recharts",
-      "source_file": "package.json",
-      "source_location": "L26"
     },
     {
       "id": "scripts_service_orders_deceased_type_free_migration",
@@ -31550,6 +31588,17 @@
       "source_location": "L93"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core",
+      "label": "test_core.py",
+      "_origin": "ast",
+      "community": 35,
+      "community_name": "BM25",
+      "file_type": "code",
+      "norm_label": "test_core.py",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L1"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_283",
       "label": "BM25 ranking algorithm for text search",
       "_origin": "ast",
@@ -31603,6 +31652,17 @@
       "norm_label": "all indexed terms, for suggestion/typo-recovery purposes.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
       "source_location": "L346"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_rationale_3",
+      "label": "Stdlib-only regression tests for core.py / design_system.py (unittest, not\u2026",
+      "_origin": "ast",
+      "community": 35,
+      "community_name": "BM25",
+      "file_type": "rationale",
+      "norm_label": "stdlib-only regression tests for core.py / design_system.py (unittest, not...",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L3"
     },
     {
       "id": "continue_skills_slides_skill",
@@ -33832,6 +33892,39 @@
       "source_location": "L92"
     },
     {
+      "id": "src_app_dashboard_contas_a_pagar_page",
+      "label": "contas-a-pagar/page.tsx",
+      "_origin": "ast",
+      "community": 373,
+      "community_name": "AccountsPayableTab.tsx",
+      "file_type": "code",
+      "norm_label": "contas-a-pagar/page.tsx",
+      "source_file": "src/app/(dashboard)/contas-a-pagar/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_accountspayabletab",
+      "label": "AccountsPayableTab.tsx",
+      "_origin": "ast",
+      "community": 373,
+      "community_name": "AccountsPayableTab.tsx",
+      "file_type": "code",
+      "norm_label": "accountspayabletab.tsx",
+      "source_file": "src/components/tabs/AccountsPayableTab.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_accountspayabletab_empty",
+      "label": "EMPTY",
+      "_origin": "ast",
+      "community": 373,
+      "community_name": "AccountsPayableTab.tsx",
+      "file_type": "code",
+      "norm_label": "empty",
+      "source_file": "src/components/tabs/AccountsPayableTab.tsx",
+      "source_location": "L12"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh",
       "label": "test_catalog_refresh.py",
       "_origin": "ast",
@@ -34690,37 +34783,70 @@
       "source_location": "L376"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_130",
-      "label": "WCAG relative luminance of a #RRGGBB string, or None if unparseable.",
+      "id": "src_app_dashboard_auditoria_page",
+      "label": "auditoria/page.tsx",
       "_origin": "ast",
       "community": 47,
-      "community_name": "_palette_is_dark",
-      "file_type": "rationale",
-      "norm_label": "wcag relative luminance of a #rrggbb string, or none if unparseable.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L130"
+      "community_name": "authFetch",
+      "file_type": "code",
+      "norm_label": "auditoria/page.tsx",
+      "source_file": "src/app/(dashboard)/auditoria/page.tsx",
+      "source_location": "L1"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_148",
-      "label": "True when a colors.csv row's Background is a dark surface.",
+      "id": "src_app_dashboard_ordens_nova_page",
+      "label": "nova/page.tsx",
       "_origin": "ast",
       "community": 47,
-      "community_name": "_palette_is_dark",
-      "file_type": "rationale",
-      "norm_label": "true when a colors.csv row's background is a dark surface.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L148"
+      "community_name": "authFetch",
+      "file_type": "code",
+      "norm_label": "nova/page.tsx",
+      "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
+      "source_location": "L1"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_rationale_139",
-      "label": "The exact reproduction from issue #428.",
+      "id": "src_app_dashboard_ordens_page",
+      "label": "ordens/page.tsx",
       "_origin": "ast",
       "community": 47,
-      "community_name": "_palette_is_dark",
-      "file_type": "rationale",
-      "norm_label": "the exact reproduction from issue #428.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L139"
+      "community_name": "authFetch",
+      "file_type": "code",
+      "norm_label": "ordens/page.tsx",
+      "source_file": "src/app/(dashboard)/ordens/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_dashboard_modaldre",
+      "label": "ModalDRE.tsx",
+      "_origin": "ast",
+      "community": 47,
+      "community_name": "authFetch",
+      "file_type": "code",
+      "norm_label": "modaldre.tsx",
+      "source_file": "src/components/dashboard/ModalDRE.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_auditlogstab",
+      "label": "AuditLogsTab.tsx",
+      "_origin": "ast",
+      "community": 47,
+      "community_name": "authFetch",
+      "file_type": "code",
+      "norm_label": "auditlogstab.tsx",
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_serviceorderstab",
+      "label": "ServiceOrdersTab.tsx",
+      "_origin": "ast",
+      "community": 47,
+      "community_name": "authFetch",
+      "file_type": "code",
+      "norm_label": "serviceorderstab.tsx",
+      "source_file": "src/components/tabs/ServiceOrdersTab.tsx",
+      "source_location": "L1"
     },
     {
       "id": "package_devdependencies",
@@ -35636,11 +35762,44 @@
       "source_location": "L1"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode",
+      "label": "test_design_system_mode.py",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "code",
+      "norm_label": "test_design_system_mode.py",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_130",
+      "label": "WCAG relative luminance of a #RRGGBB string, or None if unparseable.",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "rationale",
+      "norm_label": "wcag relative luminance of a #rrggbb string, or none if unparseable.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L130"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_148",
+      "label": "True when a colors.csv row's Background is a dark surface.",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "rationale",
+      "norm_label": "true when a colors.csv row's background is a dark surface.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L148"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_154",
       "label": "WCAG contrast ratio for two hex colors, or None if either is invalid.",
       "_origin": "ast",
       "community": 51,
-      "community_name": "_select_palette_for_mode",
+      "community_name": "test_design_system_mode.py",
       "file_type": "rationale",
       "norm_label": "wcag contrast ratio for two hex colors, or none if either is invalid.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
@@ -35651,7 +35810,7 @@
       "label": "Keep product brand tokens while deriving accessible dark surfaces.",
       "_origin": "ast",
       "community": 51,
-      "community_name": "_select_palette_for_mode",
+      "community_name": "test_design_system_mode.py",
       "file_type": "rationale",
       "norm_label": "keep product brand tokens while deriving accessible dark surfaces.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
@@ -35662,11 +35821,22 @@
       "label": "Pick the highest-ranked palette matching the resolved mode. Only the dark case\u2026",
       "_origin": "ast",
       "community": 51,
-      "community_name": "_select_palette_for_mode",
+      "community_name": "test_design_system_mode.py",
       "file_type": "rationale",
       "norm_label": "pick the highest-ranked palette matching the resolved mode. only the dark case...",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L222"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_rationale_3",
+      "label": "Regression tests for color-mode coherence in design_system.py (issue #428).\u2026",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "rationale",
+      "norm_label": "regression tests for color-mode coherence in design_system.py (issue #428)....",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L3"
     },
     {
       "id": "src_app_api_payment_carnets_route_patch",
@@ -37559,17 +37729,6 @@
       "source_location": "L11"
     },
     {
-      "id": "src_app_dashboard_contas_a_pagar_page",
-      "label": "contas-a-pagar/page.tsx",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "code",
-      "norm_label": "contas-a-pagar/page.tsx",
-      "source_file": "src/app/(dashboard)/contas-a-pagar/page.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_app_dashboard_financeiro_page",
       "label": "financeiro/page.tsx",
       "_origin": "ast",
@@ -37578,6 +37737,17 @@
       "file_type": "code",
       "norm_label": "financeiro/page.tsx",
       "source_file": "src/app/(dashboard)/financeiro/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_dashboard_livro_caixa_page",
+      "label": "livro-caixa/page.tsx",
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "domain.ts",
+      "file_type": "code",
+      "norm_label": "livro-caixa/page.tsx",
+      "source_file": "src/app/(dashboard)/livro-caixa/page.tsx",
       "source_location": "L1"
     },
     {
@@ -37592,39 +37762,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_app_dashboard_ordens_page",
-      "label": "ordens/page.tsx",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "code",
-      "norm_label": "ordens/page.tsx",
-      "source_file": "src/app/(dashboard)/ordens/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_tabs_accountspayabletab",
-      "label": "AccountsPayableTab.tsx",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "code",
-      "norm_label": "accountspayabletab.tsx",
-      "source_file": "src/components/tabs/AccountsPayableTab.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_tabs_accountspayabletab_empty",
-      "label": "EMPTY",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "code",
-      "norm_label": "empty",
-      "source_file": "src/components/tabs/AccountsPayableTab.tsx",
-      "source_location": "L12"
-    },
-    {
       "id": "src_components_tabs_billingtab",
       "label": "BillingTab.tsx",
       "_origin": "ast",
@@ -37633,6 +37770,17 @@
       "file_type": "code",
       "norm_label": "billingtab.tsx",
       "source_file": "src/components/tabs/BillingTab.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_tabs_financialtab",
+      "label": "FinancialTab.tsx",
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "domain.ts",
+      "file_type": "code",
+      "norm_label": "financialtab.tsx",
+      "source_file": "src/components/tabs/FinancialTab.tsx",
       "source_location": "L1"
     },
     {
@@ -37647,17 +37795,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_tabs_serviceorderstab",
-      "label": "ServiceOrdersTab.tsx",
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "domain.ts",
-      "file_type": "code",
-      "norm_label": "serviceorderstab.tsx",
-      "source_file": "src/components/tabs/ServiceOrdersTab.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_types_domain",
       "label": "domain.ts",
       "_origin": "ast",
@@ -37667,6 +37804,17 @@
       "norm_label": "domain.ts",
       "source_file": "src/types/domain.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "ref_recharts",
+      "label": "recharts",
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "domain.ts",
+      "file_type": "concept",
+      "norm_label": "recharts",
+      "source_file": "package.json",
+      "source_location": "L26"
     },
     {
       "id": "continue_skills_design_system_templates_design_tokens_starter_button_fg",
@@ -37911,17 +38059,6 @@
       "source_location": ""
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core",
-      "label": "test_core.py",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "design_system.py",
-      "file_type": "code",
-      "norm_label": "test_core.py",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L1"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_1077",
       "label": "Format design system as MASTER.md with hierarchical override logic.",
       "_origin": "ast",
@@ -38032,17 +38169,6 @@
       "source_location": "L792"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_923",
-      "label": "Main entry point for design system generation. Args: query: Search query (e.g.,\u2026",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "design_system.py",
-      "file_type": "rationale",
-      "norm_label": "main entry point for design system generation. args: query: search query (e.g.,...",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L923"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_962",
       "label": "Slugify a name into a single safe path segment. Only [a-z0-9_-] survives; every\u2026",
       "_origin": "ast",
@@ -38074,17 +38200,6 @@
       "norm_label": "persist design system to design-system/<project>/ folder using master +...",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L997"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_rationale_3",
-      "label": "Stdlib-only regression tests for core.py / design_system.py (unittest, not\u2026",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "design_system.py",
-      "file_type": "rationale",
-      "norm_label": "stdlib-only regression tests for core.py / design_system.py (unittest, not...",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L3"
     },
     {
       "id": "completedprocess",
@@ -39526,17 +39641,6 @@
       "source_location": "L8"
     },
     {
-      "id": "src_app_dashboard_estoque_page",
-      "label": "estoque/page.tsx",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "estoque/page.tsx",
-      "source_file": "src/app/(dashboard)/estoque/page.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_app_dashboard_frota_page",
       "label": "frota/page.tsx",
       "_origin": "ast",
@@ -39644,28 +39748,6 @@
       "file_type": "code",
       "norm_label": "vehicle_types",
       "source_file": "src/components/tabs/FleetTab.tsx",
-      "source_location": "L11"
-    },
-    {
-      "id": "src_components_tabs_inventorytab",
-      "label": "InventoryTab.tsx",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "inventorytab.tsx",
-      "source_file": "src/components/tabs/InventoryTab.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_tabs_inventorytab_empty_form",
-      "label": "EMPTY_FORM",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "notifyError",
-      "file_type": "code",
-      "norm_label": "empty_form",
-      "source_file": "src/components/tabs/InventoryTab.tsx",
       "source_location": "L11"
     },
     {
@@ -41055,14 +41137,14 @@
       "source_location": "L4"
     },
     {
-      "id": "src_app_dashboard_convalescencia_page",
-      "label": "convalescencia/page.tsx",
+      "id": "src_app_dashboard_estoque_page",
+      "label": "estoque/page.tsx",
       "_origin": "ast",
       "community": 95,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "convalescencia/page.tsx",
-      "source_file": "src/app/(dashboard)/convalescencia/page.tsx",
+      "norm_label": "estoque/page.tsx",
+      "source_file": "src/app/(dashboard)/estoque/page.tsx",
       "source_location": "L1"
     },
     {
@@ -41154,37 +41236,26 @@
       "source_location": "L11"
     },
     {
-      "id": "src_components_tabs_convalescencetab",
-      "label": "ConvalescenceTab.tsx",
+      "id": "src_components_tabs_inventorytab",
+      "label": "InventoryTab.tsx",
       "_origin": "ast",
       "community": 95,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "convalescencetab.tsx",
-      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
+      "norm_label": "inventorytab.tsx",
+      "source_file": "src/components/tabs/InventoryTab.tsx",
       "source_location": "L1"
     },
     {
-      "id": "src_components_tabs_convalescencetab_default_items",
-      "label": "DEFAULT_ITEMS",
-      "_origin": "ast",
-      "community": 95,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "default_items",
-      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
-      "source_location": "L17"
-    },
-    {
-      "id": "src_components_tabs_convalescencetab_empty_form",
+      "id": "src_components_tabs_inventorytab_empty_form",
       "label": "EMPTY_FORM",
       "_origin": "ast",
       "community": 95,
       "community_name": "react",
       "file_type": "code",
       "norm_label": "empty_form",
-      "source_file": "src/components/tabs/ConvalescenceTab.tsx",
-      "source_location": "L25"
+      "source_file": "src/components/tabs/InventoryTab.tsx",
+      "source_location": "L11"
     },
     {
       "id": "tests_app_page_test",
@@ -50830,6 +50901,42 @@
       "weight": 1.0
     },
     {
+      "source": "src_components_tabs_auditlogstab_auditlogstab",
+      "target": "src_components_tabs_auditlogstab_detailstext",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_auditlogstab_auditlogstab",
+      "target": "src_lib_authfetch_authfetch",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_auditlogstab_auditlogstab",
+      "target": "src_lib_notify_notifyerror",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
       "source": "src_components_tabs_benefitstab_benefitstab",
       "target": "src_lib_notify_notifyinfo",
       "relation": "calls",
@@ -56328,6 +56435,18 @@
       "weight": 1.0
     },
     {
+      "source": "src_app_dashboard_auditoria_page",
+      "target": "src_components_tabs_auditlogstab_auditlogstab",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/auditoria/page.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
       "source": "src_app_dashboard_beneficios_page",
       "target": "src_components_tabs_benefitstab_benefitstab",
       "relation": "imports",
@@ -57368,6 +57487,42 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/tabs/AccountsPayableTab.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_auditlogstab",
+      "target": "src_lib_notify_notifyerror",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_auditlogstab",
+      "target": "src_types_domain_auditlog",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_auditlogstab",
+      "target": "src_lib_authfetch_authfetch",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
       "source_location": "L9",
       "weight": 1.0
     },
@@ -62005,6 +62160,18 @@
       "weight": 1.0
     },
     {
+      "source": "src_app_dashboard_auditoria_page",
+      "target": "src_components_tabs_auditlogstab",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/(dashboard)/auditoria/page.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
       "source": "src_app_dashboard_beneficios_page",
       "target": "ref_react",
       "relation": "imports_from",
@@ -63242,6 +63409,54 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/tabs/AccountsPayableTab.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_auditlogstab",
+      "target": "src_lib_notify",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_auditlogstab",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_auditlogstab",
+      "target": "src_types_domain",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_auditlogstab",
+      "target": "src_lib_authfetch",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
       "source_location": "L9",
       "weight": 1.0
     },
@@ -89036,6 +89251,17 @@
       "weight": 1.0
     },
     {
+      "source": "src_app_dashboard_auditoria_page",
+      "target": "src_app_dashboard_auditoria_page_auditoriapage",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/(dashboard)/auditoria/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
       "source": "src_app_dashboard_beneficios_page",
       "target": "src_app_dashboard_beneficios_page_beneficiospage",
       "relation": "contains",
@@ -89946,6 +90172,28 @@
       "confidence_score": 1.0,
       "source_file": "src/components/tabs/AccountsPayableTab.tsx",
       "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_auditlogstab",
+      "target": "src_components_tabs_auditlogstab_detailstext",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_tabs_auditlogstab",
+      "target": "src_components_tabs_auditlogstab_auditlogstab",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/tabs/AuditLogsTab.tsx",
+      "source_location": "L22",
       "weight": 1.0
     },
     {
@@ -92025,6 +92273,17 @@
       "confidence_score": 1.0,
       "source_file": "src/types/domain.ts",
       "source_location": "L264",
+      "weight": 1.0
+    },
+    {
+      "source": "src_types_domain",
+      "target": "src_types_domain_auditlog",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/domain.ts",
+      "source_location": "L277",
       "weight": 1.0
     },
     {
@@ -100186,5 +100445,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "2ef5efce5dafe9c5af534d79af88b165a9f2b01b"
+  "built_at_commit": "1f8f0f05851bfb8037232aa2c635eaa4e9093aeb"
 }

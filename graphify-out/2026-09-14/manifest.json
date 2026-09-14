@@ -2088,9 +2088,9 @@
     "semantic_hash": ""
   },
   "src/types/domain.ts": {
-    "mtime": 1789392235.8898654,
-    "seen": 1789392395.9514675,
-    "ast_hash": "262d4ac4fb4e663c9c35de9f03e217c7",
+    "mtime": 1789393126.5158114,
+    "seen": 1789393344.0621688,
+    "ast_hash": "04a40193be02006cfca804f22d06a9ab",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
@@ -2247,6 +2247,18 @@
     "mtime": 1789392502.6609225,
     "seen": 1789392533.1956182,
     "ast_hash": "3880bcf04f9a1c3d7c10467d1d5233e0",
+    "semantic_hash": ""
+  },
+  "src/app/(dashboard)/contas-a-pagar/page.tsx": {
+    "mtime": 1789393191.9158347,
+    "seen": 1789393344.0619488,
+    "ast_hash": "42ea66d68ecec88ffbd46ac2156ce564",
+    "semantic_hash": ""
+  },
+  "src/components/tabs/AccountsPayableTab.tsx": {
+    "mtime": 1789393300.9237866,
+    "seen": 1789393344.0620983,
+    "ast_hash": "2700a7d70786d80099ff8e9572f71cef",
     "semantic_hash": ""
   }
 }

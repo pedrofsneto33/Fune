@@ -2088,9 +2088,9 @@
     "semantic_hash": ""
   },
   "src/types/domain.ts": {
-    "mtime": 1789393126.5158114,
-    "seen": 1789393344.0621688,
-    "ast_hash": "04a40193be02006cfca804f22d06a9ab",
+    "mtime": 1789393438.729897,
+    "seen": 1789393620.6736941,
+    "ast_hash": "4205439e2ac5710b1a74b9e6826691d8",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
@@ -2259,6 +2259,18 @@
     "mtime": 1789393300.9237866,
     "seen": 1789393344.0620983,
     "ast_hash": "2700a7d70786d80099ff8e9572f71cef",
+    "semantic_hash": ""
+  },
+  "src/app/(dashboard)/auditoria/page.tsx": {
+    "mtime": 1789393468.5405753,
+    "seen": 1789393620.6733902,
+    "ast_hash": "2a1b422a3a80d3a530f8bfd617a96b22",
+    "semantic_hash": ""
+  },
+  "src/components/tabs/AuditLogsTab.tsx": {
+    "mtime": 1789393532.9327571,
+    "seen": 1789393620.673569,
+    "ast_hash": "1b9f9867531369d68eb261499812dc52",
     "semantic_hash": ""
   }
 }
