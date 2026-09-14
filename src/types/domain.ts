@@ -218,3 +218,41 @@ export interface BillingResult {
   failed: number;
   results?: BillingResultItem[];
 }
+
+// Fase 5b-1 (Livro Caixa). Shapes vindos de /api/financial/*:
+// transactions: GET com filtros ?from=&to=&type=&category=&limit=,
+// POST {description, amount, type, category?, transaction_date?},
+// DELETE ?id=. summary: GET agregado {totalIncome, totalExpense, net,
+// incomeByMonth, avulsoStats}. reserves: GET {success, data:{...}} com
+// base na Lei 13.261/2016 (roles superadmin/admin/financial).
+export interface FinancialTransaction {
+  id: string;
+  description: string;
+  amount: number;
+  type: 'income' | 'expense';
+  category?: string;
+  transaction_date: string;
+  service_order_id?: string | null;
+  created_at?: string;
+}
+
+export interface FinancialSummary {
+  totalIncome: number;
+  totalExpense: number;
+  net: number;
+  incomeByMonth: Array<{ month: string; income: number; expense: number }>;
+  avulsoStats?: { count: number; total: number };
+  truncated?: boolean;
+}
+
+export interface RegulatoryReserve {
+  referenceMonth: string;
+  grossRevenue: number;
+  netRevenue: number;
+  solvencyTarget: number;
+  technicalTarget: number;
+  totalRequiredProvision: number;
+  appliedAmount: number;
+  status: string;
+  base?: string;
+}
