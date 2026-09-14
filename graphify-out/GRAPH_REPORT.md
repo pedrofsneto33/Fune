@@ -1,17 +1,17 @@
 # Graph Report - eternitysos  (2026-09-14)
 
 ## Corpus Check
-- 374 files · ~384,492 words
+- 373 files · ~384,233 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 63 file(s) not represented in the graph (top: .csv 53, (none) 3, .log 3)
 
 ## Summary
-- 3671 nodes · 5400 edges · 383 communities (209 shown, 138 thin omitted)
+- 3665 nodes · 5392 edges · 379 communities (205 shown, 138 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 33 edges (avg confidence: 0.87)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b1f5630f`
+- Built from commit: `2b46e8e5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -20,11 +20,11 @@
 - sanitizeString
 - parse_decision_rules
 - gray
-- FiscalTab.tsx
+- FleetTab.tsx
 - eternityos_schema.sql
 - isValidUUID
 - design_system.py
-- authFetch
+- notifyError
 - spacing
 - search_stack
 - test_data_contracts.py
@@ -45,7 +45,7 @@
 - _style_is_dark_primary
 - app/layout.tsx
 - Tailwind CSS Utility Reference
-- notifyError
+- notifySuccess
 - logo/core.py
 - Background Image Generation
 - color
@@ -90,14 +90,13 @@
 - Brand to Token Sync
 - Canvas Design System
 - Prerequisites
-- ModalCarnets.tsx
+- authFetch
 - sm
 - radius
 - Public Identity Resolver
 - WhatsApp Agent DB Schema
 - Theme Conversion Script
 - Form & Input Components
-- PlansTab.tsx
 - Project NPM Scripts
 - Theme Contrast Fixer
 - Final Isolation Test
@@ -125,12 +124,10 @@
 - .generate
 - CrmTab.tsx
 - Jornada: Graphify + Refatoração do `page.tsx`
-- AccountsPayableTab.tsx
 - input
 - RLS Definitive Fix
 - RLS Isolation Fix
 - RLS Part1 Fix
-- authFetch.ts
 - Superadmin Check Script
 - Database Table Creation
 - CRM Lead Notes
@@ -362,7 +359,6 @@
 - "public"."payments"
 - "public"."webhook_events"
 - ConvalescenceTab.tsx
-- AuditLogsTab.tsx
 
 ## God Nodes (most connected - your core abstractions)
 1. `isValidUUID()` - 81 edges
@@ -372,7 +368,7 @@
 5. `withAuth()` - 63 edges
 6. `authFetch()` - 63 edges
 7. `TailwindConfigGenerator` - 58 edges
-8. `react` - 50 edges
+8. `react` - 49 edges
 9. `search()` - 43 edges
 10. `notifySuccess()` - 41 edges
 
@@ -391,7 +387,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (383 total, 138 thin omitted)
+## Communities (379 total, 138 thin omitted)
 
 ### Community 0 - "validate_data.py"
 Cohesion: 0.07
@@ -409,9 +405,9 @@ Nodes (8): apply_decision_rules(), _object_without_duplicates(), parse_decision_
 Cohesion: 0.05
 Nodes (53): $type, $value, $type, $value, $type, $value, $type, $value (+45 more)
 
-### Community 4 - "FiscalTab.tsx"
-Cohesion: 0.28
-Nodes (6): FiscalTab(), fmtBRL(), Invoice, STATUS_COLORS, STATUS_ICON, STATUS_LABEL
+### Community 4 - "FleetTab.tsx"
+Cohesion: 0.15
+Nodes (8): BurialsTab(), EMPTY_FORM, EMPTY_FORM, FleetTab(), VEHICLE_TYPES, Burial, Vehicle, DadosPayLoad
 
 ### Community 5 - "eternityos_schema.sql"
 Cohesion: 0.11
@@ -425,9 +421,9 @@ Nodes (32): DELETE, GET, PATCH, POST, DELETE, GET, PATCH, POST (+24 more)
 Cohesion: 0.11
 Nodes (24): ansi_ljust(), _detect_page_type(), format_ascii_box(), format_master_md(), format_page_override_md(), _generate_intelligent_overrides(), hex_to_ansi(), persist_design_system() (+16 more)
 
-### Community 8 - "authFetch"
+### Community 8 - "notifyError"
 Cohesion: 0.09
-Nodes (26): ContratosPage(), isContractActive(), DependentesPage(), VALID_RELATIONS, ImportarTitularesPage(), ImportResult, InvalidRow, TitularesPage() (+18 more)
+Nodes (27): ContratosPage(), isContractActive(), DependentesPage(), VALID_RELATIONS, ImportarTitularesPage(), ImportResult, InvalidRow, TitularesPage() (+19 more)
 
 ### Community 9 - "spacing"
 Cohesion: 0.09
@@ -451,7 +447,7 @@ Nodes (24): GET, GET, dynamic, GET, POST, dynamic, POST, dynamic (+16 more)
 
 ### Community 14 - "app/page.tsx"
 Cohesion: 0.07
-Nodes (33): Burial, BURIAL_STATUS_STYLE, burialStatusClass(), ChapelBooking, Contract, ConvalescenceItem, Dependent, FinancialTransaction (+25 more)
+Nodes (34): Burial, BURIAL_STATUS_STYLE, burialStatusClass(), ChapelBooking, Contract, ConvalescenceItem, Dependent, FinancialTransaction (+26 more)
 
 ### Community 15 - "cip/core.py"
 Cohesion: 0.06
@@ -509,9 +505,9 @@ Nodes (8): sonner, inter, metadata, viewport, AuthGuard(), isPublicRoute(), PUBL
 Cohesion: 0.05
 Nodes (43): Arbitrary Values, Aspect Ratio, Background Colors, Border Color, Border Radius, Border Style, Border Width, Borders (+35 more)
 
-### Community 29 - "notifyError"
-Cohesion: 0.10
-Nodes (25): lucide-react, FormHoldersQuick, FormInventoryItem, FormVehicle, NovaOrdemPage(), OrdemItem, UserRole, ModalWebhookRetry() (+17 more)
+### Community 29 - "notifySuccess"
+Cohesion: 0.09
+Nodes (21): lucide-react, FormHoldersQuick, FormInventoryItem, FormVehicle, NovaOrdemPage(), OrdemItem, ModalWebhookRetry(), Props (+13 more)
 
 ### Community 30 - "logo/core.py"
 Cohesion: 0.10
@@ -659,7 +655,7 @@ Nodes (9): flattenTokens(), fs, generateCSS(), generateTailwind(), main(), parse
 
 ### Community 67 - "domain.ts"
 Cohesion: 0.07
-Nodes (31): recharts, FinancialSummary, ModalDRE(), AvulsoSummaryStats, BillingSummary, BillingTab(), CollectorRow, fmtBRL() (+23 more)
+Nodes (27): recharts, AccountsPayableTab(), EMPTY, AuditLogsTab(), detailsText(), ExecutiveTab(), fmtBRL(), FinancialTab() (+19 more)
 
 ### Community 68 - "button"
 Cohesion: 0.20
@@ -685,9 +681,9 @@ Nodes (35): 1. Visual Communication First, 2. Minimal Text Integration, 3. Exper
 Cohesion: 0.06
 Nodes (34): Accessibility, Available Domains, Available Stacks, Common Rules for Professional UI, Common Sticking Points, Example Workflow, How to Use This Skill, Icons & Visual Elements (+26 more)
 
-### Community 74 - "ModalCarnets.tsx"
-Cohesion: 0.31
-Nodes (8): brl(), CarnetRow, contractIsActive(), HolderContract, holderIsInactive(), HolderRow, ModalCarnets(), STATUS_STYLE
+### Community 74 - "authFetch"
+Cohesion: 0.13
+Nodes (20): FinancialSummary, ModalDRE(), brl(), CarnetRow, contractIsActive(), HolderContract, holderIsInactive(), HolderRow (+12 more)
 
 ### Community 75 - "sm"
 Cohesion: 0.60
@@ -712,10 +708,6 @@ Nodes (6): collectFiles(), files, fs, MAP, path, ROOT
 ### Community 80 - "Form & Input Components"
 Cohesion: 0.06
 Nodes (32): Accordion, Alert, Alert Dialog, Avatar, Badge, Button, Card, Checkbox (+24 more)
-
-### Community 81 - "PlansTab.tsx"
-Cohesion: 0.38
-Nodes (4): EMPTY_FORM, fmtBrl(), Plan, PlansTab()
 
 ### Community 82 - "Project NPM Scripts"
 Cohesion: 0.29
@@ -766,8 +758,8 @@ Cohesion: 0.33
 Nodes (3): admin, anon, env
 
 ### Community 95 - "react"
-Cohesion: 0.12
-Nodes (12): react, ADDONS, FAQ, MODULES, PLANS, BenefitsTab(), EMPTY_FORM, BurialsTab() (+4 more)
+Cohesion: 0.11
+Nodes (15): react, ADDONS, FAQ, MODULES, PLANS, BenefitsTab(), EMPTY_FORM, FiscalTab() (+7 more)
 
 ### Community 96 - "leads/route.ts"
 Cohesion: 0.39
@@ -809,10 +801,6 @@ Nodes (17): CrmTab(), EMPTY_FORM, fmtBRL(), histNoteRow, isOverdue(), Lead, FLOW
 Cohesion: 0.04
 Nodes (47): 10. Próximos passos, 11. Comandos de referência rápida, 12. Links úteis, 1. Contexto e motivação, 2. Graphify — instalação e configuração, 3. Repowise — camada adicional de inteligência, 4. Plano de refatoração — 6 fases, 5. Blast radius medido pelo Graphify (+39 more)
 
-### Community 109 - "AccountsPayableTab.tsx"
-Cohesion: 0.40
-Nodes (3): AccountsPayableTab(), EMPTY, AccountPayable
-
 ### Community 110 - "input"
 Cohesion: 0.29
 Nodes (8): padding-x, input, $type, $value, focus-ring, padding-x, $type, $value
@@ -828,10 +816,6 @@ Nodes (3): public.get_user_tenant_id(), public.is_superadmin(), public.user_role
 ### Community 113 - "RLS Part1 Fix"
 Cohesion: 0.67
 Nodes (3): public.get_user_tenant_id(), public.is_superadmin(), public.user_roles
-
-### Community 114 - "authFetch.ts"
-Cohesion: 0.23
-Nodes (4): Tenant, TenantContext, TenantContextType, supabase
 
 ### Community 115 - "Superadmin Check Script"
 Cohesion: 0.50
@@ -1225,26 +1209,22 @@ Nodes (4): idx_webhook_events_payment, idx_webhook_events_tenant_time, idx_webho
 Cohesion: 0.29
 Nodes (5): CatalogItem, ConvalescenceTab(), DEFAULT_ITEMS, EMPTY_FORM, ConvalescenceItem
 
-### Community 382 - "AuditLogsTab.tsx"
-Cohesion: 0.47
-Nodes (3): AuditLogsTab(), detailsText(), AuditLog
-
 ## Knowledge Gaps
-- **1426 isolated node(s):** `fs`, `path`, `fs`, `path`, `fs` (+1421 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2045 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **1423 isolated node(s):** `fs`, `path`, `fs`, `path`, `fs` (+1418 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2040 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **138 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `@supabase/supabase-js` connect `Supabase Client Scripts` to `Full Audit Script`, `Policy Detail Diagnostic`, `Project Identification Script`, `Insert Test Three`, `Insert Test Four`, `package.json`, `Final Isolation Test`, `Isolation Test v2`, `Client Onboarding Script`, `Behavior Inspection Script`, `API Test Script`, `Isolation Test v3`, `Isolation Test v4`, `Isolation Test v5`, `Isolation Test v6`, `supabaseAdmin.ts`, `Tenant Cleanup Scripts`, `Database RLS Tests`, `Isolation Fix Tests`, `authFetch.ts`, `Superadmin Check Script`, `Database Table Creation`, `User Creation Script`, `Roles Diagnostic Script`, `RBAC Data Insertion`?**
+- **Why does `@supabase/supabase-js` connect `Supabase Client Scripts` to `Full Audit Script`, `Policy Detail Diagnostic`, `Project Identification Script`, `Insert Test Three`, `Insert Test Four`, `package.json`, `notifySuccess`, `Final Isolation Test`, `Isolation Test v2`, `Client Onboarding Script`, `Behavior Inspection Script`, `API Test Script`, `Isolation Test v3`, `Isolation Test v4`, `Isolation Test v5`, `Isolation Test v6`, `supabaseAdmin.ts`, `Tenant Cleanup Scripts`, `Database RLS Tests`, `Isolation Fix Tests`, `Superadmin Check Script`, `Database Table Creation`, `User Creation Script`, `Roles Diagnostic Script`, `RBAC Data Insertion`?**
   _High betweenness centrality (0.014) - this node is a cross-community bridge._
 - **Why does `search()` connect `search` to `validate_data.py`, `design_system.py`, `search_stack`, `Search Domain Detection`, `.generate`, `Public Identity Resolver`, `scripts/core.py`, `test_core.py`, `Text Layout Resilience Tests`?**
   _High betweenness centrality (0.007) - this node is a cross-community bridge._
-- **Why does `react` connect `react` to `domain.ts`, `FiscalTab.tsx`, `authFetch`, `ModalCarnets.tsx`, `CrmTab.tsx`, `AccountsPayableTab.tsx`, `app/page.tsx`, `ChapelTab.tsx`, `PlansTab.tsx`, `notifyError`, `authFetch.ts`, `package.json`, `app/layout.tsx`, `ConvalescenceTab.tsx`, `AuditLogsTab.tsx`?**
+- **Why does `react` connect `react` to `domain.ts`, `FleetTab.tsx`, `notifyError`, `authFetch`, `CrmTab.tsx`, `app/page.tsx`, `ChapelTab.tsx`, `notifySuccess`, `package.json`, `app/layout.tsx`, `ConvalescenceTab.tsx`?**
   _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **What connects `fs`, `path`, `fs` to the rest of the system?**
-  _1426 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1423 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `validate_data.py` be split into smaller, more focused modules?**
   _Cohesion score 0.07401129943502825 - nodes in this community are weakly interconnected._
 - **Should `sanitizeString` be split into smaller, more focused modules?**
