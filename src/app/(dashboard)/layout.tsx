@@ -29,6 +29,8 @@ export default function DashboardLayout({
                 <Link href="/titulares" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/titulares' ? 'text-emerald-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Titulares</Link>
                 <Link href="/dependentes" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/dependentes' ? 'text-emerald-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Dependentes</Link>
                 <Link href="/contratos" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/contratos' ? 'text-emerald-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Contratos</Link>
+                <Link href="/frota" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/frota' ? 'text-emerald-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Frota</Link>
+                <Link href="/estoque" className={`text-xs font-semibold px-3 py-1.5 rounded transition ${pathname === '/estoque' ? 'text-emerald-400 bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>Estoque</Link>
               </div>
             </details>
             <details className="relative">
