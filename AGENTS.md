@@ -10,39 +10,50 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # AGENTS.md
 
-## Idioma
-- Responder SEMPRE em português do Brasil (pt-BR).
+## Idioma — REGRA INQUEBRÁVEL
+- Responder SEMPRE e EXCLUSIVAMENTE em português do Brasil (pt-BR).
+- PROIBIDO usar espanhol, inglês ou qualquer outro idioma, mesmo em
+  termos comuns. NÃO use: "búsqueda", "autorización", "envía",
+  "aguardo", "instrucciones", "corregir", "seleccionado", "ya usa",
+  "alineado", "mapeo", "directo", "validación", "instrucciones".
+- Se o modelo começar a misturar idiomas, PARE e reescreva em pt-BR.
+- Termos técnicos em inglês são aceitos apenas como nomes próprios
+  (ex: endpoint, commit, build, deploy), nunca em verbos ou frases.
 
 ## Contexto — regras NÃO NEGOCIÁVEIS
-- **NUNCA** leia arquivos > 500 linhas por inteiro. Use `Select-String -Context` ou `Get-Content -TotalCount N`.
-- **NUNCA** carregue `graphify-out/graph.json` (2.4 MB), `graphify-out/GRAPH_REPORT.md` ou `graphify-out/graph.html` no contexto. Consulte via CLI.
-- **NUNCA** leia `src/app/page.tsx` inteiro. Use `Select-String` para pegar só trechos.
-- **UMA** ferramenta MCP por mensagem. Não chame `get_health` + `get_change_risk` + `get_context` juntas.
-- Ao terminar uma tarefa, responda **no máximo 10 linhas** + os comandos de verificação.
+- **NUNCA** leia arquivos > 500 linhas por inteiro. Use
+  `Select-String -Context` ou `Get-Content -TotalCount N`.
+- **NUNCA** carregue `graphify-out/graph.json` (2.4 MB),
+  `graphify-out/GRAPH_REPORT.md` ou `graphify-out/graph.html` no
+  contexto. Consulte via CLI.
+- **NUNCA** leia `src/app/page.tsx` inteiro. Use `Select-String`
+  para pegar só trechos.
+- **UMA** ferramenta MCP por mensagem. Não chame `get_health` +
+  `get_change_risk` + `get_context` juntas.
+- Ao terminar uma tarefa, responda **no máximo 10 linhas** + os
+  comandos de verificação.
 
 ## Economia de tokens (obrigatório)
 
 ### Use Graphify antes de ler arquivos
 Antes de rodar `Get-Content` ou `Select-String` num arquivo de API,
-tente:
-  /graphify query "quais metodos HTTP e roles existem em <rota>?"
-
-O grafo ja tem a informacao. So leia o arquivo se o grafo nao responder.
+tente: `/graphify query "quais metodos HTTP e roles existem em <rota>?"`
+O grafo já tem a informação. Só leia o arquivo se o grafo não responder.
 
 ### Respostas curtas
-- Maximo 5 linhas por resposta, exceto quando o usuario pedir
-  explicitamente "relatorio completo".
+- Máximo 5 linhas por resposta, exceto quando o usuário pedir
+  explicitamente "relatório completo".
 - Sem tabelas markdown, sem emojis, sem bullets aninhados.
-- Sem repetir o que o usuario ja sabe.
+- Sem repetir o que o usuário já sabe.
 
 ### Reconhecimento enxuto
-- Maximo 2 arquivos lidos por reconhecimento.
-- Maximo 150 linhas totais lidas via Get-Content.
-- Use Select-String -Context em vez de Get-Content inteiro.
+- Máximo 2 arquivos lidos por reconhecimento.
+- Máximo 150 linhas totais lidas via Get-Content.
+- Use `Select-String -Context` em vez de `Get-Content` inteiro.
 
-### Nao usar Repowise em reconhecimento
-- Repowise so entra em sub-fases criticas (4c, 5).
-- Uma chamada por sub-fase, no maximo.
+### Não usar Repowise em reconhecimento
+- Repowise só entra em sub-fases críticas (4c, 5).
+- Uma chamada por sub-fase, no máximo.
 
 ## Autonomia — quando agir sozinho vs parar
 **AJA SOZINHO** (não pergunte) quando:
@@ -52,7 +63,8 @@ O grafo ja tem a informacao. So leia o arquivo se o grafo nao responder.
 
 **PARE E PERGUNTE** somente quando:
 - O prompt estiver ambíguo (dois caminhos possíveis)
-- Um arquivo sensível (`eligibility.ts`, `api-handler.ts`, `supabaseAdmin.ts`, `page.tsx`) precisar ser alterado
+- Um arquivo sensível (`eligibility.ts`, `api-handler.ts`,
+  `supabaseAdmin.ts`, `page.tsx`) precisar ser alterado
 - Um teste falhar
 - Houver conflito de git
 - Você estiver em dúvida sobre o formato de uma API
@@ -73,7 +85,8 @@ Quando o usuário autorizar uma sub-fase, execute TUDO:
    - `git add graphify-out/` + `git commit -m "chore: atualizar grafo"`
    - Reporte no chat: status + commits + resultado do tsc/jest (máx 10 linhas)
 
-3. **Se o Cline terminar sem erros** → usuário só testa no browser e parte para próxima sub-fase.
+3. **Se o Cline terminar sem erros** → usuário só testa no browser e
+   parte para próxima sub-fase.
 
 ## Ferramentas — quando usar cada uma
 
@@ -87,13 +100,15 @@ Quando o usuário autorizar uma sub-fase, execute TUDO:
 - **Depois de sub-fase grande:** `repowise__get_health` no arquivo tocado
 - **Fase 6 (remover monolito):** `repowise__get_dead_code`
 - **Quando não entender código legado:** `repowise__get_why`
-- Use **no máximo 1 chamada Repowise por sub-fase** para não estourar contexto.
+- Use **no máximo 1 chamada Repowise por sub-fase**.
 
 ## Refatoração — estado atual
 - **Objetivo:** quebrar `src/app/page.tsx` (~4942 linhas) em rotas por domínio.
 - **Regra de ouro:** copiar, não mover. `page.tsx` fica intacto até a Fase 6.
-- **NUNCA alterar:** `src/lib/eligibility.ts`, `src/lib/api-handler.ts`, `src/lib/supabaseAdmin.ts`.
-- **Documentação viva:** `docs/JORNADA-GRAPHIFY-E-REFATORACAO.md` (atualizar ao final de cada fase).
+- **NUNCA alterar:** `src/lib/eligibility.ts`, `src/lib/api-handler.ts`,
+  `src/lib/supabaseAdmin.ts`.
+- **Documentação viva:** `docs/JORNADA-GRAPHIFY-E-REFATORACAO.md`
+  (atualizar ao final de cada fase).
 
 ### Fases concluídas
 - **Fase 1:** Plans + Sellers
@@ -103,13 +118,24 @@ Quando o usuário autorizar uma sub-fase, execute TUDO:
 - **Fase 4b:** Tanatopraxia, Capela
 
 ### Fase atual: 4c (Service Orders + Burials)
-- 4c-1: `/ordens` read-only (proxima)
-- 4c-2: `/ordens/nova` (criar OS)
-- 4c-3: `/ordens/[id]` (detalhes + cancelar)
-- 4c-4: `/sepultamentos` (burials — atencao: /capela ja existe)
-- 4c-5: Links no layout
+- ✅ **4c-1:** `/ordens` read-only (ServiceOrdersTab)
+- ✅ **4c-2a:** `/ordens/nova` (formulário, sem POST)
+- ✅ **4c-2b:** POST real conectado + fix `deceased_type` + fix `deceased_id`
+  - ⚠️ ATENÇÃO: a API exige `deceased_name`, `deceased_type` E `deceased_id`.
+    Para tipo `free`, gerar `deceased_id` sintético (crypto.randomUUID()).
+  - Valores válidos de `deceased_type`: `'holder' | 'dependent' | 'free'`
+    (NÃO usar titular/dependente/particular).
+- ⏳ **4c-3:** botão cancelar OS (PATCH status=cancelled)
+- ⏳ **4c-4:** `/sepultamentos` (burials — NÃO usar `/capela`, já existe)
+- ⏳ **4c-5:** Links no layout
 
 ### Fases pendentes
 - Fase 4d: Logística + Emergências
 - Fase 5: Cobrança + Financeiro
 - Fase 6: Auth/Providers + remover monolito
+
+## Bugs conhecidos (para corrigir após refatoração)
+- Estoque: botões +/- de `inventory` só alteram estado local (sem POST)
+- Duplicação `vehicles` × `fleet_vehicles` (investigar)
+- `TenantProvider` é código morto (consolidar ou remover)
+- `deceased_id` obrigatório mesmo para tipo `free` (talvez melhorar API)
