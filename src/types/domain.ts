@@ -271,3 +271,13 @@ export interface AccountPayable {
   notes?: string;
   created_at?: string;
 }
+
+// GET /api/audit-logs retorna {logs:[{id, action, user_email, details,
+// created_at}]} limite 100, roles superadmin/admin, scoped no tenant.
+export interface AuditLog {
+  id: string;
+  action: string;
+  user_email: string;
+  details: string | Record<string, unknown> | null;
+  created_at: string;
+}
