@@ -1,17 +1,17 @@
 # Graph Report - eternitysos  (2026-09-14)
 
 ## Corpus Check
-- 372 files · ~340,765 words
+- 374 files · ~383,068 words
 - Verdict: corpus is large enough that graph structure adds value.
-- Unclassified: 61 file(s) not represented in the graph (top: .csv 53, .log 3, (none) 2)
+- Unclassified: 63 file(s) not represented in the graph (top: .csv 53, (none) 3, .log 3)
 
 ## Summary
-- 3567 nodes · 5202 edges · 375 communities (201 shown, 138 thin omitted)
+- 3667 nodes · 5384 edges · 381 communities (207 shown, 138 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 33 edges (avg confidence: 0.87)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `827c1455`
+- Built from commit: `19e1f26e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -21,10 +21,10 @@
 - parse_decision_rules
 - gray
 - FiscalTab.tsx
-- Database Schema Tables
+- eternityos_schema.sql
 - isValidUUID
 - design_system.py
-- notify.ts
+- notifyError
 - spacing
 - search_stack
 - test_data_contracts.py
@@ -45,7 +45,7 @@
 - _style_is_dark_primary
 - app/layout.tsx
 - Tailwind CSS Utility Reference
-- authFetch.ts
+- notifySuccess
 - logo/core.py
 - Background Image Generation
 - color
@@ -63,8 +63,8 @@
 - Color Extraction Tools
 - Asset Validation Utility
 - Tailwind Config Generator
-- authFetch
-- Testing Dev Dependencies
+- ChapelTab.tsx
+- devDependencies
 - Supabase Client Scripts
 - focusnfe.ts
 - test_design_system_mode.py
@@ -85,12 +85,12 @@
 - Token Generation Script
 - domain.ts
 - button
-- Public Service Orders DB
+- public.fiscal_invoices
 - Validate Tokens Test Suite
 - Brand to Token Sync
 - Canvas Design System
 - Prerequisites
-- ModalCarnets.tsx
+- BillingTab.tsx
 - sm
 - radius
 - Public Identity Resolver
@@ -125,7 +125,7 @@
 - .generate
 - CrmTab.tsx
 - Jornada: Graphify + Refatoração do `page.tsx`
-- notifyError
+- AccountsPayableTab.tsx
 - input
 - RLS Definitive Fix
 - RLS Isolation Fix
@@ -148,7 +148,7 @@
 - padding-y
 - none
 - Installer Initialization
-- Webhook Events Retry
+- idx_webhook_events_unprocessed
 - Holder Status Migration
 - Payment Carnet Migration
 - Vendor Commission Migration
@@ -192,6 +192,7 @@
 - Service Worker Core Script
 - Append Route Script
 - Orphan Plans Backup
+- 20260914220043_remote_schema.sql
 - 1
 - Accounts Payable Table
 - Asaas Customers Table
@@ -353,8 +354,13 @@
 - .test_add_components_no_components
 - ring
 - secondary-foreground
-- BenefitsTab.tsx
-- landing/page.tsx
+- "public"."tenants"
+- "public"."service_orders"
+- "public"."contracts"
+- public.holders
+- public.leads
+- "public"."payments"
+- "public"."webhook_events"
 
 ## God Nodes (most connected - your core abstractions)
 1. `isValidUUID()` - 81 edges
@@ -383,7 +389,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (375 total, 138 thin omitted)
+## Communities (381 total, 138 thin omitted)
 
 ### Community 0 - "validate_data.py"
 Cohesion: 0.07
@@ -405,9 +411,9 @@ Nodes (53): $type, $value, $type, $value, $type, $value, $type, $value (+45 more
 Cohesion: 0.28
 Nodes (6): FiscalTab(), fmtBRL(), Invoice, STATUS_COLORS, STATUS_ICON, STATUS_LABEL
 
-### Community 5 - "Database Schema Tables"
+### Community 5 - "eternityos_schema.sql"
 Cohesion: 0.11
-Nodes (41): auth.users, idx_service_order_items_service, idx_service_orders_burial, idx_service_orders_contract, idx_service_orders_tenant, public.accounts_payable, public.asaas_customers, public.audit_logs (+33 more)
+Nodes (41): idx_service_order_items_service, idx_service_orders_burial, idx_service_orders_contract, idx_service_orders_tenant, public.accounts_payable, public.asaas_customers, public.audit_logs, public.benefits_partners (+33 more)
 
 ### Community 6 - "isValidUUID"
 Cohesion: 0.08
@@ -417,9 +423,9 @@ Nodes (32): DELETE, GET, PATCH, POST, DELETE, GET, PATCH, POST (+24 more)
 Cohesion: 0.08
 Nodes (29): ansi_ljust(), _detect_page_type(), format_ascii_box(), format_markdown(), format_master_md(), format_page_override_md(), generate_design_system(), _generate_intelligent_overrides() (+21 more)
 
-### Community 8 - "notify.ts"
-Cohesion: 0.13
-Nodes (17): ContratosPage(), isContractActive(), DependentesPage(), VALID_RELATIONS, ImportarTitularesPage(), ImportResult, InvalidRow, TitularesPage() (+9 more)
+### Community 8 - "notifyError"
+Cohesion: 0.08
+Nodes (37): ContratosPage(), isContractActive(), DependentesPage(), VALID_RELATIONS, FormHoldersQuick, FormInventoryItem, FormVehicle, NovaOrdemPage() (+29 more)
 
 ### Community 9 - "spacing"
 Cohesion: 0.09
@@ -442,8 +448,8 @@ Cohesion: 0.10
 Nodes (24): GET, GET, dynamic, GET, POST, dynamic, POST, dynamic (+16 more)
 
 ### Community 14 - "app/page.tsx"
-Cohesion: 0.07
-Nodes (35): Burial, BURIAL_STATUS_STYLE, burialStatusClass(), ChapelBooking, Contract, ConvalescenceItem, Dependent, FinancialTransaction (+27 more)
+Cohesion: 0.06
+Nodes (38): recharts, Burial, BURIAL_STATUS_STYLE, burialStatusClass(), ChapelBooking, Contract, ConvalescenceItem, Dependent (+30 more)
 
 ### Community 15 - "cip/core.py"
 Cohesion: 0.06
@@ -475,7 +481,7 @@ Nodes (16): apply_color(), apply_viewbox_size(), extract_svgs(), generate_batch(
 
 ### Community 22 - "package.json"
 Cohesion: 0.07
-Nodes (25): name, private, version, autoprefixer, clsx, date-fns, eslint, eslint-config-next (+17 more)
+Nodes (26): name, private, version, autoprefixer, clsx, date-fns, eslint, eslint-config-next (+18 more)
 
 ### Community 23 - "DesignSystemGenerator"
 Cohesion: 0.15
@@ -501,9 +507,9 @@ Nodes (8): sonner, inter, metadata, viewport, AuthGuard(), isPublicRoute(), PUBL
 Cohesion: 0.05
 Nodes (43): Arbitrary Values, Aspect Ratio, Background Colors, Border Color, Border Radius, Border Style, Border Width, Borders (+35 more)
 
-### Community 29 - "authFetch.ts"
-Cohesion: 0.23
-Nodes (4): Tenant, TenantContext, TenantContextType, supabase
+### Community 29 - "notifySuccess"
+Cohesion: 0.10
+Nodes (18): lucide-react, ModalWebhookRetry(), Props, WebhookEvent, ModalCobrancaAvulsa(), FiscalConfigData, FiscalSettingsSection(), fmtPercent() (+10 more)
 
 ### Community 30 - "logo/core.py"
 Cohesion: 0.10
@@ -569,13 +575,13 @@ Nodes (13): checkManifest(), formatBytes(), formatOutput(), fs, main(), parseFil
 Cohesion: 0.16
 Nodes (10): main(), Tailwind CSS Configuration Generator Generate tailwind.config.js/ts with custom…, Tests for tailwind_config_gen.py, Reduce a generated TS/JS config to a bare assignable object so it can be handed…, Regression guard for the missing-comma bug between the ``theme`` block and…, The property preceding ``plugins`` must end with a comma (pure-Python check, so…, The emitted config parses as valid JS via ``node --check``., _strip_to_object() (+2 more)
 
-### Community 47 - "authFetch"
-Cohesion: 0.11
-Nodes (17): FormHoldersQuick, FormInventoryItem, FormVehicle, NovaOrdemPage(), OrdemItem, FinancialSummary, ModalDRE(), CHAPEL_ROOMS (+9 more)
+### Community 47 - "ChapelTab.tsx"
+Cohesion: 0.24
+Nodes (7): CHAPEL_ROOMS, ModalChapel(), toDatetimeLocal(), ChapelTab(), STATUS_COLOR, STATUS_LABEL, ChapelBooking
 
-### Community 48 - "Testing Dev Dependencies"
-Cohesion: 0.14
-Nodes (14): devDependencies, eslint, eslint-config-next, jest, jest-environment-jsdom, @testing-library/jest-dom, @testing-library/react, ts-jest (+6 more)
+### Community 48 - "devDependencies"
+Cohesion: 0.13
+Nodes (15): devDependencies, eslint, eslint-config-next, jest, jest-environment-jsdom, supabase, @testing-library/jest-dom, @testing-library/react (+7 more)
 
 ### Community 49 - "Supabase Client Scripts"
 Cohesion: 0.14
@@ -651,15 +657,15 @@ Nodes (9): flattenTokens(), fs, generateCSS(), generateTailwind(), main(), parse
 
 ### Community 67 - "domain.ts"
 Cohesion: 0.07
-Nodes (27): recharts, AuditLogsTab(), detailsText(), BillingTab(), CollectorRow, holderLabel(), ExecutiveTab(), fmtBRL() (+19 more)
+Nodes (24): AuditLogsTab(), detailsText(), ExecutiveTab(), fmtBRL(), FinancialTab(), fmtBRL(), ReservePayload, LogisticsTab() (+16 more)
 
 ### Community 68 - "button"
 Cohesion: 0.20
 Nodes (10): fg, font-size, hover-bg, button, $type, $value, $type, $value (+2 more)
 
-### Community 69 - "Public Service Orders DB"
+### Community 69 - "public.fiscal_invoices"
 Cohesion: 0.36
-Nodes (9): public.service_orders, idx_fiscal_invoices_created_at, idx_fiscal_invoices_nfse_number, idx_fiscal_invoices_service_order, idx_fiscal_invoices_status, idx_fiscal_invoices_tenant, public.fiscal_invoices, public.v_service_orders_without_nfse (+1 more)
+Nodes (9): idx_fiscal_invoices_created_at, idx_fiscal_invoices_nfse_number, idx_fiscal_invoices_service_order, idx_fiscal_invoices_status, idx_fiscal_invoices_tenant, public.fiscal_invoices, public.v_service_orders_without_nfse, public.service_orders (+1 more)
 
 ### Community 70 - "Validate Tokens Test Suite"
 Cohesion: 0.28
@@ -677,9 +683,9 @@ Nodes (35): 1. Visual Communication First, 2. Minimal Text Integration, 3. Exper
 Cohesion: 0.06
 Nodes (34): Accessibility, Available Domains, Available Stacks, Common Rules for Professional UI, Common Sticking Points, Example Workflow, How to Use This Skill, Icons & Visual Elements (+26 more)
 
-### Community 74 - "ModalCarnets.tsx"
-Cohesion: 0.31
-Nodes (8): brl(), CarnetRow, contractIsActive(), HolderContract, holderIsInactive(), HolderRow, ModalCarnets(), STATUS_STYLE
+### Community 74 - "BillingTab.tsx"
+Cohesion: 0.15
+Nodes (14): brl(), CarnetRow, contractIsActive(), HolderContract, holderIsInactive(), HolderRow, ModalCarnets(), STATUS_STYLE (+6 more)
 
 ### Community 75 - "sm"
 Cohesion: 0.60
@@ -758,8 +764,8 @@ Cohesion: 0.33
 Nodes (3): admin, anon, env
 
 ### Community 95 - "react"
-Cohesion: 0.09
-Nodes (18): react, BurialsTab(), EMPTY_FORM, CatalogItem, ConvalescenceTab(), DEFAULT_ITEMS, EMPTY_FORM, EMPTY_FORM (+10 more)
+Cohesion: 0.12
+Nodes (12): react, ADDONS, FAQ, MODULES, PLANS, BenefitsTab(), EMPTY_FORM, BurialsTab() (+4 more)
 
 ### Community 96 - "leads/route.ts"
 Cohesion: 0.39
@@ -801,9 +807,9 @@ Nodes (17): CrmTab(), EMPTY_FORM, fmtBRL(), histNoteRow, isOverdue(), Lead, FLOW
 Cohesion: 0.04
 Nodes (47): 10. Próximos passos, 11. Comandos de referência rápida, 12. Links úteis, 1. Contexto e motivação, 2. Graphify — instalação e configuração, 3. Repowise — camada adicional de inteligência, 4. Plano de refatoração — 6 fases, 5. Blast radius medido pelo Graphify (+39 more)
 
-### Community 109 - "notifyError"
-Cohesion: 0.12
-Nodes (20): lucide-react, ModalRBAC(), UserRole, ModalWebhookRetry(), Props, WebhookEvent, ModalCobrancaAvulsa(), AccountsPayableTab() (+12 more)
+### Community 109 - "AccountsPayableTab.tsx"
+Cohesion: 0.40
+Nodes (3): AccountsPayableTab(), EMPTY, AccountPayable
 
 ### Community 110 - "input"
 Cohesion: 0.29
@@ -896,6 +902,10 @@ Nodes (28): Alert, Anatomy, Anatomy, Anatomy, Anatomy, Anatomy, Badge, Button (+
 ### Community 173 - "16"
 Cohesion: 0.67
 Nodes (3): $type, $value, 16
+
+### Community 179 - "20260914220043_remote_schema.sql"
+Cohesion: 0.08
+Nodes (26): public.wake_rooms, idx_asaas_customers_tenant, idx_audit_logs_tenant, idx_dispatch_audit_dispatch, idx_dispatch_audit_tenant, idx_fiscal_invoices_created_at, idx_fiscal_invoices_nfse_number, idx_fiscal_invoices_provider (+18 more)
 
 ### Community 180 - "1"
 Cohesion: 0.67
@@ -1181,30 +1191,50 @@ Nodes (3): ring, $type, $value
 Cohesion: 0.67
 Nodes (3): secondary-foreground, $type, $value
 
-### Community 373 - "BenefitsTab.tsx"
-Cohesion: 0.40
-Nodes (3): BenefitsTab(), EMPTY_FORM, Partner
+### Community 373 - ""public"."tenants""
+Cohesion: 0.12
+Nodes (19): "public"."fleet_expenses", "public"."whatsapp_agent_sessions", idx_accounts_payable_tenant, idx_emergency_dispatches_tenant, idx_tenant_whatsapp_number, idx_user_roles_tenant_id, idx_whatsapp_sessions_tenant_phone, "public"."accounts_payable" (+11 more)
 
-### Community 374 - "landing/page.tsx"
-Cohesion: 0.33
-Nodes (4): ADDONS, FAQ, MODULES, PLANS
+### Community 374 - ""public"."service_orders""
+Cohesion: 0.14
+Nodes (14): "public"."service_order_items", idx_dispatches_tenant, idx_fin_transactions_tenant_date, idx_financial_transactions_service_order, idx_service_order_items_service, idx_service_orders_burial, idx_service_orders_contract, idx_service_orders_tenant (+6 more)
+
+### Community 375 - ""public"."contracts""
+Cohesion: 0.15
+Nodes (13): "public"."sales_commissions", public.sellers, idx_commissions_contract_id, idx_commissions_tenant, idx_contracts_status, idx_payment_carnets_asaas_id, idx_payment_carnets_tenant, idx_sellers_tenant (+5 more)
+
+### Community 376 - "public.holders"
+Cohesion: 0.40
+Nodes (5): idx_holders_cpf, idx_holders_tenant_id, idx_holders_tenant_status, "public"."dependents", public.holders
+
+### Community 377 - "public.leads"
+Cohesion: 0.40
+Nodes (5): idx_leads_converted, idx_leads_created, idx_leads_followup, idx_leads_stage, public.leads
+
+### Community 378 - ""public"."payments""
+Cohesion: 0.50
+Nodes (4): idx_payments_due_date, idx_payments_status, idx_payments_tenant_contract, "public"."payments"
+
+### Community 379 - ""public"."webhook_events""
+Cohesion: 0.50
+Nodes (4): idx_webhook_events_payment, idx_webhook_events_tenant_time, idx_webhook_events_unprocessed, "public"."webhook_events"
 
 ## Knowledge Gaps
-- **1414 isolated node(s):** `fs`, `path`, `fs`, `path`, `fs` (+1409 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2022 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **1423 isolated node(s):** `fs`, `path`, `fs`, `path`, `fs` (+1418 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2042 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **138 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `@supabase/supabase-js` connect `Supabase Client Scripts` to `Full Audit Script`, `Policy Detail Diagnostic`, `Project Identification Script`, `Insert Test Three`, `Insert Test Four`, `package.json`, `authFetch.ts`, `Final Isolation Test`, `Isolation Test v2`, `Client Onboarding Script`, `Behavior Inspection Script`, `API Test Script`, `Isolation Test v3`, `Isolation Test v4`, `Isolation Test v5`, `Isolation Test v6`, `supabaseAdmin.ts`, `Tenant Cleanup Scripts`, `Database RLS Tests`, `Isolation Fix Tests`, `Superadmin Check Script`, `Database Table Creation`, `User Creation Script`, `Roles Diagnostic Script`, `RBAC Data Insertion`?**
-  _High betweenness centrality (0.012) - this node is a cross-community bridge._
+- **Why does `@supabase/supabase-js` connect `Supabase Client Scripts` to `Full Audit Script`, `Policy Detail Diagnostic`, `Project Identification Script`, `Insert Test Three`, `Insert Test Four`, `package.json`, `notifySuccess`, `Final Isolation Test`, `Isolation Test v2`, `Client Onboarding Script`, `Behavior Inspection Script`, `API Test Script`, `Isolation Test v3`, `Isolation Test v4`, `Isolation Test v5`, `Isolation Test v6`, `supabaseAdmin.ts`, `Tenant Cleanup Scripts`, `Database RLS Tests`, `Isolation Fix Tests`, `Superadmin Check Script`, `Database Table Creation`, `User Creation Script`, `Roles Diagnostic Script`, `RBAC Data Insertion`?**
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
 - **Why does `search()` connect `search` to `validate_data.py`, `BM25`, `design_system.py`, `Search Domain Detection`, `.generate`, `Public Identity Resolver`, `_normalize`, `scripts/core.py`, `scripts/search.py`, `Text Layout Resilience Tests`?**
   _High betweenness centrality (0.007) - this node is a cross-community bridge._
-- **Why does `react` connect `react` to `domain.ts`, `FiscalTab.tsx`, `notify.ts`, `ModalCarnets.tsx`, `CrmTab.tsx`, `notifyError`, `app/page.tsx`, `authFetch`, `PlansTab.tsx`, `BenefitsTab.tsx`, `package.json`, `landing/page.tsx`, `app/layout.tsx`, `authFetch.ts`?**
+- **Why does `react` connect `react` to `domain.ts`, `FiscalTab.tsx`, `notifyError`, `BillingTab.tsx`, `CrmTab.tsx`, `AccountsPayableTab.tsx`, `app/page.tsx`, `ChapelTab.tsx`, `PlansTab.tsx`, `package.json`, `app/layout.tsx`, `notifySuccess`?**
   _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **What connects `fs`, `path`, `fs` to the rest of the system?**
-  _1414 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1423 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `validate_data.py` be split into smaller, more focused modules?**
   _Cohesion score 0.07401129943502825 - nodes in this community are weakly interconnected._
 - **Should `sanitizeString` be split into smaller, more focused modules?**

@@ -426,10 +426,10 @@
     "semantic_hash": "7945c3e716726d82ee9cb17d899f965c"
   },
   "package.json": {
-    "mtime": 1789259541.9250348,
-    "seen": 1789318651.2979755,
-    "ast_hash": "464bd7a5c196e31f7990abbab67a0503",
-    "semantic_hash": "464bd7a5c196e31f7990abbab67a0503"
+    "mtime": 1789422053.1349618,
+    "seen": 1789424538.7525415,
+    "ast_hash": "a68cbd14ff059305947f366ae509d31e",
+    "semantic_hash": ""
   },
   "payments/pix/route.ts": {
     "mtime": 1788142811.2472763,
@@ -642,9 +642,9 @@
     "semantic_hash": "b9c2cdc4654ca63de532cfe81b3ba512"
   },
   "src/app/(dashboard)/layout.tsx": {
-    "mtime": 1789393872.1649804,
-    "seen": 1789395059.0338938,
-    "ast_hash": "dfa75649c09f1207dc6303f37176101d",
+    "mtime": 1789424495.622521,
+    "seen": 1789424538.7526538,
+    "ast_hash": "8bfda7244d7c3cfe907ab5273592e874",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/planes/page.tsx": {
@@ -2232,9 +2232,9 @@
     "semantic_hash": ""
   },
   "src/components/tabs/BillingTab.tsx": {
-    "mtime": 1789393872.1691139,
-    "seen": 1789395059.0340347,
-    "ast_hash": "f400262aeb726509e61600c5e3f51f52",
+    "mtime": 1789416474.2567127,
+    "seen": 1789424538.7527816,
+    "ast_hash": "7d21fa2fb6be8cfe97d4246c0e9ccfa4",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/livro-caixa/page.tsx": {
@@ -2283,6 +2283,18 @@
     "mtime": 1789395000.491691,
     "seen": 1789395059.0340428,
     "ast_hash": "9548f1e2908a6e319a5bca37e4ecf45f",
+    "semantic_hash": ""
+  },
+  "src/types/supabase.ts": {
+    "mtime": 1789424185.8112621,
+    "seen": 1789424538.7528493,
+    "ast_hash": "7f4dd7c511da8fdb772d989d84d7a8c1",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/20260914220043_remote_schema.sql": {
+    "mtime": 1789423259.9974246,
+    "seen": 1789424538.7528512,
+    "ast_hash": "69b9ed73ec16253d0212809e4231f776",
     "semantic_hash": ""
   }
 }
