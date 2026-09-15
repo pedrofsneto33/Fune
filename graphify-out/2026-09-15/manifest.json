@@ -846,10 +846,10 @@
     "semantic_hash": "b5e0430fcdba6ed2ea6a26af9d9c46be"
   },
   "src/app/api/holders/route.ts": {
-    "mtime": 1789267365.3819356,
-    "seen": 1789318651.2980402,
-    "ast_hash": "170f631cb5469c7100b2e059b07bb384",
-    "semantic_hash": "170f631cb5469c7100b2e059b07bb384"
+    "mtime": 1789480486.5340269,
+    "seen": 1789480892.130792,
+    "ast_hash": "24df733a1ff01721a5a360b15b94c5d3",
+    "semantic_hash": ""
   },
   "src/app/api/init-user/route.ts": {
     "mtime": 1788538513.8210008,
@@ -1308,8 +1308,8 @@
     "semantic_hash": "22d189b9bf6780f252e70a00275ec82f"
   },
   "tests/routes/holders.test.ts": {
-    "mtime": 1789246963.7371075,
-    "seen": 1789318651.29811,
+    "mtime": 1789480486.5340269,
+    "seen": 1789480892.130919,
     "ast_hash": "360230cf3534aec4b931479e8efe77f2",
     "semantic_hash": "360230cf3534aec4b931479e8efe77f2"
   },
@@ -2052,9 +2052,9 @@
     "semantic_hash": "8e5ebdd787c11dcc40e829b468bde21d"
   },
   "src/app/(dashboard)/titulares/page.tsx": {
-    "mtime": 1789472700.419058,
-    "seen": 1789472803.8963687,
-    "ast_hash": "df476664142152c7d1b58c3cf0087491",
+    "mtime": 1789480855.0859594,
+    "seen": 1789480892.130746,
+    "ast_hash": "e63e7a739eed32c51dca7a0a58c8369f",
     "semantic_hash": ""
   },
   "tests/app/page.test.tsx": {
@@ -2325,6 +2325,12 @@
     "mtime": 1789472311.8637273,
     "seen": 1789472803.8967512,
     "ast_hash": "c8b63ca1913fa6d4121c645b29d43769",
+    "semantic_hash": ""
+  },
+  "src/components/HolderFormModal.tsx": {
+    "mtime": 1789478276.728819,
+    "seen": 1789480892.1308322,
+    "ast_hash": "959ea65e288a03a2a55c0c2a016916a5",
     "semantic_hash": ""
   }
 }

@@ -2196,9 +2196,9 @@
     "semantic_hash": "9a691a5e9c89e21c05e4ad614e4262c0"
   },
   "src/components/tabs/BurialsTab.tsx": {
-    "mtime": 1789472374.1356764,
-    "seen": 1789472803.8967767,
-    "ast_hash": "13858b90be942d221011253c505a8cf0",
+    "mtime": 1789481877.839087,
+    "seen": 1789481922.4705527,
+    "ast_hash": "2ef3f6e7536b8b7b29a7ba22c0c56a13",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/logistica/page.tsx": {
