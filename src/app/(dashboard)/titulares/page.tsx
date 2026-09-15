@@ -5,6 +5,7 @@ import { authFetch } from '@/lib/authFetch';
 import { notifyError, notifyInfo } from '@/lib/notify';
 import type { ContractPlan, Contract, Dependent, Holder, StatusFilter } from '@/types';
 import AdhesionTerm from '@/components/print/AdhesionTerm';
+import { HolderFormModal } from '@/components/HolderFormModal';
 
 export default function TitularesPage() {
   const [holders, setHolders] = useState<Holder[]>([]);
@@ -15,6 +16,13 @@ export default function TitularesPage() {
   const [quickLoading, setQuickLoading] = useState(false);
   // Impressao (6g-5): titular cujo Termo de Adesao esta aberto
   const [printHolder, setPrintHolder] = useState<Holder | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingHolder, setEditingHolder] = useState<Holder | null>(null);
+
+  // Fase 6g-6a: gate de role - oculta botoes de mutacao p/ roles somente-leitura.
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const CAN_MUTATE = ['superadmin', 'admin', 'manager', 'attendant'];
+  const canMutate = userRole !== null && CAN_MUTATE.includes(userRole);
 
   // GET /api/holders — lista completa do tenant (mesmo contrato de page.tsx loadData)
   const loadHolders = async () => {
@@ -38,6 +46,47 @@ export default function TitularesPage() {
   useEffect(() => {
     loadHolders();
   }, []);
+
+  // Fase 6g-6a: busca o role do usuario via POST /api/init-user.
+  useEffect(() => {
+    const fetchRole = async () => {
+      try {
+        const res = await authFetch('/api/init-user', { method: 'POST' });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.role) setUserRole(data.role);
+        }
+      } catch {
+        // role permanece null -> botoes de mutacao ocultos (fail-closed)
+      }
+    };
+    fetchRole();
+  }, []);
+
+  // Fase 6g-6a: inativar/reativar titular via PATCH /api/holders + refetch.
+  const toggleHolderStatus = async (h: Holder) => {
+    const currentStatus = h.status || h.contracts?.[0]?.status || 'ativo';
+    const isInactive = currentStatus === 'inativo' || currentStatus === 'inactive';
+    const nextStatus = isInactive ? 'ativo' : 'inativo';
+    if (nextStatus === 'inativo') {
+      if (!window.confirm('Inativar este titular?')) return;
+    }
+    try {
+      const res = await authFetch('/api/holders', {
+        method: 'PATCH',
+        body: JSON.stringify({ id: h.id, status: nextStatus }),
+      });
+      if (res.ok) {
+        notifyInfo(nextStatus === 'ativo' ? 'Titular reativado.' : 'Titular inativado.');
+        await loadHolders();
+      } else {
+        const j = await res.json().catch(() => ({}));
+        notifyError('Erro ao atualizar titular: ' + (j.error || 'falha'));
+      }
+    } catch {
+      notifyError('Erro de conexao ao atualizar titular.');
+    }
+  };
 
   // GET /api/holders/quick-search — busca server-side (>= 3 chars, até 5 resultados).
   // Debounce de 300ms para respeitar o rate limit do endpoint (60/min por usuário).
@@ -138,12 +187,25 @@ export default function TitularesPage() {
               : `${holders.length} titulares · ${filteredHolders.length} no filtro atual`}
           </p>
         </div>
+        <div className="flex items-center gap-2 shrink-0">
+        {canMutate && (
+          <button
+            onClick={() => {
+              setEditingHolder(null);
+              setModalOpen(true);
+            }}
+            className="px-3 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded-lg transition shadow shrink-0"
+          >
+            + Novo Titular
+          </button>
+        )}
         <button
           onClick={handleExportCSV}
           className="px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-lg transition shadow shrink-0"
         >
           ⬇️ Exportar CSV
         </button>
+        </div>
       </div>
 
       {/* Busca + filtro de status (cópia do padrão da aba de page.tsx) */}
@@ -253,6 +315,28 @@ export default function TitularesPage() {
                       {(h.dependents || []).length}
                     </td>
                     <td className="py-2.5 px-4 text-right">
+                      <div className="flex justify-end gap-1.5">
+                      {canMutate && (
+                        <>
+                          <button
+                            onClick={() => {
+                              setEditingHolder(h);
+                              setModalOpen(true);
+                            }}
+                            aria-label={'Editar ' + h.full_name}
+                            className="px-2.5 py-1 bg-blue-600/15 text-blue-400 border border-blue-500/30 rounded text-[11px] font-semibold"
+                          >
+                            Editar
+                          </button>
+                          <button
+                            onClick={() => toggleHolderStatus(h)}
+                            aria-label={(status === 'inativo' ? 'Reativar ' : 'Inativar ') + h.full_name}
+                            className="px-2.5 py-1 bg-amber-600/15 text-amber-400 border border-amber-500/30 rounded text-[11px] font-semibold"
+                          >
+                            {status === 'inativo' ? 'Reativar' : 'Inativar'}
+                          </button>
+                        </>
+                      )}
                       <button
                         onClick={() => setPrintHolder(h)}
                         aria-label={`Imprimir termo de adesão de ${h.full_name}`}
@@ -260,6 +344,7 @@ export default function TitularesPage() {
                       >
                         📄 Termo
                       </button>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -274,6 +359,23 @@ export default function TitularesPage() {
         <AdhesionTerm
           holder={printHolder}
           onClose={() => setPrintHolder(null)}
+        />
+      )}
+
+      {modalOpen && (
+        <HolderFormModal
+          key={editingHolder?.id ?? 'new'}
+          isOpen={modalOpen}
+          holder={editingHolder}
+          onClose={() => {
+            setModalOpen(false);
+            setEditingHolder(null);
+          }}
+          onSaved={() => {
+            setModalOpen(false);
+            setEditingHolder(null);
+            loadHolders();
+          }}
         />
       )}
     </div>
