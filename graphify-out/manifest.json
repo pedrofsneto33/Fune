@@ -642,9 +642,9 @@
     "semantic_hash": "b9c2cdc4654ca63de532cfe81b3ba512"
   },
   "src/app/(dashboard)/layout.tsx": {
-    "mtime": 1789482178.7487733,
-    "seen": 1789482225.4280794,
-    "ast_hash": "fada17f376e9539ac8df33eb1a98ec32",
+    "mtime": 1789482664.8755684,
+    "seen": 1789482814.7244494,
+    "ast_hash": "3547483afa19f8a90eac38e68d94c120",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/planes/page.tsx": {
@@ -1020,10 +1020,10 @@
     "semantic_hash": "3c9689d83c012169e2a834d45835791e"
   },
   "src/app/page.tsx": {
-    "mtime": 1789323841.2191572,
-    "seen": 1789330013.9209166,
-    "ast_hash": "1b90657f19d42a5a005bca0cf5dce377",
-    "semantic_hash": "1b90657f19d42a5a005bca0cf5dce377"
+    "mtime": 1789482761.771904,
+    "seen": 1789482814.724543,
+    "ast_hash": "a720d5ead917c1e427aea8fc569bf267",
+    "semantic_hash": ""
   },
   "src/components/AuthGuard.tsx": {
     "mtime": 1788469084.7271948,
@@ -1326,10 +1326,10 @@
     "semantic_hash": "0e32d13e73b74d8fd11a66c10ae080e0"
   },
   "tests/ui-auth-gate.test.ts": {
-    "mtime": 1789245419.0480373,
-    "seen": 1789318651.298113,
-    "ast_hash": "0c5bd7187eaad0f073a279f550e04d87",
-    "semantic_hash": "0c5bd7187eaad0f073a279f550e04d87"
+    "mtime": 1789482767.310635,
+    "seen": 1789482814.7246475,
+    "ast_hash": "5118cc335c0684f942340ab5be718cd3",
+    "semantic_hash": ""
   },
   "tsconfig.json": {
     "mtime": 1788010792.568571,
@@ -2056,12 +2056,6 @@
     "seen": 1789480892.130746,
     "ast_hash": "e63e7a739eed32c51dca7a0a58c8369f",
     "semantic_hash": ""
-  },
-  "tests/app/page.test.tsx": {
-    "mtime": 1789348781.5096004,
-    "seen": 1789439711.3390272,
-    "ast_hash": "cd7b36cf595d9b7cf0e8e1e9a1983da1",
-    "semantic_hash": "cd7b36cf595d9b7cf0e8e1e9a1983da1"
   },
   "docs/JORNADA-GRAPHIFY-E-REFATORACAO.md": {
     "mtime": 1789393940.9857645,
