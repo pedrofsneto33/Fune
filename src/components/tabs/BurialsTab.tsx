@@ -24,6 +24,8 @@ export default function BurialsTab() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState({ ...EMPTY_FORM });
   const [saving, setSaving] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
   // Impressao (6g-5): sepultamento cuja Guia esta aberta
   const [printBurial, setPrintBurial] = useState<Burial | null>(null);
 
@@ -44,6 +46,40 @@ export default function BurialsTab() {
   useEffect(() => {
     loadBurials();
   }, [loadBurials]);
+
+  useEffect(() => {
+    authFetch('/api/init-user', { method: 'POST' })
+      .then((res) => res.json().catch(() => ({})))
+      .then((data) => {
+        if (data && typeof data.role === 'string') setUserRole(data.role);
+      })
+      .catch(() => {});
+  }, []);
+
+  const CAN_DELETE = ['superadmin', 'admin', 'manager'];
+  const canDelete = userRole ? CAN_DELETE.includes(userRole) : false;
+
+  const handleDelete = async (b: Burial) => {
+    if (!window.confirm('Excluir definitivamente este sepultamento? Esta acao nao pode ser desfeita.')) return;
+    setDeletingId(b.id);
+    try {
+      const res = await authFetch(`/api/chapel/burials?id=${b.id}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        notifyError('Erro ao excluir: ' + (j.error || 'falha'));
+        return;
+      }
+      notifySuccess('Sepultamento excluido.');
+      setBurials((prev) => prev.filter((x) => x.id !== b.id));
+      setEditingId(null);
+      setIsNewOpen(false);
+      resetForm();
+    } catch {
+      notifyError('Erro de conexao.');
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   const resetForm = () => {
     setForm({ ...EMPTY_FORM });
@@ -245,6 +281,19 @@ export default function BurialsTab() {
                 </select>
               </div>
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-200 dark:border-slate-800 mt-4">
+                {editingId && canDelete && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const target = burials.find((x) => x.id === editingId);
+                      if (target) handleDelete(target);
+                    }}
+                    disabled={!!deletingId}
+                    className="px-3 py-1.5 text-xs bg-red-600 hover:bg-red-500 text-white rounded disabled:opacity-50"
+                  >
+                    {deletingId ? 'Excluindo...' : '🗑️ Excluir'}
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={() => {
