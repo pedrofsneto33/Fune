@@ -15,6 +15,7 @@ import {
   FinancialSummary,
 } from '@/types/domain';
 import { ModalDRE } from '@/components/dashboard/ModalDRE';
+import { ModalWebhookRetry } from '@/components/dashboard/ModalWebhookRetry';
 import { ModalCarnets } from '@/components/modals/ModalCarnets';
 import { ModalCobrancaAvulsa } from '@/components/modals/ModalCobrancaAvulsa';
 import { authFetch } from '@/lib/authFetch';
@@ -83,10 +84,11 @@ export default function BillingTab() {
   const [receivedAmount, setReceivedAmount] = useState('');
   const [settling, setSettling] = useState(false);
 
-  // Estados para os modais religados (6d-0a)
+  // Estados para os modais religados (6d-0a; 6g-3: + retry de webhooks)
   const [dreOpen, setDreOpen] = useState(false);
   const [carnetsOpen, setCarnetsOpen] = useState(false);
   const [avulsaOpen, setAvulsaOpen] = useState(false);
+  const [webhookRetryOpen, setWebhookRetryOpen] = useState(false);
 
   // Secao C — Vendas Avulsas (6d-0b): GET /api/financial/transactions (filtro
   // de periodo) + GET /api/financial/summary (totais sem teto de linhas).
@@ -327,7 +329,7 @@ export default function BillingTab() {
       <section>
         <h2 className="text-lg font-bold text-white">Ferramentas</h2>
         <p className="text-xs text-slate-400">
-          Modais religados na 6d-0a (eram órfãos no page.tsx).
+          Modais religados na 6d-0a (eram órfãos no page.tsx); retry de webhooks na 6g-3.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           <button
@@ -353,6 +355,12 @@ export default function BillingTab() {
             className="px-3 py-1.5 bg-cyan-700 hover:bg-cyan-600 text-white rounded-lg text-xs font-bold"
           >
             💳 Gateway Asaas
+          </button>
+          <button
+            onClick={() => setWebhookRetryOpen(true)}
+            className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold"
+          >
+            🔄 Retry de Webhooks
           </button>
         </div>
       </section>
@@ -845,10 +853,11 @@ export default function BillingTab() {
         </div>
       )}
 
-      {/* Modais religados na 6d-0a */}
+      {/* Modais religados na 6d-0a e na 6g-3 (retry de webhooks) */}
       <ModalDRE isOpen={dreOpen} onClose={() => setDreOpen(false)} />
       <ModalCarnets isOpen={carnetsOpen} onClose={() => setCarnetsOpen(false)} />
       <ModalCobrancaAvulsa isOpen={avulsaOpen} onClose={() => setAvulsaOpen(false)} />
+      <ModalWebhookRetry isOpen={webhookRetryOpen} onClose={() => setWebhookRetryOpen(false)} />
     </div>
   );
 }
