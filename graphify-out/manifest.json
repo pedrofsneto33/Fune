@@ -2328,9 +2328,9 @@
     "semantic_hash": ""
   },
   "tests/helpers/api-mocks.ts": {
-    "mtime": 1789487348.185744,
-    "seen": 1789487494.469335,
-    "ast_hash": "7c02fc9496e4e335bbe899150f138949",
+    "mtime": 1789487797.0451875,
+    "seen": 1789488108.7154222,
+    "ast_hash": "ce4126df28443914ec646414d22e647b",
     "semantic_hash": ""
   },
   "tests/routes/webhooks-asaas.test.ts": {
@@ -2343,6 +2343,12 @@
     "mtime": 1789487419.0920043,
     "seen": 1789487494.4693432,
     "ast_hash": "f1a01270d26999d2a4939fc57dca3ef9",
+    "semantic_hash": ""
+  },
+  "tests/routes/asaas-batch.test.ts": {
+    "mtime": 1789487957.9533565,
+    "seen": 1789488108.7154722,
+    "ast_hash": "d83194186b8385403f3e64f7686af49e",
     "semantic_hash": ""
   }
 }
