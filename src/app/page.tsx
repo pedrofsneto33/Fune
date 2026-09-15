@@ -1,8 +1,8 @@
 'use client';
 
 // HomeRedirect: substitui o monolito da home (Fase 6g-6d).
-// Redireciona o usuario para a primeira rota permitida pelo seu role,
-// baseado em NAV_GROUPS + isTabAllowed.
+// Prioriza /executivo (dashboard com KPIs). Se o role nao tiver
+// acesso, cai para a primeira rota permitida em NAV_GROUPS.
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -23,7 +23,14 @@ export default function HomePage() {
           router.replace('/login');
           return;
         }
-        // Encontrar primeira rota permitida na ordem de NAV_GROUPS
+
+        // Prioridade: /executivo (dashboard com KPIs + grafico)
+        if (isTabAllowed(data.role, 'executive')) {
+          router.replace('/executivo');
+          return;
+        }
+
+        // Fallback: primeira rota permitida em NAV_GROUPS
         for (const group of NAV_GROUPS) {
           for (const item of group.items) {
             if (isTabAllowed(data.role, item.tab)) {
@@ -32,7 +39,8 @@ export default function HomePage() {
             }
           }
         }
-        // Fallback
+
+        // Ultimo fallback
         router.replace('/titulares');
       } catch {
         router.replace('/login');
