@@ -58,7 +58,7 @@ O grafo já tem a informação. Só leia o arquivo se o grafo não responder.
 - Use `Select-String -Context` em vez de `Get-Content` inteiro.
 
 ### Não usar Repowise em reconhecimento
-- Repowise só entra em sub-fases críticas (4c, 5).
+- Repowise só entra em sub-fases críticas (4c, 5, 6g).
 - Uma chamada por sub-fase, no máximo.
 
 ## Autonomia — quando agir sozinho vs parar
@@ -101,16 +101,32 @@ Quando o usuário autorizar uma sub-fase, execute TUDO:
 - Para blast radius estrutural: `/graphify query "o que quebra se X mudar?"`
 - **NUNCA** ler `graph.json`/`GRAPH_REPORT.md` diretamente. Use a CLI.
 
+### Code-Ranker (CLI) — análise estrutural
+- **Quando usar:** antes de refatorar um arquivo grande, ou ao final de
+  cada fase para medir impacto.
+- **Comando:** `code-ranker report .` (gera `.code-ranker/` com HTML + JSON).
+- **Relatório legível:** `docs/CODE-RANKER.md` (top arquivos por complexidade).
+- **Princípios avaliados:** 13 (CPX, SRP, DRY, KISS, ADP, DIP, LSP, etc.).
+- **Para entender um princípio:** `code-ranker docs ts <ID>`
+  (ex: `code-ranker docs ts CPX`).
+- **Métricas-chave:**
+  * **SLOC** — linhas de código (quanto maior, pior)
+  * **Cognitive** — complexidade cognitiva (quanto maior, mais difícil de ler)
+  * **MI** — Maintainability Index (0-100; negativo = inmantível)
+  * **Fan-in** — quantos arquivos dependem deste (alto = risco)
+  * **HK** — Henry-Kafura (god-object risk)
+- **NUNCA** ler `.code-ranker/*.json` diretamente (arquivo grande).
+
 ### Repowise (MCP) — sob demanda, uma por vez
-- **Antes de commitar sub-fase crítica (4c, 5):** `repowise__get_change_risk` no commit staged
+- **Antes de commitar sub-fase crítica (6g, 7):** `repowise__get_change_risk` no commit staged
 - **Depois de sub-fase grande:** `repowise__get_health` no arquivo tocado
-- **Fase 6 (remover monolito):** `repowise__get_dead_code`
+- **Antes de remover page.tsx:** `repowise__get_dead_code`
 - **Quando não entender código legado:** `repowise__get_why`
 - Use **no máximo 1 chamada Repowise por sub-fase**.
 
 ## Refatoração — estado atual
-- **Objetivo:** quebrar `src/app/page.tsx` (~4942 linhas) em rotas por domínio.
-- **Regra de ouro:** copiar, não mover. `page.tsx` fica intacto até a Fase 6.
+- **Objetivo:** quebrar `src/app/page.tsx` (~5081 linhas) em rotas por domínio.
+- **Regra de ouro:** copiar, não mover. `page.tsx` fica intacto até a Fase 6g.
 - **NUNCA alterar:** `src/lib/eligibility.ts`, `src/lib/api-handler.ts`,
   `src/lib/supabaseAdmin.ts`.
 - **Documentação viva:** `docs/JORNADA-GRAPHIFY-E-REFATORACAO.md`
@@ -120,22 +136,38 @@ Quando o usuário autorizar uma sub-fase, execute TUDO:
 - **Fase 1:** Plans + Sellers
 - **Fase 2:** Titulares, Dependentes, Contratos, Import CSV, Tipos (`src/types/domain.ts`)
 - **Fase 3:** CRM, Benefícios, Convalescença, Fiscal, Navegação (dropdowns)
-- **Fase 4a:** Frota, Estoque
-- **Fase 4b:** Tanatopraxia, Capela
-- **Fase 4c:** Service Orders + Burials (4c-1 a 4c-5)
-- **Fase 4d:** Logística (4d-1, 4d-3)
+- **Fase 4:** Frota, Estoque, Tanatopraxia, Capela, Service Orders, Burials, Logística (4d-2 Emergências adiada)
+- **Fase 5:** Billing/Asaas, Livro Caixa, Reservas Regulatórias, Contas a Pagar, Auditoria
+- **Fase 6a-6f:** Diagnóstico, Modais religados, Vendas Avulsas + Gateway, ThemeToggle, TenantProvider removido, Links por role
 
-### Fase atual: 5 (Cobrança + Financeiro)
-- Fase 4 completa (4a, 4b, 4c, 4d-1, 4d-3)
-- 4d-2 (Emergências) adiada — tem fallback via whatsappAgent
-- Próxima: Fase 5
+### Fase atual: 6g (remover monolito page.tsx)
+
+**Diagnóstico da 6g (concluído):**
+7 funcionalidades órfãs precisam ser extraídas ANTES de remover `page.tsx`:
+1. **RBAC** (ModalRBAC) → rota `/usuarios` — crítico
+2. **Configurações da Empresa** (`TenantSettingsTab`) → rota `/configuracoes`
+3. **WebhookRetry** → seção no `/financeiro` (BillingTab)
+4. **Tela de pendência de aprovação** → no `(dashboard)/layout.tsx`
+5. **Impressões** (Termo de Adesão + Guia Sepultamento) → portar
+6. **Rota `/`** → redirecionar para `/executivo` (novo `page.tsx` mínimo)
+7. **2 testes** (`page.test.tsx`, `ui-auth-gate.test.ts`) → atualizar
+
+**Sub-fases planejadas da 6g:**
+- 6g-1: RBAC → `/usuarios`
+- 6g-2: TenantSettings → `/configuracoes`
+- 6g-3: WebhookRetry → BillingTab
+- 6g-4: Tela de pendência de aprovação no layout
+- 6g-5: Portar 2 impressões
+- 6g-6: Remover `page.tsx` + redirect `/` + atualizar testes
 
 ### Fases pendentes
-- Fase 5: Cobrança + Financeiro
-- Fase 6: Auth/Providers + remover monolito
+- Fase 6g: sub-fases acima
+- Fase 7 (opcional): limpeza final (dead code, duplicação)
 
 ## Bugs conhecidos (para corrigir após refatoração)
 - Estoque: botões +/- de `inventory` só alteram estado local (sem POST)
 - Duplicação `vehicles` × `fleet_vehicles` (investigar)
-- `TenantProvider` é código morto (consolidar ou remover)
 - `deceased_id` obrigatório mesmo para tipo `free` (talvez melhorar API)
+- `webhooks/asaas`: token fraco (<16 chars) só loga, não bloqueia
+- Gateway Asaas: form salva só em estado local (F-29)
+- Rotas de billing sem `allowedRoles` (qualquer role do tenant)
