@@ -1,10 +1,11 @@
 'use client';
 
 import { useCallback, useEffect, useState, ReactNode } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ThemeToggle from '@/components/ThemeToggle';
 import PendingApprovalScreen from '@/components/PendingApprovalScreen';
+import { supabase } from '@/lib/supabase';
 import { authFetch } from '@/lib/authFetch';
 import { AppRole, isTabAllowed } from '@/config/permissions';
 
@@ -77,6 +78,19 @@ type AuthState = 'loading' | 'pending' | 'error' | 'authenticated';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [signingOut, setSigningOut] = useState(false);
+
+  const handleSignOut = async () => {
+    if (!window.confirm('Sair da conta?')) return;
+    setSigningOut(true);
+    try {
+      await supabase.auth.signOut();
+      router.push('/login');
+    } catch {
+      setSigningOut(false);
+    }
+  };
   // F-08 fail-closed: sem role confirmado pelo backend a nav nasce vazia
   // (sem flash de links que vao sumir) e nunca inicia como admin.
   const [authState, setAuthState] = useState<AuthState>('loading');
@@ -186,6 +200,13 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               </details>
             ))}
             <ThemeToggle compact />
+            <button
+              onClick={handleSignOut}
+              disabled={signingOut}
+              className="text-slate-400 hover:text-red-400 text-sm transition disabled:opacity-50"
+            >
+              {signingOut ? 'Saindo...' : '🚪 Sair'}
+            </button>
             <Link href="/" className="text-xs text-slate-400 hover:text-white transition">
               ← Dashboard
             </Link>
