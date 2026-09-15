@@ -642,9 +642,9 @@
     "semantic_hash": "b9c2cdc4654ca63de532cfe81b3ba512"
   },
   "src/app/(dashboard)/layout.tsx": {
-    "mtime": 1789482664.8755684,
-    "seen": 1789482814.7244494,
-    "ast_hash": "3547483afa19f8a90eac38e68d94c120",
+    "mtime": 1789484322.749624,
+    "seen": 1789484534.133734,
+    "ast_hash": "40b2fd44b65982ce29f7ec99dac2841e",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/planes/page.tsx": {
@@ -1020,9 +1020,9 @@
     "semantic_hash": "3c9689d83c012169e2a834d45835791e"
   },
   "src/app/page.tsx": {
-    "mtime": 1789482761.771904,
-    "seen": 1789482814.724543,
-    "ast_hash": "a720d5ead917c1e427aea8fc569bf267",
+    "mtime": 1789483584.4004457,
+    "seen": 1789484534.133829,
+    "ast_hash": "4e3848ce39b426651579396e442a9c77",
     "semantic_hash": ""
   },
   "src/components/AuthGuard.tsx": {
