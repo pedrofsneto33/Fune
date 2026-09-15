@@ -27,8 +27,8 @@ export function mockWithAuth(role = 'admin', tenantId = 'tenant-1'): MockFn {
   });
   return mockFrom;
 }
-interface ChainValues { singleValue?: unknown; limitValue?: unknown; thenValue?: unknown; }
-function makeChain(values: ChainValues = {}): Record<string, unknown> {
+export interface ChainValues { singleValue?: unknown; limitValue?: unknown; thenValue?: unknown; }
+export function makeChain(values: ChainValues = {}): Record<string, unknown> {
   const chain: Record<string, unknown> = {};
   const fb = values.thenValue ?? values.singleValue ?? values.limitValue ?? { data: null, error: null };
   chain.select = jest.fn().mockReturnValue(chain);
@@ -36,8 +36,12 @@ function makeChain(values: ChainValues = {}): Record<string, unknown> {
   chain.neq = jest.fn().mockReturnValue(chain);
   chain.insert = jest.fn().mockReturnValue(chain);
   chain.update = jest.fn().mockReturnValue(chain);
+  chain.order = jest.fn().mockReturnValue(chain);
+  chain.range = jest.fn().mockReturnValue(chain);
+  chain.in = jest.fn().mockReturnValue(chain);
   chain.single = jest.fn().mockResolvedValue(values.singleValue ?? fb);
   chain.limit = jest.fn().mockResolvedValue(values.limitValue ?? fb);
+  chain.maybeSingle = jest.fn().mockResolvedValue(values.singleValue ?? fb);
   (chain as Record<string, unknown>).then = (resolve: (v: unknown) => void) => Promise.resolve(values.thenValue ?? fb).then(resolve as never);
   return chain;
 }

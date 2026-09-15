@@ -422,6 +422,40 @@ export const PATCH = withAuth(
           .eq("status", "active");
       }
 
+      // 6g-6a (recuperado): sincroniza plano no contract ATIVO
+      const planIdRaw = body.plan_id;
+      if (planIdRaw && isValidUUID(planIdRaw)) {
+        const { data: contractAtual } = await supabaseAdmin
+          .from("contracts")
+          .select("id, plan_id")
+          .eq("holder_id", id)
+          .eq("tenant_id", auth.tenantId)
+          .eq("status", "active")
+          .maybeSingle();
+
+        if (contractAtual && planIdRaw !== (contractAtual as any).plan_id) {
+          const { data: plan } = await supabaseAdmin
+            .from("plans")
+            .select("id")
+            .eq("id", planIdRaw)
+            .eq("tenant_id", auth.tenantId)
+            .maybeSingle();
+
+          if (!plan) {
+            return NextResponse.json(
+              { error: "Plano invalido" },
+              { status: 400 },
+            );
+          }
+
+          await supabaseAdmin
+            .from("contracts")
+            .update({ plan_id: planIdRaw })
+            .eq("id", (contractAtual as any).id)
+            .eq("tenant_id", auth.tenantId);
+        }
+      }
+
       return NextResponse.json({ success: true, holder });
     } catch (err: unknown) {
       return NextResponse.json(
