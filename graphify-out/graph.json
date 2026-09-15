@@ -612,7 +612,7 @@
       "file_type": "code",
       "norm_label": "authstate",
       "source_file": "src/app/(dashboard)/layout.tsx",
-      "source_location": "L79"
+      "source_location": "L71"
     },
     {
       "id": "src_app_dashboard_layout_navitem",
@@ -6222,7 +6222,7 @@
       "file_type": "code",
       "norm_label": "dashboardlayout()",
       "source_file": "src/app/(dashboard)/layout.tsx",
-      "source_location": "L81"
+      "source_location": "L73"
     },
     {
       "id": "src_app_page_homepage",
@@ -26557,7 +26557,7 @@
       "file_type": "code",
       "norm_label": "nav_groups",
       "source_file": "src/app/(dashboard)/layout.tsx",
-      "source_location": "L20"
+      "source_location": "L16"
     },
     {
       "id": "src_app_page",
@@ -51953,7 +51953,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(dashboard)/layout.tsx",
-      "source_location": "L105",
+      "source_location": "L116",
       "weight": 1.0
     },
     {
@@ -51965,7 +51965,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(dashboard)/layout.tsx",
-      "source_location": "L136",
+      "source_location": "L143",
       "weight": 1.0
     },
     {
@@ -52109,7 +52109,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/page.tsx",
-      "source_location": "L29",
+      "source_location": "L28",
       "weight": 1.0
     },
     {
@@ -91792,7 +91792,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/(dashboard)/layout.tsx",
-      "source_location": "L20",
+      "source_location": "L16",
       "weight": 1.0
     },
     {
@@ -91803,7 +91803,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/(dashboard)/layout.tsx",
-      "source_location": "L79",
+      "source_location": "L71",
       "weight": 1.0
     },
     {
@@ -91814,7 +91814,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/(dashboard)/layout.tsx",
-      "source_location": "L81",
+      "source_location": "L73",
       "weight": 1.0
     },
     {
@@ -104817,5 +104817,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "ea780ccee655fd04f8e9c93790adfd7561ce6532"
+  "built_at_commit": "1a32b4e64e3349a5b2335505027b96328fe356ae"
 }
