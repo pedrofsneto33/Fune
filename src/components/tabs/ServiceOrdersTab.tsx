@@ -5,6 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { ServiceOrder } from '@/types/domain';
+import BurialGuide from '@/components/print/BurialGuide';
 import { authFetch } from '@/lib/authFetch';
 import { notifyError, notifySuccess } from '@/lib/notify';
 
@@ -13,6 +14,10 @@ export default function ServiceOrdersTab() {
   const [loadingServiceOrders, setLoadingServiceOrders] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<ServiceOrder | null>(null);
   const [cancelingId, setCancelingId] = useState<string | null>(null);
+  // Impressao (6g-5): guia aberta a partir da OS vinculada (so.burial)
+  const [printBurial, setPrintBurial] = useState<
+    NonNullable<ServiceOrder['burial']> | null
+  >(null);
 
   useEffect(() => {
     let cancel = false;
@@ -142,6 +147,14 @@ export default function ServiceOrdersTab() {
                   </span>
                 </td>
                 <td className="py-3 px-4 text-right">
+                  {so.burial && (
+                    <button
+                      onClick={() => setPrintBurial(so.burial || null)}
+                      className="mr-1 px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded text-[11px] font-semibold"
+                    >
+                      🖨️ Guia
+                    </button>
+                  )}
                   <button
                     onClick={() => setSelectedOrder(so)}
                     className="px-2.5 py-1 bg-blue-950/60 hover:bg-blue-900/60 text-blue-300 border border-blue-800/60 rounded text-[11px] font-semibold"
@@ -233,6 +246,11 @@ export default function ServiceOrdersTab() {
             )}
           </div>
         </div>
+      )}
+
+      {/* Impressão da Guia de Sepultamento (6g-5) — via so.burial */}
+      {printBurial && (
+        <BurialGuide burial={printBurial} onClose={() => setPrintBurial(null)} />
       )}
     </div>
   );

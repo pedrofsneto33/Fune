@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { authFetch } from '@/lib/authFetch';
 import { notifyError, notifyInfo } from '@/lib/notify';
 import type { ContractPlan, Contract, Dependent, Holder, StatusFilter } from '@/types';
+import AdhesionTerm from '@/components/print/AdhesionTerm';
 
 export default function TitularesPage() {
   const [holders, setHolders] = useState<Holder[]>([]);
@@ -12,6 +13,8 @@ export default function TitularesPage() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
   const [quickResults, setQuickResults] = useState<Holder[]>([]);
   const [quickLoading, setQuickLoading] = useState(false);
+  // Impressao (6g-5): titular cujo Termo de Adesao esta aberto
+  const [printHolder, setPrintHolder] = useState<Holder | null>(null);
 
   // GET /api/holders — lista completa do tenant (mesmo contrato de page.tsx loadData)
   const loadHolders = async () => {
@@ -206,18 +209,19 @@ export default function TitularesPage() {
               <th className="py-3 px-4">Plano</th>
               <th className="py-3 px-4">Status</th>
               <th className="py-3 px-4">Dependentes</th>
+              <th className="py-3 px-4 text-right">Ações</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-800">
             {loading ? (
               <tr>
-                <td colSpan={6} className="py-6 px-4 text-center text-slate-500">
+                <td colSpan={7} className="py-6 px-4 text-center text-slate-500">
                   Carregando titulares...
                 </td>
               </tr>
             ) : filteredHolders.length === 0 ? (
               <tr>
-                <td colSpan={6} className="py-6 px-4 text-center text-slate-500">
+                <td colSpan={7} className="py-6 px-4 text-center text-slate-500">
                   Nenhum titular encontrado para o filtro atual.
                 </td>
               </tr>
@@ -248,6 +252,15 @@ export default function TitularesPage() {
                     <td className="py-2.5 px-4 text-slate-600 dark:text-slate-400">
                       {(h.dependents || []).length}
                     </td>
+                    <td className="py-2.5 px-4 text-right">
+                      <button
+                        onClick={() => setPrintHolder(h)}
+                        aria-label={`Imprimir termo de adesão de ${h.full_name}`}
+                        className="px-2.5 py-1 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 rounded text-[11px] font-semibold"
+                      >
+                        📄 Termo
+                      </button>
+                    </td>
                   </tr>
                 );
               })
@@ -255,6 +268,14 @@ export default function TitularesPage() {
           </tbody>
         </table>
       </div>
+
+      {/* Impressão do Termo de Adesão (6g-5) */}
+      {printHolder && (
+        <AdhesionTerm
+          holder={printHolder}
+          onClose={() => setPrintHolder(null)}
+        />
+      )}
     </div>
   );
 }

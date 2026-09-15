@@ -7,6 +7,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { authFetch } from '@/lib/authFetch';
 import { notifyError, notifySuccess } from '@/lib/notify';
 import type { Burial } from '@/types';
+import BurialGuide from '@/components/print/BurialGuide';
 
 const EMPTY_FORM = {
   id: '',
@@ -23,6 +24,8 @@ export default function BurialsTab() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState({ ...EMPTY_FORM });
   const [saving, setSaving] = useState(false);
+  // Impressao (6g-5): sepultamento cuja Guia esta aberta
+  const [printBurial, setPrintBurial] = useState<Burial | null>(null);
 
   const loadBurials = useCallback(async () => {
     setLoading(true);
@@ -166,6 +169,12 @@ export default function BurialsTab() {
                   </td>
                   <td className="py-3 px-4 text-right">
                     <button
+                      onClick={() => setPrintBurial(b)}
+                      className="mr-1 px-2.5 py-1 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded border border-slate-300 dark:border-slate-700 text-[11px] font-semibold"
+                    >
+                      🖨️ Guia
+                    </button>
+                    <button
                       onClick={() => openEdit(b)}
                       className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] font-semibold"
                     >
@@ -257,6 +266,11 @@ export default function BurialsTab() {
             </form>
           </div>
         </div>
+      )}
+
+      {/* Impressão da Guia de Sepultamento (6g-5) */}
+      {printBurial && (
+        <BurialGuide burial={printBurial} onClose={() => setPrintBurial(null)} />
       )}
     </div>
   );
