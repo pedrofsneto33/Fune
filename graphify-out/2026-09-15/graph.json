@@ -52980,7 +52980,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/tabs/BurialsTab.tsx",
-      "source_location": "L33",
+      "source_location": "L35",
       "weight": 1.0
     },
     {
@@ -52992,7 +52992,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/tabs/BurialsTab.tsx",
-      "source_location": "L36",
+      "source_location": "L38",
       "weight": 1.0
     },
     {
@@ -53004,7 +53004,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/tabs/BurialsTab.tsx",
-      "source_location": "L90",
+      "source_location": "L72",
       "weight": 1.0
     },
     {
@@ -105719,5 +105719,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "f3f4693864b6710c40662bf75fc614d51a0808d4"
+  "built_at_commit": "7455d5dd4b047b0902f0da9a02e2037bfb24d05b"
 }
