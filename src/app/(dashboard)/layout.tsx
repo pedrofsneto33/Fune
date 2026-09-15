@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState, ReactNode } from 'react';
+import { useCallback, useEffect, useState, ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import ThemeToggle from '@/components/ThemeToggle';
+import PendingApprovalScreen from '@/components/PendingApprovalScreen';
 import { authFetch } from '@/lib/authFetch';
 import { AppRole, isTabAllowed } from '@/config/permissions';
 
@@ -68,37 +69,92 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   },
 ];
 
+// 6g-4: tri-estado explicito. Antes so existia userRole (null) e o layout nao
+// distinguia "backend ainda respondendo" de "role null = pendente de
+// aprovacao" nem de "erro de rede" — o usuario sem role via o dashboard com a
+// nav vazia e todas as chamadas estourando 403 (PENDING_APPROVAL).
+type AuthState = 'loading' | 'pending' | 'error' | 'authenticated';
+
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   // F-08 fail-closed: sem role confirmado pelo backend a nav nasce vazia
   // (sem flash de links que vao sumir) e nunca inicia como admin.
+  const [authState, setAuthState] = useState<AuthState>('loading');
   const [userRole, setUserRole] = useState<AppRole | null>(null);
 
-  useEffect(() => {
-    let cancelled = false;
-    const loadRole = async () => {
-      try {
-        const res = await authFetch('/api/init-user', { method: 'POST' });
-        if (!cancelled && res.ok) {
-          const data = (await res.json().catch(() => null)) as { role?: string } | null;
-          if (data?.role) setUserRole(data.role as AppRole);
-          // Sem role (pendente de aprovacao) => mantem null, nunca default admin.
-        }
-      } catch {
-        // silencioso: nav vazia ate o backend responder
+  const loadRole = useCallback(async (signal: { cancelled: boolean }) => {
+    setAuthState('loading');
+    setUserRole(null);
+    try {
+      const res = await authFetch('/api/init-user', { method: 'POST' });
+      if (signal.cancelled) return;
+      const data = (await res.json().catch(() => null)) as
+        | { role?: string; code?: string }
+        | null;
+      if (data?.role) {
+        setUserRole(data.role as AppRole);
+        setAuthState('authenticated');
+        return;
       }
-    };
-    loadRole();
-    return () => {
-      cancelled = true;
-    };
+      // Fail-closed: role null com code PENDING_APPROVAL => tela dedicada.
+      // Qualquer outra resposta sem role (401, corpo ilegivel) => erro+retry.
+      setAuthState(data?.code === 'PENDING_APPROVAL' ? 'pending' : 'error');
+    } catch {
+      // Fail-closed: erro de rede nunca vira admin nem dashboard vazio.
+      if (signal.cancelled) return;
+      setAuthState('error');
+    }
   }, []);
+
+  useEffect(() => {
+    const signal = { cancelled: false };
+    loadRole(signal);
+    return () => {
+      signal.cancelled = true;
+    };
+  }, [loadRole]);
 
   // Dropdowns com todos os itens escondidos somem inteiros.
   const visibleGroups = NAV_GROUPS.map((g) => ({
     label: g.label,
     items: g.items.filter((i) => isTabAllowed(userRole, i.tab)),
   })).filter((g) => g.items.length > 0);
+
+  // Enquanto o backend nao confirma o role, nada de dashboard (e nenhum
+  // flash de nav vazia).
+  if (authState === 'loading') {
+    return (
+      <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 flex items-center justify-center text-zinc-400 text-xs font-mono animate-pulse">
+        Verificando credenciais e permissões de acesso...
+      </div>
+    );
+  }
+
+  // Pendente de aprovacao: tela dedicada, sem shell e sem children.
+  if (authState === 'pending') return <PendingApprovalScreen />;
+
+  // Erro ao confirmar o role: fail-closed, com retry manual.
+  if (authState === 'error') {
+    return (
+      <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 text-center space-y-4">
+          <h1 className="text-lg font-bold text-slate-900 dark:text-white">
+            Não foi possível confirmar seu acesso
+          </h1>
+          <p className="text-xs text-slate-600 dark:text-slate-400">
+            Falha ao consultar suas permissões. Verifique sua conexão e tente
+            novamente.
+          </p>
+          <button
+            onClick={() => loadRole({ cancelled: false })}
+            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold"
+          >
+            Tentar novamente
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#07090e] text-slate-900 dark:text-slate-100 font-sans antialiased">
