@@ -70,6 +70,51 @@ export function setupWebhookDb(mockFrom: MockFn, s: WdbSetup = {}): void {
     return makeChain({ thenValue: { data: null, error: null } });
   });
 }
+export interface AsaasFetchRule { method: string; urlIncludes: string; body: unknown; ok?: boolean; status?: number; }
+export function mockAsaasFetch(rules: AsaasFetchRule[]): jest.Mock {
+  const spy = jest.spyOn(globalThis, 'fetch');
+  const queue = [...rules];
+  spy.mockImplementation(async (input: unknown, init?: { method?: string }) => {
+    const url = String(input);
+    const method = String(init?.method || 'GET').toUpperCase();
+    const idx = queue.findIndex((r) => r.method.toUpperCase() === method && url.includes(r.urlIncludes));
+    if (idx < 0) throw new Error(`mockAsaasFetch: sem regra para ${method} ${url} (restam ${queue.length})`);
+    const [rule] = queue.splice(idx, 1);
+    const ok = rule.ok ?? true;
+    const status = rule.status ?? (ok ? 200 : 400);
+    return { ok, status, json: async () => rule.body } as unknown as Response;
+  });
+  return spy as unknown as jest.Mock;
+}
+
+export interface BatchDbOpts { apiKey?: string; walletId?: string; contracts?: unknown[]; tenantErr?: { message: string } | null; contractsErr?: { message: string } | null; payErr?: { message: string } | null; }
+export function setupBatchDb(mockFrom: jest.Mock, o: BatchDbOpts = {}, role = 'admin'): { upsertCalls: unknown[][] } {
+  const upsertCalls: unknown[][] = [];
+  const tenantPayload = { asaas_api_key: o.apiKey ?? 'test-key', asaas_wallet_id: o.walletId ?? null, asaas_environment: 'sandbox' };
+  mockFrom.mockImplementation((table: string) => {
+    if (table === 'user_roles') {
+      return { select: () => ({ eq: () => ({ maybeSingle: () => Promise.resolve({ data: { tenant_id: 'tenant-1', role }, error: null }) }) }) };
+    }
+    if (table === 'tenants') {
+      const c = makeChain({});
+      (c as Record<string, unknown>).single = jest.fn().mockResolvedValue({ data: tenantPayload, error: o.tenantErr ?? null });
+      return c;
+    }
+    if (table === 'contracts') {
+      const c = makeChain({ thenValue: { data: o.contracts ?? [], error: o.contractsErr ?? null } });
+      return c;
+    }
+    if (table === 'payments') {
+      return { upsert: jest.fn((...a: unknown[]) => { upsertCalls.push(a); return Promise.resolve({ error: o.payErr ?? null }); }) };
+    }
+    if (table === 'webhook_events') {
+      return { select: () => makeChain({ limitValue: { data: [], error: null } }) };
+    }
+    return makeChain({ thenValue: { data: null, error: null } });
+  });
+  return { upsertCalls };
+}
+
 export interface AReqOpts { token?: string | null; body?: unknown; rawBody?: string; ip?: string; }
 export function makeAsaasRequest(o: AReqOpts = {}): NextRequest {
   const { token = 'valid-webhook-token-123', body, rawBody, ip = '1.2.3.4' } = o;
