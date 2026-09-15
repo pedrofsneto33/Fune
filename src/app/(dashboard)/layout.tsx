@@ -10,8 +10,9 @@ import { AppRole, isTabAllowed } from '@/config/permissions';
 type NavItem = { href: string; label: string; tab: string; active: string };
 
 // 6f: mapeamento rota -> tab de src/config/permissions.ts. Rotas sem case no
-// switch (ordens, fiscal, crm, audit) caem no default => false, visíveis só
-// para superadmin/admin (mesmo gate do monolito).
+// switch (ordens, crm, audit) caem no default => false, visíveis só
+// para superadmin/admin. /fiscal usa "financial": é o gate do monolito
+// (activeTab === "fiscal" && isTabAllowed(userRole, "financial")).
 const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   {
     label: 'Cadastros',
@@ -51,7 +52,7 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   {
     label: 'Financeiro',
     items: [
-      { href: '/fiscal', label: 'Fiscal (NFS-e)', tab: 'fiscal', active: 'text-blue-400' },
+      { href: '/fiscal', label: 'Fiscal (NFS-e)', tab: 'financial', active: 'text-blue-400' },
       { href: '/financeiro', label: 'Cobranças', tab: 'financial', active: 'text-emerald-400' },
       { href: '/livro-caixa', label: 'Livro Caixa', tab: 'financial', active: 'text-emerald-400' },
       { href: '/contas-a-pagar', label: 'Contas a Pagar', tab: 'financial', active: 'text-emerald-400' },
