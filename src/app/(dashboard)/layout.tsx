@@ -11,11 +11,13 @@ import { AppRole, isTabAllowed } from '@/config/permissions';
 
 type NavItem = { href: string; label: string; tab: string; active: string };
 
+export type { NavItem };
+
 // 6f: mapeamento rota -> tab de src/config/permissions.ts. Rotas sem case no
 // switch (ordens, crm, audit) caem no default => false, visíveis só
 // para superadmin/admin. /fiscal usa "financial": é o gate do monolito
 // (activeTab === "fiscal" && isTabAllowed(userRole, "financial")).
-const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
+export const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   {
     label: 'Cadastros',
     items: [
