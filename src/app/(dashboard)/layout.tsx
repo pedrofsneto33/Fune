@@ -63,6 +63,7 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
     items: [
       { href: '/auditoria', label: 'Auditoria', tab: 'audit', active: 'text-slate-200' },
       { href: '/usuarios', label: 'Usuários', tab: 'users', active: 'text-slate-200' },
+      { href: '/configuracoes', label: 'Configuracoes', tab: 'settings', active: 'text-slate-200' },
     ],
   },
 ];
