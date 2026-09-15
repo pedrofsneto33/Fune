@@ -60,7 +60,10 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   },
   {
     label: 'Admin',
-    items: [{ href: '/auditoria', label: 'Auditoria', tab: 'audit', active: 'text-slate-200' }],
+    items: [
+      { href: '/auditoria', label: 'Auditoria', tab: 'audit', active: 'text-slate-200' },
+      { href: '/usuarios', label: 'Usuários', tab: 'users', active: 'text-slate-200' },
+    ],
   },
 ];
 

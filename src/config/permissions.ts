@@ -82,6 +82,7 @@ export function isTabAllowed(role: AppRole | undefined | null, tab: string): boo
     case 'benefits': return hasPermission(role, 'canManageBenefits');
     case 'sellers': return hasPermission(role, 'canManageSellers');
     case 'plans': return hasPermission(role, 'canManagePlans');
+    case 'users': return hasPermission(role, 'canManageUsers');
     default: return false;
   }
 }
