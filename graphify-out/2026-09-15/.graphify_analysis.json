@@ -312,6 +312,60 @@
       "continue_skills_design_system_templates_design_tokens_starter_yellow_500"
     ],
     "5": [
+      "ref_recharts",
+      "src_app_dashboard_layout",
+      "src_app_dashboard_layout_dashboardlayout",
+      "src_app_dashboard_layout_nav_groups",
+      "src_app_dashboard_layout_navitem",
+      "src_app_page",
+      "src_app_page_burial",
+      "src_app_page_burial_status_style",
+      "src_app_page_burialstatusclass",
+      "src_app_page_chapelbooking",
+      "src_app_page_contract",
+      "src_app_page_convalescenceitem",
+      "src_app_page_dependent",
+      "src_app_page_financialtransaction",
+      "src_app_page_holder",
+      "src_app_page_inventoryitem",
+      "src_app_page_mastereternityos",
+      "src_app_page_mastereternityos_loaddata",
+      "src_app_page_partner",
+      "src_app_page_so_status_text",
+      "src_app_page_sostatusclass",
+      "src_app_page_vehicle",
+      "src_components_dashboard_modaldre",
+      "src_components_dashboard_modaldre_financialsummary",
+      "src_components_dashboard_modaldre_modaldre",
+      "src_components_themetoggle",
+      "src_components_themetoggle_themetoggle",
+      "src_config_permissions",
+      "src_config_permissions_approle",
+      "src_config_permissions_haspermission",
+      "src_config_permissions_issuperadminrole",
+      "src_config_permissions_istaballowed",
+      "src_config_permissions_permission",
+      "src_config_permissions_role_permissions",
+      "src_config_permissions_test",
+      "src_config_permissions_userrole",
+      "src_hooks_usebilling",
+      "src_hooks_usebilling_usebilling",
+      "src_hooks_usebilling_usebillingreturn",
+      "src_lib_formvalidation",
+      "src_lib_formvalidation_createinitialerrors",
+      "src_lib_formvalidation_fielderrors",
+      "src_lib_formvalidation_fieldvalidation",
+      "src_lib_formvalidation_getfieldlabel",
+      "src_lib_formvalidation_validatefield",
+      "src_lib_formvalidation_validateform",
+      "src_lib_formvalidation_validationrule",
+      "src_lib_whatsapp",
+      "src_lib_whatsapp_formatphoneforwhatsapp",
+      "src_lib_whatsapp_formatwhatsappmessage",
+      "src_lib_whatsapp_generatechargewhatsappurl",
+      "src_lib_whatsapp_whatsappchargepayload"
+    ],
+    "6": [
       "docs_jornada_graphify_e_refatoracao",
       "docs_jornada_graphify_e_refatoracao_10_pr\u00f3ximos_passos",
       "docs_jornada_graphify_e_refatoracao_11_comandos_de_refer\u00eancia_r\u00e1pida",
@@ -361,57 +415,103 @@
       "docs_jornada_graphify_e_refatoracao_testar",
       "docs_jornada_graphify_e_refatoracao_uso_no_fluxo"
     ],
-    "6": [
-      "src_app_dashboard_layout",
-      "src_app_dashboard_layout_dashboardlayout",
-      "src_app_dashboard_layout_nav_groups",
-      "src_app_dashboard_layout_navitem",
-      "src_app_page",
-      "src_app_page_burial",
-      "src_app_page_burial_status_style",
-      "src_app_page_burialstatusclass",
-      "src_app_page_chapelbooking",
-      "src_app_page_contract",
-      "src_app_page_convalescenceitem",
-      "src_app_page_dependent",
-      "src_app_page_financialtransaction",
-      "src_app_page_holder",
-      "src_app_page_inventoryitem",
-      "src_app_page_mastereternityos",
-      "src_app_page_mastereternityos_loaddata",
-      "src_app_page_partner",
-      "src_app_page_so_status_text",
-      "src_app_page_sostatusclass",
-      "src_app_page_vehicle",
-      "src_components_themetoggle",
-      "src_components_themetoggle_themetoggle",
-      "src_config_permissions",
-      "src_config_permissions_approle",
-      "src_config_permissions_haspermission",
-      "src_config_permissions_issuperadminrole",
-      "src_config_permissions_istaballowed",
-      "src_config_permissions_permission",
-      "src_config_permissions_role_permissions",
-      "src_config_permissions_test",
-      "src_config_permissions_userrole",
-      "src_hooks_usebilling",
-      "src_hooks_usebilling_usebilling",
-      "src_hooks_usebilling_usebillingreturn",
-      "src_lib_formvalidation",
-      "src_lib_formvalidation_createinitialerrors",
-      "src_lib_formvalidation_fielderrors",
-      "src_lib_formvalidation_fieldvalidation",
-      "src_lib_formvalidation_getfieldlabel",
-      "src_lib_formvalidation_validatefield",
-      "src_lib_formvalidation_validateform",
-      "src_lib_formvalidation_validationrule",
-      "src_lib_whatsapp",
-      "src_lib_whatsapp_formatphoneforwhatsapp",
-      "src_lib_whatsapp_formatwhatsappmessage",
-      "src_lib_whatsapp_generatechargewhatsappurl",
-      "src_lib_whatsapp_whatsappchargepayload"
-    ],
     "7": [
+      "src_app_dashboard_beneficios_page",
+      "src_app_dashboard_beneficios_page_beneficiospage",
+      "src_app_dashboard_contratos_page",
+      "src_app_dashboard_contratos_page_contratospage",
+      "src_app_dashboard_contratos_page_iscontractactive",
+      "src_app_dashboard_dependentes_page",
+      "src_app_dashboard_dependentes_page_dependentespage",
+      "src_app_dashboard_dependentes_page_valid_relations",
+      "src_app_dashboard_frota_page",
+      "src_app_dashboard_frota_page_frotapage",
+      "src_app_dashboard_planes_page",
+      "src_app_dashboard_planes_page_planospage",
+      "src_app_dashboard_tanatopraxia_page",
+      "src_app_dashboard_tanatopraxia_page_tanatopraxiapage",
+      "src_app_dashboard_titulares_importar_page",
+      "src_app_dashboard_titulares_importar_page_importartitularespage",
+      "src_app_dashboard_titulares_importar_page_importresult",
+      "src_app_dashboard_titulares_importar_page_invalidrow",
+      "src_app_dashboard_titulares_page",
+      "src_app_dashboard_titulares_page_titularespage",
+      "src_components_tabs_benefitstab",
+      "src_components_tabs_benefitstab_benefitstab",
+      "src_components_tabs_benefitstab_empty_form",
+      "src_components_tabs_fleettab",
+      "src_components_tabs_fleettab_empty_form",
+      "src_components_tabs_fleettab_fleettab",
+      "src_components_tabs_fleettab_vehicle_types",
+      "src_components_tabs_planstab",
+      "src_components_tabs_planstab_empty_form",
+      "src_components_tabs_planstab_fmtbrl",
+      "src_components_tabs_planstab_plan",
+      "src_components_tabs_planstab_planstab",
+      "src_components_tabs_thanatopraxytab",
+      "src_components_tabs_thanatopraxytab_empty_form",
+      "src_components_tabs_thanatopraxytab_thanatopraxytab",
+      "src_lib_notify",
+      "src_lib_notify_notifyerror",
+      "src_lib_notify_notifyinfo",
+      "src_types_domain_contract",
+      "src_types_domain_contractplan",
+      "src_types_domain_dependent",
+      "src_types_domain_holder",
+      "src_types_domain_partner",
+      "src_types_domain_thanatopraxy",
+      "src_types_domain_vehicle",
+      "src_types_index",
+      "src_types_index_dadospayload"
+    ],
+    "8": [
+      "continue_skills_design_system_templates_design_tokens_starter_bg_type",
+      "continue_skills_design_system_templates_design_tokens_starter_bg_value",
+      "continue_skills_design_system_templates_design_tokens_starter_border_type",
+      "continue_skills_design_system_templates_design_tokens_starter_border_value",
+      "continue_skills_design_system_templates_design_tokens_starter_button_bg",
+      "continue_skills_design_system_templates_design_tokens_starter_button_fg",
+      "continue_skills_design_system_templates_design_tokens_starter_button_font_size",
+      "continue_skills_design_system_templates_design_tokens_starter_button_hover_bg",
+      "continue_skills_design_system_templates_design_tokens_starter_button_padding_x",
+      "continue_skills_design_system_templates_design_tokens_starter_button_padding_y",
+      "continue_skills_design_system_templates_design_tokens_starter_button_radius",
+      "continue_skills_design_system_templates_design_tokens_starter_card_bg",
+      "continue_skills_design_system_templates_design_tokens_starter_card_border",
+      "continue_skills_design_system_templates_design_tokens_starter_card_padding",
+      "continue_skills_design_system_templates_design_tokens_starter_card_radius",
+      "continue_skills_design_system_templates_design_tokens_starter_card_shadow",
+      "continue_skills_design_system_templates_design_tokens_starter_color_border",
+      "continue_skills_design_system_templates_design_tokens_starter_component",
+      "continue_skills_design_system_templates_design_tokens_starter_component_button",
+      "continue_skills_design_system_templates_design_tokens_starter_component_card",
+      "continue_skills_design_system_templates_design_tokens_starter_component_input",
+      "continue_skills_design_system_templates_design_tokens_starter_fg_type",
+      "continue_skills_design_system_templates_design_tokens_starter_fg_value",
+      "continue_skills_design_system_templates_design_tokens_starter_focus_ring_type",
+      "continue_skills_design_system_templates_design_tokens_starter_focus_ring_value",
+      "continue_skills_design_system_templates_design_tokens_starter_font_size_type",
+      "continue_skills_design_system_templates_design_tokens_starter_font_size_value",
+      "continue_skills_design_system_templates_design_tokens_starter_hover_bg_type",
+      "continue_skills_design_system_templates_design_tokens_starter_hover_bg_value",
+      "continue_skills_design_system_templates_design_tokens_starter_input_bg",
+      "continue_skills_design_system_templates_design_tokens_starter_input_border",
+      "continue_skills_design_system_templates_design_tokens_starter_input_focus_ring",
+      "continue_skills_design_system_templates_design_tokens_starter_input_padding_x",
+      "continue_skills_design_system_templates_design_tokens_starter_input_padding_y",
+      "continue_skills_design_system_templates_design_tokens_starter_input_radius",
+      "continue_skills_design_system_templates_design_tokens_starter_padding_type",
+      "continue_skills_design_system_templates_design_tokens_starter_padding_value",
+      "continue_skills_design_system_templates_design_tokens_starter_padding_x_type",
+      "continue_skills_design_system_templates_design_tokens_starter_padding_x_value",
+      "continue_skills_design_system_templates_design_tokens_starter_padding_y_type",
+      "continue_skills_design_system_templates_design_tokens_starter_padding_y_value",
+      "continue_skills_design_system_templates_design_tokens_starter_radius_type",
+      "continue_skills_design_system_templates_design_tokens_starter_radius_value",
+      "continue_skills_design_system_templates_design_tokens_starter_shadow_type",
+      "continue_skills_design_system_templates_design_tokens_starter_shadow_value"
+    ],
+    "9": [
       "continue_skills_design_system_scripts_search_slides",
       "continue_skills_design_system_scripts_search_slides_format_context",
       "continue_skills_design_system_scripts_search_slides_format_result",
@@ -457,7 +557,7 @@
       "continue_skills_design_system_scripts_slide_search_core_search_with_context",
       "continue_skills_design_system_scripts_slide_search_core_should_use_full_bleed"
     ],
-    "8": [
+    "10": [
       "continue_skills_ui_styling_references_tailwind_utilities",
       "continue_skills_ui_styling_references_tailwind_utilities_arbitrary_values",
       "continue_skills_ui_styling_references_tailwind_utilities_aspect_ratio",
@@ -503,7 +603,7 @@
       "continue_skills_ui_styling_references_tailwind_utilities_width_height",
       "continue_skills_ui_styling_references_tailwind_utilities_z_index"
     ],
-    "9": [
+    "11": [
       "eternityos_schema",
       "eternityos_schema_idx_service_order_items_service",
       "eternityos_schema_idx_service_orders_burial",
@@ -548,92 +648,6 @@
       "eternityos_schema_public_whatsapp_agent_sessions",
       "eternityos_schema_sql_auth_users",
       "eternityos_schema_sql_public"
-    ],
-    "10": [
-      "ref_lucide_react",
-      "src_app_dashboard_ordens_nova_page",
-      "src_app_dashboard_ordens_nova_page_formholdersquick",
-      "src_app_dashboard_ordens_nova_page_forminventoryitem",
-      "src_app_dashboard_ordens_nova_page_formvehicle",
-      "src_app_dashboard_ordens_nova_page_novaordempage",
-      "src_app_dashboard_ordens_nova_page_ordemitem",
-      "src_app_dashboard_ordens_page",
-      "src_app_dashboard_ordens_page_ordenspage",
-      "src_app_dashboard_vendedores_page",
-      "src_app_dashboard_vendedores_page_vendedorespage",
-      "src_app_login_page",
-      "src_app_login_page_loginpage",
-      "src_components_dashboard_modalwebhookretry",
-      "src_components_dashboard_modalwebhookretry_filterbtn",
-      "src_components_dashboard_modalwebhookretry_modalwebhookretry",
-      "src_components_dashboard_modalwebhookretry_props",
-      "src_components_dashboard_modalwebhookretry_statusbadge",
-      "src_components_dashboard_modalwebhookretry_webhookevent",
-      "src_components_modals_modalcobrancaavulsa",
-      "src_components_modals_modalcobrancaavulsa_modalcobrancaavulsa",
-      "src_components_tabs_fiscalsettingssection",
-      "src_components_tabs_fiscalsettingssection_fiscalconfigdata",
-      "src_components_tabs_fiscalsettingssection_fiscalsettingssection",
-      "src_components_tabs_sellerstab",
-      "src_components_tabs_sellerstab_fmtpercent",
-      "src_components_tabs_sellerstab_seller",
-      "src_components_tabs_sellerstab_sellerstab",
-      "src_components_tabs_serviceorderstab",
-      "src_components_tabs_serviceorderstab_serviceorderstab",
-      "src_components_tabs_tenantsettingstab",
-      "src_components_tabs_tenantsettingstab_tenant",
-      "src_components_tabs_tenantsettingstab_tenantsettingstab",
-      "src_lib_authfetch",
-      "src_lib_notify_notifyerror",
-      "src_lib_notify_notifysuccess",
-      "src_lib_planlimits_formatplanprice",
-      "src_lib_supabase",
-      "src_lib_supabase_supabase",
-      "src_lib_supabaseclient",
-      "src_types_domain_serviceorder"
-    ],
-    "11": [
-      "src_app_dashboard_contratos_page",
-      "src_app_dashboard_contratos_page_contratospage",
-      "src_app_dashboard_contratos_page_iscontractactive",
-      "src_app_dashboard_dependentes_page",
-      "src_app_dashboard_dependentes_page_dependentespage",
-      "src_app_dashboard_dependentes_page_valid_relations",
-      "src_app_dashboard_frota_page",
-      "src_app_dashboard_frota_page_frotapage",
-      "src_app_dashboard_planes_page",
-      "src_app_dashboard_planes_page_planospage",
-      "src_app_dashboard_tanatopraxia_page",
-      "src_app_dashboard_tanatopraxia_page_tanatopraxiapage",
-      "src_app_dashboard_titulares_importar_page",
-      "src_app_dashboard_titulares_importar_page_importartitularespage",
-      "src_app_dashboard_titulares_importar_page_importresult",
-      "src_app_dashboard_titulares_importar_page_invalidrow",
-      "src_app_dashboard_titulares_page",
-      "src_app_dashboard_titulares_page_titularespage",
-      "src_components_tabs_fleettab",
-      "src_components_tabs_fleettab_empty_form",
-      "src_components_tabs_fleettab_fleettab",
-      "src_components_tabs_fleettab_vehicle_types",
-      "src_components_tabs_planstab",
-      "src_components_tabs_planstab_empty_form",
-      "src_components_tabs_planstab_fmtbrl",
-      "src_components_tabs_planstab_plan",
-      "src_components_tabs_planstab_planstab",
-      "src_components_tabs_thanatopraxytab",
-      "src_components_tabs_thanatopraxytab_empty_form",
-      "src_components_tabs_thanatopraxytab_thanatopraxytab",
-      "src_lib_notify",
-      "src_lib_notify_notifyinfo",
-      "src_types_domain_contract",
-      "src_types_domain_contractplan",
-      "src_types_domain_dependent",
-      "src_types_domain_holder",
-      "src_types_domain_statusfilter",
-      "src_types_domain_thanatopraxy",
-      "src_types_domain_vehicle",
-      "src_types_index",
-      "src_types_index_dadospayload"
     ],
     "12": [
       "src_app_api_benefits_partners_route",
@@ -866,6 +880,42 @@
       "src_lib_rate_limiter_resetratelimit"
     ],
     "18": [
+      "continue_skills_design_system_templates_design_tokens_starter_0_type",
+      "continue_skills_design_system_templates_design_tokens_starter_0_value",
+      "continue_skills_design_system_templates_design_tokens_starter_10_type",
+      "continue_skills_design_system_templates_design_tokens_starter_10_value",
+      "continue_skills_design_system_templates_design_tokens_starter_12_type",
+      "continue_skills_design_system_templates_design_tokens_starter_12_value",
+      "continue_skills_design_system_templates_design_tokens_starter_16_type",
+      "continue_skills_design_system_templates_design_tokens_starter_16_value",
+      "continue_skills_design_system_templates_design_tokens_starter_1_type",
+      "continue_skills_design_system_templates_design_tokens_starter_1_value",
+      "continue_skills_design_system_templates_design_tokens_starter_2_type",
+      "continue_skills_design_system_templates_design_tokens_starter_2_value",
+      "continue_skills_design_system_templates_design_tokens_starter_3_type",
+      "continue_skills_design_system_templates_design_tokens_starter_3_value",
+      "continue_skills_design_system_templates_design_tokens_starter_4_type",
+      "continue_skills_design_system_templates_design_tokens_starter_4_value",
+      "continue_skills_design_system_templates_design_tokens_starter_5_type",
+      "continue_skills_design_system_templates_design_tokens_starter_5_value",
+      "continue_skills_design_system_templates_design_tokens_starter_6_type",
+      "continue_skills_design_system_templates_design_tokens_starter_6_value",
+      "continue_skills_design_system_templates_design_tokens_starter_8_type",
+      "continue_skills_design_system_templates_design_tokens_starter_8_value",
+      "continue_skills_design_system_templates_design_tokens_starter_primitive_spacing",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_0",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_1",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_10",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_12",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_16",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_2",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_3",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_4",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_5",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_6",
+      "continue_skills_design_system_templates_design_tokens_starter_spacing_8"
+    ],
+    "19": [
       "continue_skills_ui_ux_pro_max_scripts_core_exact_stack_identifier",
       "continue_skills_ui_ux_pro_max_scripts_core_rationale_926",
       "continue_skills_ui_ux_pro_max_scripts_core_rationale_952",
@@ -901,7 +951,7 @@
       "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_testwebstackfreshness_test_svelte_current_and_legacy_queries_do_not_mix_generations",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_web_stack_freshness_testwebstackfreshness_test_web_rows_have_explicit_freshness_metadata"
     ],
-    "19": [
+    "20": [
       "continue_skills_ui_ux_pro_max_scripts_design_system",
       "continue_skills_ui_ux_pro_max_scripts_design_system_ansi_ljust",
       "continue_skills_ui_ux_pro_max_scripts_design_system_detect_page_type",
@@ -937,7 +987,7 @@
       "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testpersistence_test_persist_then_skip_then_force",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testpersistence_test_persist_writes_only_under_output_dir"
     ],
-    "20": [
+    "21": [
       "src_app_api_convalescence_route_get",
       "src_app_api_dashboard_kpis_route",
       "src_app_api_dashboard_kpis_route_get",
@@ -973,7 +1023,7 @@
       "src_lib_http_error_logerror",
       "src_lib_http_error_servererror"
     ],
-    "21": [
+    "22": [
       "continue_skills_ui_styling_references_shadcn_components",
       "continue_skills_ui_styling_references_shadcn_components_accordion",
       "continue_skills_ui_styling_references_shadcn_components_alert",
@@ -1008,7 +1058,7 @@
       "continue_skills_ui_styling_references_shadcn_components_textarea",
       "continue_skills_ui_styling_references_shadcn_components_toast"
     ],
-    "22": [
+    "23": [
       "continue_skills_ui_styling_references_tailwind_responsive",
       "continue_skills_ui_styling_references_tailwind_responsive_1_mobile_first_design",
       "continue_skills_ui_styling_references_tailwind_responsive_2_consistent_breakpoint_usage",
@@ -1042,41 +1092,6 @@
       "continue_skills_ui_styling_references_tailwind_responsive_typography",
       "continue_skills_ui_styling_references_tailwind_responsive_visibility",
       "continue_skills_ui_styling_references_tailwind_responsive_width"
-    ],
-    "23": [
-      "src_app_dashboard_financeiro_page",
-      "src_app_dashboard_financeiro_page_financeiropage",
-      "src_app_dashboard_livro_caixa_page",
-      "src_app_dashboard_livro_caixa_page_livrocaixapage",
-      "src_app_dashboard_logistica_page",
-      "src_app_dashboard_logistica_page_logisticapage",
-      "src_components_tabs_billingtab",
-      "src_components_tabs_billingtab_avulsosummarystats",
-      "src_components_tabs_billingtab_billingsummary",
-      "src_components_tabs_billingtab_billingtab",
-      "src_components_tabs_billingtab_collectorrow",
-      "src_components_tabs_billingtab_fmtbrl",
-      "src_components_tabs_billingtab_holderlabel",
-      "src_components_tabs_billingtab_holderoption",
-      "src_components_tabs_financialtab",
-      "src_components_tabs_financialtab_financialtab",
-      "src_components_tabs_financialtab_fmtbrl",
-      "src_components_tabs_financialtab_reservepayload",
-      "src_components_tabs_logisticstab",
-      "src_components_tabs_logisticstab_logisticstab",
-      "src_lib_notify_notifywarning",
-      "src_types_domain",
-      "src_types_domain_billingresult",
-      "src_types_domain_billingresultitem",
-      "src_types_domain_collectorpayment",
-      "src_types_domain_collectorroute",
-      "src_types_domain_dispatch",
-      "src_types_domain_dispatchauditlog",
-      "src_types_domain_financialsummary",
-      "src_types_domain_financialtransaction",
-      "src_types_domain_payment",
-      "src_types_domain_regulatoryreserve",
-      "src_types_domain_serviceorderitem"
     ],
     "24": [
       "continue_skills_brand_references_typography_specifications",
@@ -1112,6 +1127,39 @@
       "continue_skills_brand_references_typography_specifications_weight_scale"
     ],
     "25": [
+      "continue_skills_design_system_templates_design_tokens_starter_background_type",
+      "continue_skills_design_system_templates_design_tokens_starter_background_value",
+      "continue_skills_design_system_templates_design_tokens_starter_color_background",
+      "continue_skills_design_system_templates_design_tokens_starter_color_destructive",
+      "continue_skills_design_system_templates_design_tokens_starter_color_destructive_foreground",
+      "continue_skills_design_system_templates_design_tokens_starter_color_foreground",
+      "continue_skills_design_system_templates_design_tokens_starter_color_muted",
+      "continue_skills_design_system_templates_design_tokens_starter_color_muted_foreground",
+      "continue_skills_design_system_templates_design_tokens_starter_color_primary_foreground",
+      "continue_skills_design_system_templates_design_tokens_starter_color_primary_hover",
+      "continue_skills_design_system_templates_design_tokens_starter_color_ring",
+      "continue_skills_design_system_templates_design_tokens_starter_color_secondary_foreground",
+      "continue_skills_design_system_templates_design_tokens_starter_destructive_foreground_type",
+      "continue_skills_design_system_templates_design_tokens_starter_destructive_foreground_value",
+      "continue_skills_design_system_templates_design_tokens_starter_destructive_type",
+      "continue_skills_design_system_templates_design_tokens_starter_destructive_value",
+      "continue_skills_design_system_templates_design_tokens_starter_foreground_type",
+      "continue_skills_design_system_templates_design_tokens_starter_foreground_value",
+      "continue_skills_design_system_templates_design_tokens_starter_muted_foreground_type",
+      "continue_skills_design_system_templates_design_tokens_starter_muted_foreground_value",
+      "continue_skills_design_system_templates_design_tokens_starter_muted_type",
+      "continue_skills_design_system_templates_design_tokens_starter_muted_value",
+      "continue_skills_design_system_templates_design_tokens_starter_primary_foreground_type",
+      "continue_skills_design_system_templates_design_tokens_starter_primary_foreground_value",
+      "continue_skills_design_system_templates_design_tokens_starter_primary_hover_type",
+      "continue_skills_design_system_templates_design_tokens_starter_primary_hover_value",
+      "continue_skills_design_system_templates_design_tokens_starter_ring_type",
+      "continue_skills_design_system_templates_design_tokens_starter_ring_value",
+      "continue_skills_design_system_templates_design_tokens_starter_secondary_foreground_type",
+      "continue_skills_design_system_templates_design_tokens_starter_secondary_foreground_value",
+      "continue_skills_design_system_templates_design_tokens_starter_semantic_color"
+    ],
+    "26": [
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_17",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_20",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_223",
@@ -1144,7 +1192,7 @@
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_validate_config_valid",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_write_config_invalid_path"
     ],
-    "26": [
+    "27": [
       "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_rationale_2",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_read_rows",
@@ -1177,7 +1225,7 @@
       "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_teststyleidentitycontract_test_every_product_and_reasoning_style_reference_resolves",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_teststyleidentitycontract_test_ids_aliases_status_and_parents_are_unambiguous"
     ],
-    "27": [
+    "28": [
       "contracts_eligibility_route",
       "contracts_eligibility_route_dynamic",
       "contracts_eligibility_route_post",
@@ -1210,7 +1258,40 @@
       "src_lib_eligibility_iswithingraceperiod",
       "tests_lib_eligibility_test"
     ],
-    "28": [
+    "29": [
+      "ref_lucide_react",
+      "src_app_dashboard_configuracoes_page",
+      "src_app_dashboard_configuracoes_page_configuracoespage",
+      "src_app_dashboard_vendedores_page",
+      "src_app_dashboard_vendedores_page_vendedorespage",
+      "src_app_login_page",
+      "src_app_login_page_loginpage",
+      "src_components_dashboard_modalwebhookretry",
+      "src_components_dashboard_modalwebhookretry_filterbtn",
+      "src_components_dashboard_modalwebhookretry_modalwebhookretry",
+      "src_components_dashboard_modalwebhookretry_props",
+      "src_components_dashboard_modalwebhookretry_statusbadge",
+      "src_components_dashboard_modalwebhookretry_webhookevent",
+      "src_components_modals_modalcobrancaavulsa",
+      "src_components_modals_modalcobrancaavulsa_modalcobrancaavulsa",
+      "src_components_tabs_fiscalsettingssection",
+      "src_components_tabs_fiscalsettingssection_fiscalconfigdata",
+      "src_components_tabs_fiscalsettingssection_fiscalsettingssection",
+      "src_components_tabs_sellerstab",
+      "src_components_tabs_sellerstab_fmtpercent",
+      "src_components_tabs_sellerstab_seller",
+      "src_components_tabs_sellerstab_sellerstab",
+      "src_components_tabs_tenantsettingstab",
+      "src_components_tabs_tenantsettingstab_tenant",
+      "src_components_tabs_tenantsettingstab_tenantsettingstab",
+      "src_lib_authfetch",
+      "src_lib_notify_notifysuccess",
+      "src_lib_planlimits_formatplanprice",
+      "src_lib_supabase",
+      "src_lib_supabase_supabase",
+      "src_lib_supabaseclient"
+    ],
+    "30": [
       "supabase_migrations_20260914220043_remote_schema",
       "supabase_migrations_20260914220043_remote_schema_idx_accounts_payable_tenant",
       "supabase_migrations_20260914220043_remote_schema_idx_asaas_customers_tenant",
@@ -1243,7 +1324,7 @@
       "supabase_migrations_20260914220043_remote_schema_public_is_superadmin",
       "supabase_migrations_20260914220043_remote_schema_public_pedrofsneto33_s_org"
     ],
-    "29": [
+    "31": [
       "continue_skills_ui_ux_pro_max_scripts_design_system_contrast_ratio",
       "continue_skills_ui_ux_pro_max_scripts_design_system_derive_dark_palette",
       "continue_skills_ui_ux_pro_max_scripts_design_system_palette_is_dark",
@@ -1275,7 +1356,7 @@
       "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_empty_results",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_light_mode_keeps_the_existing_top_hit_behaviour"
     ],
-    "30": [
+    "32": [
       "continue_skills_brand_references_logo_usage_rules",
       "continue_skills_brand_references_logo_usage_rules_absolute_don_ts",
       "continue_skills_brand_references_logo_usage_rules_approved_backgrounds",
@@ -1306,7 +1387,7 @@
       "continue_skills_brand_references_logo_usage_rules_visual_examples",
       "continue_skills_brand_references_logo_usage_rules_website"
     ],
-    "31": [
+    "33": [
       "continue_skills_design_system_references_component_specs",
       "continue_skills_design_system_references_component_specs_alert",
       "continue_skills_design_system_references_component_specs_anatomy",
@@ -1337,7 +1418,7 @@
       "continue_skills_design_system_references_component_specs_variants_52",
       "continue_skills_design_system_references_component_specs_variants_95"
     ],
-    "32": [
+    "34": [
       "continue_skills_design_system_scripts_html_token_validator",
       "continue_skills_design_system_scripts_html_token_validator_get_context",
       "continue_skills_design_system_scripts_html_token_validator_is_allowed_exception",
@@ -1368,7 +1449,7 @@
       "continue_skills_design_system_scripts_html_token_validator_validationresult_add_warning",
       "continue_skills_design_system_scripts_html_token_validator_validationresult_init"
     ],
-    "33": [
+    "35": [
       "continue_skills_ui_styling_references_shadcn_accessibility",
       "continue_skills_ui_styling_references_shadcn_accessibility_accordion",
       "continue_skills_ui_styling_references_shadcn_accessibility_alert",
@@ -1399,7 +1480,7 @@
       "continue_skills_ui_styling_references_shadcn_accessibility_testing_checklist",
       "continue_skills_ui_styling_references_shadcn_accessibility_tools"
     ],
-    "34": [
+    "36": [
       "continue_skills_ui_ux_pro_max_scripts_core_rationale_737",
       "continue_skills_ui_ux_pro_max_scripts_core_rationale_756",
       "continue_skills_ui_ux_pro_max_scripts_core_search",
@@ -1429,7 +1510,7 @@
       "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_searchable_prompt_lengths_are_balanced",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_style_arbitration_does_not_steal_product_intent"
     ],
-    "35": [
+    "37": [
       "jest_setup",
       "package",
       "package_name",
@@ -1459,7 +1540,37 @@
       "ref_upstash_ratelimit",
       "ref_vercel_kv"
     ],
-    "36": [
+    "38": [
+      "src_app_dashboard_executivo_page",
+      "src_app_dashboard_executivo_page_executivopage",
+      "src_app_dashboard_livro_caixa_page",
+      "src_app_dashboard_livro_caixa_page_livrocaixapage",
+      "src_app_dashboard_logistica_page",
+      "src_app_dashboard_logistica_page_logisticapage",
+      "src_components_tabs_executivetab",
+      "src_components_tabs_executivetab_executivetab",
+      "src_components_tabs_executivetab_fmtbrl",
+      "src_components_tabs_financialtab",
+      "src_components_tabs_financialtab_financialtab",
+      "src_components_tabs_financialtab_fmtbrl",
+      "src_components_tabs_financialtab_reservepayload",
+      "src_components_tabs_logisticstab",
+      "src_components_tabs_logisticstab_logisticstab",
+      "src_types_domain",
+      "src_types_domain_billingresultitem",
+      "src_types_domain_collectorroute",
+      "src_types_domain_dispatch",
+      "src_types_domain_dispatchauditlog",
+      "src_types_domain_executivekpis",
+      "src_types_domain_executivemonthlypoint",
+      "src_types_domain_financialsummary",
+      "src_types_domain_financialtransaction",
+      "src_types_domain_inventoryitem",
+      "src_types_domain_regulatoryreserve",
+      "src_types_domain_serviceorderitem",
+      "src_types_domain_statusfilter"
+    ],
+    "39": [
       "continue_skills_design_scripts_logo_core",
       "continue_skills_design_scripts_logo_core_bm25",
       "continue_skills_design_scripts_logo_core_bm25_fit",
@@ -1488,7 +1599,7 @@
       "continue_skills_design_scripts_logo_search_rationale_3",
       "continue_skills_design_scripts_logo_search_rationale_38"
     ],
-    "37": [
+    "40": [
       "continue_skills_ui_ux_pro_max_scripts_core",
       "continue_skills_ui_ux_pro_max_scripts_core_contains_phrase",
       "continue_skills_ui_ux_pro_max_scripts_core_domain_keywords",
@@ -1517,7 +1628,7 @@
       "continue_skills_ui_ux_pro_max_scripts_core_suggest_terms",
       "continue_skills_ui_ux_pro_max_scripts_core_valid_max_results"
     ],
-    "38": [
+    "41": [
       "continue_skills_ui_ux_pro_max_scripts_core_bm25",
       "continue_skills_ui_ux_pro_max_scripts_core_bm25_fit",
       "continue_skills_ui_ux_pro_max_scripts_core_bm25_init",
@@ -1546,7 +1657,7 @@
       "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_stopwords_removed",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_synonym_normalization"
     ],
-    "39": [
+    "42": [
       "continue_skills_brand_references_approval_checklist",
       "continue_skills_brand_references_approval_checklist_accessibility",
       "continue_skills_brand_references_approval_checklist_archival",
@@ -1574,7 +1685,7 @@
       "continue_skills_brand_references_approval_checklist_visual_accessibility",
       "continue_skills_brand_references_approval_checklist_visual_elements"
     ],
-    "40": [
+    "43": [
       "continue_skills_design_references_logo_prompt_engineering",
       "continue_skills_design_references_logo_prompt_engineering_common_pitfalls",
       "continue_skills_design_references_logo_prompt_engineering_core_prompt_structure",
@@ -1602,7 +1713,7 @@
       "continue_skills_design_references_logo_prompt_engineering_versatility",
       "continue_skills_design_references_logo_prompt_engineering_vintage_retro"
     ],
-    "41": [
+    "44": [
       "continue_skills_brand_references_color_palette_management",
       "continue_skills_brand_references_color_palette_management_accessibility_requirements",
       "continue_skills_brand_references_color_palette_management_brand_compliance_validation",
@@ -1629,7 +1740,7 @@
       "continue_skills_brand_references_color_palette_management_tools_resources",
       "continue_skills_brand_references_color_palette_management_validation_output"
     ],
-    "42": [
+    "45": [
       "continue_skills_design_references_cip_deliverable_guide",
       "continue_skills_design_references_cip_deliverable_guide_apparel",
       "continue_skills_design_references_cip_deliverable_guide_business_card",
@@ -1656,7 +1767,7 @@
       "continue_skills_design_references_cip_deliverable_guide_wall_graphics",
       "continue_skills_design_references_cip_deliverable_guide_wayfinding_system"
     ],
-    "43": [
+    "46": [
       "continue_skills_design_system_references_states_and_variants",
       "continue_skills_design_system_references_states_and_variants_accessibility",
       "continue_skills_design_system_references_states_and_variants_accessibility_requirements",
@@ -1683,7 +1794,7 @@
       "continue_skills_design_system_references_states_and_variants_visual_indicators",
       "continue_skills_design_system_references_states_and_variants_visual_treatment"
     ],
-    "44": [
+    "47": [
       "continue_skills_ui_styling_skill",
       "continue_skills_ui_styling_skill_accessibility_patterns",
       "continue_skills_ui_styling_skill_alternative_tailwind_only_setup",
@@ -1710,7 +1821,7 @@
       "continue_skills_ui_styling_skill_visual_design_system",
       "continue_skills_ui_styling_skill_when_to_use_this_skill"
     ],
-    "45": [
+    "48": [
       "src_app_api_fiscal_cancel_route",
       "src_app_api_fiscal_cancel_route_dynamic",
       "src_app_api_fiscal_cancel_route_post",
@@ -1737,7 +1848,7 @@
       "src_lib_fiscal_index_fiscalstatus",
       "src_lib_fiscal_index_getfiscalconfig"
     ],
-    "46": [
+    "49": [
       "continue_skills_design_references_social_photos_design",
       "continue_skills_design_references_social_photos_design_art_direction_styles_reuse_from_banner",
       "continue_skills_design_references_social_photos_design_color_contrast",
@@ -1763,7 +1874,7 @@
       "continue_skills_design_references_social_photos_design_typography_hierarchy",
       "continue_skills_design_references_social_photos_design_workflow"
     ],
-    "47": [
+    "50": [
       "relatorio_auditoria",
       "relatorio_auditoria_1_rodar_migration_ddl_exige_supabase_sql_editor",
       "relatorio_auditoria_2_rotacionar_segredos",
@@ -1789,7 +1900,7 @@
       "relatorio_auditoria_f_comandos_para_validar",
       "relatorio_auditoria_g_veredito"
     ],
-    "48": [
+    "51": [
       "continue_skills_design_system_skill",
       "continue_skills_design_system_skill_best_practices",
       "continue_skills_design_system_skill_chart_js_integration",
@@ -1814,7 +1925,7 @@
       "continue_skills_design_system_skill_token_compliance",
       "continue_skills_design_system_skill_when_to_use"
     ],
-    "49": [
+    "52": [
       "continue_skills_ui_styling_references_tailwind_customization",
       "continue_skills_ui_styling_references_tailwind_customization_apply_directive",
       "continue_skills_ui_styling_references_tailwind_customization_best_practices",
@@ -1839,31 +1950,81 @@
       "continue_skills_ui_styling_references_tailwind_customization_theme_directive",
       "continue_skills_ui_styling_references_tailwind_customization_typography_customization"
     ],
-    "50": [
-      "continue_skills_design_system_templates_design_tokens_starter_0_type",
-      "continue_skills_design_system_templates_design_tokens_starter_0_value",
-      "continue_skills_design_system_templates_design_tokens_starter_10_type",
-      "continue_skills_design_system_templates_design_tokens_starter_10_value",
-      "continue_skills_design_system_templates_design_tokens_starter_12_type",
-      "continue_skills_design_system_templates_design_tokens_starter_12_value",
-      "continue_skills_design_system_templates_design_tokens_starter_2_type",
-      "continue_skills_design_system_templates_design_tokens_starter_2_value",
-      "continue_skills_design_system_templates_design_tokens_starter_4_type",
-      "continue_skills_design_system_templates_design_tokens_starter_4_value",
-      "continue_skills_design_system_templates_design_tokens_starter_5_type",
-      "continue_skills_design_system_templates_design_tokens_starter_5_value",
-      "continue_skills_design_system_templates_design_tokens_starter_6_type",
-      "continue_skills_design_system_templates_design_tokens_starter_6_value",
-      "continue_skills_design_system_templates_design_tokens_starter_primitive_spacing",
-      "continue_skills_design_system_templates_design_tokens_starter_spacing_0",
-      "continue_skills_design_system_templates_design_tokens_starter_spacing_10",
-      "continue_skills_design_system_templates_design_tokens_starter_spacing_12",
-      "continue_skills_design_system_templates_design_tokens_starter_spacing_2",
-      "continue_skills_design_system_templates_design_tokens_starter_spacing_4",
-      "continue_skills_design_system_templates_design_tokens_starter_spacing_5",
-      "continue_skills_design_system_templates_design_tokens_starter_spacing_6"
+    "53": [
+      "src_app_dashboard_auditoria_page",
+      "src_app_dashboard_auditoria_page_auditoriapage",
+      "src_app_dashboard_ordens_nova_page",
+      "src_app_dashboard_ordens_nova_page_formholdersquick",
+      "src_app_dashboard_ordens_nova_page_forminventoryitem",
+      "src_app_dashboard_ordens_nova_page_formvehicle",
+      "src_app_dashboard_ordens_nova_page_novaordempage",
+      "src_app_dashboard_ordens_nova_page_ordemitem",
+      "src_app_dashboard_ordens_page",
+      "src_app_dashboard_ordens_page_ordenspage",
+      "src_app_dashboard_usuarios_page",
+      "src_app_dashboard_usuarios_page_usuariospage",
+      "src_components_dashboard_modalrbac",
+      "src_components_dashboard_modalrbac_modalrbac",
+      "src_components_dashboard_modalrbac_userrole",
+      "src_components_tabs_auditlogstab",
+      "src_components_tabs_auditlogstab_auditlogstab",
+      "src_components_tabs_auditlogstab_detailstext",
+      "src_components_tabs_serviceorderstab",
+      "src_components_tabs_serviceorderstab_serviceorderstab",
+      "src_lib_authfetch_authfetch",
+      "src_types_domain_auditlog",
+      "src_types_domain_serviceorder"
     ],
-    "51": [
+    "54": [
+      "src_app_dashboard_financeiro_page",
+      "src_app_dashboard_financeiro_page_financeiropage",
+      "src_components_modals_modalcarnets",
+      "src_components_modals_modalcarnets_brl",
+      "src_components_modals_modalcarnets_carnetrow",
+      "src_components_modals_modalcarnets_contractisactive",
+      "src_components_modals_modalcarnets_holdercontract",
+      "src_components_modals_modalcarnets_holderisinactive",
+      "src_components_modals_modalcarnets_holderrow",
+      "src_components_modals_modalcarnets_modalcarnets",
+      "src_components_modals_modalcarnets_status_style",
+      "src_components_tabs_billingtab",
+      "src_components_tabs_billingtab_avulsosummarystats",
+      "src_components_tabs_billingtab_billingsummary",
+      "src_components_tabs_billingtab_billingtab",
+      "src_components_tabs_billingtab_collectorrow",
+      "src_components_tabs_billingtab_fmtbrl",
+      "src_components_tabs_billingtab_holderlabel",
+      "src_components_tabs_billingtab_holderoption",
+      "src_lib_notify_notifywarning",
+      "src_types_domain_billingresult",
+      "src_types_domain_collectorpayment",
+      "src_types_domain_payment"
+    ],
+    "55": [
+      "continue_skills_design_system_templates_design_tokens_starter_default_type",
+      "continue_skills_design_system_templates_design_tokens_starter_default_value",
+      "continue_skills_design_system_templates_design_tokens_starter_fontsize_lg",
+      "continue_skills_design_system_templates_design_tokens_starter_full_type",
+      "continue_skills_design_system_templates_design_tokens_starter_full_value",
+      "continue_skills_design_system_templates_design_tokens_starter_lg_type",
+      "continue_skills_design_system_templates_design_tokens_starter_lg_value",
+      "continue_skills_design_system_templates_design_tokens_starter_md_type",
+      "continue_skills_design_system_templates_design_tokens_starter_md_value",
+      "continue_skills_design_system_templates_design_tokens_starter_none_type",
+      "continue_skills_design_system_templates_design_tokens_starter_none_value",
+      "continue_skills_design_system_templates_design_tokens_starter_primitive_radius",
+      "continue_skills_design_system_templates_design_tokens_starter_primitive_shadow",
+      "continue_skills_design_system_templates_design_tokens_starter_radius_default",
+      "continue_skills_design_system_templates_design_tokens_starter_radius_full",
+      "continue_skills_design_system_templates_design_tokens_starter_radius_lg",
+      "continue_skills_design_system_templates_design_tokens_starter_radius_md",
+      "continue_skills_design_system_templates_design_tokens_starter_radius_none",
+      "continue_skills_design_system_templates_design_tokens_starter_shadow_default",
+      "continue_skills_design_system_templates_design_tokens_starter_shadow_lg",
+      "continue_skills_design_system_templates_design_tokens_starter_shadow_md",
+      "continue_skills_design_system_templates_design_tokens_starter_shadow_none"
+    ],
+    "56": [
       "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_123",
       "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_136",
       "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_149",
@@ -1887,31 +2048,7 @@
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_color_palette",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_full_configuration_javascript"
     ],
-    "52": [
-      "ref_react",
-      "src_app_dashboard_estoque_page",
-      "src_app_dashboard_estoque_page_estoquepage",
-      "src_app_dashboard_sepultamentos_page",
-      "src_app_dashboard_sepultamentos_page_sepultamentospage",
-      "src_app_landing_page",
-      "src_app_landing_page_addons",
-      "src_app_landing_page_faq",
-      "src_app_landing_page_landingpage",
-      "src_app_landing_page_modules",
-      "src_app_landing_page_plans",
-      "src_components_tabs_burialstab",
-      "src_components_tabs_burialstab_burialstab",
-      "src_components_tabs_burialstab_empty_form",
-      "src_components_tabs_inventorytab",
-      "src_components_tabs_inventorytab_empty_form",
-      "src_components_tabs_inventorytab_inventorytab",
-      "src_types_domain_burial",
-      "src_types_domain_inventoryitem",
-      "tests_app_page_test",
-      "tests_app_page_test_page",
-      "tests_app_page_test_readsrc"
-    ],
-    "53": [
+    "57": [
       "src_app_dashboard_crm_page",
       "src_app_dashboard_crm_page_crmpage",
       "src_components_tabs_crmtab",
@@ -1935,7 +2072,7 @@
       "src_lib_crm_walink",
       "tests_lib_crm_test"
     ],
-    "54": [
+    "58": [
       "continue_skills_design_system_scripts_generate_slide",
       "continue_skills_design_system_scripts_generate_slide_e",
       "continue_skills_design_system_scripts_generate_slide_generate_chart_slide",
@@ -1958,7 +2095,30 @@
       "continue_skills_design_system_scripts_generate_slide_rationale_638",
       "continue_skills_design_system_scripts_generate_slide_safe_url"
     ],
-    "55": [
+    "59": [
+      "ref_react",
+      "src_app_dashboard_estoque_page",
+      "src_app_dashboard_estoque_page_estoquepage",
+      "src_app_dashboard_sepultamentos_page",
+      "src_app_dashboard_sepultamentos_page_sepultamentospage",
+      "src_app_landing_page",
+      "src_app_landing_page_addons",
+      "src_app_landing_page_faq",
+      "src_app_landing_page_landingpage",
+      "src_app_landing_page_modules",
+      "src_app_landing_page_plans",
+      "src_components_tabs_burialstab",
+      "src_components_tabs_burialstab_burialstab",
+      "src_components_tabs_burialstab_empty_form",
+      "src_components_tabs_inventorytab",
+      "src_components_tabs_inventorytab_empty_form",
+      "src_components_tabs_inventorytab_inventorytab",
+      "src_types_domain_burial",
+      "tests_app_page_test",
+      "tests_app_page_test_page",
+      "tests_app_page_test_readsrc"
+    ],
+    "60": [
       "agents",
       "agents_agents_md",
       "agents_autonomia_quando_agir_sozinho_vs_parar",
@@ -1980,7 +2140,7 @@
       "agents_this_is_not_the_next_js_you_know",
       "agents_use_graphify_antes_de_ler_arquivos"
     ],
-    "56": [
+    "61": [
       "continue_skills_design_references_design_routing",
       "continue_skills_design_references_design_routing_banner_design_tasks",
       "continue_skills_design_references_design_routing_brand_identity_tasks",
@@ -2002,7 +2162,7 @@
       "continue_skills_design_references_design_routing_token_system_tasks",
       "continue_skills_design_references_design_routing_when_to_use_multiple_skills"
     ],
-    "57": [
+    "62": [
       "continue_skills_ui_styling_references_shadcn_theming",
       "continue_skills_ui_styling_references_shadcn_theming_base_color_presets",
       "continue_skills_ui_styling_references_shadcn_theming_best_practices",
@@ -2024,7 +2184,7 @@
       "continue_skills_ui_styling_references_shadcn_theming_tailwind_configuration",
       "continue_skills_ui_styling_references_shadcn_theming_vite_other_frameworks"
     ],
-    "58": [
+    "63": [
       "docs_checklist_manual_seguranca_2_atualizar_as_chaves_novas_fazer_logo_ap\u00f3s_o_passo_1",
       "docs_checklist_manual_seguranca_3_conferir_rls_row_level_security_em_todas_as_tabelas",
       "docs_checklist_manual_seguranca_5_ativar_autentica\u00e7\u00e3o_em_2_fatores_2fa",
@@ -2046,7 +2206,7 @@
       "docs_checklist_manual_seguranca_supabase",
       "docs_checklist_manual_seguranca_vercel"
     ],
-    "59": [
+    "64": [
       "auth_users",
       "public",
       "public_fleet_expenses",
@@ -2067,7 +2227,7 @@
       "supabase_migrations_20260914220043_remote_schema_public_tenant_whatsapp_numbers",
       "supabase_migrations_20260914220043_remote_schema_public_tenants"
     ],
-    "60": [
+    "65": [
       "continue_skills_brand_references_asset_organization",
       "continue_skills_brand_references_asset_organization_asset_entry_manifest_json",
       "continue_skills_brand_references_asset_organization_asset_organization_guide",
@@ -2088,7 +2248,7 @@
       "continue_skills_brand_references_asset_organization_tagging_system",
       "continue_skills_brand_references_asset_organization_version_entry_versions_id_v_n_json"
     ],
-    "61": [
+    "66": [
       "continue_skills_design_references_logo_color_psychology",
       "continue_skills_design_references_logo_color_psychology_accessibility_considerations",
       "continue_skills_design_references_logo_color_psychology_analogous",
@@ -2109,7 +2269,7 @@
       "continue_skills_design_references_logo_color_psychology_white",
       "continue_skills_design_references_logo_color_psychology_yellow_gold"
     ],
-    "62": [
+    "67": [
       "continue_skills_design_references_logo_style_guide",
       "continue_skills_design_references_logo_style_guide_1_wordmark_logotype",
       "continue_skills_design_references_logo_style_guide_2_lettermark_monogram",
@@ -2130,7 +2290,7 @@
       "continue_skills_design_references_logo_style_guide_style_selection_matrix",
       "continue_skills_design_references_logo_style_guide_vintage_retro"
     ],
-    "63": [
+    "68": [
       "continue_skills_design_system_scripts_fetch_background",
       "continue_skills_design_system_scripts_fetch_background_generate_css_for_background",
       "continue_skills_design_system_scripts_fetch_background_get_background_image",
@@ -2151,28 +2311,7 @@
       "continue_skills_design_system_scripts_fetch_background_rationale_40",
       "continue_skills_design_system_scripts_fetch_background_resolve_token_reference"
     ],
-    "64": [
-      "continue_skills_design_system_templates_design_tokens_starter_background_type",
-      "continue_skills_design_system_templates_design_tokens_starter_background_value",
-      "continue_skills_design_system_templates_design_tokens_starter_color_background",
-      "continue_skills_design_system_templates_design_tokens_starter_color_foreground",
-      "continue_skills_design_system_templates_design_tokens_starter_color_muted_foreground",
-      "continue_skills_design_system_templates_design_tokens_starter_color_primary",
-      "continue_skills_design_system_templates_design_tokens_starter_color_primary_hover",
-      "continue_skills_design_system_templates_design_tokens_starter_color_secondary",
-      "continue_skills_design_system_templates_design_tokens_starter_foreground_type",
-      "continue_skills_design_system_templates_design_tokens_starter_foreground_value",
-      "continue_skills_design_system_templates_design_tokens_starter_muted_foreground_type",
-      "continue_skills_design_system_templates_design_tokens_starter_muted_foreground_value",
-      "continue_skills_design_system_templates_design_tokens_starter_primary_hover_type",
-      "continue_skills_design_system_templates_design_tokens_starter_primary_hover_value",
-      "continue_skills_design_system_templates_design_tokens_starter_primary_type",
-      "continue_skills_design_system_templates_design_tokens_starter_primary_value",
-      "continue_skills_design_system_templates_design_tokens_starter_secondary_type",
-      "continue_skills_design_system_templates_design_tokens_starter_secondary_value",
-      "continue_skills_design_system_templates_design_tokens_starter_semantic_color"
-    ],
-    "65": [
+    "69": [
       "tsconfig",
       "tsconfig_compileroptions",
       "tsconfig_compileroptions_allowjs",
@@ -2193,7 +2332,7 @@
       "tsconfig_exclude",
       "tsconfig_include"
     ],
-    "66": [
+    "70": [
       "continue_skills_brand_references_consistency_checklist",
       "continue_skills_brand_references_consistency_checklist_audit_frequency",
       "continue_skills_brand_references_consistency_checklist_brand_consistency_checklist",
@@ -2213,7 +2352,7 @@
       "continue_skills_brand_references_consistency_checklist_voice_consistency",
       "continue_skills_brand_references_consistency_checklist_website"
     ],
-    "67": [
+    "71": [
       "continue_skills_design_references_cip_prompt_engineering",
       "continue_skills_design_references_cip_prompt_engineering_apparel_polo_t_shirt",
       "continue_skills_design_references_cip_prompt_engineering_base_prompt_structure",
@@ -2233,7 +2372,7 @@
       "continue_skills_design_references_cip_prompt_engineering_vehicle_branding",
       "continue_skills_design_references_cip_prompt_engineering_warm_organic"
     ],
-    "68": [
+    "72": [
       "continue_skills_design_system_references_semantic_tokens",
       "continue_skills_design_system_references_semantic_tokens_accent",
       "continue_skills_design_system_references_semantic_tokens_applying_semantic_tokens",
@@ -2253,7 +2392,7 @@
       "continue_skills_design_system_references_semantic_tokens_typography_semantics",
       "continue_skills_design_system_references_semantic_tokens_usage_patterns"
     ],
-    "69": [
+    "73": [
       "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_rationale_2",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testfixturevalidation",
@@ -2273,7 +2412,7 @@
       "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testthresholdgate_test_oracle_fingerprint_hashes_the_selected_cases_file",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testthresholdgate_test_runtime_fingerprint_binds_reasoning_contract"
     ],
-    "70": [
+    "74": [
       "continue_skills_design_scripts_icon_generate",
       "continue_skills_design_scripts_icon_generate_apply_color",
       "continue_skills_design_scripts_icon_generate_apply_viewbox_size",
@@ -2292,7 +2431,7 @@
       "continue_skills_design_scripts_icon_generate_rationale_3",
       "continue_skills_design_scripts_icon_generate_rationale_372"
     ],
-    "71": [
+    "75": [
       "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_font_args",
@@ -2311,7 +2450,7 @@
       "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_catalogrefreshtest_test_official_metadata_checkout_is_strict_and_reusable",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_rationale_2"
     ],
-    "72": [
+    "76": [
       "package_dependencies",
       "package_dependencies_autoprefixer",
       "package_dependencies_clsx",
@@ -2330,26 +2469,7 @@
       "package_dependencies_upstash_ratelimit",
       "package_dependencies_vercel_kv"
     ],
-    "73": [
-      "ref_recharts",
-      "src_app_dashboard_executivo_page",
-      "src_app_dashboard_executivo_page_executivopage",
-      "src_app_dashboard_usuarios_page",
-      "src_app_dashboard_usuarios_page_usuariospage",
-      "src_components_dashboard_modaldre",
-      "src_components_dashboard_modaldre_financialsummary",
-      "src_components_dashboard_modaldre_modaldre",
-      "src_components_dashboard_modalrbac",
-      "src_components_dashboard_modalrbac_modalrbac",
-      "src_components_dashboard_modalrbac_userrole",
-      "src_components_tabs_executivetab",
-      "src_components_tabs_executivetab_executivetab",
-      "src_components_tabs_executivetab_fmtbrl",
-      "src_lib_authfetch_authfetch",
-      "src_types_domain_executivekpis",
-      "src_types_domain_executivemonthlypoint"
-    ],
-    "74": [
+    "77": [
       "continue_skills_banner_design_references_banner_sizes_and_styles",
       "continue_skills_banner_design_references_banner_sizes_and_styles_22_art_direction_styles",
       "continue_skills_banner_design_references_banner_sizes_and_styles_banner_sizes_art_direction_styles_reference",
@@ -2367,7 +2487,7 @@
       "continue_skills_banner_design_references_banner_sizes_and_styles_web_display_ads_google_display_network",
       "continue_skills_banner_design_references_banner_sizes_and_styles_website"
     ],
-    "75": [
+    "78": [
       "continue_skills_design_references_banner_sizes_and_styles",
       "continue_skills_design_references_banner_sizes_and_styles_22_art_direction_styles",
       "continue_skills_design_references_banner_sizes_and_styles_banner_sizes_art_direction_styles_reference",
@@ -2385,7 +2505,7 @@
       "continue_skills_design_references_banner_sizes_and_styles_web_display_ads_google_display_network",
       "continue_skills_design_references_banner_sizes_and_styles_website"
     ],
-    "76": [
+    "79": [
       "continue_skills_design_system_templates_design_tokens_starter_2xl_type",
       "continue_skills_design_system_templates_design_tokens_starter_2xl_value",
       "continue_skills_design_system_templates_design_tokens_starter_3xl_type",
@@ -2403,7 +2523,7 @@
       "continue_skills_design_system_templates_design_tokens_starter_xs_type",
       "continue_skills_design_system_templates_design_tokens_starter_xs_value"
     ],
-    "77": [
+    "80": [
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_18",
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_205",
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_213",
@@ -2421,7 +2541,7 @@
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_list_installed_empty",
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_list_installed_with_components"
     ],
-    "78": [
+    "81": [
       "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator",
       "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_build_style_lookup",
       "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_init",
@@ -2439,7 +2559,7 @@
       "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_constraints_reach_domain_queries",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_constraints_reach_domain_queries_capture"
     ],
-    "79": [
+    "82": [
       "continue_skills_design_references_cip_design",
       "continue_skills_design_references_cip_design_cip_brief_start_here",
       "continue_skills_design_references_cip_design_cip_design_reference",
@@ -2456,7 +2576,7 @@
       "continue_skills_design_references_cip_design_setup",
       "continue_skills_design_references_cip_design_workflow"
     ],
-    "80": [
+    "83": [
       "continue_skills_design_references_icon_design",
       "continue_skills_design_references_icon_design_available_styles",
       "continue_skills_design_references_icon_design_cli_options",
@@ -2473,7 +2593,7 @@
       "continue_skills_design_references_icon_design_svg_best_practices",
       "continue_skills_design_references_icon_design_workflow"
     ],
-    "81": [
+    "84": [
       "continue_skills_design_references_slides_copywriting_formulas",
       "continue_skills_design_references_slides_copywriting_formulas_aida_attention_interest_desire_action",
       "continue_skills_design_references_slides_copywriting_formulas_before_after_bridge",
@@ -2490,7 +2610,7 @@
       "continue_skills_design_references_slides_copywriting_formulas_search_commands",
       "continue_skills_design_references_slides_copywriting_formulas_social_proof_patterns"
     ],
-    "82": [
+    "85": [
       "continue_skills_slides_references_copywriting_formulas",
       "continue_skills_slides_references_copywriting_formulas_aida_attention_interest_desire_action",
       "continue_skills_slides_references_copywriting_formulas_before_after_bridge",
@@ -2507,7 +2627,7 @@
       "continue_skills_slides_references_copywriting_formulas_search_commands",
       "continue_skills_slides_references_copywriting_formulas_social_proof_patterns"
     ],
-    "83": [
+    "86": [
       "continue_skills_ui_ux_pro_max_scripts_core_detect_domain",
       "continue_skills_ui_ux_pro_max_scripts_core_rationale_629",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdomaindetection",
@@ -2524,7 +2644,7 @@
       "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdomaindetection_test_router_prioritizes_typography_for_font_pairing_queries",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdomaindetection_test_style_keywords_route_to_style"
     ],
-    "84": [
+    "87": [
       "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_apply_reasoning",
       "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_find_reasoning_rule",
       "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_358",
@@ -2541,7 +2661,7 @@
       "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_duplicate_unknown_keys_and_unknown_actions_fail_closed",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_must_have_and_explicit_signals_are_applied_and_reported"
     ],
-    "85": [
+    "88": [
       "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_extract_results",
       "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_generate",
       "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_multi_domain_search",
@@ -2558,7 +2678,7 @@
       "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_light_mode_is_a_no_op",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_unrelated_anti_patterns_survive_dark_mode"
     ],
-    "86": [
+    "89": [
       "docs_arquitetura_rbac_multitenant_1_preciso_de_um_banco_separado_por_cliente",
       "docs_arquitetura_rbac_multitenant_2_rbac_a_engrenagem_de_permiss\u00f5es",
       "docs_arquitetura_rbac_multitenant_3_planos_comerciais_os_limites_por_cliente",
@@ -2575,7 +2695,7 @@
       "docs_arquitetura_rbac_multitenant_permiss\u00f5es_granulares_role_permissions",
       "docs_arquitetura_rbac_multitenant_sum\u00e1rio"
     ],
-    "87": [
+    "90": [
       "docs_graphify_1_vista_general_de_arquitectura",
       "docs_graphify_2_cadena_de_autenticaci\u00f3n_y_las_4_capas_de_aislamiento",
       "docs_graphify_3_mapa_de_dominios_rutas_api",
@@ -2592,7 +2712,7 @@
       "docs_graphify_tabla_de_referencia_ruta_m\u00e9todos_notas",
       "docs_graphify_\u00edndice"
     ],
-    "88": [
+    "91": [
       "docs_roadmap_pendentes_2_tema_claro_dark_light_concluido",
       "docs_roadmap_pendentes_4_crm_de_leads_pipeline_mvp_implementado_commit_567de2d",
       "docs_roadmap_pendentes_5_transmissao_ao_vivo_adiado_decisao_de_roadmap",
@@ -2609,7 +2729,7 @@
       "docs_roadmap_pendentes_formulario_novo_titular_api",
       "docs_roadmap_pendentes_pendente_pr\u00f3ximas_sess\u00f5es_nesta_ordem"
     ],
-    "89": [
+    "92": [
       "docs_roteiro_demo",
       "docs_roteiro_demo_parte_0_prepara\u00e7\u00e3o_fazer_antes_da_liga\u00e7\u00e3o_reuni\u00e3o",
       "docs_roteiro_demo_parte_10_objec\u00e7\u00f5es_frequentes_decore_as_respostas",
@@ -2626,7 +2746,7 @@
       "docs_roteiro_demo_regra_de_ouro",
       "docs_roteiro_demo_roteiro_de_demonstra\u00e7\u00e3o_eternityos_primex_sistemas"
     ],
-    "90": [
+    "93": [
       "package_devdependencies",
       "package_devdependencies_eslint",
       "package_devdependencies_eslint_config_next",
@@ -2643,7 +2763,7 @@
       "package_devdependencies_types_react_dom",
       "package_devdependencies_typescript"
     ],
-    "91": [
+    "94": [
       "public_inventory",
       "public_service_order_items",
       "public_service_orders",
@@ -2660,7 +2780,7 @@
       "supabase_migrations_20260914220043_remote_schema_public_financial_transactions",
       "supabase_migrations_20260914220043_remote_schema_public_v_service_orders_without_nfse"
     ],
-    "92": [
+    "95": [
       "src_app_api_payment_carnets_route_patch",
       "src_app_api_webhooks_asaas_route",
       "src_app_api_webhooks_asaas_route_markwebhookevent",
@@ -2677,7 +2797,7 @@
       "src_lib_financial_incomesource",
       "src_lib_financial_recordincome"
     ],
-    "93": [
+    "96": [
       "continue_skills_banner_design_skill",
       "continue_skills_banner_design_skill_art_direction_styles_top_10",
       "continue_skills_banner_design_skill_banner_design_multi_format_creative_banner_system",
@@ -2693,7 +2813,7 @@
       "continue_skills_banner_design_skill_when_to_activate",
       "continue_skills_banner_design_skill_workflow"
     ],
-    "94": [
+    "97": [
       "continue_skills_brand_references_messaging_framework",
       "continue_skills_brand_references_messaging_framework_core_statements",
       "continue_skills_brand_references_messaging_framework_elevator_pitches",
@@ -2709,7 +2829,7 @@
       "continue_skills_brand_references_messaging_framework_value_proposition",
       "continue_skills_brand_references_messaging_framework_vision_statement"
     ],
-    "95": [
+    "98": [
       "continue_skills_brand_references_voice_framework",
       "continue_skills_brand_references_voice_framework_brand_voice_framework",
       "continue_skills_brand_references_voice_framework_character_spectrum",
@@ -2725,7 +2845,7 @@
       "continue_skills_brand_references_voice_framework_voice_testing",
       "continue_skills_brand_references_voice_framework_voice_vs_tone"
     ],
-    "96": [
+    "99": [
       "continue_skills_brand_scripts_extract_colors",
       "continue_skills_brand_scripts_extract_colors_calculatecompliance",
       "continue_skills_brand_scripts_extract_colors_colordistance",
@@ -2741,7 +2861,7 @@
       "continue_skills_brand_scripts_extract_colors_path",
       "continue_skills_brand_scripts_extract_colors_rgbtohex"
     ],
-    "97": [
+    "100": [
       "continue_skills_brand_scripts_validate_asset",
       "continue_skills_brand_scripts_validate_asset_checkmanifest",
       "continue_skills_brand_scripts_validate_asset_formatbytes",
@@ -2757,7 +2877,7 @@
       "continue_skills_brand_scripts_validate_asset_validatefilesize",
       "continue_skills_brand_scripts_validate_asset_validateformat"
     ],
-    "98": [
+    "101": [
       "continue_skills_design_references_slides_layout_patterns",
       "continue_skills_design_references_slides_layout_patterns_card_styles",
       "continue_skills_design_references_slides_layout_patterns_component_variants",
@@ -2773,7 +2893,7 @@
       "continue_skills_design_references_slides_layout_patterns_two_column_split",
       "continue_skills_design_references_slides_layout_patterns_visual_treatments"
     ],
-    "99": [
+    "102": [
       "continue_skills_design_system_references_tailwind_integration",
       "continue_skills_design_system_references_tailwind_integration_animation_tokens",
       "continue_skills_design_system_references_tailwind_integration_base_layer",
@@ -2789,23 +2909,7 @@
       "continue_skills_design_system_references_tailwind_integration_tailwind_integration",
       "continue_skills_design_system_references_tailwind_integration_using_with_shadcn_ui"
     ],
-    "100": [
-      "continue_skills_design_system_templates_design_tokens_starter_default_type",
-      "continue_skills_design_system_templates_design_tokens_starter_default_value",
-      "continue_skills_design_system_templates_design_tokens_starter_full_type",
-      "continue_skills_design_system_templates_design_tokens_starter_full_value",
-      "continue_skills_design_system_templates_design_tokens_starter_md_type",
-      "continue_skills_design_system_templates_design_tokens_starter_md_value",
-      "continue_skills_design_system_templates_design_tokens_starter_primitive",
-      "continue_skills_design_system_templates_design_tokens_starter_primitive_radius",
-      "continue_skills_design_system_templates_design_tokens_starter_primitive_shadow",
-      "continue_skills_design_system_templates_design_tokens_starter_radius_default",
-      "continue_skills_design_system_templates_design_tokens_starter_radius_full",
-      "continue_skills_design_system_templates_design_tokens_starter_radius_md",
-      "continue_skills_design_system_templates_design_tokens_starter_shadow_default",
-      "continue_skills_design_system_templates_design_tokens_starter_shadow_md"
-    ],
-    "101": [
+    "103": [
       "continue_skills_slides_references_layout_patterns",
       "continue_skills_slides_references_layout_patterns_card_styles",
       "continue_skills_slides_references_layout_patterns_component_variants",
@@ -2821,7 +2925,7 @@
       "continue_skills_slides_references_layout_patterns_two_column_split",
       "continue_skills_slides_references_layout_patterns_visual_treatments"
     ],
-    "102": [
+    "104": [
       "continue_skills_ui_styling_scripts_tailwind_config_gen",
       "continue_skills_ui_styling_scripts_tailwind_config_gen_main",
       "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_2",
@@ -2837,7 +2941,7 @@
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testgeneratedconfigisvalidjs_test_property_before_plugins_is_comma_terminated",
       "parametrize"
     ],
-    "103": [
+    "105": [
       "ref_supabase_supabase_js",
       "scripts_qa_diag_holders",
       "scripts_qa_diag_holders_admin",
@@ -2853,7 +2957,7 @@
       "scripts_qa_teste_insert_clienteuser",
       "scripts_qa_teste_insert_env"
     ],
-    "104": [
+    "106": [
       "continue_skills_brand_references_update",
       "continue_skills_brand_references_update_color_presets",
       "continue_skills_brand_references_update_examples",
@@ -2868,7 +2972,7 @@
       "continue_skills_brand_references_update_step_5_report",
       "continue_skills_brand_references_update_workflow"
     ],
-    "105": [
+    "107": [
       "continue_skills_design_references_logo_design",
       "continue_skills_design_references_logo_design_available_styles",
       "continue_skills_design_references_logo_design_color_psychology",
@@ -2883,7 +2987,7 @@
       "continue_skills_design_references_logo_design_setup",
       "continue_skills_design_references_logo_design_workflow"
     ],
-    "106": [
+    "108": [
       "continue_skills_design_system_references_token_architecture",
       "continue_skills_design_system_references_token_architecture_categories",
       "continue_skills_design_system_references_token_architecture_dark_mode",
@@ -2898,13 +3002,13 @@
       "continue_skills_design_system_references_token_architecture_w3c_dtcg_alignment",
       "continue_skills_design_system_references_token_architecture_why_three_layers"
     ],
-    "107": [
+    "109": [
       "continue_skills_design_system_templates_design_tokens_starter",
-      "continue_skills_design_system_templates_design_tokens_starter_component",
       "continue_skills_design_system_templates_design_tokens_starter_component_type",
       "continue_skills_design_system_templates_design_tokens_starter_component_value",
       "continue_skills_design_system_templates_design_tokens_starter_dark",
       "continue_skills_design_system_templates_design_tokens_starter_dark_semantic",
+      "continue_skills_design_system_templates_design_tokens_starter_primitive",
       "continue_skills_design_system_templates_design_tokens_starter_schema",
       "continue_skills_design_system_templates_design_tokens_starter_section_type",
       "continue_skills_design_system_templates_design_tokens_starter_section_value",
@@ -2913,7 +3017,7 @@
       "continue_skills_design_system_templates_design_tokens_starter_spacing_component",
       "continue_skills_design_system_templates_design_tokens_starter_spacing_section"
     ],
-    "108": [
+    "110": [
       "public_payment_carnets",
       "public_payments",
       "public_plans",
@@ -2928,7 +3032,7 @@
       "supabase_migrations_20260914220043_remote_schema_idx_sellers_tenant",
       "supabase_migrations_20260914220043_remote_schema_public_contracts"
     ],
-    "109": [
+    "111": [
       "continue_skills_design_system_references_primitive_tokens",
       "continue_skills_design_system_references_primitive_tokens_border_radius",
       "continue_skills_design_system_references_primitive_tokens_color_scales",
@@ -2942,7 +3046,7 @@
       "continue_skills_design_system_references_primitive_tokens_typography_scale",
       "continue_skills_design_system_references_primitive_tokens_z_index_scale"
     ],
-    "110": [
+    "112": [
       "continue_skills_design_system_scripts_validate_tokens",
       "continue_skills_design_system_scripts_validate_tokens_extensions",
       "continue_skills_design_system_scripts_validate_tokens_formatreport",
@@ -2956,21 +3060,7 @@
       "continue_skills_design_system_scripts_validate_tokens_shouldskip",
       "continue_skills_design_system_scripts_validate_tokens_skippatterns"
     ],
-    "111": [
-      "continue_skills_design_system_templates_design_tokens_starter_bg_type",
-      "continue_skills_design_system_templates_design_tokens_starter_bg_value",
-      "continue_skills_design_system_templates_design_tokens_starter_button_bg",
-      "continue_skills_design_system_templates_design_tokens_starter_card_bg",
-      "continue_skills_design_system_templates_design_tokens_starter_card_padding",
-      "continue_skills_design_system_templates_design_tokens_starter_card_shadow",
-      "continue_skills_design_system_templates_design_tokens_starter_component_card",
-      "continue_skills_design_system_templates_design_tokens_starter_input_bg",
-      "continue_skills_design_system_templates_design_tokens_starter_padding_type",
-      "continue_skills_design_system_templates_design_tokens_starter_padding_value",
-      "continue_skills_design_system_templates_design_tokens_starter_shadow_type",
-      "continue_skills_design_system_templates_design_tokens_starter_shadow_value"
-    ],
-    "112": [
+    "113": [
       "continue_skills_ui_styling_scripts_shadcn_add_rationale_147",
       "continue_skills_ui_styling_scripts_shadcn_add_rationale_193",
       "continue_skills_ui_styling_scripts_shadcn_add_rationale_33",
@@ -2984,7 +3074,7 @@
       "continue_skills_ui_styling_scripts_shadcn_add_shadcninstaller_get_shadcn_version",
       "continue_skills_ui_styling_scripts_shadcn_add_shadcninstaller_list_installed"
     ],
-    "113": [
+    "114": [
       "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_192",
       "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_203",
       "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_224",
@@ -2998,7 +3088,7 @@
       "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_indent_json",
       "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_write_config"
     ],
-    "114": [
+    "115": [
       "continue_skills_ui_ux_pro_max_scripts_design_system_query_wants_dark",
       "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_165",
       "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_181",
@@ -3012,7 +3102,7 @@
       "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testmoderesolution_test_query_keywords",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_claim_fields_use_controlled_non_guarantee_language"
     ],
-    "115": [
+    "116": [
       "ref_sonner",
       "src_app_layout",
       "src_app_layout_inter",
@@ -3026,7 +3116,7 @@
       "src_components_serviceworkerregister",
       "src_components_serviceworkerregister_serviceworkerregister"
     ],
-    "116": [
+    "117": [
       "chapel_burials",
       "contracts",
       "inventory",
@@ -3039,7 +3129,7 @@
       "scripts_create_service_orders_service_orders",
       "vehicles"
     ],
-    "117": [
+    "118": [
       "continue_skills_brand_references_visual_identity",
       "continue_skills_brand_references_visual_identity_color_palette",
       "continue_skills_brand_references_visual_identity_colors",
@@ -3052,7 +3142,7 @@
       "continue_skills_brand_references_visual_identity_visual_guidelines_template",
       "continue_skills_brand_references_visual_identity_visual_identity_basics"
     ],
-    "118": [
+    "119": [
       "continue_skills_brand_scripts_inject_brand_context",
       "continue_skills_brand_scripts_inject_brand_context_extractcolorsfromtable",
       "continue_skills_brand_scripts_inject_brand_context_extractcoreattributes",
@@ -3065,7 +3155,7 @@
       "continue_skills_brand_scripts_inject_brand_context_main",
       "continue_skills_brand_scripts_inject_brand_context_path"
     ],
-    "119": [
+    "120": [
       "continue_skills_design_references_cip_style_guide",
       "continue_skills_design_references_cip_style_guide_bold_dynamic",
       "continue_skills_design_references_cip_style_guide_cip_design_style_guide",
@@ -3078,7 +3168,7 @@
       "continue_skills_design_references_cip_style_guide_soft_elegant",
       "continue_skills_design_references_cip_style_guide_warm_organic"
     ],
-    "120": [
+    "121": [
       "continue_skills_design_scripts_logo_generate",
       "continue_skills_design_scripts_logo_generate_enhance_prompt",
       "continue_skills_design_scripts_logo_generate_generate_batch",
@@ -3091,7 +3181,7 @@
       "continue_skills_design_scripts_logo_generate_rationale_3",
       "continue_skills_design_scripts_logo_generate_rationale_30"
     ],
-    "121": [
+    "122": [
       "continue_skills_design_system_scripts_embed_tokens",
       "continue_skills_design_system_scripts_embed_tokens_args",
       "continue_skills_design_system_scripts_embed_tokens_extracttokens",
@@ -3104,7 +3194,7 @@
       "continue_skills_design_system_scripts_embed_tokens_tokenspath",
       "continue_skills_design_system_scripts_embed_tokens_wrapstyle"
     ],
-    "122": [
+    "123": [
       "continue_skills_ui_styling_scripts_shadcn_add",
       "continue_skills_ui_styling_scripts_shadcn_add_main",
       "continue_skills_ui_styling_scripts_shadcn_add_rationale_18",
@@ -3117,7 +3207,7 @@
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_components_already_installed",
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_init_default_project_root"
     ],
-    "123": [
+    "124": [
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_124",
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_158",
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_182",
@@ -3130,7 +3220,7 @@
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_components_with_overwrite",
       "patch"
     ],
-    "124": [
+    "125": [
       "continue_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_rationale_2",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_read_rows",
@@ -3143,7 +3233,7 @@
       "continue_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutretrieval_test_locked_queries_return_the_canonical_identity_first",
       "continue_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutretrieval_test_tailwind_query_returns_compact_label_layout_first"
     ],
-    "125": [
+    "126": [
       "src_app_dashboard_capela_page",
       "src_app_dashboard_capela_page_capelapage",
       "src_components_modals_modalchapel",
@@ -3156,7 +3246,7 @@
       "src_components_tabs_chapeltab_status_label",
       "src_types_domain_chapelbooking"
     ],
-    "126": [
+    "127": [
       "any",
       "continue_skills_ui_styling_scripts_tailwind_config_gen_py_path",
       "continue_skills_ui_styling_scripts_tailwind_config_gen_rationale_31",
@@ -3168,7 +3258,7 @@
       "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_default_output_path",
       "continue_skills_ui_styling_scripts_tailwind_config_gen_tailwindconfiggenerator_init"
     ],
-    "127": [
+    "128": [
       "continue_skills_brand_skill",
       "continue_skills_brand_skill_brand",
       "continue_skills_brand_skill_brand_sync_workflow",
@@ -3180,7 +3270,7 @@
       "continue_skills_brand_skill_templates",
       "continue_skills_brand_skill_when_to_use"
     ],
-    "128": [
+    "129": [
       "continue_skills_design_references_slides_strategies",
       "continue_skills_design_references_slides_strategies_common_structures",
       "continue_skills_design_references_slides_strategies_duarte_sparkline_pattern",
@@ -3192,7 +3282,7 @@
       "continue_skills_design_references_slides_strategies_strategy_selection",
       "continue_skills_design_references_slides_strategies_yc_seed_deck_10_slides"
     ],
-    "129": [
+    "130": [
       "continue_skills_design_system_references_component_tokens",
       "continue_skills_design_system_references_component_tokens_alert_tokens",
       "continue_skills_design_system_references_component_tokens_badge_tokens",
@@ -3204,7 +3294,7 @@
       "continue_skills_design_system_references_component_tokens_table_tokens",
       "continue_skills_design_system_references_component_tokens_usage_example"
     ],
-    "130": [
+    "131": [
       "continue_skills_design_system_scripts_generate_tokens",
       "continue_skills_design_system_scripts_generate_tokens_flattentokens",
       "continue_skills_design_system_scripts_generate_tokens_fs",
@@ -3215,18 +3305,6 @@
       "continue_skills_design_system_scripts_generate_tokens_path",
       "continue_skills_design_system_scripts_generate_tokens_resolvereference",
       "continue_skills_design_system_scripts_generate_tokens_tocssvarname"
-    ],
-    "131": [
-      "continue_skills_design_system_templates_design_tokens_starter_button_fg",
-      "continue_skills_design_system_templates_design_tokens_starter_button_font_size",
-      "continue_skills_design_system_templates_design_tokens_starter_button_hover_bg",
-      "continue_skills_design_system_templates_design_tokens_starter_component_button",
-      "continue_skills_design_system_templates_design_tokens_starter_fg_type",
-      "continue_skills_design_system_templates_design_tokens_starter_fg_value",
-      "continue_skills_design_system_templates_design_tokens_starter_font_size_type",
-      "continue_skills_design_system_templates_design_tokens_starter_font_size_value",
-      "continue_skills_design_system_templates_design_tokens_starter_hover_bg_type",
-      "continue_skills_design_system_templates_design_tokens_starter_hover_bg_value"
     ],
     "132": [
       "continue_skills_design_system_templates_design_tokens_starter_duration_fast",
@@ -3310,27 +3388,6 @@
       "src_components_tabs_fiscaltab_status_label"
     ],
     "139": [
-      "src_components_modals_modalcarnets",
-      "src_components_modals_modalcarnets_brl",
-      "src_components_modals_modalcarnets_carnetrow",
-      "src_components_modals_modalcarnets_contractisactive",
-      "src_components_modals_modalcarnets_holdercontract",
-      "src_components_modals_modalcarnets_holderisinactive",
-      "src_components_modals_modalcarnets_holderrow",
-      "src_components_modals_modalcarnets_modalcarnets",
-      "src_components_modals_modalcarnets_status_style"
-    ],
-    "140": [
-      "continue_skills_design_system_templates_design_tokens_starter_button_padding_x",
-      "continue_skills_design_system_templates_design_tokens_starter_component_input",
-      "continue_skills_design_system_templates_design_tokens_starter_focus_ring_type",
-      "continue_skills_design_system_templates_design_tokens_starter_focus_ring_value",
-      "continue_skills_design_system_templates_design_tokens_starter_input_focus_ring",
-      "continue_skills_design_system_templates_design_tokens_starter_input_padding_x",
-      "continue_skills_design_system_templates_design_tokens_starter_padding_x_type",
-      "continue_skills_design_system_templates_design_tokens_starter_padding_x_value"
-    ],
-    "141": [
       "continue_skills_ui_ux_pro_max_scripts_core_exact_row_identity",
       "continue_skills_ui_ux_pro_max_scripts_core_rationale_505",
       "continue_skills_ui_ux_pro_max_scripts_core_rationale_526",
@@ -3340,7 +3397,7 @@
       "continue_skills_ui_ux_pro_max_scripts_core_style_identity",
       "continue_skills_ui_ux_pro_max_scripts_core_suggest_identities"
     ],
-    "142": [
+    "140": [
       "scripts_agente_whatsapp",
       "scripts_agente_whatsapp_idx_emergency_dispatches_tenant",
       "scripts_agente_whatsapp_idx_tenant_whatsapp_number",
@@ -3350,7 +3407,7 @@
       "scripts_agente_whatsapp_sql_public_emergency_dispatches",
       "scripts_agente_whatsapp_sql_public_tenants"
     ],
-    "143": [
+    "141": [
       "scripts_convert_theme",
       "scripts_convert_theme_collectfiles",
       "scripts_convert_theme_files",
@@ -3360,7 +3417,7 @@
       "scripts_convert_theme_restorecoloredbuttons",
       "scripts_convert_theme_root"
     ],
-    "144": [
+    "142": [
       "src_app_api_leads_route",
       "src_app_api_leads_route_delete",
       "src_app_api_leads_route_dynamic",
@@ -3370,7 +3427,7 @@
       "src_lib_crm_isvalidleadsource",
       "src_lib_crm_isvalidleadstage"
     ],
-    "145": [
+    "143": [
       "src_app_dashboard_convalescencia_page",
       "src_app_dashboard_convalescencia_page_convalescenciapage",
       "src_components_tabs_convalescencetab",
@@ -3380,7 +3437,7 @@
       "src_components_tabs_convalescencetab_empty_form",
       "src_types_domain_convalescenceitem"
     ],
-    "146": [
+    "144": [
       "continue_skills_design_references_slides",
       "continue_skills_design_references_slides_key_features",
       "continue_skills_design_references_slides_knowledge_base",
@@ -3389,7 +3446,7 @@
       "continue_skills_design_references_slides_when_to_use",
       "continue_skills_design_references_slides_workflow"
     ],
-    "147": [
+    "145": [
       "continue_skills_design_references_slides_html_template",
       "continue_skills_design_references_slides_html_template_animation_classes",
       "continue_skills_design_references_slides_html_template_background_images",
@@ -3398,7 +3455,7 @@
       "continue_skills_design_references_slides_html_template_css_variables_reference",
       "continue_skills_design_references_slides_html_template_html_slide_template"
     ],
-    "148": [
+    "146": [
       "continue_skills_slides_references_html_template",
       "continue_skills_slides_references_html_template_animation_classes",
       "continue_skills_slides_references_html_template_background_images",
@@ -3407,7 +3464,7 @@
       "continue_skills_slides_references_html_template_css_variables_reference",
       "continue_skills_slides_references_html_template_html_slide_template"
     ],
-    "149": [
+    "147": [
       "package_scripts",
       "package_scripts_build",
       "package_scripts_dev",
@@ -3416,7 +3473,7 @@
       "package_scripts_test",
       "package_scripts_test_watch"
     ],
-    "150": [
+    "148": [
       "scripts_fix_theme_contrast",
       "scripts_fix_theme_contrast_files",
       "scripts_fix_theme_contrast_fs",
@@ -3425,7 +3482,7 @@
       "scripts_fix_theme_contrast_strong",
       "scripts_fix_theme_contrast_walk"
     ],
-    "151": [
+    "149": [
       "scripts_qa_teste_isolamento_final",
       "scripts_qa_teste_isolamento_final_admin",
       "scripts_qa_teste_isolamento_final_anon",
@@ -3434,7 +3491,7 @@
       "scripts_qa_teste_isolamento_final_clienteuser",
       "scripts_qa_teste_isolamento_final_env"
     ],
-    "152": [
+    "150": [
       "scripts_qa_teste_isolamento_v2",
       "scripts_qa_teste_isolamento_v2_admin",
       "scripts_qa_teste_isolamento_v2_anon",
@@ -3443,7 +3500,7 @@
       "scripts_qa_teste_isolamento_v2_clienteuser",
       "scripts_qa_teste_isolamento_v2_env"
     ],
-    "153": [
+    "151": [
       "src_app_api_routes_tenant_test",
       "src_app_api_routes_tenant_test_allowlist",
       "src_app_api_routes_tenant_test_api_dir",
@@ -3452,7 +3509,7 @@
       "src_app_api_routes_tenant_test_listroutefiles",
       "src_app_api_routes_tenant_test_no_tenant_scope"
     ],
-    "154": [
+    "152": [
       "continue_skills_slides_skill",
       "continue_skills_slides_skill_references_knowledge_base",
       "continue_skills_slides_skill_routing",
@@ -3460,7 +3517,7 @@
       "continue_skills_slides_skill_subcommands",
       "continue_skills_slides_skill_when_to_use"
     ],
-    "155": [
+    "153": [
       "docs_arquitetura_rbac_multitenant_4_onboarding_chegou_um_cliente_novo_e_agora",
       "docs_arquitetura_rbac_multitenant_e_quando_um_familiar_de_um_associado_morre",
       "docs_arquitetura_rbac_multitenant_passo_1_criar_o_tenant",
@@ -3468,7 +3525,7 @@
       "docs_arquitetura_rbac_multitenant_passo_3_o_cliente_loga",
       "docs_arquitetura_rbac_multitenant_passo_4_upsell_de_plano"
     ],
-    "156": [
+    "154": [
       "scripts_onboard_cliente",
       "scripts_onboard_cliente_env",
       "scripts_onboard_cliente_name_cnpj_owneremail",
@@ -3476,7 +3533,7 @@
       "scripts_onboard_cliente_owner",
       "scripts_onboard_cliente_supabase"
     ],
-    "157": [
+    "155": [
       "scripts_qa_inspect_behavior",
       "scripts_qa_inspect_behavior_admin",
       "scripts_qa_inspect_behavior_clientwith",
@@ -3484,7 +3541,7 @@
       "scripts_qa_inspect_behavior_isoten",
       "scripts_qa_inspect_behavior_targethold"
     ],
-    "158": [
+    "156": [
       "scripts_qa_test_api",
       "scripts_qa_test_api_call",
       "scripts_qa_test_api_check",
@@ -3492,7 +3549,7 @@
       "scripts_qa_test_api_myrole",
       "scripts_qa_test_api_tokenfor"
     ],
-    "159": [
+    "157": [
       "scripts_qa_teste_isolamento_v3",
       "scripts_qa_teste_isolamento_v3_admin",
       "scripts_qa_teste_isolamento_v3_anon",
@@ -3500,7 +3557,7 @@
       "scripts_qa_teste_isolamento_v3_check",
       "scripts_qa_teste_isolamento_v3_env"
     ],
-    "160": [
+    "158": [
       "scripts_qa_teste_isolamento_v4",
       "scripts_qa_teste_isolamento_v4_admin",
       "scripts_qa_teste_isolamento_v4_anon",
@@ -3508,7 +3565,7 @@
       "scripts_qa_teste_isolamento_v4_check",
       "scripts_qa_teste_isolamento_v4_env"
     ],
-    "161": [
+    "159": [
       "scripts_qa_teste_isolamento_v5",
       "scripts_qa_teste_isolamento_v5_admin",
       "scripts_qa_teste_isolamento_v5_anon",
@@ -3516,7 +3573,7 @@
       "scripts_qa_teste_isolamento_v5_check",
       "scripts_qa_teste_isolamento_v5_env"
     ],
-    "162": [
+    "160": [
       "scripts_qa_teste_isolamento_v6",
       "scripts_qa_teste_isolamento_v6_admin",
       "scripts_qa_teste_isolamento_v6_anon",
@@ -3524,23 +3581,7 @@
       "scripts_qa_teste_isolamento_v6_check",
       "scripts_qa_teste_isolamento_v6_env"
     ],
-    "163": [
-      "src_app_dashboard_auditoria_page",
-      "src_app_dashboard_auditoria_page_auditoriapage",
-      "src_components_tabs_auditlogstab",
-      "src_components_tabs_auditlogstab_auditlogstab",
-      "src_components_tabs_auditlogstab_detailstext",
-      "src_types_domain_auditlog"
-    ],
-    "164": [
-      "src_app_dashboard_beneficios_page",
-      "src_app_dashboard_beneficios_page_beneficiospage",
-      "src_components_tabs_benefitstab",
-      "src_components_tabs_benefitstab_benefitstab",
-      "src_components_tabs_benefitstab_empty_form",
-      "src_types_domain_partner"
-    ],
-    "165": [
+    "161": [
       "src_app_dashboard_contas_a_pagar_page",
       "src_app_dashboard_contas_a_pagar_page_contasapagarpage",
       "src_components_tabs_accountspayabletab",
@@ -3548,936 +3589,863 @@
       "src_components_tabs_accountspayabletab_empty",
       "src_types_domain_accountpayable"
     ],
-    "166": [
+    "162": [
       "continue_skills_brand_references_brand_guideline_template",
       "continue_skills_brand_references_brand_guideline_template_brand_guidelines_template",
       "continue_skills_brand_references_brand_guideline_template_document_structure",
       "continue_skills_brand_references_brand_guideline_template_extractable_fields",
       "continue_skills_brand_references_brand_guideline_template_usage"
     ],
-    "167": [
-      "continue_skills_design_system_templates_design_tokens_starter_border_type",
-      "continue_skills_design_system_templates_design_tokens_starter_border_value",
-      "continue_skills_design_system_templates_design_tokens_starter_card_border",
-      "continue_skills_design_system_templates_design_tokens_starter_color_border",
-      "continue_skills_design_system_templates_design_tokens_starter_input_border"
-    ],
-    "168": [
-      "continue_skills_design_system_templates_design_tokens_starter_button_radius",
-      "continue_skills_design_system_templates_design_tokens_starter_card_radius",
-      "continue_skills_design_system_templates_design_tokens_starter_input_radius",
-      "continue_skills_design_system_templates_design_tokens_starter_radius_type",
-      "continue_skills_design_system_templates_design_tokens_starter_radius_value"
-    ],
-    "169": [
-      "continue_skills_design_system_templates_design_tokens_starter_fontsize_lg",
-      "continue_skills_design_system_templates_design_tokens_starter_lg_type",
-      "continue_skills_design_system_templates_design_tokens_starter_lg_value",
-      "continue_skills_design_system_templates_design_tokens_starter_radius_lg",
-      "continue_skills_design_system_templates_design_tokens_starter_shadow_lg"
-    ],
-    "170": [
+    "163": [
       "continue_skills_design_system_templates_design_tokens_starter_fontsize_sm",
       "continue_skills_design_system_templates_design_tokens_starter_radius_sm",
       "continue_skills_design_system_templates_design_tokens_starter_shadow_sm",
       "continue_skills_design_system_templates_design_tokens_starter_sm_type",
       "continue_skills_design_system_templates_design_tokens_starter_sm_value"
     ],
-    "171": [
+    "164": [
       "docs_roadmap_pendentes_7_pend\u00e3\u0161ncias_t\u00e3_cnicas_follow_up_memoria_de_sessao",
       "docs_roadmap_pendentes_a_dependentes_via_api_server_hardening",
       "docs_roadmap_pendentes_b_revis\u00e3_o_visual_do_theme_claro_no_mon\u00e33lito_page_tsx",
       "docs_roadmap_pendentes_c_agente_whatsapp_continua_em_andamento",
       "docs_roadmap_pendentes_d_nfs_e"
     ],
-    "172": [
+    "165": [
       "migracao_planos_supabase",
       "migracao_planos_supabase_idx_holders_tenant_id",
       "migracao_planos_supabase_idx_user_roles_tenant_id",
       "migracao_planos_supabase_sql_public_holders",
       "migracao_planos_supabase_sql_public_user_roles"
     ],
-    "173": [
+    "166": [
       "next_config",
       "next_config_nextconfig",
       "ref_next",
       "src_app_manifest",
       "src_app_manifest_manifest"
     ],
-    "174": [
+    "167": [
       "public_holders",
       "supabase_migrations_20260914220043_remote_schema_idx_holders_cpf",
       "supabase_migrations_20260914220043_remote_schema_idx_holders_tenant_id",
       "supabase_migrations_20260914220043_remote_schema_idx_holders_tenant_status",
       "supabase_migrations_20260914220043_remote_schema_public_dependents"
     ],
-    "175": [
+    "168": [
       "public_leads",
       "supabase_migrations_20260914220043_remote_schema_idx_leads_converted",
       "supabase_migrations_20260914220043_remote_schema_idx_leads_created",
       "supabase_migrations_20260914220043_remote_schema_idx_leads_followup",
       "supabase_migrations_20260914220043_remote_schema_idx_leads_stage"
     ],
-    "176": [
+    "169": [
       "scripts_crm_leads_migration",
       "scripts_crm_leads_migration_idx_leads_created",
       "scripts_crm_leads_migration_idx_leads_followup",
       "scripts_crm_leads_migration_idx_leads_stage",
       "scripts_crm_leads_migration_public_leads"
     ],
-    "177": [
+    "170": [
       "scripts_qa_cleanup",
       "scripts_qa_cleanup_emails",
       "scripts_qa_cleanup_env",
       "scripts_qa_cleanup_supabase",
       "scripts_qa_cleanup_tenantids"
     ],
-    "178": [
+    "171": [
       "scripts_qa_test_db_rls",
       "scripts_qa_test_db_rls_adminapi",
       "scripts_qa_test_db_rls_authheadersfor",
       "scripts_qa_test_db_rls_check",
       "scripts_qa_test_db_rls_env"
     ],
-    "179": [
+    "172": [
       "scripts_qa_teste_isolamento_pos_fix",
       "scripts_qa_teste_isolamento_pos_fix_check",
       "scripts_qa_teste_isolamento_pos_fix_dirname",
       "scripts_qa_teste_isolamento_pos_fix_loadenv",
       "scripts_qa_teste_isolamento_pos_fix_main"
     ],
-    "180": [
+    "173": [
       "scripts_webhook_events_migration",
       "scripts_webhook_events_migration_idx_webhook_events_payment",
       "scripts_webhook_events_migration_idx_webhook_events_tenant_time",
       "scripts_webhook_events_migration_public_webhook_events",
       "scripts_webhook_events_migration_sql_public_tenants"
     ],
-    "181": [
+    "174": [
       "continue_skills_design_system_scripts_slide_token_validator",
       "continue_skills_design_system_scripts_slide_token_validator_main",
       "continue_skills_design_system_scripts_slide_token_validator_rationale_2",
       "continue_skills_design_system_scripts_slide_token_validator_rationale_21"
     ],
-    "182": [
-      "continue_skills_design_system_templates_design_tokens_starter_button_padding_y",
-      "continue_skills_design_system_templates_design_tokens_starter_input_padding_y",
-      "continue_skills_design_system_templates_design_tokens_starter_padding_y_type",
-      "continue_skills_design_system_templates_design_tokens_starter_padding_y_value"
-    ],
-    "183": [
+    "175": [
       "continue_skills_design_system_templates_design_tokens_starter_fontsize_xl",
       "continue_skills_design_system_templates_design_tokens_starter_radius_xl",
       "continue_skills_design_system_templates_design_tokens_starter_xl_type",
       "continue_skills_design_system_templates_design_tokens_starter_xl_value"
     ],
-    "184": [
-      "continue_skills_design_system_templates_design_tokens_starter_none_type",
-      "continue_skills_design_system_templates_design_tokens_starter_none_value",
-      "continue_skills_design_system_templates_design_tokens_starter_radius_none",
-      "continue_skills_design_system_templates_design_tokens_starter_shadow_none"
-    ],
-    "185": [
+    "176": [
       "continue_skills_ui_ux_pro_max_scripts_search",
       "continue_skills_ui_ux_pro_max_scripts_search_format_output",
       "continue_skills_ui_ux_pro_max_scripts_search_rationale_3",
       "continue_skills_ui_ux_pro_max_scripts_search_rationale_45"
     ],
-    "186": [
+    "177": [
       "docs_arquitetura_rbac_multitenant",
       "docs_checklist_manual_seguranca",
       "docs_graphify",
       "docs_roadmap_pendentes"
     ],
-    "187": [
+    "178": [
       "docs_roadmap_pendentes_1_agente_de_triagem_whatsapp_evolution_api_modulo_extra_cobrado_\u00e0_parte",
       "docs_roadmap_pendentes_falta_quando_cliente_contratar_o_modulo",
       "docs_roadmap_pendentes_infra_necessaria_por_conta_do_cliente",
       "docs_roadmap_pendentes_ja_feito_backend_completo_commit_ed3b35b"
     ],
-    "188": [
+    "179": [
       "docs_roadmap_pendentes_3_nfs_e_nota_fiscal_de_servico_focusnfe_implementado_commit_33d0f09",
       "docs_roadmap_pendentes_fase_1_estrutura_concluida",
       "docs_roadmap_pendentes_fase_2_provedor_escolhido_focusnfe",
       "docs_roadmap_pendentes_fase_3_aguardando_habilita\u00e7\u00e3o_externa"
     ],
-    "189": [
+    "180": [
       "fix_rls_definitivo",
       "fix_rls_definitivo_public_get_user_tenant_id",
       "fix_rls_definitivo_public_is_superadmin",
       "fix_rls_definitivo_sql_public_user_roles"
     ],
-    "190": [
+    "181": [
       "fix_rls_isolamento",
       "fix_rls_isolamento_public_get_user_tenant_id",
       "fix_rls_isolamento_public_is_superadmin",
       "fix_rls_isolamento_sql_public_user_roles"
     ],
-    "191": [
+    "182": [
       "fix_rls_parte1",
       "fix_rls_parte1_public_get_user_tenant_id",
       "fix_rls_parte1_public_is_superadmin",
       "fix_rls_parte1_sql_public_user_roles"
     ],
-    "192": [
+    "183": [
       "public_webhook_events",
       "supabase_migrations_20260914220043_remote_schema_idx_webhook_events_payment",
       "supabase_migrations_20260914220043_remote_schema_idx_webhook_events_tenant_time",
       "supabase_migrations_20260914220043_remote_schema_idx_webhook_events_unprocessed"
     ],
-    "193": [
+    "184": [
       "readme",
       "readme_deploy_on_vercel",
       "readme_getting_started",
       "readme_learn_more"
     ],
-    "194": [
+    "185": [
       "ref_qrcode",
       "src_app_carteirinha_cpf_page",
       "src_app_carteirinha_cpf_page_carteirinhapage",
       "src_app_carteirinha_cpf_page_props"
     ],
-    "195": [
+    "186": [
       "scripts_check_superadmin",
       "scripts_check_superadmin_env",
       "scripts_check_superadmin_supabase",
       "scripts_check_superadmin_user"
     ],
-    "196": [
+    "187": [
       "scripts_create_tables",
       "scripts_create_tables_createclient",
       "scripts_create_tables_createtables",
       "scripts_create_tables_sb"
     ],
-    "197": [
+    "188": [
       "scripts_crm_lead_notes",
       "scripts_crm_lead_notes_idx_lead_notes_lead",
       "scripts_crm_lead_notes_public_lead_notes",
       "scripts_crm_lead_notes_sql_public_leads"
     ],
-    "198": [
+    "189": [
       "scripts_holders_enrich_columns",
       "scripts_holders_enrich_columns_idx_holders_tenant_birth",
       "scripts_holders_enrich_columns_idx_holders_tenant_state",
       "scripts_holders_enrich_columns_sql_public_holders"
     ],
-    "199": [
+    "190": [
       "scripts_qa_create_users",
       "scripts_qa_create_users_env",
       "scripts_qa_create_users_supabase",
       "scripts_qa_create_users_users"
     ],
-    "200": [
+    "191": [
       "scripts_qa_diag_roles",
       "scripts_qa_diag_roles_emails",
       "scripts_qa_diag_roles_env",
       "scripts_qa_diag_roles_supabase"
     ],
-    "201": [
+    "192": [
       "scripts_qa_insert_rbac_and_data",
       "scripts_qa_insert_rbac_and_data_env",
       "scripts_qa_insert_rbac_and_data_supabase",
       "scripts_qa_insert_rbac_and_data_userid"
     ],
-    "202": [
+    "193": [
       "scripts_sellers_migration",
       "scripts_sellers_migration_idx_sellers_tenant",
       "scripts_sellers_migration_public_sellers",
       "scripts_sellers_migration_sql_public_tenants"
     ],
-    "203": [
+    "194": [
       "src_app_api_routes_auth_test",
       "src_app_api_routes_auth_test_allowlist",
       "src_app_api_routes_auth_test_api_dir",
       "src_app_api_routes_auth_test_listroutefiles"
     ],
-    "204": [
+    "195": [
       "src_lib_printreports",
       "src_lib_printreports_printcommissionreceipt",
       "src_lib_printreports_printfinancialreport",
       "src_lib_printreports_printserviceorder"
     ],
-    "205": [
+    "196": [
       "continue_skills_brand_scripts_tests_test_sync_brand_to_tokens",
       "continue_skills_brand_scripts_tests_test_sync_brand_to_tokens_rationale_1",
       "continue_skills_brand_scripts_tests_test_sync_brand_to_tokens_test_sync_parses_bundled_starter_template"
     ],
-    "206": [
-      "continue_skills_design_system_templates_design_tokens_starter_16_type",
-      "continue_skills_design_system_templates_design_tokens_starter_16_value",
-      "continue_skills_design_system_templates_design_tokens_starter_spacing_16"
+    "197": [
+      "continue_skills_design_system_templates_design_tokens_starter_color_primary",
+      "continue_skills_design_system_templates_design_tokens_starter_primary_type",
+      "continue_skills_design_system_templates_design_tokens_starter_primary_value"
     ],
-    "207": [
-      "continue_skills_design_system_templates_design_tokens_starter_1_type",
-      "continue_skills_design_system_templates_design_tokens_starter_1_value",
-      "continue_skills_design_system_templates_design_tokens_starter_spacing_1"
+    "198": [
+      "continue_skills_design_system_templates_design_tokens_starter_color_secondary",
+      "continue_skills_design_system_templates_design_tokens_starter_secondary_type",
+      "continue_skills_design_system_templates_design_tokens_starter_secondary_value"
     ],
-    "208": [
-      "continue_skills_design_system_templates_design_tokens_starter_3_type",
-      "continue_skills_design_system_templates_design_tokens_starter_3_value",
-      "continue_skills_design_system_templates_design_tokens_starter_spacing_3"
-    ],
-    "209": [
-      "continue_skills_design_system_templates_design_tokens_starter_8_type",
-      "continue_skills_design_system_templates_design_tokens_starter_8_value",
-      "continue_skills_design_system_templates_design_tokens_starter_spacing_8"
-    ],
-    "210": [
-      "continue_skills_design_system_templates_design_tokens_starter_color_destructive",
-      "continue_skills_design_system_templates_design_tokens_starter_destructive_type",
-      "continue_skills_design_system_templates_design_tokens_starter_destructive_value"
-    ],
-    "211": [
-      "continue_skills_design_system_templates_design_tokens_starter_color_destructive_foreground",
-      "continue_skills_design_system_templates_design_tokens_starter_destructive_foreground_type",
-      "continue_skills_design_system_templates_design_tokens_starter_destructive_foreground_value"
-    ],
-    "212": [
-      "continue_skills_design_system_templates_design_tokens_starter_color_muted",
-      "continue_skills_design_system_templates_design_tokens_starter_muted_type",
-      "continue_skills_design_system_templates_design_tokens_starter_muted_value"
-    ],
-    "213": [
-      "continue_skills_design_system_templates_design_tokens_starter_color_primary_foreground",
-      "continue_skills_design_system_templates_design_tokens_starter_primary_foreground_type",
-      "continue_skills_design_system_templates_design_tokens_starter_primary_foreground_value"
-    ],
-    "214": [
-      "continue_skills_design_system_templates_design_tokens_starter_color_ring",
-      "continue_skills_design_system_templates_design_tokens_starter_ring_type",
-      "continue_skills_design_system_templates_design_tokens_starter_ring_value"
-    ],
-    "215": [
-      "continue_skills_design_system_templates_design_tokens_starter_color_secondary_foreground",
-      "continue_skills_design_system_templates_design_tokens_starter_secondary_foreground_type",
-      "continue_skills_design_system_templates_design_tokens_starter_secondary_foreground_value"
-    ],
-    "216": [
+    "199": [
       "continue_skills_ui_styling_scripts_shadcn_add_py_path",
       "continue_skills_ui_styling_scripts_shadcn_add_rationale_21",
       "continue_skills_ui_styling_scripts_shadcn_add_shadcninstaller_init"
     ],
-    "217": [
+    "200": [
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_22",
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_temp_project",
       "fixture"
     ],
-    "218": [
+    "201": [
       "docs_checklist_manual_seguranca_1_rotacionar_as_chaves_do_supabase_urgente",
       "docs_checklist_manual_seguranca_passo_a_passo",
       "docs_checklist_manual_seguranca_por_que_isso_\u00e9_urgente"
     ],
-    "219": [
+    "202": [
       "docs_checklist_manual_seguranca_4_configurar_o_segredo_do_webhook_do_asaas",
       "docs_checklist_manual_seguranca_passo_a_passo_141",
       "docs_checklist_manual_seguranca_por_qu\u00ea_134"
     ],
-    "220": [
+    "203": [
       "docs_checklist_manual_seguranca_6_backups_autom\u00e1ticos_do_banco",
       "docs_checklist_manual_seguranca_passo_a_passo_196",
       "docs_checklist_manual_seguranca_por_qu\u00ea_190"
     ],
-    "221": [
+    "204": [
       "scripts_add_holder_status",
       "scripts_add_holder_status_idx_holders_tenant_status",
       "scripts_add_holder_status_sql_public_holders"
     ],
-    "222": [
+    "205": [
       "scripts_carnet_asaas_id_migration",
       "scripts_carnet_asaas_id_migration_idx_payment_carnets_asaas_id",
       "scripts_carnet_asaas_id_migration_sql_public_payment_carnets"
     ],
-    "223": [
+    "206": [
       "scripts_comissao_vendedor",
       "scripts_comissao_vendedor_idx_commissions_contract_id",
       "scripts_comissao_vendedor_sql_public_commissions"
     ],
-    "224": [
+    "207": [
       "scripts_crm_leads_conversion",
       "scripts_crm_leads_conversion_idx_leads_converted",
       "scripts_crm_leads_conversion_sql_public_leads"
     ],
-    "225": [
+    "208": [
       "scripts_financial_os_rastreabilidade",
       "scripts_financial_os_rastreabilidade_idx_financial_transactions_service_order",
       "scripts_financial_os_rastreabilidade_sql_public_financial_transactions"
     ],
-    "226": [
+    "209": [
       "scripts_migrate_alerts",
       "scripts_migrate_alerts_files",
       "scripts_migrate_alerts_fs"
     ],
-    "227": [
+    "210": [
       "scripts_qa_audit_full",
       "scripts_qa_audit_full_admin",
       "scripts_qa_audit_full_env"
     ],
-    "228": [
+    "211": [
       "scripts_qa_diag_policies_detalhe",
       "scripts_qa_diag_policies_detalhe_admin",
       "scripts_qa_diag_policies_detalhe_env"
     ],
-    "229": [
+    "212": [
       "scripts_qa_identify_project",
       "scripts_qa_identify_project_env",
       "scripts_qa_identify_project_sb"
     ],
-    "230": [
+    "213": [
       "scripts_qa_inspect_policies",
       "scripts_qa_inspect_policies_env",
       "scripts_qa_inspect_policies_runsql"
     ],
-    "231": [
+    "214": [
       "scripts_qa_teste_insert3",
       "scripts_qa_teste_insert3_admin",
       "scripts_qa_teste_insert3_env"
     ],
-    "232": [
+    "215": [
       "scripts_qa_teste_insert4",
       "scripts_qa_teste_insert4_admin",
       "scripts_qa_teste_insert4_env"
     ],
-    "233": [
+    "216": [
       "scripts_webhook_events_retry",
       "scripts_webhook_events_retry_idx_webhook_events_unprocessed",
       "scripts_webhook_events_retry_sql_public_webhook_events"
     ],
-    "234": [
+    "217": [
       "src_middleware",
       "src_middleware_config",
       "src_middleware_middleware"
     ],
-    "235": [
+    "218": [
       "supabase_migrations_20260914220043_remote_schema_idx_commissions_contract_id",
       "supabase_migrations_20260914220043_remote_schema_idx_commissions_tenant",
       "supabase_migrations_20260914220043_remote_schema_public_commissions"
     ],
-    "236": [
+    "219": [
       "tests_ui_auth_gate_test",
       "tests_ui_auth_gate_test_page",
       "tests_ui_auth_gate_test_readsrc"
     ],
-    "237": [
+    "220": [
       "continue_skills_design_references_slides_create",
       "continue_skills_design_references_slides_create_task"
     ],
-    "238": [
+    "221": [
       "continue_skills_slides_references_create",
       "continue_skills_slides_references_create_task"
     ],
-    "239": [
+    "222": [
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_104",
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_components_no_config"
     ],
-    "240": [
+    "223": [
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_147",
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_components_dry_run"
     ],
-    "241": [
+    "224": [
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_240",
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_list_installed_no_config"
     ],
-    "242": [
+    "225": [
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_56",
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_init_dry_run"
     ],
-    "243": [
+    "226": [
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_66",
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_check_shadcn_config_not_exists"
     ],
-    "244": [
+    "227": [
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_71",
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_get_installed_components_empty"
     ],
-    "245": [
+    "228": [
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_77",
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_get_installed_components_with_files"
     ],
-    "246": [
+    "229": [
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_rationale_96",
       "continue_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_components_no_components"
     ],
-    "247": [
+    "230": [
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_101",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_colors_multiple_times"
     ],
-    "248": [
+    "231": [
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_125",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_fonts"
     ],
-    "249": [
+    "232": [
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_138",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_spacing"
     ],
-    "250": [
+    "233": [
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_151",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_breakpoints"
     ],
-    "251": [
+    "234": [
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_173",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_plugins_no_duplicates"
     ],
-    "252": [
+    "235": [
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_182",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_recommend_plugins"
     ],
-    "253": [
+    "236": [
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_190",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_recommend_plugins_nextjs"
     ],
-    "254": [
+    "237": [
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_197",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_generate_typescript_config"
     ],
-    "255": [
+    "238": [
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_206",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_generate_javascript_config"
     ],
-    "256": [
+    "239": [
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_214",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_generate_config_with_colors"
     ],
-    "257": [
+    "240": [
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_259",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_write_config"
     ],
-    "258": [
+    "241": [
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_270",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_write_config_creates_content"
     ],
-    "259": [
+    "242": [
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_64",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_default_content_paths_react"
     ],
-    "260": [
+    "243": [
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_72",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_default_content_paths_nextjs"
     ],
-    "261": [
+    "244": [
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_88",
       "continue_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_colors"
     ],
-    "262": [
+    "245": [
       "eslint_config",
       "eslint_config_eslintconfig"
     ],
-    "263": [
+    "246": [
       "public_sw",
       "public_sw_core"
     ],
-    "264": [
+    "247": [
       "public_wake_rooms",
       "supabase_migrations_20260914220043_remote_schema_public_burial_records"
     ],
-    "265": [
+    "248": [
       "scripts_append_route",
       "scripts_append_route_fs"
     ],
-    "266": [
+    "249": [
       "scripts_fix_decrement_stock_tenant",
       "scripts_fix_decrement_stock_tenant_public_decrement_stock"
     ],
-    "267": [
+    "250": [
       "scripts_limpeza_planos_orfaos",
       "scripts_limpeza_planos_orfaos_public_plans_orphans_backup"
     ],
-    "268": [
+    "251": [
       "src_app_api_healthz_route",
       "src_app_api_healthz_route_get"
     ],
-    "269": [
+    "252": [
       "tests_routes_agent_steps_test",
       "tests_routes_agent_steps_test_readsrc"
     ],
-    "270": [
+    "253": [
       "tests_routes_encoding_csp_test",
       "tests_routes_encoding_csp_test_readsrc"
     ],
-    "271": [
+    "254": [
       "tests_routes_holders_test",
       "tests_routes_holders_test_readsrc"
     ],
-    "272": [
+    "255": [
       "tests_routes_money_columns_test",
       "tests_routes_money_columns_test_readsrc"
     ],
-    "273": [
+    "256": [
       "tests_routes_webhook_auth_test",
       "tests_routes_webhook_auth_test_readsrc"
     ],
-    "274": [
+    "257": [
       "auditoria_completa"
     ],
-    "275": [
+    "258": [
       "bloco1"
     ],
-    "276": [
+    "259": [
       "bloco2"
     ],
-    "277": [
+    "260": [
       "claude"
     ],
-    "278": [
+    "261": [
       "diag1"
     ],
-    "279": [
+    "262": [
       "diag2"
     ],
-    "280": [
+    "263": [
       "diag_completo"
     ],
-    "281": [
+    "264": [
       "diag_delete_vazamento"
     ],
-    "282": [
+    "265": [
       "diag_holders_columns"
     ],
-    "283": [
+    "266": [
       "diag_holders_notnull"
     ],
-    "284": [
+    "267": [
       "fix_rls_definitivo_sql_public_accounts_payable"
     ],
-    "285": [
+    "268": [
       "fix_rls_definitivo_sql_public_asaas_customers"
     ],
-    "286": [
+    "269": [
       "fix_rls_definitivo_sql_public_audit_logs"
     ],
-    "287": [
+    "270": [
       "fix_rls_definitivo_sql_public_benefits_partners"
     ],
-    "288": [
+    "271": [
       "fix_rls_definitivo_sql_public_chapel_bookings"
     ],
-    "289": [
+    "272": [
       "fix_rls_definitivo_sql_public_chapel_burials"
     ],
-    "290": [
+    "273": [
       "fix_rls_definitivo_sql_public_collector_routes"
     ],
-    "291": [
+    "274": [
       "fix_rls_definitivo_sql_public_commissions"
     ],
-    "292": [
+    "275": [
       "fix_rls_definitivo_sql_public_contracts"
     ],
-    "293": [
+    "276": [
       "fix_rls_definitivo_sql_public_convalescence_items"
     ],
-    "294": [
+    "277": [
       "fix_rls_definitivo_sql_public_convalescence_loans"
     ],
-    "295": [
+    "278": [
       "fix_rls_definitivo_sql_public_dependents"
     ],
-    "296": [
+    "279": [
       "fix_rls_definitivo_sql_public_dispatch_audit_logs"
     ],
-    "297": [
+    "280": [
       "fix_rls_definitivo_sql_public_dispatches"
     ],
-    "298": [
+    "281": [
       "fix_rls_definitivo_sql_public_emergency_dispatches"
     ],
-    "299": [
+    "282": [
       "fix_rls_definitivo_sql_public_financial_transactions"
     ],
-    "300": [
+    "283": [
       "fix_rls_definitivo_sql_public_fleet_vehicles"
     ],
-    "301": [
+    "284": [
       "fix_rls_definitivo_sql_public_holders"
     ],
-    "302": [
+    "285": [
       "fix_rls_definitivo_sql_public_inventory"
     ],
-    "303": [
+    "286": [
       "fix_rls_definitivo_sql_public_payment_carnets"
     ],
-    "304": [
+    "287": [
       "fix_rls_definitivo_sql_public_payments"
     ],
-    "305": [
+    "288": [
       "fix_rls_definitivo_sql_public_plans"
     ],
-    "306": [
+    "289": [
       "fix_rls_definitivo_sql_public_regulatory_reserves"
     ],
-    "307": [
+    "290": [
       "fix_rls_definitivo_sql_public_tenants"
     ],
-    "308": [
+    "291": [
       "fix_rls_definitivo_sql_public_thanatopraxy_records"
     ],
-    "309": [
+    "292": [
       "fix_rls_definitivo_sql_public_vehicles"
     ],
-    "310": [
+    "293": [
       "fix_rls_isolamento_sql_public_accounts_payable"
     ],
-    "311": [
+    "294": [
       "fix_rls_isolamento_sql_public_asaas_customers"
     ],
-    "312": [
+    "295": [
       "fix_rls_isolamento_sql_public_audit_logs"
     ],
-    "313": [
+    "296": [
       "fix_rls_isolamento_sql_public_benefits_partners"
     ],
-    "314": [
+    "297": [
       "fix_rls_isolamento_sql_public_chapel_bookings"
     ],
-    "315": [
+    "298": [
       "fix_rls_isolamento_sql_public_chapel_burials"
     ],
-    "316": [
+    "299": [
       "fix_rls_isolamento_sql_public_collector_routes"
     ],
-    "317": [
+    "300": [
       "fix_rls_isolamento_sql_public_commissions"
     ],
-    "318": [
+    "301": [
       "fix_rls_isolamento_sql_public_contracts"
     ],
-    "319": [
+    "302": [
       "fix_rls_isolamento_sql_public_convalescence_items"
     ],
-    "320": [
+    "303": [
       "fix_rls_isolamento_sql_public_convalescence_loans"
     ],
-    "321": [
+    "304": [
       "fix_rls_isolamento_sql_public_dependents"
     ],
-    "322": [
+    "305": [
       "fix_rls_isolamento_sql_public_dispatch_audit_logs"
     ],
-    "323": [
+    "306": [
       "fix_rls_isolamento_sql_public_dispatches"
     ],
-    "324": [
+    "307": [
       "fix_rls_isolamento_sql_public_emergency_dispatches"
     ],
-    "325": [
+    "308": [
       "fix_rls_isolamento_sql_public_financial_transactions"
     ],
-    "326": [
+    "309": [
       "fix_rls_isolamento_sql_public_fleet_vehicles"
     ],
-    "327": [
+    "310": [
       "fix_rls_isolamento_sql_public_holders"
     ],
-    "328": [
+    "311": [
       "fix_rls_isolamento_sql_public_inventory"
     ],
-    "329": [
+    "312": [
       "fix_rls_isolamento_sql_public_payment_carnets"
     ],
-    "330": [
+    "313": [
       "fix_rls_isolamento_sql_public_payments"
     ],
-    "331": [
+    "314": [
       "fix_rls_isolamento_sql_public_plans"
     ],
-    "332": [
+    "315": [
       "fix_rls_isolamento_sql_public_regulatory_reserves"
     ],
-    "333": [
+    "316": [
       "fix_rls_isolamento_sql_public_tenants"
     ],
-    "334": [
+    "317": [
       "fix_rls_isolamento_sql_public_thanatopraxy_records"
     ],
-    "335": [
+    "318": [
       "fix_rls_isolamento_sql_public_vehicles"
     ],
-    "336": [
+    "319": [
       "fix_rls_parte1_sql_public_accounts_payable"
     ],
-    "337": [
+    "320": [
       "fix_rls_parte1_sql_public_asaas_customers"
     ],
-    "338": [
+    "321": [
       "fix_rls_parte1_sql_public_audit_logs"
     ],
-    "339": [
+    "322": [
       "fix_rls_parte1_sql_public_benefits_partners"
     ],
-    "340": [
+    "323": [
       "fix_rls_parte1_sql_public_chapel_bookings"
     ],
-    "341": [
+    "324": [
       "fix_rls_parte1_sql_public_chapel_burials"
     ],
-    "342": [
+    "325": [
       "fix_rls_parte1_sql_public_collector_routes"
     ],
-    "343": [
+    "326": [
       "fix_rls_parte1_sql_public_commissions"
     ],
-    "344": [
+    "327": [
       "fix_rls_parte1_sql_public_contracts"
     ],
-    "345": [
+    "328": [
       "fix_rls_parte1_sql_public_convalescence_items"
     ],
-    "346": [
+    "329": [
       "fix_rls_parte1_sql_public_convalescence_loans"
     ],
-    "347": [
+    "330": [
       "fix_rls_parte1_sql_public_dependents"
     ],
-    "348": [
+    "331": [
       "fix_rls_parte1_sql_public_dispatch_audit_logs"
     ],
-    "349": [
+    "332": [
       "fix_rls_parte1_sql_public_dispatches"
     ],
-    "350": [
+    "333": [
       "fix_rls_parte1_sql_public_emergency_dispatches"
     ],
-    "351": [
+    "334": [
       "fix_rls_parte1_sql_public_financial_transactions"
     ],
-    "352": [
+    "335": [
       "fix_rls_parte1_sql_public_fleet_vehicles"
     ],
-    "353": [
+    "336": [
       "fix_rls_parte1_sql_public_holders"
     ],
-    "354": [
+    "337": [
       "fix_rls_parte1_sql_public_inventory"
     ],
-    "355": [
+    "338": [
       "fix_rls_parte1_sql_public_payment_carnets"
     ],
-    "356": [
+    "339": [
       "fix_rls_parte1_sql_public_payments"
     ],
-    "357": [
+    "340": [
       "fix_rls_parte1_sql_public_plans"
     ],
-    "358": [
+    "341": [
       "fix_rls_parte1_sql_public_regulatory_reserves"
     ],
-    "359": [
+    "342": [
       "fix_rls_parte1_sql_public_tenants"
     ],
-    "360": [
+    "343": [
       "fix_rls_parte1_sql_public_thanatopraxy_records"
     ],
-    "361": [
+    "344": [
       "fix_rls_parte1_sql_public_vehicles"
     ],
-    "362": [
+    "345": [
       "fix_rls_parte2"
     ],
-    "363": [
+    "346": [
       "fix_rls_parte3"
     ],
-    "364": [
+    "347": [
       "fix_vazamento"
     ],
-    "365": [
+    "348": [
       "fix_vazamento_parte1"
     ],
-    "366": [
+    "349": [
       "fix_vazamento_parte2"
     ],
-    "367": [
+    "350": [
       "jest_config"
     ],
-    "368": [
+    "351": [
       "migracao_planos_supabase_sql_public_tenants"
     ],
-    "369": [
+    "352": [
       "migracao_storage_logos"
     ],
-    "370": [
+    "353": [
       "postcss_config"
     ],
-    "371": [
+    "354": [
       "promover_superadmin"
     ],
-    "372": [
+    "355": [
       "scripts_carnet_holder_migration"
     ],
-    "373": [
+    "356": [
       "scripts_carnet_holder_migration_sql_public_payment_carnets"
     ],
-    "374": [
+    "357": [
       "scripts_comissao_vendedor_sql_public_contracts"
     ],
-    "375": [
+    "358": [
       "scripts_comissao_vendedor_sql_public_plans"
     ],
-    "376": [
+    "359": [
       "scripts_fix_valores_acentuados"
     ],
-    "377": [
+    "360": [
       "scripts_harden_storage"
     ],
-    "378": [
+    "361": [
       "scripts_sellers_migration_sql_public_contracts"
     ],
-    "379": [
+    "362": [
       "scripts_service_orders_deceased_type_free_migration"
     ],
-    "380": [
+    "363": [
       "src_types_supabase"
     ],
-    "381": [
+    "364": [
       "storage_objects"
     ],
-    "382": [
+    "365": [
       "supabase_migrations_20260914220043_remote_schema_sql_auth_users"
     ],
-    "383": [
+    "366": [
       "supabase_migrations_20260914220043_remote_schema_sql_public"
     ],
-    "384": [
+    "367": [
       "supabase_migrations_20260914220043_remote_schema_sql_public_fleet_vehicles"
     ],
-    "385": [
+    "368": [
       "supabase_migrations_20260914220043_remote_schema_sql_public_holders"
     ],
-    "386": [
+    "369": [
       "supabase_migrations_20260914220043_remote_schema_sql_public_inventory"
     ],
-    "387": [
+    "370": [
       "supabase_migrations_20260914220043_remote_schema_sql_public_leads"
     ],
-    "388": [
+    "371": [
       "supabase_migrations_20260914220043_remote_schema_sql_public_payment_carnets"
     ],
-    "389": [
+    "372": [
       "supabase_migrations_20260914220043_remote_schema_sql_public_payments"
     ],
-    "390": [
+    "373": [
       "supabase_migrations_20260914220043_remote_schema_sql_public_plans"
     ],
-    "391": [
+    "374": [
       "supabase_migrations_20260914220043_remote_schema_sql_public_regulatory_reserves"
     ],
-    "392": [
+    "375": [
       "supabase_migrations_20260914220043_remote_schema_sql_public_service_orders"
     ],
-    "393": [
+    "376": [
       "supabase_migrations_20260914220043_remote_schema_sql_public_user_roles"
     ],
-    "394": [
+    "377": [
       "supabase_migrations_20260914220043_remote_schema_sql_public_vehicles"
     ],
-    "395": [
+    "378": [
       "supabase_migrations_20260914220043_remote_schema_sql_public_webhook_events"
     ],
-    "396": [
+    "379": [
       "tailwind_config"
     ],
-    "397": [
+    "380": [
       "verificar_rls"
     ],
-    "398": [
+    "381": [
       "verificar_rls_agora"
     ]
   },
@@ -4487,133 +4455,133 @@
     "2": 0.06578947368421052,
     "3": 0.06079664570230608,
     "4": 0.05370101596516691,
-    "5": 0.041666666666666664,
-    "6": 0.06471631205673758,
-    "7": 0.07928118393234672,
-    "8": 0.045454545454545456,
-    "9": 0.10676532769556026,
-    "10": 0.09878048780487805,
-    "11": 0.07926829268292683,
+    "5": 0.05957767722473605,
+    "6": 0.041666666666666664,
+    "7": 0.0841813135985199,
+    "8": 0.0595959595959596,
+    "9": 0.07928118393234672,
+    "10": 0.045454545454545456,
+    "11": 0.10676532769556026,
     "12": 0.07557354925775979,
     "13": 0.05263157894736842,
     "14": 0.05555555555555555,
     "15": 0.05555555555555555,
     "16": 0.05714285714285714,
     "17": 0.11229946524064172,
-    "18": 0.0962566844919786,
-    "19": 0.08377896613190731,
-    "20": 0.09982174688057041,
-    "21": 0.06060606060606061,
+    "18": 0.058823529411764705,
+    "19": 0.0962566844919786,
+    "20": 0.08377896613190731,
+    "21": 0.09982174688057041,
     "22": 0.06060606060606061,
-    "23": 0.09659090909090909,
+    "23": 0.06060606060606061,
     "24": 0.06451612903225806,
     "25": 0.06451612903225806,
-    "26": 0.10752688172043011,
-    "27": 0.12258064516129032,
-    "28": 0.09032258064516129,
-    "29": 0.1103448275862069,
-    "30": 0.06896551724137931,
-    "31": 0.06896551724137931,
-    "32": 0.1206896551724138,
+    "26": 0.06451612903225806,
+    "27": 0.10752688172043011,
+    "28": 0.12258064516129032,
+    "29": 0.11612903225806452,
+    "30": 0.09032258064516129,
+    "31": 0.1103448275862069,
+    "32": 0.06896551724137931,
     "33": 0.06896551724137931,
-    "34": 0.1111111111111111,
-    "35": 0.07142857142857142,
-    "36": 0.10256410256410256,
-    "37": 0.11965811965811966,
-    "38": 0.09686609686609686,
-    "39": 0.07692307692307693,
-    "40": 0.07692307692307693,
-    "41": 0.08,
-    "42": 0.08,
-    "43": 0.08,
+    "34": 0.1206896551724138,
+    "35": 0.06896551724137931,
+    "36": 0.1111111111111111,
+    "37": 0.07142857142857142,
+    "38": 0.10846560846560846,
+    "39": 0.10256410256410256,
+    "40": 0.11965811965811966,
+    "41": 0.09686609686609686,
+    "42": 0.07692307692307693,
+    "43": 0.07692307692307693,
     "44": 0.08,
-    "45": 0.16333333333333333,
-    "46": 0.08333333333333333,
-    "47": 0.08333333333333333,
-    "48": 0.08695652173913043,
-    "49": 0.08695652173913043,
-    "50": 0.09090909090909091,
-    "51": 0.09090909090909091,
-    "52": 0.11255411255411256,
-    "53": 0.16017316017316016,
-    "54": 0.1380952380952381,
-    "55": 0.1,
-    "56": 0.1,
-    "57": 0.1,
-    "58": 0.1,
-    "59": 0.12280701754385964,
-    "60": 0.10526315789473684,
-    "61": 0.10526315789473684,
-    "62": 0.10526315789473684,
-    "63": 0.15789473684210525,
-    "64": 0.10526315789473684,
+    "45": 0.08,
+    "46": 0.08,
+    "47": 0.08,
+    "48": 0.16333333333333333,
+    "49": 0.08333333333333333,
+    "50": 0.08333333333333333,
+    "51": 0.08695652173913043,
+    "52": 0.08695652173913043,
+    "53": 0.12648221343873517,
+    "54": 0.11857707509881422,
+    "55": 0.12554112554112554,
+    "56": 0.09090909090909091,
+    "57": 0.16017316017316016,
+    "58": 0.1380952380952381,
+    "59": 0.11904761904761904,
+    "60": 0.1,
+    "61": 0.1,
+    "62": 0.1,
+    "63": 0.1,
+    "64": 0.12280701754385964,
     "65": 0.10526315789473684,
-    "66": 0.1111111111111111,
-    "67": 0.1111111111111111,
-    "68": 0.1111111111111111,
-    "69": 0.12418300653594772,
-    "70": 0.18382352941176472,
-    "71": 0.27941176470588236,
-    "72": 0.11764705882352941,
-    "73": 0.18382352941176472,
-    "74": 0.125,
-    "75": 0.125,
-    "76": 0.125,
+    "66": 0.10526315789473684,
+    "67": 0.10526315789473684,
+    "68": 0.15789473684210525,
+    "69": 0.10526315789473684,
+    "70": 0.1111111111111111,
+    "71": 0.1111111111111111,
+    "72": 0.1111111111111111,
+    "73": 0.12418300653594772,
+    "74": 0.18382352941176472,
+    "75": 0.27941176470588236,
+    "76": 0.11764705882352941,
     "77": 0.125,
-    "78": 0.18333333333333332,
-    "79": 0.13333333333333333,
-    "80": 0.13333333333333333,
-    "81": 0.13333333333333333,
+    "78": 0.125,
+    "79": 0.125,
+    "80": 0.125,
+    "81": 0.18333333333333332,
     "82": 0.13333333333333333,
-    "83": 0.22857142857142856,
-    "84": 0.17142857142857143,
-    "85": 0.1619047619047619,
-    "86": 0.13333333333333333,
-    "87": 0.13333333333333333,
-    "88": 0.13333333333333333,
+    "83": 0.13333333333333333,
+    "84": 0.13333333333333333,
+    "85": 0.13333333333333333,
+    "86": 0.22857142857142856,
+    "87": 0.17142857142857143,
+    "88": 0.1619047619047619,
     "89": 0.13333333333333333,
     "90": 0.13333333333333333,
     "91": 0.13333333333333333,
-    "92": 0.22857142857142856,
-    "93": 0.14285714285714285,
-    "94": 0.14285714285714285,
-    "95": 0.14285714285714285,
-    "96": 0.21978021978021978,
-    "97": 0.25274725274725274,
+    "92": 0.13333333333333333,
+    "93": 0.13333333333333333,
+    "94": 0.13333333333333333,
+    "95": 0.22857142857142856,
+    "96": 0.14285714285714285,
+    "97": 0.14285714285714285,
     "98": 0.14285714285714285,
-    "99": 0.14285714285714285,
-    "100": 0.18681318681318682,
+    "99": 0.21978021978021978,
+    "100": 0.25274725274725274,
     "101": 0.14285714285714285,
-    "102": 0.16483516483516483,
+    "102": 0.14285714285714285,
     "103": 0.14285714285714285,
-    "104": 0.15384615384615385,
-    "105": 0.15384615384615385,
+    "104": 0.16483516483516483,
+    "105": 0.14285714285714285,
     "106": 0.15384615384615385,
     "107": 0.15384615384615385,
     "108": 0.15384615384615385,
-    "109": 0.16666666666666666,
-    "110": 0.25757575757575757,
-    "111": 0.19696969696969696,
-    "112": 0.21212121212121213,
-    "113": 0.19696969696969696,
-    "114": 0.21212121212121213,
+    "109": 0.15384615384615385,
+    "110": 0.15384615384615385,
+    "111": 0.16666666666666666,
+    "112": 0.25757575757575757,
+    "113": 0.21212121212121213,
+    "114": 0.19696969696969696,
     "115": 0.21212121212121213,
-    "116": 0.2727272727272727,
-    "117": 0.18181818181818182,
-    "118": 0.3090909090909091,
-    "119": 0.18181818181818182,
-    "120": 0.2545454545454545,
-    "121": 0.18181818181818182,
-    "122": 0.21818181818181817,
-    "123": 0.18181818181818182,
-    "124": 0.2,
-    "125": 0.23636363636363636,
-    "126": 0.2222222222222222,
-    "127": 0.2,
+    "116": 0.21212121212121213,
+    "117": 0.2727272727272727,
+    "118": 0.18181818181818182,
+    "119": 0.3090909090909091,
+    "120": 0.18181818181818182,
+    "121": 0.2545454545454545,
+    "122": 0.18181818181818182,
+    "123": 0.21818181818181817,
+    "124": 0.18181818181818182,
+    "125": 0.2,
+    "126": 0.23636363636363636,
+    "127": 0.2222222222222222,
     "128": 0.2,
     "129": 0.2,
-    "130": 0.4,
-    "131": 0.2,
+    "130": 0.2,
+    "131": 0.4,
     "132": 0.2,
     "133": 0.2,
     "134": 0.2222222222222222,
@@ -4621,20 +4589,20 @@
     "136": 0.2777777777777778,
     "137": 0.3333333333333333,
     "138": 0.25,
-    "139": 0.3055555555555556,
-    "140": 0.2857142857142857,
-    "141": 0.25,
-    "142": 0.35714285714285715,
+    "139": 0.25,
+    "140": 0.35714285714285715,
+    "141": 0.2857142857142857,
+    "142": 0.39285714285714285,
     "143": 0.2857142857142857,
-    "144": 0.39285714285714285,
+    "144": 0.2857142857142857,
     "145": 0.2857142857142857,
     "146": 0.2857142857142857,
     "147": 0.2857142857142857,
-    "148": 0.2857142857142857,
+    "148": 0.3333333333333333,
     "149": 0.2857142857142857,
-    "150": 0.3333333333333333,
-    "151": 0.2857142857142857,
-    "152": 0.2857142857142857,
+    "150": 0.2857142857142857,
+    "151": 0.3333333333333333,
+    "152": 0.3333333333333333,
     "153": 0.3333333333333333,
     "154": 0.3333333333333333,
     "155": 0.3333333333333333,
@@ -4643,50 +4611,50 @@
     "158": 0.3333333333333333,
     "159": 0.3333333333333333,
     "160": 0.3333333333333333,
-    "161": 0.3333333333333333,
-    "162": 0.3333333333333333,
-    "163": 0.4666666666666667,
+    "161": 0.4,
+    "162": 0.4,
+    "163": 0.6,
     "164": 0.4,
     "165": 0.4,
     "166": 0.4,
-    "167": 0.6,
-    "168": 0.6,
-    "169": 0.6,
-    "170": 0.6,
+    "167": 0.4,
+    "168": 0.4,
+    "169": 0.7,
+    "170": 0.4,
     "171": 0.4,
-    "172": 0.4,
-    "173": 0.4,
-    "174": 0.4,
-    "175": 0.4,
-    "176": 0.7,
-    "177": 0.4,
-    "178": 0.4,
+    "172": 0.5,
+    "173": 0.6,
+    "174": 0.5,
+    "175": 0.6666666666666666,
+    "176": 0.5,
+    "177": 0.5,
+    "178": 0.5,
     "179": 0.5,
-    "180": 0.6,
-    "181": 0.5,
+    "180": 0.6666666666666666,
+    "181": 0.6666666666666666,
     "182": 0.6666666666666666,
-    "183": 0.6666666666666666,
-    "184": 0.6666666666666666,
+    "183": 0.5,
+    "184": 0.5,
     "185": 0.5,
     "186": 0.5,
     "187": 0.5,
-    "188": 0.5,
+    "188": 0.6666666666666666,
     "189": 0.6666666666666666,
-    "190": 0.6666666666666666,
-    "191": 0.6666666666666666,
+    "190": 0.5,
+    "191": 0.5,
     "192": 0.5,
-    "193": 0.5,
-    "194": 0.5,
+    "193": 0.6666666666666666,
+    "194": 0.6666666666666666,
     "195": 0.5,
-    "196": 0.5,
+    "196": 0.6666666666666666,
     "197": 0.6666666666666666,
     "198": 0.6666666666666666,
-    "199": 0.5,
-    "200": 0.5,
-    "201": 0.5,
+    "199": 0.6666666666666666,
+    "200": 0.6666666666666666,
+    "201": 0.6666666666666666,
     "202": 0.6666666666666666,
     "203": 0.6666666666666666,
-    "204": 0.5,
+    "204": 0.6666666666666666,
     "205": 0.6666666666666666,
     "206": 0.6666666666666666,
     "207": 0.6666666666666666,
@@ -4701,23 +4669,23 @@
     "216": 0.6666666666666666,
     "217": 0.6666666666666666,
     "218": 0.6666666666666666,
-    "219": 0.6666666666666666,
-    "220": 0.6666666666666666,
-    "221": 0.6666666666666666,
-    "222": 0.6666666666666666,
-    "223": 0.6666666666666666,
-    "224": 0.6666666666666666,
-    "225": 0.6666666666666666,
-    "226": 0.6666666666666666,
-    "227": 0.6666666666666666,
-    "228": 0.6666666666666666,
-    "229": 0.6666666666666666,
-    "230": 0.6666666666666666,
-    "231": 0.6666666666666666,
-    "232": 0.6666666666666666,
-    "233": 0.6666666666666666,
-    "234": 0.6666666666666666,
-    "235": 0.6666666666666666,
+    "219": 1.0,
+    "220": 1.0,
+    "221": 1.0,
+    "222": 1.0,
+    "223": 1.0,
+    "224": 1.0,
+    "225": 1.0,
+    "226": 1.0,
+    "227": 1.0,
+    "228": 1.0,
+    "229": 1.0,
+    "230": 1.0,
+    "231": 1.0,
+    "232": 1.0,
+    "233": 1.0,
+    "234": 1.0,
+    "235": 1.0,
     "236": 1.0,
     "237": 1.0,
     "238": 1.0,
@@ -4863,24 +4831,7 @@
     "378": 1.0,
     "379": 1.0,
     "380": 1.0,
-    "381": 1.0,
-    "382": 1.0,
-    "383": 1.0,
-    "384": 1.0,
-    "385": 1.0,
-    "386": 1.0,
-    "387": 1.0,
-    "388": 1.0,
-    "389": 1.0,
-    "390": 1.0,
-    "391": 1.0,
-    "392": 1.0,
-    "393": 1.0,
-    "394": 1.0,
-    "395": 1.0,
-    "396": 1.0,
-    "397": 1.0,
-    "398": 1.0
+    "381": 1.0
   },
   "gods": [
     {
@@ -4921,7 +4872,7 @@
     {
       "id": "ref_react",
       "label": "react",
-      "degree": 51
+      "degree": 52
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_search",
@@ -4980,11 +4931,11 @@
       "why": "inferred connection - not explicitly stated in source; bridges separate communities"
     },
     {
-      "source": "TestReasoningContract",
-      "target": "DesignSystemGenerator",
+      "source": "TestTailwindConfigGenerator",
+      "target": "TailwindConfigGenerator",
       "source_files": [
-        ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-        ".continue/skills/ui-ux-pro-max/scripts/design_system.py"
+        ".continue/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
+        ".continue/skills/ui-styling/scripts/tailwind_config_gen.py"
       ],
       "confidence": "INFERRED",
       "relation": "uses",
