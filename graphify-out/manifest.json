@@ -1962,9 +1962,9 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1789391344.3239138,
-    "seen": 1789391737.8950813,
-    "ast_hash": "ff4e2c8c5f2fef5d1a2dee89a7cead11",
+    "mtime": 1789441705.33515,
+    "seen": 1789469726.7644532,
+    "ast_hash": "bbc621a0662e51134cd78aa1bfa83e3e",
     "semantic_hash": ""
   },
   "CLAUDE.md": {
@@ -2226,10 +2226,10 @@
     "semantic_hash": "3fca56fd17c0480ee39e3b6fbecdefc7"
   },
   "src/components/tabs/BillingTab.tsx": {
-    "mtime": 1789425502.091275,
-    "seen": 1789439711.3233597,
-    "ast_hash": "f9d7f8d39304b693c76595a580d2537c",
-    "semantic_hash": "f9d7f8d39304b693c76595a580d2537c"
+    "mtime": 1789469425.350943,
+    "seen": 1789469726.7637455,
+    "ast_hash": "f906efe7546d6362993a3a4793a057d3",
+    "semantic_hash": ""
   },
   "src/app/(dashboard)/livro-caixa/page.tsx": {
     "mtime": 1789393872.1649804,
@@ -2302,5 +2302,11 @@
     "seen": 1789444388.229874,
     "ast_hash": "6ba27ad6e3a588c66ad39585c9ac8580",
     "semantic_hash": "6ba27ad6e3a588c66ad39585c9ac8580"
+  },
+  "docs/CODE-RANKER.md": {
+    "mtime": 1789441830.3185112,
+    "seen": 1789469726.7645075,
+    "ast_hash": "00ba78fb70515fdccc2e1702e6f6aadf",
+    "semantic_hash": ""
   }
 }
