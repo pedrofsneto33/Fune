@@ -12,6 +12,7 @@ import { AppRole, isTabAllowed } from '@/config/permissions';
 import { NAV_GROUPS } from './layout';
 import ExecutiveTab from '@/components/tabs/ExecutiveTab';
 import QuickLinks from '@/components/QuickLinks';
+import RecentActivity from '@/components/RecentActivity';
 
 export default function DashboardHomePage() {
   const router = useRouter();
@@ -61,14 +62,22 @@ export default function DashboardHomePage() {
     );
   }
 
+  const hoje = new Date().toLocaleDateString('pt-BR', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  });
+
   return (
     <div className="space-y-6">
       <header>
         <h1 className="text-xl font-bold text-white">Bem-vindo</h1>
-        <p className="text-xs text-slate-400">Painel executivo</p>
+        <p className="text-xs text-slate-400 capitalize">{hoje}</p>
+        <p className="text-xs text-slate-500">Painel executivo</p>
       </header>
       <ExecutiveTab />
       <QuickLinks role={role} />
+      <RecentActivity role={role} />
     </div>
   );
 }
