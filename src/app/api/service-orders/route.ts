@@ -47,6 +47,43 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       return NextResponse.json({ error: 'Dados do falecido são obrigatórios' }, { status: 400 });
     }
 
+    // 13a: responsavel avulso (opcional, apenas OS 'free' de balcão)
+    const {
+      responsavel_name,
+      responsavel_cpf,
+      responsavel_phone,
+      responsavel_email,
+    } = body as Record<string, unknown>;
+    let responsavel: Record<string, string | null> = {};
+    if (typeof responsavel_name === 'string' && responsavel_name.trim()) {
+      const rName = sanitizeString(responsavel_name, 255);
+      if (rName.length < 3) {
+        return NextResponse.json(
+          { error: 'Nome do responsável deve ter ao menos 3 caracteres.' },
+          { status: 400 },
+        );
+      }
+      const rCpfRaw = typeof responsavel_cpf === 'string' ? responsavel_cpf : '';
+      const rCpf = rCpfRaw.replace(/\D/g, '').slice(0, 11) || null;
+      if (rCpfRaw && (!rCpf || rCpf.length !== 11)) {
+        return NextResponse.json(
+          { error: 'CPF do responsável inválido (11 dígitos).' },
+          { status: 400 },
+        );
+      }
+      const rEmailRaw = typeof responsavel_email === 'string' ? responsavel_email : '';
+      const rEmail = rEmailRaw ? sanitizeString(rEmailRaw.toLowerCase(), 255) : null;
+      responsavel = {
+        responsavel_name: rName,
+        responsavel_cpf: rCpf,
+        responsavel_phone:
+          typeof responsavel_phone === 'string'
+            ? sanitizeString(responsavel_phone, 20) || null
+            : null,
+        responsavel_email: rEmail,
+      };
+    }
+
     if (!['holder', 'dependent', 'free'].includes(deceased_type)) {
       return NextResponse.json({ error: 'Tipo inválido' }, { status: 400 });
     }
@@ -128,6 +165,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         vehicle_id: vehicle_id || null,
         notes: sanitizeString(notes || '', 1000),
         status: 'pending',
+        ...responsavel,
       })
       .select()
       .single();

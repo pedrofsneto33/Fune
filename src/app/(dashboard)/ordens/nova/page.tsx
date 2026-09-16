@@ -44,6 +44,11 @@ export default function NovaOrdemPage() {
   const [vehicleId, setVehicleId] = useState('');
   const [burialDate, setBurialDate] = useState('');
   const [cemeteryLocation, setCemeteryLocation] = useState('');
+  // 13a: responsavel avulso (venda de balcão) — apenas deceased_type === 'free'
+  const [responsavelName, setResponsavelName] = useState('');
+  const [responsavelCpf, setResponsavelCpf] = useState('');
+  const [responsavelPhone, setResponsavelPhone] = useState('');
+  const [responsavelEmail, setResponsavelEmail] = useState('');
       const [items, setItems] = useState<OrdemItem[]>([{ inventory_id: '', quantity: 1, unit_price: 0 }]);
   const [holdersQuickResults, setHoldersQuickResults] = useState<FormHoldersQuick[]>([]);
   const [holdersQuickQuery, setHoldersQuickQuery] = useState('');
@@ -166,6 +171,14 @@ export default function NovaOrdemPage() {
             unit_price: it.unit_price,
           })),
         notes: notes.trim() || undefined,
+        ...(deceasedType === 'free' && responsavelName.trim()
+          ? {
+              responsavel_name: responsavelName.trim(),
+              responsavel_cpf: responsavelCpf.trim() || undefined,
+              responsavel_phone: responsavelPhone.trim() || undefined,
+              responsavel_email: responsavelEmail.trim() || undefined,
+            }
+          : {}),
       };
       const res = await authFetch('/api/service-orders', {
         method: 'POST',
@@ -239,6 +252,55 @@ export default function NovaOrdemPage() {
           )}
         </div>
             </section>
+
+      {/* 13a: Responsável (cliente avulso) — só para 'Particular' */}
+      {deceasedType === 'free' && (
+        <section className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-4">
+          <h2 className="text-xs font-bold text-slate-600 dark:text-slate-300 mb-3">Responsável (quem contrata e paga — opcional)</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-slate-600 dark:text-slate-500 font-semibold mb-1 text-sm">Nome</label>
+              <input
+                type="text"
+                value={responsavelName}
+                onChange={(e) => setResponsavelName(e.target.value)}
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2 text-sm text-slate-900 dark:text-white"
+                placeholder="Nome completo do responsável"
+              />
+            </div>
+            <div>
+              <label className="block text-slate-600 dark:text-slate-500 font-semibold mb-1 text-sm">CPF</label>
+              <input
+                type="text"
+                value={responsavelCpf}
+                onChange={(e) => setResponsavelCpf(e.target.value)}
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2 text-sm text-slate-900 dark:text-white"
+                placeholder="000.000.000-00"
+              />
+            </div>
+            <div>
+              <label className="block text-slate-600 dark:text-slate-500 font-semibold mb-1 text-sm">Telefone</label>
+              <input
+                type="text"
+                value={responsavelPhone}
+                onChange={(e) => setResponsavelPhone(e.target.value)}
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2 text-sm text-slate-900 dark:text-white"
+                placeholder="(86) 99999-0000"
+              />
+            </div>
+            <div>
+              <label className="block text-slate-600 dark:text-slate-500 font-semibold mb-1 text-sm">E-mail</label>
+              <input
+                type="email"
+                value={responsavelEmail}
+                onChange={(e) => setResponsavelEmail(e.target.value)}
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2 text-sm text-slate-900 dark:text-white"
+                placeholder="opcional"
+              />
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* 2. Contrato (busca titular) */}
       <section className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-4">

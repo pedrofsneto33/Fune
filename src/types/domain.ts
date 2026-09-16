@@ -121,6 +121,11 @@ export interface ServiceOrder {
   /** 12c-2: persistidos pela rota /api/fiscal/emit (colunas reais da tabela) */
   nfse_id?: string | null;
   nfse_status?: string | null;
+  /** 13a: responsavel avulso (venda de balcão, OS 'free') */
+  responsavel_name?: string | null;
+  responsavel_cpf?: string | null;
+  responsavel_phone?: string | null;
+  responsavel_email?: string | null;
   contract?: { id: string; status: string; plan: { name: string } };
   burial?: { id: string; deceased_name: string; burial_date: string; status: string; cemetery_location?: string };
   vehicle?: { id: string; plate: string; model: string; status: string };

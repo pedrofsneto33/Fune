@@ -289,7 +289,7 @@ export default function ServiceOrdersTab() {
           isOpen={!!cobrarOS}
           onClose={() => setCobrarOS(null)}
           defaultName={cobrarOS.deceased_name}
-          defaultCustomerName={cobrarOS.deceased_name}
+          defaultCustomerName={cobrarOS.responsavel_name || cobrarOS.deceased_name}
           defaultServiceOrderId={cobrarOS.id}
           defaultAmount={orderTotal(cobrarOS) || undefined}
         />
@@ -301,7 +301,7 @@ export default function ServiceOrdersTab() {
           isOpen={!!emitirOS}
           onClose={() => setEmitirOS(null)}
           serviceOrderId={emitirOS.id}
-          defaultCustomerName={emitirOS.deceased_name}
+          defaultCustomerName={emitirOS.responsavel_name || emitirOS.deceased_name}
           defaultAmount={orderTotal(emitirOS) || undefined}
           onSuccess={refetchOrders}
         />
