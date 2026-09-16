@@ -53,7 +53,7 @@ describe('PATCH /api/tenants — token de webhook (Fase 11e-2)', () => {
     expect(updates).toHaveLength(0);
   });
 
-  it('2) 200 token vazio eh aceito', async () => {
+  it('2) 11e-3: token vazio limpa a coluna (grava null)', async () => {
     const mf = mockSupabaseAdmin();
     mockWithAuth('admin');
     const { updates } = mockTenantsUpdate(mf);
@@ -61,10 +61,9 @@ describe('PATCH /api/tenants — token de webhook (Fase 11e-2)', () => {
     expect(res.status).toBe(200);
     const j = await res.json();
     expect(j.success).toBe(true);
-    // comportamento atual: '' eh falsy, entao nao entra no update (no-op,
-    // nao limpa a coluna). Registrado aqui para nao passar falsa impressao.
+    // vazio agora LIMPA o token (grava null) em vez de ser no-op
     expect(updates).toHaveLength(1);
-    expect(updates[0]).not.toHaveProperty('asaas_webhook_token');
+    expect(updates[0]).toEqual(expect.objectContaining({ asaas_webhook_token: null }));
   });
 
   it('3) 200 token longo (49 chars) eh persistido', async () => {
