@@ -10,6 +10,7 @@ import { authFetch } from '@/lib/authFetch';
 import { notifyError, notifySuccess } from '@/lib/notify';
 import { ModalCobrancaAvulsa } from '@/components/modals/ModalCobrancaAvulsa';
 import { ModalEmitNfse } from '@/components/modals/ModalEmitNfse';
+import { ModalQrOS } from '@/components/modals/ModalQrOS';
 
 export default function ServiceOrdersTab() {
   const [serviceOrders, setServiceOrders] = useState<ServiceOrder[]>([]);
@@ -24,6 +25,8 @@ export default function ServiceOrdersTab() {
   const [cobrarOS, setCobrarOS] = useState<ServiceOrder | null>(null);
   // 12c-2: emissao de NFS-e vinculada a uma OS
   const [emitirOS, setEmitirOS] = useState<ServiceOrder | null>(null);
+  // 12b-2: QR de rastreamento da OS
+  const [qrOS, setQrOS] = useState<ServiceOrder | null>(null);
 
   useEffect(() => {
     let cancel = false;
@@ -169,6 +172,15 @@ export default function ServiceOrdersTab() {
                       🖨️ Guia
                     </button>
                   )}
+                  {so.tracking_token && (
+                    <button
+                      onClick={() => setQrOS(so)}
+                      className="mr-1 px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded text-[11px] font-semibold"
+                      title="QR de rastreamento"
+                    >
+                      🔗 QR
+                    </button>
+                  )}
                   {so.status !== 'cancelled' && !so.nfse_id && (
                     <button
                       onClick={() => setEmitirOS(so)}
@@ -304,6 +316,16 @@ export default function ServiceOrdersTab() {
           defaultCustomerName={emitirOS.responsavel_name || emitirOS.deceased_name}
           defaultAmount={orderTotal(emitirOS) || undefined}
           onSuccess={refetchOrders}
+        />
+      )}
+
+      {/* 12b-2: QR de rastreamento (aponta para /track/[token], rota publica 12b-3) */}
+      {qrOS && (
+        <ModalQrOS
+          isOpen={!!qrOS}
+          onClose={() => setQrOS(null)}
+          token={qrOS.tracking_token ?? ''}
+          deceasedName={qrOS.deceased_name}
         />
       )}
     </div>
