@@ -40,9 +40,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Token de webhook ausente' }, { status: 401 });
   }
   if (webhookToken.length < 16) {
-    // Não bloqueia (tokens legados curtos continuam funcionando), mas grita:
-    // token fraco é problema de configuração, não do request.
-    logError(`token com ${webhookToken.length} chars`, '[asaas-webhook] TOKEN FRACO — rotacione');
+    // 11e-1: enforcement — token fraco e problema de configuracao, nao do
+    // request. logError ANTES do return (monitoria), depois bloqueia.
+    logError(
+      `token com ${webhookToken.length} chars`,
+      '[asaas-webhook] TOKEN FRACO — rotacione',
+    );
+    return NextResponse.json(
+      { error: 'Token de webhook invalido' },
+      { status: 401 },
+    );
   }
 
   // Read raw body for signature verification

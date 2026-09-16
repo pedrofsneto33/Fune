@@ -59,21 +59,22 @@ describe('webhook Asaas (Fase 7a)', () => {
     expect(mIncome).not.toHaveBeenCalled();
     expect(mComm).not.toHaveBeenCalled();
   });
-  it('11d: token curto (<16) valido NAO bloqueia, mas loga TOKEN FRACO', async () => {
+  it('11e: token curto (<16) bloqueia com 401 (enforcement)', async () => {
     mockRateLimit(true);
     const mf = mockSupabaseAdmin();
     setupWebhookDb(mf, { updated: [{ id: 'db-1', amount: 100, contract_id: 'c-1' }] });
     const res = await POST(makeAsaasRequest({ token: 'curto', body: validBody }));
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(401);
     expect(mLog).toHaveBeenCalledTimes(1);
     expect(mLog.mock.calls[0][1]).toMatch(/TOKEN FRACO/);
   });
-  it('11d: token curto invalido cai no 403 do lookup (gate real)', async () => {
+  it('11e: token bem-formado inexistente cai no 403 do lookup (gate real)', async () => {
     mockRateLimit(true);
     const mf = mockSupabaseAdmin();
     setupWebhookDb(mf, { tenant: null, tenantError: { message: 'x' } });
-    const res = await POST(makeAsaasRequest({ token: 'curto', body: validBody }));
+    // >= 16 chars passa pelo check de tamanho (11e-1) e e barrado pelo lookup.
+    const res = await POST(makeAsaasRequest({ token: 't'.repeat(49), body: validBody }));
     expect(res.status).toBe(403);
-    expect(mLog).toHaveBeenCalledWith(expect.anything(), expect.stringMatching(/TOKEN FRACO/));
+    expect(mLog).not.toHaveBeenCalledWith(expect.anything(), expect.stringMatching(/TOKEN FRACO/));
   });
 });
