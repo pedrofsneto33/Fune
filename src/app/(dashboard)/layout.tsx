@@ -40,6 +40,7 @@ export const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   {
     label: 'Comercial',
     items: [
+      { href: '/vendas/nova', label: 'Nova Venda', tab: 'sales', active: 'text-emerald-400' },
       { href: '/planes', label: 'Planos', tab: 'plans', active: 'text-cyan-400' },
       { href: '/vendedores', label: 'Vendedores', tab: 'sellers', active: 'text-cyan-400' },
       { href: '/crm', label: 'CRM', tab: 'crm', active: 'text-amber-400' },
