@@ -126,6 +126,8 @@ export interface ServiceOrder {
   responsavel_cpf?: string | null;
   responsavel_phone?: string | null;
   responsavel_email?: string | null;
+  /** 12b-1: token de rastreamento público (QR /track/[token]) */
+  tracking_token?: string | null;
   contract?: { id: string; status: string; plan: { name: string } };
   burial?: { id: string; deceased_name: string; burial_date: string; status: string; cemetery_location?: string };
   vehicle?: { id: string; plate: string; model: string; status: string };
