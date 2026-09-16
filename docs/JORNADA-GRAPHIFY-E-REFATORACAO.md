@@ -5,7 +5,7 @@
 > **Último commit:** `7df956d` (grafo 12b-3)
 > **Progresso:** Fases 1-13 + 12b · monolito removido · migrations aplicadas no remoto
 > **Score geral:** 6.2 → **7.84** (+1.64)
-> **Testes:** 177 (era 145)
+> **Testes:** 180 · 18 suítes (era 145)
 
 ---
 
@@ -106,7 +106,7 @@ Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 
 | Rota | Testes |
 |---|---|
-| `webhooks/asaas` | 6 (+2 na 11d) |
+| `webhooks/asaas` | 8 (+2 na 11d, +1 na 11e) |
 | `holders` | 6 |
 | `billing/asaas-batch` | 6 |
 | `billing/pix` | 8 |
@@ -309,8 +309,8 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 ### 12e — Assinatura digital
 - [ ] Integração DocuSign/Clicksign (termos, contratos)
 
-### 11e — Enforcement de token forte (webhook Asaas)
-- [ ] Migrar tokens curtos dos tenants + bloquear <16 chars
+### 11e — Enforcement de token forte (webhook Asaas) — ✅ CONCLUÍDA
+- [x] Migrar tokens curtos dos tenants + bloquear <16 chars (11e: webhook 401 para <16, PATCH 400 para <16, vazio aceito)
 
 ### Fase 14 — Consolidação de tabelas
 - [ ] Dump + drop `fleet_vehicles` e `fleet_expenses`
@@ -332,9 +332,9 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 - [x] `printReports.ts` morto
 - [x] Gateway Asaas duplicado (F-29) — 12a
 - [x] Migration remota pendente — aplicada em 2026-09-16
+- [x] `webhooks/asaas` token fraco — 11e: webhook retorna 401 para token <16 chars (com logError de monitoria) e PATCH /api/tenants valida tamanho (400).
 
 ### Pendentes
-- [ ] `webhooks/asaas` token fraco (só loga, não bloqueia)
 - [ ] `vehicles` × `fleet_vehicles` (legado no banco)
 - [ ] `allowedRoles` billing inconsistentes
 - [ ] `deceased_id` obrigatório para tipo `free`
