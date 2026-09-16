@@ -9,6 +9,7 @@ import BurialGuide from '@/components/print/BurialGuide';
 import { authFetch } from '@/lib/authFetch';
 import { notifyError, notifySuccess } from '@/lib/notify';
 import { ModalCobrancaAvulsa } from '@/components/modals/ModalCobrancaAvulsa';
+import { ModalEmitNfse } from '@/components/modals/ModalEmitNfse';
 
 export default function ServiceOrdersTab() {
   const [serviceOrders, setServiceOrders] = useState<ServiceOrder[]>([]);
@@ -21,6 +22,8 @@ export default function ServiceOrdersTab() {
   >(null);
   // 12c-1: cobrança avulsa pré-preenchida a partir de uma OS
   const [cobrarOS, setCobrarOS] = useState<ServiceOrder | null>(null);
+  // 12c-2: emissao de NFS-e vinculada a uma OS
+  const [emitirOS, setEmitirOS] = useState<ServiceOrder | null>(null);
 
   useEffect(() => {
     let cancel = false;
@@ -166,6 +169,14 @@ export default function ServiceOrdersTab() {
                       🖨️ Guia
                     </button>
                   )}
+                  {so.status !== 'cancelled' && !so.nfse_id && (
+                    <button
+                      onClick={() => setEmitirOS(so)}
+                      className="mr-1 px-2.5 py-1 bg-emerald-950/60 hover:bg-emerald-900/60 text-emerald-300 border border-emerald-800/60 rounded text-[11px] font-semibold"
+                    >
+                      🧾 NF
+                    </button>
+                  )}
                   {so.status !== 'cancelled' && (
                     <button
                       onClick={() => setCobrarOS(so)}
@@ -281,6 +292,18 @@ export default function ServiceOrdersTab() {
           defaultCustomerName={cobrarOS.deceased_name}
           defaultServiceOrderId={cobrarOS.id}
           defaultAmount={orderTotal(cobrarOS) || undefined}
+        />
+      )}
+
+      {/* 12c-2: emissao de NFS-e pre-preenchida (OS + tomador informado no ato) */}
+      {emitirOS && (
+        <ModalEmitNfse
+          isOpen={!!emitirOS}
+          onClose={() => setEmitirOS(null)}
+          serviceOrderId={emitirOS.id}
+          defaultCustomerName={emitirOS.deceased_name}
+          defaultAmount={orderTotal(emitirOS) || undefined}
+          onSuccess={refetchOrders}
         />
       )}
     </div>

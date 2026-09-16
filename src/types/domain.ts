@@ -118,6 +118,9 @@ export interface ServiceOrder {
   status: string;
   total_amount?: number;
   notes?: string;
+  /** 12c-2: persistidos pela rota /api/fiscal/emit (colunas reais da tabela) */
+  nfse_id?: string | null;
+  nfse_status?: string | null;
   contract?: { id: string; status: string; plan: { name: string } };
   burial?: { id: string; deceased_name: string; burial_date: string; status: string; cemetery_location?: string };
   vehicle?: { id: string; plate: string; model: string; status: string };
