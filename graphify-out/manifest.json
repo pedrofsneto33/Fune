@@ -2422,5 +2422,11 @@
     "seen": 1789591737.1998966,
     "ast_hash": "a06880243e1c6eb0ba8ea1083ce6a18d",
     "semantic_hash": ""
+  },
+  "src/app/track/[token]/page.tsx": {
+    "mtime": 1789592744.5098398,
+    "seen": 1789592798.3458676,
+    "ast_hash": "7943ad0184cb28cde81b97f1e4ddb91a",
+    "semantic_hash": ""
   }
 }
