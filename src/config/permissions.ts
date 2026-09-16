@@ -81,6 +81,7 @@ export function isTabAllowed(role: AppRole | undefined | null, tab: string): boo
     case 'convalescence': return hasPermission(role, 'canManageConvalescence');
     case 'benefits': return hasPermission(role, 'canManageBenefits');
     case 'sellers': return hasPermission(role, 'canManageSellers');
+    case 'sales': return hasPermission(role, 'canManageContracts');
     case 'plans': return hasPermission(role, 'canManagePlans');
     case 'users': return hasPermission(role, 'canManageUsers');
     case 'settings': return hasPermission(role, 'canManageSettings');

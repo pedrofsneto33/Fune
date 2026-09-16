@@ -7,6 +7,12 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { authFetch } from '@/lib/authFetch';
 import { notifyError, notifySuccess } from '@/lib/notify';
+import ItemsForm, {
+  type FormInventoryItem,
+  type OrdemItem,
+  type OrdemItemField,
+} from '@/components/forms/ItemsForm';
+import ResponsavelForm from '@/components/forms/ResponsavelForm';
 
 interface FormHoldersQuick {
   id: string;
@@ -22,16 +28,11 @@ interface FormVehicle {
   status: string;
 }
 
-interface FormInventoryItem {
+interface FormVehicle {
   id: string;
-  item_name: string;
-  stock_quantity: number;
-}
-
-interface OrdemItem {
-  inventory_id: string;
-  quantity: number;
-  unit_price: number;
+  plate: string;
+  model: string;
+  status: string;
 }
 
 export default function NovaOrdemPage() {
@@ -49,7 +50,7 @@ export default function NovaOrdemPage() {
   const [responsavelCpf, setResponsavelCpf] = useState('');
   const [responsavelPhone, setResponsavelPhone] = useState('');
   const [responsavelEmail, setResponsavelEmail] = useState('');
-      const [items, setItems] = useState<OrdemItem[]>([{ inventory_id: '', quantity: 1, unit_price: 0 }]);
+  const [items, setItems] = useState<OrdemItem[]>([{ inventory_id: '', quantity: 1, unit_price: 0 }]);
   const [holdersQuickResults, setHoldersQuickResults] = useState<FormHoldersQuick[]>([]);
   const [holdersQuickQuery, setHoldersQuickQuery] = useState('');
   const [holdersQuickLoading, setHoldersQuickLoading] = useState(false);
@@ -106,19 +107,16 @@ export default function NovaOrdemPage() {
         setLoading(false);
       }
     })();
-    }, []);
+  }, []);
 
   // Handlers
   const handleAddItem = () => setItems([...items, { inventory_id: '', quantity: 1, unit_price: 0 }]);
   const handleRemoveItem = (idx: number) => setItems(items.filter((_, i) => i !== idx));
-  const handleItemChange = (idx: number, field: 'inventory_id' | 'quantity' | 'unit_price', val: string | number) => {
+  const handleItemChange = (idx: number, field: OrdemItemField, val: string | number) => {
     const newItems = [...items];
     newItems[idx] = { ...newItems[idx], [field]: val };
     setItems(newItems);
   };
-
-  const subtotal = (it: OrdemItem) => (it.quantity || 0) * (it.unit_price || 0);
-  const totalGeral = () => items.reduce((sum, it) => sum + subtotal(it), 0);
 
   const validate = () => {
     if (deceasedName.length < 3) {
@@ -257,48 +255,21 @@ export default function NovaOrdemPage() {
       {deceasedType === 'free' && (
         <section className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-4">
           <h2 className="text-xs font-bold text-slate-600 dark:text-slate-300 mb-3">Responsável (quem contrata e paga — opcional)</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-slate-600 dark:text-slate-500 font-semibold mb-1 text-sm">Nome</label>
-              <input
-                type="text"
-                value={responsavelName}
-                onChange={(e) => setResponsavelName(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2 text-sm text-slate-900 dark:text-white"
-                placeholder="Nome completo do responsável"
-              />
-            </div>
-            <div>
-              <label className="block text-slate-600 dark:text-slate-500 font-semibold mb-1 text-sm">CPF</label>
-              <input
-                type="text"
-                value={responsavelCpf}
-                onChange={(e) => setResponsavelCpf(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2 text-sm text-slate-900 dark:text-white"
-                placeholder="000.000.000-00"
-              />
-            </div>
-            <div>
-              <label className="block text-slate-600 dark:text-slate-500 font-semibold mb-1 text-sm">Telefone</label>
-              <input
-                type="text"
-                value={responsavelPhone}
-                onChange={(e) => setResponsavelPhone(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2 text-sm text-slate-900 dark:text-white"
-                placeholder="(86) 99999-0000"
-              />
-            </div>
-            <div>
-              <label className="block text-slate-600 dark:text-slate-500 font-semibold mb-1 text-sm">E-mail</label>
-              <input
-                type="email"
-                value={responsavelEmail}
-                onChange={(e) => setResponsavelEmail(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded p-2 text-sm text-slate-900 dark:text-white"
-                placeholder="opcional"
-              />
-            </div>
-          </div>
+          <ResponsavelForm
+            values={{
+              name: responsavelName,
+              cpf: responsavelCpf,
+              phone: responsavelPhone,
+              email: responsavelEmail,
+            }}
+            onChange={(field, value) => {
+              if (field === 'name') setResponsavelName(value);
+              else if (field === 'cpf') setResponsavelCpf(value);
+              else if (field === 'phone') setResponsavelPhone(value);
+              else if (field === 'email') setResponsavelEmail(value);
+            }}
+            disabled={saving}
+          />
         </section>
       )}
 
@@ -383,90 +354,14 @@ export default function NovaOrdemPage() {
       </section>
 
       {/* 5. Itens (opcional) */}
-      <section className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-4">
-        <h2 className="text-xs font-bold text-slate-600 dark:text-slate-300 mb-3 flex items-center justify-between">
-          Itens (opcional)
-          <button
-            onClick={handleAddItem}
-            className="px-3 py-1 bg-emerald-950 text-emerald-300 border border-emerald-800 rounded text-xs font-semibold hover:bg-emerald-900/60 transition"
-          >
-            + Adicionar item
-          </button>
-        </h2>
-        {items.length === 0 ? (
-          <p className="text-xs text-slate-500">Nenhum item adicionado.</p>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="text-slate-600 dark:text-slate-500 uppercase">
-                <tr>
-                  <th className="py-2">Item</th>
-                  <th className="py-2 w-20">Qtde</th>
-                  <th className="py-2 w-32">Preço unit.</th>
-                  <th className="py-2 w-28">Subtotal</th>
-                  <th className="py-2 w-16 text-right">Ação</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-800">
-                {items.map((it, idx) => (
-                  <tr key={idx}>
-                    <td className="py-2">
-                      <select
-                        value={it.inventory_id}
-                        onChange={(e) => handleItemChange(idx, 'inventory_id', e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-800 rounded p-1.5 text-sm text-slate-200"
-                      >
-                        <option value="">Selecione...</option>
-                        {inventoryList.map((inv) => (
-                          <option key={inv.id} value={inv.id}>
-                            {inv.item_name} (estoque: {inv.stock_quantity})
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                    <td className="py-2">
-                      <input
-                        type="number"
-                        min={1}
-                        value={it.quantity}
-                        onChange={(e) => handleItemChange(idx, 'quantity', Number(e.target.value))}
-                        className="w-full bg-slate-950 border border-slate-800 rounded p-1 text-right text-slate-200"
-                      />
-                    </td>
-                    <td className="py-2">
-                      <input
-                        type="number"
-                        min={0}
-                        step={0.01}
-                        value={it.unit_price}
-                        onChange={(e) => handleItemChange(idx, 'unit_price', Number(e.target.value))}
-                        className="w-full bg-slate-950 border border-slate-800 rounded p-1 text-right text-slate-200"
-                      />
-                    </td>
-                    <td className="py-2 text-emerald-300 font-semibold">
-                      {subtotal(it).toFixed(2)}
-                    </td>
-                    <td className="py-2 text-right">
-                      <button
-                        onClick={() => handleRemoveItem(idx)}
-                        className="px-2 py-1 bg-rose-950 text-rose-300 border border-rose-800 rounded text-xs hover:bg-rose-900/60 transition"
-                      >
-                        ✕
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-        {items.length > 0 && (
-          <div className="mt-3 text-right">
-            <span className="text-xs text-slate-500">Total:</span>
-            <span className="font-bold text-emerald-400 ml-2">{totalGeral().toFixed(2)}</span>
-          </div>
-        )}
-      </section>
+      <ItemsForm
+        items={items}
+        inventoryList={inventoryList}
+        onAdd={handleAddItem}
+        onRemove={handleRemoveItem}
+        onChange={handleItemChange}
+        disabled={saving}
+      />
 
       {/* 6. Observações */}
       <section className="bg-[#0d121f] border border-slate-200 dark:border-slate-800 rounded-xl p-4">
