@@ -642,9 +642,9 @@
     "semantic_hash": "b9c2cdc4654ca63de532cfe81b3ba512"
   },
   "src/app/(dashboard)/layout.tsx": {
-    "mtime": 1789568628.8535979,
-    "seen": 1789568752.5779457,
-    "ast_hash": "05dece9309c5e273bbbed8d28b44a17c",
+    "mtime": 1789569329.4110777,
+    "seen": 1789569447.478614,
+    "ast_hash": "386eaf4889f96902bc4a2db8494020c4",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/planes/page.tsx": {
@@ -2364,9 +2364,9 @@
     "semantic_hash": ""
   },
   "src/components/Sidebar.tsx": {
-    "mtime": 1789568618.444214,
-    "seen": 1789568752.5780728,
-    "ast_hash": "b7d58568943913334f2e0a9693bca47e",
+    "mtime": 1789569317.8514285,
+    "seen": 1789569447.4787424,
+    "ast_hash": "c190232ad70b532a5fa874cdb33ce136",
     "semantic_hash": ""
   },
   "src/hooks/useMediaQuery.ts": {

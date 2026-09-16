@@ -1,17 +1,17 @@
 # Graph Report - eternitysos  (2026-09-16)
 
 ## Corpus Check
-- 387 files · ~375,992 words
+- 387 files · ~375,871 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 63 file(s) not represented in the graph (top: .csv 53, (none) 3, .log 3)
 
 ## Summary
-- 3758 nodes · 5565 edges · 372 communities (199 shown, 137 thin omitted)
+- 3758 nodes · 5570 edges · 389 communities (216 shown, 137 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 34 edges (avg confidence: 0.87)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `180e0680`
+- Built from commit: `5512c61c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -23,8 +23,8 @@
 - gray
 - whatsapp.ts
 - Jornada: Graphify + Refatoração do `page.tsx`
-- authFetch
-- button
+- notify.ts
+- card
 - slide_search_core.py
 - Tailwind CSS Utility Reference
 - eternityos_schema.sql
@@ -37,7 +37,7 @@
 - spacing
 - search_stack
 - design_system.py
-- lucide-react
+- authFetch.ts
 - Form & Input Components
 - Tailwind CSS Responsive Design
 - Typography Specifications
@@ -45,7 +45,7 @@
 - TestTailwindConfigGenerator
 - test_data_contracts.py
 - payment-carnets/route.ts
-- authFetch.ts
+- react
 - 20260914220043_remote_schema.sql
 - _style_is_dark_primary
 - Logo Usage Rules
@@ -125,7 +125,7 @@
 - update.md
 - Logo Design Reference
 - Token Architecture
-- primitive
+- design-tokens-starter.json
 - "public"."tenants"
 - Primitive Tokens
 - validate-tokens.cjs
@@ -142,7 +142,7 @@
 - ShadcnInstaller
 - patch
 - test_text_layout_resilience.py
-- ChapelTab.tsx
+- authFetch
 - ._base_config
 - Brand
 - Slide Strategies
@@ -158,8 +158,8 @@
 - FleetTab.tsx
 - agente-whatsapp.sql
 - convert-theme.js
-- Sidebar.tsx
-- react
+- button
+- types/index.ts
 - Slides Reference
 - HTML Slide Template
 - HTML Slide Template
@@ -192,7 +192,7 @@
 - public.webhook_events
 - slide-token-validator.py
 - xl
-- primary
+- input
 - 1. AGENTE DE TRIAGEM WHATSAPP (Evolution API) - MODULO EXTRA (COBRADO À PARTE)
 - 3. NFS-e (Nota Fiscal de Servico) - FOCUSNFe IMPLEMENTADO (commit `33d0f09`)
 - fix_rls_definitivo.sql
@@ -212,7 +212,7 @@
 - routes-auth.test.ts
 - test_sync_brand_to_tokens.py
 - ConvalescenceTab.tsx
-- secondary
+- PlansTab.tsx
 - .__init__
 - .temp_project
 - 1️⃣ ROTACIONAR AS CHAVES DO SUPABASE — 🔴 URGENTE
@@ -232,6 +232,7 @@
 - teste_insert4.mjs
 - idx_webhook_events_unprocessed
 - middleware.ts
+- AuditLogsTab.tsx
 - ui-auth-gate.test.ts
 - slides-create.md
 - create.md
@@ -260,6 +261,7 @@
 - .test_add_colors
 - eslint.config.mjs
 - sw.js
+- ThanatopraxyTab.tsx
 - append-route.js
 - limpeza_planos_orfaos.sql
 - public.accounts_payable
@@ -346,12 +348,27 @@
 - public.plans
 - public.contracts
 - storage.objects
+- $type
 - contracts/route.ts
+- radius
+- lg
+- padding-y
+- none
+- 16
 - "public"."payments"
+- 1
+- 3
+- 8
+- destructive
+- destructive-foreground
+- muted
+- primary-foreground
 - _normalize
 - _row_identities
 - "public"."commissions"
+- ring
 - scripts/search.py
+- secondary-foreground
 
 ## God Nodes (most connected - your core abstractions)
 1. `isValidUUID()` - 82 edges
@@ -380,7 +397,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (372 total, 137 thin omitted)
+## Communities (389 total, 137 thin omitted)
 
 ### Community 0 - "supabaseAdmin.ts"
 Cohesion: 0.05
@@ -410,13 +427,13 @@ Nodes (4): formatPhoneForWhatsApp(), formatWhatsAppMessage(), generateChargeWhat
 Cohesion: 0.04
 Nodes (47): 10. Próximos passos, 11. Comandos de referência rápida, 12. Links úteis, 1. Contexto e motivação, 2. Graphify — instalação e configuração, 3. Repowise — camada adicional de inteligência, 4. Plano de refatoração — 6 fases, 5. Blast radius medido pelo Graphify (+39 more)
 
-### Community 7 - "authFetch"
-Cohesion: 0.10
-Nodes (21): DependentesPage(), VALID_RELATIONS, ImportarTitularesPage(), ImportResult, InvalidRow, TitularesPage(), UsuariosPage(), ModalRBAC() (+13 more)
+### Community 7 - "notify.ts"
+Cohesion: 0.11
+Nodes (20): ContratosPage(), isContractActive(), DependentesPage(), VALID_RELATIONS, ImportarTitularesPage(), ImportResult, InvalidRow, TitularesPage() (+12 more)
 
-### Community 8 - "button"
-Cohesion: 0.06
-Nodes (45): $type, $value, $type, $value, bg, fg, font-size, hover-bg (+37 more)
+### Community 8 - "card"
+Cohesion: 0.20
+Nodes (12): $type, $value, bg, bg, padding, shadow, card, bg (+4 more)
 
 ### Community 9 - "slide_search_core.py"
 Cohesion: 0.08
@@ -455,8 +472,8 @@ Cohesion: 0.10
 Nodes (24): GET, GET, dynamic, GET, POST, dynamic, POST, dynamic (+16 more)
 
 ### Community 18 - "spacing"
-Cohesion: 0.06
-Nodes (34): $type, $value, $type, $value, $type, $value, $type, $value (+26 more)
+Cohesion: 0.09
+Nodes (22): $type, $value, $type, $value, $type, $value, $type, $value (+14 more)
 
 ### Community 19 - "search_stack"
 Cohesion: 0.10
@@ -466,9 +483,9 @@ Nodes (8): Search stack-specific guidelines, search_stack(), Freshness and migra
 Cohesion: 0.08
 Nodes (29): ansi_ljust(), _detect_page_type(), format_ascii_box(), format_markdown(), format_master_md(), format_page_override_md(), generate_design_system(), _generate_intelligent_overrides() (+21 more)
 
-### Community 21 - "lucide-react"
-Cohesion: 0.12
-Nodes (12): lucide-react, ADDONS, FAQ, MODULES, PLANS, EMPTY_FORM, fmtBrl(), Plan (+4 more)
+### Community 21 - "authFetch.ts"
+Cohesion: 0.13
+Nodes (11): lucide-react, ADDONS, FAQ, MODULES, PLANS, FiscalConfigData, FiscalSettingsSection(), Tenant (+3 more)
 
 ### Community 22 - "Form & Input Components"
 Cohesion: 0.06
@@ -483,8 +500,8 @@ Cohesion: 0.06
 Nodes (30): Accessibility, Base System, Best Practices, Clean & Modern, Common Font Pairings, Contrast Requirements, CSS Implementation, Editorial (+22 more)
 
 ### Community 25 - "color"
-Cohesion: 0.06
-Nodes (31): $type, $value, background, destructive, destructive-foreground, foreground, muted, muted-foreground (+23 more)
+Cohesion: 0.11
+Nodes (19): $type, $value, background, foreground, muted-foreground, primary, primary-hover, secondary (+11 more)
 
 ### Community 26 - "TestTailwindConfigGenerator"
 Cohesion: 0.06
@@ -498,9 +515,9 @@ Nodes (9): Cross-file semantic contracts for curated design data., read_rows(), 
 Cohesion: 0.11
 Nodes (28): dynamic, POST, POST, BatchResult, contractIsActive(), holderIsInactive(), POST, withTimeout() (+20 more)
 
-### Community 29 - "authFetch.ts"
-Cohesion: 0.14
-Nodes (14): AuthState, DashboardLayout(), NAV_GROUPS, NavItem, HomePage(), PendingApprovalScreen(), ThemeToggle(), AppRole (+6 more)
+### Community 29 - "react"
+Cohesion: 0.11
+Nodes (19): react, AuthState, DashboardLayout(), NAV_GROUPS, NavItem, HomePage(), PendingApprovalScreen(), NavGroup (+11 more)
 
 ### Community 30 - "20260914220043_remote_schema.sql"
 Cohesion: 0.08
@@ -536,7 +553,7 @@ Nodes (26): name, private, version, autoprefixer, clsx, date-fns, eslint, eslint
 
 ### Community 38 - "domain.ts"
 Cohesion: 0.07
-Nodes (26): recharts, FinancialSummary, ModalDRE(), AuditLogsTab(), detailsText(), ExecutiveTab(), fmtBRL(), FinancialTab() (+18 more)
+Nodes (30): recharts, FinancialSummary, ModalDRE(), AvulsoSummaryStats, BillingSummary, BillingTab(), CollectorRow, fmtBRL() (+22 more)
 
 ### Community 39 - "logo/core.py"
 Cohesion: 0.10
@@ -596,15 +613,15 @@ Nodes (22): @apply Directive, Best Practices, Color Customization, Complete Tail
 
 ### Community 53 - "notifyError"
 Cohesion: 0.09
-Nodes (29): FormHoldersQuick, FormInventoryItem, FormVehicle, NovaOrdemPage(), OrdemItem, ModalWebhookRetry(), Props, WebhookEvent (+21 more)
+Nodes (22): FormHoldersQuick, FormInventoryItem, FormVehicle, NovaOrdemPage(), OrdemItem, ModalWebhookRetry(), Props, WebhookEvent (+14 more)
 
 ### Community 54 - "ModalCarnets.tsx"
 Cohesion: 0.31
 Nodes (8): brl(), CarnetRow, contractIsActive(), HolderContract, holderIsInactive(), HolderRow, ModalCarnets(), STATUS_STYLE
 
 ### Community 55 - "radius"
-Cohesion: 0.13
-Nodes (22): $type, $value, lg, $type, $value, $type, $value, $type (+14 more)
+Cohesion: 0.19
+Nodes (14): $type, $value, $type, $value, $type, $value, primitive, radius (+6 more)
 
 ### Community 56 - "TailwindConfigGenerator"
 Cohesion: 0.09
@@ -619,8 +636,8 @@ Cohesion: 0.14
 Nodes (20): _e(), generate_chart_slide(), generate_cta_slide(), generate_deck(), generate_metrics_slide(), generate_problem_slide(), generate_solution_slide(), generate_testimonial_slide() (+12 more)
 
 ### Community 59 - "HolderFormModal.tsx"
-Cohesion: 0.09
-Nodes (27): ContratosPage(), isContractActive(), buildPayload(), EMPTY_FORM, FIELD_LABELS, GENDER_OPTIONS, HolderFormModal(), HolderFormModalProps (+19 more)
+Cohesion: 0.13
+Nodes (18): buildPayload(), EMPTY_FORM, FIELD_LABELS, GENDER_OPTIONS, HolderFormModal(), HolderFormState, initialForm(), PlanOption (+10 more)
 
 ### Community 60 - "AGENTS.md"
 Cohesion: 0.10
@@ -814,9 +831,9 @@ Nodes (12): Available Styles, Color Psychology, Commands, Design Brief (Start He
 Cohesion: 0.15
 Nodes (12): Categories, Dark Mode, File Organization, Layer 1: Primitive Tokens, Layer 2: Semantic Tokens, Layer 3: Component Tokens, Layer Overview, Migration from Flat Tokens (+4 more)
 
-### Community 109 - "primitive"
+### Community 109 - "design-tokens-starter.json"
 Cohesion: 0.15
-Nodes (12): $type, $value, dark, semantic, primitive, $schema, $type, $value (+4 more)
+Nodes (12): component, $type, $value, dark, semantic, $schema, $type, $value (+4 more)
 
 ### Community 110 - ""public"."tenants""
 Cohesion: 0.12
@@ -882,9 +899,9 @@ Nodes (6): Test adding components with overwrite flag., Test successful componen
 Cohesion: 0.20
 Nodes (4): Canonical regression contracts for resilient UI text layouts., read_rows(), TestTextLayoutDataContracts, TestTextLayoutRetrieval
 
-### Community 126 - "ChapelTab.tsx"
-Cohesion: 0.24
-Nodes (7): CHAPEL_ROOMS, ModalChapel(), toDatetimeLocal(), ChapelTab(), STATUS_COLOR, STATUS_LABEL, ChapelBooking
+### Community 126 - "authFetch"
+Cohesion: 0.19
+Nodes (11): UsuariosPage(), ModalRBAC(), UserRole, CHAPEL_ROOMS, ModalChapel(), toDatetimeLocal(), ChapelTab(), STATUS_COLOR (+3 more)
 
 ### Community 127 - "._base_config"
 Cohesion: 0.22
@@ -946,13 +963,13 @@ Nodes (7): idx_emergency_dispatches_tenant, idx_tenant_whatsapp_number, idx_what
 Cohesion: 0.29
 Nodes (6): collectFiles(), files, fs, MAP, path, ROOT
 
-### Community 142 - "Sidebar.tsx"
-Cohesion: 0.29
-Nodes (3): NavGroup, NavItem, SidebarProps
+### Community 142 - "button"
+Cohesion: 0.20
+Nodes (10): fg, font-size, hover-bg, button, $type, $value, $type, $value (+2 more)
 
-### Community 143 - "react"
+### Community 143 - "types/index.ts"
 Cohesion: 0.18
-Nodes (8): react, BurialGuide(), BurialGuideProps, BurialsTab(), EMPTY_FORM, ServiceOrdersTab(), Burial, ServiceOrder
+Nodes (8): BurialGuide(), BurialGuideProps, BurialsTab(), EMPTY_FORM, ServiceOrdersTab(), Burial, ServiceOrder, DadosPayLoad
 
 ### Community 144 - "Slides Reference"
 Cohesion: 0.29
@@ -1070,9 +1087,9 @@ Nodes (3): main(), Slide Token Validator (Legacy Wrapper) Now delegates to html-
 Cohesion: 0.67
 Nodes (4): xl, xl, $type, $value
 
-### Community 176 - "primary"
-Cohesion: 0.67
-Nodes (3): primary, $type, $value
+### Community 176 - "input"
+Cohesion: 0.29
+Nodes (8): padding-x, input, $type, $value, focus-ring, padding-x, $type, $value
 
 ### Community 178 - "1. AGENTE DE TRIAGEM WHATSAPP (Evolution API) - MODULO EXTRA (COBRADO À PARTE)"
 Cohesion: 0.50
@@ -1134,9 +1151,9 @@ Nodes (3): ALLOWLIST, API_DIR, listRouteFiles()
 Cohesion: 0.29
 Nodes (5): CatalogItem, ConvalescenceTab(), DEFAULT_ITEMS, EMPTY_FORM, ConvalescenceItem
 
-### Community 198 - "secondary"
-Cohesion: 0.67
-Nodes (3): secondary, $type, $value
+### Community 198 - "PlansTab.tsx"
+Cohesion: 0.38
+Nodes (4): EMPTY_FORM, fmtBrl(), Plan, PlansTab()
 
 ### Community 201 - "1️⃣ ROTACIONAR AS CHAVES DO SUPABASE — 🔴 URGENTE"
 Cohesion: 0.67
@@ -1150,17 +1167,77 @@ Nodes (3): 4️⃣ CONFIGURAR O SEGREDO DO WEBHOOK DO ASAAS, Passo a passo, Por 
 Cohesion: 0.67
 Nodes (3): 6️⃣ BACKUPS AUTOMÁTICOS DO BANCO, Passo a passo, Por quê?
 
+### Community 218 - "AuditLogsTab.tsx"
+Cohesion: 0.47
+Nodes (3): AuditLogsTab(), detailsText(), AuditLog
+
 ### Community 219 - "ui-auth-gate.test.ts"
 Cohesion: 0.70
 Nodes (4): dashLayout(), guard(), home(), readSrc()
+
+### Community 247 - "ThanatopraxyTab.tsx"
+Cohesion: 0.40
+Nodes (3): EMPTY_FORM, ThanatopraxyTab(), Thanatopraxy
+
+### Community 365 - "$type"
+Cohesion: 0.60
+Nodes (5): $type, $value, border, border, border
 
 ### Community 366 - "contracts/route.ts"
 Cohesion: 0.50
 Nodes (4): DELETE, GET, POST, isWithinGracePeriod()
 
+### Community 367 - "radius"
+Cohesion: 0.60
+Nodes (5): radius, radius, radius, $type, $value
+
+### Community 368 - "lg"
+Cohesion: 0.60
+Nodes (5): lg, $type, $value, lg, lg
+
+### Community 369 - "padding-y"
+Cohesion: 0.67
+Nodes (4): padding-y, padding-y, $type, $value
+
+### Community 370 - "none"
+Cohesion: 0.67
+Nodes (4): $type, $value, none, none
+
+### Community 371 - "16"
+Cohesion: 0.67
+Nodes (3): $type, $value, 16
+
 ### Community 372 - ""public"."payments""
 Cohesion: 0.50
 Nodes (4): idx_payments_due_date, idx_payments_status, idx_payments_tenant_contract, "public"."payments"
+
+### Community 373 - "1"
+Cohesion: 0.67
+Nodes (3): $type, $value, 1
+
+### Community 374 - "3"
+Cohesion: 0.67
+Nodes (3): $type, $value, 3
+
+### Community 375 - "8"
+Cohesion: 0.67
+Nodes (3): $type, $value, 8
+
+### Community 376 - "destructive"
+Cohesion: 0.67
+Nodes (3): destructive, $type, $value
+
+### Community 377 - "destructive-foreground"
+Cohesion: 0.67
+Nodes (3): destructive-foreground, $type, $value
+
+### Community 378 - "muted"
+Cohesion: 0.67
+Nodes (3): muted, $type, $value
+
+### Community 382 - "primary-foreground"
+Cohesion: 0.67
+Nodes (3): primary-foreground, $type, $value
 
 ### Community 383 - "_normalize"
 Cohesion: 0.22
@@ -1174,23 +1251,31 @@ Nodes (8): _exact_row_identity(), Suggest complete public identities so a retry 
 Cohesion: 0.67
 Nodes (3): idx_commissions_contract_id, idx_commissions_tenant, "public"."commissions"
 
+### Community 386 - "ring"
+Cohesion: 0.67
+Nodes (3): ring, $type, $value
+
 ### Community 387 - "scripts/search.py"
 Cohesion: 0.50
 Nodes (3): format_output(), UI/UX Pro Max Search - BM25 search engine for UI/UX style guides Usage: python…, Format results for Claude consumption (token-optimized)
 
+### Community 388 - "secondary-foreground"
+Cohesion: 0.67
+Nodes (3): secondary-foreground, $type, $value
+
 ## Knowledge Gaps
 - **1456 isolated node(s):** `fs`, `path`, `fs`, `path`, `fs` (+1451 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2081 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2079 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **137 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `@supabase/supabase-js` connect `@supabase/supabase-js` to `supabaseAdmin.ts`, `teste_isolamento_final.mjs`, `teste_isolamento_v2.mjs`, `onboard_cliente.mjs`, `inspect_behavior.mjs`, `test_api.mjs`, `teste_isolamento_v3.mjs`, `teste_isolamento_v4.mjs`, `teste_isolamento_v5.mjs`, `teste_isolamento_v6.mjs`, `authFetch.ts`, `package.json`, `cleanup.mjs`, `test_db_rls.mjs`, `teste_isolamento_pos_fix.mjs`, `check_superadmin.mjs`, `create-tables.js`, `create_users.mjs`, `diag_roles.mjs`, `insert_rbac_and_data.mjs`, `audit_full.mjs`, `diag_policies_detalhe.mjs`, `identify_project.mjs`, `teste_insert3.mjs`, `teste_insert4.mjs`?**
+- **Why does `@supabase/supabase-js` connect `@supabase/supabase-js` to `supabaseAdmin.ts`, `teste_isolamento_final.mjs`, `teste_isolamento_v2.mjs`, `authFetch.ts`, `onboard_cliente.mjs`, `inspect_behavior.mjs`, `test_api.mjs`, `teste_isolamento_v3.mjs`, `teste_isolamento_v4.mjs`, `teste_isolamento_v5.mjs`, `teste_isolamento_v6.mjs`, `package.json`, `cleanup.mjs`, `test_db_rls.mjs`, `teste_isolamento_pos_fix.mjs`, `check_superadmin.mjs`, `create-tables.js`, `create_users.mjs`, `diag_roles.mjs`, `insert_rbac_and_data.mjs`, `audit_full.mjs`, `diag_policies_detalhe.mjs`, `identify_project.mjs`, `teste_insert3.mjs`, `teste_insert4.mjs`?**
   _High betweenness centrality (0.016) - this node is a cross-community bridge._
 - **Why does `search()` connect `search` to `_row_identities`, `validate_data.py`, `scripts/search.py`, `.generate`, `scripts/core.py`, `BM25`, `design_system.py`, `detect_domain`, `_style_is_dark_primary`, `test_text_layout_resilience.py`, `_normalize`?**
   _High betweenness centrality (0.007) - this node is a cross-community bridge._
-- **Why does `react` connect `react` to `FiscalTab.tsx`, `package.json`, `ConvalescenceTab.tsx`, `authFetch`, `domain.ts`, `FleetTab.tsx`, `Sidebar.tsx`, `app/layout.tsx`, `notifyError`, `lucide-react`, `ModalCarnets.tsx`, `CrmTab.tsx`, `HolderFormModal.tsx`, `authFetch.ts`, `ChapelTab.tsx`?**
+- **Why does `react` connect `react` to `FiscalTab.tsx`, `package.json`, `ConvalescenceTab.tsx`, `notify.ts`, `domain.ts`, `PlansTab.tsx`, `FleetTab.tsx`, `types/index.ts`, `app/layout.tsx`, `authFetch.ts`, `notifyError`, `ThanatopraxyTab.tsx`, `ModalCarnets.tsx`, `CrmTab.tsx`, `AuditLogsTab.tsx`, `HolderFormModal.tsx`, `authFetch`?**
   _High betweenness centrality (0.007) - this node is a cross-community bridge._
 - **What connects `fs`, `path`, `fs` to the rest of the system?**
   _1456 weakly-connected nodes found - possible documentation gaps or missing edges._
