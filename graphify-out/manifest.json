@@ -642,9 +642,9 @@
     "semantic_hash": "b9c2cdc4654ca63de532cfe81b3ba512"
   },
   "src/app/(dashboard)/layout.tsx": {
-    "mtime": 1789484542.4000926,
-    "seen": 1789485219.8798084,
-    "ast_hash": "ad7f93f9bd50e4bd7673f7c140c92101",
+    "mtime": 1789568628.8535979,
+    "seen": 1789568752.5779457,
+    "ast_hash": "05dece9309c5e273bbbed8d28b44a17c",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/planes/page.tsx": {
@@ -846,8 +846,8 @@
     "semantic_hash": "b5e0430fcdba6ed2ea6a26af9d9c46be"
   },
   "src/app/api/holders/route.ts": {
-    "mtime": 1789486949.5138476,
-    "seen": 1789487494.4692028,
+    "mtime": 1789568215.2742894,
+    "seen": 1789568752.5780182,
     "ast_hash": "0497e4109b1d4ff0792b2bd05543b8f1",
     "semantic_hash": ""
   },
@@ -2328,39 +2328,51 @@
     "semantic_hash": ""
   },
   "tests/helpers/api-mocks.ts": {
-    "mtime": 1789487797.0451875,
-    "seen": 1789488108.7154222,
-    "ast_hash": "ce4126df28443914ec646414d22e647b",
+    "mtime": 1789568215.2742894,
+    "seen": 1789568752.57817,
+    "ast_hash": "1d3195c9f5655cd6741ce551e97f6c6e",
     "semantic_hash": ""
   },
   "tests/routes/webhooks-asaas.test.ts": {
-    "mtime": 1789485147.731724,
-    "seen": 1789485219.879992,
-    "ast_hash": "1c08f19c0b57c34f9e502201adb2c84d",
+    "mtime": 1789568215.2742894,
+    "seen": 1789568752.57819,
+    "ast_hash": "c8dacc027f238877fc96d17b89d343ad",
     "semantic_hash": ""
   },
   "tests/routes/holders-behavior.test.ts": {
-    "mtime": 1789487419.0920043,
-    "seen": 1789487494.4693432,
+    "mtime": 1789568215.2742894,
+    "seen": 1789568752.5781825,
     "ast_hash": "f1a01270d26999d2a4939fc57dca3ef9",
     "semantic_hash": ""
   },
   "tests/routes/asaas-batch.test.ts": {
-    "mtime": 1789487957.9533565,
-    "seen": 1789488108.7154722,
-    "ast_hash": "d83194186b8385403f3e64f7686af49e",
+    "mtime": 1789568215.2742894,
+    "seen": 1789568752.5781777,
+    "ast_hash": "5fc3dc46cf3ea7bcd5f911d7e323c709",
     "semantic_hash": ""
   },
   "tests/routes/billing-pix.test.ts": {
-    "mtime": 1789566836.4242923,
-    "seen": 1789566999.912145,
+    "mtime": 1789568215.2742894,
+    "seen": 1789568752.5781794,
     "ast_hash": "42de5b9cff0e1a1e57bbfdf8341a9187",
     "semantic_hash": ""
   },
   "tests/routes/payments-pix.test.ts": {
-    "mtime": 1789567804.151445,
-    "seen": 1789567895.482522,
+    "mtime": 1789568215.2742894,
+    "seen": 1789568752.578187,
     "ast_hash": "8a8ba7b24d474ba2c04811149fe4d5f7",
+    "semantic_hash": ""
+  },
+  "src/components/Sidebar.tsx": {
+    "mtime": 1789568618.444214,
+    "seen": 1789568752.5780728,
+    "ast_hash": "b7d58568943913334f2e0a9693bca47e",
+    "semantic_hash": ""
+  },
+  "src/hooks/useMediaQuery.ts": {
+    "mtime": 1789568588.105166,
+    "seen": 1789568752.5781262,
+    "ast_hash": "383b711a6675315817a2e48a3fb3e6ee",
     "semantic_hash": ""
   }
 }
