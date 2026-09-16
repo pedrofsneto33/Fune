@@ -642,8 +642,8 @@
     "semantic_hash": "b9c2cdc4654ca63de532cfe81b3ba512"
   },
   "src/app/(dashboard)/layout.tsx": {
-    "mtime": 1789588697.5042658,
-    "seen": 1789588828.5406094,
+    "mtime": 1789590500.3640287,
+    "seen": 1789591110.1593485,
     "ast_hash": "48502c3d299cd2dce3dced147cdff932",
     "semantic_hash": ""
   },
@@ -924,9 +924,9 @@
     "semantic_hash": "fb63f6a06513b3b9c7907a0327cc5411"
   },
   "src/app/api/service-orders/route.ts": {
-    "mtime": 1789581375.4463892,
-    "seen": 1789581500.148261,
-    "ast_hash": "9d935e821ccc52cd534891ebf74deec7",
+    "mtime": 1789591055.541286,
+    "seen": 1789591110.1594324,
+    "ast_hash": "fdcab05b7c6de7b26ec22298e97f44ac",
     "semantic_hash": ""
   },
   "src/app/api/stock/dispatch-deduct/route.ts": {
@@ -1116,8 +1116,8 @@
     "semantic_hash": "b64b5f91e8430f83c9e8ba864daccdd5"
   },
   "src/config/permissions.ts": {
-    "mtime": 1789581974.2912397,
-    "seen": 1789582146.7138507,
+    "mtime": 1789590500.3710308,
+    "seen": 1789591110.1595166,
     "ast_hash": "35c6c65d23d4c3fc20674a4d1acc3f3d",
     "semantic_hash": ""
   },
@@ -2046,9 +2046,9 @@
     "semantic_hash": ""
   },
   "docs/JORNADA-GRAPHIFY-E-REFATORACAO.md": {
-    "mtime": 1789574274.69612,
-    "seen": 1789575300.3240256,
-    "ast_hash": "a4246d70f8044ac9e94ec1a695d49d28",
+    "mtime": 1789590500.3224998,
+    "seen": 1789591110.1596963,
+    "ast_hash": "d3344c79845954b42de6706a4e207fd5",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/titulares/importar/page.tsx": {
@@ -2064,9 +2064,9 @@
     "semantic_hash": "6b0bebdb4bfd49d4c6f6c7c738a01a46"
   },
   "src/types/domain.ts": {
-    "mtime": 1789581382.6867194,
-    "seen": 1789581500.1484075,
-    "ast_hash": "26782acb19374e3c90ee63957a433602",
+    "mtime": 1789591057.538569,
+    "seen": 1789591110.159552,
+    "ast_hash": "b28a86376cd47098141dbc78d25ccba4",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
@@ -2160,15 +2160,15 @@
     "semantic_hash": "074825b943c45673269ff14248f29aa5"
   },
   "src/components/tabs/ServiceOrdersTab.tsx": {
-    "mtime": 1789581389.759614,
-    "seen": 1789581500.1483564,
+    "mtime": 1789590500.37003,
+    "seen": 1789591110.1595106,
     "ast_hash": "0dfc816ca64ecab7e3496fb60fccaa12",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/ordens/nova/page.tsx": {
-    "mtime": 1789582069.5403874,
-    "seen": 1789582146.7136784,
-    "ast_hash": "4bf9bed52b48e94c1aa408b817481ac0",
+    "mtime": 1789590500.3660285,
+    "seen": 1789591110.1593535,
+    "ast_hash": "9bd022a040d569e76065c8b81f8f56cf",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/sepultamentos/page.tsx": {
@@ -2388,27 +2388,33 @@
     "semantic_hash": ""
   },
   "supabase/migrations/20260916000000_add_responsavel_to_service_orders.sql": {
-    "mtime": 1789581090.5945046,
-    "seen": 1789581500.1484153,
+    "mtime": 1789590500.3726125,
+    "seen": 1789591110.1595578,
     "ast_hash": "2445012ef6a2f42acd731e346712ed1c",
     "semantic_hash": ""
   },
   "src/components/forms/ItemsForm.tsx": {
-    "mtime": 1789581956.9507692,
-    "seen": 1789582146.713806,
+    "mtime": 1789590500.369029,
+    "seen": 1789591110.1594732,
     "ast_hash": "abe1232da260ef929d81118cf9436244",
     "semantic_hash": ""
   },
   "src/components/forms/ResponsavelForm.tsx": {
-    "mtime": 1789581954.5042279,
-    "seen": 1789582146.7138073,
+    "mtime": 1789590500.369029,
+    "seen": 1789591110.1594744,
     "ast_hash": "a04a8d8855bd631a6ca6b8cb61476847",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/vendas/nova/page.tsx": {
-    "mtime": 1789588695.0732148,
-    "seen": 1789588828.5407379,
+    "mtime": 1789590500.3670342,
+    "seen": 1789591110.1593668,
     "ast_hash": "f17fad56f5234838c51cf208af547cc4",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/20260916010000_add_tracking_token_to_service_orders.sql": {
+    "mtime": 1789590964.4343162,
+    "seen": 1789591110.1595595,
+    "ast_hash": "51dd678035c76cb0ca116cb5b795ab7d",
     "semantic_hash": ""
   }
 }
