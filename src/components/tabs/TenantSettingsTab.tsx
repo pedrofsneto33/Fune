@@ -428,7 +428,7 @@ export function TenantSettingsTab({ onClose }: { onClose?: () => void }) {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 rounded-2xl space-y-4">
+        <div id="gateway" className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 rounded-2xl space-y-4 scroll-mt-20">
           <div className="flex items-center gap-2 pb-3 border-b border-zinc-200 dark:border-zinc-800 text-sm font-semibold text-slate-900 dark:text-white">
             <Key className="w-4 h-4 text-emerald-400" />
             <span>Configurações Asaas (PIX & Boleto)</span>

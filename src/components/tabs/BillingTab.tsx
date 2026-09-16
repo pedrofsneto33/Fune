@@ -98,12 +98,10 @@ export default function BillingTab() {
   const [avulsoLoading, setAvulsoLoading] = useState(false);
   const [avulsoSummary, setAvulsoSummary] = useState<BillingSummary | null>(null);
 
-  // Secao D — Config Gateway Asaas (6d-0b, copiado do page.tsx ~l.4195).
-  // SECURITY (F-29): a chave Asaas NUNCA vai para endpoints do frontend nem
-  // persiste — estado local apenas (perdida ao recarregar).
-  const [asaasConfigOpen, setAsaasConfigOpen] = useState(false);
-  const [asaasApiKey, setAsaasApiKey] = useState('');
-  const [asaasEnv, setAsaasEnv] = useState<'sandbox' | 'production'>('production');
+  // Secao D — Config Gateway Asaas: REMOVIDA na 12a (opcao B).
+  // O modal duplicado (estado local, F-29: nunca persistia) foi trocado
+  // por link para /configuracoes#gateway, onde o form real vive
+  // (TenantSettingsTab -> PATCH /api/tenants).
 
   const loadPayments = async (signal?: { cancelled: boolean }) => {
     setLoading(true);
@@ -350,12 +348,14 @@ export default function BillingTab() {
           >
             Nova Cobrança Avulsa
           </button>
-          <button
-            onClick={() => setAsaasConfigOpen(true)}
+          {/* 12a: modal duplicado removido. O form real vive em
+              /configuracoes#gateway (TenantSettingsTab). */}
+          <a
+            href="/configuracoes#gateway"
             className="px-3 py-1.5 bg-cyan-700 hover:bg-cyan-600 text-white rounded-lg text-xs font-bold"
           >
-            💳 Gateway Asaas
-          </button>
+            💳 Configurar Gateway Asaas
+          </a>
           <button
             onClick={() => setWebhookRetryOpen(true)}
             className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold"
@@ -698,156 +698,6 @@ export default function BillingTab() {
               >
                 {settling ? 'Baixando…' : 'Confirmar'}
               </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL CONFIG GATEWAY ASAAS (6d-0b, copiado do page.tsx ~l.4195).
-          Reutiliza os estados do lote (batchType/batchDueDate/batchHolderId) —
-          um unico fluxo de disparo, sem duplicar POST /api/billing/asaas-batch. */}
-      {asaasConfigOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="max-h-[92vh] w-full max-w-lg space-y-4 overflow-y-auto rounded-lg border border-slate-700 bg-slate-900 p-5 text-xs">
-            <div className="flex items-center justify-between border-b border-slate-700 pb-3">
-              <h3 className="flex items-center gap-2 text-sm font-bold text-cyan-400">
-                <span>💳</span> Configurações Gateway de Pagamento Asaas
-              </h3>
-              <button
-                onClick={() => setAsaasConfigOpen(false)}
-                className="font-bold text-slate-400 hover:text-white"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div>
-              <label className="mb-1 block font-semibold text-slate-400">
-                Chave de API do Asaas (API Key):
-              </label>
-              <input
-                type="password"
-                value={asaasApiKey}
-                onChange={(e) => setAsaasApiKey(e.target.value)}
-                className="w-full rounded border border-slate-800 bg-slate-950 p-2.5 font-mono text-white"
-              />
-              <p className="mt-1 text-[10px] text-slate-500">
-                SECURITY (F-29): a chave não é enviada a endpoints do frontend nem persistida —
-                permanece apenas neste estado local e é perdida ao recarregar a página. Ambiente
-                de produção conectado via webhook oficial idempotente.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="mb-1 block font-semibold text-slate-400">Ambiente:</label>
-                <select
-                  value={asaasEnv}
-                  onChange={(e) => setAsaasEnv(e.target.value as 'sandbox' | 'production')}
-                  className="w-full rounded border border-slate-800 bg-slate-950 p-2.5 text-white"
-                >
-                  <option value="production">Produção Oficial</option>
-                  <option value="sandbox">Sandbox (Testes)</option>
-                </select>
-              </div>
-              <div>
-                <label className="mb-1 block font-semibold text-slate-400">Status Webhook:</label>
-                <div className="flex items-center gap-1.5 rounded border border-emerald-800 bg-emerald-950 p-2.5 font-bold text-emerald-400">
-                  <span>🔔</span> Webhook Ativo
-                </div>
-              </div>
-            </div>
-
-            <div className="rounded-lg border border-slate-800 bg-slate-950 p-3">
-              <p className="mb-1 text-[11px] font-bold text-slate-300">URL de Webhook Notificações:</p>
-              <code className="break-all text-[10px] text-cyan-400">
-                https://eternitysos.vercel.app/api/webhooks/asaas
-              </code>
-            </div>
-
-            <div className="border-t border-slate-800 pt-2">
-              <label className="mb-1.5 block text-[10px] font-bold uppercase text-slate-400">
-                Cobrar de
-              </label>
-              <select
-                value={batchHolderId}
-                onChange={(e) => setBatchHolderId(e.target.value)}
-                className="w-full rounded border border-slate-800 bg-slate-950 p-2.5 text-xs text-white"
-              >
-                <option value="">
-                  {asaasEligibleHolders.length === 0
-                    ? '— Nenhum titular ativo com contrato ativo —'
-                    : 'Todos os titulares ativos'}
-                </option>
-                {asaasEligibleHolders.map((h) => {
-                  const ct = (h.contracts || []).find((c) => isContractActive(c.status));
-                  const val = ct?.plans?.monthly_fee;
-                  return (
-                    <option key={h.id} value={h.id}>
-                      {h.full_name}
-                      {val ? ` — R$ ${Number(val).toFixed(2).replace('.', ',')}` : ''}
-                    </option>
-                  );
-                })}
-              </select>
-              <p className="mt-1 text-[10px] text-slate-500">
-                Só cobramos titulares ativos com contrato ativo.{' '}
-                {asaasEligibleHolders.length} titular(es) elegível(is).
-              </p>
-            </div>
-
-            <div className="space-y-2 border-t border-slate-800 pt-2">
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase text-slate-400">
-                    Vencimento das cobranças
-                  </label>
-                  <input
-                    type="date"
-                    value={batchDueDate}
-                    onChange={(e) => setBatchDueDate(e.target.value)}
-                    className="w-full rounded border border-slate-700 bg-slate-950 p-2 text-xs text-white"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase text-slate-400">
-                    Forma de pagamento
-                  </label>
-                  <select
-                    value={batchType}
-                    onChange={(e) => setBatchType(e.target.value)}
-                    className="w-full rounded border border-slate-700 bg-slate-950 p-2 text-xs text-white"
-                  >
-                    <option value="BOLETO">Boleto</option>
-                    <option value="PIX">PIX</option>
-                    <option value="UNDEFINED">Cliente escolhe</option>
-                  </select>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <button
-                  onClick={handleGenerateBatch}
-                  disabled={batchRunning}
-                  className="rounded bg-cyan-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-cyan-700 disabled:opacity-50"
-                >
-                  {batchRunning
-                    ? 'Processando lote no Asaas...'
-                    : '⚡ Disparar Cobranças em Lote Agora'}
-                </button>
-                <button
-                  onClick={() => {
-                    setAsaasConfigOpen(false);
-                    notifyInfo('Configurações salvas!');
-                  }}
-                  className="rounded bg-emerald-600 px-4 py-1.5 text-xs font-bold text-white hover:bg-emerald-500"
-                >
-                  Salvar Configurações
-                </button>
-              </div>
-              <p className="text-[10px] text-slate-500">
-                Sem data informada, usa o dia 10 do próximo mês. Para vencimentos diferentes por
-                cliente, gere carnês individuais em Carnês.
-              </p>
             </div>
           </div>
         </div>
