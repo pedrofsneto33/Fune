@@ -2160,9 +2160,9 @@
     "semantic_hash": "074825b943c45673269ff14248f29aa5"
   },
   "src/components/tabs/ServiceOrdersTab.tsx": {
-    "mtime": 1789590500.37003,
-    "seen": 1789591110.1595106,
-    "ast_hash": "0dfc816ca64ecab7e3496fb60fccaa12",
+    "mtime": 1789591539.4744837,
+    "seen": 1789591737.199926,
+    "ast_hash": "c6a18cc8b09afc2ba1142aaff2a02434",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/ordens/nova/page.tsx": {
@@ -2415,6 +2415,12 @@
     "mtime": 1789590964.4343162,
     "seen": 1789591110.1595595,
     "ast_hash": "51dd678035c76cb0ca116cb5b795ab7d",
+    "semantic_hash": ""
+  },
+  "src/components/modals/ModalQrOS.tsx": {
+    "mtime": 1789591518.9297905,
+    "seen": 1789591737.1998966,
+    "ast_hash": "a06880243e1c6eb0ba8ea1083ce6a18d",
     "semantic_hash": ""
   }
 }
