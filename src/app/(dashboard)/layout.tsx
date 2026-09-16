@@ -16,7 +16,8 @@ export type { NavItem };
 export const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   {
     label: 'Cadastros',
-    items: [
+        items: [
+      { href: '/executivo', label: 'Dashboard', tab: 'executive', active: 'text-emerald-400' },
       { href: '/titulares', label: 'Titulares', tab: 'holders', active: 'text-emerald-400' },
       { href: '/dependentes', label: 'Dependentes', tab: 'holders', active: 'text-emerald-400' },
       { href: '/contratos', label: 'Contratos', tab: 'holders', active: 'text-emerald-400' },
