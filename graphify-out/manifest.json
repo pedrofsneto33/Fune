@@ -2064,10 +2064,10 @@
     "semantic_hash": "6b0bebdb4bfd49d4c6f6c7c738a01a46"
   },
   "src/types/domain.ts": {
-    "mtime": 1789484542.4110048,
-    "seen": 1789485219.8799736,
-    "ast_hash": "67708321cae86e4e0dc3fdfd004755c1",
-    "semantic_hash": "67708321cae86e4e0dc3fdfd004755c1"
+    "mtime": 1789580334.4003282,
+    "seen": 1789580592.0389926,
+    "ast_hash": "690e56f5039cea5c3234ae05257200f1",
+    "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
     "mtime": 1789351540.0192778,
@@ -2160,9 +2160,9 @@
     "semantic_hash": "074825b943c45673269ff14248f29aa5"
   },
   "src/components/tabs/ServiceOrdersTab.tsx": {
-    "mtime": 1789579787.9220195,
-    "seen": 1789579878.7594888,
-    "ast_hash": "05c7b6d79d9f4b93148f7a02dad47ad6",
+    "mtime": 1789580497.3148785,
+    "seen": 1789580592.0389483,
+    "ast_hash": "3a969bb681102daaf42ce11a179c28fb",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/ordens/nova/page.tsx": {
@@ -2379,6 +2379,12 @@
     "mtime": 1789572058.6585412,
     "seen": 1789572255.592885,
     "ast_hash": "2e11b32a7b20024b2e6cbc6bbbc5b591",
+    "semantic_hash": ""
+  },
+  "src/components/modals/ModalEmitNfse.tsx": {
+    "mtime": 1789580462.2994869,
+    "seen": 1789580592.0389144,
+    "ast_hash": "13abe1b093d4cee72588b141eb2a91b3",
     "semantic_hash": ""
   }
 }
