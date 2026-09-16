@@ -163,7 +163,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   }
 
     return (
-    <div className="min-h-screen bg-[#07090e] text-slate-100 flex">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#07090e] text-slate-900 dark:text-slate-100 flex">
       {/* Sidebar: fixa desktop, drawer mobile */}
       <Sidebar
         groups={visibleGroups}
@@ -174,20 +174,20 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       {/* Conteudo principal */}
       <div className="flex-1 flex flex-col min-h-screen min-w-0">
         {/* Header compacto */}
-        <header className="border-b border-slate-800 bg-[#0d111a] sticky top-0 z-30">
+        <header className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0d111a] sticky top-0 z-30">
           <div className="flex items-center justify-between px-4 py-3">
             <div className="flex items-center gap-3">
               {/* Hamburger mobile */}
               {!isDesktop && (
                 <button
                   onClick={() => setSidebarOpen(true)}
-                  className="text-slate-400 hover:text-white lg:hidden"
+                  className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white lg:hidden"
                   aria-label="Abrir menu"
                 >
                   ☰
                 </button>
               )}
-              <span className="text-xs text-slate-500">
+              <span className="text-xs text-slate-600 dark:text-slate-500">
                 ERP Funerário Integrado
               </span>
             </div>
@@ -196,7 +196,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               <button
                 onClick={handleSignOut}
                 disabled={signingOut}
-                className="text-slate-400 hover:text-red-400 text-xs transition disabled:opacity-50"
+                className="text-slate-600 dark:text-slate-400 hover:text-red-500 dark:hover:text-red-400 text-xs transition disabled:opacity-50"
               >
                 {signingOut ? 'Saindo...' : '🚪 Sair'}
               </button>

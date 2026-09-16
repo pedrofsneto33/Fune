@@ -71,9 +71,9 @@ export default function DashboardHomePage() {
   return (
     <div className="space-y-6">
       <header>
-        <h1 className="text-xl font-bold text-white">Bem-vindo</h1>
-        <p className="text-xs text-slate-400 capitalize">{hoje}</p>
-        <p className="text-xs text-slate-500">Painel executivo</p>
+        <h1 className="text-xl font-bold text-slate-900 dark:text-white">Bem-vindo</h1>
+        <p className="text-xs text-slate-600 dark:text-slate-400 capitalize">{hoje}</p>
+        <p className="text-xs text-slate-500 dark:text-slate-500">Painel executivo</p>
       </header>
       <ExecutiveTab />
       <QuickLinks role={role} />

@@ -85,37 +85,37 @@ export default function ExecutiveTab() {
     };
   }, []);
   if (loading && !kpis) {
-    return <p className="p-6 text-xs text-slate-400">Carregando KPIs…</p>;
+    return <p className="p-6 text-xs text-slate-600 dark:text-slate-400">Carregando KPIs…</p>;
   }
 
   return (
     <div className="space-y-6 p-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-          <p className="text-xs text-slate-400 uppercase font-semibold">MRR Recorrente</p>
-          <p className="text-2xl font-bold text-white mt-2">{fmtBRL(kpis?.monthlyRevenue || 0)}</p>
-          <p className="text-[11px] text-slate-400 mt-1">{kpis?.activeContracts || 0} contratos ativos</p>
+        <div className="bg-white dark:bg-[#0d121f] border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
+          <p className="text-xs text-slate-600 dark:text-slate-400 uppercase font-semibold">MRR Recorrente</p>
+          <p className="text-2xl font-bold text-slate-900 dark:text-white mt-2">{fmtBRL(kpis?.monthlyRevenue || 0)}</p>
+          <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-1">{kpis?.activeContracts || 0} contratos ativos</p>
         </div>
-        <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-          <p className="text-xs text-slate-400 uppercase font-semibold">Vidas</p>
-          <p className="text-2xl font-bold text-white mt-2">{kpis?.totalLives || 0}</p>
-          <p className="text-[11px] text-slate-400 mt-1">Inadimplentes: {kpis?.overdueCount || 0}</p>
+        <div className="bg-white dark:bg-[#0d121f] border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
+          <p className="text-xs text-slate-600 dark:text-slate-400 uppercase font-semibold">Vidas</p>
+          <p className="text-2xl font-bold text-slate-900 dark:text-white mt-2">{kpis?.totalLives || 0}</p>
+          <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-1">Inadimplentes: {kpis?.overdueCount || 0}</p>
         </div>
-        <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-          <p className="text-xs text-slate-400 uppercase font-semibold">Missoes em Aberto</p>
-          <p className="text-2xl font-bold text-white mt-2">{openBurials}</p>
-          <p className="text-[11px] text-slate-400 mt-1">Plantao em atendimento</p>
+        <div className="bg-white dark:bg-[#0d121f] border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
+          <p className="text-xs text-slate-600 dark:text-slate-400 uppercase font-semibold">Missoes em Aberto</p>
+          <p className="text-2xl font-bold text-slate-900 dark:text-white mt-2">{openBurials}</p>
+          <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-1">Plantao em atendimento</p>
         </div>
-        <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-          <p className="text-xs text-slate-400 uppercase font-semibold">Veiculos Disponiveis</p>
-          <p className="text-2xl font-bold text-white mt-2">{fleetAvail}</p>
-          <p className="text-[11px] text-slate-400 mt-1">{fleetTotal} veiculos na frota</p>
+        <div className="bg-white dark:bg-[#0d121f] border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
+          <p className="text-xs text-slate-600 dark:text-slate-400 uppercase font-semibold">Veiculos Disponiveis</p>
+          <p className="text-2xl font-bold text-slate-900 dark:text-white mt-2">{fleetAvail}</p>
+          <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-1">{fleetTotal} veiculos na frota</p>
         </div>
       </div>
-      <div className="bg-[#0d121f] border border-slate-800 p-4 rounded-xl">
-        <p className="text-xs font-semibold text-slate-400 uppercase mb-2">Receita vs Despesa (ms)</p>
+      <div className="bg-white dark:bg-[#0d121f] border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
+        <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase mb-2">Receita vs Despesa (ms)</p>
         {monthly.length === 0 ? (
-          <p className="text-[11px] text-slate-500">Sem movimentao financeira neste período.</p>
+          <p className="text-[11px] text-slate-500 dark:text-slate-500">Sem movimentao financeira neste período.</p>
         ) : (
           <ResponsiveContainer width="100%" height={220}>
             <ComposedChart data={monthly}>
