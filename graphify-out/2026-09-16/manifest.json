@@ -2350,5 +2350,11 @@
     "seen": 1789488108.7154722,
     "ast_hash": "d83194186b8385403f3e64f7686af49e",
     "semantic_hash": ""
+  },
+  "tests/routes/billing-pix.test.ts": {
+    "mtime": 1789566836.4242923,
+    "seen": 1789566999.912145,
+    "ast_hash": "42de5b9cff0e1a1e57bbfdf8341a9187",
+    "semantic_hash": ""
   }
 }

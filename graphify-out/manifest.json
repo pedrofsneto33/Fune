@@ -2356,5 +2356,11 @@
     "seen": 1789566999.912145,
     "ast_hash": "42de5b9cff0e1a1e57bbfdf8341a9187",
     "semantic_hash": ""
+  },
+  "tests/routes/payments-pix.test.ts": {
+    "mtime": 1789567804.151445,
+    "seen": 1789567895.482522,
+    "ast_hash": "8a8ba7b24d474ba2c04811149fe4d5f7",
+    "semantic_hash": ""
   }
 }
