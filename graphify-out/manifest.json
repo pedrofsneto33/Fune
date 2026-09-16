@@ -2358,9 +2358,9 @@
     "semantic_hash": ""
   },
   "src/components/Sidebar.tsx": {
-    "mtime": 1789570752.8735385,
-    "seen": 1789571126.3884468,
-    "ast_hash": "c190232ad70b532a5fa874cdb33ce136",
+    "mtime": 1789571291.6155934,
+    "seen": 1789571347.56801,
+    "ast_hash": "a42ad43c5eb6914ce4ca3f07c48014ff",
     "semantic_hash": ""
   },
   "src/hooks/useMediaQuery.ts": {
