@@ -642,9 +642,9 @@
     "semantic_hash": "b9c2cdc4654ca63de532cfe81b3ba512"
   },
   "src/app/(dashboard)/layout.tsx": {
-    "mtime": 1789572058.6557214,
-    "seen": 1789572255.592786,
-    "ast_hash": "ce83048da86b76cde2ad3a6ed8c0fcac",
+    "mtime": 1789588697.5042658,
+    "seen": 1789588828.5406094,
+    "ast_hash": "48502c3d299cd2dce3dced147cdff932",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/planes/page.tsx": {
@@ -2403,6 +2403,12 @@
     "mtime": 1789581954.5042279,
     "seen": 1789582146.7138073,
     "ast_hash": "a04a8d8855bd631a6ca6b8cb61476847",
+    "semantic_hash": ""
+  },
+  "src/app/(dashboard)/vendas/nova/page.tsx": {
+    "mtime": 1789588695.0732148,
+    "seen": 1789588828.5407379,
+    "ast_hash": "f17fad56f5234838c51cf208af547cc4",
     "semantic_hash": ""
   }
 }
