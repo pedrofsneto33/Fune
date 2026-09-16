@@ -1020,10 +1020,10 @@
     "semantic_hash": "3c9689d83c012169e2a834d45835791e"
   },
   "src/components/AuthGuard.tsx": {
-    "mtime": 1788469084.7271948,
-    "seen": 1789318651.298068,
-    "ast_hash": "73d5501b4fd263c7e69656a1e53099d7",
-    "semantic_hash": "73d5501b4fd263c7e69656a1e53099d7"
+    "mtime": 1789592413.762418,
+    "seen": 1789592498.5990758,
+    "ast_hash": "e72e35344d98b759e1a2fb16af9fccf1",
+    "semantic_hash": ""
   },
   "src/components/ServiceWorkerRegister.tsx": {
     "mtime": 1788538115.8227394,
