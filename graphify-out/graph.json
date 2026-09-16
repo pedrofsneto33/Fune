@@ -261,7 +261,7 @@
       "file_type": "code",
       "norm_label": "accountpayable",
       "source_file": "src/types/domain.ts",
-      "source_location": "L267"
+      "source_location": "L272"
     },
     {
       "id": "src_app_api_holders_import_route_parsedrow",
@@ -365,7 +365,7 @@
       "file_type": "code",
       "norm_label": "auditlog",
       "source_file": "src/types/domain.ts",
-      "source_location": "L280"
+      "source_location": "L285"
     },
     {
       "id": "tests_helpers_api_mocks_areqopts",
@@ -755,7 +755,7 @@
       "file_type": "code",
       "norm_label": "convalescenceitem",
       "source_file": "src/types/domain.ts",
-      "source_location": "L131"
+      "source_location": "L136"
     },
     {
       "id": "src_types_domain_inventoryitem",
@@ -1080,7 +1080,7 @@
       "file_type": "code",
       "norm_label": "billingresult",
       "source_file": "src/types/domain.ts",
-      "source_location": "L218"
+      "source_location": "L223"
     },
     {
       "id": "src_types_domain_billingresultitem",
@@ -1093,7 +1093,7 @@
       "file_type": "code",
       "norm_label": "billingresultitem",
       "source_file": "src/types/domain.ts",
-      "source_location": "L208"
+      "source_location": "L213"
     },
     {
       "id": "src_types_domain_collectorpayment",
@@ -1106,7 +1106,7 @@
       "file_type": "code",
       "norm_label": "collectorpayment",
       "source_file": "src/types/domain.ts",
-      "source_location": "L199"
+      "source_location": "L204"
     },
     {
       "id": "src_types_domain_collectorroute",
@@ -1119,7 +1119,7 @@
       "file_type": "code",
       "norm_label": "collectorroute",
       "source_file": "src/types/domain.ts",
-      "source_location": "L170"
+      "source_location": "L175"
     },
     {
       "id": "src_types_domain_dispatch",
@@ -1132,7 +1132,7 @@
       "file_type": "code",
       "norm_label": "dispatch",
       "source_file": "src/types/domain.ts",
-      "source_location": "L142"
+      "source_location": "L147"
     },
     {
       "id": "src_types_domain_dispatchauditlog",
@@ -1145,7 +1145,7 @@
       "file_type": "code",
       "norm_label": "dispatchauditlog",
       "source_file": "src/types/domain.ts",
-      "source_location": "L158"
+      "source_location": "L163"
     },
     {
       "id": "src_types_domain_executivekpis",
@@ -1158,7 +1158,7 @@
       "file_type": "code",
       "norm_label": "executivekpis",
       "source_file": "src/types/domain.ts",
-      "source_location": "L291"
+      "source_location": "L296"
     },
     {
       "id": "src_types_domain_executivemonthlypoint",
@@ -1171,7 +1171,7 @@
       "file_type": "code",
       "norm_label": "executivemonthlypoint",
       "source_file": "src/types/domain.ts",
-      "source_location": "L300"
+      "source_location": "L305"
     },
     {
       "id": "src_types_domain_financialsummary",
@@ -1184,7 +1184,7 @@
       "file_type": "code",
       "norm_label": "financialsummary",
       "source_file": "src/types/domain.ts",
-      "source_location": "L242"
+      "source_location": "L247"
     },
     {
       "id": "src_types_domain_financialtransaction",
@@ -1197,7 +1197,7 @@
       "file_type": "code",
       "norm_label": "financialtransaction",
       "source_file": "src/types/domain.ts",
-      "source_location": "L231"
+      "source_location": "L236"
     },
     {
       "id": "src_types_domain_payment",
@@ -1210,7 +1210,7 @@
       "file_type": "code",
       "norm_label": "payment",
       "source_file": "src/types/domain.ts",
-      "source_location": "L183"
+      "source_location": "L188"
     },
     {
       "id": "src_types_domain_regulatoryreserve",
@@ -1223,7 +1223,7 @@
       "file_type": "code",
       "norm_label": "regulatoryreserve",
       "source_file": "src/types/domain.ts",
-      "source_location": "L252"
+      "source_location": "L257"
     },
     {
       "id": "src_types_domain_serviceorder",
@@ -16060,7 +16060,7 @@
       "file_type": "code",
       "norm_label": "delete",
       "source_file": "src/app/api/service-orders/route.ts",
-      "source_location": "L339"
+      "source_location": "L377"
     },
     {
       "id": "src_app_api_service_orders_route_patch",
@@ -16071,7 +16071,7 @@
       "file_type": "code",
       "norm_label": "patch",
       "source_file": "src/app/api/service-orders/route.ts",
-      "source_location": "L221"
+      "source_location": "L259"
     },
     {
       "id": "src_app_api_thanatopraxy_route",
@@ -17906,15 +17906,15 @@
       "source_location": "L27"
     },
     {
-      "id": "public_service_orders",
-      "label": "public.service_orders",
+      "id": "supabase_migrations_20260916000000_add_responsavel_to_service_orders",
+      "label": "20260916000000_add_responsavel_to_service_orders.sql",
       "_origin": "ast",
-      "community": 135,
-      "community_name": "public.fiscal_invoices",
+      "community": 134,
+      "community_name": "20260916000000_add_responsavel_to_service_orders.sql",
       "file_type": "code",
-      "norm_label": "public.service_orders",
-      "source_file": "",
-      "source_location": ""
+      "norm_label": "20260916000000_add_responsavel_to_service_orders.sql",
+      "source_file": "supabase/migrations/20260916000000_add_responsavel_to_service_orders.sql",
+      "source_location": null
     },
     {
       "id": "scripts_nfse_migration",
@@ -18003,6 +18003,17 @@
       "norm_label": "public.v_service_orders_without_nfse",
       "source_file": "scripts/nfse_migration.sql",
       "source_location": "L148"
+    },
+    {
+      "id": "scripts_nfse_migration_sql_public_service_orders",
+      "label": "public.service_orders",
+      "_origin": "ast",
+      "community": 135,
+      "community_name": "public.fiscal_invoices",
+      "file_type": "code",
+      "norm_label": "public.service_orders",
+      "source_file": "",
+      "source_location": ""
     },
     {
       "id": "scripts_nfse_migration_sql_public_tenants",
@@ -30461,6 +30472,17 @@
       "norm_label": "border",
       "source_file": ".continue/skills/design-system/templates/design-tokens-starter.json",
       "source_location": "L117"
+    },
+    {
+      "id": "supabase_migrations_20260916000000_add_responsavel_to_service_orders_sql_public_service_orders",
+      "label": "\"public\".\"service_orders\"",
+      "_origin": "ast",
+      "community": 366,
+      "community_name": "\"public\".\"service_orders\"",
+      "file_type": "code",
+      "norm_label": "\"public\".\"service_orders\"",
+      "source_file": "",
+      "source_location": ""
     },
     {
       "id": "continue_skills_design_system_templates_design_tokens_starter_button_radius",
@@ -52250,7 +52272,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/api/service-orders/route.ts",
-      "source_location": "L343",
+      "source_location": "L381",
       "weight": 1.0
     },
     {
@@ -52262,31 +52284,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/api/service-orders/route.ts",
-      "source_location": "L225",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_service_orders_route_post",
-      "target": "src_lib_validation_sanitizestring",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/app/api/service-orders/route.ts",
-      "source_location": "L123",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_service_orders_route_post",
-      "target": "src_lib_validation_isvaliduuid",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/app/api/service-orders/route.ts",
-      "source_location": "L54",
+      "source_location": "L263",
       "weight": 1.0
     },
     {
@@ -52298,7 +52296,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/api/service-orders/route.ts",
-      "source_location": "L87",
+      "source_location": "L124",
       "weight": 1.0
     },
     {
@@ -52310,7 +52308,31 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/api/service-orders/route.ts",
-      "source_location": "L88",
+      "source_location": "L125",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_api_service_orders_route_post",
+      "target": "src_lib_validation_sanitizestring",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/app/api/service-orders/route.ts",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_api_service_orders_route_post",
+      "target": "src_lib_validation_isvaliduuid",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/app/api/service-orders/route.ts",
+      "source_location": "L91",
       "weight": 1.0
     },
     {
@@ -52838,7 +52860,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
-      "source_location": "L176",
+      "source_location": "L189",
       "weight": 1.0
     },
     {
@@ -52850,7 +52872,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
-      "source_location": "L66",
+      "source_location": "L71",
       "weight": 1.0
     },
     {
@@ -52862,7 +52884,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(dashboard)/ordens/nova/page.tsx",
-      "source_location": "L73",
+      "source_location": "L78",
       "weight": 1.0
     },
     {
@@ -93516,7 +93538,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/api/service-orders/route.ts",
-      "source_location": "L221",
+      "source_location": "L259",
       "weight": 1.0
     },
     {
@@ -93538,7 +93560,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/api/service-orders/route.ts",
-      "source_location": "L339",
+      "source_location": "L377",
       "weight": 1.0
     },
     {
@@ -96992,7 +97014,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/types/domain.ts",
-      "source_location": "L131",
+      "source_location": "L136",
       "weight": 1.0
     },
     {
@@ -97003,18 +97025,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/types/domain.ts",
-      "source_location": "L142",
-      "weight": 1.0
-    },
-    {
-      "source": "src_types_domain",
-      "target": "src_types_domain_dispatchauditlog",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/types/domain.ts",
-      "source_location": "L158",
+      "source_location": "L147",
       "weight": 1.0
     },
     {
@@ -97030,13 +97041,24 @@
     },
     {
       "source": "src_types_domain",
+      "target": "src_types_domain_dispatchauditlog",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/domain.ts",
+      "source_location": "L163",
+      "weight": 1.0
+    },
+    {
+      "source": "src_types_domain",
       "target": "src_types_domain_collectorroute",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/types/domain.ts",
-      "source_location": "L170",
+      "source_location": "L175",
       "weight": 1.0
     },
     {
@@ -97047,7 +97069,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/types/domain.ts",
-      "source_location": "L183",
+      "source_location": "L188",
       "weight": 1.0
     },
     {
@@ -97058,7 +97080,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/types/domain.ts",
-      "source_location": "L199",
+      "source_location": "L204",
       "weight": 1.0
     },
     {
@@ -97069,18 +97091,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/types/domain.ts",
-      "source_location": "L208",
-      "weight": 1.0
-    },
-    {
-      "source": "src_types_domain",
-      "target": "src_types_domain_billingresult",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/types/domain.ts",
-      "source_location": "L218",
+      "source_location": "L213",
       "weight": 1.0
     },
     {
@@ -97096,13 +97107,24 @@
     },
     {
       "source": "src_types_domain",
+      "target": "src_types_domain_billingresult",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/domain.ts",
+      "source_location": "L223",
+      "weight": 1.0
+    },
+    {
+      "source": "src_types_domain",
       "target": "src_types_domain_financialtransaction",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/types/domain.ts",
-      "source_location": "L231",
+      "source_location": "L236",
       "weight": 1.0
     },
     {
@@ -97113,7 +97135,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/types/domain.ts",
-      "source_location": "L242",
+      "source_location": "L247",
       "weight": 1.0
     },
     {
@@ -97124,7 +97146,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/types/domain.ts",
-      "source_location": "L252",
+      "source_location": "L257",
       "weight": 1.0
     },
     {
@@ -97135,7 +97157,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/types/domain.ts",
-      "source_location": "L267",
+      "source_location": "L272",
       "weight": 1.0
     },
     {
@@ -97146,7 +97168,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/types/domain.ts",
-      "source_location": "L280",
+      "source_location": "L285",
       "weight": 1.0
     },
     {
@@ -97157,7 +97179,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/types/domain.ts",
-      "source_location": "L291",
+      "source_location": "L296",
       "weight": 1.0
     },
     {
@@ -97168,7 +97190,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/types/domain.ts",
-      "source_location": "L300",
+      "source_location": "L305",
       "weight": 1.0
     },
     {
@@ -105989,7 +106011,7 @@
     },
     {
       "source": "scripts_nfse_migration_public_v_service_orders_without_nfse",
-      "target": "public_service_orders",
+      "target": "scripts_nfse_migration_sql_public_service_orders",
       "relation": "reads_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -106891,7 +106913,7 @@
     },
     {
       "source": "scripts_nfse_migration_public_fiscal_invoices",
-      "target": "public_service_orders",
+      "target": "scripts_nfse_migration_sql_public_service_orders",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -107797,5 +107819,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "e81aa40c9e637349fada07dd6000ec6e1390b1d6"
+  "built_at_commit": "75b670dc6fcf73ef9da6b762c66d816ad641ee4e"
 }

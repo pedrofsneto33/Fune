@@ -924,10 +924,10 @@
     "semantic_hash": "fb63f6a06513b3b9c7907a0327cc5411"
   },
   "src/app/api/service-orders/route.ts": {
-    "mtime": 1789245869.013413,
-    "seen": 1789318651.2980514,
-    "ast_hash": "7a2244377814f506863d44ae679bc4c0",
-    "semantic_hash": "7a2244377814f506863d44ae679bc4c0"
+    "mtime": 1789581375.4463892,
+    "seen": 1789581500.148261,
+    "ast_hash": "9d935e821ccc52cd534891ebf74deec7",
+    "semantic_hash": ""
   },
   "src/app/api/stock/dispatch-deduct/route.ts": {
     "mtime": 1788663621.2347815,
@@ -1068,8 +1068,8 @@
     "semantic_hash": "af899f032822a47d39a30dd537dd27c1"
   },
   "src/components/modals/ModalCobrancaAvulsa.tsx": {
-    "mtime": 1789579776.1109695,
-    "seen": 1789579878.7594578,
+    "mtime": 1789580742.0888157,
+    "seen": 1789581500.1483169,
     "ast_hash": "8f46aa8a94f91cadc80b2dd89dc15685",
     "semantic_hash": ""
   },
@@ -2064,9 +2064,9 @@
     "semantic_hash": "6b0bebdb4bfd49d4c6f6c7c738a01a46"
   },
   "src/types/domain.ts": {
-    "mtime": 1789580334.4003282,
-    "seen": 1789580592.0389926,
-    "ast_hash": "690e56f5039cea5c3234ae05257200f1",
+    "mtime": 1789581382.6867194,
+    "seen": 1789581500.1484075,
+    "ast_hash": "26782acb19374e3c90ee63957a433602",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
@@ -2160,16 +2160,16 @@
     "semantic_hash": "074825b943c45673269ff14248f29aa5"
   },
   "src/components/tabs/ServiceOrdersTab.tsx": {
-    "mtime": 1789580497.3148785,
-    "seen": 1789580592.0389483,
-    "ast_hash": "3a969bb681102daaf42ce11a179c28fb",
+    "mtime": 1789581389.759614,
+    "seen": 1789581500.1483564,
+    "ast_hash": "0dfc816ca64ecab7e3496fb60fccaa12",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/ordens/nova/page.tsx": {
-    "mtime": 1789391344.3667583,
-    "seen": 1789439711.2833698,
-    "ast_hash": "e320fbfcc726e2413c773ef2e298320e",
-    "semantic_hash": "e320fbfcc726e2413c773ef2e298320e"
+    "mtime": 1789581397.9335742,
+    "seen": 1789581500.148157,
+    "ast_hash": "0a4d6c1e2c6b75804a14a04c1e8f8b65",
+    "semantic_hash": ""
   },
   "src/app/(dashboard)/sepultamentos/page.tsx": {
     "mtime": 1789391344.3726995,
@@ -2382,9 +2382,15 @@
     "semantic_hash": ""
   },
   "src/components/modals/ModalEmitNfse.tsx": {
-    "mtime": 1789580462.2994869,
-    "seen": 1789580592.0389144,
+    "mtime": 1789580742.0975056,
+    "seen": 1789581500.1483188,
     "ast_hash": "13abe1b093d4cee72588b141eb2a91b3",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/20260916000000_add_responsavel_to_service_orders.sql": {
+    "mtime": 1789581090.5945046,
+    "seen": 1789581500.1484153,
+    "ast_hash": "2445012ef6a2f42acd731e346712ed1c",
     "semantic_hash": ""
   }
 }

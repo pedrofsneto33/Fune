@@ -1,17 +1,17 @@
 # Graph Report - eternitysos  (2026-09-16)
 
 ## Corpus Check
-- 389 files · ~375,917 words
+- 390 files · ~376,363 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 63 file(s) not represented in the graph (top: .csv 53, (none) 3, .log 3)
 
 ## Summary
-- 3768 nodes · 5618 edges · 392 communities (220 shown, 137 thin omitted)
+- 3770 nodes · 5618 edges · 394 communities (220 shown, 138 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 34 edges (avg confidence: 0.87)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e81aa40c`
+- Built from commit: `75b670dc`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -349,6 +349,7 @@
 - public.contracts
 - storage.objects
 - $type
+- "public"."service_orders"
 - radius
 - lg
 - padding-y
@@ -401,7 +402,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (392 total, 137 thin omitted)
+## Communities (394 total, 138 thin omitted)
 
 ### Community 0 - "supabaseAdmin.ts"
 Cohesion: 0.05
@@ -937,7 +938,7 @@ Nodes (9): Common Structures, Duarte Sparkline Pattern, Matching Strategy to Con
 
 ### Community 135 - "public.fiscal_invoices"
 Cohesion: 0.36
-Nodes (9): public.service_orders, idx_fiscal_invoices_created_at, idx_fiscal_invoices_nfse_number, idx_fiscal_invoices_service_order, idx_fiscal_invoices_status, idx_fiscal_invoices_tenant, public.fiscal_invoices, public.v_service_orders_without_nfse (+1 more)
+Nodes (9): idx_fiscal_invoices_created_at, idx_fiscal_invoices_nfse_number, idx_fiscal_invoices_service_order, idx_fiscal_invoices_status, idx_fiscal_invoices_tenant, public.fiscal_invoices, public.v_service_orders_without_nfse, public.service_orders (+1 more)
 
 ### Community 136 - "_run"
 Cohesion: 0.28
@@ -1285,14 +1286,14 @@ Nodes (4): 7. Commits e histórico, Estrutura, Fixes notáveis, Sequência de me
 
 ## Knowledge Gaps
 - **1462 isolated node(s):** `fs`, `path`, `fs`, `path`, `fs` (+1457 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2082 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **137 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2084 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **138 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `@supabase/supabase-js` connect `@supabase/supabase-js` to `supabaseAdmin.ts`, `teste_isolamento_final.mjs`, `teste_isolamento_v2.mjs`, `onboard_cliente.mjs`, `inspect_behavior.mjs`, `test_api.mjs`, `teste_isolamento_v3.mjs`, `teste_isolamento_v4.mjs`, `teste_isolamento_v5.mjs`, `teste_isolamento_v6.mjs`, `authFetch.ts`, `package.json`, `cleanup.mjs`, `test_db_rls.mjs`, `teste_isolamento_pos_fix.mjs`, `check_superadmin.mjs`, `create-tables.js`, `create_users.mjs`, `diag_roles.mjs`, `insert_rbac_and_data.mjs`, `audit_full.mjs`, `diag_policies_detalhe.mjs`, `identify_project.mjs`, `teste_insert3.mjs`, `teste_insert4.mjs`?**
-  _High betweenness centrality (0.016) - this node is a cross-community bridge._
+  _High betweenness centrality (0.015) - this node is a cross-community bridge._
 - **Why does `search()` connect `search` to `_row_identities`, `scripts/search.py`, `validate_data.py`, `scripts/core.py`, `BM25`, `.generate`, `design_system.py`, `detect_domain`, `test_text_layout_resilience.py`, `_normalize`?**
   _High betweenness centrality (0.007) - this node is a cross-community bridge._
 - **Why does `react` connect `react` to `ModalCarnets.tsx`, `package.json`, `lucide-react`, `authFetch`, `domain.ts`, `app/layout.tsx`, `BurialsTab.tsx`, `notifyError`, `ChapelTab.tsx`, `CrmTab.tsx`, `HolderFormModal.tsx`, `authFetch.ts`, `AuditLogsTab.tsx`?**
