@@ -106,7 +106,7 @@ Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 
 | Rota | Testes |
 |---|---|
-| `webhooks/asaas` | 8 (+2 na 11d, +1 na 11e) |
+| `webhooks/asaas` | 8 (+2 na 11d; 11e endureceu 2) |
 | `holders` | 6 |
 | `billing/asaas-batch` | 6 |
 | `billing/pix` | 8 |
@@ -298,6 +298,7 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 
 ### 9.5 APIs cobertas por testes
 - `webhooks/asaas`: 8 · `holders`: 6 · `billing/asaas-batch`: 6 · `billing/pix`: 8 · `payments/pix`: 7
+- `tenants`: 3 (novo na 11e-2 — `tests/routes/tenants.test.ts`) · **total: 180 testes / 18 suítes**
 
 ---
 
