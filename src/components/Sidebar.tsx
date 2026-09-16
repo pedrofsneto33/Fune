@@ -1,8 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import {
+  Users,
+  Activity,
+  TrendingUp,
+  Heart,
+  Wallet,
+  Settings,
+  type LucideIcon,
+} from 'lucide-react';
 
 export type NavItem = { href: string; label: string; tab: string; active: string };
 export type NavGroup = { label: string; items: NavItem[] };
@@ -22,11 +31,44 @@ interface SidebarProps {
  *   `open`/`onClose` (hamburger). `lg:hidden` garante overlay só no mobile.
  * - Primeiro item do primeiro grupo = primeiro link renderizado.
  */
+const GROUP_ICONS: Record<string, LucideIcon> = {
+  Cadastros: Users,
+  Operacional: Activity,
+  Comercial: TrendingUp,
+  Beneficios: Heart,
+  'Benefícios': Heart,
+  Financeiro: Wallet,
+  Admin: Settings,
+};
+
+// Lookup estático: cor do texto ativo (NAV_GROUPS) -> border-l correspondente.
+// Classes literais para o Tailwind JIT não purgar.
+const ACTIVE_BORDER: Record<string, string> = {
+  'text-emerald-400': 'border-l-emerald-400',
+  'text-purple-400': 'border-l-purple-400',
+  'text-amber-400': 'border-l-amber-400',
+  'text-red-400': 'border-l-red-400',
+  'text-sky-400': 'border-l-sky-400',
+  'text-teal-400': 'border-l-teal-400',
+  'text-cyan-400': 'border-l-cyan-400',
+  'text-blue-400': 'border-l-blue-400',
+  'text-slate-200': 'border-l-slate-200',
+};
+
 export default function Sidebar({ groups, open, onClose }: SidebarProps) {
   const pathname = usePathname();
   const [openGroup, setOpenGroup] = useState<string | null>(groups[0]?.label ?? null);
 
   const toggle = (label: string) => setOpenGroup((prev) => (prev === label ? null : label));
+
+  // Auto-abre o grupo do item ativo na navegação — nunca fecha.
+  useEffect(() => {
+    const grupoAtivo = groups.find((g) => g.items.some((i) => pathname === i.href));
+    if (grupoAtivo && openGroup !== grupoAtivo.label) {
+      setOpenGroup(grupoAtivo.label);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, groups]);
 
   return (
     <>
@@ -62,27 +104,34 @@ export default function Sidebar({ groups, open, onClose }: SidebarProps) {
         <nav className="py-2">
           {groups.map((g) => {
             const isOpen = openGroup === g.label;
+            const hasActive = g.items.some((i) => pathname === i.href);
+            const GroupIcon = GROUP_ICONS[g.label];
             return (
               <div key={g.label} className="mb-1">
                 <button
                   type="button"
                   onClick={() => toggle(g.label)}
-                  className="w-full flex items-center justify-between px-4 py-2 text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                  className={`w-full flex items-center gap-2 px-4 py-2 text-xs font-semibold hover:text-white hover:bg-slate-800 transition-colors ${hasActive ? 'text-white' : 'text-slate-400'}`}
                 >
-                  <span>{g.label}</span>
+                  {GroupIcon && <GroupIcon className="w-4 h-4 shrink-0" aria-hidden="true" />}
+                  <span className="flex-1 text-left">{g.label}</span>
                   <ChevronIcon open={isOpen} />
                 </button>
                 {isOpen && (
                   <div className="flex flex-col gap-0.5">
                     {g.items.map((item) => {
                       const active = pathname === item.href;
+                      const border = ACTIVE_BORDER[item.active] ?? 'border-l-slate-400';
                       return (
                         <Link
                           key={item.href}
                           href={item.href}
                           onClick={onClose}
-                          className={`block text-xs font-semibold px-4 py-2 rounded transition whitespace-nowrap
-                            ${active ? `${item.active} bg-slate-800` : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+                          className={`block text-xs font-semibold pl-4 pr-4 py-2 rounded transition whitespace-nowrap border-l-2 ${
+                            active
+                              ? `${item.active} bg-slate-800 ${border}`
+                              : 'text-slate-400 hover:text-white hover:bg-slate-800 border-l-transparent'
+                          }`}
                         >
                           {item.label}
                         </Link>
