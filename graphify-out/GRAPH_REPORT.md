@@ -1,24 +1,24 @@
 # Graph Report - eternitysos  (2026-09-16)
 
 ## Corpus Check
-- 388 files · ~376,049 words
+- 388 files · ~374,956 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 63 file(s) not represented in the graph (top: .csv 53, (none) 3, .log 3)
 
 ## Summary
-- 3764 nodes · 5602 edges · 385 communities (213 shown, 137 thin omitted)
+- 3766 nodes · 5603 edges · 395 communities (223 shown, 137 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 34 edges (avg confidence: 0.87)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f6f86b31`
+- Built from commit: `126e275d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - supabaseAdmin.ts
 - validate_data.py
-- sanitizeString
+- checkRateLimit
 - cip/core.py
 - gray
 - whatsapp.ts
@@ -44,10 +44,10 @@
 - color
 - TestTailwindConfigGenerator
 - test_data_contracts.py
-- asaas-batch/route.ts
+- payment-carnets/route.ts
 - authFetch.ts
 - 20260914220043_remote_schema.sql
-- _style_is_dark_primary
+- test_design_system_mode.py
 - Logo Usage Rules
 - Component Specifications
 - html-token-validator.py
@@ -70,7 +70,7 @@
 - Design System
 - Tailwind CSS Customization
 - react
-- ModalCarnets.tsx
+- BillingTab.tsx
 - radius
 - TailwindConfigGenerator
 - CrmTab.tsx
@@ -104,7 +104,7 @@
 - Copywriting Formulas
 - detect_domain
 - parse_decision_rules
-- supabaseAdmin
+- webhooks-asaas.test.ts
 - 🎓 EternityOS — Guia Didático: RBAC, Multi-Tenancy e Onboarding de Clientes
 - 📊 EternitySOS — Graphify (mapa visual del proyecto)
 - ETERNITYOS - ROADMAP E PENDENCIAS (memoria de sessao)
@@ -131,7 +131,7 @@
 - validate-tokens.cjs
 - .check_shadcn_config
 - .generate_config_string
-- test_design_system_mode.py
+- _select_palette_for_mode
 - authFetch
 - service_orders
 - Core Visual Elements
@@ -150,7 +150,7 @@
 - generate-tokens.cjs
 - duration
 - Slide Strategies
-- .generate
+- holders/route.ts
 - public.fiscal_invoices
 - _run
 - sync-brand-to-tokens.cjs
@@ -210,7 +210,10 @@
 - insert_rbac_and_data.mjs
 - public.sellers
 - routes-auth.test.ts
+- test_core.py
 - test_sync_brand_to_tokens.py
+- _palette_is_dark
+- Sidebar.tsx
 - .__init__
 - .temp_project
 - 1️⃣ ROTACIONAR AS CHAVES DO SUPABASE — 🔴 URGENTE
@@ -230,6 +233,7 @@
 - teste_insert4.mjs
 - idx_webhook_events_unprocessed
 - middleware.ts
+- 12. Comandos rápidos
 - ui-auth-gate.test.ts
 - slides-create.md
 - create.md
@@ -258,6 +262,7 @@
 - .test_add_colors
 - eslint.config.mjs
 - sw.js
+- 5. Padrões e decisões
 - append-route.js
 - limpeza_planos_orfaos.sql
 - public.accounts_payable
@@ -363,9 +368,14 @@
 - _row_identities
 - "public"."commissions"
 - ring
+- 9. Estado atual do dashboard
 - secondary-foreground
 - PlansTab.tsx
-- AuditLogsTab.tsx
+- 10. Próximos passos (opcionais)
+- 2. Ferramentas
+- 3. Plano de refatoração — 11 fases
+- 6. Aprendizados sobre IA
+- 7. Commits e histórico
 
 ## God Nodes (most connected - your core abstractions)
 1. `isValidUUID()` - 84 edges
@@ -394,19 +404,19 @@
 ## Import Cycles
 - None detected.
 
-## Communities (385 total, 137 thin omitted)
+## Communities (395 total, 137 thin omitted)
 
 ### Community 0 - "supabaseAdmin.ts"
 Cohesion: 0.05
-Nodes (43): dynamic, POST, dynamic, GET, POST, dynamic, GET, POST (+35 more)
+Nodes (44): dynamic, POST, dynamic, GET, POST, dynamic, POST, dynamic (+36 more)
 
 ### Community 1 - "validate_data.py"
 Cohesion: 0.07
-Nodes (47): Semantic quality contracts for the core UI/UX datasets., read_rows(), TestAccessibilityGuidance, TestChartsTypographyAndIcons, TestCurrentReactGuidance, TestSemanticColors, _catalog_date(), _check_app_interface_contract() (+39 more)
+Nodes (48): Semantic quality contracts for the core UI/UX datasets., read_rows(), TestAccessibilityGuidance, TestChartsTypographyAndIcons, TestCurrentReactGuidance, TestSemanticColors, _catalog_date(), _check_app_interface_contract() (+40 more)
 
-### Community 2 - "sanitizeString"
-Cohesion: 0.07
-Nodes (47): @upstash/ratelimit, @vercel/kv, GET, PATCH, POST, dynamic, POST, DELETE (+39 more)
+### Community 2 - "checkRateLimit"
+Cohesion: 0.13
+Nodes (19): dynamic, POST, GET, POST(), DELETE, dynamic, GET, PATCH (+11 more)
 
 ### Community 3 - "cip/core.py"
 Cohesion: 0.06
@@ -421,12 +431,12 @@ Cohesion: 0.60
 Nodes (4): formatPhoneForWhatsApp(), formatWhatsAppMessage(), generateChargeWhatsAppUrl(), WhatsAppChargePayload
 
 ### Community 6 - "Jornada: Graphify + Refatoração do `page.tsx`"
-Cohesion: 0.04
-Nodes (47): 10. Próximos passos, 11. Comandos de referência rápida, 12. Links úteis, 1. Contexto e motivação, 2. Graphify — instalação e configuração, 3. Repowise — camada adicional de inteligência, 4. Plano de refatoração — 6 fases, 5. Blast radius medido pelo Graphify (+39 more)
+Cohesion: 0.22
+Nodes (8): 11. Bugs conhecidos, 13. Links úteis, 1. Contexto, 4. Blast radius (Graphify), 8. Artefatos, Jornada: Graphify + Refatoração do `page.tsx`, Pendentes, Resolvidos
 
 ### Community 7 - "notifyError"
-Cohesion: 0.09
-Nodes (24): DependentesPage(), VALID_RELATIONS, ImportarTitularesPage(), ImportResult, InvalidRow, CHAPEL_ROOMS, ModalChapel(), toDatetimeLocal() (+16 more)
+Cohesion: 0.07
+Nodes (34): ContratosPage(), isContractActive(), DependentesPage(), VALID_RELATIONS, ImportarTitularesPage(), ImportResult, InvalidRow, TitularesPage() (+26 more)
 
 ### Community 8 - "card"
 Cohesion: 0.20
@@ -445,8 +455,8 @@ Cohesion: 0.11
 Nodes (41): idx_service_order_items_service, idx_service_orders_burial, idx_service_orders_contract, idx_service_orders_tenant, public.accounts_payable, public.asaas_customers, public.audit_logs, public.benefits_partners (+33 more)
 
 ### Community 12 - "isValidUUID"
-Cohesion: 0.04
-Nodes (48): RFC-5322, DELETE, GET, PATCH, POST, GET, POST, DELETE (+40 more)
+Cohesion: 0.05
+Nodes (58): RFC-5322, GET, PATCH, POST, DELETE, GET, PATCH, POST (+50 more)
 
 ### Community 13 - "Brand Guidelines v1.0"
 Cohesion: 0.05
@@ -466,7 +476,7 @@ Nodes (34): Accessibility, Available Domains, Available Stacks, Common Rules for
 
 ### Community 17 - "withAuth"
 Cohesion: 0.14
-Nodes (18): GET, dynamic, GET, POST, dynamic, POST, dynamic, GET (+10 more)
+Nodes (19): GET, dynamic, GET, POST, dynamic, POST, dynamic, GET (+11 more)
 
 ### Community 18 - "spacing"
 Cohesion: 0.09
@@ -474,11 +484,11 @@ Nodes (22): $type, $value, $type, $value, $type, $value, $type, $value (+14 more
 
 ### Community 19 - "search_stack"
 Cohesion: 0.10
-Nodes (8): Search stack-specific guidelines, search_stack(), Freshness and migration contracts for native, desktop, and 3D stacks., _rows(), TestNativeDesktopStackFreshness, Freshness and generation-isolation contracts for web stack guidance., _rows(), TestWebStackFreshness
+Nodes (10): _exact_stack_identifier(), Resolve a standalone API identifier even when its BM25 IDF is low., Search stack-specific guidelines, search_stack(), Freshness and migration contracts for native, desktop, and 3D stacks., _rows(), TestNativeDesktopStackFreshness, Freshness and generation-isolation contracts for web stack guidance. (+2 more)
 
 ### Community 20 - "design_system.py"
-Cohesion: 0.08
-Nodes (29): ansi_ljust(), _detect_page_type(), format_ascii_box(), format_markdown(), format_master_md(), format_page_override_md(), generate_design_system(), _generate_intelligent_overrides() (+21 more)
+Cohesion: 0.11
+Nodes (24): ansi_ljust(), _detect_page_type(), format_ascii_box(), format_master_md(), format_page_override_md(), _generate_intelligent_overrides(), hex_to_ansi(), persist_design_system() (+16 more)
 
 ### Community 21 - "FiscalTab.tsx"
 Cohesion: 0.28
@@ -506,11 +516,11 @@ Nodes (16): Test TailwindConfigGenerator class., Test initialization with defaul
 
 ### Community 27 - "test_data_contracts.py"
 Cohesion: 0.10
-Nodes (9): Cross-file semantic contracts for curated design data., read_rows(), split_values(), style_identities(), TestGeneratedCatalogContract, TestLandingAndStackContract, TestReasoningContract, TestStyleIdentityContract (+1 more)
+Nodes (8): Cross-file semantic contracts for curated design data., read_rows(), split_values(), style_identities(), TestGeneratedCatalogContract, TestLandingAndStackContract, TestReasoningContract, TestStyleIdentityContract
 
-### Community 28 - "asaas-batch/route.ts"
-Cohesion: 0.09
-Nodes (32): dynamic, POST, dynamic, POST, POST, BatchResult, contractIsActive(), holderIsInactive() (+24 more)
+### Community 28 - "payment-carnets/route.ts"
+Cohesion: 0.10
+Nodes (31): dynamic, POST, POST, BatchResult, contractIsActive(), holderIsInactive(), POST, withTimeout() (+23 more)
 
 ### Community 29 - "authFetch.ts"
 Cohesion: 0.13
@@ -520,9 +530,9 @@ Nodes (19): AuthState, DashboardLayout(), NAV_GROUPS, NavItem, DashboardHomePage
 Cohesion: 0.08
 Nodes (30): idx_accounts_payable_tenant, idx_audit_logs_tenant, idx_dispatch_audit_dispatch, idx_dispatch_audit_tenant, idx_fiscal_invoices_created_at, idx_fiscal_invoices_nfse_number, idx_fiscal_invoices_provider, idx_fiscal_invoices_service_order (+22 more)
 
-### Community 31 - "_style_is_dark_primary"
-Cohesion: 0.16
-Nodes (9): _query_wants_dark(), True when a styles.csv row describes itself as dark-first., True when the query explicitly asks for a dark theme., Resolve the mode the rest of the output has to agree with., _resolve_color_mode(), _style_is_dark_primary(), TestModeResolution, Regression tests for the public style taxonomy and search contract. (+1 more)
+### Community 31 - "test_design_system_mode.py"
+Cohesion: 0.14
+Nodes (11): _filter_anti_patterns_for_mode(), _query_wants_dark(), True when a styles.csv row describes itself as dark-first., True when the query explicitly asks for a dark theme., Resolve the mode the rest of the output has to agree with., Drop "avoid dark mode" advice once dark mode is the resolved answer., _resolve_color_mode(), _style_is_dark_primary() (+3 more)
 
 ### Community 32 - "Logo Usage Rules"
 Cohesion: 0.07
@@ -541,28 +551,28 @@ Cohesion: 0.07
 Nodes (28): Accordion, Alert, ARIA Labels, Checkbox and Radio, Color Contrast, Command Palette Navigation, Component-Specific Patterns, Dialog/Modal Navigation (+20 more)
 
 ### Community 36 - "search"
-Cohesion: 0.12
-Nodes (6): Resolve a deprecated in-domain alias, or expose a cross-domain redirect., Main search function with auto-domain detection, search(), _style_search_destination(), TestSearchDomains, TestStyleTaxonomy
+Cohesion: 0.11
+Nodes (8): Resolve a deprecated in-domain alias, or expose a cross-domain redirect., Main search function with auto-domain detection, search(), _style_search_destination(), TestSearchDomains, Regression tests for the public style taxonomy and search contract., read_rows(), TestStyleTaxonomy
 
 ### Community 37 - "package.json"
-Cohesion: 0.08
-Nodes (24): name, private, version, autoprefixer, clsx, date-fns, eslint, eslint-config-next (+16 more)
+Cohesion: 0.07
+Nodes (26): name, private, version, autoprefixer, clsx, date-fns, eslint, eslint-config-next (+18 more)
 
 ### Community 38 - "domain.ts"
-Cohesion: 0.07
-Nodes (32): recharts, FinancialSummary, ModalDRE(), AvulsoSummaryStats, BillingSummary, BillingTab(), CollectorRow, fmtBRL() (+24 more)
+Cohesion: 0.09
+Nodes (21): AuditLogsTab(), detailsText(), ExecutiveTab(), fmtBRL(), FinancialTab(), fmtBRL(), ReservePayload, LogisticsTab() (+13 more)
 
 ### Community 39 - "logo/core.py"
 Cohesion: 0.10
 Nodes (21): BM25, detect_domain(), _load_csv(), Load CSV and return list of dicts, Core search function using BM25, Auto-detect the most relevant domain from query, Main search function with auto-domain detection, Search across all domains and combine results (+13 more)
 
 ### Community 40 - "scripts/core.py"
-Cohesion: 0.11
-Nodes (28): _contains_phrase(), _domain_keywords(), _exact_stack_identifier(), _file_signature(), _get_bm25(), _load_csv(), _load_csv_snapshot(), _load_product_keywords() (+20 more)
+Cohesion: 0.12
+Nodes (26): _contains_phrase(), _domain_keywords(), _file_signature(), _get_bm25(), _load_csv(), _load_csv_snapshot(), _load_product_keywords(), _load_rows_or_empty() (+18 more)
 
 ### Community 41 - "BM25"
-Cohesion: 0.10
-Nodes (10): BM25, BM25 ranking algorithm for text search, Lowercase, normalize synonyms, split, remove punctuation, filter stopwords, Build BM25 index from documents, Score all documents against query, All indexed terms, for suggestion/typo-recovery purposes., Stdlib-only regression tests for core.py / design_system.py (unittest, not…, TestBm25CoreBehavior (+2 more)
+Cohesion: 0.16
+Nodes (7): BM25, BM25 ranking algorithm for text search, Lowercase, normalize synonyms, split, remove punctuation, filter stopwords, Build BM25 index from documents, Score all documents against query, All indexed terms, for suggestion/typo-recovery purposes., TestTokenizer
 
 ### Community 42 - "Asset Approval Checklist"
 Cohesion: 0.08
@@ -609,12 +619,12 @@ Cohesion: 0.09
 Nodes (22): @apply Directive, Best Practices, Color Customization, Complete Tailwind Config, Configuration Examples, Content Configuration, Custom Color Palette, Custom Font Sizes (+14 more)
 
 ### Community 53 - "react"
-Cohesion: 0.08
-Nodes (19): lucide-react, react, ADDONS, FAQ, MODULES, PLANS, ACTIVE_BORDER, GROUP_ICONS (+11 more)
+Cohesion: 0.12
+Nodes (13): lucide-react, react, ADDONS, FAQ, MODULES, PLANS, BenefitsTab(), EMPTY_FORM (+5 more)
 
-### Community 54 - "ModalCarnets.tsx"
-Cohesion: 0.31
-Nodes (8): brl(), CarnetRow, contractIsActive(), HolderContract, holderIsInactive(), HolderRow, ModalCarnets(), STATUS_STYLE
+### Community 54 - "BillingTab.tsx"
+Cohesion: 0.10
+Nodes (22): recharts, FinancialSummary, ModalDRE(), brl(), CarnetRow, contractIsActive(), HolderContract, holderIsInactive() (+14 more)
 
 ### Community 55 - "radius"
 Cohesion: 0.19
@@ -625,16 +635,16 @@ Cohesion: 0.09
 Nodes (12): Add custom font families. Args: fonts: Dict of font_type: [font_names] e.g.,…, Add custom spacing values. Args: spacing: Dict of name: value e.g., {'18':…, Add custom breakpoints. Args: breakpoints: Dict of name: width e.g., {'3xl':…, Add plugin requirements. Args: plugins: List of plugin names e.g.,…, Get plugin recommendations based on configuration. Returns: List of recommended…, Generate Tailwind CSS configuration files., Validate configuration. Returns: Tuple of (valid, message), Add custom colors to theme. Args: colors: Dict of color_name: color_value Value… (+4 more)
 
 ### Community 57 - "CrmTab.tsx"
-Cohesion: 0.16
-Nodes (17): CrmTab(), EMPTY_FORM, fmtBRL(), histNoteRow, isOverdue(), Lead, FLOW, isValidPhoneDigits() (+9 more)
+Cohesion: 0.17
+Nodes (16): CrmTab(), EMPTY_FORM, fmtBRL(), histNoteRow, isOverdue(), Lead, FLOW, LEAD_SOURCE_LABELS (+8 more)
 
 ### Community 58 - "generate-slide.py"
 Cohesion: 0.14
 Nodes (20): _e(), generate_chart_slide(), generate_cta_slide(), generate_deck(), generate_metrics_slide(), generate_problem_slide(), generate_solution_slide(), generate_testimonial_slide() (+12 more)
 
 ### Community 59 - "HolderFormModal.tsx"
-Cohesion: 0.08
-Nodes (29): ContratosPage(), isContractActive(), TitularesPage(), buildPayload(), EMPTY_FORM, FIELD_LABELS, GENDER_OPTIONS, HolderFormModal() (+21 more)
+Cohesion: 0.12
+Nodes (19): buildPayload(), EMPTY_FORM, FIELD_LABELS, GENDER_OPTIONS, HolderFormModal(), HolderFormModalProps, HolderFormState, initialForm() (+11 more)
 
 ### Community 60 - "AGENTS.md"
 Cohesion: 0.10
@@ -717,8 +727,8 @@ Cohesion: 0.12
 Nodes (9): Test ShadcnInstaller class., Test adding all components without config., Test adding all components in dry run mode., Test listing installed components when none exist., Test listing installed components when they exist., Test initialization with custom project root., Test checking for existing shadcn config., Test getting installed components without config. (+1 more)
 
 ### Community 81 - "DesignSystemGenerator"
-Cohesion: 0.16
-Nodes (7): DesignSystemGenerator, Generates design system recommendations from aggregated searches., Load reasoning rules from CSV., Select best matching result based on priority keywords., TestReasoningMatch, The exact reproduction from issue #428., TestEndToEndCoherence
+Cohesion: 0.12
+Nodes (10): DesignSystemGenerator, Generates design system recommendations from aggregated searches., Load reasoning rules from CSV., Execute searches across multiple domains., Select best matching result based on priority keywords., Extract results list from search result dict., Generate complete design system recommendation. variance/motion/density are…, Bucket a 1-10 dial value into its tier config. Returns None if value is None. (+2 more)
 
 ### Community 82 - "CIP Design Reference"
 Cohesion: 0.13
@@ -741,12 +751,12 @@ Cohesion: 0.23
 Nodes (3): detect_domain(), Auto-detect the most relevant domain from query. Matches are weighted by…, TestDomainDetection
 
 ### Community 87 - "parse_decision_rules"
-Cohesion: 0.17
+Cohesion: 0.19
 Nodes (9): Find matching reasoning rule for a category., Apply reasoning rules to search results., apply_decision_rules(), _object_without_duplicates(), parse_decision_rules(), Return deterministic mutations and an audit trail; never execute data., Closed, non-executable grammar for design-system decision rules., Parse the canonical condition -> action-array representation. (+1 more)
 
-### Community 88 - "supabaseAdmin"
-Cohesion: 0.12
-Nodes (25): DELETE, GET, PATCH, GET, getTenantUsage(), PATCH, POST, VALID_PLAN_CODES (+17 more)
+### Community 88 - "webhooks-asaas.test.ts"
+Cohesion: 0.13
+Nodes (22): PATCH, GET, getTenantUsage(), PATCH, POST, VALID_PLAN_CODES, markWebhookEvent(), POST() (+14 more)
 
 ### Community 89 - "🎓 EternityOS — Guia Didático: RBAC, Multi-Tenancy e Onboarding de Clientes"
 Cohesion: 0.13
@@ -852,9 +862,9 @@ Nodes (6): Add all available shadcn/ui components. Args: overwrite: If True, ove
 Cohesion: 0.20
 Nodes (6): Generate configuration file content. Returns: Configuration file as string, Generate TypeScript configuration., Generate JavaScript configuration., Format plugins array for config. Validates each plugin name against a strict…, Add indentation to JSON string., Write configuration to file. Returns: Tuple of (success, message)
 
-### Community 115 - "test_design_system_mode.py"
-Cohesion: 0.14
-Nodes (13): _contrast_ratio(), _derive_dark_palette(), _palette_is_dark(), WCAG relative luminance of a #RRGGBB string, or None if unparseable., True when a colors.csv row's Background is a dark surface., WCAG contrast ratio for two hex colors, or None if either is invalid., Keep product brand tokens while deriving accessible dark surfaces., Pick the highest-ranked palette matching the resolved mode. Only the dark case… (+5 more)
+### Community 115 - "_select_palette_for_mode"
+Cohesion: 0.22
+Nodes (7): _contrast_ratio(), _derive_dark_palette(), WCAG contrast ratio for two hex colors, or None if either is invalid., Keep product brand tokens while deriving accessible dark surfaces., Pick the highest-ranked palette matching the resolved mode. Only the dark case…, _select_palette_for_mode(), TestPaletteSelection
 
 ### Community 116 - "authFetch"
 Cohesion: 0.10
@@ -928,9 +938,9 @@ Nodes (10): fast, normal, slow, $type, $value, $type, $value, duration (+2 more)
 Cohesion: 0.20
 Nodes (9): Common Structures, Duarte Sparkline Pattern, Matching Strategy to Context, Product Demo (6 slides), Sales Pitch (9 slides), Search Commands, Slide Strategies, Strategy Selection (+1 more)
 
-### Community 134 - ".generate"
-Cohesion: 0.16
-Nodes (8): _filter_anti_patterns_for_mode(), Drop "avoid dark mode" advice once dark mode is the resolved answer., Execute searches across multiple domains., Extract results list from search result dict., Generate complete design system recommendation. variance/motion/density are…, Bucket a 1-10 dial value into its tier config. Returns None if value is None., _resolve_dial(), TestAntiPatternGating
+### Community 134 - "holders/route.ts"
+Cohesion: 0.13
+Nodes (22): ParsedRow, POST, DELETE, GET, PATCH, POST, DELETE, dynamic (+14 more)
 
 ### Community 135 - "public.fiscal_invoices"
 Cohesion: 0.36
@@ -945,8 +955,8 @@ Cohesion: 0.33
 Nodes (8): adjustBrightness(), { execFileSync }, extractColorsFromMarkdown(), fs, generateColorScale(), main(), path, updateDesignTokens()
 
 ### Community 138 - "api-mocks.ts"
-Cohesion: 0.07
-Nodes (34): GET, AReqOpts, AsaasFetchRule, asMock(), BatchDbOpts, ChainValues, makeAsaasRequest(), makeChain() (+26 more)
+Cohesion: 0.08
+Nodes (31): AReqOpts, AsaasFetchRule, asMock(), BatchDbOpts, ChainValues, makeChain(), mockAsaasFetch(), MockFn (+23 more)
 
 ### Community 139 - "app/layout.tsx"
 Cohesion: 0.21
@@ -1144,6 +1154,18 @@ Nodes (3): idx_sellers_tenant, public.sellers, public.tenants
 Cohesion: 0.67
 Nodes (3): ALLOWLIST, API_DIR, listRouteFiles()
 
+### Community 195 - "test_core.py"
+Cohesion: 0.12
+Nodes (8): format_markdown(), generate_design_system(), Format design system as markdown., Main entry point for design system generation. Args: query: Search query (e.g.,…, Stdlib-only regression tests for core.py / design_system.py (unittest, not…, TestBm25CoreBehavior, TestDiagnosticsContracts, TestPersistence
+
+### Community 197 - "_palette_is_dark"
+Cohesion: 0.18
+Nodes (7): _palette_is_dark(), WCAG relative luminance of a #RRGGBB string, or None if unparseable., True when a colors.csv row's Background is a dark surface., _relative_luminance(), The exact reproduction from issue #428., TestEndToEndCoherence, TestLuminance
+
+### Community 198 - "Sidebar.tsx"
+Cohesion: 0.22
+Nodes (6): ACTIVE_BORDER, GROUP_ICONS, NavGroup, NavItem, Sidebar(), SidebarProps
+
 ### Community 201 - "1️⃣ ROTACIONAR AS CHAVES DO SUPABASE — 🔴 URGENTE"
 Cohesion: 0.67
 Nodes (3): 1️⃣ ROTACIONAR AS CHAVES DO SUPABASE — 🔴 URGENTE, Passo a passo, Por que isso é urgente?
@@ -1156,9 +1178,17 @@ Nodes (3): 4️⃣ CONFIGURAR O SEGREDO DO WEBHOOK DO ASAAS, Passo a passo, Por 
 Cohesion: 0.67
 Nodes (3): 6️⃣ BACKUPS AUTOMÁTICOS DO BANCO, Passo a passo, Por quê?
 
+### Community 218 - "12. Comandos rápidos"
+Cohesion: 0.33
+Nodes (6): 12. Comandos rápidos, Code-Ranker, Graphify, Repowise, Supabase, Testar
+
 ### Community 219 - "ui-auth-gate.test.ts"
 Cohesion: 0.70
 Nodes (4): dashLayout(), guard(), home(), readSrc()
+
+### Community 247 - "5. Padrões e decisões"
+Cohesion: 0.33
+Nodes (6): 5.1 Copiar, não mover, 5.2 Fluxo autônomo por sub-fase, 5.3 Regras de contexto, 5.4 APIs, 5.5 Tailwind, 5. Padrões e decisões
 
 ### Community 365 - "$type"
 Cohesion: 0.60
@@ -1236,6 +1266,10 @@ Nodes (3): idx_commissions_contract_id, idx_commissions_tenant, "public"."commis
 Cohesion: 0.67
 Nodes (3): ring, $type, $value
 
+### Community 387 - "9. Estado atual do dashboard"
+Cohesion: 0.33
+Nodes (6): 9.1 Navegação, 9.2 Home (`/`), 9.3 Rotas (24), 9.4 Públicas, 9.5 APIs cobertas por testes, 9. Estado atual do dashboard
+
 ### Community 388 - "secondary-foreground"
 Cohesion: 0.67
 Nodes (3): secondary-foreground, $type, $value
@@ -1244,13 +1278,29 @@ Nodes (3): secondary-foreground, $type, $value
 Cohesion: 0.38
 Nodes (4): EMPTY_FORM, fmtBrl(), Plan, PlansTab()
 
-### Community 390 - "AuditLogsTab.tsx"
-Cohesion: 0.47
-Nodes (3): AuditLogsTab(), detailsText(), AuditLog
+### Community 390 - "10. Próximos passos (opcionais)"
+Cohesion: 0.40
+Nodes (5): 10. Próximos passos (opcionais), Fase 11e — Enforcement de token forte, Fase 12 — Diferenciais competitivos, Fase 13 — Polish adicional, Fase 14 — Consolidação de tabelas
+
+### Community 391 - "2. Ferramentas"
+Cohesion: 0.40
+Nodes (5): 2.1 Graphify (0.9.61), 2.2 Repowise, 2.3 Code-Ranker (5.0.4), 2.4 Supabase CLI (2.117.0), 2. Ferramentas
+
+### Community 392 - "3. Plano de refatoração — 11 fases"
+Cohesion: 0.40
+Nodes (5): 3.1 Fases macro, 3.2 Fase 6 — Remover monolito (17 sub-fases), 3.3 Fase 7 — Testes comportamentais (+33 testes), 3.4 Fases 8-11, 3. Plano de refatoração — 11 fases
+
+### Community 393 - "6. Aprendizados sobre IA"
+Cohesion: 0.50
+Nodes (4): 6. Aprendizados sobre IA, Modelos que NÃO servem, Modelos recomendados, Regra prática
+
+### Community 394 - "7. Commits e histórico"
+Cohesion: 0.50
+Nodes (4): 7. Commits e histórico, Estrutura, Fixes notáveis, Sequência de merges
 
 ## Knowledge Gaps
-- **1461 isolated node(s):** `fs`, `path`, `fs`, `path`, `fs` (+1456 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2081 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **1462 isolated node(s):** `fs`, `path`, `fs`, `path`, `fs` (+1457 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2082 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **137 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
@@ -1258,15 +1308,15 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `@supabase/supabase-js` connect `@supabase/supabase-js` to `supabaseAdmin.ts`, `teste_isolamento_final.mjs`, `teste_isolamento_v2.mjs`, `onboard_cliente.mjs`, `inspect_behavior.mjs`, `test_api.mjs`, `teste_isolamento_v3.mjs`, `teste_isolamento_v4.mjs`, `teste_isolamento_v5.mjs`, `teste_isolamento_v6.mjs`, `authFetch.ts`, `package.json`, `cleanup.mjs`, `test_db_rls.mjs`, `teste_isolamento_pos_fix.mjs`, `check_superadmin.mjs`, `create-tables.js`, `create_users.mjs`, `diag_roles.mjs`, `insert_rbac_and_data.mjs`, `audit_full.mjs`, `diag_policies_detalhe.mjs`, `identify_project.mjs`, `teste_insert3.mjs`, `teste_insert4.mjs`?**
   _High betweenness centrality (0.017) - this node is a cross-community bridge._
-- **Why does `search()` connect `search` to `_row_identities`, `scripts/search.py`, `validate_data.py`, `.generate`, `scripts/core.py`, `BM25`, `design_system.py`, `detect_domain`, `_style_is_dark_primary`, `test_text_layout_resilience.py`, `_normalize`?**
+- **Why does `search()` connect `search` to `_row_identities`, `scripts/search.py`, `validate_data.py`, `test_core.py`, `scripts/core.py`, `DesignSystemGenerator`, `design_system.py`, `detect_domain`, `test_text_layout_resilience.py`, `_normalize`?**
   _High betweenness centrality (0.007) - this node is a cross-community bridge._
-- **Why does `react` connect `react` to `package.json`, `domain.ts`, `notifyError`, `AuditLogsTab.tsx`, `PlansTab.tsx`, `app/layout.tsx`, `BurialsTab.tsx`, `authFetch`, `FiscalTab.tsx`, `ModalCarnets.tsx`, `CrmTab.tsx`, `HolderFormModal.tsx`, `authFetch.ts`, `ConvalescenceTab.tsx`?**
+- **Why does `react` connect `react` to `package.json`, `Sidebar.tsx`, `notifyError`, `domain.ts`, `PlansTab.tsx`, `app/layout.tsx`, `BurialsTab.tsx`, `authFetch`, `FiscalTab.tsx`, `BillingTab.tsx`, `CrmTab.tsx`, `HolderFormModal.tsx`, `authFetch.ts`, `ConvalescenceTab.tsx`?**
   _High betweenness centrality (0.007) - this node is a cross-community bridge._
 - **What connects `fs`, `path`, `fs` to the rest of the system?**
-  _1461 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1462 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `supabaseAdmin.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.0453551912568306 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05273937532002048 - nodes in this community are weakly interconnected._
 - **Should `validate_data.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.07401129943502825 - nodes in this community are weakly interconnected._
-- **Should `sanitizeString` be split into smaller, more focused modules?**
-  _Cohesion score 0.06838106370543542 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.0726775956284153 - nodes in this community are weakly interconnected._
+- **Should `checkRateLimit` be split into smaller, more focused modules?**
+  _Cohesion score 0.13 - nodes in this community are weakly interconnected._

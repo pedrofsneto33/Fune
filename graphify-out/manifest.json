@@ -858,9 +858,9 @@
     "semantic_hash": "8b3f886b3734d77d783b7b796100133c"
   },
   "src/app/api/inventory/route.ts": {
-    "mtime": 1789572584.4266536,
-    "seen": 1789572721.798967,
-    "ast_hash": "a17de09beea4bc1d5336b49e4a2da798",
+    "mtime": 1789573373.3736014,
+    "seen": 1789575300.323798,
+    "ast_hash": "a2ac8806fd6daf00c5c0e7bf04f44e87",
     "semantic_hash": ""
   },
   "src/app/api/lead-notes/route.ts": {
@@ -1104,10 +1104,10 @@
     "semantic_hash": "f434660a1ac0b51b225e98c21d13217a"
   },
   "src/components/tabs/TenantSettingsTab.tsx": {
-    "mtime": 1788867537.7760687,
-    "seen": 1789318651.29808,
-    "ast_hash": "357e7db6d25384b0498b4179cbd1ac41",
-    "semantic_hash": "357e7db6d25384b0498b4179cbd1ac41"
+    "mtime": 1789575223.0657532,
+    "seen": 1789575300.3238757,
+    "ast_hash": "e22354b5da5f61594640d9ada1f18903",
+    "semantic_hash": ""
   },
   "src/config/permissions.test.ts": {
     "mtime": 1788439418.0491602,
@@ -2046,9 +2046,9 @@
     "semantic_hash": ""
   },
   "docs/JORNADA-GRAPHIFY-E-REFATORACAO.md": {
-    "mtime": 1789570283.527403,
-    "seen": 1789571126.3886354,
-    "ast_hash": "732ab1cf3055b93186597c65d1169c11",
+    "mtime": 1789574274.69612,
+    "seen": 1789575300.3240256,
+    "ast_hash": "a4246d70f8044ac9e94ec1a695d49d28",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/titulares/importar/page.tsx": {
@@ -2124,8 +2124,8 @@
     "semantic_hash": "b5b4f0083ff45c9cba0e67e4afabd550"
   },
   "src/components/tabs/InventoryTab.tsx": {
-    "mtime": 1789572674.4901373,
-    "seen": 1789572721.7990382,
+    "mtime": 1789573373.3736014,
+    "seen": 1789575300.3238695,
     "ast_hash": "02b44304a58f2b514605b0d34fe3b1bb",
     "semantic_hash": ""
   },
@@ -2208,9 +2208,9 @@
     "semantic_hash": "3fca56fd17c0480ee39e3b6fbecdefc7"
   },
   "src/components/tabs/BillingTab.tsx": {
-    "mtime": 1789484542.4079568,
-    "seen": 1789485219.8799212,
-    "ast_hash": "f906efe7546d6362993a3a4793a057d3",
+    "mtime": 1789575178.4080684,
+    "seen": 1789575300.3238564,
+    "ast_hash": "047c6ce99d87069558a0414cfd99027e",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/livro-caixa/page.tsx": {
@@ -2322,8 +2322,8 @@
     "semantic_hash": ""
   },
   "tests/routes/webhooks-asaas.test.ts": {
-    "mtime": 1789573038.141218,
-    "seen": 1789573090.020635,
+    "mtime": 1789573373.3736014,
+    "seen": 1789575300.3239331,
     "ast_hash": "3dac12d3fb1470fe29f17396ba303be2",
     "semantic_hash": ""
   },
