@@ -2,16 +2,18 @@
 import { POST } from '@/app/api/webhooks/asaas/route';
 import { recordIncome } from '@/lib/financial';
 import { generateCommission } from '@/lib/commissions';
+import { logError } from '@/lib/http-error';
 import { mockSupabaseAdmin, mockRateLimit, setupWebhookDb, makeAsaasRequest } from '../helpers/api-mocks';
 jest.mock('@/lib/supabaseAdmin', () => ({ supabaseAdmin: { from: jest.fn() } }));
 jest.mock('@/lib/rate-limiter', () => ({ checkRateLimit: jest.fn() }));
 jest.mock('@/lib/financial', () => ({ recordIncome: jest.fn() }));
 jest.mock('@/lib/commissions', () => ({ generateCommission: jest.fn() }));
 jest.mock('@/lib/http-error', () => ({ logError: jest.fn() }));
+const mLog = logError as unknown as jest.Mock;
 const mIncome = recordIncome as unknown as jest.Mock;
 const mComm = generateCommission as unknown as jest.Mock;
 const validBody = { event: 'PAYMENT_RECEIVED', payment: { id: 'pay_1', billingType: 'PIX', confirmedDate: '2026-09-01T00:00:00Z' } };
-beforeEach(() => { mIncome.mockReset(); mComm.mockReset(); mComm.mockResolvedValue(undefined); mIncome.mockResolvedValue({ ok: true }); });
+beforeEach(() => { mIncome.mockReset(); mComm.mockReset(); mComm.mockResolvedValue(undefined); mIncome.mockResolvedValue({ ok: true }); mLog.mockReset(); });
 describe('webhook Asaas (Fase 7a)', () => {
   it('401 sem token', async () => {
     mockRateLimit(true);
@@ -56,5 +58,22 @@ describe('webhook Asaas (Fase 7a)', () => {
     expect(await res.json()).toEqual(expect.objectContaining({ received: true }));
     expect(mIncome).not.toHaveBeenCalled();
     expect(mComm).not.toHaveBeenCalled();
+  });
+  it('11d: token curto (<16) valido NAO bloqueia, mas loga TOKEN FRACO', async () => {
+    mockRateLimit(true);
+    const mf = mockSupabaseAdmin();
+    setupWebhookDb(mf, { updated: [{ id: 'db-1', amount: 100, contract_id: 'c-1' }] });
+    const res = await POST(makeAsaasRequest({ token: 'curto', body: validBody }));
+    expect(res.status).toBe(200);
+    expect(mLog).toHaveBeenCalledTimes(1);
+    expect(mLog.mock.calls[0][1]).toMatch(/TOKEN FRACO/);
+  });
+  it('11d: token curto invalido cai no 403 do lookup (gate real)', async () => {
+    mockRateLimit(true);
+    const mf = mockSupabaseAdmin();
+    setupWebhookDb(mf, { tenant: null, tenantError: { message: 'x' } });
+    const res = await POST(makeAsaasRequest({ token: 'curto', body: validBody }));
+    expect(res.status).toBe(403);
+    expect(mLog).toHaveBeenCalledWith(expect.anything(), expect.stringMatching(/TOKEN FRACO/));
   });
 });
