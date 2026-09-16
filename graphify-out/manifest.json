@@ -642,8 +642,8 @@
     "semantic_hash": "b9c2cdc4654ca63de532cfe81b3ba512"
   },
   "src/app/(dashboard)/layout.tsx": {
-    "mtime": 1789569329.4110777,
-    "seen": 1789569447.478614,
+    "mtime": 1789570752.8735385,
+    "seen": 1789571126.3883448,
     "ast_hash": "386eaf4889f96902bc4a2db8494020c4",
     "semantic_hash": ""
   },
@@ -1320,8 +1320,8 @@
     "semantic_hash": "0e32d13e73b74d8fd11a66c10ae080e0"
   },
   "tests/ui-auth-gate.test.ts": {
-    "mtime": 1789570024.8461845,
-    "seen": 1789570106.1082737,
+    "mtime": 1789570752.8792326,
+    "seen": 1789571126.388543,
     "ast_hash": "ef1ccd946d277805fb328c4fe9377681",
     "semantic_hash": ""
   },
@@ -2052,8 +2052,8 @@
     "semantic_hash": ""
   },
   "docs/JORNADA-GRAPHIFY-E-REFATORACAO.md": {
-    "mtime": 1789484542.2954538,
-    "seen": 1789485219.8800848,
+    "mtime": 1789570283.527403,
+    "seen": 1789571126.3886354,
     "ast_hash": "732ab1cf3055b93186597c65d1169c11",
     "semantic_hash": ""
   },
@@ -2358,27 +2358,27 @@
     "semantic_hash": ""
   },
   "src/components/Sidebar.tsx": {
-    "mtime": 1789569317.8514285,
-    "seen": 1789569447.4787424,
+    "mtime": 1789570752.8735385,
+    "seen": 1789571126.3884468,
     "ast_hash": "c190232ad70b532a5fa874cdb33ce136",
     "semantic_hash": ""
   },
   "src/hooks/useMediaQuery.ts": {
-    "mtime": 1789568588.105166,
-    "seen": 1789568752.5781262,
+    "mtime": 1789570752.8735385,
+    "seen": 1789571126.388489,
     "ast_hash": "383b711a6675315817a2e48a3fb3e6ee",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/page.tsx": {
-    "mtime": 1789569774.1032083,
-    "seen": 1789570106.108032,
+    "mtime": 1789570752.8735385,
+    "seen": 1789571126.388352,
     "ast_hash": "292813370f484beef8a8298bf0feb350",
     "semantic_hash": ""
   },
   "src/components/QuickLinks.tsx": {
-    "mtime": 1789569765.6340265,
-    "seen": 1789570106.1081495,
-    "ast_hash": "a1c11b802aef6e84857c3cd2b3447086",
+    "mtime": 1789571025.8975537,
+    "seen": 1789571126.3884442,
+    "ast_hash": "d462d79d92e80eaffc39359d1cacae2b",
     "semantic_hash": ""
   }
 }
