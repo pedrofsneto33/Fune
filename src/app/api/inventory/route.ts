@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
-import { sanitizeString } from '@/lib/validation';
+import { sanitizeString, isValidUUID } from '@/lib/validation';
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   const { data, error } = await supabaseAdmin
@@ -41,3 +41,34 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
 }, ['superadmin', 'admin', 'manager']);
+
+export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
+  const body = await req.json().catch(() => null);
+  const { id, stock_quantity } = body ?? {};
+
+  if (!id || !isValidUUID(id)) {
+    return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+  }
+  if (!Number.isInteger(stock_quantity) || stock_quantity < 0) {
+    return NextResponse.json(
+      { error: 'Quantidade inválida' },
+      { status: 400 },
+    );
+  }
+
+  const { data, error } = await supabaseAdmin
+    .from('inventory')
+    .update({ stock_quantity })
+    .eq('id', id)
+    .eq('tenant_id', auth.tenantId)
+    .select()
+    .single();
+
+  if (error || !data) {
+    return NextResponse.json(
+      { error: 'Item não encontrado' },
+      { status: 404 },
+    );
+  }
+  return NextResponse.json({ success: true, item: data });
+}, ['superadmin', 'admin', 'manager', 'attendant']);

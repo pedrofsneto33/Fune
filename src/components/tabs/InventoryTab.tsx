@@ -21,6 +21,7 @@ export default function InventoryTab() {
   const [isNewOpen, setIsNewOpen] = useState(false);
   const [form, setForm] = useState({ ...EMPTY_FORM });
   const [saving, setSaving] = useState(false);
+  const [pendingId, setPendingId] = useState<string | null>(null);
 
   const loadItems = useCallback(async () => {
     setLoading(true);
@@ -40,22 +41,36 @@ export default function InventoryTab() {
     loadItems();
   }, [loadItems]);
 
-  // NOTA: +/- so altera estado local (bug pre-existente em page.tsx).
-  // Correcao rastreada como tarefa separada.
-  const decrement = (id: string) => {
-    setItems((prev) =>
-      prev.map((i) =>
-        i.id === id ? { ...i, stock_quantity: Math.max(0, i.stock_quantity - 1) } : i,
-      ),
+  const handleAdjustStock = async (item: InventoryItem, delta: number) => {
+    if (pendingId === item.id) return;
+    const next = Math.max(0, item.stock_quantity + delta);
+    if (next === item.stock_quantity) return;
+    const prev = item.stock_quantity;
+    setPendingId(item.id);
+    setItems((list) =>
+      list.map((i) => (i.id === item.id ? { ...i, stock_quantity: next } : i)),
     );
-  };
-
-  // NOTA: +/- so altera estado local (bug pre-existente em page.tsx).
-  // Correcao rastreada como tarefa separada.
-  const increment = (id: string) => {
-    setItems((prev) =>
-      prev.map((i) => (i.id === id ? { ...i, stock_quantity: i.stock_quantity + 1 } : i)),
-    );
+    try {
+      const res = await authFetch('/api/inventory', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: item.id, stock_quantity: next }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setItems((list) =>
+          list.map((i) => (i.id === item.id ? { ...i, stock_quantity: prev } : i)),
+        );
+        notifyError(`Erro: ${err.error || 'Falha ao ajustar estoque'}`);
+      }
+    } catch {
+      setItems((list) =>
+        list.map((i) => (i.id === item.id ? { ...i, stock_quantity: prev } : i)),
+      );
+      notifyError('Erro de conexão ao ajustar estoque.');
+    } finally {
+      setPendingId(null);
+    }
   };
 
   const handleSave = async (e: React.FormEvent) => {
@@ -138,15 +153,17 @@ export default function InventoryTab() {
                 </span>
                 <div className="flex gap-1">
                   <button
-                    onClick={() => decrement(item.id)}
-                    className="w-7 h-7 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-white font-bold rounded flex items-center justify-center text-xs"
+                    onClick={() => handleAdjustStock(item, -1)}
+                    disabled={pendingId === item.id || item.stock_quantity <= 0}
+                    className="w-7 h-7 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-white font-bold rounded flex items-center justify-center text-xs disabled:opacity-50"
                     title="Dar baixa (-1)"
                   >
                     -
                   </button>
                   <button
-                    onClick={() => increment(item.id)}
-                    className="w-7 h-7 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded flex items-center justify-center text-xs"
+                    onClick={() => handleAdjustStock(item, 1)}
+                    disabled={pendingId === item.id}
+                    className="w-7 h-7 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded flex items-center justify-center text-xs disabled:opacity-50"
                     title="Adicionar (+1)"
                   >
                     +
