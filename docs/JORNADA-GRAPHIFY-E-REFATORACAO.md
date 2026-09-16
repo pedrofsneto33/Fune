@@ -1,428 +1,353 @@
 # Jornada: Graphify + Refatoração do `page.tsx`
 
-> Registro cronológico da integração do Graphify ao projeto `eternitysos`
-> e das fases de refatoração do monolito `src/app/page.tsx` (~4942 linhas).
->
-> **Última atualização:** 2026-09-14
-> **Branch atual:** `refactor/fase-6-auth-limpeza` (pré-merge Fase 5)
-> **Último commit:** `7300290` (links 5c-3 — Fase 5 completa)
-> **Progresso:** Fases 1, 2, 3, 4, 5 completas · Fase 6 (última) próxima
-> **Score `page.tsx`:** 1.0 → **1.4** (medido após Fase 4c)
-> **Testes:** 146 passando
+> **Última atualização:** 2026-09-16
+> **Branch:** `refactor/fase-11-limpeza` (pré-merge)
+> **Último commit:** `f6f86b3` (token curto test)
+> **Progresso:** Fases 1-11 completas · monolito removido
+> **Score geral:** 6.2 → **7.84** (+1.64)
+> **Testes:** 177 (era 145)
 
 ---
 
-## 1. Contexto e motivação
+## 1. Contexto
 
 O projeto `eternitysos` (ERP funerário multi-tenant em Next.js 16 + React 19 + Supabase)
-tem um monolito frontend de **~4942 linhas** em `src/app/page.tsx` que concentra:
+tinha um monolito de **~5081 linhas** em `src/app/page.tsx` com autenticação, fetching
+de ~10 tabelas, autorização por aba e 12 tabs + 6 modais.
 
-- Autenticação e estado do tenant
-- Fetching direto ao Supabase de ~10 tabelas
-- Autorização por aba (`isTabAllowed`)
-- Renderização de 6 tabs + 6 modais
+**Objetivo:** quebrar em rotas por domínio (padrão **Strangler Fig**).
 
-**Objetivo da refatoração:** quebrar esse monolito em rotas separadas por domínio,
-seguindo o padrão **Strangler Fig** (construir o novo em paralelo, remover o antigo depois).
-
-**Objetivo do Graphify:** ter um **mapa real do código** (grafo de símbolos) para
-medir blast radius de cada mudança antes de executá-la.
-
-**Objetivo do Repowise:** camada adicional de inteligência (histórico Git, score de saúde,
-análise de risco de commits, código morto).
+**Ferramentas integradas:** Graphify (grafo de símbolos), Repowise (saúde Git),
+Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 
 ---
 
-## 2. Graphify — instalação e configuração
+## 2. Ferramentas
 
-### Ferramenta
-- **Nome:** Graphify (`graphifyy` no PyPI)
-- **Versão instalada:** 0.9.61
-- **Função:** gera `graph.json`, `GRAPH_REPORT.md` e `graph.html` a partir do código
+### 2.1 Graphify (0.9.61)
+- Gera `graph.json`, `GRAPH_REPORT.md`, `graph.html`
+- **Setup:** `Set-Alias graphify "C:\Python314\Scripts\graphify.exe"` + backend Groq (`openai/gpt-oss-120b`, `--batch-size 50`)
+- **Grafo atual:** ~3800 nós, ~5500 arestas, ~380 comunidades, 43 arquivos SQL
 
-### Desafios resolvidos
-
-| Problema | Solução aplicada |
+**Hubs (god modules):**
+| Símbolo | Conexões |
 |---|---|
-| Pacote Python não encontrava `tree-sitter-sql` | Instalado via `C:\Python314\Scripts\graphify.exe` (evitar o `~/.local/bin/graphify.exe`) |
-| Alias permanente para o binário correto | `Set-Alias graphify "C:\Python314\Scripts\graphify.exe"` no `$PROFILE` |
-| Backend Ollama falhava (`openai not installed`) | Instalado via `uv tool install "graphifyy[openai]" --force` |
-| Groq free tier com TPM 8000 | `--batch-size 50` no `graphify label` |
-| Modelo Groq `llama-3.3-70b-versatile` descontinuado | Trocado para `openai/gpt-oss-120b` |
-| Cache do Graphify versionado (lixo) | Adicionado ao `.gitignore`: `graphify-out/cache/` e `graphify-out/2026-09-13/` |
+| `isValidUUID()` | 81 |
+| `supabaseAdmin.ts` | 72 |
+| `supabaseAdmin` (instância) | 69 |
+| `withAuth` (`api-handler.ts`) | 69 |
+| `sanitizeString()` | 67 |
 
-### Configuração de ambiente (PowerShell)
+**Regra de ouro:** consumir esses módulos, nunca alterar assinaturas.
 
-```powershell
-# Alias permanente
-Set-Alias graphify "C:\Python314\Scripts\graphify.exe"
+### 2.2 Repowise
+- 10 ferramentas MCP (`get_health`, `get_change_risk`, `get_dead_code`, etc.)
+- CLI fresco: `repowise health --file`
+- **Evolução do score:**
+  | Momento | Score | Pior |
+  |---|---|---|
+  | Pré-refatoração | 6.2 | `page.tsx` (1.0) |
+  | Pós-Fase 4c | 6.41 | `webhooks/asaas` (1.0) |
+  | Pós-Fase 5 | 6.85 | `webhooks/asaas` (1.0) |
+  | Pós-Fase 6g-6d | **7.84** | `webhooks/asaas` (3.4 CLI) |
 
-# Backend Groq (para nomear comunidades)
-$env:OPENAI_BASE_URL = "https://api.groq.com/openai/v1"
-$env:OPENAI_API_KEY = "sua_chave_groq"
-$env:OPENAI_MODEL = "openai/gpt-oss-120b"
+### 2.3 Code-Ranker (5.0.4)
+- Análise estrutural: SLOC, cognitive, MI, HK, fan-in/out
+- 13 princípios (CPX, SRP, DRY, KISS, ADP, DIP, LSP, ISP, LoD, MISU, CoI, OCP, YAGNI)
+- Relatório em `docs/CODE-RANKER.md`
 
-# Comando de rotina
-graphify update .                    # atualizar grafo (incremental, sem LLM)
-graphify cluster-only .              # regerar relatório + nomear comunidades
-graphify label . --batch-size 50     # só renomear comunidades
-```
-
-### Estado final do grafo (após Fase 5)
-
-| Métrica | Valor |
-|---|---|
-| Nós | ~3700 |
-| Arestas | ~5200 |
-| Comunidades | ~380 |
-| Cobertura | 99% EXTRACTED, 1% INFERRED |
-| Arquivos SQL | 43 incluídos via `tree-sitter-sql` |
-
-### Hubs identificados (god modules)
-
-| Símbolo | Papel | Conexões |
-|---|---|---|
-| `isValidUUID()` | Validação de UUID em `src/lib/validation.ts` | 81 |
-| `supabaseAdmin.ts` | Cliente Supabase service-role | 72 |
-| `supabaseAdmin` (instância) | Instância exportada | 69 |
-| `api-handler.ts` (`withAuth`) | Middleware JWT/RBAC/rate-limit | 69 |
-| `sanitizeString()` | Sanitização em `src/lib/validation.ts` | 67 |
-
-**Regra de ouro:** consumir esses módulos, nunca alterar suas assinaturas.
+### 2.4 Supabase CLI (2.117.0)
+- Schema versionado (`supabase/migrations/`) + banco local Docker + tipos TS
+- Tipos: `src/types/supabase.ts` (169 KB)
+- Comandos: `npx supabase start|stop|db pull|gen types typescript --local`
 
 ---
 
-## 3. Repowise — camada adicional de inteligência
+## 3. Plano de refatoração — 11 fases
 
-### Ferramenta
-- **Nome:** Repowise (`pip install repowise`)
-- **Integração:** servidor MCP com 10 ferramentas
-- **Função:** histórico Git, saúde do código, risco de commits, código morto, "por quê" de decisões
-
-### Ferramentas MCP disponíveis
-
-- `get_overview`, `get_context`, `get_symbol`, `get_why`
-- `get_change_risk`, `get_risk`, `get_health`
-- `get_dead_code`, `get_answer`, `search_codebase`
-
-### Uso no fluxo
-
-- **Antes de commitar sub-fase crítica:** `get_change_risk`
-- **Depois de sub-fase grande:** `get_health`
-- **Fase 6 (remover monolito):** `get_dead_code`
-- **Máximo 1 chamada por sub-fase** (evitar estouro de contexto)
-
-### Insight inicial (pré-refatoração)
-
-- Score geral: 6.2/10 ("fair")
-- **Pior performer: `src/app/page.tsx` (score 1.0)**
-- 31 hotspots, 968 findings abertos
-- Zero arquivos estáveis em 90 dias
-
-### Evolução pós-Fase 4c
-
-- **Score `page.tsx`: 1.0 → 1.4 (+0.4)** — primeira mudança após 19 medições
-- Score geral: 6.2 → 6.41
-- Novo pior performer: `src/app/api/webhooks/asaas/route.ts` (score 1.0)
-
----
-
-## 4. Plano de refatoração — 6 fases
-
-### Fases macro (por risco crescente)
+### 3.1 Fases macro
 
 | Fase | Escopo | Status |
 |---|---|---|
-| **1** | Plans + Sellers (abas folha) | ✅ Na main |
-| **2** | Titulares + Dependentes + Contratos + Import CSV | ✅ Na main |
-| **3** | CRM + Benefícios + Convalescença + Fiscal + Navegação | ✅ Na main |
-| **4** | Serviço Funerário (Frota, Estoque, Tanatopraxia, Capela, OS, Sepultamentos, Logística) | ✅ Na main (exceto 4d-2) |
-| **5** | Cobrança + Financeiro (Billing Asaas, Livro Caixa, Reservas, Contas a Pagar, Auditoria) | ✅ Na main |
-| **6** | Auth + Providers + remover monolito | ⏳ Próxima (última) |
+| **1** | Plans + Sellers | ✅ main |
+| **2** | Titulares + Dependentes + Contratos + Import CSV | ✅ main |
+| **3** | CRM + Benefícios + Convalescença + Fiscal + Navegação | ✅ main |
+| **4** | Serviço Funerário (Frota, Estoque, Capela, OS, Sepultamentos, Logística) | ✅ main (exceto 4d-2) |
+| **5** | Billing Asaas + Livro Caixa + Reservas + Contas a Pagar + Auditoria | ✅ main |
+| **6** | Auth + Providers + **remover monolito** | ✅ main |
+| **7** | Testes comportamentais (5 rotas API) | ✅ main |
+| **8** | Sidebar lateral | ✅ main |
+| **9** | Dashboard unificado na home | ✅ main |
+| **10** | Polish visual (QuickLinks, Sidebar, RecentActivity, tema claro) | ✅ main |
+| **11** | Limpeza técnica + security | ✅ branch |
 
-### Fase 2 — detalhamento
+### 3.2 Fase 6 — Remover monolito (17 sub-fases)
 
-| Sub-fase | Escopo | Status |
-|---|---|---|
-| 2a | Leitura `/titulares` (quick-search + GET holders) | ✅ |
-| 2b | CRUD `/dependentes` | ✅ |
-| 2c | Import CSV `/titulares/importar` | ✅ |
-| 2d | `/contratos` + elegibilidade | ✅ |
-| 2e | Extrair tipos para `src/types/domain.ts` | ✅ |
+| Sub-fase | Escopo |
+|---|---|
+| 6a/6b | Diagnóstico do monolito + financial inline |
+| 6c | Extrair `executive` → `/executivo` |
+| 6d-0a/0b/0c | Modais DRE/Carnets/Cobrança + Vendas Avulsas + ThemeToggle |
+| 6e | Remover `TenantProvider` (código morto) |
+| 6f | Esconder links por role |
+| 6g-1 | RBAC → `/usuarios` |
+| 6g-2 | TenantSettings → `/configuracoes` |
+| 6g-3 | ModalWebhookRetry → BillingTab |
+| 6g-4 | Tela de pendência de aprovação |
+| 6g-5 | Portar 2 impressões (Termo + Guia) |
+| 6g-6a/b/c | CRUD titular + DELETE sepultamento + Logout |
+| 6g-6d | **REMOVER MONOLITO + HomeRedirect** |
 
-### Fase 3 — detalhamento
+**Impacto:** `page.tsx` **5081 → 50 linhas**. Score **6.85 → 7.84**.
 
-| Sub-fase | Escopo | Status |
-|---|---|---|
-| 3a | `/crm` (CrmTab envelopado) | ✅ |
-| 3b | Link `/crm` no layout | ✅ |
-| 3c-1 | `/beneficios` (BenefitsTab novo — 274 linhas) | ✅ |
-| 3c-2 | `/convalescencia` (ConvalescenceTab novo — 336 linhas) | ✅ |
-| 3d | `/fiscal` (FiscalTab envelopado) | ✅ |
-| 3e | Navegação completa com dropdowns agrupados | ✅ |
+### 3.3 Fase 7 — Testes comportamentais (+33 testes)
 
-### Fase 4 — detalhamento
+| Rota | Testes |
+|---|---|
+| `webhooks/asaas` | 6 (+2 na 11d) |
+| `holders` | 6 |
+| `billing/asaas-batch` | 6 |
+| `billing/pix` | 8 |
+| `payments/pix` | 7 |
 
-| Sub-fase | Escopo | Status |
-|---|---|---|
-| 4a | Frota (`/frota`), Estoque (`/estoque`) | ✅ |
-| 4b | Tanatopraxia (`/tanatopraxia`), Capela (`/capela`) | ✅ |
-| 4c | Ordens de Serviço (`/ordens`, `/ordens/nova`, cancelar), Sepultamentos (`/sepultamentos`) | ✅ |
-| 4d-1 | Logística (`/logistica` — dispatches + auditoria + rotas de coletor) | ✅ |
-| 4d-2 | Emergências (adiada — fallback via `whatsappAgent.ts`) | ⏸️ |
-| 4d-3 | Link `/logistica` no dropdown Operacional | ✅ |
+**Helper:** `tests/helpers/api-mocks.ts` (mockSupabaseAdmin, mockRateLimit, mockWithAuth, mockAsaasFetch, makeChain, makeAsaasRequest).
 
-### Fase 5 — detalhamento
+**Regressão recuperada (7b):** bloco de sync `plan_id` no PATCH `/api/holders` (perdido após 6g-6a).
 
-| Sub-fase | Escopo | Status |
-|---|---|---|
-| 5a-1 | `/financeiro` read-only (BillingTab) | ✅ |
-| 5a-2 | Lote Asaas + baixa manual | ✅ |
-| 5a-3 | Link `/financeiro` no layout | ✅ |
-| 5b-1 | `/livro-caixa` (FinancialTab — transactions) | ✅ |
-| 5b-2 | Summary + reservas regulatórias (Lei 13.261/2016) | ✅ |
-| 5b-3 | Link `/livro-caixa` no layout | ✅ |
-| 5c-1 | `/contas-a-pagar` (AccountsPayableTab — API órfã) | ✅ |
-| 5c-2 | `/auditoria` (AuditLogsTab — API órfã, read-only) | ✅ |
-| 5c-3 | Links + novo dropdown Admin no layout | ✅ |
+### 3.4 Fases 8-11
 
-### Destaques da Fase 4
-
-- Primeira sub-fase que **criou endpoint novo** (`GET /api/dispatches`) — API órfã
-- 3 bugs corrigidos em produção: `deceased_type`, `deceased_id`, `<Link>` com `<a>` (Next.js 16)
-- Teste `routes-auth.test` detecta automaticamente que toda nova rota API tem `withAuth`
-- 146 testes ao final (subiu de 145)
-- Score `page.tsx`: **1.0 → 1.4** (+0.4)
-
-### Destaques da Fase 5
-
-- 2 APIs órfãs expostas: `accounts-payable` e `audit-logs`
-- Reservas regulatórias com gráficos (Lei 13.261/2016)
-- Novo dropdown "Admin" no layout
-- Nenhuma alteração em `page.tsx` (regra mantida)
-- Sub-fase 5a-2 lida com dinheiro real no Asaas (cuidado redobrado)
+- **8a/8b:** Sidebar (`w-64`) + header compacto; drawer mobile
+- **9a:** `/` renderiza `<ExecutiveTab />` + `<QuickLinks />` inline
+- **10a-10d:** ícones lucide, indicador grupo ativo, RecentActivity, tema claro no shell
+- **11a:** Remover `printReports.ts` (−228 linhas)
+- **11b:** Diagnóstico `vehicles` × `fleet_vehicles` (legado no banco, sem remoção)
+- **11c:** Fix persistência estoque +/- via `PATCH /api/inventory`
+- **11d-1:** Travar token curto em teste (não bloquear)
+- **11d-2:** Cancelado (billing tem `allowedRoles`)
 
 ---
 
-## 5. Blast radius medido pelo Graphify
+## 4. Blast radius (Graphify)
 
-| Fase / Sub-fase | Nós seed | Nós 1-hop | Arestas |
-|---|---|---|---|
-| Fase 1 (executada) | 26 | 46 | 78 |
-| Fase 2 inteira | 40 | 79 | 169 |
-| Fase 2a | ~12 | ~12 | ~20 |
-| Fase 2b | ~15 | ~15 | ~30 |
-| Fase 2c | ~8 | ~8 | ~15 |
-| Fase 2d | ~20 | ~20 | ~45 |
-| Fase 2e | ~30 | ~30 | ~60 |
-| Fase 4c (OS + Burials) | ~22 | ~22 | ~50 |
-| Fase 5 (Billing + Financial) | ~25 | ~25 | ~55 |
+| Fase / Sub-fase | Nós 1-hop | Arestas |
+|---|---|---|
+| Fase 1 | 46 | 78 |
+| Fase 2 inteira | 79 | 169 |
+| Fase 4c | ~22 | ~50 |
+| Fase 5 | ~25 | ~55 |
+| Fase 6g-6d | máximo | máximo |
 
-**Insight crítico:** a Fase 2 tem **~2× o blast radius da Fase 1** porque contratos/titulares
-são consumidos por **8 módulos de cobrança/serviço** (asaas-batch, pix, boleto,
-generate-cycles, payment-carnets, service-orders, convalescence, page.tsx).
-
-**`eligibility.ts` é intocável nesta fase.** Mudar a assinatura de qualquer um dos
-seus 8 símbolos quebra produção. A regra é **consumir, nunca alterar**.
+**Insight:** Fase 2 teve ~2× o blast da Fase 1 (contratos são consumidos por 8 módulos de cobrança/serviço). `eligibility.ts` intocável (8 símbolos).
 
 ---
 
-## 6. Padrões e decisões estabelecidas
+## 5. Padrões e decisões
 
-### 6.1 Opção A — Copiar, não mover
+### 5.1 Copiar, não mover
+`page.tsx` intacto (diff zero) até 6g-6d. Rota nova independente. Rollback = deletar pasta.
 
-**Regra:** em cada sub-fase, criar rota nova **copiando** lógica do `page.tsx`,
-sem modificar `page.tsx`. Duplicação temporária é aceitável; divergência não.
-
-- ✅ `page.tsx` permanece 100% intacto (diff zero)
-- ✅ Rota nova é independente
-- ✅ Rollback = deletar a pasta nova
-- ⚠️ Duplicação existe até a Fase 6
-
-### 6.2 Fluxo autônomo por sub-fase
-
-Cada sub-fase segue o ciclo:
-
+### 5.2 Fluxo autônomo por sub-fase
 ```
-1. Reconhecimento (só se nova):
-   - Select-String para mapear APIs e tipos
-   - Responder em 4 seções curtas. PARAR.
-
-2. Execução (após autorização):
-   - Criar arquivos
-   - npx tsc --noEmit (máx 3 tentativas de correção)
-   - npx jest
-   - git add + git commit -m "refactor(fase-XX): ..."
-   - graphify update .
-   - git add graphify-out/ + git commit -m "chore: atualizar grafo"
-   - Reportar em até 10 linhas
-
-3. Teste manual no browser → próxima sub-fase
+1. Reconhecimento (Select-String, 4-6 seções) → PARAR
+2. Execução: criar → tsc → jest → git commit → graphify update → git commit
+3. Teste manual no browser → próxima
 ```
 
-### 6.3 Regras de contexto (economia de tokens)
+### 5.3 Regras de contexto
+- NUNCA ler arquivos > 500 linhas por inteiro
+- NUNCA carregar `graph.json`/`GRAPH_REPORT.md`/`graph.html`
+- UMA ferramenta MCP por mensagem
+- Respostas em até 10 linhas
 
-- **NUNCA** ler arquivos > 500 linhas por inteiro
-- **NUNCA** carregar `graph.json`/`GRAPH_REPORT.md`/`graph.html` no contexto
-- **NUNCA** ler `src/app/page.tsx` inteiro — usar `Select-String`
-- **UMA** ferramenta MCP por mensagem
-- Respostas em no máximo 10 linhas
+### 5.4 APIs
+- NUNCA modificar `src/app/api/` sem autorização explícita
+- Criar novo endpoint APENAS com: `withAuth` + `tenant_id` + justificativa + autorização
 
-### 6.4 Regra refinada sobre APIs
-
-- **NUNCA modificar** arquivos existentes em `src/app/api/` sem autorização explícita
-- **Criar novos** endpoints é permitido APENAS com:
-  - `withAuth` + `tenant_id` filter
-  - Justificativa (endpoint ausente para funcionalidade órfã)
-  - Autorização explícita no prompt da sub-fase
+### 5.5 Tailwind
+- Classes dinâmicas (`border-l-${cor}`) são purgadas
+- Usar lookups estáticos (`ACTIVE_BORDER: Record<string, string>`)
 
 ---
 
-## 7. Aprendizados sobre IA
+## 6. Aprendizados sobre IA
 
-### Modelos que NÃO servem para refatoração de código
-
-**Upstage Solar Pro 4 (via Cline)** — sintomas observados:
-- Loop infinito de "Resposta final" (100+ linhas repetidas)
-- Alucinação de arquivos criados que nunca existiram
-- Corrupção de encoding (`Cônjuge` → `CÃ´njuge`)
-- Picar funções em pedaços e remontar fora de ordem
-- Imports corrompidos: remover `@` de `@/lib/...`
-- Inserir anotações inválidas (`(see below for file content)`)
-
-**Poolside Laguna S 2.1** — melhor que Solar, mas:
-- "Runs short" em sessões longas (perde contexto no meio de execução)
-- Mistura espanhol com pt-BR consistentemente
-- Aceitável para tarefas focadas, não para refatorações grandes
+### Modelos que NÃO servem
+- **Solar Pro 4:** loop infinito, alucinação, encoding corrompido
+- **Laguna S 2.1:** "runs short" em sessões longas, mistura espanhol
 
 ### Modelos recomendados
-
-- **DeepSeek** (pago, barato, estável) — preferido
-- **Groq `openai/gpt-oss-120b`** (grátis, com TPM 8000)
-- **Claude Sonnet** (pago, excelente)
+- **DeepSeek** (pago, barato, estável)
+- **Groq `openai/gpt-oss-120b`** (grátis, TPM 8000)
+- **Claude Sonnet** (pago)
 
 ### Regra prática
-
-- Refatorações mecânicas com padrão claro → **manual ou IA com código pronto**
-- CRUDs simples → **IA funciona bem**
-- Tarefas críticas (dinheiro, auth) → **sempre revisar**
+- Refatorações mecânicas → manual ou IA com código pronto
+- CRUDs simples → IA funciona bem
+- Tarefas críticas → sempre revisar
+- Loop de pergunta → **reiniciar sessão** (context compacted)
 
 ---
 
-## 8. Commits e histórico
-
-### Branch `main` (estado atual)
-
-Todos os commits das Fases 1-5 estão consolidados aqui após merges sucessivos.
+## 7. Commits e histórico
 
 ### Sequência de merges
+1. `refactor/fase-1-plans-sellers` → main
+2. `refactor/fase-2-titulares` → main (5 sub-fases)
+3. `refactor/fase-3-crm-fiscal` → main (6 sub-fases)
+4. `refactor/fase-4-servico-funerario` → main (5 sub-fases)
+5. `refactor/fase-5-cobranca-financeiro` → main (9 sub-fases)
+6. `refactor/fase-6-auth-limpeza` → main (17 sub-fases)
+7. `refactor/fase-8-sidebar` → main (Fases 8+9+10)
+8. `refactor/fase-11-limpeza` → main (pendente)
 
-1. **Fase 1** — `refactor/fase-1-plans-sellers` → main
-2. **Fase 2** — `refactor/fase-2-titulares` → main (5 sub-fases)
-3. **Fase 3** — `refactor/fase-3-crm-fiscal` → main (6 sub-fases)
-4. **Fase 4** — `refactor/fase-4-servico-funerario` → main (5 sub-fases efetivas)
-5. **Fase 5** — `refactor/fase-5-cobranca-financeiro` → main (9 sub-fases efetivas)
+### Estrutura
+Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 
-### Estrutura de commits por sub-fase
-
-Cada sub-fase gera **2 commits**:
-- `refactor(fase-XX): <descrição>` — código
-- `chore: atualizar grafo apos XX` — grafo
-
-Total estimado: **~120 commits** (60 refactors + 60 grafo).
-
-### Fixes notáveis (fora do fluxo normal)
-
-- `fix(fase-4c-2b): remover mapeamento desnecessario de deceased_type`
-- `fix(fase-4c-2b): preencher deceased_id obrigatorio pela API`
-- `fix(fase-4c-2a): remover <a> dentro de <Link> (Next.js 16)`
-
----
-
-## 9. Artefatos gerados
-
-| Arquivo | Tamanho | Descrição |
-|---|---|---|
-| `graphify-out/graph.json` | ~2.4 MB | Grafo técnico |
-| `graphify-out/GRAPH_REPORT.md` | ~36 KB | Relatório legível |
-| `graphify-out/graph.html` | ~2 MB | Visualização interativa |
-| `docs/GRAPHIFY.md` | ~604 linhas | Documento manual escrito pelo Cline |
-| `docs/JORNADA-GRAPHIFY-E-REFATORACAO.md` | este arquivo | Registro cronológico |
-| `AGENTS.md` | ~120 linhas | Instruções para agentes de IA |
-| `.repowise/` | local | Índice local do Repowise (não versionado) |
+### Fixes notáveis
+- `deceased_type`, `deceased_id`, `<Link>` + `<a>` (Next 16)
+- `/fiscal` tab mapeamento (6f)
+- `plan_id` sync recuperado (7b)
+- Dropdowns fechar (layout)
+- HomeRedirect `/executivo` prioritário
+- `.gitignore` padrão `graphify-out/20*/`
+- Estoque +/- PATCH (11c)
 
 ---
 
-## 10. Próximos passos
+## 8. Artefatos
 
-### Fase 6 — Auth + remover monolito (última fase)
-
-- [ ] 6a: Consolidar AuthGuard, TenantContext, ThemeToggle no layout raiz
-- [ ] 6b: Adicionar controle de role no frontend (para esconder links restritos)
-- [ ] 6c: Remover tabs restantes do `page.tsx`
-- [ ] 6d: Remover `page.tsx` (após tudo migrado)
-- [ ] 6e: Consolidar `TenantProvider` (hoje é código morto)
-
-### Bugs conhecidos (pós-refatoração)
-
-- [ ] Estoque: botões +/- de `inventory` só alteram estado local (sem POST)
-- [ ] `webhooks/asaas` — token fraco (<16 chars) só loga, não bloqueia
-- [ ] Duplicação `page.tsx` × `TenantSettingsTab` (42%)
-- [ ] `loadData` com CCN 44 (brain method)
-- [ ] `TenantProvider` é código morto
-- [ ] Duplicação `vehicles` × `fleet_vehicles`
-- [ ] Rotas de billing sem `allowedRoles` (qualquer role do tenant)
+| Arquivo | Descrição |
+|---|---|
+| `graphify-out/graph.json` | Grafo técnico (~2.4 MB) |
+| `graphify-out/GRAPH_REPORT.md` | Relatório legível |
+| `graphify-out/graph.html` | Visualização interativa |
+| `docs/GRAPHIFY.md` | Doc manual (~604 linhas) |
+| `docs/CODE-RANKER.md` | Análise estrutural |
+| `docs/JORNADA-GRAPHIFY-E-REFATORACAO.md` | Este arquivo |
+| `AGENTS.md` | Instruções para agentes |
+| `supabase/migrations/` | Schema versionado |
+| `src/types/supabase.ts` | Tipos do banco (169 KB) |
+| `tests/helpers/api-mocks.ts` | Helpers de teste |
 
 ---
 
-## 11. Comandos de referência rápida
+## 9. Estado atual do dashboard
+
+### 9.1 Navegação
+- **Sidebar** (`w-64`) com 6 grupos / 24 itens
+- **Header compacto:** hamburger + slogan + ThemeToggle + Sair
+- **Mobile:** drawer + overlay
+- **Filtro por role:** `isTabAllowed`
+- **Tema dual:** shell novo suporta claro/escuro
+
+### 9.2 Home (`/`)
+- Roles com `executive`: `<ExecutiveTab />` + `<QuickLinks />` + `<RecentActivity />` + data
+- Outros roles: redirect para primeira rota permitida
+
+### 9.3 Rotas (24)
+| Grupo | Rotas |
+|---|---|
+| Cadastros | `/executivo`, `/titulares`, `/dependentes`, `/contratos`, `/frota`, `/estoque` |
+| Operacional | `/tanatopraxia`, `/capela`, `/ordens`, `/sepultamentos`, `/logistica` |
+| Comercial | `/planes`, `/vendedores`, `/crm` |
+| Benefícios | `/beneficios`, `/convalescencia` |
+| Financeiro | `/fiscal`, `/financeiro`, `/livro-caixa`, `/contas-a-pagar` |
+| Admin | `/auditoria`, `/usuarios`, `/configuracoes` |
+
+### 9.4 Públicas
+`/login`, `/landing`, `/carteirinha/[cpf]`
+
+### 9.5 APIs cobertas por testes
+- `webhooks/asaas`: 8 | `holders`: 6 | `billing/asaas-batch`: 6 | `billing/pix`: 8 | `payments/pix`: 7
+
+---
+
+## 10. Próximos passos (opcionais)
+
+### Fase 12 — Diferenciais competitivos
+- [ ] Mapa georreferenciado de jazigos
+- [ ] QR Code tracking
+- [ ] Assinatura digital
+- [ ] Config Gateway Asaas: persistir (F-29)
+
+### Fase 11e — Enforcement de token forte
+- [ ] Migrar tokens curtos dos tenants
+- [ ] Trocar logError por bloqueio 401/403
+
+### Fase 13 — Polish adicional
+- [ ] Tabs antigas com tema dual
+- [ ] Alinhar `allowedRoles` de billing
+
+### Fase 14 — Consolidação de tabelas
+- [ ] Dump + drop `fleet_vehicles` e `fleet_expenses`
+
+---
+
+## 11. Bugs conhecidos
+
+### Resolvidos
+- [x] Estoque +/- (11c)
+- [x] Duplicação `page.tsx` × `TenantSettingsTab`
+- [x] `loadData` CCN 44
+- [x] `TenantProvider` morto
+- [x] `printReports.ts` morto
+
+### Pendentes
+- [ ] `webhooks/asaas` token fraco (só loga)
+- [ ] `vehicles` × `fleet_vehicles` (legado no banco)
+- [ ] `allowedRoles` billing inconsistentes
+- [ ] Gateway Asaas form não persiste (F-29)
+- [ ] `deceased_id` obrigatório para tipo `free`
+- [ ] Tabs antigas sem tema dual
+
+---
+
+## 12. Comandos rápidos
 
 ### Graphify
-
 ```powershell
-cd C:\Users\User\eternitysos
 graphify update .                 # incremental, sem LLM
 graphify cluster-only .           # relatório + comunidades
-graphify label . --batch-size 50  # renomear comunidades (Groq)
+graphify label . --batch-size 50  # renomear comunidades
 ```
 
-### Git — fluxo por sub-fase
-
+### Code-Ranker
 ```powershell
-git status --short
-# ... criar arquivo ...
-npx tsc --noEmit
-npm run dev
-git add <arquivo>
-git commit -m "refactor(fase-XX): ..."
+code-ranker report .
+code-ranker docs ts <ID>
+```
+
+### Supabase
+```powershell
+npx supabase start|stop|status
+npx supabase db pull
+npx supabase gen types typescript --local > src/types/supabase.ts
 ```
 
 ### Testar
-
 ```powershell
-npx tsc --noEmit                  # TypeScript
-npm run dev                       # dev server em localhost:3000
-npx jest                          # testes
+npx tsc --noEmit
+npm run dev
+npx jest
+npx jest tests/routes/<nome>
 ```
 
-### Repowise (via Cline)
-
+### Repowise
 ```
-Use repowise__get_health para <arquivo>
-Use repowise__get_change_risk para os commits <hash1>, <hash2>
-Use repowise__get_dead_code
+repowise health --file <arquivo>
+repowise update
 ```
 
 ---
 
-## 12. Links úteis
+## 13. Links úteis
 
-- [Graphify CLI no PyPI](https://pypi.org/project/graphifyy/)
+- [Graphify](https://pypi.org/project/graphifyy/)
 - [Repowise](https://pypi.org/project/repowise/)
-- [Groq Console (API keys)](https://console.groq.com/keys)
-- [Mermaid Live Editor](https://mermaid.live) — visualizar diagramas
-- [Extensão VS Code: Markdown Preview Mermaid](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid)
+- [Code-Ranker](https://github.com/code-ranker-com/code-ranker)
+- [Groq Console](https://console.groq.com/keys)
+- [Supabase CLI](https://supabase.com/docs/guides/local-development/cli/getting-started)
 
 ---
 
-**Fim do registro.** Este arquivo deve ser atualizado ao final de cada fase.
+**Fim do registro.** Atualizar ao final de cada fase.
