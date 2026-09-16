@@ -1,9 +1,9 @@
 # Jornada: Graphify + Refatoração do `page.tsx`
 
 > **Última atualização:** 2026-09-16
-> **Branch:** `refactor/fase-11-limpeza` (pré-merge)
-> **Último commit:** `f6f86b3` (token curto test)
-> **Progresso:** Fases 1-11 completas · monolito removido
+> **Branch:** `main` (Fases 1-13 completas)
+> **Último commit:** `6bbe0f4` (grafo 13c-2)
+> **Progresso:** Fases 1-13 completas · monolito removido
 > **Score geral:** 6.2 → **7.84** (+1.64)
 > **Testes:** 177 (era 145)
 
@@ -63,7 +63,7 @@ Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 
 ---
 
-## 3. Plano de refatoração — 11 fases
+## 3. Plano de refatoração — 13 fases
 
 ### 3.1 Fases macro
 
@@ -79,7 +79,9 @@ Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 | **8** | Sidebar lateral | ✅ main |
 | **9** | Dashboard unificado na home | ✅ main |
 | **10** | Polish visual (QuickLinks, Sidebar, RecentActivity, tema claro) | ✅ main |
-| **11** | Limpeza técnica + security | ✅ branch |
+| **11** | Limpeza técnica + security | ✅ main |
+| **12** | Diferenciais (Gateway fix, Cobrar na OS, NFS-e na OS) | ✅ main |
+| **13** | Venda Avulsa (responsável persistido + wizard `/vendas/nova`) | ✅ main |
 
 ### 3.2 Fase 6 — Remover monolito (17 sub-fases)
 
@@ -110,7 +112,7 @@ Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 | `billing/pix` | 8 |
 | `payments/pix` | 7 |
 
-**Helper:** `tests/helpers/api-mocks.ts` (mockSupabaseAdmin, mockRateLimit, mockWithAuth, mockAsaasFetch, makeChain, makeAsaasRequest).
+**Helper:** `tests/helpers/api-mocks.ts` (`mockSupabaseAdmin`, `mockRateLimit`, `mockWithAuth`, `mockAsaasFetch`, `makeChain`, `makeAsaasRequest`).
 
 **Regressão recuperada (7b):** bloco de sync `plan_id` no PATCH `/api/holders` (perdido após 6g-6a).
 
@@ -124,6 +126,31 @@ Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 - **11c:** Fix persistência estoque +/- via `PATCH /api/inventory`
 - **11d-1:** Travar token curto em teste (não bloquear)
 - **11d-2:** Cancelado (billing tem `allowedRoles`)
+
+### 3.8 Fase 12 — Diferenciais competitivos
+
+| Sub-fase | Escopo | Status |
+|---|---|---|
+| 12a | Remover modal Gateway duplicado (fix F-29) → link `/configuracoes#gateway` | ✅ |
+| 12c-1 | Botão "💰 Cobrar avulso" na OS (modal pré-preenchido) | ✅ |
+| 12c-2 | Botão "🧾 Emitir NFS-e" na OS (modal novo) | ✅ |
+| 12b (QR Code) | Adiado | ⏸️ |
+| 12d (Mapa) | Adiado | ⏸️ |
+
+**Impacto:** bug F-29 resolvido (−170 linhas), fluxo manual passou de 3 telas para 1 tela com 2 cliques.
+
+### 3.9 Fase 13 — Venda Avulsa completa
+
+| Sub-fase | Escopo | Status |
+|---|---|---|
+| 13a | Migration `responsavel_*` em `service_orders` + POST ampliado | ✅ |
+| 13b | Rota orquestradora server-side | ❌ Pulada (atomicidade distribuída impossível) |
+| 13c-1 | Extrair `ItemsForm` + `ResponsavelForm` (reuso) | ✅ |
+| 13c-2 | Wizard `/vendas/nova` (5 steps + 3 POSTs sequenciais) | ✅ |
+
+**Impacto:** venda balcão agora em 1 tela; responsável avulso persistido no banco; degradação graciosa (falha de cobrança/NF não desfaz OS).
+
+**Migration pendente no remoto:** `20260916000000_add_responsavel_to_service_orders.sql` (rodar `npx supabase db push` quando for produção).
 
 ---
 
@@ -198,7 +225,9 @@ Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 5. `refactor/fase-5-cobranca-financeiro` → main (9 sub-fases)
 6. `refactor/fase-6-auth-limpeza` → main (17 sub-fases)
 7. `refactor/fase-8-sidebar` → main (Fases 8+9+10)
-8. `refactor/fase-11-limpeza` → main (pendente)
+8. `refactor/fase-11-limpeza` → main
+9. `refactor/fase-12-diferenciais` → main (12a, 12c-1, 12c-2)
+10. `refactor/fase-13-venda-avulsa` → main (13a, 13c-1, 13c-2)
 
 ### Estrutura
 Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
@@ -211,6 +240,7 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 - HomeRedirect `/executivo` prioritário
 - `.gitignore` padrão `graphify-out/20*/`
 - Estoque +/- PATCH (11c)
+- Gateway Asaas duplicado F-29 (12a)
 
 ---
 
@@ -225,7 +255,7 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 | `docs/CODE-RANKER.md` | Análise estrutural |
 | `docs/JORNADA-GRAPHIFY-E-REFATORACAO.md` | Este arquivo |
 | `AGENTS.md` | Instruções para agentes |
-| `supabase/migrations/` | Schema versionado |
+| `supabase/migrations/` | Schema versionado (1 migration nova: `responsavel_*`) |
 | `src/types/supabase.ts` | Tipos do banco (169 KB) |
 | `tests/helpers/api-mocks.ts` | Helpers de teste |
 
@@ -244,12 +274,13 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 - Roles com `executive`: `<ExecutiveTab />` + `<QuickLinks />` + `<RecentActivity />` + data
 - Outros roles: redirect para primeira rota permitida
 
-### 9.3 Rotas (24)
+### 9.3 Rotas (25)
+
 | Grupo | Rotas |
 |---|---|
 | Cadastros | `/executivo`, `/titulares`, `/dependentes`, `/contratos`, `/frota`, `/estoque` |
 | Operacional | `/tanatopraxia`, `/capela`, `/ordens`, `/sepultamentos`, `/logistica` |
-| Comercial | `/planes`, `/vendedores`, `/crm` |
+| Comercial | `/vendas/nova`, `/planes`, `/vendedores`, `/crm` |
 | Benefícios | `/beneficios`, `/convalescencia` |
 | Financeiro | `/fiscal`, `/financeiro`, `/livro-caixa`, `/contas-a-pagar` |
 | Admin | `/auditoria`, `/usuarios`, `/configuracoes` |
@@ -258,28 +289,29 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 `/login`, `/landing`, `/carteirinha/[cpf]`
 
 ### 9.5 APIs cobertas por testes
-- `webhooks/asaas`: 8 | `holders`: 6 | `billing/asaas-batch`: 6 | `billing/pix`: 8 | `payments/pix`: 7
+- `webhooks/asaas`: 8 · `holders`: 6 · `billing/asaas-batch`: 6 · `billing/pix`: 8 · `payments/pix`: 7
 
 ---
 
 ## 10. Próximos passos (opcionais)
 
-### Fase 12 — Diferenciais competitivos
-- [ ] Mapa georreferenciado de jazigos
-- [ ] QR Code tracking
-- [ ] Assinatura digital
-- [ ] Config Gateway Asaas: persistir (F-29)
+### 12b — QR Code tracking
+- [ ] Geração de QR nas OS + rota pública `/track/[token]`
 
-### Fase 11e — Enforcement de token forte
-- [ ] Migrar tokens curtos dos tenants
-- [ ] Trocar logError por bloqueio 401/403
+### 12d — Mapa georreferenciado de jazigos
+- [ ] Biblioteca Leaflet + geocoding + visualização no `/sepultamentos`
 
-### Fase 13 — Polish adicional
-- [ ] Tabs antigas com tema dual
-- [ ] Alinhar `allowedRoles` de billing
+### 12e — Assinatura digital
+- [ ] Integração DocuSign/Clicksign (termos, contratos)
+
+### 11e — Enforcement de token forte (webhook Asaas)
+- [ ] Migrar tokens curtos dos tenants + bloquear <16 chars
 
 ### Fase 14 — Consolidação de tabelas
 - [ ] Dump + drop `fleet_vehicles` e `fleet_expenses`
+
+### Migration pendente no remoto
+- [ ] `npx supabase db push` (Fase 13a: `responsavel_*`)
 
 ---
 
@@ -291,14 +323,15 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 - [x] `loadData` CCN 44
 - [x] `TenantProvider` morto
 - [x] `printReports.ts` morto
+- [x] Gateway Asaas duplicado (F-29) — 12a
 
 ### Pendentes
-- [ ] `webhooks/asaas` token fraco (só loga)
+- [ ] `webhooks/asaas` token fraco (só loga, não bloqueia)
 - [ ] `vehicles` × `fleet_vehicles` (legado no banco)
 - [ ] `allowedRoles` billing inconsistentes
-- [ ] Gateway Asaas form não persiste (F-29)
 - [ ] `deceased_id` obrigatório para tipo `free`
 - [ ] Tabs antigas sem tema dual
+- [ ] Migration `responsavel_*` pendente no remoto
 
 ---
 
@@ -321,6 +354,7 @@ code-ranker docs ts <ID>
 ```powershell
 npx supabase start|stop|status
 npx supabase db pull
+npx supabase db push              # aplica migrations no remoto
 npx supabase gen types typescript --local > src/types/supabase.ts
 ```
 
