@@ -1,7 +1,7 @@
 {
-  "0": "api-handler.ts",
+  "0": "supabaseAdmin.ts",
   "1": "validate_data.py",
-  "2": "holders/route.ts",
+  "2": "sanitizeString",
   "3": "cip/core.py",
   "4": "gray",
   "5": "whatsapp.ts",
@@ -16,7 +16,7 @@
   "14": "Design",
   "15": "Canvas Design System",
   "16": "Prerequisites",
-  "17": "leads/route.ts",
+  "17": "checkRateLimit",
   "18": "spacing",
   "19": "search_stack",
   "20": "design_system.py",
@@ -386,6 +386,5 @@
   "384": "_row_identities",
   "385": "\"public\".\"commissions\"",
   "386": "AccountsPayableTab.tsx",
-  "387": "scripts/search.py",
-  "388": "supabaseAdmin.ts"
+  "387": "scripts/search.py"
 }
