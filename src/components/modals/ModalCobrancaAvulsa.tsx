@@ -12,11 +12,20 @@ export function ModalCobrancaAvulsa({
   isOpen,
   onClose,
   defaultName,
+  defaultServiceOrderId,
+  defaultCustomerName,
+  defaultAmount,
   onSuccess,
 }: {
   isOpen: boolean;
   onClose: () => void;
   defaultName?: string;
+  /** 12c-1: vincula a cobrança a uma OS existente (enviado como service_order_id) */
+  defaultServiceOrderId?: string;
+  /** 12c-1: prefill do nome do responsável (editável — ponto de partida) */
+  defaultCustomerName?: string;
+  /** 12c-1: prefill do valor (total da OS) */
+  defaultAmount?: number;
   onSuccess?: () => void;
 }) {
   const [nome, setNome] = useState("");
@@ -35,12 +44,15 @@ export function ModalCobrancaAvulsa({
     pixCopy?: string;
   } | null>(null);
 
+  // 12c-1: ao abrir, prefill a partir da OS (valor = total da OS).
   React.useEffect(() => {
     if (isOpen) {
       setResult(null);
       setDesc(defaultName ? `Funeral de ${defaultName}` : "Serviço funerário avulso");
+      if (defaultCustomerName) setNome(defaultCustomerName);
+      if (defaultAmount && defaultAmount > 0) setValor(String(defaultAmount));
     }
-  }, [isOpen, defaultName]);
+  }, [isOpen, defaultName, defaultCustomerName, defaultAmount]);
 
   if (!isOpen) return null;
 
@@ -60,6 +72,9 @@ export function ModalCobrancaAvulsa({
           valor: Number(valor),
           vencimento,
           billingType,
+          ...(defaultServiceOrderId
+            ? { service_order_id: defaultServiceOrderId }
+            : {}),
         }),
       });
       const data = await res.json().catch(() => ({}));

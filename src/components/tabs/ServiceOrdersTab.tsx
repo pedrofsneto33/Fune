@@ -8,6 +8,7 @@ import { ServiceOrder } from '@/types/domain';
 import BurialGuide from '@/components/print/BurialGuide';
 import { authFetch } from '@/lib/authFetch';
 import { notifyError, notifySuccess } from '@/lib/notify';
+import { ModalCobrancaAvulsa } from '@/components/modals/ModalCobrancaAvulsa';
 
 export default function ServiceOrdersTab() {
   const [serviceOrders, setServiceOrders] = useState<ServiceOrder[]>([]);
@@ -18,6 +19,8 @@ export default function ServiceOrdersTab() {
   const [printBurial, setPrintBurial] = useState<
     NonNullable<ServiceOrder['burial']> | null
   >(null);
+  // 12c-1: cobrança avulsa pré-preenchida a partir de uma OS
+  const [cobrarOS, setCobrarOS] = useState<ServiceOrder | null>(null);
 
   useEffect(() => {
     let cancel = false;
@@ -77,6 +80,14 @@ export default function ServiceOrdersTab() {
     if (s === 'in_progress' || s === 'em_traslado') return 'bg-amber-900/30 text-amber-300';
         return 'bg-slate-800 text-slate-300';
   };
+
+  // 12c-1: total da OS — prefere total_amount (coluna real); fallback: soma dos itens
+  const orderTotal = (so: ServiceOrder) =>
+    so.total_amount ||
+    (so.items || []).reduce(
+      (acc, i) => acc + (i.quantity || 0) * (Number(i.unit_price) || 0),
+      0,
+    );
 
   return (
     <div className="space-y-4">
@@ -153,6 +164,14 @@ export default function ServiceOrdersTab() {
                       className="mr-1 px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded text-[11px] font-semibold"
                     >
                       🖨️ Guia
+                    </button>
+                  )}
+                  {so.status !== 'cancelled' && (
+                    <button
+                      onClick={() => setCobrarOS(so)}
+                      className="mr-1 px-2.5 py-1 bg-amber-950/60 hover:bg-amber-900/60 text-amber-300 border border-amber-800/60 rounded text-[11px] font-semibold"
+                    >
+                      💰 Cobrar
                     </button>
                   )}
                   <button
@@ -251,6 +270,18 @@ export default function ServiceOrdersTab() {
       {/* Impressão da Guia de Sepultamento (6g-5) — via so.burial */}
       {printBurial && (
         <BurialGuide burial={printBurial} onClose={() => setPrintBurial(null)} />
+      )}
+
+      {/* 12c-1: cobrança avulsa pré-preenchida (service_order_id + valor da OS) */}
+      {cobrarOS && (
+        <ModalCobrancaAvulsa
+          isOpen={!!cobrarOS}
+          onClose={() => setCobrarOS(null)}
+          defaultName={cobrarOS.deceased_name}
+          defaultCustomerName={cobrarOS.deceased_name}
+          defaultServiceOrderId={cobrarOS.id}
+          defaultAmount={orderTotal(cobrarOS) || undefined}
+        />
       )}
     </div>
   );
