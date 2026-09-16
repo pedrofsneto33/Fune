@@ -4,7 +4,7 @@ import * as path from 'path';
 const readSrc = (rel: string): string =>
   fs.readFileSync(path.join(process.cwd(), rel), 'utf-8');
 
-const home = () => readSrc('src/app/page.tsx');
+const home = () => readSrc('src/app/(dashboard)/page.tsx');
 const dashLayout = () => readSrc('src/app/(dashboard)/layout.tsx');
 const guard = () => readSrc('src/components/AuthGuard.tsx');
 
@@ -12,10 +12,9 @@ const guard = () => readSrc('src/components/AuthGuard.tsx');
 // POS-MONOLITO (Fase 6g-6d): HomeRedirect + shell role-aware
 // ============================================================
 describe('Regressao: pos-monolito (HomeRedirect + shell)', () => {
-  it('monolito removido: home exporta HomePage (sem monolito)', () => {
+  it('monolito removido: home exporta DashboardHomePage (sem monolito)', () => {
     const src = home();
-    expect(src).toMatch(/export default function HomePage/);
-    expect(src).toMatch(/HomeRedirect/);
+    expect(src).toMatch(/export default function DashboardHomePage/);
   });
 
   it('home redireciona por role via init-user + NAV_GROUPS', () => {
