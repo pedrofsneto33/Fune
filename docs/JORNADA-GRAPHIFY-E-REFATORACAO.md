@@ -1,9 +1,9 @@
 # Jornada: Graphify + Refatoração do `page.tsx`
 
 > **Última atualização:** 2026-09-16
-> **Branch:** `main` (Fases 1-13 completas)
-> **Último commit:** `6bbe0f4` (grafo 13c-2)
-> **Progresso:** Fases 1-13 completas · monolito removido
+> **Branch:** `main` (Fases 1-13 + 12b completas)
+> **Último commit:** `7df956d` (grafo 12b-3)
+> **Progresso:** Fases 1-13 + 12b · monolito removido · migrations aplicadas no remoto
 > **Score geral:** 6.2 → **7.84** (+1.64)
 > **Testes:** 177 (era 145)
 
@@ -27,7 +27,7 @@ Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 ### 2.1 Graphify (0.9.61)
 - Gera `graph.json`, `GRAPH_REPORT.md`, `graph.html`
 - **Setup:** `Set-Alias graphify "C:\Python314\Scripts\graphify.exe"` + backend Groq (`openai/gpt-oss-120b`, `--batch-size 50`)
-- **Grafo atual:** ~3800 nós, ~5500 arestas, ~380 comunidades, 43 arquivos SQL
+- **Grafo atual:** ~3797 nós, ~5683 arestas, ~396 comunidades, 43 arquivos SQL
 
 **Hubs (god modules):**
 | Símbolo | Conexões |
@@ -59,11 +59,11 @@ Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 ### 2.4 Supabase CLI (2.117.0)
 - Schema versionado (`supabase/migrations/`) + banco local Docker + tipos TS
 - Tipos: `src/types/supabase.ts` (169 KB)
-- Comandos: `npx supabase start|stop|db pull|gen types typescript --local`
+- Comandos: `npx supabase start|stop|db pull|db push|gen types typescript --local`
 
 ---
 
-## 3. Plano de refatoração — 13 fases
+## 3. Plano de refatoração — 13 fases + 12b
 
 ### 3.1 Fases macro
 
@@ -80,7 +80,7 @@ Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 | **9** | Dashboard unificado na home | ✅ main |
 | **10** | Polish visual (QuickLinks, Sidebar, RecentActivity, tema claro) | ✅ main |
 | **11** | Limpeza técnica + security | ✅ main |
-| **12** | Diferenciais (Gateway fix, Cobrar na OS, NFS-e na OS) | ✅ main |
+| **12** | Diferenciais (Gateway fix, Cobrar na OS, NFS-e na OS, QR tracking) | ✅ main |
 | **13** | Venda Avulsa (responsável persistido + wizard `/vendas/nova`) | ✅ main |
 
 ### 3.2 Fase 6 — Remover monolito (17 sub-fases)
@@ -134,10 +134,13 @@ Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 | 12a | Remover modal Gateway duplicado (fix F-29) → link `/configuracoes#gateway` | ✅ |
 | 12c-1 | Botão "💰 Cobrar avulso" na OS (modal pré-preenchido) | ✅ |
 | 12c-2 | Botão "🧾 Emitir NFS-e" na OS (modal novo) | ✅ |
-| 12b (QR Code) | Adiado | ⏸️ |
+| 12b-1 | Token de tracking em `service_orders` + backfill + migration | ✅ |
+| 12b-2 | Botão "🔗 QR" em `/ordens` + `ModalQrOS` (impressão isolada) | ✅ |
+| 12b-3 | Rota pública `/track/[token]` + AuthGuard libera `/track` | ✅ |
 | 12d (Mapa) | Adiado | ⏸️ |
+| 12e (Assinatura digital) | Adiado | ⏸️ |
 
-**Impacto:** bug F-29 resolvido (−170 linhas), fluxo manual passou de 3 telas para 1 tela com 2 cliques.
+**Impacto:** bug F-29 resolvido (−170 linhas), fluxo manual de venda em 1 tela, QR Code tracking público por OS (rota `/track/[token]` sem PII).
 
 ### 3.9 Fase 13 — Venda Avulsa completa
 
@@ -148,9 +151,9 @@ Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 | 13c-1 | Extrair `ItemsForm` + `ResponsavelForm` (reuso) | ✅ |
 | 13c-2 | Wizard `/vendas/nova` (5 steps + 3 POSTs sequenciais) | ✅ |
 
-**Impacto:** venda balcão agora em 1 tela; responsável avulso persistido no banco; degradação graciosa (falha de cobrança/NF não desfaz OS).
+**Impacto:** venda balcão em 1 tela; responsável avulso persistido no banco; degradação graciosa (falha de cobrança/NF não desfaz OS).
 
-**Migration pendente no remoto:** `20260916000000_add_responsavel_to_service_orders.sql` (rodar `npx supabase db push` quando for produção).
+**Migrations no remoto:** ✅ aplicadas em 2026-09-16 (`responsavel_*` + `tracking_token`).
 
 ---
 
@@ -212,6 +215,7 @@ Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 - CRUDs simples → IA funciona bem
 - Tarefas críticas → sempre revisar
 - Loop de pergunta → **reiniciar sessão** (context compacted)
+- Tarefa grande + joins complexos → **dividir em 2 tarefas menores**
 
 ---
 
@@ -228,6 +232,7 @@ Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 8. `refactor/fase-11-limpeza` → main
 9. `refactor/fase-12-diferenciais` → main (12a, 12c-1, 12c-2)
 10. `refactor/fase-13-venda-avulsa` → main (13a, 13c-1, 13c-2)
+11. `refactor/fase-12b-qrcode` → main (12b-1, 12b-2, 12b-3)
 
 ### Estrutura
 Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
@@ -238,7 +243,7 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 - `plan_id` sync recuperado (7b)
 - Dropdowns fechar (layout)
 - HomeRedirect `/executivo` prioritário
-- `.gitignore` padrão `graphify-out/20*/`
+- `.gitignore` padrão `graphify-out/20*/` + `backup-*.sql`
 - Estoque +/- PATCH (11c)
 - Gateway Asaas duplicado F-29 (12a)
 
@@ -255,16 +260,19 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 | `docs/CODE-RANKER.md` | Análise estrutural |
 | `docs/JORNADA-GRAPHIFY-E-REFATORACAO.md` | Este arquivo |
 | `AGENTS.md` | Instruções para agentes |
-| `supabase/migrations/` | Schema versionado (1 migration nova: `responsavel_*`) |
+| `supabase/migrations/` | Schema versionado (2 migrations novas: `responsavel_*` + `tracking_token`) |
 | `src/types/supabase.ts` | Tipos do banco (169 KB) |
 | `tests/helpers/api-mocks.ts` | Helpers de teste |
+| `src/components/forms/` | `ItemsForm` + `ResponsavelForm` (reuso) |
+| `src/components/modals/ModalQrOS.tsx` | Modal QR |
+| `src/app/track/[token]/page.tsx` | Rota pública de tracking |
 
 ---
 
 ## 9. Estado atual do dashboard
 
 ### 9.1 Navegação
-- **Sidebar** (`w-64`) com 6 grupos / 24 itens
+- **Sidebar** (`w-64`) com 6 grupos / 25 itens
 - **Header compacto:** hamburger + slogan + ThemeToggle + Sair
 - **Mobile:** drawer + overlay
 - **Filtro por role:** `isTabAllowed`
@@ -274,7 +282,7 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 - Roles com `executive`: `<ExecutiveTab />` + `<QuickLinks />` + `<RecentActivity />` + data
 - Outros roles: redirect para primeira rota permitida
 
-### 9.3 Rotas (25)
+### 9.3 Rotas (26)
 
 | Grupo | Rotas |
 |---|---|
@@ -286,7 +294,7 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 | Admin | `/auditoria`, `/usuarios`, `/configuracoes` |
 
 ### 9.4 Públicas
-`/login`, `/landing`, `/carteirinha/[cpf]`
+`/login`, `/landing`, `/carteirinha/[cpf]`, `/track/[token]`
 
 ### 9.5 APIs cobertas por testes
 - `webhooks/asaas`: 8 · `holders`: 6 · `billing/asaas-batch`: 6 · `billing/pix`: 8 · `payments/pix`: 7
@@ -294,9 +302,6 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 ---
 
 ## 10. Próximos passos (opcionais)
-
-### 12b — QR Code tracking
-- [ ] Geração de QR nas OS + rota pública `/track/[token]`
 
 ### 12d — Mapa georreferenciado de jazigos
 - [ ] Biblioteca Leaflet + geocoding + visualização no `/sepultamentos`
@@ -310,8 +315,10 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 ### Fase 14 — Consolidação de tabelas
 - [ ] Dump + drop `fleet_vehicles` e `fleet_expenses`
 
-### Migration pendente no remoto
-- [ ] `npx supabase db push` (Fase 13a: `responsavel_*`)
+### Fase 15 — Testes adicionais
+- [ ] Cobrir novos endpoints de venda avulsa (13c)
+- [ ] Teste E2E do wizard `/vendas/nova`
+- [ ] Teste da rota pública `/track/[token]`
 
 ---
 
@@ -324,6 +331,7 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 - [x] `TenantProvider` morto
 - [x] `printReports.ts` morto
 - [x] Gateway Asaas duplicado (F-29) — 12a
+- [x] Migration remota pendente — aplicada em 2026-09-16
 
 ### Pendentes
 - [ ] `webhooks/asaas` token fraco (só loga, não bloqueia)
@@ -331,7 +339,7 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 - [ ] `allowedRoles` billing inconsistentes
 - [ ] `deceased_id` obrigatório para tipo `free`
 - [ ] Tabs antigas sem tema dual
-- [ ] Migration `responsavel_*` pendente no remoto
+- [ ] Cobertura de testes para wizard de venda (13c)
 
 ---
 
@@ -355,6 +363,7 @@ code-ranker docs ts <ID>
 npx supabase start|stop|status
 npx supabase db pull
 npx supabase db push              # aplica migrations no remoto
+npx supabase migration list --linked
 npx supabase gen types typescript --local > src/types/supabase.ts
 ```
 
