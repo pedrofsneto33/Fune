@@ -41,16 +41,18 @@ export default function Sidebar({ groups, open, onClose }: SidebarProps) {
 
       {/* Sidebar panel */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 bg-[#0d111a] border-r border-slate-800 overflow-y-auto transition-transform duration-200 ease-in-out
+        className={`fixed inset-y-0 left-0 z-40 w-64 shrink-0 bg-[#0d111a] border-r border-slate-800 overflow-y-auto transition-transform duration-200 ease-in-out lg:sticky lg:top-0 lg:h-screen lg:z-auto
           ${open ? 'translate-x-0' : '-translate-x-full'}
-          lg:translate-x-0 lg:static lg:z-auto lg:transform-none`}
-      >
-        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800 lg:hidden">
-          <span className="font-bold text-sm text-white">Menu</span>
+          lg:translate-x-0`}
+            >
+        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800">
+          <Link href="/executivo" className="font-bold text-sm text-white dark:text-white tracking-wider">
+            ETERNITY<span className="text-emerald-400">OS</span>
+          </Link>
           <button
             type="button"
             onClick={onClose}
-            className="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-white transition-colors"
+            className="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-white transition-colors lg:hidden"
             aria-label="Fechar menu"
           >
             <XIcon />

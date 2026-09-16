@@ -1,13 +1,15 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState, ReactNode } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { useCallback, useEffect, useState, ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
 import ThemeToggle from '@/components/ThemeToggle';
+import Sidebar from '@/components/Sidebar';
 import PendingApprovalScreen from '@/components/PendingApprovalScreen';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { supabase } from '@/lib/supabase';
 import { authFetch } from '@/lib/authFetch';
 import { AppRole, isTabAllowed } from '@/config/permissions';
+
 
 type NavItem = { href: string; label: string; tab: string; active: string };
 
@@ -72,29 +74,13 @@ export const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
 type AuthState = 'loading' | 'pending' | 'error' | 'authenticated';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
   const router = useRouter();
   const [signingOut, setSigningOut] = useState(false);
 
-  // Controla qual dropdown esta aberto (nome do grupo ou null)
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const navRef = useRef<HTMLElement | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
 
-  // Fechar dropdown ao clicar fora do <nav>
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (navRef.current && !navRef.current.contains(event.target as Node)) {
-        setOpenDropdown(null);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
-  // Fechar dropdown ao navegar (mudar de rota)
-  useEffect(() => {
-    setOpenDropdown(null);
-  }, [pathname]);
 
   const handleSignOut = async () => {
     if (!window.confirm('Sair da conta?')) return;
@@ -176,72 +162,51 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     );
   }
 
-  return (
-    <div className="min-h-screen bg-[#07090e] text-slate-900 dark:text-slate-100 font-sans antialiased">
-      <header className="border-b border-slate-200 dark:border-slate-800 bg-[#0d111a] relative z-40">
-        <div className="flex items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-2">
-            <Link href="/" className="font-bold text-sm text-slate-900 dark:text-white tracking-wider">
-              ETERNITY<span className="text-emerald-400">OS</span>
-            </Link>
-            <span className="text-[10px] text-slate-600 dark:text-slate-500">
-              ERP Funerário Integrado
-            </span>
+    return (
+    <div className="min-h-screen bg-[#07090e] text-slate-100 flex">
+      {/* Sidebar: fixa desktop, drawer mobile */}
+      <Sidebar
+        groups={visibleGroups}
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
+
+      {/* Conteudo principal */}
+      <div className="flex-1 flex flex-col min-h-screen min-w-0">
+        {/* Header compacto */}
+        <header className="border-b border-slate-800 bg-[#0d111a] sticky top-0 z-30">
+          <div className="flex items-center justify-between px-4 py-3">
+            <div className="flex items-center gap-3">
+              {/* Hamburger mobile */}
+              {!isDesktop && (
+                <button
+                  onClick={() => setSidebarOpen(true)}
+                  className="text-slate-400 hover:text-white lg:hidden"
+                  aria-label="Abrir menu"
+                >
+                  ☰
+                </button>
+              )}
+              <span className="text-xs text-slate-500">
+                ERP Funerário Integrado
+              </span>
+            </div>
+            <div className="flex items-center gap-4">
+              <ThemeToggle compact />
+              <button
+                onClick={handleSignOut}
+                disabled={signingOut}
+                className="text-slate-400 hover:text-red-400 text-xs transition disabled:opacity-50"
+              >
+                {signingOut ? 'Saindo...' : '🚪 Sair'}
+              </button>
+            </div>
           </div>
-          <nav ref={navRef} className="flex items-center gap-4">
-            {visibleGroups.map((g) => {
-              const isOpen = openDropdown === g.label;
-              return (
-                <div key={g.label} className="relative">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setOpenDropdown(isOpen ? null : g.label)
-                    }
-                    className={`text-xs font-semibold transition cursor-pointer select-none ${
-                      isOpen
-                        ? 'text-white'
-                        : 'text-slate-400 hover:text-white'
-                    }`}
-                  >
-                    {g.label}
-                  </button>
-                  {isOpen && (
-                    <div className="absolute top-full left-0 mt-2 bg-[#0d111a] border border-slate-800 rounded-lg p-2 min-w-[200px] shadow-2xl flex flex-col gap-1 z-50">
-                      {g.items.map((i) => (
-                        <Link
-                          key={i.href}
-                          href={i.href}
-                          onClick={() => setOpenDropdown(null)}
-                          className={`text-xs font-semibold px-3 py-2 rounded transition whitespace-nowrap ${
-                            pathname === i.href
-                              ? `${i.active} bg-slate-800`
-                              : 'text-slate-400 hover:text-white hover:bg-slate-800'
-                          }`}
-                        >
-                          {i.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-            <ThemeToggle compact />
-            <button
-              onClick={handleSignOut}
-              disabled={signingOut}
-              className="text-slate-400 hover:text-red-400 text-sm transition disabled:opacity-50"
-            >
-              {signingOut ? 'Saindo...' : '🚪 Sair'}
-            </button>
-            <Link href="/" className="text-xs text-slate-400 hover:text-white transition">
-              ← Dashboard
-            </Link>
-          </nav>
-        </div>
-      </header>
-      <main className="p-4">{children}</main>
+        </header>
+
+        {/* Conteudo da pagina */}
+        <main className="flex-1 p-6">{children}</main>
+      </div>
     </div>
   );
 }
