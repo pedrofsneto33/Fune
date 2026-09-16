@@ -1,7 +1,7 @@
 # Graph Report - eternitysos  (2026-09-16)
 
 ## Corpus Check
-- 397 files · ~380,340 words
+- 397 files · ~380,386 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 63 file(s) not represented in the graph (top: .csv 53, (none) 3, .log 3)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `5f46c39f`
+- Built from commit: `24437dda`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -1269,7 +1269,7 @@ Nodes (3): primary-foreground, $type, $value
 
 ### Community 390 - "10. Próximos passos (opcionais)"
 Cohesion: 0.33
-Nodes (6): 10. Próximos passos (opcionais), 11e — Enforcement de token forte (webhook Asaas), 12d — Mapa georreferenciado de jazigos, 12e — Assinatura digital, Fase 14 — Consolidação de tabelas, Fase 15 — Testes adicionais
+Nodes (6): 10. Próximos passos (opcionais), 11e — Enforcement de token forte (webhook Asaas) — ✅ CONCLUÍDA, 12d — Mapa georreferenciado de jazigos, 12e — Assinatura digital, Fase 14 — Consolidação de tabelas, Fase 15 — Testes adicionais
 
 ### Community 391 - "2. Ferramentas"
 Cohesion: 0.40

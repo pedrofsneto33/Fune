@@ -942,9 +942,9 @@
     "semantic_hash": "c621ef415b6050d6bb6dd6156a7d704f"
   },
   "src/app/api/tenants/route.ts": {
-    "mtime": 1789594659.6875982,
-    "seen": 1789594883.310913,
-    "ast_hash": "a6631c1664b222780b71ce829f0122b5",
+    "mtime": 1789596365.57092,
+    "seen": 1789596477.536219,
+    "ast_hash": "e25950becf28d1011ccc90524f646f42",
     "semantic_hash": ""
   },
   "src/app/api/thanatopraxy/route.ts": {
@@ -2046,9 +2046,9 @@
     "semantic_hash": ""
   },
   "docs/JORNADA-GRAPHIFY-E-REFATORACAO.md": {
-    "mtime": 1789594240.7683349,
-    "seen": 1789594883.3111398,
-    "ast_hash": "bc4628a763607f29fe9da7bf22e7e23b",
+    "mtime": 1789596331.0501435,
+    "seen": 1789596477.5366018,
+    "ast_hash": "3b53bf7d41e37c5f7097c7164212ad6b",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/titulares/importar/page.tsx": {
@@ -2430,9 +2430,9 @@
     "semantic_hash": ""
   },
   "tests/routes/tenants.test.ts": {
-    "mtime": 1789594840.074854,
-    "seen": 1789594883.3110354,
-    "ast_hash": "b408f82c23ee30e87de6179031d0b2cb",
+    "mtime": 1789596367.811593,
+    "seen": 1789596477.5364819,
+    "ast_hash": "c5b5de8a5c562da5dc7739abb2290744",
     "semantic_hash": ""
   }
 }
