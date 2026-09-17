@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
@@ -158,7 +160,14 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
         { status: 400 },
       );
     }
-    updateData.asaas_webhook_token = t.length > 0 ? t : null;
+    if (t.length > 0) {
+      const tokenHash = createHash('sha256').update(t).digest('hex');
+      updateData.asaas_webhook_token = t;  // mantem plaintext durante transicao
+      updateData.asaas_webhook_token_hash = tokenHash;
+    } else {
+      updateData.asaas_webhook_token = null;
+      updateData.asaas_webhook_token_hash = null;
+    }
   }
 
   const { error } = await supabaseAdmin

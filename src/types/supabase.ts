@@ -2135,6 +2135,7 @@ export type Database = {
           asaas_environment: string | null
           asaas_wallet_id: string | null
           asaas_webhook_token: string | null
+          asaas_webhook_token_hash: string | null
           cnpj: string
           commercial_plan: string | null
           created_at: string | null
@@ -2178,6 +2179,7 @@ export type Database = {
           asaas_environment?: string | null
           asaas_wallet_id?: string | null
           asaas_webhook_token?: string | null
+          asaas_webhook_token_hash?: string | null
           cnpj: string
           commercial_plan?: string | null
           created_at?: string | null
@@ -2221,6 +2223,7 @@ export type Database = {
           asaas_environment?: string | null
           asaas_wallet_id?: string | null
           asaas_webhook_token?: string | null
+          asaas_webhook_token_hash?: string | null
           cnpj?: string
           commercial_plan?: string | null
           created_at?: string | null
