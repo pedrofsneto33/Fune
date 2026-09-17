@@ -1,3 +1,7 @@
+.agents/
+.clinerules/
+skills-lock.json
+
 # certificados A1 (nunca commitar)
 *.pfx
 
