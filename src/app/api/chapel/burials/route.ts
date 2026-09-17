@@ -3,11 +3,33 @@ import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { sanitizeString, isValidUUID } from '@/lib/validation';
 
+// 12d-2a: coordenadas opcionais (nullable). Aceita number ou string
+// numerica; null/undefined significa "sem coordenada".
+function parseCoordinate(
+  value: unknown,
+  kind: 'latitude' | 'longitude',
+): { ok: true; value: number | null } | { ok: false; error: string } {
+  if (value === undefined || value === null || value === '') return { ok: true, value: null };
+  const n = typeof value === 'number' ? value : Number(value);
+  if (!Number.isFinite(n)) {
+    return { ok: false, error: kind === 'latitude' ? 'Latitude inválida (deve ser -90 a 90).' : 'Longitude inválida (deve ser -180 a 180).' };
+  }
+  if (kind === 'latitude' && (n < -90 || n > 90)) {
+    return { ok: false, error: 'Latitude inválida (deve ser -90 a 90).' };
+  }
+  if (kind === 'longitude' && (n < -180 || n > 180)) {
+    return { ok: false, error: 'Longitude inválida (deve ser -180 a 180).' };
+  }
+  return { ok: true, value: n };
+}
+
+const BURIAL_COLUMNS = 'id, deceased_name, burial_date, cemetery_location, status, latitude, longitude, created_at';
+
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const { data, error } = await supabaseAdmin
       .from('chapel_burials')
-      .select('id, deceased_name, burial_date, cemetery_location, status, created_at')
+      .select(BURIAL_COLUMNS)
       .eq('tenant_id', auth.tenantId)
       .order('burial_date', { ascending: false })
       .limit(100); // SECURITY: Limit results to prevent DoS
@@ -24,7 +46,7 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
 export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const body = await req.json();
-    const { id, deceased_name, cemetery_location, status, burial_date } = body;
+    const { id, deceased_name, cemetery_location, status, burial_date, latitude, longitude } = body;
 
     if (!id || !isValidUUID(id)) {
       return NextResponse.json({ error: 'ID inválido.' }, { status: 400 });
@@ -47,6 +69,18 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
       updateData.burial_date = parsedDate.toISOString();
     }
 
+    // 12d-2a: coordenadas opcionais (nullable)
+    if (latitude !== undefined) {
+      const parsed = parseCoordinate(latitude, 'latitude');
+      if (!parsed.ok) return NextResponse.json({ error: parsed.error }, { status: 400 });
+      updateData.latitude = parsed.value;
+    }
+    if (longitude !== undefined) {
+      const parsed = parseCoordinate(longitude, 'longitude');
+      if (!parsed.ok) return NextResponse.json({ error: parsed.error }, { status: 400 });
+      updateData.longitude = parsed.value;
+    }
+
     if (Object.keys(updateData).length === 0) {
       return NextResponse.json({ error: 'Nenhum campo válido para atualizar.' }, { status: 400 });
     }
@@ -56,7 +90,7 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
       .update(updateData)
       .eq('id', id)
       .eq('tenant_id', auth.tenantId)
-      .select('id, deceased_name, burial_date, cemetery_location, status, created_at')
+      .select(BURIAL_COLUMNS)
       .single();
 
     if (error) {
@@ -108,6 +142,12 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       burial_date = parsedDate.toISOString();
     }
 
+    // 12d-2a: coordenadas opcionais (nullable)
+    const parsedLat = parseCoordinate(body.latitude, 'latitude');
+    if (!parsedLat.ok) return NextResponse.json({ error: parsedLat.error }, { status: 400 });
+    const parsedLng = parseCoordinate(body.longitude, 'longitude');
+    if (!parsedLng.ok) return NextResponse.json({ error: parsedLng.error }, { status: 400 });
+
     const { data, error } = await supabaseAdmin
       .from('chapel_burials')
       .insert([{
@@ -116,9 +156,11 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
         deceased_name: deceased_name,
         burial_date: burial_date,
         cemetery_location: cemetery_location,
+        latitude: parsedLat.value,
+        longitude: parsedLng.value,
         status: 'Agendado',
       }])
-      .select('id, deceased_name, burial_date, cemetery_location, status, created_at')
+      .select(BURIAL_COLUMNS)
       .single();
 
     if (error) {
