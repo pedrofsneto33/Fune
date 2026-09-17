@@ -1763,6 +1763,103 @@ export type Database = {
           },
         ]
       }
+      saas_subscriptions: {
+        Row: {
+          asaas_customer_id: string | null
+          asaas_subscription_id: string | null
+          created_at: string | null
+          grace_until: string | null
+          id: string
+          next_due_date: string | null
+          plan: string
+          status: string
+          tenant_id: string
+          trial_ends_at: string | null
+          updated_at: string | null
+          valor: number
+        }
+        Insert: {
+          asaas_customer_id?: string | null
+          asaas_subscription_id?: string | null
+          created_at?: string | null
+          grace_until?: string | null
+          id?: string
+          next_due_date?: string | null
+          plan: string
+          status?: string
+          tenant_id: string
+          trial_ends_at?: string | null
+          updated_at?: string | null
+          valor: number
+        }
+        Update: {
+          asaas_customer_id?: string | null
+          asaas_subscription_id?: string | null
+          created_at?: string | null
+          grace_until?: string | null
+          id?: string
+          next_due_date?: string | null
+          plan?: string
+          status?: string
+          tenant_id?: string
+          trial_ends_at?: string | null
+          updated_at?: string | null
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saas_subscriptions_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      saas_webhook_events: {
+        Row: {
+          asaas_payment_id: string | null
+          event: string
+          id: string
+          payload: Json | null
+          processed: boolean
+          processed_at: string | null
+          received_at: string | null
+          skipped_reason: string | null
+          tenant_id: string | null
+        }
+        Insert: {
+          asaas_payment_id?: string | null
+          event: string
+          id?: string
+          payload?: Json | null
+          processed?: boolean
+          processed_at?: string | null
+          received_at?: string | null
+          skipped_reason?: string | null
+          tenant_id?: string | null
+        }
+        Update: {
+          asaas_payment_id?: string | null
+          event?: string
+          id?: string
+          payload?: Json | null
+          processed?: boolean
+          processed_at?: string | null
+          received_at?: string | null
+          skipped_reason?: string | null
+          tenant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saas_webhook_events_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sales_commissions: {
         Row: {
           amount: number
