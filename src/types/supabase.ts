@@ -338,6 +338,8 @@ export type Database = {
           created_at: string | null
           deceased_name: string
           id: string
+          latitude: number | null
+          longitude: number | null
           status: string
           tenant_id: string | null
         }
@@ -348,6 +350,8 @@ export type Database = {
           created_at?: string | null
           deceased_name: string
           id?: string
+          latitude?: number | null
+          longitude?: number | null
           status?: string
           tenant_id?: string | null
         }
@@ -358,6 +362,8 @@ export type Database = {
           created_at?: string | null
           deceased_name?: string
           id?: string
+          latitude?: number | null
+          longitude?: number | null
           status?: string
           tenant_id?: string | null
         }
@@ -1913,9 +1919,14 @@ export type Database = {
           nfse_required: boolean
           nfse_status: string | null
           notes: string | null
+          responsavel_cpf: string | null
+          responsavel_email: string | null
+          responsavel_name: string | null
+          responsavel_phone: string | null
           status: string | null
           tenant_id: string
           total_amount: number | null
+          tracking_token: string | null
           vehicle_id: string | null
         }
         Insert: {
@@ -1932,9 +1943,14 @@ export type Database = {
           nfse_required?: boolean
           nfse_status?: string | null
           notes?: string | null
+          responsavel_cpf?: string | null
+          responsavel_email?: string | null
+          responsavel_name?: string | null
+          responsavel_phone?: string | null
           status?: string | null
           tenant_id: string
           total_amount?: number | null
+          tracking_token?: string | null
           vehicle_id?: string | null
         }
         Update: {
@@ -1951,9 +1967,14 @@ export type Database = {
           nfse_required?: boolean
           nfse_status?: string | null
           notes?: string | null
+          responsavel_cpf?: string | null
+          responsavel_email?: string | null
+          responsavel_name?: string | null
+          responsavel_phone?: string | null
           status?: string | null
           tenant_id?: string
           total_amount?: number | null
+          tracking_token?: string | null
           vehicle_id?: string | null
         }
         Relationships: [

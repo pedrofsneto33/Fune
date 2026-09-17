@@ -96,6 +96,9 @@ export interface Burial {
   status?: string;
   urn_name?: string;
   created_at?: string;
+  /** 12d-1: coordenadas geograficas (migration 20260916230000) */
+  latitude?: number | null;
+  longitude?: number | null;
 }
 
 // Ordens de Serviço integradas (óbito + contrato + veículo + estoque)
