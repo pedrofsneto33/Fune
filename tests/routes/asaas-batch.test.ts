@@ -87,4 +87,54 @@ describe('billing/asaas-batch (Fase 7c)', () => {
     expect(upsertCalls).toHaveLength(1);
     expect(j.results.find((r: { contract_id: string }) => r.contract_id === 'c1').status).toBe('error');
   });
+  it('rate-limit bloqueado retorna 429', async () => {
+    const mf = mockSupabaseAdmin(); mockAsaasFetch([]);
+    setupBatchDb(mf, { contracts: [C1] });
+    mockRateLimit(false);
+    const res = await POST(batchReq({ billingType: 'PIX' }));
+    expect(res.status).toBe(429);
+  });
+  it('timeout do Asaas vira failed no results, nao 500', async () => {
+    jest.useFakeTimers();
+    try {
+      const mf = mockSupabaseAdmin();
+      const { upsertCalls } = setupBatchDb(mf, { contracts: [C1] });
+      const spy = jest.spyOn(globalThis, 'fetch');
+      spy.mockImplementation(() => new Promise<Response>(() => {}));
+      const p = POST(batchReq({ billingType: 'PIX' }));
+      await jest.advanceTimersByTimeAsync(16000);
+      const res = await p;
+      const j = await res.json();
+      expect(res.status).toBe(200);
+      expect(j.failed).toBe(1);
+      expect(j.results[0].status).toBe('error');
+      expect(String(j.results[0].error)).toMatch(/Timeout/);
+      expect(upsertCalls).toHaveLength(0);
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+  it('retry do upsert tenta 3x e recupera no sucesso', async () => {
+    const mf = mockSupabaseAdmin(); mockAsaasFetch(payRules(['pay-1']));
+    const { upsertCalls } = setupBatchDb(mf, { contracts: [C1] });
+    const orig = mf.getMockImplementation() as (...a: unknown[]) => unknown;
+    let attempts = 0;
+    mf.mockImplementation((table: string, ...rest: unknown[]) => {
+      if (table === 'payments') {
+        return { upsert: jest.fn((...a: unknown[]) => { upsertCalls.push(a); attempts++; if (attempts < 3) return Promise.resolve({ error: { message: 'falha ' + attempts } }); return Promise.resolve({ error: null }); }) };
+      }
+      return (orig as (...a: unknown[]) => unknown)(table, ...rest);
+    });
+    const res = await POST(batchReq({ billingType: 'PIX' }));
+    const j = await res.json();
+    expect(res.status).toBe(200);
+    expect(attempts).toBe(3);
+    expect(j.created).toBe(1);
+  });
+  it('nenhum contrato elegivel retorna 404', async () => {
+    const mf = mockSupabaseAdmin(); mockAsaasFetch([]);
+    setupBatchDb(mf, { contracts: [] });
+    const res = await POST(batchReq({ billingType: 'PIX' }));
+    expect(res.status).toBe(404);
+  });
 });
