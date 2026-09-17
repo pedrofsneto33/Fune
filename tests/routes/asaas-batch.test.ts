@@ -87,4 +87,99 @@ describe('billing/asaas-batch (Fase 7c)', () => {
     expect(upsertCalls).toHaveLength(1);
     expect(j.results.find((r: { contract_id: string }) => r.contract_id === 'c1').status).toBe('error');
   });
+  it('rate-limit bloqueado retorna 429', async () => {
+    const mf = mockSupabaseAdmin(); mockAsaasFetch([]);
+    setupBatchDb(mf, { contracts: [C1] });
+    mockRateLimit(false);
+    const res = await POST(batchReq({ billingType: 'PIX' }));
+    expect(res.status).toBe(429);
+  });
+  it('timeout do Asaas vira failed no results, nao 500', async () => {
+    jest.useFakeTimers();
+    try {
+      const mf = mockSupabaseAdmin();
+      const { upsertCalls } = setupBatchDb(mf, { contracts: [C1] });
+      const spy = jest.spyOn(globalThis, 'fetch');
+      spy.mockImplementation(() => new Promise<Response>(() => {}));
+      const p = POST(batchReq({ billingType: 'PIX' }));
+      await jest.advanceTimersByTimeAsync(16000);
+      const res = await p;
+      const j = await res.json();
+      expect(res.status).toBe(200);
+      expect(j.failed).toBe(1);
+      expect(j.results[0].status).toBe('error');
+      expect(String(j.results[0].error)).toMatch(/Timeout/);
+      expect(upsertCalls).toHaveLength(0);
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+  it('retry do upsert tenta 3x e recupera no sucesso', async () => {
+    const mf = mockSupabaseAdmin(); mockAsaasFetch(payRules(['pay-1']));
+    const { upsertCalls } = setupBatchDb(mf, { contracts: [C1] });
+    const orig = mf.getMockImplementation() as (...a: unknown[]) => unknown;
+    let attempts = 0;
+    mf.mockImplementation((table: string, ...rest: unknown[]) => {
+      if (table === 'payments') {
+        return { upsert: jest.fn((...a: unknown[]) => { upsertCalls.push(a); attempts++; if (attempts < 3) return Promise.resolve({ error: { message: 'falha ' + attempts } }); return Promise.resolve({ error: null }); }) };
+      }
+      return (orig as (...a: unknown[]) => unknown)(table, ...rest);
+    });
+    const res = await POST(batchReq({ billingType: 'PIX' }));
+    const j = await res.json();
+    expect(res.status).toBe(200);
+    expect(attempts).toBe(3);
+    expect(j.created).toBe(1);
+    // upsert recuperou: NAO deve haver ORPHAN_PAYMENT
+    const orphanCalls = mf.mock.calls.filter(([t]) => t === 'webhook_events');
+    expect(orphanCalls).toHaveLength(0);
+  });
+  it('nenhum contrato elegivel retorna 404', async () => {
+    const mf = mockSupabaseAdmin(); mockAsaasFetch([]);
+    setupBatchDb(mf, { contracts: [] });
+    const res = await POST(batchReq({ billingType: 'PIX' }));
+    expect(res.status).toBe(404);
+  });
+  it('upsert falha 3x -> grava ORPHAN_PAYMENT em webhook_events', async () => {
+    const mf = mockSupabaseAdmin();
+    mockAsaasFetch(payRules(['pay-orphan-1']));
+    setupBatchDb(mf, { contracts: [C1] });
+
+    const orphanInserts: unknown[] = [];
+    const orig = mf.getMockImplementation() as (...a: unknown[]) => unknown;
+    mf.mockImplementation((table: string, ...rest: unknown[]) => {
+      if (table === 'payments') {
+        return {
+          upsert: jest.fn(() => Promise.resolve({ error: { message: 'db down' } })),
+        };
+      }
+      if (table === 'webhook_events') {
+        return {
+          insert: jest.fn((payload: unknown) => {
+            orphanInserts.push(payload);
+            return Promise.resolve({ error: null });
+          }),
+        };
+      }
+      return (orig as (...a: unknown[]) => unknown)(table, ...rest);
+    });
+
+    const res = await POST(batchReq({ billingType: 'PIX' }));
+    const j = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(j.created).toBe(0);
+    expect(j.failed).toBe(1);
+    expect(j.results[0].status).toBe('error');
+
+    expect(orphanInserts).toHaveLength(1);
+    const orphan = orphanInserts[0] as Record<string, unknown>;
+    expect(orphan.provider).toBe('internal');
+    expect(orphan.event).toBe('ORPHAN_PAYMENT');
+    expect(orphan.asaas_payment_id).toBe('pay-orphan-1');
+    expect(orphan.processed).toBe(false);
+    const payload = orphan.payload as Record<string, unknown>;
+    expect(payload.contract_id).toBe(C1.id);
+    expect(payload.upsert_error).toMatch(/db down/);
+  });
 });
