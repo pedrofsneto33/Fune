@@ -17,6 +17,19 @@
       "source_location": "L20"
     },
     {
+      "id": "src_app_carteirinha_cpf_page_props",
+      "label": "Props",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "props",
+      "source_file": "src/app/carteirinha/[cpf]/page.tsx",
+      "source_location": "L7"
+    },
+    {
       "id": "src_lib_api_handler_authcontext",
       "label": "AuthContext",
       "_callable": true,
@@ -342,19 +355,6 @@
       "source_location": "L41"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating",
-      "label": "TestAntiPatternGating",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 142,
-      "community_name": ".generate",
-      "file_type": "code",
-      "norm_label": "testantipatterngating",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L120"
-    },
-    {
       "id": "src_components_holderformmodal_holderformmodalprops",
       "label": "HolderFormModalProps",
       "_callable": true,
@@ -511,17 +511,30 @@
       "source_location": "L313"
     },
     {
-      "id": "src_app_carteirinha_cpf_page_props",
-      "label": "Props",
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract",
+      "label": "TestReasoningContract",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": "testreasoningcontract",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L87"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection",
+      "label": "TestPaletteSelection",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 185,
-      "community_name": "[cpf]/page.tsx",
+      "community_name": "_select_palette_for_mode",
       "file_type": "code",
-      "norm_label": "props",
-      "source_file": "src/app/carteirinha/[cpf]/page.tsx",
-      "source_location": "L7"
+      "norm_label": "testpaletteselection",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L94"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness_testnativedesktopstackfreshness",
@@ -595,7 +608,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 197,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_palette_is_dark",
       "file_type": "code",
       "norm_label": "testendtoendcoherence",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -608,24 +621,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 197,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_palette_is_dark",
       "file_type": "code",
       "norm_label": "testluminance",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
       "source_location": "L54"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection",
-      "label": "TestPaletteSelection",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 197,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": "testpaletteselection",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L94"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testpersistence",
@@ -667,19 +667,6 @@
       "source_location": "L16"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract",
-      "label": "TestGeneratedCatalogContract",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "test_data_contracts.py",
-      "file_type": "code",
-      "norm_label": "testgeneratedcatalogcontract",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L355"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testlandingandstackcontract",
       "label": "TestLandingAndStackContract",
       "_callable": true,
@@ -693,19 +680,6 @@
       "source_location": "L261"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract",
-      "label": "TestReasoningContract",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "test_data_contracts.py",
-      "file_type": "code",
-      "norm_label": "testreasoningcontract",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L87"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_teststyleidentitycontract",
       "label": "TestStyleIdentityContract",
       "_callable": true,
@@ -717,6 +691,32 @@
       "norm_label": "teststyleidentitycontract",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
       "source_location": "L41"
+    },
+    {
+      "id": "src_app_api_billing_asaas_batch_route_batchresult",
+      "label": "BatchResult",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "batchresult",
+      "source_file": "src/app/api/billing/asaas-batch/route.ts",
+      "source_location": "L9"
+    },
+    {
+      "id": "src_lib_asaasclient_asaasconfig",
+      "label": "AsaasConfig",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "asaasconfig",
+      "source_file": "src/lib/asaasClient.ts",
+      "source_location": "L3"
     },
     {
       "id": "src_lib_eligibility_eligibilityresult",
@@ -862,13 +862,39 @@
       "source_location": "L42"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior",
+      "label": "TestBm25CoreBehavior",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "cip/core.py",
+      "file_type": "code",
+      "norm_label": "testbm25corebehavior",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L65"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating",
+      "label": "TestAntiPatternGating",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 31,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "code",
+      "norm_label": "testantipatterngating",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L120"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testmoderesolution",
       "label": "TestModeResolution",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 31,
-      "community_name": "_style_is_dark_primary",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": "testmoderesolution",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -886,6 +912,19 @@
       "norm_label": "validationresult",
       "source_file": ".continue/skills/design-system/scripts/html-token-validator.py",
       "source_location": "L62"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdiagnosticscontracts",
+      "label": "TestDiagnosticsContracts",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 36,
+      "community_name": "search",
+      "file_type": "code",
+      "norm_label": "testdiagnosticscontracts",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L326"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains",
@@ -912,6 +951,19 @@
       "norm_label": "teststyletaxonomy",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
       "source_location": "L24"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract",
+      "label": "TestGeneratedCatalogContract",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 365,
+      "community_name": "TestGeneratedCatalogContract",
+      "file_type": "code",
+      "norm_label": "testgeneratedcatalogcontract",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L355"
     },
     {
       "id": "tests_routes_track_token_test_trackopts",
@@ -1219,7 +1271,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 397,
-      "community_name": "retry/route.ts",
+      "community_name": "webhooks-asaas.test.ts",
       "file_type": "code",
       "norm_label": "incomeinput",
       "source_file": "src/lib/financial.ts",
@@ -1232,7 +1284,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 397,
-      "community_name": "retry/route.ts",
+      "community_name": "webhooks-asaas.test.ts",
       "file_type": "code",
       "norm_label": "incomeresult",
       "source_file": "src/lib/financial.ts",
@@ -1245,7 +1297,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 397,
-      "community_name": "retry/route.ts",
+      "community_name": "webhooks-asaas.test.ts",
       "file_type": "code",
       "norm_label": "incomesource",
       "source_file": "src/lib/financial.ts",
@@ -1380,32 +1432,6 @@
       "norm_label": "bm25",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
       "source_location": "L282"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior",
-      "label": "TestBm25CoreBehavior",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 41,
-      "community_name": "BM25",
-      "file_type": "code",
-      "norm_label": "testbm25corebehavior",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L65"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdiagnosticscontracts",
-      "label": "TestDiagnosticsContracts",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 41,
-      "community_name": "BM25",
-      "file_type": "code",
-      "norm_label": "testdiagnosticscontracts",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L326"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer",
@@ -1941,32 +1967,6 @@
       "source_location": "L202"
     },
     {
-      "id": "src_app_api_billing_asaas_batch_route_batchresult",
-      "label": "BatchResult",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "batchresult",
-      "source_file": "src/app/api/billing/asaas-batch/route.ts",
-      "source_location": "L9"
-    },
-    {
-      "id": "src_lib_asaasclient_asaasconfig",
-      "label": "AsaasConfig",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "asaasconfig",
-      "source_file": "src/lib/asaasClient.ts",
-      "source_location": "L3"
-    },
-    {
       "id": "src_lib_rate_limiter_ratelimitconfig",
       "label": "RateLimitConfig",
       "_callable": true,
@@ -1977,7 +1977,7 @@
       "file_type": "code",
       "norm_label": "ratelimitconfig",
       "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L16"
+      "source_location": "L12"
     },
     {
       "id": "src_lib_rate_limiter_ratelimitentry",
@@ -1990,7 +1990,7 @@
       "file_type": "code",
       "norm_label": "ratelimitentry",
       "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L47"
+      "source_location": "L73"
     },
     {
       "id": "continue_skills_design_system_scripts_slide_search_core_bm25",
@@ -2018,16 +2018,28 @@
       "source_location": "L15"
     },
     {
-      "id": "src_lib_api_handler_withauth",
-      "label": "withAuth()",
+      "id": "src_app_carteirinha_cpf_page_carteirinhapage",
+      "label": "CarteirinhaPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 0,
       "community_name": "supabaseAdmin.ts",
       "file_type": "code",
-      "norm_label": "withauth()",
-      "source_file": "src/lib/api-handler.ts",
-      "source_location": "L20"
+      "norm_label": "carteirinhapage()",
+      "source_file": "src/app/carteirinha/[cpf]/page.tsx",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_lib_eligibility_calculateeligibility",
+      "label": "calculateEligibility()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "calculateeligibility()",
+      "source_file": "src/lib/eligibility.ts",
+      "source_location": "L30"
     },
     {
       "id": "src_lib_whatsappagent_findtenantbywhatsappnumber",
@@ -2400,18 +2412,6 @@
       "norm_label": "_check_react_contract()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/validate_data.py",
       "source_location": "L743"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_validate_data_check_reasoning_contract",
-      "label": "_check_reasoning_contract()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "validate_data.py",
-      "file_type": "code",
-      "norm_label": "_check_reasoning_contract()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/validate_data.py",
-      "source_location": "L331"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_validate_data_check_stack_freshness_contract",
@@ -3518,18 +3518,6 @@
       "source_location": "L310"
     },
     {
-      "id": "src_app_api_leads_landing_route_post",
-      "label": "POST()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "isValidUUID",
-      "file_type": "code",
-      "norm_label": "post()",
-      "source_file": "src/app/api/leads/landing/route.ts",
-      "source_location": "L11"
-    },
-    {
       "id": "src_lib_planlimits_checkholderlimit",
       "label": "checkHolderLimit()",
       "_callable": true,
@@ -4310,6 +4298,30 @@
       "source_location": "L12"
     },
     {
+      "id": "tests_routes_tenants_test_mocktenantsupdate",
+      "label": "mockTenantsUpdate()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 138,
+      "community_name": "holders-behavior.test.ts",
+      "file_type": "code",
+      "norm_label": "mocktenantsupdate()",
+      "source_file": "tests/routes/tenants.test.ts",
+      "source_location": "L21"
+    },
+    {
+      "id": "tests_routes_tenants_test_tenantreq",
+      "label": "tenantReq()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 138,
+      "community_name": "holders-behavior.test.ts",
+      "file_type": "code",
+      "norm_label": "tenantreq()",
+      "source_file": "tests/routes/tenants.test.ts",
+      "source_location": "L11"
+    },
+    {
       "id": "src_app_layout_rootlayout",
       "label": "RootLayout()",
       "_callable": true,
@@ -4418,16 +4430,28 @@
       "source_location": "L319"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_filter_anti_patterns_for_mode",
-      "label": "_filter_anti_patterns_for_mode()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_resolve_style",
+      "label": "._resolve_style()",
       "_callable": true,
       "_origin": "ast",
       "community": 142,
       "community_name": ".generate",
       "file_type": "code",
-      "norm_label": "_filter_anti_patterns_for_mode()",
+      "norm_label": "._resolve_style()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L246"
+      "source_location": "L307"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_select_best_match",
+      "label": "._select_best_match()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 142,
+      "community_name": ".generate",
+      "file_type": "code",
+      "norm_label": "._select_best_match()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L408"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_resolve_dial",
@@ -4440,54 +4464,6 @@
       "norm_label": "_resolve_dial()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L90"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_dark_clause_dropped_others_kept",
-      "label": ".test_dark_clause_dropped_others_kept()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 142,
-      "community_name": ".generate",
-      "file_type": "code",
-      "norm_label": ".test_dark_clause_dropped_others_kept()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L121"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_empty_input",
-      "label": ".test_empty_input()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 142,
-      "community_name": ".generate",
-      "file_type": "code",
-      "norm_label": ".test_empty_input()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L134"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_light_mode_is_a_no_op",
-      "label": ".test_light_mode_is_a_no_op()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 142,
-      "community_name": ".generate",
-      "file_type": "code",
-      "norm_label": ".test_light_mode_is_a_no_op()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L126"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_unrelated_anti_patterns_survive_dark_mode",
-      "label": ".test_unrelated_anti_patterns_survive_dark_mode()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 142,
-      "community_name": ".generate",
-      "file_type": "code",
-      "norm_label": ".test_unrelated_anti_patterns_survive_dark_mode()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L130"
     },
     {
       "id": "src_app_dashboard_contratos_page_contratospage",
@@ -4874,30 +4850,6 @@
       "source_location": "L275"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_resolve_style",
-      "label": "._resolve_style()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "code",
-      "norm_label": "._resolve_style()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L307"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_designsystemgenerator_select_best_match",
-      "label": "._select_best_match()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "code",
-      "norm_label": "._select_best_match()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L408"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testreasoningmatch_test_known_category_matches_exactly",
       "label": ".test_known_category_matches_exactly()",
       "_callable": true,
@@ -4922,6 +4874,30 @@
       "source_location": "L319"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_read_rows",
+      "label": "read_rows()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": "read_rows()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L25"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_canonical_style_priority_is_not_limited_to_bm25_top_three",
+      "label": ".test_canonical_style_priority_is_not_limited_to_bm25_top_three()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": ".test_canonical_style_priority_is_not_limited_to_bm25_top_three()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L209"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_constraints_reach_domain_queries",
       "label": ".test_constraints_reach_domain_queries()",
       "_callable": true,
@@ -4944,6 +4920,102 @@
       "norm_label": "capture()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
       "source_location": "L191"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_decision_rules_use_closed_array_grammar",
+      "label": ".test_decision_rules_use_closed_array_grammar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": ".test_decision_rules_use_closed_array_grammar()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L101"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_every_exact_product_label_resolves_to_itself",
+      "label": ".test_every_exact_product_label_resolves_to_itself()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": ".test_every_exact_product_label_resolves_to_itself()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L231"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_every_known_product_generates_a_traceable_landing_pattern",
+      "label": ".test_every_known_product_generates_a_traceable_landing_pattern()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": ".test_every_known_product_generates_a_traceable_landing_pattern()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L153"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_generator_matches_reasoning_exactly_and_defaults_only_for_unknown",
+      "label": ".test_generator_matches_reasoning_exactly_and_defaults_only_for_unknown()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": ".test_generator_matches_reasoning_exactly_and_defaults_only_for_unknown()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L133"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_known_product_sets_match_exactly",
+      "label": ".test_known_product_sets_match_exactly()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": ".test_known_product_sets_match_exactly()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L88"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_reasoning_patterns_reference_landing_identities",
+      "label": ".test_reasoning_patterns_reference_landing_identities()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": ".test_reasoning_patterns_reference_landing_identities()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L142"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_representative_new_products_generate_traceable_sources",
+      "label": ".test_representative_new_products_generate_traceable_sources()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": ".test_representative_new_products_generate_traceable_sources()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L161"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_style_aliases_have_one_exact_owner",
+      "label": ".test_style_aliases_have_one_exact_owner()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "DesignSystemGenerator",
+      "file_type": "code",
+      "norm_label": ".test_style_aliases_have_one_exact_owner()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L248"
     },
     {
       "id": "scripts_qa_test_db_rls_authheadersfor",
@@ -5090,16 +5162,112 @@
       "source_location": "L917"
     },
     {
-      "id": "src_app_carteirinha_cpf_page_carteirinhapage",
-      "label": "CarteirinhaPage()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_contrast_ratio",
+      "label": "_contrast_ratio()",
       "_callable": true,
       "_origin": "ast",
       "community": 185,
-      "community_name": "[cpf]/page.tsx",
+      "community_name": "_select_palette_for_mode",
       "file_type": "code",
-      "norm_label": "carteirinhapage()",
-      "source_file": "src/app/carteirinha/[cpf]/page.tsx",
-      "source_location": "L11"
+      "norm_label": "_contrast_ratio()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L153"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_derive_dark_palette",
+      "label": "_derive_dark_palette()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 185,
+      "community_name": "_select_palette_for_mode",
+      "file_type": "code",
+      "norm_label": "_derive_dark_palette()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L193"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_select_palette_for_mode",
+      "label": "_select_palette_for_mode()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 185,
+      "community_name": "_select_palette_for_mode",
+      "file_type": "code",
+      "norm_label": "_select_palette_for_mode()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L220"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_generator_exports_every_semantic_foreground_pair",
+      "label": ".test_generator_exports_every_semantic_foreground_pair()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 185,
+      "community_name": "_select_palette_for_mode",
+      "file_type": "code",
+      "norm_label": ".test_generator_exports_every_semantic_foreground_pair()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L151"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_category_identity_wins_over_unrelated_dark_palette",
+      "label": ".test_category_identity_wins_over_unrelated_dark_palette()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 185,
+      "community_name": "_select_palette_for_mode",
+      "file_type": "code",
+      "norm_label": ".test_category_identity_wins_over_unrelated_dark_palette()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L110"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_dark_mode_falls_back_to_top_hit_when_no_dark_ramp_exists",
+      "label": ".test_dark_mode_falls_back_to_top_hit_when_no_dark_ramp_exists()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 185,
+      "community_name": "_select_palette_for_mode",
+      "file_type": "code",
+      "norm_label": ".test_dark_mode_falls_back_to_top_hit_when_no_dark_ramp_exists()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L99"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_dark_mode_skips_light_palettes",
+      "label": ".test_dark_mode_skips_light_palettes()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 185,
+      "community_name": "_select_palette_for_mode",
+      "file_type": "code",
+      "norm_label": ".test_dark_mode_skips_light_palettes()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L95"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_empty_results",
+      "label": ".test_empty_results()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 185,
+      "community_name": "_select_palette_for_mode",
+      "file_type": "code",
+      "norm_label": ".test_empty_results()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L107"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_light_mode_keeps_the_existing_top_hit_behaviour",
+      "label": ".test_light_mode_keeps_the_existing_top_hit_behaviour()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 185,
+      "community_name": "_select_palette_for_mode",
+      "file_type": "code",
+      "norm_label": ".test_light_mode_keeps_the_existing_top_hit_behaviour()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L103"
     },
     {
       "id": "scripts_create_tables_createtables",
@@ -5112,18 +5280,6 @@
       "norm_label": "createtables()",
       "source_file": "scripts/create-tables.js",
       "source_location": "L15"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_exact_stack_identifier",
-      "label": "_exact_stack_identifier()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "search_stack",
-      "file_type": "code",
-      "norm_label": "_exact_stack_identifier()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L925"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_search_stack",
@@ -5510,36 +5666,12 @@
       "source_location": "L27"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_contrast_ratio",
-      "label": "_contrast_ratio()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 197,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": "_contrast_ratio()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L153"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_derive_dark_palette",
-      "label": "_derive_dark_palette()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 197,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": "_derive_dark_palette()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L193"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_palette_is_dark",
       "label": "_palette_is_dark()",
       "_callable": true,
       "_origin": "ast",
       "community": 197,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_palette_is_dark",
       "file_type": "code",
       "norm_label": "_palette_is_dark()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
@@ -5551,23 +5683,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 197,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_palette_is_dark",
       "file_type": "code",
       "norm_label": "_relative_luminance()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L129"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_select_palette_for_mode",
-      "label": "_select_palette_for_mode()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 197,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": "_select_palette_for_mode()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L220"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_dark_query_does_not_advise_against_dark_mode",
@@ -5575,7 +5695,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 197,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_palette_is_dark",
       "file_type": "code",
       "norm_label": ".test_dark_query_does_not_advise_against_dark_mode()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -5587,7 +5707,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 197,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_palette_is_dark",
       "file_type": "code",
       "norm_label": ".test_dark_query_foreground_is_lighter_than_background()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -5599,23 +5719,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 197,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_palette_is_dark",
       "file_type": "code",
       "norm_label": ".test_dark_query_gets_a_dark_background()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
       "source_location": "L143"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_generator_exports_every_semantic_foreground_pair",
-      "label": ".test_generator_exports_every_semantic_foreground_pair()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 197,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": ".test_generator_exports_every_semantic_foreground_pair()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L151"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence_test_light_query_keeps_a_light_background",
@@ -5623,7 +5731,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 197,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_palette_is_dark",
       "file_type": "code",
       "norm_label": ".test_light_query_keeps_a_light_background()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -5635,7 +5743,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 197,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_palette_is_dark",
       "file_type": "code",
       "norm_label": ".test_classifies_backgrounds_from_the_shipped_data()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -5647,7 +5755,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 197,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_palette_is_dark",
       "file_type": "code",
       "norm_label": ".test_missing_background_is_not_dark()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -5659,7 +5767,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 197,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_palette_is_dark",
       "file_type": "code",
       "norm_label": ".test_parses_six_and_three_digit_hex()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -5671,71 +5779,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 197,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_palette_is_dark",
       "file_type": "code",
       "norm_label": ".test_returns_none_for_unparseable()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
       "source_location": "L60"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_category_identity_wins_over_unrelated_dark_palette",
-      "label": ".test_category_identity_wins_over_unrelated_dark_palette()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 197,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": ".test_category_identity_wins_over_unrelated_dark_palette()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L110"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_dark_mode_falls_back_to_top_hit_when_no_dark_ramp_exists",
-      "label": ".test_dark_mode_falls_back_to_top_hit_when_no_dark_ramp_exists()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 197,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": ".test_dark_mode_falls_back_to_top_hit_when_no_dark_ramp_exists()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L99"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_dark_mode_skips_light_palettes",
-      "label": ".test_dark_mode_skips_light_palettes()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 197,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": ".test_dark_mode_skips_light_palettes()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L95"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_empty_results",
-      "label": ".test_empty_results()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 197,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": ".test_empty_results()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L107"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection_test_light_mode_keeps_the_existing_top_hit_behaviour",
-      "label": ".test_light_mode_keeps_the_existing_top_hit_behaviour()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 197,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": ".test_light_mode_keeps_the_existing_top_hit_behaviour()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L103"
     },
     {
       "id": "continue_skills_ui_styling_scripts_shadcn_add_shadcninstaller_init",
@@ -5755,7 +5803,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "post()",
       "source_file": "src/app/api/init-user/route.ts",
@@ -5767,11 +5815,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "gettenantusage()",
       "source_file": "src/app/api/tenants/route.ts",
       "source_location": "L11"
+    },
+    {
+      "id": "src_lib_api_handler_withauth",
+      "label": "withAuth()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "withAuth",
+      "file_type": "code",
+      "norm_label": "withauth()",
+      "source_file": "src/lib/api-handler.ts",
+      "source_location": "L20"
     },
     {
       "id": "src_lib_http_error_logerror",
@@ -5779,7 +5839,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "logerror()",
       "source_file": "src/lib/http-error.ts",
@@ -5791,7 +5851,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "servererror()",
       "source_file": "src/lib/http-error.ts",
@@ -6650,18 +6710,6 @@
       "source_location": "L281"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_read_rows",
-      "label": "read_rows()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "test_data_contracts.py",
-      "file_type": "code",
-      "norm_label": "read_rows()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L25"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_split_values",
       "label": "split_values()",
       "_callable": true,
@@ -6684,66 +6732,6 @@
       "norm_label": "style_identities()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
       "source_location": "L34"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract_load_json",
-      "label": ".load_json()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "test_data_contracts.py",
-      "file_type": "code",
-      "norm_label": ".load_json()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L356"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract_test_canonical_catalogs_and_provenance_are_release_ready",
-      "label": ".test_canonical_catalogs_and_provenance_are_release_ready()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "test_data_contracts.py",
-      "file_type": "code",
-      "norm_label": ".test_canonical_catalogs_and_provenance_are_release_ready()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L359"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract_test_curated_icon_and_summary_drift_fail_closed",
-      "label": ".test_curated_icon_and_summary_drift_fail_closed()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "test_data_contracts.py",
-      "file_type": "code",
-      "norm_label": ".test_curated_icon_and_summary_drift_fail_closed()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L399"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract_test_font_license_and_typography_drift_fail_closed",
-      "label": ".test_font_license_and_typography_drift_fail_closed()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "test_data_contracts.py",
-      "file_type": "code",
-      "norm_label": ".test_font_license_and_typography_drift_fail_closed()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L363"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract_test_font_source_revision_and_exclusion_policy_fail_closed",
-      "label": ".test_font_source_revision_and_exclusion_policy_fail_closed()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "test_data_contracts.py",
-      "file_type": "code",
-      "norm_label": ".test_font_source_revision_and_exclusion_policy_fail_closed()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L383"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testlandingandstackcontract_test_dataset_provenance_scope_binds_real_rows_and_fields",
@@ -6806,18 +6794,6 @@
       "source_location": "L270"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_canonical_style_priority_is_not_limited_to_bm25_top_three",
-      "label": ".test_canonical_style_priority_is_not_limited_to_bm25_top_three()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "test_data_contracts.py",
-      "file_type": "code",
-      "norm_label": ".test_canonical_style_priority_is_not_limited_to_bm25_top_three()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L209"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_duplicate_semantic_reasoning_labels_fail_validation",
       "label": ".test_duplicate_semantic_reasoning_labels_fail_validation()",
       "_callable": true,
@@ -6828,90 +6804,6 @@
       "norm_label": ".test_duplicate_semantic_reasoning_labels_fail_validation()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
       "source_location": "L218"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_every_exact_product_label_resolves_to_itself",
-      "label": ".test_every_exact_product_label_resolves_to_itself()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "test_data_contracts.py",
-      "file_type": "code",
-      "norm_label": ".test_every_exact_product_label_resolves_to_itself()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L231"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_every_known_product_generates_a_traceable_landing_pattern",
-      "label": ".test_every_known_product_generates_a_traceable_landing_pattern()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "test_data_contracts.py",
-      "file_type": "code",
-      "norm_label": ".test_every_known_product_generates_a_traceable_landing_pattern()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L153"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_generator_matches_reasoning_exactly_and_defaults_only_for_unknown",
-      "label": ".test_generator_matches_reasoning_exactly_and_defaults_only_for_unknown()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "test_data_contracts.py",
-      "file_type": "code",
-      "norm_label": ".test_generator_matches_reasoning_exactly_and_defaults_only_for_unknown()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L133"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_known_product_sets_match_exactly",
-      "label": ".test_known_product_sets_match_exactly()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "test_data_contracts.py",
-      "file_type": "code",
-      "norm_label": ".test_known_product_sets_match_exactly()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L88"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_reasoning_patterns_reference_landing_identities",
-      "label": ".test_reasoning_patterns_reference_landing_identities()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "test_data_contracts.py",
-      "file_type": "code",
-      "norm_label": ".test_reasoning_patterns_reference_landing_identities()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L142"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_representative_new_products_generate_traceable_sources",
-      "label": ".test_representative_new_products_generate_traceable_sources()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "test_data_contracts.py",
-      "file_type": "code",
-      "norm_label": ".test_representative_new_products_generate_traceable_sources()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L161"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_style_aliases_have_one_exact_owner",
-      "label": ".test_style_aliases_have_one_exact_owner()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "test_data_contracts.py",
-      "file_type": "code",
-      "norm_label": ".test_style_aliases_have_one_exact_owner()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L248"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_teststyleidentitycontract_setup",
@@ -6950,16 +6842,76 @@
       "source_location": "L45"
     },
     {
-      "id": "src_lib_eligibility_calculateeligibility",
-      "label": "calculateEligibility()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_validate_data_check_reasoning_contract",
+      "label": "_check_reasoning_contract()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": "_check_reasoning_contract()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/validate_data.py",
+      "source_location": "L331"
+    },
+    {
+      "id": "src_app_api_billing_asaas_batch_route_contractisactive",
+      "label": "contractIsActive()",
       "_callable": true,
       "_origin": "ast",
       "community": 28,
       "community_name": "payment-carnets/route.ts",
       "file_type": "code",
-      "norm_label": "calculateeligibility()",
-      "source_file": "src/lib/eligibility.ts",
-      "source_location": "L30"
+      "norm_label": "contractisactive()",
+      "source_file": "src/app/api/billing/asaas-batch/route.ts",
+      "source_location": "L37"
+    },
+    {
+      "id": "src_app_api_billing_asaas_batch_route_holderisinactive",
+      "label": "holderIsInactive()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "holderisinactive()",
+      "source_file": "src/app/api/billing/asaas-batch/route.ts",
+      "source_location": "L23"
+    },
+    {
+      "id": "src_app_api_billing_asaas_batch_route_withtimeout",
+      "label": "withTimeout()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "withtimeout()",
+      "source_file": "src/app/api/billing/asaas-batch/route.ts",
+      "source_location": "L29"
+    },
+    {
+      "id": "src_app_api_billing_boleto_route_withtimeout",
+      "label": "withTimeout()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "withtimeout()",
+      "source_file": "src/app/api/billing/boleto/route.ts",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_lib_asaasclient_getasaasconfigfortenant",
+      "label": "getAsaasConfigForTenant()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "getasaasconfigfortenant()",
+      "source_file": "src/lib/asaasClient.ts",
+      "source_location": "L9"
     },
     {
       "id": "src_lib_eligibility_isbillingeligible",
@@ -6996,18 +6948,6 @@
       "norm_label": "isholderactive()",
       "source_file": "src/lib/eligibility.ts",
       "source_location": "L135"
-    },
-    {
-      "id": "src_lib_eligibility_iswithingraceperiod",
-      "label": "isWithinGracePeriod()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "payment-carnets/route.ts",
-      "file_type": "code",
-      "norm_label": "iswithingraceperiod()",
-      "source_file": "src/lib/eligibility.ts",
-      "source_location": "L18"
     },
     {
       "id": "src_app_dashboard_configuracoes_page_configuracoespage",
@@ -7490,12 +7430,72 @@
       "source_location": "L65"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_bm25_cache_rebuilds_after_file_mtime_changes",
+      "label": ".test_bm25_cache_rebuilds_after_file_mtime_changes()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "cip/core.py",
+      "file_type": "code",
+      "norm_label": ".test_bm25_cache_rebuilds_after_file_mtime_changes()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L72"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_empty_documents_produce_no_scores_or_vocab",
+      "label": ".test_empty_documents_produce_no_scores_or_vocab()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "cip/core.py",
+      "file_type": "code",
+      "norm_label": ".test_empty_documents_produce_no_scores_or_vocab()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L66"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_search_uses_one_verified_rows_and_index_snapshot",
+      "label": ".test_search_uses_one_verified_rows_and_index_snapshot()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "cip/core.py",
+      "file_type": "code",
+      "norm_label": ".test_search_uses_one_verified_rows_and_index_snapshot()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L87"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_search_uses_one_verified_rows_and_index_snapshot_replace_after_read",
+      "label": "replace_after_read()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "cip/core.py",
+      "file_type": "code",
+      "norm_label": "replace_after_read()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L94"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_filter_anti_patterns_for_mode",
+      "label": "_filter_anti_patterns_for_mode()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 31,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "code",
+      "norm_label": "_filter_anti_patterns_for_mode()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L246"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_query_wants_dark",
       "label": "_query_wants_dark()",
       "_callable": true,
       "_origin": "ast",
       "community": 31,
-      "community_name": "_style_is_dark_primary",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": "_query_wants_dark()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
@@ -7507,7 +7507,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 31,
-      "community_name": "_style_is_dark_primary",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": "_resolve_color_mode()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
@@ -7519,11 +7519,59 @@
       "_callable": true,
       "_origin": "ast",
       "community": 31,
-      "community_name": "_style_is_dark_primary",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": "_style_is_dark_primary()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L164"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_dark_clause_dropped_others_kept",
+      "label": ".test_dark_clause_dropped_others_kept()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 31,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "code",
+      "norm_label": ".test_dark_clause_dropped_others_kept()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L121"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_empty_input",
+      "label": ".test_empty_input()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 31,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "code",
+      "norm_label": ".test_empty_input()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L134"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_light_mode_is_a_no_op",
+      "label": ".test_light_mode_is_a_no_op()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 31,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "code",
+      "norm_label": ".test_light_mode_is_a_no_op()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L126"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testantipatterngating_test_unrelated_anti_patterns_survive_dark_mode",
+      "label": ".test_unrelated_anti_patterns_survive_dark_mode()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 31,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "code",
+      "norm_label": ".test_unrelated_anti_patterns_survive_dark_mode()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L130"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testmoderesolution_test_dark_primary_style_detected",
@@ -7531,7 +7579,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 31,
-      "community_name": "_style_is_dark_primary",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": ".test_dark_primary_style_detected()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -7543,7 +7591,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 31,
-      "community_name": "_style_is_dark_primary",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": ".test_dual_mode_style_is_not_dark_primary()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -7555,7 +7603,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 31,
-      "community_name": "_style_is_dark_primary",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": ".test_either_signal_resolves_dark()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
@@ -7567,23 +7615,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 31,
-      "community_name": "_style_is_dark_primary",
+      "community_name": "test_design_system_mode.py",
       "file_type": "code",
       "norm_label": ".test_query_keywords()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
       "source_location": "L82"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_claim_fields_use_controlled_non_guarantee_language",
-      "label": ".test_claim_fields_use_controlled_non_guarantee_language()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 31,
-      "community_name": "_style_is_dark_primary",
-      "file_type": "code",
-      "norm_label": ".test_claim_fields_use_controlled_non_guarantee_language()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
-      "source_location": "L120"
     },
     {
       "id": "continue_skills_design_system_scripts_html_token_validator_get_context",
@@ -7778,6 +7814,30 @@
       "source_location": "L736"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdiagnosticscontracts_test_diagnostics_opt_in_is_additive_for_domain_search",
+      "label": ".test_diagnostics_opt_in_is_additive_for_domain_search()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 36,
+      "community_name": "search",
+      "file_type": "code",
+      "norm_label": ".test_diagnostics_opt_in_is_additive_for_domain_search()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L327"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdiagnosticscontracts_test_diagnostics_opt_in_is_additive_for_stack_search",
+      "label": ".test_diagnostics_opt_in_is_additive_for_stack_search()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 36,
+      "community_name": "search",
+      "file_type": "code",
+      "norm_label": ".test_diagnostics_opt_in_is_additive_for_stack_search()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L335"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testsearchdomains_test_accessibility_query_hits_ux",
       "label": ".test_accessibility_query_hits_ux()",
       "_callable": true,
@@ -7934,6 +7994,18 @@
       "source_location": "L26"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_claim_fields_use_controlled_non_guarantee_language",
+      "label": ".test_claim_fields_use_controlled_non_guarantee_language()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 36,
+      "community_name": "search",
+      "file_type": "code",
+      "norm_label": ".test_claim_fields_use_controlled_non_guarantee_language()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
+      "source_location": "L120"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_style_taxonomy_teststyletaxonomy_test_curated_state_distribution_is_explicit",
       "label": ".test_curated_state_distribution_is_explicit()",
       "_callable": true,
@@ -8018,28 +8090,64 @@
       "source_location": "L72"
     },
     {
-      "id": "src_lib_crm_isvalidleadsource",
-      "label": "isValidLeadSource()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract_load_json",
+      "label": ".load_json()",
       "_callable": true,
       "_origin": "ast",
       "community": 365,
-      "community_name": "leads/route.ts",
+      "community_name": "TestGeneratedCatalogContract",
       "file_type": "code",
-      "norm_label": "isvalidleadsource()",
-      "source_file": "src/lib/crm.ts",
-      "source_location": "L52"
+      "norm_label": ".load_json()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L356"
     },
     {
-      "id": "src_lib_crm_isvalidleadstage",
-      "label": "isValidLeadStage()",
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract_test_canonical_catalogs_and_provenance_are_release_ready",
+      "label": ".test_canonical_catalogs_and_provenance_are_release_ready()",
       "_callable": true,
       "_origin": "ast",
       "community": 365,
-      "community_name": "leads/route.ts",
+      "community_name": "TestGeneratedCatalogContract",
       "file_type": "code",
-      "norm_label": "isvalidleadstage()",
-      "source_file": "src/lib/crm.ts",
-      "source_location": "L38"
+      "norm_label": ".test_canonical_catalogs_and_provenance_are_release_ready()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L359"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract_test_curated_icon_and_summary_drift_fail_closed",
+      "label": ".test_curated_icon_and_summary_drift_fail_closed()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 365,
+      "community_name": "TestGeneratedCatalogContract",
+      "file_type": "code",
+      "norm_label": ".test_curated_icon_and_summary_drift_fail_closed()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L399"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract_test_font_license_and_typography_drift_fail_closed",
+      "label": ".test_font_license_and_typography_drift_fail_closed()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 365,
+      "community_name": "TestGeneratedCatalogContract",
+      "file_type": "code",
+      "norm_label": ".test_font_license_and_typography_drift_fail_closed()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L363"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testgeneratedcatalogcontract_test_font_source_revision_and_exclusion_policy_fail_closed",
+      "label": ".test_font_source_revision_and_exclusion_policy_fail_closed()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 365,
+      "community_name": "TestGeneratedCatalogContract",
+      "file_type": "code",
+      "norm_label": ".test_font_source_revision_and_exclusion_policy_fail_closed()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L383"
     },
     {
       "id": "src_app_track_token_page_formatdate",
@@ -8443,7 +8551,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 397,
-      "community_name": "retry/route.ts",
+      "community_name": "webhooks-asaas.test.ts",
       "file_type": "code",
       "norm_label": "markwebhookevent()",
       "source_file": "src/app/api/webhooks/asaas/route.ts",
@@ -8455,7 +8563,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 397,
-      "community_name": "retry/route.ts",
+      "community_name": "webhooks-asaas.test.ts",
       "file_type": "code",
       "norm_label": "post()",
       "source_file": "src/app/api/webhooks/asaas/route.ts",
@@ -8467,7 +8575,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 397,
-      "community_name": "retry/route.ts",
+      "community_name": "webhooks-asaas.test.ts",
       "file_type": "code",
       "norm_label": "reprocessevent()",
       "source_file": "src/app/api/webhooks/retry/route.ts",
@@ -8479,7 +8587,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 397,
-      "community_name": "retry/route.ts",
+      "community_name": "webhooks-asaas.test.ts",
       "file_type": "code",
       "norm_label": "generatecommission()",
       "source_file": "src/lib/commissions.ts",
@@ -8491,7 +8599,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 397,
-      "community_name": "retry/route.ts",
+      "community_name": "webhooks-asaas.test.ts",
       "file_type": "code",
       "norm_label": "recordincome()",
       "source_file": "src/lib/financial.ts",
@@ -8510,6 +8618,30 @@
       "source_location": "L119"
     },
     {
+      "id": "tests_helpers_api_mocks_makechain",
+      "label": "makeChain()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 398,
+      "community_name": "api-mocks.ts",
+      "file_type": "code",
+      "norm_label": "makechain()",
+      "source_file": "tests/helpers/api-mocks.ts",
+      "source_location": "L31"
+    },
+    {
+      "id": "tests_helpers_api_mocks_setupbatchdb",
+      "label": "setupBatchDb()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 398,
+      "community_name": "api-mocks.ts",
+      "file_type": "code",
+      "norm_label": "setupbatchdb()",
+      "source_file": "tests/helpers/api-mocks.ts",
+      "source_location": "L91"
+    },
+    {
       "id": "tests_helpers_api_mocks_setupwebhookdb",
       "label": "setupWebhookDb()",
       "_callable": true,
@@ -8520,6 +8652,18 @@
       "norm_label": "setupwebhookdb()",
       "source_file": "tests/helpers/api-mocks.ts",
       "source_location": "L49"
+    },
+    {
+      "id": "tests_routes_billing_avulso_test_setupavulsodb",
+      "label": "setupAvulsoDb()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 398,
+      "community_name": "api-mocks.ts",
+      "file_type": "code",
+      "norm_label": "setupavulsodb()",
+      "source_file": "tests/routes/billing-avulso.test.ts",
+      "source_location": "L32"
     },
     {
       "id": "tests_routes_billing_avulso_test_asmock",
@@ -8582,18 +8726,6 @@
       "source_location": "L48"
     },
     {
-      "id": "tests_routes_billing_avulso_test_setupavulsodb",
-      "label": "setupAvulsoDb()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 399,
-      "community_name": "billing-avulso.test.ts",
-      "file_type": "code",
-      "norm_label": "setupavulsodb()",
-      "source_file": "tests/routes/billing-avulso.test.ts",
-      "source_location": "L32"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_contains_phrase",
       "label": "_contains_phrase()",
       "_callable": true,
@@ -8616,6 +8748,18 @@
       "norm_label": "_domain_keywords()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
       "source_location": "L564"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_exact_stack_identifier",
+      "label": "_exact_stack_identifier()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 40,
+      "community_name": "scripts/core.py",
+      "file_type": "code",
+      "norm_label": "_exact_stack_identifier()",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
+      "source_location": "L925"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_file_signature",
@@ -8786,18 +8930,6 @@
       "source_location": "L717"
     },
     {
-      "id": "tests_helpers_api_mocks_mockasaasfetch",
-      "label": "mockAsaasFetch()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 400,
-      "community_name": "payments-pix.test.ts",
-      "file_type": "code",
-      "norm_label": "mockasaasfetch()",
-      "source_file": "tests/helpers/api-mocks.ts",
-      "source_location": "L74"
-    },
-    {
       "id": "tests_routes_payments_pix_test_asaasconfigmock",
       "label": "asaasConfigMock()",
       "_callable": true,
@@ -8906,64 +9038,40 @@
       "source_location": "L14"
     },
     {
-      "id": "tests_helpers_api_mocks_makechain",
-      "label": "makeChain()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 402,
-      "community_name": "makeChain",
-      "file_type": "code",
-      "norm_label": "makechain()",
-      "source_file": "tests/helpers/api-mocks.ts",
-      "source_location": "L31"
-    },
-    {
-      "id": "tests_helpers_api_mocks_setupbatchdb",
-      "label": "setupBatchDb()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 402,
-      "community_name": "makeChain",
-      "file_type": "code",
-      "norm_label": "setupbatchdb()",
-      "source_file": "tests/helpers/api-mocks.ts",
-      "source_location": "L91"
-    },
-    {
       "id": "tests_routes_billing_pix_test_setuppixdb",
       "label": "setupPixDb()",
       "_callable": true,
       "_origin": "ast",
-      "community": 402,
-      "community_name": "makeChain",
+      "community": 401,
+      "community_name": "billing-pix.test.ts",
       "file_type": "code",
       "norm_label": "setuppixdb()",
       "source_file": "tests/routes/billing-pix.test.ts",
       "source_location": "L21"
     },
     {
-      "id": "tests_routes_tenants_test_mocktenantsupdate",
-      "label": "mockTenantsUpdate()",
+      "id": "src_lib_eligibility_iswithingraceperiod",
+      "label": "isWithinGracePeriod()",
       "_callable": true,
       "_origin": "ast",
       "community": 402,
-      "community_name": "makeChain",
+      "community_name": "contracts/route.ts",
       "file_type": "code",
-      "norm_label": "mocktenantsupdate()",
-      "source_file": "tests/routes/tenants.test.ts",
-      "source_location": "L21"
+      "norm_label": "iswithingraceperiod()",
+      "source_file": "src/lib/eligibility.ts",
+      "source_location": "L18"
     },
     {
-      "id": "tests_routes_tenants_test_tenantreq",
-      "label": "tenantReq()",
+      "id": "tests_helpers_api_mocks_mockasaasfetch",
+      "label": "mockAsaasFetch()",
       "_callable": true,
       "_origin": "ast",
-      "community": 402,
-      "community_name": "makeChain",
+      "community": 403,
+      "community_name": "asaas-batch.test.ts",
       "file_type": "code",
-      "norm_label": "tenantreq()",
-      "source_file": "tests/routes/tenants.test.ts",
-      "source_location": "L11"
+      "norm_label": "mockasaasfetch()",
+      "source_file": "tests/helpers/api-mocks.ts",
+      "source_location": "L74"
     },
     {
       "id": "tests_routes_asaas_batch_test_asmock",
@@ -9060,78 +9168,6 @@
       "norm_label": ".vocabulary()",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
       "source_location": "L345"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_bm25_cache_rebuilds_after_file_mtime_changes",
-      "label": ".test_bm25_cache_rebuilds_after_file_mtime_changes()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 41,
-      "community_name": "BM25",
-      "file_type": "code",
-      "norm_label": ".test_bm25_cache_rebuilds_after_file_mtime_changes()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L72"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_empty_documents_produce_no_scores_or_vocab",
-      "label": ".test_empty_documents_produce_no_scores_or_vocab()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 41,
-      "community_name": "BM25",
-      "file_type": "code",
-      "norm_label": ".test_empty_documents_produce_no_scores_or_vocab()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L66"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_search_uses_one_verified_rows_and_index_snapshot",
-      "label": ".test_search_uses_one_verified_rows_and_index_snapshot()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 41,
-      "community_name": "BM25",
-      "file_type": "code",
-      "norm_label": ".test_search_uses_one_verified_rows_and_index_snapshot()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L87"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_search_uses_one_verified_rows_and_index_snapshot_replace_after_read",
-      "label": "replace_after_read()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 41,
-      "community_name": "BM25",
-      "file_type": "code",
-      "norm_label": "replace_after_read()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L94"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdiagnosticscontracts_test_diagnostics_opt_in_is_additive_for_domain_search",
-      "label": ".test_diagnostics_opt_in_is_additive_for_domain_search()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 41,
-      "community_name": "BM25",
-      "file_type": "code",
-      "norm_label": ".test_diagnostics_opt_in_is_additive_for_domain_search()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L327"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testdiagnosticscontracts_test_diagnostics_opt_in_is_additive_for_stack_search",
-      "label": ".test_diagnostics_opt_in_is_additive_for_stack_search()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 41,
-      "community_name": "BM25",
-      "file_type": "code",
-      "norm_label": ".test_diagnostics_opt_in_is_additive_for_stack_search()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L335"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_boundary_safe_nav_normalization_preserves_existing_words",
@@ -9600,18 +9636,6 @@
       "norm_label": "isoverdue()",
       "source_file": "src/components/tabs/CrmTab.tsx",
       "source_location": "L46"
-    },
-    {
-      "id": "src_lib_crm_isvalidphonedigits",
-      "label": "isValidPhoneDigits()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 57,
-      "community_name": "CrmTab.tsx",
-      "file_type": "code",
-      "norm_label": "isvalidphonedigits()",
-      "source_file": "src/lib/crm.ts",
-      "source_location": "L57"
     },
     {
       "id": "src_lib_crm_nextleadstage",
@@ -10898,18 +10922,6 @@
       "source_location": "L87"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_decision_rules_use_closed_array_grammar",
-      "label": ".test_decision_rules_use_closed_array_grammar()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 87,
-      "community_name": "parse_decision_rules",
-      "file_type": "code",
-      "norm_label": ".test_decision_rules_use_closed_array_grammar()",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L101"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_duplicate_unknown_keys_and_unknown_actions_fail_closed",
       "label": ".test_duplicate_unknown_keys_and_unknown_actions_fail_closed()",
       "_callable": true,
@@ -10934,64 +10946,52 @@
       "source_location": "L119"
     },
     {
-      "id": "src_app_api_billing_asaas_batch_route_contractisactive",
-      "label": "contractIsActive()",
+      "id": "src_app_api_leads_landing_route_post",
+      "label": "POST()",
       "_callable": true,
       "_origin": "ast",
       "community": 88,
       "community_name": "checkRateLimit",
       "file_type": "code",
-      "norm_label": "contractisactive()",
-      "source_file": "src/app/api/billing/asaas-batch/route.ts",
-      "source_location": "L37"
-    },
-    {
-      "id": "src_app_api_billing_asaas_batch_route_holderisinactive",
-      "label": "holderIsInactive()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "holderisinactive()",
-      "source_file": "src/app/api/billing/asaas-batch/route.ts",
-      "source_location": "L23"
-    },
-    {
-      "id": "src_app_api_billing_asaas_batch_route_withtimeout",
-      "label": "withTimeout()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "withtimeout()",
-      "source_file": "src/app/api/billing/asaas-batch/route.ts",
-      "source_location": "L29"
-    },
-    {
-      "id": "src_app_api_billing_boleto_route_withtimeout",
-      "label": "withTimeout()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "withtimeout()",
-      "source_file": "src/app/api/billing/boleto/route.ts",
+      "norm_label": "post()",
+      "source_file": "src/app/api/leads/landing/route.ts",
       "source_location": "L11"
     },
     {
-      "id": "src_lib_asaasclient_getasaasconfigfortenant",
-      "label": "getAsaasConfigForTenant()",
+      "id": "src_lib_crm_isvalidleadsource",
+      "label": "isValidLeadSource()",
       "_callable": true,
       "_origin": "ast",
       "community": 88,
       "community_name": "checkRateLimit",
       "file_type": "code",
-      "norm_label": "getasaasconfigfortenant()",
-      "source_file": "src/lib/asaasClient.ts",
-      "source_location": "L9"
+      "norm_label": "isvalidleadsource()",
+      "source_file": "src/lib/crm.ts",
+      "source_location": "L52"
+    },
+    {
+      "id": "src_lib_crm_isvalidleadstage",
+      "label": "isValidLeadStage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 88,
+      "community_name": "checkRateLimit",
+      "file_type": "code",
+      "norm_label": "isvalidleadstage()",
+      "source_file": "src/lib/crm.ts",
+      "source_location": "L38"
+    },
+    {
+      "id": "src_lib_crm_isvalidphonedigits",
+      "label": "isValidPhoneDigits()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 88,
+      "community_name": "checkRateLimit",
+      "file_type": "code",
+      "norm_label": "isvalidphonedigits()",
+      "source_file": "src/lib/crm.ts",
+      "source_location": "L57"
     },
     {
       "id": "src_lib_rate_limiter_checkratelimit",
@@ -11003,7 +11003,19 @@
       "file_type": "code",
       "norm_label": "checkratelimit()",
       "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L21"
+      "source_location": "L39"
+    },
+    {
+      "id": "src_lib_rate_limiter_getratelimit",
+      "label": "getRatelimit()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 88,
+      "community_name": "checkRateLimit",
+      "file_type": "code",
+      "norm_label": "getratelimit()",
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L23"
     },
     {
       "id": "src_lib_rate_limiter_legacycheckratelimit",
@@ -11015,7 +11027,7 @@
       "file_type": "code",
       "norm_label": "legacycheckratelimit()",
       "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L54"
+      "source_location": "L79"
     },
     {
       "id": "src_lib_rate_limiter_resetratelimit",
@@ -11027,7 +11039,7 @@
       "file_type": "code",
       "norm_label": "resetratelimit()",
       "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L39"
+      "source_location": "L65"
     },
     {
       "id": "continue_skills_design_system_scripts_search_slides_format_context",
@@ -11479,6 +11491,39 @@
       "source_location": "L31"
     },
     {
+      "id": "contracts_eligibility_route",
+      "label": "contracts/eligibility/route.ts",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "contracts/eligibility/route.ts",
+      "source_file": "contracts/eligibility/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "contracts_eligibility_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "contracts/eligibility/route.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "contracts_eligibility_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "contracts/eligibility/route.ts",
+      "source_location": "L8"
+    },
+    {
       "id": "convalescence_route",
       "label": "convalescence/route.ts",
       "_origin": "ast",
@@ -11732,39 +11777,6 @@
       "source_location": "L12"
     },
     {
-      "id": "src_app_api_collector_routes_route",
-      "label": "collector-routes/route.ts",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "supabaseAdmin.ts",
-      "file_type": "code",
-      "norm_label": "collector-routes/route.ts",
-      "source_file": "src/app/api/collector-routes/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_collector_routes_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "supabaseAdmin.ts",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/collector-routes/route.ts",
-      "source_location": "L6"
-    },
-    {
-      "id": "src_app_api_collector_routes_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "supabaseAdmin.ts",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/collector-routes/route.ts",
-      "source_location": "L17"
-    },
-    {
       "id": "src_app_api_contracts_eligibility_route",
       "label": "api/contracts/eligibility/route.ts",
       "_origin": "ast",
@@ -11851,50 +11863,6 @@
       "norm_label": "months_pt",
       "source_file": "src/app/api/financial/summary/route.ts",
       "source_location": "L18"
-    },
-    {
-      "id": "src_app_api_fiscal_config_route",
-      "label": "config/route.ts",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "supabaseAdmin.ts",
-      "file_type": "code",
-      "norm_label": "config/route.ts",
-      "source_file": "src/app/api/fiscal/config/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_fiscal_config_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "supabaseAdmin.ts",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/api/fiscal/config/route.ts",
-      "source_location": "L6"
-    },
-    {
-      "id": "src_app_api_fiscal_config_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "supabaseAdmin.ts",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/fiscal/config/route.ts",
-      "source_location": "L63"
-    },
-    {
-      "id": "src_app_api_fiscal_config_route_patch",
-      "label": "PATCH",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "supabaseAdmin.ts",
-      "file_type": "code",
-      "norm_label": "patch",
-      "source_file": "src/app/api/fiscal/config/route.ts",
-      "source_location": "L9"
     },
     {
       "id": "src_app_api_fiscal_list_route",
@@ -12007,6 +11975,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_app_carteirinha_cpf_page",
+      "label": "[cpf]/page.tsx",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "supabaseAdmin.ts",
+      "file_type": "code",
+      "norm_label": "[cpf]/page.tsx",
+      "source_file": "src/app/carteirinha/[cpf]/page.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_lib_api_handler",
       "label": "api-handler.ts",
       "_origin": "ast",
@@ -12071,28 +12050,6 @@
       "norm_label": "steps",
       "source_file": "src/lib/whatsappAgent.ts",
       "source_location": "L20"
-    },
-    {
-      "id": "tests_lib_financial_test",
-      "label": "financial.test.ts",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "supabaseAdmin.ts",
-      "file_type": "code",
-      "norm_label": "financial.test.ts",
-      "source_file": "tests/lib/financial.test.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "tests_lib_financial_test_mockfrom",
-      "label": "mockFrom",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "supabaseAdmin.ts",
-      "file_type": "code",
-      "norm_label": "mockfrom",
-      "source_file": "tests/lib/financial.test.ts",
-      "source_location": "L9"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality",
@@ -15873,6 +15830,39 @@
       "source_location": "L71"
     },
     {
+      "id": "src_app_api_collector_routes_route",
+      "label": "collector-routes/route.ts",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "collector-routes/route.ts",
+      "source_file": "src/app/api/collector-routes/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_collector_routes_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/collector-routes/route.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_app_api_collector_routes_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "src/app/api/collector-routes/route.ts",
+      "source_location": "L17"
+    },
+    {
       "id": "src_app_api_dependents_route",
       "label": "dependents/route.ts",
       "_origin": "ast",
@@ -15981,6 +15971,50 @@
       "norm_label": "post",
       "source_file": "src/app/api/financial/transactions/route.ts",
       "source_location": "L58"
+    },
+    {
+      "id": "src_app_api_fiscal_config_route",
+      "label": "config/route.ts",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "config/route.ts",
+      "source_file": "src/app/api/fiscal/config/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_fiscal_config_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/api/fiscal/config/route.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_app_api_fiscal_config_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/fiscal/config/route.ts",
+      "source_location": "L63"
+    },
+    {
+      "id": "src_app_api_fiscal_config_route_patch",
+      "label": "PATCH",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "isValidUUID",
+      "file_type": "code",
+      "norm_label": "patch",
+      "source_file": "src/app/api/fiscal/config/route.ts",
+      "source_location": "L9"
     },
     {
       "id": "src_app_api_holders_import_route",
@@ -16146,17 +16180,6 @@
       "norm_label": "post",
       "source_file": "src/app/api/lead-notes/route.ts",
       "source_location": "L51"
-    },
-    {
-      "id": "src_app_api_leads_landing_route",
-      "label": "landing/route.ts",
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "isValidUUID",
-      "file_type": "code",
-      "norm_label": "landing/route.ts",
-      "source_file": "src/app/api/leads/landing/route.ts",
-      "source_location": "L1"
     },
     {
       "id": "src_app_api_payment_carnets_route_delete",
@@ -18497,6 +18520,28 @@
       "source_location": "L9"
     },
     {
+      "id": "tests_routes_tenants_test",
+      "label": "tenants.test.ts",
+      "_origin": "ast",
+      "community": 138,
+      "community_name": "holders-behavior.test.ts",
+      "file_type": "code",
+      "norm_label": "tenants.test.ts",
+      "source_file": "tests/routes/tenants.test.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_routes_tenants_test_long_token",
+      "label": "LONG_TOKEN",
+      "_origin": "ast",
+      "community": 138,
+      "community_name": "holders-behavior.test.ts",
+      "file_type": "code",
+      "norm_label": "long_token",
+      "source_file": "tests/routes/tenants.test.ts",
+      "source_location": "L9"
+    },
+    {
       "id": "src_app_layout",
       "label": "app/layout.tsx",
       "_origin": "ast",
@@ -19177,17 +19222,6 @@
       "source_location": "L10"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_247",
-      "label": "Drop \"avoid dark mode\" advice once dark mode is the resolved answer.",
-      "_origin": "ast",
-      "community": 142,
-      "community_name": ".generate",
-      "file_type": "rationale",
-      "norm_label": "drop \"avoid dark mode\" advice once dark mode is the resolved answer.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L247"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_321",
       "label": "Execute searches across multiple domains.",
       "_origin": "ast",
@@ -19197,6 +19231,17 @@
       "norm_label": "execute searches across multiple domains.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L321"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_409",
+      "label": "Select best matching result based on priority keywords.",
+      "_origin": "ast",
+      "community": 142,
+      "community_name": ".generate",
+      "file_type": "rationale",
+      "norm_label": "select best matching result based on priority keywords.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L409"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_446",
@@ -21720,17 +21765,6 @@
       "source_location": "L268"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_409",
-      "label": "Select best matching result based on priority keywords.",
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "DesignSystemGenerator",
-      "file_type": "rationale",
-      "norm_label": "select best matching result based on priority keywords.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L409"
-    },
-    {
       "id": "scripts_qa_cleanup",
       "label": "cleanup.mjs",
       "_origin": "ast",
@@ -22627,26 +22661,37 @@
       "source_location": "L23"
     },
     {
-      "id": "src_app_carteirinha_cpf_page",
-      "label": "[cpf]/page.tsx",
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_154",
+      "label": "WCAG contrast ratio for two hex colors, or None if either is invalid.",
       "_origin": "ast",
       "community": 185,
-      "community_name": "[cpf]/page.tsx",
-      "file_type": "code",
-      "norm_label": "[cpf]/page.tsx",
-      "source_file": "src/app/carteirinha/[cpf]/page.tsx",
-      "source_location": "L1"
+      "community_name": "_select_palette_for_mode",
+      "file_type": "rationale",
+      "norm_label": "wcag contrast ratio for two hex colors, or none if either is invalid.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L154"
     },
     {
-      "id": "ref_qrcode",
-      "label": "qrcode",
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_194",
+      "label": "Keep product brand tokens while deriving accessible dark surfaces.",
       "_origin": "ast",
       "community": 185,
-      "community_name": "[cpf]/page.tsx",
-      "file_type": "concept",
-      "norm_label": "qrcode",
-      "source_file": "package.json",
-      "source_location": "L23"
+      "community_name": "_select_palette_for_mode",
+      "file_type": "rationale",
+      "norm_label": "keep product brand tokens while deriving accessible dark surfaces.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L194"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_222",
+      "label": "Pick the highest-ranked palette matching the resolved mode. Only the dark case\u2026",
+      "_origin": "ast",
+      "community": 185,
+      "community_name": "_select_palette_for_mode",
+      "file_type": "rationale",
+      "norm_label": "pick the highest-ranked palette matching the resolved mode. only the dark case...",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L222"
     },
     {
       "id": "scripts_check_superadmin",
@@ -22834,17 +22879,6 @@
       "norm_label": "test_web_stack_freshness.py",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_web_stack_freshness.py",
       "source_location": "L1"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_926",
-      "label": "Resolve a standalone API identifier even when its BM25 IDF is low.",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "search_stack",
-      "file_type": "rationale",
-      "norm_label": "resolve a standalone api identifier even when its bm25 idf is low.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
-      "source_location": "L926"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_952",
@@ -23122,22 +23156,11 @@
       "source_location": "L1"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode",
-      "label": "test_design_system_mode.py",
-      "_origin": "ast",
-      "community": 197,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "code",
-      "norm_label": "test_design_system_mode.py",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L1"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_130",
       "label": "WCAG relative luminance of a #RRGGBB string, or None if unparseable.",
       "_origin": "ast",
       "community": 197,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_palette_is_dark",
       "file_type": "rationale",
       "norm_label": "wcag relative luminance of a #rrggbb string, or none if unparseable.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
@@ -23148,66 +23171,22 @@
       "label": "True when a colors.csv row's Background is a dark surface.",
       "_origin": "ast",
       "community": 197,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_palette_is_dark",
       "file_type": "rationale",
       "norm_label": "true when a colors.csv row's background is a dark surface.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L148"
     },
     {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_154",
-      "label": "WCAG contrast ratio for two hex colors, or None if either is invalid.",
-      "_origin": "ast",
-      "community": 197,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "rationale",
-      "norm_label": "wcag contrast ratio for two hex colors, or none if either is invalid.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L154"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_194",
-      "label": "Keep product brand tokens while deriving accessible dark surfaces.",
-      "_origin": "ast",
-      "community": 197,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "rationale",
-      "norm_label": "keep product brand tokens while deriving accessible dark surfaces.",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L194"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_222",
-      "label": "Pick the highest-ranked palette matching the resolved mode. Only the dark case\u2026",
-      "_origin": "ast",
-      "community": 197,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "rationale",
-      "norm_label": "pick the highest-ranked palette matching the resolved mode. only the dark case...",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
-      "source_location": "L222"
-    },
-    {
       "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_rationale_139",
       "label": "The exact reproduction from issue #428.",
       "_origin": "ast",
       "community": 197,
-      "community_name": "test_design_system_mode.py",
+      "community_name": "_palette_is_dark",
       "file_type": "rationale",
       "norm_label": "the exact reproduction from issue #428.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
       "source_location": "L139"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_rationale_3",
-      "label": "Regression tests for color-mode coherence in design_system.py (issue #428).\u2026",
-      "_origin": "ast",
-      "community": 197,
-      "community_name": "test_design_system_mode.py",
-      "file_type": "rationale",
-      "norm_label": "regression tests for color-mode coherence in design_system.py (issue #428)....",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
-      "source_location": "L3"
     },
     {
       "id": "continue_skills_design_system_templates_design_tokens_starter_button_padding_x",
@@ -23320,11 +23299,44 @@
       "source_location": "L21"
     },
     {
+      "id": "src_app_api_billing_avulso_route",
+      "label": "avulso/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "withAuth",
+      "file_type": "code",
+      "norm_label": "avulso/route.ts",
+      "source_file": "src/app/api/billing/avulso/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_billing_avulso_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "withAuth",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/api/billing/avulso/route.ts",
+      "source_location": "L15"
+    },
+    {
+      "id": "src_app_api_billing_avulso_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "withAuth",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "src/app/api/billing/avulso/route.ts",
+      "source_location": "L17"
+    },
+    {
       "id": "src_app_api_convalescence_route_get",
       "label": "GET",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "get",
       "source_file": "src/app/api/convalescence/route.ts",
@@ -23335,7 +23347,7 @@
       "label": "kpis/route.ts",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "kpis/route.ts",
       "source_file": "src/app/api/dashboard/kpis/route.ts",
@@ -23346,7 +23358,7 @@
       "label": "GET",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "get",
       "source_file": "src/app/api/dashboard/kpis/route.ts",
@@ -23357,7 +23369,7 @@
       "label": "api/dispatches/audit/route.ts",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "api/dispatches/audit/route.ts",
       "source_file": "src/app/api/dispatches/audit/route.ts",
@@ -23368,7 +23380,7 @@
       "label": "dynamic",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "dynamic",
       "source_file": "src/app/api/dispatches/audit/route.ts",
@@ -23379,7 +23391,7 @@
       "label": "GET",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "get",
       "source_file": "src/app/api/dispatches/audit/route.ts",
@@ -23390,7 +23402,7 @@
       "label": "POST",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "post",
       "source_file": "src/app/api/dispatches/audit/route.ts",
@@ -23401,7 +23413,7 @@
       "label": "api/dispatches/close/route.ts",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "api/dispatches/close/route.ts",
       "source_file": "src/app/api/dispatches/close/route.ts",
@@ -23412,7 +23424,7 @@
       "label": "dynamic",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "dynamic",
       "source_file": "src/app/api/dispatches/close/route.ts",
@@ -23423,7 +23435,7 @@
       "label": "POST",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "post",
       "source_file": "src/app/api/dispatches/close/route.ts",
@@ -23434,7 +23446,7 @@
       "label": "dispatches/route.ts",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "dispatches/route.ts",
       "source_file": "src/app/api/dispatches/route.ts",
@@ -23445,7 +23457,7 @@
       "label": "dynamic",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "dynamic",
       "source_file": "src/app/api/dispatches/route.ts",
@@ -23456,7 +23468,7 @@
       "label": "GET",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "get",
       "source_file": "src/app/api/dispatches/route.ts",
@@ -23467,7 +23479,7 @@
       "label": "api/financial/regulatory-reserves/route.ts",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "api/financial/regulatory-reserves/route.ts",
       "source_file": "src/app/api/financial/regulatory-reserves/route.ts",
@@ -23478,7 +23490,7 @@
       "label": "dynamic",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "dynamic",
       "source_file": "src/app/api/financial/regulatory-reserves/route.ts",
@@ -23489,7 +23501,7 @@
       "label": "GET",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "get",
       "source_file": "src/app/api/financial/regulatory-reserves/route.ts",
@@ -23500,7 +23512,7 @@
       "label": "init-user/route.ts",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "init-user/route.ts",
       "source_file": "src/app/api/init-user/route.ts",
@@ -23511,7 +23523,7 @@
       "label": "GET",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "get",
       "source_file": "src/app/api/init-user/route.ts",
@@ -23522,7 +23534,7 @@
       "label": "api/sales/commission/route.ts",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "api/sales/commission/route.ts",
       "source_file": "src/app/api/sales/commission/route.ts",
@@ -23533,7 +23545,7 @@
       "label": "dynamic",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "dynamic",
       "source_file": "src/app/api/sales/commission/route.ts",
@@ -23544,7 +23556,7 @@
       "label": "GET",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "get",
       "source_file": "src/app/api/sales/commission/route.ts",
@@ -23555,7 +23567,7 @@
       "label": "PATCH",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "patch",
       "source_file": "src/app/api/sales/commission/route.ts",
@@ -23566,7 +23578,7 @@
       "label": "dispatch-deduct/route.ts",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "dispatch-deduct/route.ts",
       "source_file": "src/app/api/stock/dispatch-deduct/route.ts",
@@ -23577,7 +23589,7 @@
       "label": "POST",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "post",
       "source_file": "src/app/api/stock/dispatch-deduct/route.ts",
@@ -23588,7 +23600,7 @@
       "label": "tenants/route.ts",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "tenants/route.ts",
       "source_file": "src/app/api/tenants/route.ts",
@@ -23599,7 +23611,7 @@
       "label": "GET",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "get",
       "source_file": "src/app/api/tenants/route.ts",
@@ -23610,7 +23622,7 @@
       "label": "PATCH",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "patch",
       "source_file": "src/app/api/tenants/route.ts",
@@ -23621,7 +23633,7 @@
       "label": "POST",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "post",
       "source_file": "src/app/api/tenants/route.ts",
@@ -23632,7 +23644,7 @@
       "label": "VALID_PLAN_CODES",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "valid_plan_codes",
       "source_file": "src/app/api/tenants/route.ts",
@@ -23643,7 +23655,7 @@
       "label": "http-error.ts",
       "_origin": "ast",
       "community": 2,
-      "community_name": "serverError",
+      "community_name": "withAuth",
       "file_type": "code",
       "norm_label": "http-error.ts",
       "source_file": "src/lib/http-error.ts",
@@ -23670,6 +23682,17 @@
       "norm_label": "path",
       "source_file": "",
       "source_location": ""
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core",
+      "label": "test_core.py",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "design_system.py",
+      "file_type": "code",
+      "norm_label": "test_core.py",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L1"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_1077",
@@ -23824,6 +23847,17 @@
       "norm_label": "persist design system to design-system/<project>/ folder using master +...",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L997"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_rationale_3",
+      "label": "Stdlib-only regression tests for core.py / design_system.py (unittest, not\u2026",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "design_system.py",
+      "file_type": "rationale",
+      "norm_label": "stdlib-only regression tests for core.py / design_system.py (unittest, not...",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L3"
     },
     {
       "id": "fixture",
@@ -26897,37 +26931,114 @@
       "source_location": ""
     },
     {
-      "id": "contracts_eligibility_route",
-      "label": "contracts/eligibility/route.ts",
+      "id": "billing_pix_route",
+      "label": "billing/pix/route.ts",
       "_origin": "ast",
       "community": 28,
       "community_name": "payment-carnets/route.ts",
       "file_type": "code",
-      "norm_label": "contracts/eligibility/route.ts",
-      "source_file": "contracts/eligibility/route.ts",
+      "norm_label": "billing/pix/route.ts",
+      "source_file": "billing/pix/route.ts",
       "source_location": "L1"
     },
     {
-      "id": "contracts_eligibility_route_dynamic",
+      "id": "billing_pix_route_dynamic",
       "label": "dynamic",
       "_origin": "ast",
       "community": 28,
       "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "dynamic",
-      "source_file": "contracts/eligibility/route.ts",
+      "source_file": "billing/pix/route.ts",
       "source_location": "L6"
     },
     {
-      "id": "contracts_eligibility_route_post",
+      "id": "billing_pix_route_post",
       "label": "POST",
       "_origin": "ast",
       "community": 28,
       "community_name": "payment-carnets/route.ts",
       "file_type": "code",
       "norm_label": "post",
-      "source_file": "contracts/eligibility/route.ts",
+      "source_file": "billing/pix/route.ts",
       "source_location": "L8"
+    },
+    {
+      "id": "payments_pix_route",
+      "label": "payments/pix/route.ts",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "payments/pix/route.ts",
+      "source_file": "payments/pix/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "payments_pix_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "payments/pix/route.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_app_api_billing_asaas_batch_route",
+      "label": "asaas-batch/route.ts",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "asaas-batch/route.ts",
+      "source_file": "src/app/api/billing/asaas-batch/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_billing_asaas_batch_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "src/app/api/billing/asaas-batch/route.ts",
+      "source_location": "L39"
+    },
+    {
+      "id": "src_app_api_billing_boleto_route",
+      "label": "api/billing/boleto/route.ts",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "api/billing/boleto/route.ts",
+      "source_file": "src/app/api/billing/boleto/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_billing_boleto_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/api/billing/boleto/route.ts",
+      "source_location": "L9"
+    },
+    {
+      "id": "src_app_api_billing_boleto_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "src/app/api/billing/boleto/route.ts",
+      "source_location": "L24"
     },
     {
       "id": "src_app_api_billing_generate_cycles_route",
@@ -26983,50 +27094,6 @@
       "norm_label": "post",
       "source_file": "src/app/api/billing/pix/route.ts",
       "source_location": "L10"
-    },
-    {
-      "id": "src_app_api_contracts_route",
-      "label": "contracts/route.ts",
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "payment-carnets/route.ts",
-      "file_type": "code",
-      "norm_label": "contracts/route.ts",
-      "source_file": "src/app/api/contracts/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_contracts_route_delete",
-      "label": "DELETE",
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "payment-carnets/route.ts",
-      "file_type": "code",
-      "norm_label": "delete",
-      "source_file": "src/app/api/contracts/route.ts",
-      "source_location": "L66"
-    },
-    {
-      "id": "src_app_api_contracts_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "payment-carnets/route.ts",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/contracts/route.ts",
-      "source_location": "L6"
-    },
-    {
-      "id": "src_app_api_contracts_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "payment-carnets/route.ts",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/contracts/route.ts",
-      "source_location": "L17"
     },
     {
       "id": "src_app_api_convalescence_route",
@@ -27126,6 +27193,17 @@
       "norm_label": "post",
       "source_file": "src/app/api/service-orders/route.ts",
       "source_location": "L50"
+    },
+    {
+      "id": "src_lib_asaasclient",
+      "label": "asaasClient.ts",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "payment-carnets/route.ts",
+      "file_type": "code",
+      "norm_label": "asaasclient.ts",
+      "source_file": "src/lib/asaasClient.ts",
+      "source_location": "L1"
     },
     {
       "id": "src_lib_eligibility",
@@ -28470,11 +28548,22 @@
       "source_location": ""
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode",
+      "label": "test_design_system_mode.py",
+      "_origin": "ast",
+      "community": 31,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "code",
+      "norm_label": "test_design_system_mode.py",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L1"
+    },
+    {
       "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_165",
       "label": "True when a styles.csv row describes itself as dark-first.",
       "_origin": "ast",
       "community": 31,
-      "community_name": "_style_is_dark_primary",
+      "community_name": "test_design_system_mode.py",
       "file_type": "rationale",
       "norm_label": "true when a styles.csv row describes itself as dark-first.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
@@ -28485,7 +28574,7 @@
       "label": "True when the query explicitly asks for a dark theme.",
       "_origin": "ast",
       "community": 31,
-      "community_name": "_style_is_dark_primary",
+      "community_name": "test_design_system_mode.py",
       "file_type": "rationale",
       "norm_label": "true when the query explicitly asks for a dark theme.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
@@ -28496,11 +28585,33 @@
       "label": "Resolve the mode the rest of the output has to agree with.",
       "_origin": "ast",
       "community": 31,
-      "community_name": "_style_is_dark_primary",
+      "community_name": "test_design_system_mode.py",
       "file_type": "rationale",
       "norm_label": "resolve the mode the rest of the output has to agree with.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L187"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_design_system_rationale_247",
+      "label": "Drop \"avoid dark mode\" advice once dark mode is the resolved answer.",
+      "_origin": "ast",
+      "community": 31,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "rationale",
+      "norm_label": "drop \"avoid dark mode\" advice once dark mode is the resolved answer.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/design_system.py",
+      "source_location": "L247"
+    },
+    {
+      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_rationale_3",
+      "label": "Regression tests for color-mode coherence in design_system.py (issue #428).\u2026",
+      "_origin": "ast",
+      "community": 31,
+      "community_name": "test_design_system_mode.py",
+      "file_type": "rationale",
+      "norm_label": "regression tests for color-mode coherence in design_system.py (issue #428)....",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "source_location": "L3"
     },
     {
       "id": "fix_rls_isolamento_sql_public_holders",
@@ -30350,72 +30461,6 @@
       "source_location": ""
     },
     {
-      "id": "src_app_api_leads_route",
-      "label": "leads/route.ts",
-      "_origin": "ast",
-      "community": 365,
-      "community_name": "leads/route.ts",
-      "file_type": "code",
-      "norm_label": "leads/route.ts",
-      "source_file": "src/app/api/leads/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_leads_route_delete",
-      "label": "DELETE",
-      "_origin": "ast",
-      "community": 365,
-      "community_name": "leads/route.ts",
-      "file_type": "code",
-      "norm_label": "delete",
-      "source_file": "src/app/api/leads/route.ts",
-      "source_location": "L155"
-    },
-    {
-      "id": "src_app_api_leads_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 365,
-      "community_name": "leads/route.ts",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/api/leads/route.ts",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_app_api_leads_route_get",
-      "label": "GET",
-      "_origin": "ast",
-      "community": 365,
-      "community_name": "leads/route.ts",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "src/app/api/leads/route.ts",
-      "source_location": "L14"
-    },
-    {
-      "id": "src_app_api_leads_route_patch",
-      "label": "PATCH",
-      "_origin": "ast",
-      "community": 365,
-      "community_name": "leads/route.ts",
-      "file_type": "code",
-      "norm_label": "patch",
-      "source_file": "src/app/api/leads/route.ts",
-      "source_location": "L68"
-    },
-    {
-      "id": "src_app_api_leads_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 365,
-      "community_name": "leads/route.ts",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/leads/route.ts",
-      "source_location": "L26"
-    },
-    {
       "id": "supabase_migrations_20260916000000_add_responsavel_to_service_orders_sql_public_service_orders",
       "label": "\"public\".\"service_orders\"",
       "_origin": "ast",
@@ -30711,6 +30756,17 @@
       "norm_label": "postcss",
       "source_file": "package.json",
       "source_location": "L22"
+    },
+    {
+      "id": "ref_qrcode",
+      "label": "qrcode",
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "package.json",
+      "file_type": "concept",
+      "norm_label": "qrcode",
+      "source_file": "package.json",
+      "source_location": "L23"
     },
     {
       "id": "ref_react_dom",
@@ -32289,7 +32345,7 @@
       "label": "PATCH",
       "_origin": "ast",
       "community": 397,
-      "community_name": "retry/route.ts",
+      "community_name": "webhooks-asaas.test.ts",
       "file_type": "code",
       "norm_label": "patch",
       "source_file": "src/app/api/payment-carnets/route.ts",
@@ -32300,7 +32356,7 @@
       "label": "asaas/route.ts",
       "_origin": "ast",
       "community": 397,
-      "community_name": "retry/route.ts",
+      "community_name": "webhooks-asaas.test.ts",
       "file_type": "code",
       "norm_label": "asaas/route.ts",
       "source_file": "src/app/api/webhooks/asaas/route.ts",
@@ -32311,7 +32367,7 @@
       "label": "retry/route.ts",
       "_origin": "ast",
       "community": 397,
-      "community_name": "retry/route.ts",
+      "community_name": "webhooks-asaas.test.ts",
       "file_type": "code",
       "norm_label": "retry/route.ts",
       "source_file": "src/app/api/webhooks/retry/route.ts",
@@ -32322,7 +32378,7 @@
       "label": "POST",
       "_origin": "ast",
       "community": 397,
-      "community_name": "retry/route.ts",
+      "community_name": "webhooks-asaas.test.ts",
       "file_type": "code",
       "norm_label": "post",
       "source_file": "src/app/api/webhooks/retry/route.ts",
@@ -32333,7 +32389,7 @@
       "label": "RETRY_RATE_LIMIT",
       "_origin": "ast",
       "community": 397,
-      "community_name": "retry/route.ts",
+      "community_name": "webhooks-asaas.test.ts",
       "file_type": "code",
       "norm_label": "retry_rate_limit",
       "source_file": "src/app/api/webhooks/retry/route.ts",
@@ -32344,7 +32400,7 @@
       "label": "commissions.ts",
       "_origin": "ast",
       "community": 397,
-      "community_name": "retry/route.ts",
+      "community_name": "webhooks-asaas.test.ts",
       "file_type": "code",
       "norm_label": "commissions.ts",
       "source_file": "src/lib/commissions.ts",
@@ -32355,11 +32411,88 @@
       "label": "financial.ts",
       "_origin": "ast",
       "community": 397,
-      "community_name": "retry/route.ts",
+      "community_name": "webhooks-asaas.test.ts",
       "file_type": "code",
       "norm_label": "financial.ts",
       "source_file": "src/lib/financial.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "tests_lib_financial_test",
+      "label": "financial.test.ts",
+      "_origin": "ast",
+      "community": 397,
+      "community_name": "webhooks-asaas.test.ts",
+      "file_type": "code",
+      "norm_label": "financial.test.ts",
+      "source_file": "tests/lib/financial.test.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_lib_financial_test_mockfrom",
+      "label": "mockFrom",
+      "_origin": "ast",
+      "community": 397,
+      "community_name": "webhooks-asaas.test.ts",
+      "file_type": "code",
+      "norm_label": "mockfrom",
+      "source_file": "tests/lib/financial.test.ts",
+      "source_location": "L9"
+    },
+    {
+      "id": "tests_routes_webhooks_asaas_test",
+      "label": "webhooks-asaas.test.ts",
+      "_origin": "ast",
+      "community": 397,
+      "community_name": "webhooks-asaas.test.ts",
+      "file_type": "code",
+      "norm_label": "webhooks-asaas.test.ts",
+      "source_file": "tests/routes/webhooks-asaas.test.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_routes_webhooks_asaas_test_mcomm",
+      "label": "mComm",
+      "_origin": "ast",
+      "community": 397,
+      "community_name": "webhooks-asaas.test.ts",
+      "file_type": "code",
+      "norm_label": "mcomm",
+      "source_file": "tests/routes/webhooks-asaas.test.ts",
+      "source_location": "L14"
+    },
+    {
+      "id": "tests_routes_webhooks_asaas_test_mincome",
+      "label": "mIncome",
+      "_origin": "ast",
+      "community": 397,
+      "community_name": "webhooks-asaas.test.ts",
+      "file_type": "code",
+      "norm_label": "mincome",
+      "source_file": "tests/routes/webhooks-asaas.test.ts",
+      "source_location": "L13"
+    },
+    {
+      "id": "tests_routes_webhooks_asaas_test_mlog",
+      "label": "mLog",
+      "_origin": "ast",
+      "community": 397,
+      "community_name": "webhooks-asaas.test.ts",
+      "file_type": "code",
+      "norm_label": "mlog",
+      "source_file": "tests/routes/webhooks-asaas.test.ts",
+      "source_location": "L12"
+    },
+    {
+      "id": "tests_routes_webhooks_asaas_test_validbody",
+      "label": "validBody",
+      "_origin": "ast",
+      "community": 397,
+      "community_name": "webhooks-asaas.test.ts",
+      "file_type": "code",
+      "norm_label": "validbody",
+      "source_file": "tests/routes/webhooks-asaas.test.ts",
+      "source_location": "L15"
     },
     {
       "id": "tests_helpers_api_mocks",
@@ -32371,61 +32504,6 @@
       "norm_label": "api-mocks.ts",
       "source_file": "tests/helpers/api-mocks.ts",
       "source_location": "L1"
-    },
-    {
-      "id": "tests_routes_webhooks_asaas_test",
-      "label": "webhooks-asaas.test.ts",
-      "_origin": "ast",
-      "community": 398,
-      "community_name": "api-mocks.ts",
-      "file_type": "code",
-      "norm_label": "webhooks-asaas.test.ts",
-      "source_file": "tests/routes/webhooks-asaas.test.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "tests_routes_webhooks_asaas_test_mcomm",
-      "label": "mComm",
-      "_origin": "ast",
-      "community": 398,
-      "community_name": "api-mocks.ts",
-      "file_type": "code",
-      "norm_label": "mcomm",
-      "source_file": "tests/routes/webhooks-asaas.test.ts",
-      "source_location": "L14"
-    },
-    {
-      "id": "tests_routes_webhooks_asaas_test_mincome",
-      "label": "mIncome",
-      "_origin": "ast",
-      "community": 398,
-      "community_name": "api-mocks.ts",
-      "file_type": "code",
-      "norm_label": "mincome",
-      "source_file": "tests/routes/webhooks-asaas.test.ts",
-      "source_location": "L13"
-    },
-    {
-      "id": "tests_routes_webhooks_asaas_test_mlog",
-      "label": "mLog",
-      "_origin": "ast",
-      "community": 398,
-      "community_name": "api-mocks.ts",
-      "file_type": "code",
-      "norm_label": "mlog",
-      "source_file": "tests/routes/webhooks-asaas.test.ts",
-      "source_location": "L12"
-    },
-    {
-      "id": "tests_routes_webhooks_asaas_test_validbody",
-      "label": "validBody",
-      "_origin": "ast",
-      "community": 398,
-      "community_name": "api-mocks.ts",
-      "file_type": "code",
-      "norm_label": "validbody",
-      "source_file": "tests/routes/webhooks-asaas.test.ts",
-      "source_location": "L15"
     },
     {
       "id": "tests_routes_billing_avulso_test",
@@ -33165,6 +33243,17 @@
       "source_location": "L706"
     },
     {
+      "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_926",
+      "label": "Resolve a standalone API identifier even when its BM25 IDF is low.",
+      "_origin": "ast",
+      "community": 40,
+      "community_name": "scripts/core.py",
+      "file_type": "rationale",
+      "norm_label": "resolve a standalone api identifier even when its bm25 idf is low.",
+      "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
+      "source_location": "L926"
+    },
+    {
       "id": "tests_routes_payments_pix_test",
       "label": "payments-pix.test.ts",
       "_origin": "ast",
@@ -33231,26 +33320,48 @@
       "source_location": "L13"
     },
     {
-      "id": "tests_routes_tenants_test",
-      "label": "tenants.test.ts",
+      "id": "src_app_api_contracts_route",
+      "label": "contracts/route.ts",
       "_origin": "ast",
       "community": 402,
-      "community_name": "makeChain",
+      "community_name": "contracts/route.ts",
       "file_type": "code",
-      "norm_label": "tenants.test.ts",
-      "source_file": "tests/routes/tenants.test.ts",
+      "norm_label": "contracts/route.ts",
+      "source_file": "src/app/api/contracts/route.ts",
       "source_location": "L1"
     },
     {
-      "id": "tests_routes_tenants_test_long_token",
-      "label": "LONG_TOKEN",
+      "id": "src_app_api_contracts_route_delete",
+      "label": "DELETE",
       "_origin": "ast",
       "community": 402,
-      "community_name": "makeChain",
+      "community_name": "contracts/route.ts",
       "file_type": "code",
-      "norm_label": "long_token",
-      "source_file": "tests/routes/tenants.test.ts",
-      "source_location": "L9"
+      "norm_label": "delete",
+      "source_file": "src/app/api/contracts/route.ts",
+      "source_location": "L66"
+    },
+    {
+      "id": "src_app_api_contracts_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 402,
+      "community_name": "contracts/route.ts",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/contracts/route.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_app_api_contracts_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 402,
+      "community_name": "contracts/route.ts",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "src/app/api/contracts/route.ts",
+      "source_location": "L17"
     },
     {
       "id": "tests_routes_asaas_batch_test",
@@ -33295,17 +33406,6 @@
       "norm_label": "c_inactive_holder",
       "source_file": "tests/routes/asaas-batch.test.ts",
       "source_location": "L17"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core",
-      "label": "test_core.py",
-      "_origin": "ast",
-      "community": 41,
-      "community_name": "BM25",
-      "file_type": "code",
-      "norm_label": "test_core.py",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L1"
     },
     {
       "id": "continue_skills_ui_ux_pro_max_scripts_core_rationale_283",
@@ -33361,17 +33461,6 @@
       "norm_label": "all indexed terms, for suggestion/typo-recovery purposes.",
       "source_file": ".continue/skills/ui-ux-pro-max/scripts/core.py",
       "source_location": "L346"
-    },
-    {
-      "id": "continue_skills_ui_ux_pro_max_scripts_tests_test_core_rationale_3",
-      "label": "Stdlib-only regression tests for core.py / design_system.py (unittest, not\u2026",
-      "_origin": "ast",
-      "community": 41,
-      "community_name": "BM25",
-      "file_type": "rationale",
-      "norm_label": "stdlib-only regression tests for core.py / design_system.py (unittest, not...",
-      "source_file": ".continue/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L3"
     },
     {
       "id": "continue_skills_brand_references_approval_checklist",
@@ -37007,17 +37096,6 @@
       "norm_label": "lead_stages",
       "source_file": "src/lib/crm.ts",
       "source_location": "L7"
-    },
-    {
-      "id": "tests_lib_crm_test",
-      "label": "crm.test.ts",
-      "_origin": "ast",
-      "community": 57,
-      "community_name": "CrmTab.tsx",
-      "file_type": "code",
-      "norm_label": "crm.test.ts",
-      "source_file": "tests/lib/crm.test.ts",
-      "source_location": "L1"
     },
     {
       "id": "continue_skills_design_system_scripts_generate_slide",
@@ -42131,149 +42209,6 @@
       "source_location": "L68"
     },
     {
-      "id": "billing_pix_route",
-      "label": "billing/pix/route.ts",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "billing/pix/route.ts",
-      "source_file": "billing/pix/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "billing_pix_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "billing/pix/route.ts",
-      "source_location": "L6"
-    },
-    {
-      "id": "billing_pix_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "billing/pix/route.ts",
-      "source_location": "L8"
-    },
-    {
-      "id": "payments_pix_route",
-      "label": "payments/pix/route.ts",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "payments/pix/route.ts",
-      "source_file": "payments/pix/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "payments_pix_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "payments/pix/route.ts",
-      "source_location": "L5"
-    },
-    {
-      "id": "src_app_api_billing_asaas_batch_route",
-      "label": "asaas-batch/route.ts",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "asaas-batch/route.ts",
-      "source_file": "src/app/api/billing/asaas-batch/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_billing_asaas_batch_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/billing/asaas-batch/route.ts",
-      "source_location": "L39"
-    },
-    {
-      "id": "src_app_api_billing_avulso_route",
-      "label": "avulso/route.ts",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "avulso/route.ts",
-      "source_file": "src/app/api/billing/avulso/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_billing_avulso_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/api/billing/avulso/route.ts",
-      "source_location": "L15"
-    },
-    {
-      "id": "src_app_api_billing_avulso_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/billing/avulso/route.ts",
-      "source_location": "L17"
-    },
-    {
-      "id": "src_app_api_billing_boleto_route",
-      "label": "api/billing/boleto/route.ts",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "api/billing/boleto/route.ts",
-      "source_file": "src/app/api/billing/boleto/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_billing_boleto_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/api/billing/boleto/route.ts",
-      "source_location": "L9"
-    },
-    {
-      "id": "src_app_api_billing_boleto_route_post",
-      "label": "POST",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "post",
-      "source_file": "src/app/api/billing/boleto/route.ts",
-      "source_location": "L24"
-    },
-    {
       "id": "src_app_api_holders_quick_search_route",
       "label": "quick-search/route.ts",
       "_origin": "ast",
@@ -42294,6 +42229,83 @@
       "norm_label": "get",
       "source_file": "src/app/api/holders/quick-search/route.ts",
       "source_location": "L6"
+    },
+    {
+      "id": "src_app_api_leads_landing_route",
+      "label": "landing/route.ts",
+      "_origin": "ast",
+      "community": 88,
+      "community_name": "checkRateLimit",
+      "file_type": "code",
+      "norm_label": "landing/route.ts",
+      "source_file": "src/app/api/leads/landing/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_leads_route",
+      "label": "leads/route.ts",
+      "_origin": "ast",
+      "community": 88,
+      "community_name": "checkRateLimit",
+      "file_type": "code",
+      "norm_label": "leads/route.ts",
+      "source_file": "src/app/api/leads/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_leads_route_delete",
+      "label": "DELETE",
+      "_origin": "ast",
+      "community": 88,
+      "community_name": "checkRateLimit",
+      "file_type": "code",
+      "norm_label": "delete",
+      "source_file": "src/app/api/leads/route.ts",
+      "source_location": "L155"
+    },
+    {
+      "id": "src_app_api_leads_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 88,
+      "community_name": "checkRateLimit",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/api/leads/route.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_app_api_leads_route_get",
+      "label": "GET",
+      "_origin": "ast",
+      "community": 88,
+      "community_name": "checkRateLimit",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "src/app/api/leads/route.ts",
+      "source_location": "L14"
+    },
+    {
+      "id": "src_app_api_leads_route_patch",
+      "label": "PATCH",
+      "_origin": "ast",
+      "community": 88,
+      "community_name": "checkRateLimit",
+      "file_type": "code",
+      "norm_label": "patch",
+      "source_file": "src/app/api/leads/route.ts",
+      "source_location": "L68"
+    },
+    {
+      "id": "src_app_api_leads_route_post",
+      "label": "POST",
+      "_origin": "ast",
+      "community": 88,
+      "community_name": "checkRateLimit",
+      "file_type": "code",
+      "norm_label": "post",
+      "source_file": "src/app/api/leads/route.ts",
+      "source_location": "L26"
     },
     {
       "id": "src_app_api_payments_pix_route",
@@ -42318,17 +42330,6 @@
       "source_location": "L9"
     },
     {
-      "id": "src_lib_asaasclient",
-      "label": "asaasClient.ts",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "checkRateLimit",
-      "file_type": "code",
-      "norm_label": "asaasclient.ts",
-      "source_file": "src/lib/asaasClient.ts",
-      "source_location": "L1"
-    },
-    {
       "id": "src_lib_rate_limiter",
       "label": "rate-limiter.ts",
       "_origin": "ast",
@@ -42348,7 +42349,7 @@
       "file_type": "code",
       "norm_label": "attempts",
       "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L51"
+      "source_location": "L77"
     },
     {
       "id": "src_lib_rate_limiter_default_config",
@@ -42359,18 +42360,73 @@
       "file_type": "code",
       "norm_label": "default_config",
       "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L52"
+      "source_location": "L17"
     },
     {
-      "id": "src_lib_rate_limiter_ratelimit",
-      "label": "ratelimit",
+      "id": "src_lib_rate_limiter_ratelimitcache",
+      "label": "ratelimitCache",
       "_origin": "ast",
       "community": 88,
       "community_name": "checkRateLimit",
       "file_type": "code",
-      "norm_label": "ratelimit",
+      "norm_label": "ratelimitcache",
       "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L10"
+      "source_location": "L21"
+    },
+    {
+      "id": "tests_lib_crm_test",
+      "label": "crm.test.ts",
+      "_origin": "ast",
+      "community": 88,
+      "community_name": "checkRateLimit",
+      "file_type": "code",
+      "norm_label": "crm.test.ts",
+      "source_file": "tests/lib/crm.test.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_lib_rate_limiter_test",
+      "label": "rate-limiter.test.ts",
+      "_origin": "ast",
+      "community": 88,
+      "community_name": "checkRateLimit",
+      "file_type": "code",
+      "norm_label": "rate-limiter.test.ts",
+      "source_file": "tests/lib/rate-limiter.test.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_lib_rate_limiter_test_consolespy",
+      "label": "consoleSpy",
+      "_origin": "ast",
+      "community": 88,
+      "community_name": "checkRateLimit",
+      "file_type": "code",
+      "norm_label": "consolespy",
+      "source_file": "tests/lib/rate-limiter.test.ts",
+      "source_location": "L38"
+    },
+    {
+      "id": "tests_lib_rate_limiter_test_limitmock",
+      "label": "limitMock",
+      "_origin": "ast",
+      "community": 88,
+      "community_name": "checkRateLimit",
+      "file_type": "code",
+      "norm_label": "limitmock",
+      "source_file": "tests/lib/rate-limiter.test.ts",
+      "source_location": "L17"
+    },
+    {
+      "id": "tests_lib_rate_limiter_test_slidingwindowmock",
+      "label": "slidingWindowMock",
+      "_origin": "ast",
+      "community": 88,
+      "community_name": "checkRateLimit",
+      "file_type": "code",
+      "norm_label": "slidingwindowmock",
+      "source_file": "tests/lib/rate-limiter.test.ts",
+      "source_location": "L16"
     },
     {
       "id": "docs_arquitetura_rbac_multitenant_1_preciso_de_um_banco_separado_por_cliente",
@@ -55210,7 +55266,31 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L27",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_rate_limiter_checkratelimit",
+      "target": "src_lib_rate_limiter_getratelimit",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_rate_limiter_checkratelimit",
+      "target": "src_lib_http_error_logerror",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L60",
       "weight": 1.0
     },
     {
@@ -62980,6 +63060,18 @@
       "weight": 1.0
     },
     {
+      "source": "src_lib_rate_limiter",
+      "target": "src_lib_http_error_logerror",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
       "source": "src_lib_whatsappagent",
       "target": "src_lib_supabaseadmin_supabaseadmin",
       "relation": "imports",
@@ -63133,6 +63225,18 @@
       "context": "import",
       "source_file": "tests/lib/financial.test.ts",
       "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_lib_rate_limiter_test",
+      "target": "src_lib_rate_limiter_checkratelimit",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tests/lib/rate-limiter.test.ts",
+      "source_location": "L36",
       "weight": 1.0
     },
     {
@@ -70042,6 +70146,18 @@
     },
     {
       "source": "src_lib_rate_limiter",
+      "target": "src_lib_http_error",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_rate_limiter",
       "target": "ref_upstash_ratelimit",
       "relation": "imports_from",
       "_origin": "ast",
@@ -70049,7 +70165,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L6",
+      "source_location": "L8",
       "weight": 1.0
     },
     {
@@ -70061,7 +70177,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L7",
+      "source_location": "L9",
       "weight": 1.0
     },
     {
@@ -70170,6 +70286,18 @@
       "context": "import",
       "source_file": "tests/lib/financial.test.ts",
       "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_lib_rate_limiter_test",
+      "target": "src_lib_rate_limiter",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tests/lib/rate-limiter.test.ts",
+      "source_location": "L36",
       "weight": 1.0
     },
     {
@@ -98263,68 +98391,13 @@
     },
     {
       "source": "src_lib_rate_limiter",
-      "target": "src_lib_rate_limiter_ratelimit",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_rate_limiter",
       "target": "src_lib_rate_limiter_ratelimitconfig",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L16",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_rate_limiter",
-      "target": "src_lib_rate_limiter_checkratelimit",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L21",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_rate_limiter",
-      "target": "src_lib_rate_limiter_resetratelimit",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L39",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_rate_limiter",
-      "target": "src_lib_rate_limiter_ratelimitentry",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L47",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_rate_limiter",
-      "target": "src_lib_rate_limiter_attempts",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L51",
+      "source_location": "L12",
       "weight": 1.0
     },
     {
@@ -98335,7 +98408,73 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L52",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_rate_limiter",
+      "target": "src_lib_rate_limiter_ratelimitcache",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_rate_limiter",
+      "target": "src_lib_rate_limiter_getratelimit",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_rate_limiter",
+      "target": "src_lib_rate_limiter_checkratelimit",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_rate_limiter",
+      "target": "src_lib_rate_limiter_resetratelimit",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_rate_limiter",
+      "target": "src_lib_rate_limiter_ratelimitentry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_rate_limiter",
+      "target": "src_lib_rate_limiter_attempts",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/lib/rate-limiter.ts",
+      "source_location": "L77",
       "weight": 1.0
     },
     {
@@ -98346,7 +98485,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/rate-limiter.ts",
-      "source_location": "L54",
+      "source_location": "L79",
       "weight": 1.0
     },
     {
@@ -100041,6 +100180,39 @@
       "confidence_score": 1.0,
       "source_file": "tests/lib/financial.test.ts",
       "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_lib_rate_limiter_test",
+      "target": "tests_lib_rate_limiter_test_slidingwindowmock",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/lib/rate-limiter.test.ts",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_lib_rate_limiter_test",
+      "target": "tests_lib_rate_limiter_test_limitmock",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/lib/rate-limiter.test.ts",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_lib_rate_limiter_test",
+      "target": "tests_lib_rate_limiter_test_consolespy",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/lib/rate-limiter.test.ts",
+      "source_location": "L38",
       "weight": 1.0
     },
     {
@@ -109723,5 +109895,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "250e0af645d762bcd5d117c4ff7f44b6c6a4dd02"
+  "built_at_commit": "ecc618d35041ada4bbd71fb24beceb6bb3571692"
 }

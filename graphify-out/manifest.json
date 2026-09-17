@@ -1206,10 +1206,10 @@
     "semantic_hash": "074970503b51ec3771888f78610c1a05"
   },
   "src/lib/rate-limiter.ts": {
-    "mtime": 1789259570.1073816,
-    "seen": 1789318651.298097,
-    "ast_hash": "dd353746a446856abd1e7b5fa341641a",
-    "semantic_hash": "dd353746a446856abd1e7b5fa341641a"
+    "mtime": 1789608184.1319542,
+    "seen": 1789609160.5378876,
+    "ast_hash": "7e7a36b5471beaa0076c4fee1479495e",
+    "semantic_hash": ""
   },
   "src/lib/supabase.ts": {
     "mtime": 1789266590.515556,
@@ -2046,9 +2046,9 @@
     "semantic_hash": ""
   },
   "docs/JORNADA-GRAPHIFY-E-REFATORACAO.md": {
-    "mtime": 1789596331.0501435,
-    "seen": 1789596477.5366018,
-    "ast_hash": "3b53bf7d41e37c5f7097c7164212ad6b",
+    "mtime": 1789606375.4528513,
+    "seen": 1789609160.5380225,
+    "ast_hash": "6a0f1ebd00803cd1dad2918774c3ea4b",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/titulares/importar/page.tsx": {
@@ -2445,6 +2445,12 @@
     "mtime": 1789603065.4235744,
     "seen": 1789603163.0756614,
     "ast_hash": "0ff80ba8ff0cd746ac3d68209d0342e3",
+    "semantic_hash": ""
+  },
+  "tests/lib/rate-limiter.test.ts": {
+    "mtime": 1789609055.2439544,
+    "seen": 1789609160.5379124,
+    "ast_hash": "e2ec76be81617736ec290356907df94d",
     "semantic_hash": ""
   }
 }
