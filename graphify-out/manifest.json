@@ -2046,9 +2046,9 @@
     "semantic_hash": ""
   },
   "docs/JORNADA-GRAPHIFY-E-REFATORACAO.md": {
-    "mtime": 1789606375.4528513,
-    "seen": 1789609160.5380225,
-    "ast_hash": "6a0f1ebd00803cd1dad2918774c3ea4b",
+    "mtime": 1789614325.015953,
+    "seen": 1789614580.6988115,
+    "ast_hash": "3ea784229cb33cbe8f7c3a2b826a19c2",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/titulares/importar/page.tsx": {
@@ -2064,9 +2064,9 @@
     "semantic_hash": "6b0bebdb4bfd49d4c6f6c7c738a01a46"
   },
   "src/types/domain.ts": {
-    "mtime": 1789592915.9367168,
-    "seen": 1789594883.3110113,
-    "ast_hash": "b28a86376cd47098141dbc78d25ccba4",
+    "mtime": 1789610776.109867,
+    "seen": 1789614580.698685,
+    "ast_hash": "fd233a5039112602ab5bf8a4e4b5b660",
     "semantic_hash": ""
   },
   "src/app/(dashboard)/crm/page.tsx": {
@@ -2262,10 +2262,10 @@
     "semantic_hash": ""
   },
   "src/types/supabase.ts": {
-    "mtime": 1789484542.412008,
-    "seen": 1789485219.8799763,
-    "ast_hash": "7f4dd7c511da8fdb772d989d84d7a8c1",
-    "semantic_hash": "7f4dd7c511da8fdb772d989d84d7a8c1"
+    "mtime": 1789613306.5162618,
+    "seen": 1789614580.698688,
+    "ast_hash": "f40393359bfeaae99f0af1252e76b4db",
+    "semantic_hash": ""
   },
   "supabase/migrations/20260914220043_remote_schema.sql": {
     "mtime": 1789484542.4150038,
@@ -2451,6 +2451,12 @@
     "mtime": 1789609055.2439544,
     "seen": 1789609160.5379124,
     "ast_hash": "e2ec76be81617736ec290356907df94d",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/20260916230000_add_latlng_to_chapel_burials.sql": {
+    "mtime": 1789610543.5686274,
+    "seen": 1789614580.6986935,
+    "ast_hash": "47051655adccf4cd15d439dae0158ca1",
     "semantic_hash": ""
   }
 }
