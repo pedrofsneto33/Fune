@@ -148,7 +148,18 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
   if (asaas_wallet_id !== undefined) updateData.asaas_wallet_id = asaas_wallet_id;
   if (pix_key !== undefined) updateData.pix_key = pix_key;
   if (asaas_api_key) updateData.asaas_api_key = asaas_api_key;
-  if (asaas_webhook_token) updateData.asaas_webhook_token = asaas_webhook_token;
+  // 11e-2/11e-3: o webhook exige token com >= 16 chars (enforcement da 11e-1), entao
+  // a escrita rejeita token curto. Vazio/null LIMPA a coluna (grava null).
+  if (body.asaas_webhook_token !== undefined) {
+    const t = String(asaas_webhook_token || '').trim();
+    if (t.length > 0 && t.length < 16) {
+      return NextResponse.json(
+        { error: 'Token de webhook deve ter pelo menos 16 caracteres.' },
+        { status: 400 },
+      );
+    }
+    updateData.asaas_webhook_token = t.length > 0 ? t : null;
+  }
 
   const { error } = await supabaseAdmin
     .from('tenants')

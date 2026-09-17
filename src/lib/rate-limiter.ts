@@ -1,39 +1,65 @@
 /**
  * Rate limiter — Vercel KV (Upstash Redis) com fallback in-memory.
  * F-22: in-memory perde contador em serverless cold start.
+ * Fase 15b: instancia Ratelimit por config (maxAttempts/windowMs) — antes o
+ * slidingWindow(10,'60s') fixo ignorava o config de cada chamador em producao.
  */
 
 import { Ratelimit } from '@upstash/ratelimit';
 import { kv } from '@vercel/kv';
-
-// Instância única (reutilizada entre cold starts — KV mantém o estado)
-const ratelimit = new Ratelimit({
-  redis: kv,
-  limiter: Ratelimit.slidingWindow(10, '60s'),
-  analytics: true,
-});
+import { logError } from './http-error';
 
 export interface RateLimitConfig {
   maxAttempts: number;
   windowMs: number;
 }
 
+const DEFAULT_CONFIG: RateLimitConfig = { maxAttempts: 10, windowMs: 60000 };
+
+// Uma instancia por combinacao max:windowMs (reuso entre requests; o prefixo
+// por config isola os contadores no Redis entre limites diferentes)
+const ratelimitCache = new Map<string, Ratelimit>();
+
+function getRatelimit(config: RateLimitConfig): Ratelimit {
+  const { maxAttempts, windowMs } = config;
+  const key = `${maxAttempts}:${windowMs}`;
+  let instance = ratelimitCache.get(key);
+  if (!instance) {
+    instance = new Ratelimit({
+      redis: kv,
+      limiter: Ratelimit.slidingWindow(maxAttempts, `${windowMs} ms`),
+      prefix: `rl:${key}`,
+      analytics: true,
+    });
+    ratelimitCache.set(key, instance);
+  }
+  return instance;
+}
+
 export async function checkRateLimit(
   identifier: string,
   config: Partial<RateLimitConfig> = {}
 ): Promise<{ allowed: boolean; remaining: number; resetAt: number }> {
-  // Em desenvolvimento/local, fallback in-memory
+  const full = { ...DEFAULT_CONFIG, ...config };
+
+  // Em desenvolvimento/local, fallback in-memory (mesma env checada antes)
   if (!process.env.UPSTASH_REDIS_REST_URL) {
-    return legacyCheckRateLimit(identifier, config);
+    return legacyCheckRateLimit(identifier, full);
   }
 
-  const { success, reset, remaining } = await ratelimit.limit(identifier);
-
-  return {
-    allowed: success,
-    remaining: remaining ?? 0,
-    resetAt: reset ?? Date.now() + 60000,
-  };
+  try {
+    const { success, reset, remaining } = await getRatelimit(full).limit(identifier);
+    return {
+      allowed: success,
+      remaining: remaining ?? 0,
+      resetAt: reset ?? Date.now() + full.windowMs,
+    };
+  } catch (err) {
+    // Redis down (@vercel/kv lanca sem KV_REST_API_URL/TOKEN; Upstash pode
+    // falhar): fail-open — loga e usa o in-memory local, nunca derruba a API.
+    logError(err, 'rate-limiter');
+    return legacyCheckRateLimit(identifier, full);
+  }
 }
 
 export function resetRateLimit(identifier: string): void {
@@ -49,7 +75,6 @@ interface RateLimitEntry {
   resetAt: number;
 }
 const attempts = new Map<string, RateLimitEntry>();
-const DEFAULT_CONFIG: RateLimitConfig = { maxAttempts: 10, windowMs: 60000 };
 
 function legacyCheckRateLimit(
   identifier: string,

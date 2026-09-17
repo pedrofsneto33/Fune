@@ -46,16 +46,15 @@ dev-server.err
 *.err
 *.tsbuildinfo
 next-env.d.ts
+null
 
-.vercel
 
 build-check.log
 deploy.log
-build-check.log
+build-output*.log
 
 # logs locais
 dev-server.log
-.env*
 
 test-output.log
 
@@ -74,7 +73,6 @@ supabase/.temp/
 .code-ranker/
 
 graphify-out/2026-09-16/
-
-backup-*.sql
+graphify-out/20*/
 
 backup-*.sql
