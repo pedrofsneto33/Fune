@@ -138,7 +138,7 @@ Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 | 12b-2 | Botão "🔗 QR" em `/ordens` + `ModalQrOS` (impressão isolada) | ✅ |
 | 12b-3 | Rota pública `/track/[token]` + AuthGuard libera `/track` | ✅ |
 | 12d-1 (lat/lng em `chapel_burials`) | ✅ |
-| 12d-2 (MapPicker + integracao) | Pendente | ⏸️ |
+| 12d-2 (MapPicker + Ver todos no mapa) | ✅ |
 | 12e (Assinatura digital) | Adiado | ⏸️ |
 
 **Impacto:** bug F-29 resolvido (−170 linhas), fluxo manual de venda em 1 tela, QR Code tracking público por OS (rota `/track/[token]` sem PII).
@@ -312,8 +312,9 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 - [x] 12d-1: migration `20260916230000_add_latlng_to_chapel_burials.sql`
   (colunas `latitude`/`longitude` double precision nullable) + tipos
   regenerados + `Burial` atualizado (commit `6b998e2`)
-- [ ] 12d-2: componente `MapPicker` (Leaflet via dynamic import) +
-  integracao no `BurialsTab` + visualizacao read-only dos pins
+- [x] 12d-2: `MapPicker` (Leaflet + dynamic ssr:false) no form
+  de sepultamento + `BurialsMap` read-only com todos os pins
+  (`a3451f4`, `cd552eb`, `a27a9bb`, `cfee443`)
 
 ### 12e — Assinatura digital
 - [ ] Integração DocuSign/Clicksign (termos, contratos)
