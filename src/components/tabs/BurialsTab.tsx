@@ -8,6 +8,7 @@ import { authFetch } from '@/lib/authFetch';
 import { notifyError, notifySuccess } from '@/lib/notify';
 import type { Burial } from '@/types';
 import BurialGuide from '@/components/print/BurialGuide';
+import { MapPicker } from '@/components/MapPickerClient';
 
 const EMPTY_FORM = {
   id: '',
@@ -15,6 +16,8 @@ const EMPTY_FORM = {
   burial_date: '',
   cemetery_location: '',
   status: 'Agendado',
+  latitude: null as number | null,
+  longitude: null as number | null,
 };
 
 export default function BurialsTab() {
@@ -28,6 +31,7 @@ export default function BurialsTab() {
   const [userRole, setUserRole] = useState<string | null>(null);
   // Impressao (6g-5): sepultamento cuja Guia esta aberta
   const [printBurial, setPrintBurial] = useState<Burial | null>(null);
+  const [showMap, setShowMap] = useState(false);
 
   const loadBurials = useCallback(async () => {
     setLoading(true);
@@ -98,6 +102,8 @@ export default function BurialsTab() {
       burial_date: b.burial_date ? b.burial_date.slice(0, 10) : '',
       cemetery_location: b.cemetery_location || '',
       status: b.status || 'Agendado',
+      latitude: b.latitude ?? null,
+      longitude: b.longitude ?? null,
     });
     setEditingId(b.id);
     setIsNewOpen(true);
@@ -280,6 +286,40 @@ export default function BurialsTab() {
                   <option value="Cancelado">Cancelado</option>
                 </select>
               </div>
+              <div className="mt-3">
+                <label className="block text-slate-600 dark:text-slate-500 font-semibold mb-1">
+                  Localizacao no mapa
+                </label>
+                {form.latitude !== null && form.longitude !== null ? (
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-slate-500">
+                      {form.latitude.toFixed(5)}, {form.longitude.toFixed(5)}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setShowMap(true)}
+                      className="text-xs text-blue-600 hover:underline"
+                    >
+                      Alterar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setForm({ ...form, latitude: null, longitude: null })}
+                      className="text-xs text-red-600 hover:underline"
+                    >
+                      Limpar
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setShowMap(true)}
+                    className="text-sm text-blue-600 hover:underline"
+                  >
+                    Definir localizacao no mapa
+                  </button>
+                )}
+              </div>
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-200 dark:border-slate-800 mt-4">
                 {editingId && canDelete && (
                   <button
@@ -314,6 +354,28 @@ export default function BurialsTab() {
               </div>
             </form>
           </div>
+          {showMap && (
+            <div className="fixed inset-0 z-[100] bg-black/60 flex items-center justify-center p-4">
+              <div className="bg-white dark:bg-slate-900 rounded-lg p-4 w-full max-w-2xl">
+                <h3 className="font-semibold mb-3">Escolha a localizacao</h3>
+                <MapPicker
+                  latitude={form.latitude}
+                  longitude={form.longitude}
+                  onSelect={(lat, lng) => setForm({ ...form, latitude: lat, longitude: lng })}
+                  height="450px"
+                />
+                <div className="flex justify-end gap-2 mt-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowMap(false)}
+                    className="px-4 py-2 rounded border border-slate-300 text-sm"
+                  >
+                    Fechar
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
