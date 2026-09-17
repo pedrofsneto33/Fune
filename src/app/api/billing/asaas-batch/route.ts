@@ -133,6 +133,30 @@ async function recordLocalPayment(
     if (!error) return { ok: true };
     lastError = error.message;
   }
+  // Fase D: cobranca criada no Asaas mas nao registrada localmente.
+  // Grava evento de reconciliacao em webhook_events para que o
+  // operador possa varrer depois (SELECT event='ORPHAN_PAYMENT').
+  // O insert NAO deve mascarar o erro original: se falhar, apenas
+  // ignora (ja e um caso de erro).
+  try {
+    await supabaseAdmin.from('webhook_events').insert({
+      tenant_id: tenantId,
+      provider: 'internal',
+      event: 'ORPHAN_PAYMENT',
+      asaas_payment_id: asaasPaymentId,
+      processed: false,
+      payload: {
+        contract_id: contractId,
+        amount,
+        due_date: dueDate,
+        payment_method: paymentMethod,
+        upsert_error: lastError,
+      },
+    });
+  } catch {
+    // best-effort; nao mascara o erro de upsert original
+  }
+
   return { ok: false, error: lastError || 'Erro desconhecido no upsert' };
 }
 
