@@ -599,6 +599,6 @@ Vuelve a renderizar este `.md` y todos los diagramas se actualizan.
 ### Artefactos relacionados
 
 - [`ARQUITETURA-RBAC-MULTITENANT.md`](./ARQUITETURA-RBAC-MULTITENANT.md) — guía didáctica RBAC/multi-tenancy/onboarding.
-- [`eternityos_schema.sql`](../eternityos_schema.sql) — schema SQL completo con políticas RLS.
+- [`eternityos_schema.sql`](../supabase/legacy/eternityos_schema.sql) — schema SQL completo con políticas RLS.
 - [`ROADMAP-PENDENTES.md`](./ROADMAP-PENDENTES.md) — backlog y prioridades.
 - [`CHECKLIST-MANUAL-SEGURANCA.md`](./CHECKLIST-MANUAL-SEGURANCA.md) — auditoría de segurança.
