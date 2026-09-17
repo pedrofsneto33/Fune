@@ -5,7 +5,7 @@
 > **Último commit:** `7df956d` (grafo 12b-3)
 > **Progresso:** Fases 1-13 + 12b · monolito removido · migrations aplicadas no remoto
 > **Score geral:** 6.2 → **7.84** (+1.64)
-> **Testes:** 180 · 18 suítes (era 145)
+> **Testes:** 203 · 20 suítes (era 145)
 
 ---
 
@@ -297,8 +297,8 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 `/login`, `/landing`, `/carteirinha/[cpf]`, `/track/[token]`
 
 ### 9.5 APIs cobertas por testes
-- `webhooks/asaas`: 8 · `holders`: 6 · `billing/asaas-batch`: 6 · `billing/pix`: 8 · `payments/pix`: 7
-- `tenants`: 3 (novo na 11e-2 — `tests/routes/tenants.test.ts`) · **total: 180 testes / 18 suítes**
+- `webhooks/asaas`: 8 · `holders`: 6 · `billing/asaas-batch`: 6 · `billing/pix`: 8 · `payments/pix`: 7 · `billing/avulso`: 14 (novo na Fase 15 — `tests/routes/billing-avulso.test.ts`)
+- `tenants`: 3 (novo na 11e-2 — `tests/routes/tenants.test.ts`) · `/track/[token]`: 9 (novo na Fase 15 — `tests/routes/track-token.test.tsx`) · **total: 203 testes / 20 suítes**
 
 ---
 
@@ -317,9 +317,9 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 - [ ] Dump + drop `fleet_vehicles` e `fleet_expenses`
 
 ### Fase 15 — Testes adicionais
-- [ ] Cobrir novos endpoints de venda avulsa (13c)
+- [x] Cobrir POST `/api/billing/avulso` (Fase 15 — `182645c`, 14 casos em `tests/routes/billing-avulso.test.ts`)
 - [ ] Teste E2E do wizard `/vendas/nova`
-- [ ] Teste da rota pública `/track/[token]`
+- [x] Teste da rota pública `/track/[token]` (Fase 15 — `78e8501`, 9 casos em `tests/routes/track-token.test.tsx`)
 
 ---
 
