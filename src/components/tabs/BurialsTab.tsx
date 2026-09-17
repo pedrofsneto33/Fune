@@ -9,6 +9,7 @@ import { notifyError, notifySuccess } from '@/lib/notify';
 import type { Burial } from '@/types';
 import BurialGuide from '@/components/print/BurialGuide';
 import { MapPicker } from '@/components/MapPickerClient';
+import { BurialsMap } from '@/components/BurialsMapClient';
 
 const EMPTY_FORM = {
   id: '',
@@ -32,6 +33,12 @@ export default function BurialsTab() {
   // Impressao (6g-5): sepultamento cuja Guia esta aberta
   const [printBurial, setPrintBurial] = useState<Burial | null>(null);
   const [showMap, setShowMap] = useState(false);
+  const [showGlobalMap, setShowGlobalMap] = useState(false);
+
+  const burialsWithCoords = burials.filter(
+    (b): b is Burial & { latitude: number; longitude: number } =>
+      b.latitude != null && b.longitude != null,
+  );
 
   const loadBurials = useCallback(async () => {
     setLoading(true);
@@ -170,12 +177,23 @@ export default function BurialsTab() {
             {burials.length} sepultamento(s) registrado(s)
           </p>
         </div>
-        <button
-          onClick={openNew}
-          className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold shadow"
-        >
-          + Novo Sepultamento
-        </button>
+        <div className="flex items-center gap-2">
+          {burialsWithCoords.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setShowGlobalMap(true)}
+              className="text-sm text-blue-600 hover:underline"
+            >
+              Ver todos no mapa ({burialsWithCoords.length})
+            </button>
+          )}
+          <button
+            onClick={openNew}
+            className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold shadow"
+          >
+            + Novo Sepultamento
+          </button>
+        </div>
       </div>
 
       {loading ? (
@@ -382,6 +400,36 @@ export default function BurialsTab() {
       {/* Impressão da Guia de Sepultamento (6g-5) */}
       {printBurial && (
         <BurialGuide burial={printBurial} onClose={() => setPrintBurial(null)} />
+      )}
+
+      {showGlobalMap && (
+        <div className="fixed inset-0 z-[100] bg-black/60 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-lg p-4 w-full max-w-4xl">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-semibold">
+                Sepultamentos no mapa ({burialsWithCoords.length})
+              </h3>
+              <button
+                type="button"
+                onClick={() => setShowGlobalMap(false)}
+                className="px-3 py-1 rounded border border-slate-300 text-sm"
+              >
+                Fechar
+              </button>
+            </div>
+            <BurialsMap
+              burials={burialsWithCoords.map((b) => ({
+                id: b.id,
+                deceased_name: b.deceased_name,
+                burial_date: b.burial_date ?? null,
+                cemetery_location: b.cemetery_location ?? null,
+                latitude: b.latitude,
+                longitude: b.longitude,
+              }))}
+              height="600px"
+            />
+          </div>
+        </div>
       )}
     </div>
   );
