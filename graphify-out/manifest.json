@@ -2434,5 +2434,17 @@
     "seen": 1789596477.5364819,
     "ast_hash": "c5b5de8a5c562da5dc7739abb2290744",
     "semantic_hash": ""
+  },
+  "tests/routes/billing-avulso.test.ts": {
+    "mtime": 1789596966.8167427,
+    "seen": 1789603163.0756476,
+    "ast_hash": "ff08f62ef03c5dff9a14623e408e4011",
+    "semantic_hash": ""
+  },
+  "tests/routes/track-token.test.tsx": {
+    "mtime": 1789603065.4235744,
+    "seen": 1789603163.0756614,
+    "ast_hash": "0ff80ba8ff0cd746ac3d68209d0342e3",
+    "semantic_hash": ""
   }
 }
