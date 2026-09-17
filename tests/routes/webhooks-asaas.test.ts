@@ -46,6 +46,13 @@ describe('webhook Asaas (Fase 7a)', () => {
     setupWebhookDb(mf, { updated: [{ id: 'db-1', amount: 100, contract_id: 'c-1' }] });
     const res = await POST(makeAsaasRequest({ body: validBody }));
     expect(res.status).toBe(200);
+    const tenantCallIndex = mf.mock.calls.findIndex(([table]) => table === 'tenants');
+    const tenantChain = mf.mock.results[tenantCallIndex].value;
+    expect(tenantChain.select).toHaveBeenCalledWith('id');
+    expect(tenantChain.eq).toHaveBeenCalledWith(
+      'asaas_webhook_token_hash',
+      expect.stringMatching(/^[a-f0-9]{64}$/),
+    );
     expect(mIncome).toHaveBeenCalledWith(expect.objectContaining({ tenantId: 'tenant-1', amount: 100 }));
     expect(mComm).toHaveBeenCalled();
   });

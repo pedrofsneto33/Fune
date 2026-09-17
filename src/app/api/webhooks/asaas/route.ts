@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+
 ﻿import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { checkRateLimit } from '@/lib/rate-limiter';
@@ -69,10 +71,13 @@ export async function POST(req: NextRequest) {
   }
 
   // Find tenant by webhook token
+  const tokenHash = createHash('sha256')
+    .update(webhookToken)
+    .digest('hex');
   const { data: tenant, error: tenantError } = await supabaseAdmin
     .from('tenants')
-    .select('id, asaas_webhook_token')
-    .eq('asaas_webhook_token', webhookToken)
+    .select('id')
+    .eq('asaas_webhook_token_hash', tokenHash)
     .single();
 
   if (tenantError || !tenant) {
