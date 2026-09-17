@@ -284,6 +284,11 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="border-t border-white/5 py-5 text-center text-xs text-slate-600 dark:text-slate-500">
+          <div className="flex items-center justify-center gap-4 mb-2">
+            <a href="/termos" className="hover:text-white transition">Termos de Uso</a>
+            <a href="/privacidade" className="hover:text-white transition">Politica de Privacidade</a>
+            <a href="/cookies" className="hover:text-white transition">Cookies</a>
+          </div>
           © {new Date().getFullYear()} PrimeX Sistemas · Todos os direitos reservados
         </div>
       </footer>
