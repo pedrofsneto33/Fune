@@ -36,6 +36,106 @@ const withTimeout = (ms: number, promise: Promise<Response>) =>
 
 const contractIsActive = (s: string | null | undefined) => isContractActive(s);
 
+// ─── Fase B: helpers extraidos do loop principal ───
+// Cada um retorna um Result; rejeicoes de withTimeout/fetch
+// PROPAGAM (o loop externo captura via try/catch e reporta).
+
+type AsaasResult<T> =
+  | { ok: true; value: T }
+  | { ok: false; error: string };
+
+async function ensureCustomer(
+  cleanCpf: string,
+  name: string,
+  phone: string | undefined,
+  baseUrl: string,
+  headers: Record<string, string>,
+): Promise<AsaasResult<string>> {
+  const searchRes = await withTimeout(
+    ASAAS_TIMEOUT_MS,
+    fetch(`${baseUrl}/customers?cpfCnpj=${cleanCpf}`, {
+      headers: { access_token: headers['access_token'] },
+    }),
+  );
+  const searchData = await searchRes.json();
+  const existing = searchData?.data?.[0]?.id;
+  if (existing) return { ok: true, value: existing };
+
+  const createRes = await withTimeout(
+    ASAAS_TIMEOUT_MS,
+    fetch(`${baseUrl}/customers`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ name, cpfCnpj: cleanCpf, mobilePhone: phone }),
+    }),
+  );
+  const createData = await createRes.json();
+  if (createData.errors) {
+    return { ok: false, error: 'Falha ao cadastrar cliente no Asaas' };
+  }
+  return { ok: true, value: createData.id };
+}
+
+async function createAsaasPayment(
+  customerId: string,
+  billingType: string,
+  amount: number,
+  dueDate: string,
+  description: string,
+  contractId: string,
+  baseUrl: string,
+  headers: Record<string, string>,
+): Promise<AsaasResult<string>> {
+  const res = await withTimeout(
+    ASAAS_TIMEOUT_MS,
+    fetch(`${baseUrl}/payments`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        customer: customerId,
+        billingType,
+        value: amount,
+        dueDate,
+        description,
+        externalReference: contractId,
+      }),
+    }),
+  );
+  const data = await res.json();
+  if (data.errors) {
+    return { ok: false, error: data.errors?.[0]?.description || 'Falha na cobrança' };
+  }
+  return { ok: true, value: data.id };
+}
+
+async function recordLocalPayment(
+  tenantId: string,
+  contractId: string,
+  asaasPaymentId: string,
+  amount: number,
+  dueDate: string,
+  paymentMethod: 'pix' | 'boleto' | null,
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  let lastError: string | null = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const { error } = await supabaseAdmin.from('payments').upsert(
+      {
+        tenant_id: tenantId,
+        contract_id: contractId,
+        asaas_payment_id: asaasPaymentId,
+        amount,
+        due_date: dueDate,
+        status: 'pending',
+        payment_method: paymentMethod,
+      },
+      { onConflict: 'asaas_payment_id' },
+    );
+    if (!error) return { ok: true };
+    lastError = error.message;
+  }
+  return { ok: false, error: lastError || 'Erro desconhecido no upsert' };
+}
+
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     // SECURITY: rate limit por usuário - operação em lote de cobranças reais
@@ -124,75 +224,45 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       }
 
       try {
-        // 1. Localiza ou cadastra o cliente no Asaas (por CPF)
-        const searchRes = await withTimeout(ASAAS_TIMEOUT_MS, fetch(`${baseUrl}/customers?cpfCnpj=${cleanCpf}`, {
-          headers: { access_token: apiKey },
-        }));
-        const searchData = await searchRes.json();
-        let customerId = searchData?.data?.[0]?.id;
-        if (!customerId) {
-          const createRes = await withTimeout(ASAAS_TIMEOUT_MS, fetch(`${baseUrl}/customers`, {
-            method: 'POST',
-            headers,
-            body: JSON.stringify({
-              name,
-              cpfCnpj: cleanCpf,
-              mobilePhone: holder?.phone ? holder.phone.replace(/\D/g, '') : undefined,
-            }),
-          }));
-          const createData = await createRes.json();
-          if (createData.errors) {
-            results.push({ contract_id: c.id, holder: name, status: 'error', error: 'Falha ao cadastrar cliente no Asaas' });
-            continue;
-          }
-          customerId = createData.id;
+        const phone = holder?.phone ? holder.phone.replace(/\D/g, '') : undefined;
+        const customerResult = await ensureCustomer(cleanCpf, name, phone, baseUrl, headers);
+        if (!customerResult.ok) {
+          results.push({ contract_id: c.id, holder: name, status: 'error', error: customerResult.error });
+          continue;
         }
 
-        // 2. Cria a cobrança no Asaas
-        const paymentRes = await withTimeout(ASAAS_TIMEOUT_MS, fetch(`${baseUrl}/payments`, {
-          method: 'POST',
+        const description = `Mensalidade ${plan?.name || 'Plano'} - ${name}`;
+        const paymentResult = await createAsaasPayment(
+          customerResult.value,
+          billingType,
+          amount,
+          dueDate,
+          description,
+          c.id,
+          baseUrl,
           headers,
-          body: JSON.stringify({
-            customer: customerId,
-            billingType,
-            value: amount,
-            dueDate,
-            description: `Mensalidade ${plan?.name || 'Plano'} - ${name}`,
-            externalReference: c.id,
-          }),
-        }));
-        const paymentData = await paymentRes.json();
-        if (paymentData.errors) {
+        );
+        if (!paymentResult.ok) {
+          results.push({ contract_id: c.id, holder: name, status: 'error', error: paymentResult.error });
+          continue;
+        }
+
+        const paymentMethod = billingType === 'PIX' ? 'pix' : billingType === 'BOLETO' ? 'boleto' : null;
+        const localResult = await recordLocalPayment(
+          auth.tenantId,
+          c.id,
+          paymentResult.value,
+          amount,
+          dueDate,
+          paymentMethod,
+        );
+        if (!localResult.ok) {
           results.push({
             contract_id: c.id,
             holder: name,
             status: 'error',
-            error: paymentData.errors?.[0]?.description || 'Falha na cobrança',
+            error: `Cobrança criada no Asaas (${paymentResult.value}) mas falha ao registrar localmente: ${localResult.error}`,
           });
-          continue;
-        }
-
-        // 3. Registra localmente com retry (F-23: sem upsert confirmado a
-        // cobrança fica órfã no Asaas e o webhook nunca concilia).
-        let localError: string | null = null;
-        for (let attempt = 0; attempt < 3; attempt++) {
-          const { error: upsertError } = await supabaseAdmin.from('payments').upsert(
-            {
-              tenant_id: auth.tenantId,
-              contract_id: c.id,
-              asaas_payment_id: paymentData.id,
-              amount,
-              due_date: dueDate,
-              status: 'pending',
-              payment_method: billingType === 'PIX' ? 'pix' : billingType === 'BOLETO' ? 'boleto' : null,
-            },
-            { onConflict: 'asaas_payment_id' },
-          );
-          if (!upsertError) { localError = null; break; }
-          localError = upsertError.message;
-        }
-        if (localError) {
-          results.push({ contract_id: c.id, holder: name, status: 'error', error: `Cobrança criada no Asaas (${paymentData.id}) mas falha ao registrar localmente: ${localError}` });
           continue;
         }
 
@@ -200,7 +270,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
           contract_id: c.id,
           holder: name,
           status: 'created',
-          asaas_payment_id: paymentData.id,
+          asaas_payment_id: paymentResult.value,
           amount,
           due_date: dueDate,
         });
