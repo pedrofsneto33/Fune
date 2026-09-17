@@ -1,0 +1,114 @@
+/** @jest-environment node */
+import { NextRequest } from 'next/server';
+jest.mock('@/lib/supabaseAdmin', () => ({
+  supabaseAdmin: { from: jest.fn(), auth: { getUser: jest.fn(), admin: { getUserById: jest.fn() } } },
+}));
+jest.mock('@/lib/rate-limiter', () => ({ checkRateLimit: jest.fn() }));
+jest.mock('@/lib/http-error', () => ({ logError: jest.fn(), serverError: jest.fn((e: unknown) => { const { NextResponse } = jest.requireActual('next/server'); return NextResponse.json({ error: String((e as Error)?.message || e) }, { status: 500 }); }) }));
+import { POST as subscribePOST } from '@/app/api/saas/subscribe/route';
+import { POST as cancelPOST } from '@/app/api/saas/cancel/route';
+import { GET as subGET } from '@/app/api/saas/subscription/route';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { mockSupabaseAdmin, mockRateLimit } from '../helpers/api-mocks';
+
+const asMock = (fn: unknown): jest.Mock => fn as unknown as jest.Mock;
+const TENANT = '11111111-1111-1111-1111-111111111111';
+
+function req(url: string, method: string, body?: unknown): NextRequest {
+  const headers: Record<string, string> = { 'content-type': 'application/json', authorization: 'Bearer t' };
+  return new NextRequest(`http://localhost${url}`, { method, headers, body: body === undefined ? undefined : JSON.stringify(body) });
+}
+
+interface SubRow { id?: string; asaas_subscription_id?: string; plan?: string; status?: string; valor?: number; next_due_date?: string; grace_until?: string; }
+
+function setupDb(role = 'superadmin', sub: SubRow | null = null) {
+  const mf = mockSupabaseAdmin();
+  asMock((supabaseAdmin as unknown as { auth: { getUser: unknown } }).auth.getUser).mockReset()
+    .mockResolvedValue({ data: { user: { id: 'user-1' } }, error: null });
+  asMock((supabaseAdmin as unknown as { auth: { admin: { getUserById: unknown } } }).auth.admin.getUserById)
+    .mockResolvedValue({ data: { user: { email: 'owner@x.com' } }, error: null });
+  mf.mockImplementation((table: string) => {
+    if (table === 'user_roles') {
+      return { select: () => ({ eq: () => ({ maybeSingle: () => Promise.resolve({ data: { tenant_id: TENANT, role }, error: null }), in: () => ({ limit: () => ({ maybeSingle: () => Promise.resolve({ data: { user_id: 'user-1', role }, error: null }) }) }) }) }) };
+    }
+    if (table === 'tenants') {
+      return { select: () => ({ eq: () => ({ single: () => Promise.resolve({ data: { id: TENANT, name: 'Funeraria Saad', cnpj: '12345678000199' }, error: null }) }) }) };
+    }
+    if (table === 'saas_subscriptions') {
+      const insertMock = jest.fn(() => Object.assign(Promise.resolve({ data: null, error: null }), { select: () => ({ single: () => Promise.resolve({ data: { id: 'sub-row-1' }, error: null }) }) }));
+      const chain = {
+        select: () => ({ eq: () => ({ neq: () => ({ order: () => ({ limit: () => ({ maybeSingle: () => Promise.resolve(sub ? { data: sub, error: null } : { data: null, error: null }) }) }), maybeSingle: () => Promise.resolve(sub ? { data: sub, error: null } : { data: null, error: null }) }) }) }),
+        insert: insertMock,
+        update: jest.fn().mockReturnValue({ eq: jest.fn().mockReturnThis(), then: undefined }),
+      };
+      return chain;
+    }
+    return {};
+  });
+  return mf;
+}
+
+describe('saas billing (Fase 2)', () => {
+  beforeEach(() => {
+    jest.restoreAllMocks();
+    mockRateLimit(true);
+  });
+
+  it('subscribe 403 sem superadmin', async () => {
+    setupDb('admin');
+    const res = await subscribePOST(req('/api/saas/subscribe', 'POST', { tenantId: TENANT, plan: 'essencial', valor: 397 }));
+    expect(res.status).toBe(403);
+  });
+  it('subscribe 400 com plan invalido', async () => {
+    setupDb('superadmin');
+    const res = await subscribePOST(req('/api/saas/subscribe', 'POST', { tenantId: TENANT, plan: 'gold', valor: 397 }));
+    expect(res.status).toBe(400);
+  });
+  it('subscribe 400 com valor <= 0', async () => {
+    setupDb('superadmin');
+    const res = await subscribePOST(req('/api/saas/subscribe', 'POST', { tenantId: TENANT, plan: 'essencial', valor: 0 }));
+    expect(res.status).toBe(400);
+  });
+  it('subscribe 201 happy path', async () => {
+    setupDb('superadmin');
+    const spy = jest.spyOn(globalThis, 'fetch');
+    spy.mockImplementation(async (input: unknown, init?: { method?: string }) => {
+      const url = String(input);
+      const method = String(init?.method || 'GET').toUpperCase();
+      if (method === 'GET' && url.includes('/customers?cpfCnpj=')) {
+        return new Response(JSON.stringify({ data: [] }), { status: 200 });
+      }
+      if (method === 'POST' && url.includes('/customers')) {
+        return new Response(JSON.stringify({ id: 'cus-saas-1' }), { status: 200 });
+      }
+      if (method === 'POST' && url.includes('/subscriptions')) {
+        return new Response(JSON.stringify({ id: 'sub-asaas-1' }), { status: 200 });
+      }
+      return new Response('{}', { status: 404 });
+    });
+    const res = await subscribePOST(req('/api/saas/subscribe', 'POST', { tenantId: TENANT, plan: 'essencial', valor: 397 }));
+    const j = await res.json();
+    expect(res.status).toBe(201);
+    expect(j.subscription_id).toBe('sub-asaas-1');
+  });
+  it('cancel 404 sem assinatura ativa', async () => {
+    setupDb('superadmin', null);
+    const res = await cancelPOST(req('/api/saas/cancel', 'POST', { tenantId: TENANT }));
+    expect(res.status).toBe(404);
+  });
+  it('cancel 200 happy path', async () => {
+    setupDb('superadmin', { id: 'row-1', asaas_subscription_id: 'sub-asaas-1' });
+    const spy = jest.spyOn(globalThis, 'fetch');
+    spy.mockImplementation(async () => new Response('{}', { status: 200 }));
+    const res = await cancelPOST(req('/api/saas/cancel', 'POST', { tenantId: TENANT }));
+    expect(res.status).toBe(200);
+  });
+  it('GET subscription 200 com dados', async () => {
+    setupDb('admin', { plan: 'essencial', status: 'active', valor: 397, next_due_date: '2026-10-18', grace_until: '2026-10-25' });
+    const res = await subGET(req(`/api/saas/subscription?tenantId=${TENANT}`, 'GET'));
+    const j = await res.json();
+    expect(res.status).toBe(200);
+    expect(j.subscription.plan).toBe('essencial');
+    expect(j.subscription).not.toHaveProperty('asaas_subscription_id');
+  });
+});
