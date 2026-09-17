@@ -5,7 +5,7 @@
 > **Último commit:** `7df956d` (grafo 12b-3)
 > **Progresso:** Fases 1-13 + 12b · monolito removido · migrations aplicadas no remoto
 > **Score geral:** 6.2 → **7.84** (+1.64)
-> **Testes:** 203 · 20 suítes (era 145)
+> **Testes:** 209 · 21 suítes (era 145)
 
 ---
 
@@ -137,7 +137,8 @@ Code-Ranker (complexidade estrutural), Supabase CLI (schema versionado + tipos).
 | 12b-1 | Token de tracking em `service_orders` + backfill + migration | ✅ |
 | 12b-2 | Botão "🔗 QR" em `/ordens` + `ModalQrOS` (impressão isolada) | ✅ |
 | 12b-3 | Rota pública `/track/[token]` + AuthGuard libera `/track` | ✅ |
-| 12d (Mapa) | Adiado | ⏸️ |
+| 12d-1 (lat/lng em `chapel_burials`) | ✅ |
+| 12d-2 (MapPicker + integracao) | Pendente | ⏸️ |
 | 12e (Assinatura digital) | Adiado | ⏸️ |
 
 **Impacto:** bug F-29 resolvido (−170 linhas), fluxo manual de venda em 1 tela, QR Code tracking público por OS (rota `/track/[token]` sem PII).
@@ -246,6 +247,9 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 - `.gitignore` padrão `graphify-out/20*/` + `backup-*.sql`
 - Estoque +/- PATCH (11c)
 - Gateway Asaas duplicado F-29 (12a)
+- Rate limiter (Fase 15b): `Ratelimit` de producao respeita config
+- Normalizacao de encoding: `src/types/supabase.ts` UTF-16 → UTF-8
+  (commit `2dcc5d4`) — evita diffs binarios futuros
 
 ---
 
@@ -297,15 +301,19 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 `/login`, `/landing`, `/carteirinha/[cpf]`, `/track/[token]`
 
 ### 9.5 APIs cobertas por testes
-- `webhooks/asaas`: 8 · `holders`: 6 · `billing/asaas-batch`: 6 · `billing/pix`: 8 · `payments/pix`: 7 · `billing/avulso`: 14 (novo na Fase 15 — `tests/routes/billing-avulso.test.ts`)
-- `tenants`: 3 (novo na 11e-2 — `tests/routes/tenants.test.ts`) · `/track/[token]`: 9 (novo na Fase 15 — `tests/routes/track-token.test.tsx`) · **total: 203 testes / 20 suítes**
+- `webhooks/asaas`: 8 · `holders`: 6 · `billing/asaas-batch`: 6 · `billing/pix`: 8 · `payments/pix`: 7 · `billing/avulso`: 14 (novo na Fase 15 — `tests/routes/billing-avulso.test.ts`) · rate-limiter: 6 (novo — `tests/lib/rate-limiter.test.ts`)
+- `tenants`: 3 (novo na 11e-2 — `tests/routes/tenants.test.ts`) · `/track/[token]`: 9 (novo na Fase 15 — `tests/routes/track-token.test.tsx`) · **total: 209 testes / 21 suítes**
 
 ---
 
 ## 10. Próximos passos (opcionais)
 
 ### 12d — Mapa georreferenciado de jazigos
-- [ ] Biblioteca Leaflet + geocoding + visualização no `/sepultamentos`
+- [x] 12d-1: migration `20260916230000_add_latlng_to_chapel_burials.sql`
+  (colunas `latitude`/`longitude` double precision nullable) + tipos
+  regenerados + `Burial` atualizado (commit `6b998e2`)
+- [ ] 12d-2: componente `MapPicker` (Leaflet via dynamic import) +
+  integracao no `BurialsTab` + visualizacao read-only dos pins
 
 ### 12e — Assinatura digital
 - [ ] Integração DocuSign/Clicksign (termos, contratos)
@@ -334,6 +342,10 @@ Cada sub-fase = 2 commits (`refactor(fase-XX)` + `chore: grafo`). Total ~200.
 - [x] Gateway Asaas duplicado (F-29) — 12a
 - [x] Migration remota pendente — aplicada em 2026-09-16
 - [x] `webhooks/asaas` token fraco — 11e: webhook retorna 401 para token <16 chars (com logError de monitoria) e PATCH /api/tenants valida tamanho (400).
+- [x] Rate limiter ignorava config do chamador em producao
+  (`slidingWindow(10,'60s')` fixo) — `f1eb023`/`ecc618d`:
+  cache por `max:windowMs` + fail-open em Redis down. Dashboard
+  volta a 300/min; webhook Asaas mantem 60/min.
 
 ### Pendentes
 - [ ] `vehicles` × `fleet_vehicles` (legado no banco)
