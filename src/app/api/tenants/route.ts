@@ -22,14 +22,14 @@ async function getTenantUsage(tenantId: string) {
 }
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
-  const columns = `${PUBLIC_COLUMNS}, asaas_api_key, asaas_webhook_token`;
+  const columns = `${PUBLIC_COLUMNS}, asaas_api_key, asaas_webhook_token_hash`;
 
   const scrub = (t: any) => ({
     ...t,
     has_asaas_api_key: !!t.asaas_api_key,
-    has_asaas_webhook_token: !!t.asaas_webhook_token,
+    has_asaas_webhook_token: !!t.asaas_webhook_token_hash,
     asaas_api_key: undefined,
-    asaas_webhook_token: undefined,
+    asaas_webhook_token_hash: undefined,
   });
 
   if (auth.role === 'superadmin') {
@@ -162,10 +162,8 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
     }
     if (t.length > 0) {
       const tokenHash = createHash('sha256').update(t).digest('hex');
-      updateData.asaas_webhook_token = t;  // mantem plaintext durante transicao
       updateData.asaas_webhook_token_hash = tokenHash;
     } else {
-      updateData.asaas_webhook_token = null;
       updateData.asaas_webhook_token_hash = null;
     }
   }

@@ -64,9 +64,9 @@ describe('PATCH /api/tenants — token de webhook (Fase 11e-2)', () => {
     // vazio agora LIMPA o token (grava null) em vez de ser no-op
     expect(updates).toHaveLength(1);
     expect(updates[0]).toEqual(expect.objectContaining({
-      asaas_webhook_token: null,
       asaas_webhook_token_hash: null,
     }));
+    expect(updates[0]).not.toHaveProperty('asaas_webhook_token');
   });
 
   it('3) 200 token longo (49 chars) eh persistido', async () => {
@@ -79,8 +79,8 @@ describe('PATCH /api/tenants — token de webhook (Fase 11e-2)', () => {
     expect(j.success).toBe(true);
     expect(updates).toHaveLength(1);
     expect(updates[0]).toEqual(expect.objectContaining({
-      asaas_webhook_token: LONG_TOKEN,
       asaas_webhook_token_hash: expect.stringMatching(/^[a-f0-9]{64}$/),
     }));
+    expect(updates[0]).not.toHaveProperty('asaas_webhook_token');
   });
 });
