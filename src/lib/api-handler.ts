@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from './supabaseAdmin';
 import { checkRateLimit } from './rate-limiter';
 import { logError } from './http-error';
+import { computeStatus, needsReadOnly } from './saas-gate';
 
 export interface AuthContext {
   userId: string;
@@ -104,6 +105,47 @@ export function withAuth(
             { error: 'Acesso negado: seu perfil não tem permissão para realizar esta ação.' },
             { status: 403 }
           );
+        }
+      }
+
+      // Fase 3b: gate de assinatura SaaS. Bloqueia MUTACOES
+      // (POST/PATCH/PUT/DELETE) quando o tenant esta suspenso/bloqueado.
+      // GET/HEAD passam sempre (modo leitura).
+      // Superadmin global bypassa. FALHA ABERTA: se a query falhar, deixa
+      // passar (nao derruba a API por problema de banco).
+      if (
+        req.method !== 'GET' &&
+        req.method !== 'HEAD' &&
+        roleRecord.role !== 'superadmin' &&
+        roleRecord.tenant_id
+      ) {
+        try {
+          const { data: saasSubs, error: saasError } = await supabaseAdmin
+            .from('saas_subscriptions')
+            .select('status, next_due_date, trial_ends_at')
+            .eq('tenant_id', roleRecord.tenant_id)
+            .order('created_at', { ascending: false })
+            .limit(1);
+
+          if (!saasError) {
+            const saasSub = saasSubs?.[0] ?? null;
+            const gateStatus = computeStatus(saasSub);
+            if (needsReadOnly(gateStatus)) {
+              return NextResponse.json(
+                {
+                  error:
+                    gateStatus === 'blocked'
+                      ? 'Assinatura suspensa. Sua conta esta em modo somente leitura. Regularize para continuar.'
+                      : 'Assinatura com pagamento pendente. Sua conta esta em modo somente leitura.',
+                  code: 'SAAS_READONLY',
+                },
+                { status: 403 },
+              );
+            }
+          }
+        } catch (gateErr) {
+          // fail-open: nao derruba API por falha na consulta do gate
+          logError(gateErr, 'api-handler/saas-gate');
         }
       }
 
