@@ -4,9 +4,11 @@
 // assinatura agregada + KPIs. SO LEITURA: acoes entram na Fase 4c.
 // Fonte: GET /api/saas/tenants (403 => acesso restrito).
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { authFetch } from '@/lib/authFetch';
 import { notifyError } from '@/lib/notify';
+import { ModalSubscribeSaaS } from '@/components/modals/ModalSubscribeSaaS';
+import { ModalCancelSaaS } from '@/components/modals/ModalCancelSaaS';
 
 interface SaasSubscription {
   plan: string;
@@ -89,44 +91,51 @@ export function SaasAdminTab() {
   const [kpis, setKpis] = useState<SaasKpis | null>(null);
   const [tenants, setTenants] = useState<SaasTenant[]>([]);
   const [statusFilter, setStatusFilter] = useState('');
+  const [showSubscribe, setShowSubscribe] = useState(false);
+  const [subscribeTenantId, setSubscribeTenantId] = useState<string | null>(null);
+  const [cancelTenant, setCancelTenant] = useState<SaasTenant | null>(null);
+
+  const loadData = useCallback(async (signal?: { cancelled: boolean }) => {
+    setLoading(true);
+    try {
+      const res = await authFetch('/api/saas/tenants');
+      if (res.status === 403) {
+        if (!signal?.cancelled) setForbidden(true);
+        return;
+      }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const msg = (data as { error?: string }).error || 'Falha ao carregar painel SaaS.';
+        if (!signal?.cancelled) {
+          setError(msg);
+          notifyError(msg);
+        }
+        return;
+      }
+      if (!signal?.cancelled) {
+        setKpis((data as { kpis?: SaasKpis }).kpis || null);
+        const list = (data as { tenants?: SaasTenant[] }).tenants;
+        setTenants(Array.isArray(list) ? list : []);
+      }
+    } catch {
+      if (!signal?.cancelled) {
+        setError('Erro de conexão ao carregar painel SaaS.');
+        notifyError('Erro de conexão ao carregar painel SaaS.');
+      }
+    } finally {
+      if (!signal?.cancelled) setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    let cancel = false;
-    (async () => {
-      setLoading(true);
-      try {
-        const res = await authFetch('/api/saas/tenants');
-        if (res.status === 403) {
-          if (!cancel) setForbidden(true);
-          return;
-        }
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok) {
-          const msg = (data as { error?: string }).error || 'Falha ao carregar painel SaaS.';
-          if (!cancel) {
-            setError(msg);
-            notifyError(msg);
-          }
-          return;
-        }
-        if (!cancel) {
-          setKpis((data as { kpis?: SaasKpis }).kpis || null);
-          const list = (data as { tenants?: SaasTenant[] }).tenants;
-          setTenants(Array.isArray(list) ? list : []);
-        }
-      } catch {
-        if (!cancel) {
-          setError('Erro de conexão ao carregar painel SaaS.');
-          notifyError('Erro de conexão ao carregar painel SaaS.');
-        }
-      } finally {
-        if (!cancel) setLoading(false);
-      }
-    })();
+    const signal = { cancelled: false };
+    loadData(signal);
     return () => {
-      cancel = true;
+      signal.cancelled = true;
     };
-  }, []);
+  }, [loadData]);
+
+  const semAssinatura = useMemo(() => tenants.filter((t) => !t.subscription).length, [tenants]);
 
   const filtered = useMemo(() => {
     if (!statusFilter) return tenants;
@@ -145,8 +154,24 @@ export function SaasAdminTab() {
   return (
     <div className="space-y-8 p-6">
       <section>
-        <h2 className="text-lg font-bold text-slate-900 dark:text-white">Painel SaaS</h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400">Visão geral das assinaturas</p>
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white">Painel SaaS</h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Visão geral das assinaturas</p>
+          </div>
+          {semAssinatura > 0 && (
+            <button
+              type="button"
+              onClick={() => {
+                setSubscribeTenantId(null);
+                setShowSubscribe(true);
+              }}
+              className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition whitespace-nowrap"
+            >
+              + Nova assinatura
+            </button>
+          )}
+        </div>
       </section>
 
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -188,6 +213,7 @@ export function SaasAdminTab() {
                   <th className="px-3 py-2 text-left">Valor</th>
                   <th className="px-3 py-2 text-left">Vencimento</th>
                   <th className="px-3 py-2 text-left">Grace</th>
+                  <th className="px-3 py-2 text-left">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -206,11 +232,33 @@ export function SaasAdminTab() {
                     </td>
                     <td className="px-3 py-2 whitespace-nowrap">{t.subscription?.next_due_date || '—'}</td>
                     <td className="px-3 py-2 whitespace-nowrap">{t.subscription?.grace_until || '—'}</td>
+                    <td className="px-3 py-2 whitespace-nowrap">
+                      {t.subscription === null ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSubscribeTenantId(t.id);
+                            setShowSubscribe(true);
+                          }}
+                          className="px-2 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-[10px] font-bold transition"
+                        >
+                          Assinar
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => setCancelTenant(t)}
+                          className="px-2 py-1 bg-red-600 hover:bg-red-500 text-white rounded-lg text-[10px] font-bold transition"
+                        >
+                          Cancelar
+                        </button>
+                      )}
+                    </td>
                   </tr>
                 ))}
                 {filtered.length === 0 && (
                   <tr className="border-t border-slate-200 dark:border-slate-800">
-                    <td className="px-3 py-4 text-center text-slate-500" colSpan={6}>
+                    <td className="px-3 py-4 text-center text-slate-500" colSpan={7}>
                       Nenhum tenant encontrado.
                     </td>
                   </tr>
@@ -220,6 +268,22 @@ export function SaasAdminTab() {
           </div>
         )}
       </section>
+
+      <ModalSubscribeSaaS
+        isOpen={showSubscribe}
+        onClose={() => setShowSubscribe(false)}
+        onSuccess={loadData}
+        tenants={tenants}
+        initialTenantId={subscribeTenantId}
+      />
+      {cancelTenant && (
+        <ModalCancelSaaS
+          isOpen={!!cancelTenant}
+          onClose={() => setCancelTenant(null)}
+          onSuccess={loadData}
+          tenant={cancelTenant}
+        />
+      )}
     </div>
   );
 }
