@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import ThemeToggle from '@/components/ThemeToggle';
 import Sidebar from '@/components/Sidebar';
 import PendingApprovalScreen from '@/components/PendingApprovalScreen';
+import { SaasBanner } from '@/components/SaasBanner';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { supabase } from '@/lib/supabase';
 import { authFetch } from '@/lib/authFetch';
@@ -97,17 +98,25 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   const [authState, setAuthState] = useState<AuthState>('loading');
   const [userRole, setUserRole] = useState<AppRole | null>(null);
+  const [saasStatus, setSaasStatus] = useState<string>('active');
 
   const loadRole = useCallback(async (signal: { cancelled: boolean }) => {
     setAuthState('loading');
     setUserRole(null);
+    setSaasStatus('active');
     try {
       const res = await authFetch('/api/init-user', { method: 'POST' });
       if (signal.cancelled) return;
       const data = (await res.json().catch(() => null)) as
-        | { role?: string; code?: string }
+        | { role?: string; code?: string; saas_status?: string }
         | null;
       if (data?.role) {
+        const saas = data?.saas_status ?? 'active';
+        if (saas === 'blocked') {
+          router.replace('/assinatura-suspensa');
+          return;
+        }
+        setSaasStatus(saas);
         setUserRole(data.role as AppRole);
         setAuthState('authenticated');
         return;
@@ -117,7 +126,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       if (signal.cancelled) return;
       setAuthState('error');
     }
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     const signal = { cancelled: false };
@@ -205,6 +214,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             </div>
           </div>
         </header>
+
+        {saasStatus === 'past_due' && <SaasBanner status="past_due" />}
+        {saasStatus === 'suspended' && <SaasBanner status="suspended" />}
 
         {/* Conteudo da pagina */}
         <main className="flex-1 p-6">{children}</main>
