@@ -68,6 +68,7 @@ export const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
       { href: '/auditoria', label: 'Auditoria', tab: 'audit', active: 'text-slate-200' },
       { href: '/usuarios', label: 'Usuários', tab: 'users', active: 'text-slate-200' },
       { href: '/configuracoes', label: 'Configurações', tab: 'settings', active: 'text-slate-200' },
+      { href: '/admin/saas', label: 'Painel SaaS', tab: 'saas', active: 'text-slate-200' },
     ],
   },
 ];
