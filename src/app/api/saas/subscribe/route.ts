@@ -102,4 +102,4 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
   } catch (err) {
     return serverError(err);
   }
-}, ['superadmin']);
+}, ['superadmin'], { requireGlobal: true });

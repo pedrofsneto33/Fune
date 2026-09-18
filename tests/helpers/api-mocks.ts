@@ -20,7 +20,7 @@ export function mockWithAuth(role = 'admin', tenantId = 'tenant-1'): MockFn {
   const prevImpl = mockFrom.getMockImplementation();
   mockFrom.mockImplementation((table: string, ...rest: unknown[]) => {
     if (table === 'user_roles') {
-      return { select: () => ({ eq: () => ({ maybeSingle: () => Promise.resolve({ data: { tenant_id: tenantId, role }, error: null }) }) }) };
+      return { select: () => ({ eq: () => ({ maybeSingle: () => Promise.resolve({ data: { tenant_id: tenantId, role, is_global: true }, error: null }) }) }) };
     }
     if (prevImpl) return (prevImpl as (...a: unknown[]) => unknown)(table, ...rest);
     return {};
