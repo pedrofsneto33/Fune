@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { serverError } from '@/lib/http-error';
+import { computeStatus } from '@/lib/saas-gate';
 
 /**
  * Initialize user endpoint - Returns user's current role status
@@ -30,11 +31,29 @@ export async function POST(req: NextRequest) {
       .maybeSingle();
 
     if (roleRecord) {
+      // Fase 3c: calcula status da assinatura SaaS para o gate client.
+      // Superadmin global sempre vira 'active' (bypass).
+      // Fail-open: erro na query nao derruba o init-user.
+      let saasStatus = 'active';
+      if (roleRecord.role !== 'superadmin' && roleRecord.tenant_id) {
+        try {
+          const { data: subs } = await supabaseAdmin
+            .from('saas_subscriptions')
+            .select('status, next_due_date, trial_ends_at')
+            .eq('tenant_id', roleRecord.tenant_id)
+            .order('created_at', { ascending: false })
+            .limit(1);
+          saasStatus = computeStatus(subs?.[0] ?? null);
+        } catch {
+          saasStatus = 'active';
+        }
+      }
       return NextResponse.json({
         success: true,
         userId: user.id,
         role: roleRecord.role,
         tenantId: roleRecord.tenant_id,
+        saas_status: saasStatus,
         message: 'Usuário ja configurado',
       });
     }
