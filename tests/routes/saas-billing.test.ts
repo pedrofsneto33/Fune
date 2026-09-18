@@ -8,6 +8,7 @@ jest.mock('@/lib/http-error', () => ({ logError: jest.fn(), serverError: jest.fn
 import { POST as subscribePOST } from '@/app/api/saas/subscribe/route';
 import { POST as cancelPOST } from '@/app/api/saas/cancel/route';
 import { GET as subGET } from '@/app/api/saas/subscription/route';
+import { GET as saasTenantsGET } from '@/app/api/saas/tenants/route';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { mockSupabaseAdmin, mockRateLimit } from '../helpers/api-mocks';
 
@@ -19,7 +20,7 @@ function req(url: string, method: string, body?: unknown): NextRequest {
   return new NextRequest(`http://localhost${url}`, { method, headers, body: body === undefined ? undefined : JSON.stringify(body) });
 }
 
-interface SubRow { id?: string; asaas_subscription_id?: string; plan?: string; status?: string; valor?: number; next_due_date?: string; grace_until?: string; }
+interface SubRow { id?: string; tenant_id?: string; asaas_subscription_id?: string; plan?: string; status?: string; valor?: number; next_due_date?: string; grace_until?: string; }
 
 function setupDb(role = 'superadmin', sub: SubRow | null = null) {
   const mf = mockSupabaseAdmin();
@@ -112,3 +113,79 @@ describe('saas billing (Fase 2)', () => {
     expect(j.subscription).not.toHaveProperty('asaas_subscription_id');
   });
 });
+
+// ============================================================
+// Fase 4a — painel admin SaaS: GET /api/saas/tenants
+// ============================================================
+
+interface TenantRow { id: string; name: string; cnpj: string; commercial_plan: string; status: string; }
+
+const T_ACTIVE = '22222222-2222-2222-2222-222222222222';
+const T_PAST_DUE = '33333333-3333-3333-3333-333333333333';
+const T_NO_SUB = '44444444-4444-4444-4444-444444444444';
+
+function setupTenantsDb(role = 'superadmin', tenants: TenantRow[] = [], subs: SubRow[] = []) {
+  const mf = mockSupabaseAdmin();
+  asMock((supabaseAdmin as unknown as { auth: { getUser: unknown } }).auth.getUser).mockReset()
+    .mockResolvedValue({ data: { user: { id: 'user-1' } }, error: null });
+  mf.mockImplementation((table: string) => {
+    if (table === 'user_roles') {
+      return { select: () => ({ eq: () => ({ maybeSingle: () => Promise.resolve({ data: { tenant_id: TENANT, role }, error: null }) }) }) };
+    }
+    if (table === 'tenants') {
+      return { select: () => ({ order: () => Promise.resolve({ data: tenants, error: null }) }) };
+    }
+    if (table === 'saas_subscriptions') {
+      return { select: () => ({ neq: () => Promise.resolve({ data: subs, error: null }) }) };
+    }
+    return {};
+  });
+  return mf;
+}
+
+const TENANTS_3: TenantRow[] = [
+  { id: T_ACTIVE, name: 'Funeraria A', cnpj: '11111111000111', commercial_plan: 'essencial', status: 'active' },
+  { id: T_PAST_DUE, name: 'Funeraria B', cnpj: '22222222000122', commercial_plan: 'profissional', status: 'active' },
+  { id: T_NO_SUB, name: 'Funeraria C', cnpj: '33333333000133', commercial_plan: 'essencial', status: 'active' },
+];
+
+const SUBS_2: SubRow[] = [
+  { tenant_id: T_ACTIVE, plan: 'essencial', status: 'active', valor: 397, next_due_date: '2026-10-18', grace_until: '2026-10-25' },
+  { tenant_id: T_PAST_DUE, plan: 'profissional', status: 'past_due', valor: 697.5, next_due_date: '2026-09-10', grace_until: '2026-09-17' },
+];
+
+describe('saas admin (Fase 4a) — GET /api/saas/tenants', () => {
+  beforeEach(() => {
+    jest.restoreAllMocks();
+    mockRateLimit(true);
+  });
+
+  it('403 sem superadmin', async () => {
+    setupTenantsDb('admin', TENANTS_3, SUBS_2);
+    const res = await saasTenantsGET(req('/api/saas/tenants', 'GET'));
+    expect(res.status).toBe(403);
+  });
+
+  it('200 lista 3 tenants com KPIs de MRR e inadimplencia', async () => {
+    setupTenantsDb('superadmin', TENANTS_3, SUBS_2);
+    const res = await saasTenantsGET(req('/api/saas/tenants', 'GET'));
+    const j = await res.json();
+    expect(res.status).toBe(200);
+    expect(j.success).toBe(true);
+    expect(j.tenants).toHaveLength(3);
+    expect(j.kpis.total_tenants).toBe(3);
+    expect(j.kpis.mrr_total).toBe(1094.5);
+    expect(j.kpis.ativos).toBe(1);
+    expect(j.kpis.inadimplentes).toBe(1);
+  });
+
+  it('tenant sem assinatura retorna subscription null', async () => {
+    setupTenantsDb('superadmin', TENANTS_3, SUBS_2);
+    const res = await saasTenantsGET(req('/api/saas/tenants', 'GET'));
+    const j = await res.json();
+    expect(res.status).toBe(200);
+    expect(j.tenants[2].subscription).toBeNull();
+    expect(j.tenants[0].subscription.status).toBe('active');
+  });
+});
+

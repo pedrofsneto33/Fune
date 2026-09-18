@@ -67,6 +67,10 @@ export function hasPermission(role: AppRole | undefined | null, permission: Perm
 
 export function isTabAllowed(role: AppRole | undefined | null, tab: string): boolean {
   if (!role) return false;
+  // Painel admin SaaS: exclusivo do superadmin global. Checado ANTES dos
+  // early-returns de superadmin/admin — dentro do switch seria inalcancavel
+  // (superadmin e admin retornam true em toda tab).
+  if (tab === 'saas') return role === 'superadmin';
   if (role === 'superadmin') return true;
   if (role === 'admin') return true;
   switch (tab) {
