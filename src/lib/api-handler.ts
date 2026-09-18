@@ -22,6 +22,84 @@ interface WithAuthOptions {
 // Rate limit configuration
 const API_RATE_LIMIT = { maxAttempts: 300, windowMs: 60000 }; // 300 requests per minute (dashboard dispara varias chamadas em paralelo)
 
+interface RoleRecord {
+  tenant_id: string | null;
+  role: string;
+  is_global?: boolean;
+}
+
+/*
+ * 4d-2: exige superadmin GLOBAL quando opts.requireGlobal=true.
+ * Retorna NextResponse de erro, ou null se OK.
+ */
+function checkRequireGlobal(
+  roleRecord: RoleRecord,
+  opts?: WithAuthOptions,
+): NextResponse | null {
+  if (!opts?.requireGlobal) return null;
+  if (roleRecord.role === 'superadmin' && roleRecord.is_global === true) return null;
+  return NextResponse.json(
+    { error: 'Acesso restrito ao administrador global da plataforma.', code: 'GLOBAL_ONLY' },
+    { status: 403 },
+  );
+}
+
+/*
+ * Verifica se o role esta na allowedRoles (superadmin sempre passa).
+ * Retorna NextResponse 403 ou null se OK.
+ */
+function checkRoleAllowed(
+  roleRecord: RoleRecord,
+  allowedRoles?: string[],
+): NextResponse | null {
+  if (!allowedRoles || allowedRoles.length === 0) return null;
+  if (allowedRoles.includes(roleRecord.role)) return null;
+  if (roleRecord.role === 'superadmin') return null;
+  return NextResponse.json(
+    { error: 'Acesso negado: seu perfil não tem permissão para realizar esta ação.' },
+    { status: 403 },
+  );
+}
+
+/*
+ * 3b: gate SaaS. So bloqueia mutacoes quando suspenso/bloqueado.
+ * GET/HEAD e superadmin passam. Fail-open em erro de query.
+ */
+async function checkSaasGate(
+  roleRecord: RoleRecord,
+  method: string,
+): Promise<NextResponse | null> {
+  if (method === 'GET' || method === 'HEAD') return null;
+  if (roleRecord.role === 'superadmin') return null;
+  if (!roleRecord.tenant_id) return null;
+  try {
+    const { data: saasSubs, error: saasError } = await supabaseAdmin
+      .from('saas_subscriptions')
+      .select('status, next_due_date, trial_ends_at')
+      .eq('tenant_id', roleRecord.tenant_id)
+      .order('created_at', { ascending: false })
+      .limit(1);
+    if (saasError) return null;
+    const saasSub = saasSubs?.[0] ?? null;
+    const gateStatus = computeStatus(saasSub);
+    if (!needsReadOnly(gateStatus)) return null;
+    return NextResponse.json(
+      {
+        error:
+          gateStatus === 'blocked'
+            ? 'Assinatura suspensa. Sua conta esta em modo somente leitura. Regularize para continuar.'
+            : 'Assinatura com pagamento pendente. Sua conta esta em modo somente leitura.',
+        code: 'SAAS_READONLY',
+      },
+      { status: 403 },
+    );
+  } catch (gateErr) {
+    logError(gateErr, 'api-handler/saas-gate');
+    return null;
+  }
+}
+
+
 export function withAuth(
   handler: AuthenticatedHandler,
   allowedRoles?: string[],
@@ -104,72 +182,14 @@ export function withAuth(
       // Bloco único de negação (fail-closed): sem role = sem acesso.
       // Removida duplicata legada (F-20).
 
-      // 4d-2: rotas SaaS exigem superadmin GLOBAL (is_global=true).
-      // Um superadmin de tenant NAO passa aqui.
-      if (opts?.requireGlobal) {
-        // tech debt: supabaseAdmin nao esta tipado com <Database>, entao
-        // maybeSingle() retorna any; o cast so destrava o campo is_global
-        // (adicionado na 4d-1). Tipar o client quebra ~60 rotas — fase propria.
-        if (roleRecord.role !== 'superadmin' || (roleRecord as { is_global?: boolean }).is_global !== true) {
-          return NextResponse.json(
-            {
-              error: 'Acesso restrito ao administrador global da plataforma.',
-              code: 'GLOBAL_ONLY',
-            },
-            { status: 403 },
-          );
-        }
-      }
+      const errGlobal = checkRequireGlobal(roleRecord as RoleRecord, opts);
+      if (errGlobal) return errGlobal;
 
-      if (allowedRoles && allowedRoles.length > 0) {
-        if (!allowedRoles.includes(roleRecord.role) && roleRecord.role !== 'superadmin') {
-          return NextResponse.json(
-            { error: 'Acesso negado: seu perfil não tem permissão para realizar esta ação.' },
-            { status: 403 }
-          );
-        }
-      }
+      const errRole = checkRoleAllowed(roleRecord as RoleRecord, allowedRoles);
+      if (errRole) return errRole;
 
-      // Fase 3b: gate de assinatura SaaS. Bloqueia MUTACOES
-      // (POST/PATCH/PUT/DELETE) quando o tenant esta suspenso/bloqueado.
-      // GET/HEAD passam sempre (modo leitura).
-      // Superadmin global bypassa. FALHA ABERTA: se a query falhar, deixa
-      // passar (nao derruba a API por problema de banco).
-      if (
-        req.method !== 'GET' &&
-        req.method !== 'HEAD' &&
-        roleRecord.role !== 'superadmin' &&
-        roleRecord.tenant_id
-      ) {
-        try {
-          const { data: saasSubs, error: saasError } = await supabaseAdmin
-            .from('saas_subscriptions')
-            .select('status, next_due_date, trial_ends_at')
-            .eq('tenant_id', roleRecord.tenant_id)
-            .order('created_at', { ascending: false })
-            .limit(1);
-
-          if (!saasError) {
-            const saasSub = saasSubs?.[0] ?? null;
-            const gateStatus = computeStatus(saasSub);
-            if (needsReadOnly(gateStatus)) {
-              return NextResponse.json(
-                {
-                  error:
-                    gateStatus === 'blocked'
-                      ? 'Assinatura suspensa. Sua conta esta em modo somente leitura. Regularize para continuar.'
-                      : 'Assinatura com pagamento pendente. Sua conta esta em modo somente leitura.',
-                  code: 'SAAS_READONLY',
-                },
-                { status: 403 },
-              );
-            }
-          }
-        } catch (gateErr) {
-          // fail-open: nao derruba API por falha na consulta do gate
-          logError(gateErr, 'api-handler/saas-gate');
-        }
-      }
+      const errSaas = await checkSaasGate(roleRecord as RoleRecord, req.method);
+      if (errSaas) return errSaas;
 
       const resolvedParams = props?.params ? await props.params : undefined;
 
