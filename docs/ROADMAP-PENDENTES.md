@@ -7,6 +7,8 @@
 
 > Manutenção: atualizar sempre que concluir um item.
 
+> **Última atualização:** 2026-09-18
+
 ## 1. AGENTE DE TRIAGEM WHATSAPP (Evolution API) - MODULO EXTRA (COBRADO À PARTE)
 
 > **Decisao de negocio:** Implementacao do painel WhatsApp sera cobrada como modulo extra.
@@ -33,14 +35,13 @@
 ## 2. TEMA CLARO (dark/light) - CONCLUIDO
 
 ### Feito (commit `04a1727`, no GitHub)
-- [x] `tailwind.config.js` â†’ `darkMode: 'class'`
-- [x] `src/components/ThemeToggle.tsx` â€” alternador com persistÃªncia no localStorage
-- [x] `src/app/layout.tsx` â€” script anti-flash (CSP-safe) + classe `dark` via `<script>` inline (default dark para nao mudar a experiencia atual) + Toaster `theme="system"`
-- [x] `src/app/globals.css` â€” variÃ¡veis CSS `--background/--foreground` para claro/escuro + scrollbar adaptativa + transicao 0.2s
-- [x] `scripts/convert-theme.js` â€” script idempotente (lookbehind `(?<![\w:])`) que converte classes dark-only (bg-zinc-950 â†’ bg-slate-50 dark:bg-zinc-950, text-white â†’ text-slate-900 dark:text-white) preservando cor de botoes coloridos
+- [x] `tailwind.config.js` → `darkMode: 'class'`
+- [x] `src/components/ThemeToggle.tsx` — alternador com persistência no localStorage
+- [x] `src/app/layout.tsx` — script anti-flash (CSP-safe) + classe `dark` via `<script>` inline (default dark para nao mudar a experiencia atual) + Toaster `theme="system"`
+- [x] `src/app/globals.css` — variáveis CSS `--background/--foreground` para claro/escuro + scrollbar adaptativa + transicao 0.2s
+- [x] `scripts/convert-theme.js` — script idempotente (lookbehind `(?<![\w:])`) que converte classes dark-only (bg-zinc-950 → bg-slate-50 dark:bg-zinc-950, text-white → text-slate-900 dark:text-white) preservando cor de botoes coloridos
 - [x] `tsc --noEmit` OK; `next build` compilou OK (3.3s)
 - [x] Default: escuro (nao altera UX atual); usuarios escolhem claro via toggle
-
 
 ## 3. NFS-e (Nota Fiscal de Servico) - FOCUSNFe IMPLEMENTADO (commit `33d0f09`)
 
@@ -58,13 +59,17 @@
 - [x] 5 rotas de API: `/api/fiscal/emit`, `/api/fiscal/cancel`, `/api/fiscal/list`, `/api/fiscal/config`, `/api/fiscal/test`
 - [x] `src/components/tabs/FiscalTab.tsx` — aba "📄 Fiscal (NFS-e)" com cards, tabela, modal de cancelamento
 - [x] `src/components/tabs/FiscalSettingsSection.tsx` — formulario completo em Configurações da Empresa
-- [x] Integração no menu lateral e header do `page.tsx`
+- [x] Integração no menu lateral e header
+- [x] `focusnfeGet` documentado como API publica (par de emit/cancel; nao e dead code)
 
 ### FASE 3 - Aguardando habilitação externa ⏳
 - [ ] **FocusNFe precisa habilitar o CNPJ da funerária** (email já foi enviado pedindo)
 - [ ] Sandbox não disponível para Teresina (PI) — limitação da prefeitura (provedor Dsf)
 - [ ] Teste em produção com valor baixo + cancelamento (recomendação da FocusNFe)
-- [ ] Token de produção: `7TaSTZhSJ9A2opektRmqDwSKCiFHeNZs` (aguardando habilitação)
+- [ ] ⚠️ **REVOGAR TOKEN ANTES DE ATIVAR O SERVIÇO FocusNFe.**
+      Token de produção abaixo está **público neste repo desde 02/09/2026**.
+      Gerar novo no painel FocusNFe no dia da ativação. Token antigo:
+      `7TaSTZhSJ9A2opektRmqDwSKCiFHeNZs` (aguardando habilitação)
 
 ## 4. CRM DE LEADS / PIPELINE — MVP IMPLEMENTADO (commit `567de2d`)
 
@@ -93,24 +98,28 @@
       suporta name, company, city, uf, phone, email, source, estimated_monthly,
       next_follow_up, notes).
 - [x] Histórico de interações por lead (tabela lead_notes) em vez de só campo notes.
-      Tabla `lead_notes` (migration `scripts/crm_lead_notes.sql` — RODAR no
-      Supabase) + API GET/POST/DELETE `/api/lead-notes` (superadmin) + botón
+      Tabela `lead_notes` (migration `scripts/crm_lead_notes.sql` — RODAR no
+      Supabase) + API GET/POST/DELETE `/api/lead-notes` (superadmin) + botão
       "📋 Hist." em cada card com modal de historial (listar + añadir + eliminar
       con confirmación).
+
+## 5. TRANSMISSAO AO VIVO - ADIADO (decisao de roadmap)
+
+- [ ] Cortado do roadmap atual. Exige infra de streaming (custo).
 
 ## 6. BUSCA + CADASTRO DE TITULARES (Novo) - CONCLUIDO
 
 ### Busca de Associados (Demanda do usuario)
-- [x] Problema: a busca no `/holders` sÃ³ bateia CPF formatado e `phone` sem
-      normalizacao, entao nome/WhatsApp sem formataÃ§Ã£o nao encontravam.
+- [x] Problema: a busca no `/holders` só batia CPF formatado e `phone` sem
+      normalização, então nome/WhatsApp sem formatação não encontravam.
 - [x] Corrigido em `src/app/page.tsx` (filteredHolders): normaliza acentos (NFD),
-      remove nÃ£o-numericos do phone (como faz no CPF) e expande para Cidade/UF.
+      remove não-numéricos do phone (como faz no CPF) e expande para Cidade/UF.
       Agora busca por **nome (com/sem acento), CPF, WhatsApp, Cidade, UF**.
 - [x] `next build` OK.
 
 ### Formulario "Novo Titular" + API
 - [x] Formulario enriquecido (`page.tsx`, `holderForm` + JSX): campos
-      **Cidade, UF, Data Nascimento, GÃªnero (select), ObservaÃ§Ãµes** â€” todos
+      **Cidade, UF, Data Nascimento, Gênero (select), Observações** — todos
       com direcionamento preciso via API (`POST/PATCH /api/holders`).
 - [x] `src/app/api/holders/route.ts`: parse + insert dos novos campos com
       **retry defensivo** (se a coluna nao existir no DB, refaz insert sem
@@ -119,34 +128,35 @@
       idempotent) para rodar no Supabase SQL Editor.
 - [x] Interface `Holder` tipada com os novos campos.
 
-## 5. TRANSMISSAO AO VIVO - ADIADO (decisao de roadmap)
+## 7. PENDÊNCIAS TÉCNICAS / FOLLOW-UP (memoria de sessao)
 
-- [ ] Cortado do roadmap atual. Exige infra de streaming (custo).
+### A. Dependentes via API server (hardening) — VERIFICAR
+- [ ] **ATUALIZAÇÃO 2026-09-18:** o monólito `src/app/page.tsx` foi removido
+      (Fase 6g-6d). A home hoje é `src/app/(dashboard)/page.tsx` com ~83 linhas.
+      Confirmar se `handleAddDep` (browser client) ainda existe em outro lugar
+      ou se já foi migrado para `authFetch`.
+- [ ] Confirmar se `/api/dependents/route.ts` (rota server-side) já cobre
+      POST/PATCH/DELETE com `supabaseAdmin`.
+- [ ] Rodar `scripts/holders-enrich-columns.sql` no Supabase se ainda não rodou
+      (cidade/uf/birth_date/gender/observations).
 
-## 7. PENDÃŠNCIAS TÃ‰CNICAS / FOLLOW-UP (memoria de sessao)
-
-### A. Dependentes via API server (hardening)
-- [ ] Criar `src/app/api/dependent/route.ts` (POST/PATCH/DELETE) usando `supabaseAdmin`
-      (hoje `handleAddDep` no page.tsx salva via cliente browser, dependento de RLS).
-- [ ] Migrar page.tsx `handleAddDep` â†’ `authFetch("/api/dependent")`.
-- [ ] Rodar `scripts/holders-enrich-columns.sql` no Supabase para ativar
-      cidade/uf/birth_date/gender/observations no DB.
-
-### B. RevisÃ£o visual do theme claro no monÃ³lito page.tsx
-- [ ] O `scripts/convert-theme.js` converteu as classes principais; validar
-      estilos de `select`, `input[type=date]`, e botÃµes coloridos (text-white
-      preservado) em modo claro â€” ajustes manuais se houver contraste baixo.
-- [ ] Garantir que o ThemeToggle apareÃ§a em mobile (header collapsado).
+### B. Revisão visual do theme claro
+- [ ] Validar estilos de `select`, `input[type=date]`, e botões coloridos
+      (text-white preservado) em modo claro — ajustes manuais se houver
+      contraste baixo.
+- [ ] Garantir que o ThemeToggle apareça em mobile (header collapsado).
 
 ### C. Agente WhatsApp (continua em andamento)
-- [ ] Painel PlantÃ£o 24h: listar chamados (GET /api/emergency-dispatches) + PATCH status.
-- [ ] FormulÃ¡rio "Conectar WhatsApp" nas ConfiguraÃ§Ãµes (gravar `tenant_whatsapp_numbers`).
+- [ ] Painel Plantão 24h: listar chamados (GET /api/emergency-dispatches) + PATCH status.
+- [ ] Formulário "Conectar WhatsApp" nas Configurações (gravar `tenant_whatsapp_numbers`).
 - [ ] Infra do cliente: instalar Evolution API (Docker/VPS) + webhook Vercel env vars.
 
-### D. NFS-e
-- [ ] AGUARDA decisÃ£o do gateway (Focus NFe / FastNFe / Nota Carioca API / outro).
-- [ ] Criar tabela `nfse_invoices` + rotas GET/POST /api/nfse quando gateway definido.
-- [ ] Prazo: IBS/CBS obrigatÃ³rio a partir de out/2026.
+### D. NFS-e — Gateway ESCOLHIDO (ver Seção 3)
+- [x] Gateway escolhido: **FocusNFe** (implementado, commit `33d0f09`).
+- [x] Rotas `/api/fiscal/*` + tabela `fiscal_invoices` criadas.
+- [ ] ⚠️ Aguarda habilitação do CNPJ pela FocusNFe (email enviado).
+- [ ] ⚠️ REVOGAR token antigo ao ativar (está público no repo — ver Seção 3).
+- [ ] Prazo: IBS/CBS obrigatório a partir de out/2026.
 
 ## 8. VENDAS AVULSAS — MELHORIAS PENDENTES (anotado pelo usuario em 2026-09)
 
@@ -167,7 +177,6 @@
       aceita `service_order_id` no body e valida tenant, mas hoje so inclui o id
       na descricao do lancamento, nao na coluna) + exibir link/OS no painel.
 
-
 ## 9. ARQUITETURA — EXECUTADO (commit `4fd38fd`) E PENDENTE
 
 ### Fonte unica de receita — FEITO
@@ -176,26 +185,22 @@
       nunca lança, prefixa origem na descrição: `[asaas_webhook]`, `[payment_carnets]`,
       `[billing_avulso]`).
 - [x] Refatorados: webhook Asaas, carnê PATCH 'pago', billing/avulso.
-- [x] AUDITORIA: `webhook_events` (migration `scripts/webhook_events_migration.sql`)
-      registra TODO evento do Asaas com payload + processed/skipped_reason.
-      Código com degradação graciosa (webhook funciona mesmo sem a tabela).
-- [x] TESTES: `tests/lib/eligibility.test.ts` + `tests/lib/financial.test.ts`
-      — 5 suites / 100 testes verdes (`npx jest`).
+- [x] AUDITORIA: `webhook_events` registra TODO evento do Asaas com payload +
+      processed/skipped_reason. Código com degradação graciosa.
+- [x] TESTES: `tests/lib/eligibility.test.ts` + `tests/lib/financial.test.ts`.
 
 ### AÇÃO MANUAL: rodar `scripts/webhook_events_migration.sql` no Supabase
 - [ ] Sem a tabela, a auditoria fica desligada (o webhook NÃO quebra, só não audita).
 
 ### Pendente (próximas sessões, nesta ordem)
-- [ ] **useBilling — DECISÃO DO USUÁRIO (anotado, não urgente)**: extrair handlers
-      de cobrança do monólito `page.tsx` (~4.500 linhas) para hooks. Executar
-      INCREMENTALMENTE, um handler por vez (mover → testes → build → deploy →
-      validar), nunca big-bang. **Piloto sugerido: cobrança avulsa** (mais nova
-      e isolada). Momento ideal: antes da próxima feature grande de cobrança.
-- [ ] **Dependentes via API server** (pendência antiga, seção 7A — CONFIRMADO
-      pendente em 2026-09): `/api/dependent` não existe; `handleAddDep`
-      (page.tsx ~linha 1361) salva pelo client browser (`supabase.from("dependents")`).
-      Criar rota com `supabaseAdmin` + migrar para `authFetch` — é o último
-      fluxo de escrita fora do padrão server-side do sistema.
+- [x] ~~**useBilling — extrair handlers do monólito page.tsx**~~ **FEITO**: o
+      monólito `src/app/page.tsx` foi removido na Fase 6g-6d; a home hoje é
+      `src/app/(dashboard)/page.tsx` com ~83 linhas. Rotas por domínio já
+      existem (`/titulares`, `/dependentes`, `/contratos`, `/vendas/nova`, etc.).
+      Extração incremental aconteceu naturalmente durante as fases 1-13.
+- [ ] **Dependentes via API server** (pendência antiga, seção 7A — VERIFICAR em
+      2026-09-18): confirmar se ainda existe fluxo de escrita fora do padrão
+      server-side no sistema.
 - [ ] **Rastreabilidade Asaas ↔ carnê**: persistir `asaas_payment_id` de cada
       parcela nas linhas de `payment_carnets` (hoje os IDs só voltam na resposta
       HTTP; se o usuário fecha a tela, a parcela fica 'pendente' eterna mesmo
@@ -209,3 +214,91 @@
       migration `scripts/webhook_events_retry.sql` (retry_count, last_retried_at,
       retry_error), rotas GET /api/webhooks/events + POST /api/webhooks/retry,
       modal `ModalWebhookRetry.tsx` com filtros e botão Reenviar.
+
+## 10. SEGURANÇA — CONCLUÍDO (2026-09-18)
+
+> Sessão intensiva de hardening. Vários itens fechados.
+
+### Fechados
+- [x] **SUPABASE_SERVICE_ROLE_KEY rotacionada** — chave vazada no histórico
+      do git foi invalidada. JWT Legacy HS256 revogado no painel Supabase.
+      Migração para chaves novas (`sb_publishable_` / `sb_secret_`).
+- [x] **Duplicata de webhook token corrigida** — 3 tenants compartilhavam
+      o mesmo `asaas_webhook_token` (Matriz + 2 QAs). QAs tiveram token anulado.
+- [x] **11e completa** — enforcement de token Asaas:
+      * webhook `<16` chars → 401 + logError
+      * `PATCH /api/tenants` `<16` → 400
+      * PATCH com vazio → limpa coluna (null)
+- [x] **Fase A/B do hash** — `asaas_webhook_token` em plaintext foi removido;
+      lookup agora usa `asaas_webhook_token_hash` (SHA-256).
+- [x] **Rate limiter fixado** — o Ratelimit de produção ignorava o config do
+      chamador (`slidingWindow(10,'60s')` fixo). Agora respeita
+      `maxAttempts`/`windowMs`.
+- [x] **Hardening superadmin global (4d)**:
+      * `user_roles.is_global boolean NOT NULL DEFAULT false`
+      * `is_superadmin()` agora exige `role='superadmin' AND is_global=true`
+      * `withAuth` ganhou `opts.requireGlobal` que só aceita `is_global=true`
+      * Aplicado em `/api/saas/{tenants,subscribe,cancel}`
+- [x] **api-handler refatorado** — CCN 27 → ~10, extraídos 3 helpers
+      (`checkRequireGlobal`, `checkRoleAllowed`, `checkSaasGate`) + 10 testes
+      dedicados de caracterização.
+- [x] **SaaS gate de enforcement (3)** — bloqueia POST/PATCH/DELETE quando
+      assinatura SaaS está `suspended`/`blocked`. Cálculo lazy (sem cron).
+
+### Pendentes (aceitos como dívida honesta)
+- [ ] **`asaas_api_key` em plaintext** no banco — mesma solução da Fase A
+      precisa ser aplicada (hash ou AES). Última dívida de segurança de dado
+      sensível que resta.
+- [ ] **Token FocusNFe exposto** em `docs/ROADMAP-PENDENTES.md` — decisão:
+      revogar antes de ativar o serviço (ver Seção 3).
+- [ ] **`vehicles` × `fleet_vehicles` duplicadas** — sem uso crítico hoje.
+- [ ] **`supabaseAdmin` sem tipo `<Database>`** — todos os casts `as X` nas
+      queries existem por conta disso. Tipar destrava type-safety mas afeta
+      ~60 rotas. Fase própria.
+
+## 11. SAAS BILLING — COMPLETO (2026-09-18)
+
+> Painel admin + integração Asaas + gate de enforcement + modais.
+
+### Fases entregues
+- [x] **Fase 1** — Schema: `saas_subscriptions` + `saas_webhook_events` (migration
+      `20260918000000`)
+- [x] **Fase 2** — Lib `src/lib/asaasSaas.ts` + 4 rotas `/api/saas/{subscribe,cancel,subscription,tenants}`
+      + webhook dedicado `/api/webhooks/asaas-saas`
+- [x] **Fase 3a** — `src/lib/saas-gate.ts` (funções puras: active/past_due/suspended/blocked)
+      + 23 testes
+- [x] **Fase 3b** — Gate server em `withAuth` (bloqueia mutações quando suspenso)
+- [x] **Fase 3c** — Banner `SaasBanner` + redirect pra `/assinatura-suspensa`
+- [x] **Fase 4a** — Endpoint `GET /api/saas/tenants` (lista + KPIs MRR/inadimplentes)
+- [x] **Fase 4b** — Painel `/admin/saas` (tabela + KPIs + filtro)
+- [x] **Fase 4c** — Modais criar/cancelar assinatura
+- [x] **Fase 4d-1** — Migration `is_global` em `user_roles`
+- [x] **Fase 4d-2** — `withAuth` exige `is_global` em rotas SaaS
+
+### Configuração manual
+- [x] `SAAS_WEBHOOK_TOKEN` configurado na Vercel
+- [ ] Configurar webhook no painel Asaas apontando pra
+      `https://eternityos-git-main-ebookall.vercel.app/api/webhooks/asaas-saas`
+      (no dia da ativação)
+
+## 12. OBSERVABILIDADE — SENTRY (2026-09-18)
+
+- [x] `@sentry/nextjs` 10.75.0 instalado
+- [x] `src/instrumentation.ts` (server + edge)
+- [x] `src/instrumentation-client.ts` (browser)
+- [x] `src/app/global-error.tsx` + `src/app/error.tsx`
+- [x] CSP do middleware libera `*.sentry.io` + `*.ingest.sentry.io`
+- [x] `.env.example` + Vercel configurados (`SENTRY_DSN`, `NEXT_PUBLIC_SENTRY_DSN`)
+- [ ] Smoke test end-to-end (rota `/api/__sentry-test` foi revertida por
+      problema de folder privada; testar quando precisar validar captura)
+
+## 13. LGPD — CONCLUÍDO (2026-09-18)
+
+- [x] `/termos` — Termos de Uso
+- [x] `/privacidade` — Política de Privacidade (LGPD)
+- [x] `/cookies` — Aviso de Cookies
+- [x] Links no rodapé da landing page
+- [x] Conteúdo versionado em `docs/legal/*.md` (fonte de verdade) +
+      `scripts/gen-legal-content.mjs` (gerador pros `.ts` em `src/content/legal/`)
+- [ ] Revisão por advogado antes de publicação formal (placeholder
+      `[PREENCHER: endereço completo]` em 2 lugares)
