@@ -176,6 +176,10 @@ export async function focusnfeEmit(
   return json;
 }
 
+// Wrapper de API publica do FocusNFe (consulta de NFS-e emitida).
+// PAR natural de focusnfeEmit/focusnfeCancel. Mantida mesmo sem
+// chamadores hoje — sera consumida pela rota fiscal/list. NAO e
+// dead code (Repowise marca por nao achar chamador interno).
 /**
  * Consulta uma NFS-e ja emitida.
  */
