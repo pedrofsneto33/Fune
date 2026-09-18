@@ -15,12 +15,17 @@ type AuthenticatedHandler = (
   ctx: { auth: AuthContext; params?: any }
 ) => Promise<NextResponse>;
 
+interface WithAuthOptions {
+  requireGlobal?: boolean;
+}
+
 // Rate limit configuration
 const API_RATE_LIMIT = { maxAttempts: 300, windowMs: 60000 }; // 300 requests per minute (dashboard dispara varias chamadas em paralelo)
 
 export function withAuth(
   handler: AuthenticatedHandler,
-  allowedRoles?: string[]
+  allowedRoles?: string[],
+  opts?: WithAuthOptions,
 ) {
   return async (req: NextRequest, props?: { params?: Promise<any> }) => {
     try {
@@ -66,7 +71,7 @@ export function withAuth(
 
       const { data: roleRecord, error: roleError } = await supabaseAdmin
         .from('user_roles')
-        .select('tenant_id, role')
+        .select('tenant_id, role, is_global')
         .eq('user_id', user.id)
         .maybeSingle();
 
@@ -98,6 +103,23 @@ export function withAuth(
 
       // Bloco único de negação (fail-closed): sem role = sem acesso.
       // Removida duplicata legada (F-20).
+
+      // 4d-2: rotas SaaS exigem superadmin GLOBAL (is_global=true).
+      // Um superadmin de tenant NAO passa aqui.
+      if (opts?.requireGlobal) {
+        // tech debt: supabaseAdmin nao esta tipado com <Database>, entao
+        // maybeSingle() retorna any; o cast so destrava o campo is_global
+        // (adicionado na 4d-1). Tipar o client quebra ~60 rotas — fase propria.
+        if (roleRecord.role !== 'superadmin' || (roleRecord as { is_global?: boolean }).is_global !== true) {
+          return NextResponse.json(
+            {
+              error: 'Acesso restrito ao administrador global da plataforma.',
+              code: 'GLOBAL_ONLY',
+            },
+            { status: 403 },
+          );
+        }
+      }
 
       if (allowedRoles && allowedRoles.length > 0) {
         if (!allowedRoles.includes(roleRecord.role) && roleRecord.role !== 'superadmin') {

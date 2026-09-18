@@ -118,4 +118,4 @@ export const GET = withAuth(async (_req: NextRequest) => {
   } catch (err) {
     return serverError(err, '[saas/tenants]');
   }
-}, ['superadmin']);
+}, ['superadmin'], { requireGlobal: true });

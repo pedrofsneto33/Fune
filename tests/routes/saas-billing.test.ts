@@ -30,7 +30,7 @@ function setupDb(role = 'superadmin', sub: SubRow | null = null) {
     .mockResolvedValue({ data: { user: { email: 'owner@x.com' } }, error: null });
   mf.mockImplementation((table: string) => {
     if (table === 'user_roles') {
-      return { select: () => ({ eq: () => ({ maybeSingle: () => Promise.resolve({ data: { tenant_id: TENANT, role }, error: null }), in: () => ({ limit: () => ({ maybeSingle: () => Promise.resolve({ data: { user_id: 'user-1', role }, error: null }) }) }) }) }) };
+      return { select: () => ({ eq: () => ({ maybeSingle: () => Promise.resolve({ data: { tenant_id: TENANT, role, is_global: true }, error: null }), in: () => ({ limit: () => ({ maybeSingle: () => Promise.resolve({ data: { user_id: 'user-1', role }, error: null }) }) }) }) }) };
     }
     if (table === 'tenants') {
       return { select: () => ({ eq: () => ({ single: () => Promise.resolve({ data: { id: TENANT, name: 'Funeraria Saad', cnpj: '12345678000199' }, error: null }) }) }) };
@@ -130,7 +130,7 @@ function setupTenantsDb(role = 'superadmin', tenants: TenantRow[] = [], subs: Su
     .mockResolvedValue({ data: { user: { id: 'user-1' } }, error: null });
   mf.mockImplementation((table: string) => {
     if (table === 'user_roles') {
-      return { select: () => ({ eq: () => ({ maybeSingle: () => Promise.resolve({ data: { tenant_id: TENANT, role }, error: null }) }) }) };
+      return { select: () => ({ eq: () => ({ maybeSingle: () => Promise.resolve({ data: { tenant_id: TENANT, role, is_global: true }, error: null }) }) }) };
     }
     if (table === 'tenants') {
       return { select: () => ({ order: () => Promise.resolve({ data: tenants, error: null }) }) };
