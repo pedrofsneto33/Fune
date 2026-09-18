@@ -15,7 +15,7 @@ export function middleware(request: NextRequest) {
     `style-src 'self' 'nonce-${nonce}' 'unsafe-inline'`,
     "img-src 'self' data: blob: https://*.supabase.co",
     "font-src 'self' data:",
-    "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.asaas.com https://sandbox.asaas.com https://homologacao.focusnfe.com.br https://api.focusnfe.com.br",
+    "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.asaas.com https://sandbox.asaas.com https://homologacao.focusnfe.com.br https://api.focusnfe.com.br https://*.sentry.io https://*.ingest.sentry.io",
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",
