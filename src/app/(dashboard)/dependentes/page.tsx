@@ -160,7 +160,7 @@ export default function DependentesPage() {
         <button
           onClick={openCreate}
           disabled={!selectedHolderId}
-          className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
+          className="bg-blue-600 text-white dark:text-white px-4 py-2 rounded disabled:opacity-50"
         >
           + Novo dependente
         </button>
@@ -208,26 +208,26 @@ export default function DependentesPage() {
 
       {modalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded shadow-lg w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">
+          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded shadow-lg w-full max-w-md">
+            <h2 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">
               {editingId ? 'Editar' : 'Novo'} dependente
             </h2>
             <div className="mb-3">
-              <label className="block text-sm mb-1">Nome completo</label>
+              <label className="block text-sm mb-1 text-zinc-400">Nome completo</label>
               <input
                 type="text"
                 value={formName}
                 onChange={(e) => setFormName(e.target.value)}
-                className="border rounded p-2 w-full"
+                className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded p-2 w-full text-slate-900 dark:text-white"
                 maxLength={255}
               />
             </div>
             <div className="mb-4">
-              <label className="block text-sm mb-1">Parentesco</label>
+              <label className="block text-sm mb-1 text-zinc-400">Parentesco</label>
               <select
                 value={formRelation}
                 onChange={(e) => setFormRelation(e.target.value)}
-                className="border rounded p-2 w-full"
+                className="bg-slate-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded p-2 w-full text-slate-900 dark:text-white"
               >
                 {VALID_RELATIONS.map((r) => (
                   <option key={r} value={r}>
@@ -240,14 +240,14 @@ export default function DependentesPage() {
               <button
                 onClick={() => setModalOpen(false)}
                 disabled={saving}
-                className="px-4 py-2 rounded border"
+                className="px-4 py-2 rounded border border-zinc-200 dark:border-zinc-700 text-slate-900 dark:text-white"
               >
                 Cancelar
               </button>
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="px-4 py-2 rounded bg-blue-600 text-white disabled:opacity-50"
+                className="px-4 py-2 rounded bg-blue-600 text-white dark:text-white disabled:opacity-50"
               >
                 {saving ? 'Salvando...' : 'Salvar'}
               </button>
