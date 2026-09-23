@@ -69,7 +69,10 @@
 - [ ] ⚠️ **REVOGAR TOKEN ANTES DE ATIVAR O SERVIÇO FocusNFe.**
       Token de produção abaixo está **público neste repo desde 02/09/2026**.
       Gerar novo no painel FocusNFe no dia da ativação. Token antigo:
-      `7TaSTZhSJ9A2opektRmqDwSKCiFHeNZs` (aguardando habilitação)
+> ⚠️ **ATENCAO: este token esta publico neste repo desde 02/09/2026.**
+> **REVOGAR NO PAINEL FOCUSNFE ANTES DE ATIVAR O SERVICO.**
+> Gerar novo token no dia da ativacao e remover este bloco.
+- [ ] Token de producao antigo (PENDENTE DE REVOGACAO): `7TaSTZhSJ9A2opektRmqDwSKCiFHeNZs`
 
 ## 4. CRM DE LEADS / PIPELINE — MVP IMPLEMENTADO (commit `567de2d`)
 
