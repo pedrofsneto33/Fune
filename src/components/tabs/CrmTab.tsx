@@ -29,6 +29,10 @@ interface Lead {
   notes: string | null;
   converted_at: string | null;
   converted_tenant_id: string | null;
+  rating: number | null;
+  reviews_count: number | null;
+  address: string | null;
+  website: string | null;
 }
 
 interface histNoteRow {
@@ -60,6 +64,10 @@ const EMPTY_FORM = {
   estimated_monthly: "",
   next_follow_up: "",
   notes: "",
+  rating: null as number | null,
+  reviews_count: null as number | null,
+  address: null as string | null,
+  website: null as string | null,
 };
 
 export default function CrmTab() {
@@ -200,6 +208,10 @@ export default function CrmTab() {
       estimated_monthly: String(lead.estimated_monthly || ""),
       next_follow_up: lead.next_follow_up || "",
       notes: lead.notes || "",
+      rating: lead.rating ?? null,
+      reviews_count: lead.reviews_count ?? null,
+      address: lead.address ?? '',
+      website: lead.website ?? '',
     });
     setIsNewOpen(true);
   };
@@ -599,6 +611,24 @@ export default function CrmTab() {
                   <label className="block text-slate-400 font-semibold mb-1">Retorno</label>
                   <input type="date" value={form.next_follow_up} onChange={(e) => setForm({ ...form, next_follow_up: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white" />
                 </div>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">Rating (0-5)</label>
+                  <input type="number" step="0.1" min="0" max="5" value={form.rating ?? ''} onChange={(e) => setForm({ ...form, rating: e.target.value === '' ? null : Number(e.target.value) })} placeholder="Ex: 4.8" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white" />
+                </div>
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">Reviews</label>
+                  <input type="number" min="0" value={form.reviews_count ?? ''} onChange={(e) => setForm({ ...form, reviews_count: e.target.value === '' ? null : Number(e.target.value) })} placeholder="Ex: 143" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">Endereço</label>
+                <input type="text" value={form.address ?? ''} onChange={(e) => setForm({ ...form, address: e.target.value })} placeholder="Ex: Av. Miguel Rosa, 3651" className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white" />
+              </div>
+              <div>
+                <label className="block text-slate-400 font-semibold mb-1">Website</label>
+                <input type="url" value={form.website ?? ''} onChange={(e) => setForm({ ...form, website: e.target.value })} placeholder="https://..." className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white" />
               </div>
               <div>
                 <label className="block text-slate-400 font-semibold mb-1">Anotações</label>
