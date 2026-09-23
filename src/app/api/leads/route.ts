@@ -11,6 +11,29 @@ export const dynamic = "force-dynamic";
 // Leads não são dados de tenant: pertencem a quem vende o sistema.
 // Restrito a superadmin; tabela `leads` com RLS sem policies (só service role).
 
+// Helpers para validacao de campos dedicados (B-2)
+function parseRating(v: unknown): number | null {
+  if (v === undefined || v === null) return null;
+  const n = Number(v);
+  if (!Number.isFinite(n) || n < 0 || n > 5) return null;
+  return Math.round(n * 10) / 10;
+}
+
+function parseReviewsCount(v: unknown): number | null {
+  if (v === undefined || v === null) return null;
+  const n = Number(v);
+  if (!Number.isInteger(n) || n < 0) return null;
+  return n;
+}
+
+function parseWebsite(v: unknown): string | null {
+  if (!v) return null;
+  const s = sanitizeString(String(v), 500).trim();
+  if (!s) return null;
+  if (!/^https?:\/\//i.test(s)) return null;
+  return s;
+}
+
 export const GET = withAuth(async () => {
   const { data, error } = await supabaseAdmin
     .from("leads")
@@ -35,6 +58,13 @@ export const POST = withAuth(
       return NextResponse.json({ error: "Nome do contato é obrigatório." }, { status: 400 });
     }
 
+    if (body.rating !== undefined && body.rating !== null) {
+      const r = Number(body.rating);
+      if (!Number.isFinite(r) || r < 0 || r > 5) {
+        return NextResponse.json({ error: "Rating inválido (0-5)." }, { status: 400 });
+      }
+    }
+
     const stage = isValidLeadStage(body.stage) ? body.stage : "novo";
     const source = isValidLeadSource(body.source) ? body.source : "manual";
 
@@ -54,6 +84,10 @@ export const POST = withAuth(
           ? body.next_follow_up
           : null,
         notes: body.notes ? sanitizeString(body.notes, 2000) : null,
+        rating: parseRating(body.rating),
+        reviews_count: parseReviewsCount(body.reviews_count),
+        address: body.address ? sanitizeString(body.address, 300) : null,
+        website: parseWebsite(body.website),
       })
       .select()
       .single();
@@ -125,6 +159,25 @@ export const PATCH = withAuth(
         return NextResponse.json({ error: "Origem inválida" }, { status: 400 });
       }
       patch.source = body.source;
+    }
+
+    if (body.rating !== undefined) {
+      if (body.rating !== null) {
+        const r = Number(body.rating);
+        if (!Number.isFinite(r) || r < 0 || r > 5) {
+          return NextResponse.json({ error: "Rating inválido (0-5)." }, { status: 400 });
+        }
+      }
+      patch.rating = parseRating(body.rating);
+    }
+    if (body.reviews_count !== undefined) {
+      patch.reviews_count = parseReviewsCount(body.reviews_count);
+    }
+    if (body.address !== undefined) {
+      patch.address = body.address ? sanitizeString(String(body.address), 300) : null;
+    }
+    if (body.website !== undefined) {
+      patch.website = parseWebsite(body.website);
     }
 
     // Conversión: lead ganho -> tenant real (marcado pelo fluxo "Virar Cliente")
