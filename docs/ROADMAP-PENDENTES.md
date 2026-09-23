@@ -310,9 +310,6 @@
       validacao em prod.
 
 ### Pendentes (aceitos como dívida honesta)
-- [ ] **`asaas_api_key` em plaintext** no banco — mesma solução da Fase A
-      precisa ser aplicada (hash ou AES). Última dívida de segurança de dado
-      sensível que resta.
 - [ ] **Token FocusNFe exposto** em `docs/ROADMAP-PENDENTES.md` — decisão:
       revogar antes de ativar o serviço (ver Seção 3).
 - [ ] **`vehicles` × `fleet_vehicles` duplicadas** — sem uso crítico hoje.
