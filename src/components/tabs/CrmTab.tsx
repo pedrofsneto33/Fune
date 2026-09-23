@@ -13,6 +13,7 @@ import {
   waLink,
   type LeadStage,
 } from "@/lib/crm";
+import { Star } from "lucide-react";
 
 interface Lead {
   id: string;
@@ -472,6 +473,30 @@ export default function CrmTab() {
                         <p className="text-[10px] text-slate-500">
                           {[lead.company, lead.city].filter(Boolean).join(" · ")}
                         </p>
+                      )}
+                      {lead.rating !== null && (
+                        <div className="flex items-center gap-1 text-[10px] text-amber-400">
+                          <Star className="w-3 h-3 fill-amber-400" />
+                          <span className="font-bold">{lead.rating}</span>
+                          {lead.reviews_count !== null && (
+                            <span className="text-slate-500">({lead.reviews_count})</span>
+                          )}
+                        </div>
+                      )}
+                      {lead.address && (
+                        <p className="text-[10px] text-slate-500 line-clamp-1">
+                          {lead.address}
+                        </p>
+                      )}
+                      {lead.website && (
+                        <a
+                          href={lead.website}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-[10px] text-blue-400 hover:underline truncate block"
+                        >
+                          {lead.website.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+                        </a>
                       )}
                       {Number(lead.estimated_monthly) > 0 && (
                         <p className="text-[10px] text-emerald-400 font-bold">
