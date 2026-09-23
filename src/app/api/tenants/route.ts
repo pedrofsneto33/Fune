@@ -22,13 +22,14 @@ async function getTenantUsage(tenantId: string) {
 }
 
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
-  const columns = `${PUBLIC_COLUMNS}, asaas_api_key, asaas_webhook_token_hash`;
+  const columns = `${PUBLIC_COLUMNS}, asaas_api_key, asaas_api_key_secret_id, asaas_webhook_token_hash`;
 
   const scrub = (t: any) => ({
     ...t,
-    has_asaas_api_key: !!t.asaas_api_key,
+    has_asaas_api_key: !!(t.asaas_api_key || t.asaas_api_key_secret_id),
     has_asaas_webhook_token: !!t.asaas_webhook_token_hash,
     asaas_api_key: undefined,
+    asaas_api_key_secret_id: undefined,
     asaas_webhook_token_hash: undefined,
   });
 
@@ -149,7 +150,22 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
   if (asaas_environment !== undefined) updateData.asaas_environment = asaas_environment;
   if (asaas_wallet_id !== undefined) updateData.asaas_wallet_id = asaas_wallet_id;
   if (pix_key !== undefined) updateData.pix_key = pix_key;
-  if (asaas_api_key) updateData.asaas_api_key = asaas_api_key;
+  if (asaas_api_key !== undefined) {
+    const t = String(asaas_api_key || '').trim();
+    if (t.length > 0 && t.length < 16) {
+      return NextResponse.json({ error: 'Token Asaas deve ter pelo menos 16 caracteres.' }, { status: 400 }); // manter mensagem atual
+    }
+    const { data: newSid, error: rpcErr } = await supabaseAdmin.rpc(
+      'set_asaas_api_key',
+      { p_tenant_id: destinationTenantId, p_key: t },
+    );
+    if (rpcErr) {
+      logError(rpcErr, '[tenants PATCH] set_asaas_api_key falhou');
+      return NextResponse.json({ error: 'Erro ao gravar token Asaas.' }, { status: 500 });
+    }
+    updateData.asaas_api_key_secret_id = newSid;
+    // NAO mexer em updateData.asaas_api_key (fallback durante transicao)
+  }
   // 11e-2/11e-3: o webhook exige token com >= 16 chars (enforcement da 11e-1), entao
   // a escrita rejeita token curto. Vazio/null LIMPA a coluna (grava null).
   if (body.asaas_webhook_token !== undefined) {
