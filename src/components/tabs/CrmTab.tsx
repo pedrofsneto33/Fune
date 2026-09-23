@@ -34,6 +34,7 @@ interface Lead {
   reviews_count: number | null;
   address: string | null;
   website: string | null;
+  created_at: string | null;
 }
 
 interface histNoteRow {
@@ -90,6 +91,7 @@ export default function CrmTab() {
     commercial_plan: "essencial",
   });
   const [converting, setConverting] = useState(false);
+  const [sortMode, setSortMode] = useState<'recent' | 'rating' | 'reviews'>('recent');
 
   // ---- Histórico de interações (lead_notes) ----
   const [histLead, setHistLead] = useState<Lead | null>(null);
@@ -402,12 +404,23 @@ export default function CrmTab() {
             Interessados em contratar o sistema (não são dados de funerária cliente).
           </p>
         </div>
-        <button
-          onClick={() => setIsNewOpen(true)}
-          className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold shadow"
-        >
-          + Novo Lead
-        </button>
+        <div className="flex gap-2 items-center">
+          <select
+            value={sortMode}
+            onChange={(e) => setSortMode(e.target.value as 'recent' | 'rating' | 'reviews')}
+            className="px-3 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white"
+          >
+            <option value="recent">Mais recentes</option>
+            <option value="rating">Melhor rating</option>
+            <option value="reviews">Mais avaliados</option>
+          </select>
+          <button
+            onClick={() => setIsNewOpen(true)}
+            className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold shadow"
+          >
+            + Novo Lead
+          </button>
+        </div>
       </div>
 
       {/* KPIs do funil */}
@@ -446,7 +459,18 @@ export default function CrmTab() {
       ) : (
         <div className="flex gap-3 overflow-x-auto pb-2">
           {LEAD_STAGES.map((stage) => {
-            const stageLeads = leads.filter((l) => l.stage === stage);
+            const stageLeads = leads
+              .filter((l) => l.stage === stage)
+              .sort((a, b) => {
+                if (sortMode === 'rating') {
+                  return (b.rating ?? -1) - (a.rating ?? -1);
+                }
+                if (sortMode === 'reviews') {
+                  return (b.reviews_count ?? -1) - (a.reviews_count ?? -1);
+                }
+                // recent: por created_at desc (mais novo primeiro)
+                return (b.created_at ?? '').localeCompare(a.created_at ?? '');
+              });
             return (
               <div key={stage} className="min-w-[260px] w-[260px] flex-shrink-0">
                 <div className={`px-3 py-2 rounded-t-lg border border-b-0 bg-slate-950 ${LEAD_STAGE_COLORS[stage]}`}>
@@ -515,7 +539,7 @@ export default function CrmTab() {
                       <div className="flex flex-wrap items-center gap-1.5 pt-1">
                         {lead.phone && (
                           <a
-                            href={waLink(lead.phone, `Olá ${lead.name}, tudo bem? Aqui é o Pedro, da PrimeX Sistemas. Sobre o sistema de gestão para funerárias...`)}
+                            href={waLink(lead.phone, `Olá ${lead.name}, tudo bem? Aqui é o Pedro, da EternityOS. Sobre o sistema de gestão para funerárias...`)}
                             target="_blank"
                             rel="noreferrer"
                             className="px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 text-[10px] font-bold"
