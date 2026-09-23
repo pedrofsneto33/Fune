@@ -304,6 +304,10 @@
       dedicados de caracterização.
 - [x] **SaaS gate de enforcement (3)** — bloqueia POST/PATCH/DELETE quando
       assinatura SaaS está `suspended`/`blocked`. Cálculo lazy (sem cron).
+- [x] asaas_api_key em plaintext: criptografada via Supabase Vault
+      (A-1+A-2). Codigo le via RPC get_asaas_api_key. Fase B
+      (dropar coluna plaintext) marcada para 1-2 semanas apos
+      validacao em prod.
 
 ### Pendentes (aceitos como dívida honesta)
 - [ ] **`asaas_api_key` em plaintext** no banco — mesma solução da Fase A
