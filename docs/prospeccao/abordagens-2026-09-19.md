@@ -9,9 +9,9 @@
 - **Site:** https://funerariaanapax.com.br/ (site proprio)
 - **Angulo:** Rating perfeito + site proprio + volume de reviews consistente
 - **Mensagem WhatsApp:**
-  > Oi, tudo bem? A Funeraria Ana Pax tem 5.0 no Google com 22 avaliacoes e site proprio.
-  > Com associados renovando todo mes, cobranca recorrente no papel deve ser pesadelo.
-  > Sou do EternityOS, gestao funeraria com cobranca automatizada, estoque e plantao 24h.
+  > Oi, tudo bem? A Funerária Ana Pax tem 5.0 no Google com 22 avaliações e site proprio.
+  > Com associados renovando todo mes, cobrança recorrente no papel deve ser pesadelo.
+  > Sou do EternityOS, gestão funerária com cobrança automatizada, estoque e plantão 24h.
   > Quer ver em 15 min por video como funciona?
 
 ### 2. Funerária Lótus
@@ -21,9 +21,9 @@
 - **Site:** http://funerarialotus.com.br/ (site proprio)
 - **Angulo:** Rating alto + 143 reviews + site proprio — claro que escalou
 - **Mensagem WhatsApp:**
-  > Oi, tudo bem? A Funeraria Lótus tem 4.8 no Google com 143 avaliacoes e site proprio.
-  > Com tantos associados, cobranca recorrente no papel deve ser pesadelo.
-  > Sou do EternityOS, gestao funeraria com cobranca automatizada, estoque e plantao 24h.
+  > Oi, tudo bem? A Funerária Lótus tem 4.8 no Google com 143 avaliações e site proprio.
+  > Com tantos associados, cobrança recorrente no papel deve ser pesadelo.
+  > Sou do EternityOS, gestão funerária com cobrança automatizada, estoque e plantão 24h.
   > Quer ver em 15 min por video como funciona?
 
 ## TIER B
@@ -35,9 +35,9 @@
 - **Site:** Nenhum
 - **Angulo:** Rating perfeito, mas sem site proprio — foco em escala
 - **Mensagem WhatsApp:**
-  > Oi, tudo bem? A Funeraria Theresina Pax tem 5.0 no Google com 17 avaliacoes.
-  > Com a reputacao tao boa, precisa escalrar sem perder o controle.
-  > Sou do EternityOS, gestao funeraria com cobranca automatizada, estoque e plantao 24h.
+  > Oi, tudo bem? A Funerária Theresina Pax tem 5.0 no Google com 17 avaliações.
+  > Com a reputacao tao boa, precisa escalar sem perder o controle.
+  > Sou do EternityOS, gestão funerária com cobrança automatizada, estoque e plantão 24h.
   > Quer ver em 15 min por video como funciona?
 
 ### 4. Central de Óbitos Funerária Pamf - Teresina
@@ -47,9 +47,9 @@
 - **Site:** https://www.centraldeobitospamf.com/ (site proprio)
 - **Angulo:** Rating 5.0 + site proprio, mas 14 reviews é pouco para tão alto
 - **Mensagem WhatsApp:**
-  > Oi, tudo bem? A Central de Obidos Pamf tem 5.0 no Google com 14 avaliacoes e site proprio.
-  > Com associados renovando todo mes, cobranca recorrente no papel deve ser pesadelo.
-  > Sou do EternityOS, gestao funeraria com cobranca automatizada, estoque e plantao 24h.
+  > Oi, tudo bem? A Central de Óbitos Funerária Pamf tem 5.0 no Google com 14 avaliações e site proprio.
+  > Com associados renovando todo mes, cobrança recorrente no papel deve ser pesadelo.
+  > Sou do EternityOS, gestão funerária com cobrança automatizada, estoque e plantão 24h.
   > Quer ver em 15 min por video como funciona?
 
 ### 5. Plantão Funerário 24h
@@ -59,9 +59,9 @@
 - **Site:** Nenhum
 - **Angulo:** Rating 5.0, mas só 5 reviews — dados insuficientes
 - **Mensagem WhatsApp:**
-  > Oi, tudo bem? O Plantao Funerario 24h tem 5.0 no Google com 5 avaliacoes.
-  > Com plantao 24h, controle de folha e cobranca de associados deve ser pesadelo.
-  > Sou do EternityOS, gestao funeraria com cobranca automatizada, estoque e plantao 24h.
+  > Oi, tudo bem? O Plantão Funerário 24h tem 5.0 no Google com 5 avaliações.
+  > Com plantão 24h, escala de plantão e cobrança de clientes deve ser pesadelo.
+  > Sou do EternityOS, gestão funerária com cobrança automatizada, estoque e plantão 24h.
   > Quer ver em 15 min por video como funciona?
 
 ### 6. Grupo Vida Nova Funerária e Floricultura
@@ -71,9 +71,9 @@
 - **Site:** https://instagram.com/grupovidanovaa (Instagram)
 - **Angulo:** Rating 5.0, mas 1 review só — dados duvidosos
 - **Mensagem WhatsApp:**
-  > Oi, tudo bem? O Grupo Vida Nova tem 5.0 no Google mas só 1 avaliacao.
-  > Com funeraria e floricultura juntos, gestao de estoque deve ser caos.
-  > Sou do EternityOS, gestao funeraria com cobranca automatizada, estoque e NFS-e.
+  > Oi, tudo bem? O Grupo Vida Nova ta começando no Google e ja tem 5.0.
+  > Com funerária e floricultura juntos, gestão de estoque deve ser caos.
+  > Sou do EternityOS, gestão funerária com cobrança automatizada, estoque e NFS-e.
   > Quer ver em 15 min por video como funciona?
 
 ### 7. Funerária Pai Eterno
@@ -83,9 +83,9 @@
 - **Site:** https://m.facebook.com/memorialpaieterno (Facebook)
 - **Angulo:** Rating 4.9 + 19 reviews, presenca no Facebook
 - **Mensagem WhatsApp:**
-  > Oi, tudo bem? A Funeraria Pai Eterno tem 4.9 no Google com 19 avaliacoes.
-  > Com tantos associados, cobranca recorrente no papel deve ser pesadelo.
-  > Sou do EternityOS, gestao funeraria com cobranca automatizada e NFS-e.
+  > Oi, tudo bem? A Funerária Pai Eterno tem 4.9 no Google com 19 avaliações.
+  > Com tantos associados, cobrança recorrente no papel deve ser pesadelo.
+  > Sou do EternityOS, gestão funerária com cobrança automatizada e NFS-e.
   > Quer ver em 15 min por video como funciona?
 
 ### 8. FUNERAL PREV (Funerária Nova Vida Eterna)
@@ -95,9 +95,9 @@
 - **Site:** Nenhum
 - **Angulo:** Rating alto mas sem site proprio
 - **Mensagem WhatsApp:**
-  > Oi, tudo bem? A FUNERAL PREV tem 4.8 no Google com 12 avaliacoes.
-  > Com o negocio crescendo, gestao no papel e por email deve perder controle.
-  > Sou do EternityOS, gestao funeraria com cobranca automatizada, estoque e NFS-e.
+  > Oi, tudo bem? A FUNERAL PREV tem 4.8 no Google com 12 avaliações.
+  > Com o negocio crescendo, gestão no papel e por email deve perder controle.
+  > Sou do EternityOS, gestão funerária com cobrança automatizada, estoque e NFS-e.
   > Quer ver em 15 min por video como funciona?
 
 ### 9. Pax União
@@ -107,9 +107,9 @@
 - **Site:** http://www.paxuniao.com/ (site proprio)
 - **Angulo:** 80 reviews + site proprio, mas rating medio
 - **Mensagem WhatsApp:**
-  > Oi, tudo bem? A Pax Uniao tem 4.3 no Google com 80 avaliacoes e site proprio.
-  > Com tantos associados, cobranca recorrente no papel deve ser pesadelo.
-  > Sou do EternityOS, gestao funeraria com cobranca automatizada, estoque e plantao 24h.
+  > Oi, tudo bem? A Pax Uniao tem 4.3 no Google com 80 avaliações e site proprio.
+  > Com tantos associados, cobrança recorrente no papel deve ser pesadelo.
+  > Sou do EternityOS, gestão funerária com cobrança automatizada, estoque e plantão 24h.
   > Quer ver em 15 min por video como funciona?
 
 ## TIER C (prioridade baixa)
@@ -121,9 +121,9 @@
 - **Site:** Nenhum
 - **Angulo:** Rating abaixo de 4.0, 29 reviews
 - **Mensagem WhatsApp:**
-  > Oi, tudo bem? O Plantao Funerario SAAD Centro tem 3.9 no Google com 29 avaliacoes.
-  > Planilha solta e cobranca manual deve estar te deixando no escuro.
-  > Sou do EternityOS, gestao funeraria com cobranca automatizada, estoque e plantao 24h.
+  > Oi, tudo bem? O Plantão Funerário SAAD Centro tem 3.9 no Google com 29 avaliações.
+  > Gestão no papel deve estar dando trabalho.
+  > Sou do EternityOS, gestão funerária com cobrança automatizada, estoque e plantão 24h.
   > Quer ver em 15 min por video como funciona?
 
 ### 11. Funerária Aliança Eterna - LTDA
@@ -133,9 +133,9 @@
 - **Site:** https://www.instagram.com/funerariaaliancaeterna (Instagram)
 - **Angulo:** Rating baixo + poucos reviews
 - **Mensagem WhatsApp:**
-  > Oi, tudo bem? A Funeraria Alianca Eterna tem 3.7 no Google com 3 avaliacoes.
-  > Planilha solta e cobranca manual deve estar te deixando no escuro.
-  > Sou do EternityOS, gestao funeraria com cobranca automatizada, estoque e NFS-e.
+  > Oi, tudo bem? A Funerária Alianca Eterna tem 3.7 no Google com 3 avaliações.
+  > Gestão no papel deve estar dando trabalho.
+  > Sou do EternityOS, gestão funerária com cobrança automatizada, estoque e NFS-e.
   > Quer ver em 15 min por video como funciona?
 
 ### 12. Empresa Funerária São José
@@ -145,9 +145,9 @@
 - **Site:** Nenhum
 - **Angulo:** Rating baixo — gestao precisa
 - **Mensagem WhatsApp:**
-  > Oi, tudo bem? A Empresa Funeraria Sao Jose tem 2.8 no Google com 6 avaliacoes.
-  > Planilha solta e cobranca manual deve estar te deixando no escuro.
-  > Sou do EternityOS, gestao funeraria com cobranca automatizada, estoque e NFS-e.
+  > Oi, tudo bem? A Empresa Funerária Sao Jose tem 2.8 no Google com 6 avaliações.
+  > Gestão no papel deve estar dando trabalho.
+  > Sou do EternityOS, gestão funerária com cobrança automatizada, estoque e NFS-e.
   > Quer ver em 15 min por video como funciona?
 
 ### 13. Funerária Lar Eterno
