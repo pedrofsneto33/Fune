@@ -191,6 +191,33 @@
 - [ ] Prioridade: MÉDIA (não bloqueia produção; bloqueia onboarding
       de outro dev ou recriação do ambiente).
 
+### F. Consolidacao vehicles × fleet_vehicles (Fase 14)
+
+- [ ] **NAO SAO DUPLICATAS.** Sao 2 tabelas paralelas com
+      propositos distintos:
+      - `vehicles`: frota operacional (service-orders, dispatches)
+      - `fleet_vehicles`: frota do bot WhatsApp + despesas (emergency_dispatches, fleet_expenses)
+- [ ] Dados disjuntos: `vehicles` tem 1 registro (ABC-1234),
+      `fleet_vehicles` tem 3 (FUN-2040, ATD-3050, PIX-1001).
+      Zero plates em comum.
+- [ ] FKs: `dispatches.vehicle_id` e `service_orders.vehicle_id`
+      apontam para `vehicles`; `emergency_dispatches.vehicle_id` e
+      `fleet_expenses.vehicle_id` apontam para `fleet_vehicles`.
+- [ ] Codigo usa `vehicles` em 7 lugares (service-orders 6 +
+      dispatches/close 1); `fleet_vehicles` **0 refs diretas**
+      (so via FK).
+- [ ] **Consolidacao (Fase 14):** migrar 3 registros de
+      `fleet_vehicles` para `vehicles`, repointar 4 FKs, unificar
+      formatos (status uppercase vs lowercase, plate text vs
+      varchar), atualizar `emergency_dispatches` e `fleet_expenses`
+      para usar `vehicles`. Drop `fleet_vehicles` ao final.
+- [ ] **Prioridade: BAIXA.** Nao bloqueia producao; tabelas
+      coexistem sem conflito. Fazer quando tocar em frota por
+      outro motivo.
+- [ ] **Risco de drop prematuro:** `emergency_dispatches` (bot
+      WhatsApp) e `fleet_expenses` (financeiro) perdem vinculo
+      de frota.
+
 ## 8. VENDAS AVULSAS — MELHORIAS PENDENTES (anotado pelo usuario em 2026-09)
 
 > Contexto: painel "💰 Vendas Avulsas" ja existe na aba Financeiro (commit `aed3fd2`).

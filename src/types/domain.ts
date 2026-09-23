@@ -50,6 +50,15 @@ export interface Partner {
   active?: boolean;
 }
 
+// ATENCAO: existem 2 tabelas de veiculos neste projeto:
+//   - `vehicles` (esta interface): frota operacional. Usada por
+//     service-orders e dispatches. Tem brand/year/driver_name/
+//     fuel_level/notes.
+//   - `fleet_vehicles`: frota do bot WhatsApp + despesas de frota.
+//     Usada por emergency_dispatches e fleet_expenses. Tem
+//     vehicle_type/current_km.
+// NAO SAO DUPLICATAS: sao tabelas com propositos diferentes.
+// Consolidacao planejada para Fase 14 (ver ROADMAP §10).
 export interface Vehicle {
   id: string;
   plate: string;
