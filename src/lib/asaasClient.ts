@@ -1,4 +1,5 @@
 ﻿import { supabaseAdmin } from './supabaseAdmin';
+import { logError } from './http-error';
 
 interface AsaasConfig {
   apiKey: string;
@@ -23,7 +24,7 @@ export async function getAsaasConfigForTenant(tenantId?: string): Promise<AsaasC
   try {
     const { data: tenant, error } = await supabaseAdmin
       .from('tenants')
-      .select('asaas_api_key, asaas_wallet_id, asaas_environment')
+      .select('asaas_api_key, asaas_api_key_secret_id, asaas_wallet_id, asaas_environment')
       .eq('id', tenantId)
       .single();
 
@@ -34,7 +35,18 @@ export async function getAsaasConfigForTenant(tenantId?: string): Promise<AsaasC
       };
     }
 
-    const apiKey = tenant.asaas_api_key || fallbackKey;
+    let apiKey = tenant.asaas_api_key || fallbackKey;
+    if (tenant.asaas_api_key_secret_id) {
+      const { data: vaultKey, error: vaultErr } = await supabaseAdmin.rpc('get_asaas_api_key', {
+        p_tenant_id: tenantId,
+      });
+      if (!vaultErr && typeof vaultKey === 'string' && vaultKey.length > 0) {
+        apiKey = vaultKey;
+      } else {
+        logError(vaultErr || new Error('get_asaas_api_key retornou vazio'), 'asaas-client-vault');
+        apiKey = tenant.asaas_api_key || fallbackKey;
+      }
+    }
     const env = tenant.asaas_environment || fallbackEnv;
     const baseUrl = env === 'sandbox' 
       ? 'https://sandbox.asaas.com/api/v3' 
