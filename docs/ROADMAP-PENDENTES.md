@@ -161,6 +161,36 @@
 - [ ] ⚠️ REVOGAR token antigo ao ativar (está público no repo — ver Seção 3).
 - [ ] Prazo: IBS/CBS obrigatório a partir de out/2026.
 
+### E. Migrations não versionadas (SQLs soltos em scripts/)
+
+- [ ] **PROBLEMA:** vários SQLs aplicados manualmente no remoto via
+      SQL Editor nunca foram movidos para `supabase/migrations/`.
+      Consequência: quem clonar o repo e rodar migrations do zero
+      NÃO tem essas tabelas/colunas — rotas quebram em ambiente novo.
+- [ ] Evidência: `lead_notes` existe no remoto mas NÃO aparece no
+      `src/types/supabase.ts` regenerado do banco local (schema
+      divergente).
+- [ ] SQLs candidatos (mover pra `supabase/migrations/` com timestamp
+      retroativo quando possível):
+      - `scripts/crm_leads_migration.sql` (tabela `leads`)
+      - `scripts/crm_leads_conversion.sql` (colunas converted_at,
+        converted_tenant_id)
+      - `scripts/crm_lead_notes.sql` (tabela `lead_notes`)
+      - `scripts/holder-enrich-columns.sql` (cidade/uf/birth_date/
+        gender/observations em holders)
+      - `scripts/webhook_events_migration.sql` (tabela webhook_events)
+      - `scripts/webhook_events_retry.sql` (colunas retry_count,
+        last_retried_at, retry_error)
+      - `scripts/agente-whatsapp.sql` (emergency_dispatches,
+        whatsapp_agent_sessions, tenant_whatsapp_numbers)
+      - `scripts/nfse_migration.sql` (fiscal_invoices + colunas fiscal
+        em tenants/service_orders)
+- [ ] Ação: rodar `npx supabase db reset` no local e verificar quais
+      SQLs fazem falta; mover 1 por vez pra `supabase/migrations/`
+      com commit separado; validar `npx tsc --noEmit` a cada um.
+- [ ] Prioridade: MÉDIA (não bloqueia produção; bloqueia onboarding
+      de outro dev ou recriação do ambiente).
+
 ## 8. VENDAS AVULSAS — MELHORIAS PENDENTES (anotado pelo usuario em 2026-09)
 
 > Contexto: painel "💰 Vendas Avulsas" ja existe na aba Financeiro (commit `aed3fd2`).
