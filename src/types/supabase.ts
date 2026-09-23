@@ -1458,6 +1458,7 @@ export type Database = {
       }
       leads: {
         Row: {
+          address: string | null
           city: string | null
           company: string | null
           converted_at: string | null
@@ -1471,12 +1472,16 @@ export type Database = {
           next_follow_up: string | null
           notes: string | null
           phone: string | null
+          rating: number | null
+          reviews_count: number | null
           source: string
           stage: string
           uf: string | null
           updated_at: string
+          website: string | null
         }
         Insert: {
+          address?: string | null
           city?: string | null
           company?: string | null
           converted_at?: string | null
@@ -1490,12 +1495,16 @@ export type Database = {
           next_follow_up?: string | null
           notes?: string | null
           phone?: string | null
+          rating?: number | null
+          reviews_count?: number | null
           source?: string
           stage?: string
           uf?: string | null
           updated_at?: string
+          website?: string | null
         }
         Update: {
+          address?: string | null
           city?: string | null
           company?: string | null
           converted_at?: string | null
@@ -1509,10 +1518,13 @@ export type Database = {
           next_follow_up?: string | null
           notes?: string | null
           phone?: string | null
+          rating?: number | null
+          reviews_count?: number | null
           source?: string
           stage?: string
           uf?: string | null
           updated_at?: string
+          website?: string | null
         }
         Relationships: []
       }
