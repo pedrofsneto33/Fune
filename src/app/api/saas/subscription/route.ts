@@ -31,4 +31,4 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
   } catch (err) {
     return serverError(err);
   }
-}, ['superadmin', 'admin']);
+}, ['superadmin'], { requireGlobal: true });

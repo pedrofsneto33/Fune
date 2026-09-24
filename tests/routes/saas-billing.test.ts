@@ -104,8 +104,13 @@ describe('saas billing (Fase 2)', () => {
     const res = await cancelPOST(req('/api/saas/cancel', 'POST', { tenantId: TENANT }));
     expect(res.status).toBe(200);
   });
-  it('GET subscription 200 com dados', async () => {
+  it('GET subscription 403 sem superadmin', async () => {
     setupDb('admin', { plan: 'essencial', status: 'active', valor: 397, next_due_date: '2026-10-18', grace_until: '2026-10-25' });
+    const res = await subGET(req(`/api/saas/subscription?tenantId=${TENANT}`, 'GET'));
+    expect(res.status).toBe(403);
+  });
+  it('GET subscription 200 com dados', async () => {
+    setupDb('superadmin', { plan: 'essencial', status: 'active', valor: 397, next_due_date: '2026-10-18', grace_until: '2026-10-25' });
     const res = await subGET(req(`/api/saas/subscription?tenantId=${TENANT}`, 'GET'));
     const j = await res.json();
     expect(res.status).toBe(200);

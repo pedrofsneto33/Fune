@@ -13,6 +13,9 @@ export const dynamic = "force-dynamic";
 // Restrito a superadmin; RLS sem policies (solo service role).
 // ============================================================
 
+// NOTA (auditoria 2026-09): tabela global, sem tenant_id por design.
+// Uso restrito a superadmin (CRM interno do operador do SaaS).
+// Ao abrir esta rota para outra role, adicionar filtro tenant_id.
 export const GET = withAuth(
   async (req: NextRequest, { auth }) => {
     const { searchParams } = new URL(req.url);
@@ -48,6 +51,9 @@ export const GET = withAuth(
   ["superadmin"],
 );
 
+// NOTA (auditoria 2026-09): tabela global, sem tenant_id por design.
+// Uso restrito a superadmin (CRM interno do operador do SaaS).
+// Ao abrir esta rota para outra role, adicionar filtro tenant_id.
 export const POST = withAuth(
   async (req: NextRequest, { auth }) => {const rl = await checkRateLimit(`leadnotes:${auth.userId}`, { maxAttempts: 60, windowMs: 60000 });
     if (!rl.allowed) {
@@ -80,6 +86,9 @@ export const POST = withAuth(
   ["superadmin"],
 );
 
+// NOTA (auditoria 2026-09): tabela global, sem tenant_id por design.
+// Uso restrito a superadmin (CRM interno do operador do SaaS).
+// Ao abrir esta rota para outra role, adicionar filtro tenant_id.
 export const DELETE = withAuth(
   async (req: NextRequest) => {
     const { searchParams } = new URL(req.url);

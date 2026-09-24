@@ -57,7 +57,7 @@ export const PATCH = withAuth(async (req: NextRequest, { auth }) => {
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
-}, ['superadmin', 'admin', 'manager', 'financial']);
+}, ['superadmin', 'admin']);
 
 // GET /api/fiscal/config - le config fiscal do tenant
 export const GET = withAuth(async (req: NextRequest, { auth }) => {
