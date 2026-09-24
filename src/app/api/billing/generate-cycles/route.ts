@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-handler';
 import { isHolderActive } from '@/lib/eligibility';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { sanitizeString } from '@/lib/validation';
 
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
@@ -63,6 +64,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
 
     const paymentsToInsert: any[] = [];
     let skippedCount = 0;
+    const errors: Array<{ contract_id: string; error: string }> = [];
 
     for (const contract of contracts as any[]) {
       if (billedContractIds.has(contract.id)) {
@@ -94,14 +96,63 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       if (tenant.asaas_api_key) {
         try {
           const asaasBaseUrl = process.env.ASAAS_API_URL || 'https://api.asaas.com/v3';
+          const headers = {
+            'Content-Type': 'application/json',
+            access_token: tenant.asaas_api_key,
+          };
+
+          // a/b) Normaliza CPF e guarda de 11 dígitos — não gravar payment se inválido
+          const cleanCpf = (holder.cpf ?? '').replace(/\D/g, '');
+          if (cleanCpf.length !== 11) {
+            errors.push({ contract_id: contract.id, error: 'CPF inválido ou ausente' });
+            continue;
+          }
+
+          // c/d) Localiza ou cadastra o customer no Asaas (padrão billing/avulso)
+          const searchRes = await fetch(`${asaasBaseUrl}/customers?cpfCnpj=${cleanCpf}`, {
+            headers: { access_token: tenant.asaas_api_key },
+          });
+          const searchData = await searchRes.json().catch(() => ({}));
+          let customerId: string | undefined = searchData?.data?.[0]?.id;
+          if (!customerId) {
+            // Asaas exige formato internacional para mobilePhone (ex: +5586999990000)
+            // — mesmo normalização do billing/avulso.
+            let mobilePhone: string | undefined;
+            if (holder.phone) {
+              const digits = String(holder.phone).replace(/\D/g, '');
+              if (digits.length >= 10) {
+                const intl = digits.length >= 13 ? digits : digits.startsWith('55') ? digits : `55${digits}`;
+                mobilePhone = `+${intl}`;
+              }
+            }
+            const createCustRes = await fetch(`${asaasBaseUrl}/customers`, {
+              method: 'POST',
+              headers,
+              body: JSON.stringify({
+                name: sanitizeString(holder.full_name || '', 120),
+                cpfCnpj: cleanCpf,
+                email: holder.email ?? undefined,
+                mobilePhone,
+              }),
+            });
+            const createCustData = await createCustRes.json().catch(() => ({}));
+            if (createCustData.errors || !createCustData.id) {
+              errors.push({
+                contract_id: contract.id,
+                error:
+                  'Falha ao cadastrar customer no Asaas: ' +
+                  (createCustData.errors?.[0]?.description || 'erro desconhecido'),
+              });
+              continue;
+            }
+            customerId = createCustData.id;
+          }
+
           const asaasRes = await fetch(`${asaasBaseUrl}/payments`, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              access_token: tenant.asaas_api_key,
-            },
+            headers,
             body: JSON.stringify({
-              customer: holder.cpf.replace(/\D/g, ''),
+              customer: customerId,
               billingType: billingType.toUpperCase(),
               value: amount,
               dueDate: targetDueDate,
@@ -109,14 +160,26 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
             }),
           });
 
-          if (asaasRes.ok) {
-            const asaasData = await asaasRes.json();
-            asaasPaymentId = asaasData.id;
-            pixCode = asaasData.pixTransaction?.qrCode?.payload || null;
-            pixQrCodeUrl = asaasData.pixTransaction?.qrCode?.encodedImage || null;
+          // Sem falha silenciosa: sempre ler o corpo e checar ok/errors
+          const asaasData = await asaasRes.json().catch(() => ({}));
+          if (!asaasRes.ok || !asaasData.id) {
+            console.warn(
+              `Asaas recusou cobrança para contrato ${contract.id}:`,
+              asaasData.errors || asaasData,
+            );
+            errors.push({
+              contract_id: contract.id,
+              error: 'Asaas recusou a cobrança: ' + (asaasData.errors?.[0]?.description || 'erro desconhecido'),
+            });
+            continue; // não inserir linha em payments
           }
+          asaasPaymentId = asaasData.id;
+          pixCode = asaasData.pixTransaction?.qrCode?.payload || null;
+          pixQrCodeUrl = asaasData.pixTransaction?.qrCode?.encodedImage || null;
         } catch (apiErr) {
           console.warn(`Falha na chamada Asaas para contrato ${contract.id}:`, apiErr);
+          errors.push({ contract_id: contract.id, error: 'asaas_request_failed' });
+          continue; // não inserir linha em payments em falha de request
         }
       }
 
@@ -150,6 +213,7 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       totalActiveContracts: contracts.length,
       generatedCount: paymentsToInsert.length,
       skippedCount,
+      errors,
     });
   } catch (error: any) {
     console.error('Erro ao gerar cobranças em lote:', error);
