@@ -551,6 +551,8 @@ sequenceDiagram
   end
 ```
 
+> Nota (auditoria 2026-09): este cron/batch NÃO está implementado no repo — nenhum import, fetch interno, script, vercel.json ou diretório cron/ dispara esta rota. Documentado apenas como fluxo previsto.
+
 **Seguridad del webhook Asaas** (sin autenticación JWT):
 validación por **token** (`asaas-access-token`), **whitelist de IPs**
 (`ASAAS_ALLOWED_IPS`) y **rate-limit por IP** — el HMAC anterior era

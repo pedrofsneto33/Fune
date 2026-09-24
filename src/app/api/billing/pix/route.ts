@@ -7,6 +7,13 @@ import { isHolderActive, isContractActive } from '@/lib/eligibility';
 
 export const dynamic = 'force-dynamic';
 
+/**
+ * @deprecated Rota órfã — auditoria 2026-09.
+ * 0 chamadores na UI, em scripts, em middleware ou em cron in-repo.
+ * Chamável apenas via HTTP externo/manual.
+ * Manter até confirmação do produto sobre uso externo (ver docs/GRAPHIFY.md).
+ * Não remover nem refatorar sem ticket.
+ */
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const body = await req.json();

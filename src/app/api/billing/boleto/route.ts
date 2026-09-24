@@ -21,6 +21,13 @@ const withTimeout = (ms: number, promise: Promise<Response>) =>
 // chamar o gateway — o associado nunca recebia o boleto. Agora: cliente no
 // Asaas → cobrança BOLETO → registro local com asaas_payment_id (o webhook
 // concilia o pagamento).
+/**
+ * @deprecated Rota órfã — auditoria 2026-09.
+ * 0 chamadores na UI, em scripts, em middleware ou em cron in-repo.
+ * Chamável apenas via HTTP externo/manual.
+ * Manter até confirmação do produto sobre uso externo (ver docs/GRAPHIFY.md).
+ * Não remover nem refatorar sem ticket.
+ */
 export const POST = withAuth(async (req: NextRequest, { auth }) => {
   try {
     const rl = await checkRateLimit(`boleto:${auth.userId}`, { maxAttempts: 10, windowMs: 60000 });
