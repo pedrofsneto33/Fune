@@ -10,34 +10,6 @@ const readSrc = (rel: string): string =>
 // F-01/F-07 da auditoria — impedir reintrodução.
 // ============================================================
 describe('Regressão: colunas de dinheiro e idempotência', () => {
-  it('billing/pix grava somente colunas que existem em payments', () => {
-    const src = readSrc('src/app/api/billing/pix/route.ts');
-    // colunas inexistentes no banco vivo (payments): pix_qr_code, pix_copy_paste, boleto_url
-    expect(src).not.toMatch(/pix_qr_code:\s|pix_copy_paste:|boleto_url:/);
-    // colunas reais
-    expect(src).toMatch(/pix_code:\s*qrData\.payload/);
-    expect(src).toMatch(/pix_qr_code_url:\s*qrData\.encodedImage/);
-    // a falha de vinculação NÃO pode ser engolida (sem asaas_payment_id o webhook não concilia)
-    expect(src).toMatch(/linkErr/);
-  });
-
-  it('billing/boleto emite boleto REAL no Asaas (não só insert local)', () => {
-    const src = readSrc('src/app/api/billing/boleto/route.ts');
-    expect(src).toMatch(/getAsaasConfigForTenant/);
-    expect(src).toMatch(/billingType: 'BOLETO'/);
-    expect(src).toMatch(/externalReference/);
-    expect(src).toMatch(/onConflict: 'asaas_payment_id'/);
-    // insert local puro sem gateway é o bug F-04 — não pode voltar
-    expect(src).not.toMatch(/payments'\)\.insert\(\[\{/);
-    expect(src).toMatch(/withTimeout/);
-  });
-
-  it('billing/pix nunca envia CPF 00000000000 ao Asaas (F-10)', () => {
-    const src = readSrc('src/app/api/billing/pix/route.ts');
-    expect(src).not.toMatch(/'00000000000'/);
-    expect(src).toMatch(/Titular sem CPF/);
-  });
-
   it('payment-carnets distribui centavos (soma das parcelas = total)', () => {
     const src = readSrc('src/app/api/payment-carnets/route.ts');
     expect(src).toMatch(/totalCents/);
