@@ -1,42 +1,36 @@
-# HANDOFF — sessão de auditoria billing (2026-09-24)
+# HANDOFF — pós-remoção das rotas órfãs (2026-09-24)
 
 ## 1. O projeto
-- Nome/repo: Fune — `https://github.com/pedrofsneto33/Fune.git` (local: `C:\Users\User\eternitysos`).
-- Stack: Next.js 16 (App Router) + React 19 + TypeScript 5 + Supabase + Asaas (fetch direto) + Jest; deploy na Vercel.
-- Arquitetura-chave: rotas em `src/app/api/**` com `withAuth(handler, [roles])` + filtro `tenant_id` sempre; Asaas por tenant (`getAsaasConfigForTenant`); conciliação via webhook Asaas (`asaas_payment_id`); regra única de elegibilidade em `src/lib/eligibility.ts`.
-- Rotas de billing: `asaas-batch`, `avulso`, `boleto`, `collector`, `generate-cycles`, `pix`; payments: `pix`.
-- Regras do AGENTS.md: responder em pt-BR; não ler arquivos >500 linhas inteiros; não mexer em `src/app/api/` sem autorização explícita; uma ferramenta MCP por mensagem; não carregar `graphify-out/`.
+- Nome/repo: Fune — `https://github.com/pedrofsneto33/Fune.git`; local: `C:\Users\User\eternitysos`.
+- Stack: Next.js 16 + React 19 + TypeScript 5 + Supabase + Asaas + Jest + Vercel.
+- Regras do AGENTS.md/CLAUDE.md: responder pt-BR, respostas curtas, não ler arquivos >500 linhas inteiras, não carregar `graphify-out/`, uma ferramenta MCP por mensagem, não modificar `src/app/api/` sem autorização explícita.
 
 ## 2. Estilo dos prompts
-- Bloco `=== REGRAS ===` … `=== FIM ===` com passos numerados e saída em seções fixas (A/B/C/D).
-- Output literal nas seções, sem narrar.
-- `SOMENTE LEITURA` quando for auditoria; `NAO INVENTE` (só o que está no código/doc); autorização explícita e limitada (arquivos exatos) quando for editar/commitar/push.
+- Bloco `=== REGRAS ===` / `=== FIM ===`; output literal em seções A/B/C.
+- `SOMENTE LEITURA` quando auditoria; `NAO INVENTE`; autorização explícita quando editar; sempre pedir commit isolado por unidade coerente.
 
 ## 3. Estado atual do repositório
-- Branch: `main`, sincronizada com `origin/main` (`## main...origin/main`, sem ahead/behind).
-- Últimos commits relevantes: `4b07c47` (docs: @deprecated nas órfãs + nota GRAPHIFY.md), `7569c09` (fix generate-cycles: customer por CPF).
-- Testes: 26 suites / 275 tests passando (última execução nesta sessão).
-- Build: `next build` compila (executado nesta sessão antes do fix final).
-- Working tree: limpo (nenhum arquivo modificado).
+- Branch main, sincronizada com origin/main.
+- Últimos commits relevantes: `bb66825` (remoção das 4 órfãs), `29ebc6a` (HANDOFF.md), `4b07c47` (@deprecated), `7569c09` (fix generate-cycles).
+- Testes: 24 suites / 252 tests passando (caiu de 26/275 porque 2 arquivos de teste foram removidos junto com as rotas).
+- Working tree limpo.
 
-## 4. O que foi feito nesta sessão
-- (a) Fix do bug `customer: holder.cpf` em `src/app/api/billing/generate-cycles/route.ts` — agora faz GET `/customers?cpfCnpj=` + POST `/customers` antes de cobrar; falha silenciosa eliminada (recusa do Asaas → `errors[]` + sem insert); phone normalizado `+55`; `full_name` sanitizado; array `errors[]` no retorno. Commit `7569c09`.
-- (b) Auditoria de consumidores das 4 rotas de billing (`boleto`, `billing/pix`, `generate-cycles`, `payments/pix`) — 0 consumidores executáveis (só testes/docs/artefatos graphify); sem auth de máquina (só `withAuth` JWT; `access_token` é saída p/ Asaas). Resultado: PRECISA CONFIRMAR COM PRODUTO.
-- (c) Matriz de redundância entre as 3 "internas" e as ativas:
-  - `billing/boleto` → MANTER (única rota que emite boleto de contrato com gravação em `payments` + reconciliação webhook; `avulso` não cobre).
-  - `billing/pix` × `payments/pix` → FUSIONAR (duplicam emissão PIX; unificar gravação local + rate-limit — refactor, não cleanup).
-  - `generate-cycles` → DELETAR (0 chamadores; só HTTP externo/manual; docs descrevem cron inexistente).
-- (d) Marcação `@deprecated` (só JSDoc) em `boleto`, `billing/pix`, `payments/pix`, `generate-cycles` + nota em `docs/GRAPHIFY.md` (fora do bloco mermaid). Commit `4b07c47`. Nenhuma linha executável alterada além do fix (a). Ambos os commits já foram pushados para `origin/main`.
+## 4. O que foi feito nesta sessão (em ordem)
+- (a) Fix do bug `customer: holder.cpf` em generate-cycles — passou a resolver customer no Asaas (GET `/customers?cpfCnpj=` + POST se ausente), removeu falha silenciosa, normalizou phone +55, sanitizou `full_name`, adicionou array `errors[]` no retorno. Commit `7569c09`.
+- (b) Auditoria de consumidores: 0 chamadores executáveis, 0 auth de máquina nas 4 rotas. Veredito inicial: PRECISA CONFIRMAR COM PRODUTO.
+- (c) Matriz de redundância: boleto → MANTER (se fosse manter algo); billing/pix × payments/pix → duplicatas; generate-cycles → 0 chamadores.
+- (d) Marcação `@deprecated` nas 4 + nota em `docs/GRAPHIFY.md`. Commit `4b07c47`.
+- (e) DELETADAS as 4 rotas + 2 arquivos de teste exclusivos; ajustado `tests/routes/money-columns.test.ts` (3 `it` removidos). Commit `bb66825`. Histórico preservado: restaurável via `git revert bb66825` se o produto confirmar uso externo (ex.: cron chamando generate-cycles).
 
-## 5. Pendências (em ordem de prioridade)
-1. DECISÃO DE PRODUTO: deletar × manter as 4 rotas órfãs. Único bloqueio.
-2. Se deletar: remover também os testes que importam os handlers (`tests/routes/billing-pix.test.ts`, `tests/routes/payments-pix.test.ts`, `tests/routes/money-columns.test.ts`) — senão a suíte quebra.
-3. Ticket separado: fusão `billing/pix` × `payments/pix` (2 arquivos de teste + reconciliação webhook — NÃO é cleanup).
-4. Se o produto confirmar cron externo para `generate-cycles`: manter e remover a marcação `@deprecated`.
+## 5. Pendências
+1. NENHUMA técnica. Working tree limpo, main == origin/main.
+2. Avisar stakeholder (Pedro) da remoção — texto sugerido: 4 rotas órfãs removidas após auditoria; se algum cron/integração externa chamar /api/billing/generate-cycles ou /api/billing/boleto, avisar para restaurar via git revert bb66825.
+3. Se houver restauração: preferir restaurar SÓ generate-cycles (`git checkout bb66825^ -- src/app/api/billing/generate-cycles/`) e manter as outras 3 deletadas.
 
 ## 6. Gotchas
-- Repo ≠ workspace de chat: repo é `C:\Users\User\eternitysos`; workspace chat é `C:\Users\User\.cline\data\workspaces\chat` — sempre usar caminhos absolutos.
-- Responder em pt-BR.
-- `rg` no PowerShell: anexar `; if ($LASTEXITCODE -eq 1) { 'NO_MATCH' }` para distinguir "sem match" de erro.
-- Não ler arquivos >500 linhas inteiros; não carregar `graphify-out/`.
-- Próximo passo de decisão exige autorização explícita porque toca `src/app/api/`.
+- Repo ≠ workspace do chat, sempre caminho absoluto no `C:\Users\User\eternitysos`.
+- pt-BR.
+- `rg` no PowerShell com `; if ($LASTEXITCODE -eq 1) { 'NO_MATCH' }`.
+- Não ler arquivos gigantes; não carregar `graphify-out/`.
+- Mexer em `src/app/api/` exige autorização explícita no prompt.
+- Ao adicionar rota nova seguir o padrão `withAuth([...])` + filtro `tenant_id` + `checkRateLimit`.
