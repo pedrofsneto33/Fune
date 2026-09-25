@@ -127,3 +127,128 @@ describe('withAuth characterization', () => {
     expect(res.status).toBe(200);
   });
 });
+
+describe('withAuth: branches descobertos', () => {
+  const past20d = new Date(Date.now() - 20 * DAY).toISOString().slice(0, 10);
+
+  it('11) roleError em user_roles -> 409 MULTI_TENANT_SELECT', async () => {
+    setup({ roleError: { message: 'multiple rows' } });
+    const res = await withAuth(fakeHandler)(req('GET'));
+    expect(res.status).toBe(409);
+    expect(await res.json()).toMatchObject({ code: 'MULTI_TENANT_SELECT' });
+    expect(fakeHandler).not.toHaveBeenCalled();
+  });
+
+  it('12) SaaS gate blocked (vencido >15d) -> 403 com mensagem de suspensao', async () => {
+    setup({
+      role: { tenant_id: 't-1', role: 'admin', is_global: false },
+      subs: [{ status: 'active', next_due_date: past20d, trial_ends_at: null }],
+    });
+    const res = await withAuth(fakeHandler, ['admin'])(req('POST'));
+    expect(res.status).toBe(403);
+    const body = await res.json();
+    expect(body).toMatchObject({ code: 'SAAS_READONLY' });
+    expect(body.error).toContain('Assinatura suspensa');
+  });
+
+  it('13) role sem tenant_id -> gate SaaS ignorado (POST passa)', async () => {
+    setup({
+      role: { tenant_id: null, role: 'admin', is_global: false },
+      subs: [{ status: 'active', next_due_date: past20d, trial_ends_at: null }],
+    });
+    const res = await withAuth(fakeHandler, ['admin'])(req('POST'));
+    expect(res.status).toBe(200);
+    expect(fakeHandler).toHaveBeenCalled();
+  });
+
+  it('14) erro na query de saas_subscriptions -> fail-open 200', async () => {
+    setup({ role: { tenant_id: 't-1', role: 'admin', is_global: false } });
+    const mf = asMock((supabaseAdmin as unknown as { from: unknown }).from);
+    mf.mockImplementation((table: string) => {
+      if (table === 'user_roles') {
+        return {
+          select: () => ({
+            eq: () => ({
+              maybeSingle: () =>
+                Promise.resolve({ data: { tenant_id: 't-1', role: 'admin', is_global: false }, error: null }),
+            }),
+          }),
+        };
+      }
+      if (table === 'saas_subscriptions') {
+        return {
+          select: () => ({
+            eq: () => ({
+              order: () => ({ limit: () => Promise.resolve({ data: null, error: { message: 'query failed' } }) }),
+            }),
+          }),
+        };
+      }
+      return {};
+    });
+    const res = await withAuth(fakeHandler, ['admin'])(req('POST'));
+    expect(res.status).toBe(200);
+    expect(fakeHandler).toHaveBeenCalled();
+  });
+
+  it('15) sem x-forwarded-for usa x-real-ip na chave do rate-limit', async () => {
+    setup({});
+    const r = new NextRequest('http://localhost/api/x', {
+      method: 'GET',
+      headers: { authorization: 'Bearer t', 'x-real-ip': '9.9.9.9' },
+    });
+    const res = await withAuth(fakeHandler)(r);
+    expect(res.status).toBe(200);
+    expect(asMock(checkRateLimit)).toHaveBeenCalledWith('api:9.9.9.9', expect.anything());
+  });
+
+  it('16) sem nenhum header de IP usa a chave unknown', async () => {
+    setup({});
+    const res = await withAuth(fakeHandler)(req('GET'));
+    expect(res.status).toBe(200);
+    expect(asMock(checkRateLimit)).toHaveBeenCalledWith('api:unknown', expect.anything());
+  });
+
+  it('17) props.params (Promise) chega resolvida no handler', async () => {
+    setup({});
+    const res = await withAuth(fakeHandler)(req('GET'), { params: Promise.resolve({ id: 'x' }) });
+    expect(res.status).toBe(200);
+    expect(fakeHandler).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        auth: expect.objectContaining({ userId: 'user-1', tenantId: 't-1', role: 'admin' }),
+        params: { id: 'x' },
+      }),
+    );
+  });
+
+  it('18) handler que lanca excecao -> 500 generico', async () => {
+    setup({});
+    const throwing = jest.fn(async (): Promise<NextResponse> => {
+      throw new Error('boom interno');
+    });
+    const res = await withAuth(throwing)(req('GET'));
+    expect(res.status).toBe(500);
+    const body = await res.json();
+    expect(body).toEqual({ error: 'Erro interno no servidor. Tente novamente.' });
+  });
+
+  it('19) superadmin passa mesmo fora de allowedRoles (bypass)', async () => {
+    setup({ role: { tenant_id: 't-1', role: 'superadmin', is_global: false } });
+    const res = await withAuth(fakeHandler, ['admin'])(req('GET'));
+    expect(res.status).toBe(200);
+    expect(fakeHandler).toHaveBeenCalled();
+  });
+
+  it('20) x-forwarded-for presente usa o primeiro IP na chave do rate-limit', async () => {
+    setup({});
+    const r = new NextRequest('http://localhost/api/x', {
+      method: 'GET',
+      headers: { authorization: 'Bearer t', 'x-forwarded-for': '1.1.1.1, 2.2.2.2', 'x-real-ip': '9.9.9.9' },
+    });
+    const res = await withAuth(fakeHandler)(r);
+    expect(res.status).toBe(200);
+    expect(asMock(checkRateLimit)).toHaveBeenCalledWith('api:1.1.1.1', expect.anything());
+  });
+});
+
