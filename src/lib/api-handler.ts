@@ -12,7 +12,7 @@ export interface AuthContext {
 
 type AuthenticatedHandler = (
   req: NextRequest,
-  ctx: { auth: AuthContext; params?: any }
+  ctx: { auth: AuthContext; params?: Record<string, string | string[]> }
 ) => Promise<NextResponse>;
 
 interface WithAuthOptions {
@@ -105,7 +105,7 @@ export function withAuth(
   allowedRoles?: string[],
   opts?: WithAuthOptions,
 ) {
-  return async (req: NextRequest, props?: { params?: Promise<any> }) => {
+  return async (req: NextRequest, props?: { params?: Promise<Record<string, string | string[]>> }) => {
     try {
       // Rate limiting geral por IP (NUNCA conta chamadas normais como "tentativa de login")
       const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||

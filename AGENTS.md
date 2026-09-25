@@ -164,10 +164,15 @@ Quando o usuário autorizar uma sub-fase, execute TUDO:
 - Fase 6g: sub-fases acima
 - Fase 7 (opcional): limpeza final (dead code, duplicação)
 
-## Bugs conhecidos (para corrigir após refatoração)
-- Estoque: botões +/- de `inventory` só alteram estado local (sem POST)
-- Duplicação `vehicles` × `fleet_vehicles` (investigar)
-- `deceased_id` obrigatório mesmo para tipo `free` (talvez melhorar API)
-- `webhooks/asaas`: token fraco (<16 chars) só loga, não bloqueia
-- Gateway Asaas: form salva só em estado local (F-29)
-- Rotas de billing sem `allowedRoles` (qualquer role do tenant)
+### Bugs conhecidos (verificado 2026-09-24)
+- **vehicles × fleet_vehicles duplicada** — `vehicles` é a tabela em uso
+  (7 refs runtime); `fleet_vehicles` só aparece em types (0 usos). Candidata
+  a remoção da tabela órfã, não a unificação. Decisão pendente.
+- **deceased_id obrigatório mesmo para tipo `free`** —
+  `src/app/api/service-orders/route.ts:65` exige `deceased_id` sem exceção.
+  UI contorna com UUID sintético em
+  `src/app/(dashboard)/ordens/nova/page.tsx:144-148`. Débito arquitetural.
+
+Histórico: 4 itens anteriores estavam desatualizados (estoque PATCH real,
+webhook Asaas retorna 401, gateway Asaas grava via PATCH /api/tenants,
+rotas billing têm allowedRoles). Removidos em 2026-09.
