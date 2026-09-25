@@ -9,15 +9,6 @@ const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9
 // Email regex (RFC 5322 simplified)
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
-// Brazilian CPF regex (format: XXX.XXX.XXX-XX or XXXXXXXXXXX)
-const CPF_REGEX = /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/;
-
-// Phone regex (Brazilian format)
-const PHONE_REGEX = /^\+?55?\s?\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/;
-
-// CNPJ regex (Brazilian format)
-const CNPJ_REGEX = /^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}$/;
-
 export function isValidUUID(value: string): boolean {
   return UUID_REGEX.test(value);
 }

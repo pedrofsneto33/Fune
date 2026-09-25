@@ -1,4 +1,4 @@
-import { isHolderActive, isContractActive, isBillingEligible } from '@/lib/eligibility';
+import { isHolderActive, isContractActive, isBillingEligible, isWithinGracePeriod } from '@/lib/eligibility';
 
 describe('REGRA UNICA de cobranca (src/lib/eligibility.ts)', () => {
   describe('isHolderActive', () => {
@@ -55,5 +55,31 @@ describe('REGRA UNICA de cobranca (src/lib/eligibility.ts)', () => {
     it.each(casos)('holder=%p + contract=%p => %p', (h, c, esperado) => {
       expect(isBillingEligible(h, c)).toBe(esperado);
     });
+  });
+});
+
+describe('isWithinGracePeriod (janela de estorno de comissao)', () => {
+  const DIA_MS = 24 * 60 * 60 * 1000;
+
+  it('retorna true quando o contrato esta dentro da janela (89 dias < 90)', () => {
+    expect(isWithinGracePeriod(new Date(Date.now() - 89 * DIA_MS))).toBe(true);
+  });
+
+  it('retorna false quando o contrato ja passou da janela (91 dias >= 90)', () => {
+    expect(isWithinGracePeriod(new Date(Date.now() - 91 * DIA_MS))).toBe(false);
+  });
+
+  it('boundary: exatamente 90 dias completos nao esta mais dentro (90 < 90 = false)', () => {
+    expect(isWithinGracePeriod(new Date(Date.now() - 90 * DIA_MS))).toBe(false);
+  });
+
+  it('aceita graceDays customizado (10 dias)', () => {
+    expect(isWithinGracePeriod(new Date(Date.now() - 5 * DIA_MS), 10)).toBe(true);
+    expect(isWithinGracePeriod(new Date(Date.now() - 15 * DIA_MS), 10)).toBe(false);
+  });
+
+  it('aceita string ISO de data', () => {
+    expect(isWithinGracePeriod(new Date(Date.now() - 10 * DIA_MS).toISOString())).toBe(true);
+    expect(isWithinGracePeriod(new Date(Date.now() - 120 * DIA_MS).toISOString())).toBe(false);
   });
 });
