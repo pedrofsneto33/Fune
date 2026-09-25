@@ -15,8 +15,11 @@
 
 ## 3. Estado atual do repositório
 
-- branch main == origin/main, working tree limpo, HEAD `d705c6c`.
-- 10 commits nesta fase (`7569c09` -> `d705c6c`):
+- branch main == origin/main, working tree limpo, HEAD `dc2be44`.
+- 11 commits desde `7569c09` (`7569c09` -> `dc2be44`):
+  - `dc2be44` chore(lib): remover regex órfãos + cobrir isWithinGracePeriod
+  - `358c811` chore(lib): remover código morto em eligibility.ts e validation.ts
+  - `76c951f` docs: atualizar HANDOFF.md pós-limpeza de fundação
   - `d705c6c` chore: limpeza de fundação (AGENTS.md + api-handler.ts)
   - `d23c25a` fix(security): fechar 3 acessos (fiscal/config, saas/subscription, lead-notes)
   - `3f6677b` fix(billing/collector): remover attendant do POST
@@ -25,7 +28,8 @@
   - `bb66825` chore(billing): remover 4 rotas órfãs
   - `4b07c47` docs(billing): @deprecated nas órfãs
   - `7569c09` fix(billing/generate-cycles): resolve customer por CPF
-- testes: 24 suites / 253 testes passando
+- testes: 24 suites / 257 testes passando
+- coverage: eligibility.ts 100% | validation.ts ~70% (era 32% e 39%)
 - build: compila; TSC exit 0; ESLint src/: 163 erros + 50 warnings (era 165)
 
 ## 4. O que foi feito nesta fase (cronológico, resumido)
@@ -35,14 +39,20 @@
 - (c) Auditoria de roles: 3 flags corrigidos em `d23c25a` (fiscal/config PATCH só superadmin+admin; saas/subscription GET superadmin+requireGlobal; lead-notes comentário). `3f6677b` removeu attendant do POST de billing/collector (CRÍTICO). Teste saas-billing atualizado (403 sem SA).
 - (d) Limpeza de fundação `d705c6c`: AGENTS.md "bugs conhecidos" reescrito (só 2 reais: vehicles×fleet_vehicles duplicada; deceased_id obrigatório p/ free); api-handler.ts 2 any -> `Record<string, string | string[]>`.
 - (e) Verificação independente 2026-09 do review externo (Claude): 165 erros ESLint, coverage eligibility.ts 32.43%, validation.ts 39.06%, 4/6 bugs do AGENTS.md desatualizados — TODAS confirmadas.
+- (f) Ciclo lib/: recon read-only achou 9 funções dead em validation.ts + 2 em eligibility.ts (incluindo calculateEligibility com 80 linhas) e teste falso em holders.test.ts:28 (string-based: lia o source em vez de chamar isValidCPF).
+- `358c811` removeu 161 linhas mortas; coverage subiu por REMOÇÃO (não por teste novo): eligibility 32->71%, validation 39->70%.
+- `dc2be44` removeu 3 regex órfãos (CPF_REGEX, PHONE_REGEX, CNPJ_REGEX) + adicionou 5 casos de contrato para isWithinGracePeriod (janela, boundary, graceDays custom, string ISO); eligibility.ts agora 100% stmt/branch/func/line.
 
 ## 5. Pendências
 
 1. NENHUMA técnica. Working tree limpo, main == origin/main.
-2. AVISAR PEDRO: 4 rotas órfãs removidas. Se houver cron externo chamando `/api/billing/generate-cycles` ou `/api/billing/boleto`, restaurar via `git checkout bb66825^ -- <path>`.
-3. PRÓXIMO ALVO (nova sessão): coverage de eligibility.ts (32%) e validation.ts (39%) — são "fonte única de verdade" do sistema com pior cobertura. Só adiciona teste, zero mudança de runtime.
-4. Dívida arquitetural (ticket separado): `ctx.params` no withAuth é peso morto (106 chamadas, nenhuma usa); 126 anys restantes; 32 warnings react-hooks/set-state-in-effect.
-5. Decisão de produto: remover tabela órfã `fleet_vehicles` (0 usos runtime).
+2. AVISAR PEDRO: 4 rotas órfãs removidas (boleto, billing/pix, payments/pix, generate-cycles) — restaurar via `git revert bb66825` se houver cron externo chamando.
+3. PRÓXIMO ALVO SUGERIDO (nova sessão, em ordem de ROI):
+   (a) api-handler.ts — 0 any, mas sem teste direto; é o módulo de auth/authz, merece cobertura.
+   (b) fleet_vehicles — tabela órfã (0 usos runtime); decisão de produto antes de migrar.
+   (c) 32 warnings react-hooks/set-state-in-effect — refactor de UI, sprint dedicada.
+4. 124 anys restantes (era 126) — dívida distribuída, não urgente.
+5. NaN/inválido em isWithinGracePeriod não testado (comportamento ambíguo no código) — documentar ou normalizar em ticket.
 
 ## 6. Gotchas
 
