@@ -25,10 +25,4 @@ describe('Regressão: holders (N+1, soft delete, CPF)', () => {
     expect(src).not.toMatch(/from\("holders"\)\.delete\(\)/);
   });
 
-  it('isValidCPF valida os digitos verificadores', () => {
-    const src = readSrc('src/lib/validation.ts');
-    expect(src).toMatch(/length !== 11/);
-    expect(src).toMatch(/parseInt\(digits\[9\]/);
-    expect(src).toMatch(/parseInt\(digits\[10\]/);
-  });
 });

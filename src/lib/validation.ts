@@ -26,31 +26,6 @@ export function isValidEmail(value: string): boolean {
   return EMAIL_REGEX.test(value) && value.length <= 254;
 }
 
-export function isValidCPF(value: string): boolean {
-  const digits = String(value || "").replace(/\D/g, "");
-  if (digits.length !== 11) return false;
-  if (/^(\d)\1{10}$/.test(digits)) return false;
-  let sum = 0;
-  for (let i = 0; i < 9; i++) sum += parseInt(digits[i], 10) * (10 - i);
-  let mod = (sum * 10) % 11;
-  if (mod === 10) mod = 0;
-  if (mod !== parseInt(digits[9], 10)) return false;
-  sum = 0;
-  for (let i = 0; i < 10; i++) sum += parseInt(digits[i], 10) * (11 - i);
-  mod = (sum * 10) % 11;
-  if (mod === 10) mod = 0;
-  if (mod !== parseInt(digits[10], 10)) return false;
-  return true;
-}
-
-export function isValidPhone(value: string): boolean {
-  return PHONE_REGEX.test(value);
-}
-
-export function isValidCNPJ(value: string): boolean {
-  return CNPJ_REGEX.test(value);
-}
-
 export function sanitizeString(value: string, maxLength: number = 255): string {
   if (!value) return '';
   // Remove potentially dangerous characters
@@ -60,17 +35,6 @@ export function sanitizeString(value: string, maxLength: number = 255): string {
     .replace(/on\w+=/gi, '') // Remove event handlers
     .trim();
   return sanitized.substring(0, maxLength);
-}
-
-export function sanitizeHTML(value: string): string {
-  if (!value) return '';
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;')
-    .replace(/\//g, '&#x2F;');
 }
 
 export function isValidDate(value: string): boolean {
@@ -96,10 +60,3 @@ export function sanitizeCPF(value: string): string {
   return value.replace(/\D/g, '').slice(0, 11);
 }
 
-export function sanitizeCNPJ(value: string): string {
-  return value.replace(/\D/g, '').slice(0, 14);
-}
-
-export function sanitizePhone(value: string): string {
-  return value.replace(/\D/g, '').slice(0, 11);
-}
