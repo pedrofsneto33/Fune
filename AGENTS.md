@@ -165,9 +165,12 @@ Quando o usuário autorizar uma sub-fase, execute TUDO:
 - Fase 7 (opcional): limpeza final (dead code, duplicação)
 
 ### Bugs conhecidos (verificado 2026-09-24)
-- **vehicles × fleet_vehicles duplicada** — `vehicles` é a tabela em uso
+- **fleet_vehicles órfã (0 usos runtime)** — `vehicles` é a tabela em uso
   (7 refs runtime); `fleet_vehicles` só aparece em types (0 usos). Candidata
   a remoção da tabela órfã, não a unificação. Decisão pendente.
+  `src/types/domain.ts:52-57` documenta a distinção: `vehicles` é a frota
+   operacional (service-orders, dispatches); `fleet_vehicles` era frota do
+   bot WhatsApp (nunca construída). São propósitos diferentes, não duplicação.
 - **deceased_id obrigatório mesmo para tipo `free`** —
   `src/app/api/service-orders/route.ts:65` exige `deceased_id` sem exceção.
   UI contorna com UUID sintético em

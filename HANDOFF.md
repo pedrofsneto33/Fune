@@ -55,6 +55,19 @@
    (b) fleet_vehicles — tabela órfã (0 usos runtime); decisão de produto ANTES de migrar/deletar.
    (c) 124 anys restantes — dívida distribuída, não urgente.
 4. NaN/inválido em isWithinGracePeriod não testado (código ambíguo) — decidir se normaliza ou documenta.
+5. **Riscos aceitos (não reabrir sem decisão explícita):**
+   - `tenants.asaas_api_key` e token FocusNFe ficam em plaintext no banco.
+     Decisão do produto: manter. Criptografia (pgcrypto/cofre externo) é
+     ticket separado.
+6. **Ticket futuro — `src/lib/commissions.ts` (`isFirst`):**
+   Lógica assume que o pagamento atual já foi marcado 'paid' antes de contar.
+   Se entrar importação de base histórica de outro sistema, o primeiro
+   pagamento real pode ser classificado como recorrente. Não é bug hoje;
+   é bomba se houver import. Documentar no código ou adicionar guard.
+7. **`fleet_vehicles` — decisão binária (produto):**
+   Ou constrói a feature (frota via bot WhatsApp, nunca implementada) ou
+   dropa a tabela do schema. Não é "duplicação de vehicles" — propósitos
+   distintos (`src/types/domain.ts:52-57`).
 
 ## 6. Gotchas
 
