@@ -15,8 +15,11 @@
 
 ## 3. Estado atual do repositório
 
-- branch main == origin/main, working tree limpo, HEAD `2305a21`.
-- 13 commits desde `7569c09` (`7569c09` -> `2305a21`):
+- branch main == origin/main, working tree limpo, HEAD `e5b12a6`.
+- 16 commits desde `7569c09` (`7569c09` -> `e5b12a6`):
+  - `e5b12a6` chore: remover 5 exports dead (verificados por rg)
+  - `d342d88` docs: corrigir descricao de fleet_vehicles + registrar riscos aceitos
+  - `16a77ad` docs: atualizar HANDOFF.md pos-cobertura de api-handler
   - `2305a21` test(api-handler): cobrir 10 branches em falta (auth/authz)
   - `2bef56a` docs: atualizar HANDOFF.md pós-ciclo lib/
   - `dc2be44` chore(lib): remover regex órfãos + cobrir isWithinGracePeriod
@@ -32,7 +35,7 @@
   - `7569c09` fix(billing/generate-cycles): resolve customer por CPF
 - testes: 24 suites / 267 testes passando
 - coverage: eligibility.ts 100% | validation.ts ~70% (era 32% e 39%) | api-handler.ts 100% stmt/branch/func/line
-- build: compila; TSC exit 0; ESLint src/: 163 erros + 50 warnings (era 165)
+- build: compila; TSC exit 0; ESLint src/: 156 erros + 49 warnings (era 163/50)
 
 ## 4. O que foi feito nesta fase (cronológico, resumido)
 
@@ -45,6 +48,12 @@
 - `358c811` removeu 161 linhas mortas; coverage subiu por REMOÇÃO (não por teste novo): eligibility 32->71%, validation 39->70%.
 - `dc2be44` removeu 3 regex órfãos (CPF_REGEX, PHONE_REGEX, CNPJ_REGEX) + adicionou 5 casos de contrato para isWithinGracePeriod (janela, boundary, graceDays custom, string ISO); eligibility.ts agora 100% stmt/branch/func/line.
 - (g) Cobertura api-handler.ts: 10 its novos cobrindo 409 MULTI_TENANT_SELECT, 403 blocked do SaaS gate, tenant sem gate, fail-open, IP fallbacks, params Promise, catch 500, superadmin bypass. Coverage: 89.7->100% stmt, 84.1->100% branch. Commit 2305a21.
+- (h) Rodada 2026-09-27:
+  - AGENTS.md: fleet_vehicles corrigida para "órfã (0 usos runtime)"; distinção de propósito documentada (src/types/domain.ts:52-57).
+  - HANDOFF.md: riscos aceitos (asaas_api_key/FocusNFe plaintext) e ticket futuro commissions.isFirst registrados.
+  - Removidos 5 exports dead confirmados por rg: useBilling (arquivo 84 linhas), isSuperAdminRole, DadosPayLoad, SAAS_REF_PREFIX, generateChargeWhatsAppUrl. Commit e5b12a6.
+  - Verificação: focusnfeGet é falso-positivo (mantido por design, comentário L180-182 em focusnfe.ts).
+  - repowise rodado com embedder=mock — NÃO confiável para unused_export (10/17 falso-positivo). Só hotspots de complexidade mereceram atenção.
 
 ## 5. Pendências
 
@@ -68,6 +77,12 @@
    Ou constrói a feature (frota via bot WhatsApp, nunca implementada) ou
    dropa a tabela do schema. Não é "duplicação de vehicles" — propósitos
    distintos (`src/types/domain.ts:52-57`).
+8. **Hotspots de complexidade** (repowise, não são bugs — sinalização para refactor futuro):
+   - src/app/api/holders/import/route.ts — CCN 46 (import de planilha)
+   - src/app/api/billing/asaas-batch/route.ts — nesting 5
+   - src/app/api/billing/avulso/route.ts — CCN 37, nesting 5
+   - src/app/api/init-user/route.ts — co-change com 19 arquivos
+   Refactor deve vir com decisão de produto, não por métrica.
 
 ## 6. Gotchas
 
