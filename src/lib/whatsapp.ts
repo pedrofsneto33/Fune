@@ -40,7 +40,3 @@ export function formatWhatsAppMessage(input: string | WhatsAppChargePayload, pho
   const encoded = encodeURIComponent(String(input || ''));
   return phone ? `https://wa.me/${phone}?text=${encoded}` : `https://wa.me/?text=${encoded}`;
 }
-
-export function generateChargeWhatsAppUrl(payload: WhatsAppChargePayload): string {
-  return formatWhatsAppMessage(payload);
-}

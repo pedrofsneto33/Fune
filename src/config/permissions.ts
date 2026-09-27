@@ -17,10 +17,6 @@ export type UserRole = AppRole;
 // attendant   -> Atendimento (contratos, capela, convalescença).
 // driver      -> Frota / burials (somente leitura).
 // ============================================
-export function isSuperAdminRole(role: AppRole | undefined | null): boolean {
-  return role === 'superadmin';
-}
-
 export type Permission =
   | 'canManageSettings'
   | 'canManageUsers'

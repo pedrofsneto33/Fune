@@ -23,7 +23,6 @@ export async function getSaasConfig(): Promise<SaasConfig> {
 }
 
 export const SAAS_CUSTOMER_PREFIX = 'SAAS::';
-export const SAAS_REF_PREFIX = 'SAAS:';
 const SAAS_TIMEOUT_MS = 15000;
 
 function withTimeout<T>(ms: number, p: Promise<T>): Promise<T> {
