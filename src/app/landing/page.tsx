@@ -307,7 +307,7 @@ export default function LandingPage() {
               </div>
             </div>
             <p className="text-sm text-slate-400 leading-relaxed">Software de gestão completo para funerárias, planos funerários e serviços de assistência familiar. Teresina - PI, Brasil.</p>
-            <p className="mt-3 text-xs text-slate-500">CNPJ: 00.000.000/0001-00 — Teresina / PI <span className="text-slate-600">(atualize com o CNPJ real da PrimeX Sistemas)</span></p>
+            <p className="mt-3 text-xs text-slate-500">CNPJ: 55.536.885/0001-30 — Teresina / PI</p>
           </div>
           <div>
             <h4 className="text-sm font-bold text-white mb-4 flex items-center gap-2"><Phone className="w-4 h-4 text-blue-400" /> Contato</h4>
@@ -362,6 +362,7 @@ export default function LandingPage() {
             },
             telephone: '+55-86-98811-7925',
             email: 'pedrofsneto33@gmail.com',
+            taxID: '55.536.885/0001-30',
             areaServed: 'Teresina - PI',
             url: 'https://eternitysos.com.br/landing',
           }),
