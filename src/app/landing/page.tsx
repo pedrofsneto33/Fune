@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { Metadata } from 'next';
 import {
   HeartPulse, Ambulance, Flower2, Users, FileText, ShieldCheck,
@@ -98,9 +99,13 @@ export default function LandingPage() {
             <a href="#recursos" className="hover:text-white transition">Recursos</a>
             <a href="#planos" className="hover:text-white transition">Planos</a>
             <a href="#faq" className="hover:text-white transition">Dúvidas</a>
+            <Link href="/login" className="hover:text-white transition">Entrar</Link>
             <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 font-semibold transition shadow-lg shadow-emerald-600/25 text-white">Falar no WhatsApp</a>
           </div>
-          <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="md:hidden px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-sm font-semibold transition text-white">Falar no WhatsApp</a>
+          <div className="md:hidden flex items-center gap-4">
+            <Link href="/login" className="hover:text-white transition">Entrar</Link>
+            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-sm font-semibold transition text-white">Falar no WhatsApp</a>
+          </div>
         </div>
       </nav>
 
