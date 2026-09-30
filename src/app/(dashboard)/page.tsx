@@ -28,7 +28,7 @@ export default function DashboardHomePage() {
         const r = (data?.role ?? null) as AppRole | null;
         if (cancel) return;
         if (!res.ok || !r) {
-          router.replace('/login');
+          router.replace('/landing');
           return;
         }
         setRole(r);
@@ -46,7 +46,7 @@ export default function DashboardHomePage() {
         }
         setReady(true);
       } catch {
-        if (!cancel) router.replace('/login');
+        if (!cancel) router.replace('/landing');
       }
     })();
     return () => {

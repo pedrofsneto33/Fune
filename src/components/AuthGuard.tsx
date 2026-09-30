@@ -11,6 +11,10 @@ const PUBLIC_ROUTES = ['/login', '/landing', '/carteirinha', '/track', '/termos'
 const isPublicRoute = (pathname: string) =>
   PUBLIC_ROUTES.some((r) => pathname === r || pathname.startsWith(r + '/'));
 
+// Early return para rotas públicas: nunca bloqueia nem busca sessão/permissão.
+const isPublicPath = (pathname: string) =>
+  ['/landing', '/privacidade', '/login'].some((r) => pathname.startsWith(r));
+
 export function AuthGuard({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
@@ -18,20 +22,26 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    // Allow free access to public routes (login, landing page)
-    if (isPublicRoute(pathname)) {
+    // Early return: rotas públicas passam direto, sem buscar sessão/permissão.
+    if (isPublicPath(pathname) || isPublicRoute(pathname)) {
       setLoading(false);
       setAuthenticated(true);
       return;
     }
 
     const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        router.replace('/login');
-      } else {
-        setAuthenticated(true);
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+
+        if (!session) {
+          router.push('/landing');
+        } else {
+          setAuthenticated(true);
+        }
+      } catch {
+        // Falha ao consultar permissão: redireciona para /landing, nunca tela de erro.
+        router.push('/landing');
+        return;
       }
       setLoading(false);
     };
@@ -40,8 +50,8 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
 
     // Listen for auth state changes (login/logout)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session && !isPublicRoute(pathname)) {
-        router.replace('/login');
+      if (!session && !isPublicRoute(pathname) && !isPublicPath(pathname)) {
+        router.push('/landing');
       } else if (session) {
         setAuthenticated(true);
       }

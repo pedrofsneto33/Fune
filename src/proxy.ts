@@ -69,9 +69,9 @@ function handleSecurityHeaders(request: NextRequest) {
 }
 
 export const config = {
-  // Landing/carteirinha/API pública fora do proxy: deixa o Edge cachear
-  // /landing como estática e nunca bloqueia fetch server-side anônimo.
+  // Landing/privacidade/carteirinha/API pública fora do proxy: deixa o Edge
+  // cachear /landing como estática e nunca bloqueia fetch server-side anônimo.
   // Rotas públicas: /landing, /login, /carteirinha, /api/auth, /api/public
   // (+ /termos, /privacidade, /cookies, /track, /assinatura-suspensa).
-  matcher: ['/((?!_next|static|favicon|landing|carteirinha|api/public).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|landing|privacidade|carteirinha|api/public).*)'],
 };
