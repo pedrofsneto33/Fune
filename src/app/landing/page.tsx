@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import {
   HeartPulse, Ambulance, Flower2, Users, FileText, ShieldCheck,
@@ -188,6 +189,35 @@ export default function LandingPage() {
               <p className="text-sm text-slate-400 leading-relaxed">{m.text}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="max-w-6xl mx-auto px-5 py-20 border-t border-white/5">
+        <div className="text-center mb-14">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Veja o sistema por dentro</h2>
+          <p className="text-slate-400 mt-3 max-w-xl mx-auto">Telas reais de uma funerária usando o EternityOS no dia a dia.</p>
+        </div>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div>
+            <Image
+              src="/landing/titulares.png"
+              alt="Tela de gestão de titulares com busca, filtros e carteirinha digital"
+              width={1365}
+              height={620}
+              className="rounded-xl border border-white/10 w-full h-auto"
+            />
+            <p className="text-xs text-slate-500 mt-3 text-center">Titulares — busca, status e carteirinha digital</p>
+          </div>
+          <div>
+            <Image
+              src="/landing/guias.png"
+              alt="Tela de ordens de serviço com guia de sepultamento, QR code e nota fiscal"
+              width={1358}
+              height={620}
+              className="rounded-xl border border-white/10 w-full h-auto"
+            />
+            <p className="text-xs text-slate-500 mt-3 text-center">Ordens de serviço — guia, QR code, NF e cobrança</p>
+          </div>
         </div>
       </section>
 
