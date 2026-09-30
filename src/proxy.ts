@@ -71,7 +71,10 @@ function handleSecurityHeaders(request: NextRequest) {
 export const config = {
   // Landing/privacidade/carteirinha/API pública fora do proxy: deixa o Edge
   // cachear /landing como estática e nunca bloqueia fetch server-side anônimo.
-  // Rotas públicas: /landing, /login, /carteirinha, /api/auth, /api/public
-  // (+ /termos, /privacidade, /cookies, /track, /assinatura-suspensa).
+  // Rotas fora do matcher (públicas, sem CSP nonce): _next/static,
+  // _next/image, favicon.ico, /landing, /privacidade, /carteirinha,
+  // /api/public. As demais (incluindo /login, /api/auth, /track)
+  // recebem headers de segurança, mas o proxy NÃO autentica nem
+  // redireciona (ver contrato L13).
   matcher: ['/((?!_next/static|_next/image|favicon.ico|landing|privacidade|carteirinha|api/public).*)'],
 };

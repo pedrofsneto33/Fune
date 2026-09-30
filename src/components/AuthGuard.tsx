@@ -38,7 +38,8 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
         } else {
           setAuthenticated(true);
         }
-      } catch {
+      } catch (err) {
+        console.error('[auth-guard] falha ao consultar sessao:', err);
         // Falha ao consultar permissão: redireciona para /landing, nunca tela de erro.
         router.push('/landing');
         return;
