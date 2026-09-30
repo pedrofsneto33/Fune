@@ -10,6 +10,7 @@ import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { supabase } from '@/lib/supabase';
 import { authFetch } from '@/lib/authFetch';
 import { AppRole, isTabAllowed } from '@/config/permissions';
+import { AuthGuard } from '@/components/AuthGuard';
 
 
 type NavItem = { href: string; label: string; tab: string; active: string };
@@ -174,6 +175,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   }
 
     return (
+    <AuthGuard>
+
     <div className="min-h-screen bg-slate-50 dark:bg-[#07090e] text-slate-900 dark:text-slate-100 flex">
       {/* Sidebar: fixa desktop, drawer mobile */}
       <Sidebar
@@ -222,5 +225,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <main className="flex-1 p-6">{children}</main>
       </div>
     </div>
+    </AuthGuard>
   );
 }

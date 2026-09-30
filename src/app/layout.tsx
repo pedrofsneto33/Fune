@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
 import { headers } from "next/headers";
 import "./globals.css";
-import { AuthGuard } from "@/components/AuthGuard";
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -52,9 +51,7 @@ export default async function RootLayout({
       </head>
       <body className={`${inter.className} bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 antialiased`}>
         <ServiceWorkerRegister />
-        <AuthGuard>
-          {children}
-        </AuthGuard>
+        {children}
         <Toaster theme="system" position="top-center" richColors closeButton />
       </body>
     </html>
