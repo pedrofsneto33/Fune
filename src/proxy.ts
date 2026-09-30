@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 /**
- * Middleware de segurança: gera nonce por requisição e injeta CSP restritiva.
+ * Proxy de segurança (Next 16+: convenção `src/proxy.ts`): gera nonce por
+ * requisição e injeta CSP restritiva.
  *
  * P0-1: o nonce PRECISA ir no REQUEST (header Content-Security-Policy), não só
  * no response. É de lá que o Next lê o nonce para marcar os scripts inline do
@@ -9,12 +10,17 @@ import { NextRequest, NextResponse } from 'next/server';
  * página fica presa em "Verificando credenciais e permissões de acesso...".
  * Ref: https://nextjs.org/docs/app/guides/content-security-policy
  *
- * Este middleware NÃO autentica e NÃO redireciona. As rotas públicas
- * (/landing, /login, /termos, /privacidade, /cookies, /track, /carteirinha,
- * /assinatura-suspensa) passam direto; o gate de sessão é do AuthGuard
- * (client, src/components/AuthGuard.tsx) e do withAuth (API).
+ * Este proxy NÃO autentica e NÃO redireciona. As rotas públicas
+ * (/landing, /login, /carteirinha, /api/auth, /api/public, /termos,
+ * /privacidade, /cookies, /track, /assinatura-suspensa) passam direto; o gate
+ * de sessão é do AuthGuard (client, src/components/AuthGuard.tsx) e do
+ * withAuth (API).
  */
-export function middleware(request: NextRequest) {
+export default function proxy(request: NextRequest) {
+  return handleSecurityHeaders(request);
+}
+
+function handleSecurityHeaders(request: NextRequest) {
   // Gerar nonce criptograficamente seguro (16 bytes = 32 hex chars)
   const nonce = crypto.randomUUID().replace(/-/g, '');
   // React usa eval em dev para reconstruir stack traces (doc oficial do Next)
@@ -63,20 +69,9 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    {
-      source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
-      missing: [
-        { type: 'header', key: 'next-router-prefetch' },
-        { type: 'header', key: 'purpose', value: 'prefetch' },
-      ],
-    },
-  ],
+  // Landing/carteirinha/API pública fora do proxy: deixa o Edge cachear
+  // /landing como estática e nunca bloqueia fetch server-side anônimo.
+  // Rotas públicas: /landing, /login, /carteirinha, /api/auth, /api/public
+  // (+ /termos, /privacidade, /cookies, /track, /assinatura-suspensa).
+  matcher: ['/((?!_next|static|favicon|landing|carteirinha|api/public).*)'],
 };

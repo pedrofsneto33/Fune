@@ -25,8 +25,8 @@ describe('Regressão: encoding e CSP', () => {
     expect(offenders).toEqual([]);
   });
 
-  it('CSP do middleware permite estilos inline (style-src unsafe-inline)', () => {
-    const src = readSrc('src/middleware.ts');
+  it('CSP do proxy permite estilos inline (style-src unsafe-inline)', () => {
+    const src = readSrc('src/proxy.ts');
     expect(src).toMatch(/style-src 'self' 'nonce-\$\{nonce\}' 'unsafe-inline'/);
   });
 });
