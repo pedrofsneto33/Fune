@@ -108,10 +108,19 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     try {
       const res = await authFetch('/api/init-user', { method: 'POST' });
       if (signal.cancelled) return;
+      if (res.status === 401) {
+        // Sem sessao/token: caso esperado, usuario deslogado -> /landing.
+        router.replace('/landing');
+        return;
+      }
+      if (res.status >= 500) {
+        setAuthState('error');
+        return;
+      }
       const data = (await res.json().catch(() => null)) as
         | { role?: string; code?: string; saas_status?: string }
         | null;
-      if (data?.role) {
+      if (res.ok && data?.role) {
         const saas = data?.saas_status ?? 'active';
         if (saas === 'blocked') {
           router.replace('/assinatura-suspensa');
