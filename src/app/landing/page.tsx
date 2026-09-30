@@ -49,7 +49,7 @@ const MODULES = [
   { icon: FileText, title: 'Financeiro, DRE & Fiscal', text: 'Contas a pagar/receber, comissões de vendedores, carnets e relatórios DRE — mais emissão de NFS-e integrada.' },
   { icon: BarChart3, title: 'Painel Executivo & BI', text: 'KPIs em tempo real: vidas cobertas, receita do mês, inadimplência, sepultamentos e catálogo de planos funerários com valores e coberturas.' },
   { icon: Handshake, title: 'Vendedores & Clube de Convênios', text: 'Gestão de vendedores com comissões e clube de convênios com parceiros locais (farmácias, clínicas, laboratórios) para valorizar o plano.' },
-  { icon: ShieldCheck, title: 'Multiempresa & Segurança', text: 'Cada funerária em seu próprio ambiente isolado (multi-tenant), com controle de acesso por perfil (RBAC), logs de auditoria e backups gerenciados.' },
+  { icon: ShieldCheck, title: 'Multiempresa & Segurança', text: 'Cada funerária em seu próprio ambiente isolado, com controle de acesso por perfil (RBAC), logs de auditoria e backups gerenciados.' },
 ];
 
 const PLANS = [
@@ -203,8 +203,9 @@ export default function LandingPage() {
             <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4">
               <Building2 className="w-5 h-5 text-emerald-400" />
             </div>
-            <h3 className="font-bold text-white mb-2">Mesmo CPF em 2 funerárias diferentes (multi-tenant)</h3>
-            <p className="text-sm text-slate-400 leading-relaxed">Cada funerária opera no seu tenant isolado (RBAC + auditoria): o mesmo CPF pode ser titular em duas empresas sem misturar contratos, mensalidades ou guias.</p>
+            <h3 className="font-bold text-white mb-2">Mesmo cliente em 2 funerárias? Sem erro de CPF.</h3>
+            {/* multi-tenant: isolamento por empresa (tenant), RBAC + auditoria */}
+            <p className="text-sm text-slate-400 leading-relaxed">Chega de cadastrar CPF fake. O mesmo CPF pode ter plano em empresas diferentes, cada uma vendo só os seus contratos e mensalidades. Sem misturar.</p>
           </div>
           <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-6">
             <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4">
@@ -217,18 +218,11 @@ export default function LandingPage() {
       </section>
 
       <section className="max-w-6xl mx-auto px-5 py-20 border-t border-white/5">
-        <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Usado em Teresina - PI</h2>
-          <p className="text-slate-400 mt-3 max-w-xl mx-auto">Prova social de quem opera funerária no Piauí.</p>
+        <div className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Criado em Teresina - PI, para funerárias de todo o Brasil</h2>
         </div>
-        <div className="grid md:grid-cols-2 gap-5 items-stretch">
-          <div className="rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-8 flex items-center justify-center text-center">
-            <p className="text-sm text-slate-500">[ Espaço reservado para a logo do cliente ]<br /><span className="text-xs">Sua funerária aqui — seja a primeira case em Teresina.</span></p>
-          </div>
-          <figure className="rounded-2xl border border-white/8 bg-white/[0.03] p-8">
-            <blockquote className="text-slate-200 leading-relaxed">&ldquo;Saímos do caderno: hoje a carteirinha sai no WhatsApp e a guia de sepultamento fica pronta antes do carro sair. Usado em Teresina - PI.&rdquo;</blockquote>
-            <figcaption className="mt-4 text-sm text-slate-400">Dono de funerária — Teresina / PI <span className="text-slate-600">(depoimento ilustrativo — substitua pelo case real)</span></figcaption>
-          </figure>
+        <div className="max-w-3xl mx-auto rounded-2xl border border-white/8 bg-white/[0.03] p-8">
+          <p className="text-slate-200 leading-relaxed">Sem logos inventados. O Eternity OS já está em produção com 272 testes automatizados, carteirinha com token seguro sem expor CPF, guia de sepultamento em 30 segundos e financeiro isolado por empresa com RBAC e auditoria. Implantação acompanhada direto com o time técnico, atendimento humano, sem fidelidade e sem call center. Atendemos qualquer cidade do Brasil.</p>
         </div>
       </section>
 
