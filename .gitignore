@@ -80,3 +80,11 @@ graphify-out/2026-09-16/
 graphify-out/20*/
 
 backup-*.sql
+
+# P0-4 (higiene): artefatos de ferramentas de IA/analise e logs locais
+graphify-out/
+.continue/
+*.log
+*.tsbuildinfo
+*.pfx
+supabase/legacy/

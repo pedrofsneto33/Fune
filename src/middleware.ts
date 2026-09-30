@@ -2,16 +2,28 @@ import { NextRequest, NextResponse } from 'next/server';
 
 /**
  * Middleware de segurança: gera nonce por requisição e injeta CSP restritiva.
- * Elimina a necessidade de 'unsafe-inline' nos scripts e styles.
+ *
+ * P0-1: o nonce PRECISA ir no REQUEST (header Content-Security-Policy), não só
+ * no response. É de lá que o Next lê o nonce para marcar os scripts inline do
+ * framework; sem isso o bundle de hydration é bloqueado por script-src e a
+ * página fica presa em "Verificando credenciais e permissões de acesso...".
+ * Ref: https://nextjs.org/docs/app/guides/content-security-policy
+ *
+ * Este middleware NÃO autentica e NÃO redireciona. As rotas públicas
+ * (/landing, /login, /termos, /privacidade, /cookies, /track, /carteirinha,
+ * /assinatura-suspensa) passam direto; o gate de sessão é do AuthGuard
+ * (client, src/components/AuthGuard.tsx) e do withAuth (API).
  */
 export function middleware(request: NextRequest) {
   // Gerar nonce criptograficamente seguro (16 bytes = 32 hex chars)
   const nonce = crypto.randomUUID().replace(/-/g, '');
+  // React usa eval em dev para reconstruir stack traces (doc oficial do Next)
+  const isDev = process.env.NODE_ENV === 'development';
 
-  // CSP restritiva com nonce — sem 'unsafe-inline', sem 'unsafe-eval'
+  // CSP restritiva com nonce — sem 'unsafe-inline' em scripts
   const cspHeader = [
     "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}'`,
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ''}`,
     `style-src 'self' 'nonce-${nonce}' 'unsafe-inline'`,
     "img-src 'self' data: blob: https://*.supabase.co",
     "font-src 'self' data:",
@@ -23,9 +35,11 @@ export function middleware(request: NextRequest) {
     "upgrade-insecure-requests",
   ].join('; ');
 
-  // Clonar headers e adicionar CSP
+  // Clonar headers e injetar nonce + CSP ANTES do render (request). O Next só
+  // propaga o nonce aos seus próprios scripts se enxergar o header no request.
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-nonce', nonce);
+  requestHeaders.set('Content-Security-Policy', cspHeader);
 
   const response = NextResponse.next({
     request: {

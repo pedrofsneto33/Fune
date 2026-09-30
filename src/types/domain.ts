@@ -35,6 +35,7 @@ export interface Holder {
   created_at: string;
   contracts?: Contract[];
   dependents?: Dependent[];
+  carteirinha_token?: string;
 }
 
 export type StatusFilter = 'all' | 'ativo' | 'inativo';

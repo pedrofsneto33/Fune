@@ -1,60 +1,99 @@
 import { headers } from 'next/headers';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { checkRateLimit } from '@/lib/rate-limiter';
+import {
+  isValidCarteirinhaToken,
+  canonicalCarteirinhaPath,
+  maskCpf,
+} from '@/lib/carteirinhaToken';
 import QRCode from 'qrcode';
 import Link from 'next/link';
 import { ShieldAlert } from 'lucide-react';
 
 interface Props {
   params: Promise<{ cpf: string }>;
+  searchParams: Promise<{ t?: string; token?: string }>;
 }
 
-export default async function CarteirinhaPage({ params }: Props) {
-  const resolvedParams = await params;
+// P0-2: limite duro por IP contra brute-force de CPF/token.
+const CARTEIRINHA_RATE_LIMIT = { maxAttempts: 10, windowMs: 60000 };
+
+// Mensagem ÚNICA para qualquer falha de identificação — não revela existência.
+const NOT_FOUND_MESSAGE =
+  'Não localizamos esta carteirinha. Verifique se o link está correto ou solicite um novo link à funerária responsável.';
+
+export default async function CarteirinhaPage({ params, searchParams }: Props) {
+  const [resolvedParams, resolvedSearch] = await Promise.all([
+    params,
+    searchParams,
+  ]);
+
+  // O path carrega o CPF apenas para legibilidade do link (pode ser "0");
+  // a credencial de acesso é SEMPRE o token opaco da carteirinha.
   const rawCpf = decodeURIComponent(resolvedParams.cpf || '').replace(/\D/g, '');
+  const token = String(resolvedSearch?.t || resolvedSearch?.token || '').trim();
 
   let holder: any = null;
   let tenant: any = null;
   let lookupError: string | null = null;
 
-  if (!rawCpf) {
-    lookupError = 'CPF ausente no link da carteirinha.';
-  } else {
-    const formattedCpf =
-      rawCpf.length === 11
-        ? rawCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
-        : null;
-    const orFilter = formattedCpf
-      ? `cpf.eq.${rawCpf},cpf.eq.${formattedCpf}`
-      : `cpf.eq.${rawCpf}`;
+  // Host + IP da requisição (reaproveitados no rate limit e no share URL)
+  let host: string | null = null;
+  let clientIp = 'unknown';
+  try {
+    const hdrs = await headers();
+    host = hdrs.get('host');
+    clientIp =
+      hdrs.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+      hdrs.get('x-real-ip') ||
+      'unknown';
+  } catch {
+    // sem headers: segue com IP 'unknown' (rate limit continua ativo)
+  }
 
+  // (1) Rate limit por IP ANTES de qualquer query — corta enumeração/brute-force
+  const rl = await checkRateLimit(
+    `carteirinha:${clientIp}`,
+    CARTEIRINHA_RATE_LIMIT,
+  );
+
+  if (!rl.allowed) {
+    lookupError =
+      'Muitas consultas em sequência. Aguarde um minuto e tente novamente.';
+  } else if (!isValidCarteirinhaToken(token)) {
+    // (2) Sem token válido NÃO existe lookup: CPF nunca é credencial.
+    lookupError = NOT_FOUND_MESSAGE;
+  } else {
+    // (3) Busca SOMENTE pelo token opaco — nunca por CPF.
     const { data, error } = await supabaseAdmin
       .from('holders')
       .select(
-        `id, full_name, cpf, tenant_id, status,
+        `id, full_name, cpf, tenant_id, status, carteirinha_token,
          contracts ( status, plans ( name ) ),
          dependents ( full_name, relation )`
       )
-      .or(orFilter)
-      .limit(1)
+      .eq('carteirinha_token', token)
       .maybeSingle();
 
-    if (error) {
-      lookupError = 'Erro ao consultar o cadastro. Tente novamente em instantes.';
-    } else if (!data) {
-      lookupError = 'Nenhum associado encontrado com este CPF.';
+    if (error || !data) {
+      // Mesmíssima mensagem para "não existe" e "falhou" — não vaza existência
+      lookupError = NOT_FOUND_MESSAGE;
     } else {
-      holder = data as any;
+      const row: any = data;
+
       // REGRA ÚNICA: carteirinha só para titular ativo (bilingue)
-      const __hs = String(holder.status || "").toLowerCase();
-      if (__hs === "inativo" || __hs === "inactive") {
-        holder = null;
-        lookupError = "O titular está inativo. Carteirinha disponível apenas para associados ativos.";
+      const __hs = String(row.status || '').toLowerCase();
+      if (__hs === 'inativo' || __hs === 'inactive') {
+        lookupError =
+          'O titular está inativo. Carteirinha disponível apenas para associados ativos.';
+      } else {
+        holder = row;
       }
 
       const { data: t } = await supabaseAdmin
         .from('tenants')
         .select('trade_name, name, logo_url, primary_color, phone_emergency')
-        .eq('id', holder.tenant_id || '')
+        .eq('id', row.tenant_id || '')
         .maybeSingle();
       tenant = t;
     }
@@ -63,12 +102,14 @@ export default async function CarteirinhaPage({ params }: Props) {
   const tenantName = tenant?.trade_name || tenant?.name || 'Assistência Funerária';
   const accent = tenant?.primary_color || '#1e40af';
 
+  // Link canônico: CPF do titular + token (o token é a única credencial).
+  const shareCpf = holder?.cpf || rawCpf;
   let shareUrl = '/';
   try {
-    const hdrs = await headers();
-    const host = hdrs.get('host');
     const proto = host?.includes('localhost') ? 'http' : 'https';
-    if (host) shareUrl = `${proto}://${host}/carteirinha/${rawCpf}`;
+    if (host) {
+      shareUrl = `${proto}://${host}${canonicalCarteirinhaPath(shareCpf, token)}`;
+    }
   } catch {
     // fallback: URL relativa
   }
@@ -123,10 +164,8 @@ export default async function CarteirinhaPage({ params }: Props) {
   };
   const st = statusMap[status] || statusMap.pending;
 
-  const maskedCpf =
-    rawCpf.length === 11
-      ? `***.${rawCpf.slice(3, 6)}.${rawCpf.slice(6, 9)}-**`
-      : holder.cpf || '-';
+  // LGPD: mascara sempre pelo CPF do titular (o path pode nao ser o CPF real)
+  const maskedCpf = maskCpf(holder.cpf);
 
   const dependents: any[] = Array.isArray(holder.dependents)
     ? holder.dependents

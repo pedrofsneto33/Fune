@@ -53,7 +53,7 @@ export const GET = withAuth(
             .range(from, to)
         : supabaseAdmin
             .from("holders")
-            .select("id, full_name, phone, status, created_at")
+            .select("id, full_name, phone, status, created_at, carteirinha_token")
             .eq("tenant_id", auth.tenantId)
             .order("created_at", { ascending: false })
             .range(from, to);

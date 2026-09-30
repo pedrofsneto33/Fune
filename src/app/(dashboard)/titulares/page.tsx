@@ -6,6 +6,7 @@ import { notifyError, notifyInfo } from '@/lib/notify';
 import type { ContractPlan, Contract, Dependent, Holder, StatusFilter } from '@/types';
 import AdhesionTerm from '@/components/print/AdhesionTerm';
 import { HolderFormModal } from '@/components/HolderFormModal';
+import CarteirinhaButton from '@/components/holders/CarteirinhaButton';
 
 export default function TitularesPage() {
   const [holders, setHolders] = useState<Holder[]>([]);
@@ -337,6 +338,12 @@ export default function TitularesPage() {
                           </button>
                         </>
                       )}
+                      <CarteirinhaButton
+                        cpf={h.cpf}
+                        token={h.carteirinha_token || ''}
+                        nome={h.full_name}
+                      />
+
                       <button
                         onClick={() => setPrintHolder(h)}
                         aria-label={`Imprimir termo de adesão de ${h.full_name}`}
