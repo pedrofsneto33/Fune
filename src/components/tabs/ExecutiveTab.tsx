@@ -109,7 +109,7 @@ export default function ExecutiveTab() {
         <div className="bg-white dark:bg-[#0d121f] border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
           <p className="text-xs text-slate-600 dark:text-slate-400 uppercase font-semibold">Veiculos Disponiveis</p>
           <p className="text-2xl font-bold text-slate-900 dark:text-white mt-2">{fleetAvail}</p>
-          <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-1">{fleetTotal} veiculos na frota</p>
+          <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-1">{fleetTotal} veículo{fleetTotal !== 1 ? 's' : ''} na frota</p>
         </div>
       </div>
       <div className="bg-white dark:bg-[#0d121f] border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
