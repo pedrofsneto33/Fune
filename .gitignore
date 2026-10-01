@@ -81,6 +81,10 @@ graphify-out/20*/
 
 backup-*.sql
 
+# Playwright: prints automaticos + perfil de login (nunca commitar)
+scripts/screenshots/
+scripts/.pw-profile/
+
 # P0-4 (higiene): artefatos de ferramentas de IA/analise e logs locais
 graphify-out/
 .continue/
