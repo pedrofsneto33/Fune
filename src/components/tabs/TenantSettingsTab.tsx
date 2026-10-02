@@ -7,6 +7,7 @@ import { Settings, ShieldCheck, Key, RefreshCw, Copy, Check, Building2, Upload, 
 import { getPlanByCode, formatPlanPrice, COMMERCIAL_PLANS } from '@/lib/planLimits';
 import FiscalSettingsSection from '@/components/tabs/FiscalSettingsSection';
 import { supabase } from '@/lib/supabaseClient';
+import { resolvePublicBaseUrl } from '@/lib/publicUrl';
 
 interface Tenant {
   id: string;
@@ -64,7 +65,9 @@ export function TenantSettingsTab({ onClose }: { onClose?: () => void }) {
     commercial_plan: 'essencial',
   });
 
-  const webhookUrl = 'https://eternitysos.vercel.app/api/webhooks/asaas';
+  // URL publica do webhook: mesma regra da carteirinha (resolvePublicBaseUrl).
+  // Dominio hardcoded quebra em silencio se o sistema for para um dominio proprio.
+  const webhookUrl = resolvePublicBaseUrl() + '/api/webhooks/asaas';
 
   const getAuthHeaders = async (): Promise<Record<string, string>> => {
     const { data: { session } } = await supabase.auth.getSession();
