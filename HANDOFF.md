@@ -87,7 +87,7 @@
   - URLs (mesma rodada, detalhadas em (i)): `src/lib/publicUrl.ts` + fix do link da carteirinha `109b3cd`; CarteirinhaButton abrir/copiar `96862f9`; `TenantSettingsTab` webhookUrl `9e82a97`; `scripts/screenshot.mjs` (Playwright, prints + vídeo) `42dffee`/`d3d31e4`; landing com 2 prints + `demo.webm` `445a2c8`/`d3b624d`/`e0c8fd7`.
   - `perf(service-orders)`: GET era escrita (loop de UPDATE de 1 query por linha, até 100 por carga) e o POST fazia retry 3x com fallback sem token. Migration `20261001000000` (DEFAULT de `tracking_token`) + backfill; GET virou leitura pura; POST simplificou para 1 INSERT. Commit `32ff194`.
   - `perf(db)`: migration `20261001120000` cria `(tenant_id, created_at DESC)` em `holders` e `service_orders`. Sem o composto, o planner usava o índice de `tenant_id` e ordenava em memória. Commit `07fef83`.
-  - Gargalo restante (NÃO corrigido): `GET /api/holders` tem paginação pronta (`.range()` + `count: exact`, `src/app/api/holders/route.ts:42-62`), mas o front chama sem `?page=` e cai no default `limit=1000`; `titulares/page.tsx:292` renderiza todas as `<tr>` sem virtualização. Avaliado como prematuro agora (clientes típicos têm poucos titulares) — a medição sensorial de ganho também não foi feita por esta sessão.
+  - Ganho reportado pelo usuário após migração de índices: "/titulares melhorou" (medição NÃO feita por esta sessão; sem DevTools/Lighthouse comparativo). Render de 1000 `<tr>` no browser segue como gargalo futuro (Fix #2 não executado — decisão do usuário por ser prematuro para o volume atual do banco, que ele conhece).
 
 
 ## 5. Pendências
@@ -128,13 +128,13 @@
    - `NEXT_PUBLIC_VERCEL_ENV` usada em `src/instrumentation-client.ts:9`
      mas ausente em `.env.example`; tem fallback NODE_ENV, sem urgência.
 10. **Modo `video-full`** do `scripts/screenshot.mjs` nunca rodado (18 telas, ~68s).
-11. **Migrations 2026-10-01 — aplicar no Supabase (NÃO confirmadas aplicadas):**
-   - `20261001000000` — `tracking_token` DEFAULT. **OBRIGATÓRIA antes do deploy
-     de `32ff194`**: sem o DEFAULT no banco, o POST cria OS com token NULL e o
-     GET (já sem backfill) não repara — o QR `/track/[token]` nasce quebrado.
-     Verificar criando uma OS nova e abrindo o QR.
-   - `20261001120000` — índices compostos `(tenant_id, created_at DESC)`.
-     Idempotente (`IF NOT EXISTS`), só performance, sem risco funcional.
+11. **Migrations pendentes de confirmação pelo Cline** (aplicadas pelo
+    usuário via SQL Editor do Supabase em 2026-10-01, conforme relato):
+    - `20261001000000` — tracking_token DEFAULT (verificação: criar OS
+      nova e abrir o QR `/track/[token]` — usuário reportou "abriu tudo
+      normal")
+    - `20261001120000` — índices compostos (só perf)
+    Cline NÃO verificou aplicação em prod — sem acesso ao Supabase.
 12. **Perf futura (não urgente):** quando um cliente passar de ~500 titulares,
    retomar a paginação no front de `/titulares` (o back já tem `.range()` pronto;
    o front ignora e usa o default `limit=1000`). Ver item (j) em §4.
