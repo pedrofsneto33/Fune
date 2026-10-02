@@ -4,6 +4,43 @@ import {
   cpfPathSegment,
   maskCpf,
 } from '@/lib/carteirinhaToken';
+import { resolvePublicBaseUrl } from '@/lib/publicUrl';
+
+// Regressão: link de carteirinha copiado em produção saía como
+// http://localhost:3000/... porque o next.config.ts embutia o fallback
+// hardcoded no bundle do cliente (NEXT_PUBLIC_APP_URL inexistente na Vercel).
+describe('resolvePublicBaseUrl', () => {
+  const PRODUCAO = 'https://eternitysos.vercel.app';
+
+  it('usa a origem do navegador em produção, ignorando env localhost', () => {
+    expect(
+      resolvePublicBaseUrl({ origin: PRODUCAO, envUrl: 'http://localhost:3000' }),
+    ).toBe(PRODUCAO);
+  });
+
+  it('usa a origem do navegador quando a env nao existe', () => {
+    expect(resolvePublicBaseUrl({ origin: PRODUCAO, envUrl: null })).toBe(PRODUCAO);
+    expect(resolvePublicBaseUrl({ origin: PRODUCAO, envUrl: undefined })).toBe(
+      PRODUCAO,
+    );
+  });
+
+  it('mantem a env configurada em dev local', () => {
+    expect(
+      resolvePublicBaseUrl({ origin: 'http://localhost:3000', envUrl: null }),
+    ).toBe('http://localhost:3000');
+  });
+
+  it('normaliza barra final e espaco', () => {
+    expect(
+      resolvePublicBaseUrl({ origin: `${PRODUCAO}///`, envUrl: null }),
+    ).toBe(PRODUCAO);
+  });
+
+  it('devolve string vazia sem env e sem origin (SSR)', () => {
+    expect(resolvePublicBaseUrl({ origin: null, envUrl: null })).toBe('');
+  });
+});
 
 // P0-2: o token opaco e a UNICA credencial da carteirinha publica.
 // Estes casos travam o contrato: CPF nunca e aceito como token.

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { canonicalCarteirinhaPath, maskCpf } from '@/lib/carteirinhaToken';
+import { resolvePublicBaseUrl } from '@/lib/publicUrl';
 
 interface CarteirinhaButtonProps {
   cpf: string;
@@ -34,10 +35,8 @@ export default function CarteirinhaButton({
     (cpfLabel === '-' ? '' : ` (${cpfLabel})`);
 
   const handleCopy = async () => {
-    // window só existe no browser — por isso a URL é montada no clique
-    const base = (
-      process.env.NEXT_PUBLIC_APP_URL || window.location.origin
-    ).replace(/\/+$/, '');
+    // window so existe no browser - por isso a URL e montada no clique
+    const base = resolvePublicBaseUrl().replace(/\/+$/, '');
     const url = base + canonicalCarteirinhaPath(cpf, token);
 
     try {
