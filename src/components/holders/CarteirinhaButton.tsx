@@ -34,10 +34,15 @@ export default function CarteirinhaButton({
     `Copiar link da carteirinha de ${nome || 'titular'}` +
     (cpfLabel === '-' ? '' : ` (${cpfLabel})`);
 
+  // Link publico montado uma vez: o mesmo vai para o href e para a copia.
+  // O token e a unica credencial; o CPF no path e cosmetico.
+  const link =
+    resolvePublicBaseUrl().replace(/\/+$/, '') +
+    canonicalCarteirinhaPath(cpf, token);
+
   const handleCopy = async () => {
     // window so existe no browser - por isso a URL e montada no clique
-    const base = resolvePublicBaseUrl().replace(/\/+$/, '');
-    const url = base + canonicalCarteirinhaPath(cpf, token);
+    const url = link;
 
     try {
       if (navigator.clipboard?.writeText) {
@@ -64,14 +69,26 @@ export default function CarteirinhaButton({
   };
 
   return (
-    <button
-      type="button"
-      onClick={handleCopy}
-      title={titulo}
-      aria-label={titulo}
-      className="px-2.5 py-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded text-[11px] font-semibold whitespace-nowrap"
-    >
-      🪪 {copiado ? 'Link copiado!' : erro ? 'Falha ao copiar' : 'Carteirinha'}
-    </button>
+    <>
+      <a
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        title={`Abrir carteirinha de ${nome || 'titular'}`}
+        aria-label={`Abrir carteirinha de ${nome || 'titular'}`}
+        className="px-2.5 py-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded text-[11px] font-semibold whitespace-nowrap inline-flex items-center gap-1"
+      >
+        🪪 Abrir
+      </a>
+      <button
+        type="button"
+        onClick={handleCopy}
+        title={titulo}
+        aria-label={titulo}
+        className="ml-1 px-2 py-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded text-[11px] leading-none"
+      >
+        {copiado ? '✓' : erro ? '✕' : '📋'}
+      </button>
+    </>
   );
 }
