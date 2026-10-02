@@ -195,9 +195,9 @@ export default function LandingPage() {
       <section className="max-w-6xl mx-auto px-5 py-20 border-t border-white/5">
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Veja o sistema por dentro</h2>
-          <p className="text-slate-400 mt-3 max-w-xl mx-auto">Telas reais de uma funerária usando o EternityOS no dia a dia.</p>
+          <p className="text-slate-400 mt-3 max-w-xl mx-auto">Um tour rápido pelas telas de titulares, contratos, ordens, financeiro e controle de acesso.</p>
         </div>
-        <div className="mb-12 rounded-2xl overflow-hidden border border-white/10 bg-black/40">
+        <div className="mb-12 mx-auto max-w-4xl rounded-2xl overflow-hidden border border-white/10 bg-black/40">
           <video
             src="/landing/demo.webm"
             autoPlay
