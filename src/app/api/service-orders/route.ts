@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { randomBytes } from 'crypto';
 import { withAuth } from '@/lib/api-handler';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { sanitizeString, isValidUUID } from '@/lib/validation';
@@ -24,23 +23,9 @@ export const GET = withAuth(async (req: NextRequest, { auth }) => {
       return NextResponse.json({ error: 'Erro ao buscar serviços' }, { status: 500 });
     }
 
-    // 12b-1: idempotência — OS sem tracking_token (fallback de colisão no POST)
-    // ganham token no primeiro GET seguinte. Race-safe: UPDATE ... IS NULL
-    // (a instância que perder a corrida mantém o valor do vencedor).
+    // tracking_token vem do DEFAULT da coluna (migration 20261001000000).
+    // GET e leitura pura: sem backfill, sem loop de escrita.
     const rows = (data || []) as Array<Record<string, unknown>>;
-    for (const row of rows) {
-      if (row.tracking_token) continue;
-      const token = randomBytes(24).toString('base64url');
-      const { data: updated } = await supabaseAdmin
-        .from('service_orders')
-        .update({ tracking_token: token })
-        .eq('id', row.id as string)
-        .eq('tenant_id', auth.tenantId)
-        .is('tracking_token', null)
-        .select('tracking_token')
-        .maybeSingle();
-      if (updated?.tracking_token) row.tracking_token = updated.tracking_token;
-    }
     return NextResponse.json(rows);
   } catch (err: unknown) {
     return NextResponse.json({ error: 'Erro interno' }, { status: 500 });
@@ -172,8 +157,8 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
     }
 
     // 12b-1: token de rastreamento público (QR /track/[token]) — único e
-    // url-safe (32 chars). Colisão (23505) é improvável; em 3 tentativas
-    // seguidas falhando, persiste SEM token (o GET cobre depois).
+    // url-safe (32 chars). Gerado pelo DEFAULT da coluna (migration
+    // 20261001000000): o INSERT nao envia o campo, o banco resolve.
     const insertData: Record<string, unknown> = {
       tenant_id: auth.tenantId,
       contract_id: contract_id || null,
@@ -188,33 +173,16 @@ export const POST = withAuth(async (req: NextRequest, { auth }) => {
       ...responsavel,
     };
 
-    let serviceOrder: Record<string, unknown> | null = null;
-    let soError: string | null = null;
-    for (let attempt = 0; attempt < 3 && !serviceOrder; attempt++) {
-      const { data, error } = await supabaseAdmin
-        .from('service_orders')
-        .insert({ ...insertData, tracking_token: randomBytes(24).toString('base64url') })
-        .select()
-        .single();
-      if (data) {
-        serviceOrder = data;
-      } else if ((error as { code?: string })?.code === '23505') {
-        continue; // colisão de token — novo candidato
-      } else {
-        soError = error?.message ?? 'erro desconhecido';
-      }
-    }
-    if (!serviceOrder && !soError) {
-      const { data, error } = await supabaseAdmin
-        .from('service_orders')
-        .insert(insertData)
-        .select()
-        .single();
-      if (data) serviceOrder = data;
-      else soError = error?.message ?? 'erro desconhecido';
-    }
-    if (!serviceOrder) {
-      return NextResponse.json({ error: 'Erro ao criar serviço: ' + soError }, { status: 500 });
+    const { data: serviceOrder, error: soError } = await supabaseAdmin
+      .from('service_orders')
+      .insert(insertData)
+      .select()
+      .single();
+    if (soError || !serviceOrder) {
+      return NextResponse.json(
+        { error: 'Erro ao criar serviço: ' + (soError?.message ?? 'erro desconhecido') },
+        { status: 500 },
+      );
     }
 
     const { data: burial, error: burialError } = await supabaseAdmin
