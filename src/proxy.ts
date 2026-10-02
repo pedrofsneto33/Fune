@@ -31,7 +31,7 @@ function handleSecurityHeaders(request: NextRequest) {
     "default-src 'self'",
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ''}`,
     `style-src 'self' 'nonce-${nonce}' 'unsafe-inline'`,
-    "img-src 'self' data: blob: https://*.supabase.co",
+    "img-src 'self' data: blob: https://*.supabase.co https://*.tile.openstreetmap.org",
     "font-src 'self' data:",
     "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.asaas.com https://sandbox.asaas.com https://homologacao.focusnfe.com.br https://api.focusnfe.com.br https://*.sentry.io https://*.ingest.sentry.io",
     "frame-ancestors 'none'",
