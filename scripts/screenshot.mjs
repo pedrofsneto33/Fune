@@ -36,16 +36,18 @@ const ROUTES = [
   { id: 'contratos', path: '/contratos', file: 'contratos.png', viewport: { width: 1360, height: 900 }, fullPage: true },
 ];
 
-// Modo video: hero da landing. 8 telas, ~35s de pausa.
+// Modo video: hero da landing. 7 telas, ~39s de pausa.
 const VIDEO_SHORT = [
-  { path: '/', pauseMs: 5000, scroll: 'slow' }, // visao do dono
+  { path: '/', pauseMs: 6000, scroll: 'slow' }, // painel executivo (destaque)
   { path: '/titulares', pauseMs: 5000, scroll: 'slow' }, // base do negocio
-  { path: '/contratos', pauseMs: 3000 }, // vinculo
-  { path: '/vendas/nova', pauseMs: 4000 }, // jornada de venda
+  { path: '/contratos', pauseMs: 4000, scroll: 'slow' }, // vinculo
   { path: '/ordens', pauseMs: 5000, scroll: 'slow' }, // operacao: OS + guia
-  { path: '/tanatopraxia', pauseMs: 3000 }, // tecnica do funeral
   { path: '/financeiro', pauseMs: 5000, scroll: 'slow' }, // dinheiro
-  { path: '/usuarios', pauseMs: 5000 }, // RBAC ja abre sozinho (isOpen=true)
+  { path: '/fiscal', pauseMs: 4000, scroll: 'slow' }, // NFS-e
+  // RBAC ja abre sozinho (usuarios/page.tsx passa isOpen={true}). O conteudo
+  // rolavel e o .p-6.overflow-y-auto de dentro do modal (ModalRBAC.tsx:102),
+  // nao o documento — por isso o scrollTarget.
+  { path: '/usuarios', pauseMs: 6000, scroll: 'slow', scrollTarget: '.fixed.inset-0 > div > .overflow-y-auto' },
 ];
 
 // Modo video: WhatsApp/YouTube. 18 telas, ~68s de pausa.
@@ -174,14 +176,38 @@ try {
         // Scrolla o documento (o layout (dashboard) nao tem container com
         // overflow proprio). Loop do lado do Playwright: requestAnimationFrame
         // NAO dispara em aba em background, o que travava o scroll anterior.
+        //
+        // `waitUntil: 'networkidle'` so garante que a rede parou — nao que o
+        // React terminou de montar. ExecutiveTab (linha 87) e RecentActivity
+        // (linha 47) trocam skeleton por conteudo DEPOIS do fetch, e a altura
+        // da pagina so cresce nesse momento. Sem a espera, o scrollHeight medido
+        // no passo 1 era o do skeleton: o video parava no meio.
+        // Por isso: 1500ms de folgura + recalculo de scrollHeight a cada passo.
+        const SETTLE_MS = 1500;
         const SCROLL_STEPS = 20;
         const stepDelayMs = Math.floor(route.pauseMs / SCROLL_STEPS);
+        await page.waitForTimeout(SETTLE_MS);
+
+        // `scrollTarget` (ex.: modal do RBAC) tem overflow proprio — o
+        // documento nao rola. Sem seletor, cai no documento inteiro.
+        const selector = route.scrollTarget ?? null;
+        if (selector) {
+          await page.waitForSelector(selector, { state: 'attached', timeout: 5_000 }).catch(() => {});
+        }
+
         for (let s = 1; s <= SCROLL_STEPS; s++) {
-          await page.evaluate((pct) => {
-            const el = document.scrollingElement || document.documentElement;
+          await page.evaluate(({ pct, sel }) => {
+            let el;
+            if (sel) {
+              el = document.querySelector(sel);
+            } else {
+              el = document.scrollingElement || document.documentElement;
+            }
+            if (!el) return;
+            // Recalcula a cada passo: conteudo lazy pode crescer durante o scroll.
             const target = el.scrollHeight - el.clientHeight;
             el.scrollTop = (target * pct) / 100;
-          }, (s / SCROLL_STEPS) * 100);
+          }, { pct: (s / SCROLL_STEPS) * 100, sel: selector });
           await page.waitForTimeout(stepDelayMs);
         }
       } else {
