@@ -197,6 +197,18 @@ export default function LandingPage() {
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Veja o sistema por dentro</h2>
           <p className="text-slate-400 mt-3 max-w-xl mx-auto">Telas reais de uma funerária usando o EternityOS no dia a dia.</p>
         </div>
+        <div className="mb-12 rounded-2xl overflow-hidden border border-white/10 bg-black/40">
+          <video
+            src="/landing/demo.webm"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="w-full h-auto block"
+            aria-label="Demonstração do sistema EternityOS em uso"
+          />
+        </div>
         <div className="grid md:grid-cols-2 gap-6">
           <div>
             <Image
