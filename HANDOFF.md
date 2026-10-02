@@ -15,8 +15,11 @@
 
 ## 3. Estado atual do repositório
 
-- branch main == origin/main, working tree limpo, HEAD `9e82a97`.
-- 35 commits desde `7569c09` (`7569c09` -> `9e82a97`):
+- branch main == origin/main, working tree limpo, HEAD `07fef83`.
+- 38 commits desde `7569c09` (`7569c09` -> `07fef83`):
+  - `07fef83` perf(db): indices compostos (tenant_id, created_at DESC) em holders + service_orders
+  - `32ff194` perf(service-orders): GET read-only + tracking_token via DEFAULT
+  - `4e22c0b` docs: HANDOFF pos-rodada 2026-10-01 (URLs + landing + riscos auditados)
   - `9e82a97` fix(tenant-settings): webhookUrl do Asaas usa resolvePublicBaseUrl()
   - `e0c8fd7` fix(landing): encolher video demo + copy honesta
   - `d3b624d` feat(landing): video demo na secao 'Veja o sistema por dentro'
@@ -80,6 +83,11 @@
   - Landing: seção "Veja o sistema por dentro" com 2 prints reais + vídeo `demo.webm` (4,1 MB, autoplay muted loop playsInline). Vídeo encolhido para `max-w-4xl` e subtítulo com copy honesta. Commits `445a2c8`, `d3b624d`, `e0c8fd7`.
   - `TenantSettingsTab`: `webhookUrl` do Asaas estava hardcoded em `eternitysos.vercel.app` (quebraria em silêncio ao migrar de domínio) → `resolvePublicBaseUrl()`. Commit `9e82a97`.
   - Auditoria de URLs: sem outros bloqueadores. `next.config.ts` sem injeção de env; `VERCEL_URL` não usada; emails inexistentes (SEM_EMAILS).
+- (j) Ciclo de performance 2026-10-01:
+  - URLs (mesma rodada, detalhadas em (i)): `src/lib/publicUrl.ts` + fix do link da carteirinha `109b3cd`; CarteirinhaButton abrir/copiar `96862f9`; `TenantSettingsTab` webhookUrl `9e82a97`; `scripts/screenshot.mjs` (Playwright, prints + vídeo) `42dffee`/`d3d31e4`; landing com 2 prints + `demo.webm` `445a2c8`/`d3b624d`/`e0c8fd7`.
+  - `perf(service-orders)`: GET era escrita (loop de UPDATE de 1 query por linha, até 100 por carga) e o POST fazia retry 3x com fallback sem token. Migration `20261001000000` (DEFAULT de `tracking_token`) + backfill; GET virou leitura pura; POST simplificou para 1 INSERT. Commit `32ff194`.
+  - `perf(db)`: migration `20261001120000` cria `(tenant_id, created_at DESC)` em `holders` e `service_orders`. Sem o composto, o planner usava o índice de `tenant_id` e ordenava em memória. Commit `07fef83`.
+  - Gargalo restante (NÃO corrigido): `GET /api/holders` tem paginação pronta (`.range()` + `count: exact`, `src/app/api/holders/route.ts:42-62`), mas o front chama sem `?page=` e cai no default `limit=1000`; `titulares/page.tsx:292` renderiza todas as `<tr>` sem virtualização. Avaliado como prematuro agora (clientes típicos têm poucos titulares) — a medição sensorial de ganho também não foi feita por esta sessão.
 
 
 ## 5. Pendências
@@ -120,6 +128,16 @@
    - `NEXT_PUBLIC_VERCEL_ENV` usada em `src/instrumentation-client.ts:9`
      mas ausente em `.env.example`; tem fallback NODE_ENV, sem urgência.
 10. **Modo `video-full`** do `scripts/screenshot.mjs` nunca rodado (18 telas, ~68s).
+11. **Migrations 2026-10-01 — aplicar no Supabase (NÃO confirmadas aplicadas):**
+   - `20261001000000` — `tracking_token` DEFAULT. **OBRIGATÓRIA antes do deploy
+     de `32ff194`**: sem o DEFAULT no banco, o POST cria OS com token NULL e o
+     GET (já sem backfill) não repara — o QR `/track/[token]` nasce quebrado.
+     Verificar criando uma OS nova e abrindo o QR.
+   - `20261001120000` — índices compostos `(tenant_id, created_at DESC)`.
+     Idempotente (`IF NOT EXISTS`), só performance, sem risco funcional.
+12. **Perf futura (não urgente):** quando um cliente passar de ~500 titulares,
+   retomar a paginação no front de `/titulares` (o back já tem `.range()` pronto;
+   o front ignora e usa o default `limit=1000`). Ver item (j) em §4.
 
 
 ## 6. Gotchas
